@@ -434,7 +434,9 @@ The WHDLoad SWOS.Slave has the following patches:
 - **Known original-game bug that remains**
 	- The old SWOS quirk is still there: if you try to watch a **highlight** without having played a match since loading, the game can hang. You still need to play at least a moment of a match before watching highlights.
 
-The [SWOS.Slave](reverse/Amiga/SWOS.Slave) project contains the [SWOSHD.s](/reverse/Amiga/SWOS.Slave/SWOSHD.s) which will assemble to `SWOS.Slave`. 
+The [SWOS.Slave](reverse/Amiga/SWOS.Slave) project contains the [SWOSHD.s](/reverse/Amiga/SWOS.Slave/SWOSHD.s) which will assemble to `SWOS.Slave`.
+
+You will need to download the [NDK3.2R4.lha](https://www.hyperion-entertainment.com/index.php/downloads) and extract it using a tool like 7-Zip and set the appropriate directories in the [Makefile](/Amiga/SWOS.Slave/Makefile)
 
 #### `startup-sequence`
 
