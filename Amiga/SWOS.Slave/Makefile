@@ -5,14 +5,15 @@
 #   make rebuild    # clean + build
 #
 # Customize these to your setup:
-VASM        ?= C:\Users\headk\.vscode\extensions\prb28.amiga-assembly-1.8.13\resources\bin\win32\vasmm68k_mot
+HOME_DIR    ?= $(if $(USERPROFILE),$(USERPROFILE),$(HOME))
+VASM        ?= $(HOME_DIR)\.vscode\extensions\prb28.amiga-assembly-1.8.13\resources\bin\win32\vasmm68k_mot
 SRC         ?= SWOSHD.s
 OUT         ?= SWOS.Slave
 
 # Path to your ASM includes (NDK / whdload includes / resload.i etc.)
 # Example: INCLUDEI = /amiga/NDK3.2R4/Include/include_i
-INCLUDEI = D:/Emulation/Amiga/DH0/NDK3.2R4/Include_I
-WHDINC   = D:/Emulation/Amiga/DH0/NDK3.2R4/Include_H
+INCLUDEI = $(AMIGA_NDK)/Include_I
+WHDINC   = $(AMIGA_NDK)/Include_H
 
 # Optional: pass your own -D flags here (examples shown)
 DEFINES     ?=

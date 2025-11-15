@@ -436,7 +436,7 @@ The WHDLoad SWOS.Slave has the following patches:
 
 The [SWOS.Slave](reverse/Amiga/SWOS.Slave) project contains the [SWOSHD.s](/reverse/Amiga/SWOS.Slave/SWOSHD.s) which will assemble to `SWOS.Slave`.
 
-You will need to download the [NDK3.2R4.lha](https://www.hyperion-entertainment.com/index.php/downloads) and extract it using a tool like 7-Zip and set the appropriate directories in the [Makefile](/Amiga/SWOS.Slave/Makefile)
+You will need to download the [NDK3.2R4.lha](https://www.hyperion-entertainment.com/index.php/downloads) and extract it using a tool like 7-Zip and create an environment variable called `AMIGA_NDK` that contains the directory to it (Eg. `C:/Projects/Amiga/NDK3.2R4`). Make sure you have the [Amiga Assembly](https://marketplace.visualstudio.com/items?itemName=prb28.amiga-assembly) VSCode Extension installed as it uses its `vasmm68k_mot` as the assembler.
 
 #### `startup-sequence`
 
