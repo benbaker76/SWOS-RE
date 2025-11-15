@@ -1,0 +1,606 @@
+--- C:/Users/headk/Desktop/9xx/python/idaxml.py	Wed Oct 29 10:44:37 2025
++++ C:/Program Files/IDA Professional 9.0/python/3/idaxml.py	Wed Sep 24 18:40:45 2025
+@@ -50,6 +50,7 @@ import datetime
+ import os
+ import sys
+ import time
++import re
+ from xml.etree import cElementTree
+ 
+ if sys.version_info.major >= 3:
+@@ -71,7 +72,36 @@ PLUGIN = True
+ LOADER = not PLUGIN
+ AUTO_WAIT = True
+ 
++_IDA2GHIDRA_MAP = (
++    (r'\bunsigned __int8\b',   'uchar'),
++    (r'\b__int8\b',            'char'),
++    (r'\bunsigned char\b',     'uchar'),   # be consistent
++    (r'\bchar unsigned\b',     'uchar'),
+ 
++    (r'\bunsigned __int16\b',  'ushort'),
++    (r'\b__int16\b',           'short'),
++    (r'\bunsigned short\b',    'ushort'),
++    (r'\bshort unsigned\b',    'ushort'),
++
++    (r'\bunsigned __int32\b',  'uint'),
++    (r'\b__int32\b',           'int'),
++    (r'\bunsigned int\b',      'uint'),
++    (r'\bint unsigned\b',      'uint'),
++
++    (r'\bunsigned __int64\b',  'ulonglong'),
++    (r'\b__int64\b',           'longlong'),
++
++    # strip calling conv tokens if they leak in
++    (r'\b__usercall\b',        ''),
++    (r'\b__stdcall\b',         ''),
++    (r'\b__cdecl\b',           ''),
++    (r'\b__thiscall\b',        ''),
++
++    # strip MS/IDA attributes if they sneak in
++    (r'\b__ptr64\b',           ''),
++    (r'\b__noreturn\b',        ''),
++)
++
+ def is_ida_version_supported():
+     '''
+     Determines if IDA version is supported by this idaxml module.
+@@ -167,7 +197,74 @@ def find_enum_member_serial(enum_id: int, member_v
+             return ei.get_serial(i)
+     return -1
+ 
++def normalize_for_ghidra(tname: str) -> str:
++    s = tname.strip()
+ 
++    # Remove C tag keywords anywhere before an identifier:
++    #   "const struct CharTable *"  -> "const CharTable *"
++    #   "union Foo *"               -> "Foo *"
++    #   "enum  BAR const *"         -> "BAR const *"
++    #   "class Baz **"              -> "Baz **"
++    import re
++    s = re.sub(r'\b(struct|union|enum|class)\s+(?=[A-Za-z_]\w*)', '', s)
++
++    # Apply your existing IDA→Ghidra type mappings
++    for pat, rep in _IDA2GHIDRA_MAP:
++        s = re.sub(pat, rep, s)
++
++    # Tidy whitespace and pointer spacing
++    s = re.sub(r'\s+', ' ', s).strip()
++    s = re.sub(r'\s+\*', ' *', s)
++    return s
++
++def _normalize_array_head_only(tname):
++    """
++    Apply normalize_for_ghidra() only to the part before the first '['.
++    Keeps the bracketed dimensions intact, e.g. '__int16 *[32]' -> 'short *[32]'.
++    """
++    s = tname.strip()
++    idx = s.find('[')
++    if idx == -1:
++        return normalize_for_ghidra(s)
++    head = s[:idx]
++    tail = s[idx:]          # includes the '['
++    head = normalize_for_ghidra(head)
++    return (head + tail).strip()
++
++def tinfo_to_str(tif):
++    """
++    Return a single-line C-ish declaration for the given tinfo_t (no identifier),
++    robust across IDA versions.
++    """
++    try:
++        # Newer IDA: returns Python str
++        return ida_typeinf.print_tinfo("", 0, 0,
++                                       ida_typeinf.PRTYPE_1LINE, tif, "", "")
++    except Exception:
++        try:
++            return tif.dstr()
++        except Exception:
++            return None
++
++def get_decl_from_tinfo_at(ea):
++    """
++    If a type is applied at EA, return its declaration string; else None.
++    """
++    tif = ida_typeinf.tinfo_t()
++    ok = False
++    try:
++        # IDA 8/9 style
++        ok = ida_nalt.get_tinfo(tif, ea)
++    except Exception:
++        try:
++            # Older compat
++            ok = ida_nalt.get_tinfo2(ea, tif)
++        except Exception:
++            ok = False
++    if ok:
++        return tinfo_to_str(tif)
++    return None
++
+ class Cancelled(Exception):
+     pass
+ 
+@@ -798,26 +895,40 @@ class XmlExporter(IdaXml):
+         timer = time.clock()
+         self.update_status(DATA)
+         self.start_element(DATA, True)
++        
+         while (addr != BADADDR):
+             f = idc.get_full_flags(addr)
+             if ida_bytes.is_align(f):
+                 addr = ida_bytes.next_that(addr, self.max_ea, idc.is_data)
+                 continue
+-            dtype = self.get_datatype(addr)
++
+             size = idc.get_item_size(addr)
+-            ti = ida_nalt.opinfo_t()
+-            msize = ida_bytes.get_data_elsize(addr, f, ti)
+-            if ida_bytes.is_struct(f):
+-                s = idc.get_struc_id(dtype)
+-                msize = t if (t := idc.get_struc_size(s)) is not None else ida_typeinf.BADSIZE
+-                if msize == 0:
+-                    msize = 1
+-            if not idc.is_strlit(f) and size != msize:
+-                dtype = "%s[%d]" % (dtype, size//msize)
++
++            # --- NEW: prefer tinfo string if present at this address ---
++            tinfo_decl = get_decl_from_tinfo_at(addr)
++            if tinfo_decl:
++                dtype = tinfo_decl  # e.g., "Position *[32]" or "TeamPositions *[32]"
++                # When a real tinfo exists, it already encodes arrays & pointers;
++                # skip the manual "[n]" logic below.
++                msize = size
++            else:
++                # Fallback to legacy behavior
++                dtype = self.get_datatype(addr)
++                ti = ida_nalt.opinfo_t()
++                msize = ida_bytes.get_data_elsize(addr, f, ti)
++                if ida_bytes.is_struct(f):
++                    s = idc.get_struc_id(dtype)
++                    msize = t if (t := idc.get_struc_size(s)) is not None else ida_typeinf.BADSIZE
++                    if msize == 0:
++                        msize = 1
++                if not idc.is_strlit(f) and msize > 0 and size != msize:
++                    # "pointer[32]" used to be produced here; now it'll only happen when there's no tinfo
++                    dtype = "%s[%d]" % (dtype, size // msize)
++
+             self.start_element(DEFINED_DATA)
+             self.write_address_attribute(ADDRESS, addr)
+-            self.write_attribute(DATATYPE, dtype)
+-            self.write_numeric_attribute(SIZE, size*self.cbsize)
++            self.write_attribute(DATATYPE, normalize_for_ghidra(dtype))
++            self.write_numeric_attribute(SIZE, size * self.cbsize)
+             #TODO consider using GetTrueNameEx and Demangle
+             demangled = ida_name.get_demangled_name(addr,
+                             DEMANGLED_TYPEINFO, ida_ida.inf_get_demnames(), idc.GN_STRICT)
+@@ -1031,7 +1142,10 @@ class XmlExporter(IdaXml):
+ 
+     def export_functions(self):
+         """
+-        Exports information about all functions. 
++        Exports functions with register-backed params/returns (IDA 9+),
++        forces <RETURN void> when IDA says the function is void,
++        and only adds CALLING_CONVENTION="__usercall" if the IDA proto text contains '__usercall'.
++        Also emits DnW/DnB for 16/8-bit data-register params/returns.
+         """
+         functions = idautils.Functions()
+         if functions is None:
+@@ -1039,25 +1153,137 @@ class XmlExporter(IdaXml):
+         self.update_status(FUNCTIONS)
+         timer = time.clock()
+         self.start_element(FUNCTIONS, True)
++
++        def _dtype_text(tif):
++            s = tif.dstr() or "int"
++            if s.startswith("struct "):
++                s = s[7:]
++            return s
++
++        def _ghidra_reg_for_width(regno, width_bytes):
++            """
++            Map IDA reg number + desired width to a Ghidra register name.
++            For 68k data regs, prefer DnW / DnB when width < 4. Address regs stay An (32-bit).
++            """
++            base = ida_idp.get_reg_name(regno, max(width_bytes, 4)).upper()  # e.g., "D0", "A0"
++            if base.startswith("D"):
++                if width_bytes == 2:
++                    return base + "W"   # DnW
++                if width_bytes == 1:
++                    return base + "B"   # DnB
++            return base                  # Dn (32-bit) or An unchanged
++
+         for addr in functions:
+             function = ida_funcs.get_func(addr)
+             if ida_segment.is_spec_ea(function.start_ea):
+                 continue
++
++            # Pull IDA type
++            tif = ida_typeinf.tinfo_t()
++            have_tif = ida_nalt.get_tinfo(tif, function.start_ea) and tif.is_func()
++            ftd = ida_typeinf.func_type_data_t()
++            have_ftd = have_tif and tif.get_func_details(ftd)
++
++            # Detect if the user explicitly marked this function as __usercall in IDA's proto text
++            ida_proto_txt = (tif.dstr() or "")
++            has_usercall_marker = ("__usercall" in ida_proto_txt.lower())
++
++            # Collect register-backed args and return info (if func details exist)
++            arg_regs = []
++            ret_reg_name = None
++            ret_dtype = None
++            rettype_is_void = False
++
++            if have_ftd:
++                # Args
++                for i in range(ftd.size()):
++                    a = ftd.at(i)                  # funcarg_t
++                    al = a.argloc                  # argloc_t
++                    at = al.atype()
++                    if at in (ida_typeinf.ALOC_REG1, ida_typeinf.ALOC_REG2):
++                        arg_regs.append((i, a))
++                # Return
++                if not ftd.rettype.empty():
++                    rettype_is_void = ftd.rettype.is_void()
++                    if not rettype_is_void:
++                        ret_dtype = _dtype_text(ftd.rettype)
++                        rloc = ftd.retloc
++                        if rloc and rloc.atype() in (ida_typeinf.ALOC_REG1, ida_typeinf.ALOC_REG2):
++                            try:
++                                rwidth = ftd.rettype.get_size() or 4
++                            except Exception:
++                                rwidth = 4
++                            ret_reg_name = _ghidra_reg_for_width(rloc.reg1(), rwidth)
++                else:
++                    # No explicit return type present; treat as unknown (don't force one)
++                    rettype_is_void = False
++                    ret_dtype = None
++                    ret_reg_name = None
++
++            # <FUNCTION ...>
+             self.start_element(FUNCTION)
+             self.write_address_attribute(ENTRY_POINT, function.start_ea)
++
++            name = None
+             if ida_bytes.has_user_name(idc.get_full_flags(addr)):
+                 name = self.get_symbol_name(addr)
+-                if name is not None and len(name) > 0:
+-                    self.write_attribute(NAME, name)
+-            if function.flags & idc.FUNC_LIB != 0:
++
++            if not name:
++                name = idc.get_name(addr, ida_name.GN_VISIBLE)
++            
++            self.write_attribute(NAME, name)
++
++            if function.flags & idc.FUNC_LIB:
+                 self.write_attribute(LIBRARY_FUNCTION, "y")
++
++            # Only add __usercall if the IDA proto text has it
++            if has_usercall_marker:
++                self.write_attribute("CALLING_CONVENTION", "__usercall")
++                self.write_attribute("CUSTOM_STORAGE", "y")
++
+             self.close_tag(True)
+-            fchunks = idautils.Chunks(addr)
+-            for (startEA, endEA) in fchunks:
++
++            # <ADDRESS_RANGE .../>
++            for (startEA, endEA) in idautils.Chunks(addr):
+                 self.start_element(ADDRESS_RANGE)
+                 self.write_address_attribute(START, startEA)
+-                self.write_address_attribute(END, endEA-1)
++                self.write_address_attribute(END, endEA - 1)
+                 self.close_tag()
++
++            # REGISTER_VARs from IDA func details
++            if have_ftd:
++                # RETURN_TYPE:
++                # - If IDA says void, force <RETURN_TYPE void/> so Ghidra doesn’t infer a D0 return.
++                # - If IDA says non-void, emit that and the return register if known.
++                if rettype_is_void:
++                    self.start_element(RETURN_TYPE)
++                    self.write_attribute(DATATYPE, "void")
++                    self.write_attribute(DATATYPE_NAMESPACE, "/")
++                    self.close_tag()
++                elif ret_dtype:
++                    self.start_element(RETURN_TYPE)
++                    self.write_attribute(DATATYPE, normalize_for_ghidra(ret_dtype))
++                    self.write_attribute(DATATYPE_NAMESPACE, "/")
++                    if ret_reg_name:
++                        self.write_attribute(REGISTER, ret_reg_name)       # e.g., D0, D0W
++                    self.close_tag()
++                # else: unknown return type — omit <RETURN_TYPE>
++
++                for (i, a) in arg_regs:
++                    al = a.argloc
++                    try:
++                        awidth = a.type.get_size() or 4
++                    except Exception:
++                        awidth = 4
++                    regnm = _ghidra_reg_for_width(al.reg1(), awidth)
++                    self.start_element(REGISTER_VAR)
++                    self.write_attribute(NAME, a.name or f"arg{i}")
++                    self.write_attribute(REGISTER, regnm)                 # e.g., A6, D0W, D1B
++                    self.write_attribute(DATATYPE, normalize_for_ghidra(_dtype_text(a.type)))   # e.g., "TeamGeneralInfo *"
++                    self.write_attribute(DATATYPE_NAMESPACE, "/")
++                    self.close_tag()
++
++            # Comments / demangled / typeinfo
+             regcmt = ida_funcs.get_func_cmt(function, False)
+             if regcmt is not None:
+                 self.export_regular_cmt(regcmt)
+@@ -1064,22 +1290,25 @@ class XmlExporter(IdaXml):
+             rptcmt = ida_funcs.get_func_cmt(function, True)
+             if rptcmt is not None:
+                 self.export_repeatable_cmt(rptcmt)
+-            demangled = ida_name.get_demangled_name(addr,
+-                                            DEMANGLED_TYPEINFO,
+-                                            ida_ida.inf_get_demnames(), True)
+-            if demangled is not None and demangled == "'string'":
++
++            demangled = ida_name.get_demangled_name(
++                addr, DEMANGLED_TYPEINFO, ida_ida.inf_get_demnames(), True
++            )
++            if demangled == "'string'":
+                 demangled = None
++
+             outbuf = ''
+-            # TODO: How to handle print_type for function typeinfo cmts
+-            #outbuf = idaapi.print_type(addr, False)
+-            has_typeinfo = (demangled is not None or (outbuf is not None and
+-                            len(outbuf) > 0))
++            has_typeinfo = (demangled is not None or (outbuf is not None and len(outbuf) > 0))
+             if demangled is not None:
+                 self.export_typeinfo_cmt(demangled)
+             elif has_typeinfo:
+                 self.export_typeinfo_cmt(outbuf[:-1])
++
++            # Stack frame
+             self.export_stack_frame(function)
++
+             self.end_element(FUNCTION)
++
+         self.end_element(FUNCTIONS)
+         self.display_cpu_time(timer)
+ 
+@@ -1156,52 +1385,119 @@ class XmlExporter(IdaXml):
+         self.display_cpu_time(timer)
+ 
+ 
+-    def export_members(self, s: ida_typeinf.tinfo_t):
++    def export_members(self, s):
+         """
+-        Exports the members of a structure or union.
+-        
+-        Args:
+-            s: IDA structure/union instance
++        Exports the members of a structure or union, with proper support
++        for multi-dimensional arrays (e.g., byte[10][35]) and robust size/base typing.
+         """
++        def _array_decl_and_size(tinfo):
++            """
++            Return (decl_string, total_size_bytes) for any array type,
++            walking all nested array levels to emit e.g. 'byte[10][35]'.
++            """
++            # Walk nested arrays, collecting dims
++            dims = []
++            tcur = ida_typeinf.tinfo_t(tinfo)
++            while tcur.is_array():
++                atd = ida_typeinf.array_type_data_t()
++                if not tcur.get_array_details(atd):
++                    break
++                dims.append(int(atd.nelems) if atd.nelems is not None else 0)
++                # IDA 9.0: element type is 'elem_type'
++                tcur = ida_typeinf.tinfo_t(atd.elem_type)
++
++            # Base element decl
++            base_decl = tcur.dstr()
++            if not base_decl or base_decl == "?" or base_decl.strip() == "":
++                # fallback: guess common byte-ish or use generic 'byte'
++                if tcur.is_int() and (tcur.get_size() or 0) == 1:
++                    base_decl = "byte"
++                else:
++                    base_decl = "byte"
++
++            if base_decl.startswith("struct "):
++                base_decl = base_decl[7:]
++
++            # normalize a few common aliases to 'byte'
++            if base_decl in ("unsigned __int8", "uchar", "uint8", "uint8_t", "_BYTE", "char", "signed char"):
++                base_decl = "byte"
++
++            # Full declarator (preserve multi-dim bracket sequence)
++            decl = base_decl + "".join(f"[{max(0, int(n))}]" for n in dims)
++
++            # Compute size = product(dims) * sizeof(base)
++            esize = tcur.get_size()
++            if esize in (None, ida_typeinf.BADSIZE) or esize <= 0:
++                mtibuf = ida_nalt.opinfo_t()
++                try:
++                    _, esize, _, mtibuf, _ = ida_typeinf.get_idainfo_by_type(tcur)
++                except Exception:
++                    esize = 0
++                if esize in (None, ida_typeinf.BADSIZE) or esize <= 0:
++                    esize = 1  # last-resort clamp
++
++            total = int(esize)
++            for n in dims:
++                nn = max(1, int(n))  # treat unknown/0-length as 1 so size never collapses to 0
++                total *= nn
++
++            return decl, total
++
+         nmembers = s.get_udt_nmembers()
+         for n in range(nmembers):
+             m = get_member_by_idx(s.get_tid(), n)
+             if m is None:
+                 continue
+-            offset = m.offset//8
+-            if s.is_union():
+-                offset = 0
++
++            offset = 0 if s.is_union() else (m.offset // 8)
++
+             self.start_element(MEMBER)
+             self.write_numeric_attribute(OFFSET, offset)
+-            mname = m.name 
+-            if len(mname) > 0:
++
++            mname = m.name
++            if mname:
+                 self.write_attribute(NAME, mname)
+-            dtype = self.get_member_type(m)
+-            if m.type.is_varmember():
+-                msize = 0
+-                size  = 0
++
++            tinfo = m.type  # ida_typeinf.tinfo_t
++
++            # Decide member datatype string + size
++            if tinfo.is_array():
++                # Multi-dimensional array support
++                dtype_str, total_size = _array_decl_and_size(tinfo)
+             else:
++                # Not an array: reuse existing logic but make size robust
++                dtype_str = self.get_member_type(m)
++
+                 mtibuf = ida_nalt.opinfo_t()
+-                mti, size, _, mtibuf, _ = ida_typeinf.get_idainfo_by_type(m.type)
+-                #if IDA_SDK_VERSION < 640:
+-                #    msize = idaapi.get_type_size0(None, dtype)
+-                #    if msize is None or msize == 0:
+-                #        msize = ida_struct.get_member_size(m)
+-                #else:
+-                #msize = idaapi.get_data_type_size(m.flag, mtibuf)
+-                msize = m.type.get_array_element().get_size() if m.type.is_array() else size
+-                msize = ida_typeinf.BADSIZE if msize is None else msize
+-            if size < msize: size = msize
+-            if (size != msize):
+-                arraytype = self.get_member_type(m)
+-                dtype = "%s[%d]" % (arraytype, size//msize)
+-            self.write_attribute(DATATYPE, dtype)
+-            self.write_numeric_attribute(SIZE, size*self.cbsize)
++                try:
++                    _, total_size, _, mtibuf, _ = ida_typeinf.get_idainfo_by_type(tinfo)
++                except Exception:
++                    total_size = 0
++                if total_size in (None, ida_typeinf.BADSIZE) or total_size <= 0:
++                    # last-chance fallback
++                    try:
++                        total_size = ida_struct.get_member_size(m) or 0
++                    except Exception:
++                        total_size = 0
++
++            # Apply cbsize scaling (your exporter’s convention)
++            total_bytes = int(total_size) * int(self.cbsize)
++
++            # IMPORTANT: do not normalize multi-dimensional arrays (it often breaks them)
++            if "[" in dtype_str:
++                dtype_for_xml = _normalize_array_head_only(dtype_str)
++            else:
++                dtype_for_xml = normalize_for_ghidra(dtype_str)
++
++            self.write_attribute(DATATYPE, dtype_for_xml)
++            self.write_numeric_attribute(SIZE, total_bytes)
++
++            # Comments
+             regcmt = m.cmt if m.is_regcmt() else None
+             rptcmt = m.cmt if not m.is_regcmt() else None
+             hascmt = regcmt is not None or rptcmt is not None
+             self.close_tag(hascmt)
+-            if (hascmt):
++            if hascmt:
+                 if regcmt is not None:
+                     self.export_regular_cmt(regcmt)
+                 if rptcmt is not None:
+@@ -1630,7 +1926,7 @@ class XmlExporter(IdaXml):
+             if (not idc.is_strlit(f) and not ida_bytes.is_align(f)
+                 and size != msize):
+                 mtype = "%s[%d]" % (mtype, size//msize)
+-            self.write_attribute(DATATYPE, mtype)
++            self.write_attribute(DATATYPE, normalize_for_ghidra(mtype))
+             self.write_numeric_attribute(SIZE, size*self.cbsize)
+             regcmt = member.cmt if member.is_regcmt() else None
+             rptcmt = member.cmt if not member.is_regcmt() else None
+@@ -1901,29 +2197,39 @@ class XmlExporter(IdaXml):
+         return "hex" # default
+     
+ 
+-    def get_member_type(self, m: ida_typeinf.udm_t) -> str:
++    def get_member_type(self, m):
+         """
+-        Returns the datatype of a structure member.
+-        
+-        Args:
+-            m: IDA member instance.
+-            
+-        Returns:
+-            String representing member datatype.
++        Returns the datatype of a structure member, preferring typed pointers
++        and UDT names. Arrays are handled in export_members() now.
+         """
+-        _, _, f, _, _ = ida_typeinf.get_idainfo_by_type(m.type)
++        tinfo = m.type  # ida_typeinf.tinfo_t
++
++        # Pointers: emit full decl (e.g., 'TeamGeneralInfo *')
++        if isinstance(tinfo, ida_typeinf.tinfo_t) and tinfo.is_ptr():
++            decl = tinfo.dstr() or "pointer"
++            if decl.startswith("struct "):
++                decl = decl[7:]
++            return decl
++
++        # Embedded UDT
++        if isinstance(tinfo, ida_typeinf.tinfo_t) and tinfo.is_udt():
++            name = tinfo.get_type_name() or tinfo.dstr() or ""
++            if name.startswith("struct "):
++                name = name[7:]
++            return name or "struct"
++
++        # Fallback legacy flag-based logic
++        _, _, f, _, _ = ida_typeinf.get_idainfo_by_type(tinfo)
+         t = self.get_type(f)
+         if ida_bytes.is_off0(f):
+-            t = "pointer"
++            return "pointer"
+         if not ida_bytes.is_struct(f):
+             return t
+         s = get_sptr(m)
+-        if (s is None):
++        if s is None:
+             return t
+         sname = idc.get_struc_name(s.get_tid())
+-        if (sname is None):
+-            return t
+-        return sname
++        return sname or t
+ 
+ 
+     def get_options(self):
+@@ -2206,9 +2512,11 @@ class XmlExporter(IdaXml):
+             signedhex: Boolean indicating if hex representation of
+                 value is signed.
+         """
++        
+         # Check if value is None and handle it gracefully
+         if value is None:
+             return
++        
+         if base == 10:
+             temp = "%d" % value
+         else:
+@@ -3737,6 +4045,7 @@ OPERAND_INDEX = 'OPERAND_INDEX'
+ PARAM_OFFSET = 'PARAM_OFFSET'
+ PATH = 'PATH'
+ PERMISSIONS = 'PERMISSIONS'
++PRESERVED_REGISTERS = 'PRESERVED_REGISTERS'
+ PRIMARY = 'PRIMARY'
+ PROCESSOR = 'PROCESSOR'
+ PROGRAM = 'PROGRAM'
+@@ -3746,6 +4055,7 @@ PROGRAM_TREES = 'PROGRAM_TREES'
+ PROPERTIES = 'PROPERTIES'
+ PROPERTY = 'PROPERTY'
+ REGISTER = 'REGISTER'
++REGISTER_ELEM = 'REGISTER'
+ REGISTER_SAVE_SIZE = 'REGISTER_SAVE_SIZE'
+ REGISTER_VALUES = 'REGISTER_VALUES'
+ REGISTER_VALUE_RANGE = 'REGISTER_VALUE_RANGE'

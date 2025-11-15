@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/m68k-instruction.schema.json",
+  "title": "M68K Instruction JSONL Row",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "type",
+    "title",
+    "mnemonics",
+    "isa",
+    "category",
+    "syntax",
+    "addressing_modes",
+    "flags",
+    "condition_codes",
+    "source_path",
+    "source_url",
+    "raw_markdown",
+    "plain_text",
+    "schema_version",
+    "legal_forms",
+    "forms",
+    "generated_at",
+    "tool_version",
+    "cycles"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^m68k:[a-z0-9_]+$"
+    },
+    "type": {
+      "type": "string",
+      "const": "instruction"
+    },
+    "title": { "type": "string", "minLength": 1 },
+    "summary": { "type": "string" },
+    "description": { "type": "string" },
+    "syntax": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": false
+    },
+    "addressing_modes": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "operands": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "cycles": {
+      "type": "string"
+    },
+    "flags": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["X", "N", "Z", "V", "C", "text"],
+      "properties": {
+        "X": { "type": "string" },
+        "N": { "type": "string" },
+        "Z": { "type": "string" },
+        "V": { "type": "string" },
+        "C": { "type": "string" },
+        "text": { "type": "string" }
+      }
+    },
+    "examples": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "notes": { "type": "string" },
+    "related": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "source_path": { "type": "string", "minLength": 1 },
+    "source_url": { "type": "string", "format": "uri" },
+    "raw_markdown": { "type": "string" },
+    "plain_text": { "type": "string" },
+    "license": { "type": "string" },
+    "mnemonics": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "pattern": "^[A-Z0-9_]+$" }
+    },
+    "isa": { "type": "string", "const": "m68000" },
+    "category": {
+      "type": "string",
+      "enum": ["arith", "logic", "shift", "move", "branch", "trap", "system"]
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "condition_codes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["affects", "X", "N", "Z", "V", "C", "notes"],
+      "properties": {
+        "affects": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["X", "N", "Z", "V", "C"] },
+          "uniqueItems": true
+        },
+        "X": { "type": "string" },
+        "N": { "type": "string" },
+        "Z": { "type": "string" },
+        "V": { "type": "string" },
+        "C": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    },
+    "schema_version": { "type": "integer", "minimum": 1 },
+    "legal_forms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["form"],
+        "properties": {
+          "form": { "type": "string", "minLength": 1 },
+          "src": { "type": "string" },
+          "dst": { "type": "string" }
+        }
+      }
+    },
+    "forms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["operands", "sizes", "notes"],
+        "properties": {
+          "operands": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "sizes": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "generated_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "tool_version": { "type": "string", "minLength": 1 }
+  }
+}

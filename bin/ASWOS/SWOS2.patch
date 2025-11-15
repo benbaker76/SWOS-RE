@@ -1,0 +1,11 @@
+--- C:/Projects/GitHub/swos-port-c/reverse/SWOS2_TOSEC/SWOS2.asm	Sun Nov  9 18:48:00 2025
++++ C:/Projects/GitHub/swos-port-c/reverse/SWOS2_Amiga/SWOS2.asm	Sun Nov  9 18:58:45 2025
+@@ -41634,7 +41634,7 @@ nextEntryDirectionOffsets:
+ ; prototype: void __usercall InitMainMenuStuff()
+ InitMainMenuStuff:
+                 bsr.w   ZeroOutStars
+-                clr.w   (twoPlayers).l
++                st      (twoPlayers).l
+                 clr.w   (player1ClearFlag).l
+                 clr.w   (player2ClearFlag).l
+                 clr.w   (deadVar01).l

@@ -1,0 +1,116 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "C Types JSONL (discriminated by kind)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["kind", "name", "data"],
+  "properties": {
+    "kind": {
+      "type": "string",
+      "enum": ["enum", "struct", "union", "typedef"]
+    },
+    "name": {
+      "type": "string",
+      "description": "Tag/identifier for enums/structs/unions. May be empty for anonymous."
+    },
+    "data": {}
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "kind": { "const": "enum" } } },
+      "then": {
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["members"],
+            "properties": {
+              "members": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["name"],
+                  "properties": {
+                    "name": { "type": "string" },
+                    "value": { "type": ["string", "null"] }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "struct" } } },
+      "then": {
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["fields"],
+            "properties": {
+              "fields": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["name", "c_type"],
+                  "properties": {
+                    "name": { "type": "string" },
+                    "c_type": { "type": "string" },
+                    "bits": { "type": ["string", "null"], "description": "Bitfield width expression if present" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "union" } } },
+      "then": {
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["fields"],
+            "properties": {
+              "fields": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["name", "c_type"],
+                  "properties": {
+                    "name": { "type": "string" },
+                    "c_type": { "type": "string" },
+                    "bits": { "type": ["string", "null"], "description": "Bitfield width expression if present" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "typedef" } } },
+      "then": {
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["alias", "target"],
+            "properties": {
+              "alias": { "type": "string" },
+              "target": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

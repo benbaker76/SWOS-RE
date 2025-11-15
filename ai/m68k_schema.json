@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/ghidra-amiga-function.json",
+  "title": "Ghidra Amiga Function Export (Single Record)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "program",
+    "name",
+    "entry",
+    "size_bytes",
+    "prototype",
+    "return_type",
+    "calling_convention",
+    "is_thunk",
+    "is_external",
+    "has_varargs",
+    "params",
+    "callees",
+    "callers",
+    "asm"
+  ],
+  "properties": {
+    "kind": {
+      "const": "function",
+      "description": "Record discriminator; always 'function'."
+    },
+    "program": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["program_name", "language_id", "compiler_spec", "image_base", "md5", "timestamp"],
+      "properties": {
+        "program_name": { "type": "string" },
+        "language_id": { "type": "string", "description": "Ghidra LanguageID (e.g., 68000:BE:32:default)." },
+        "compiler_spec": { "type": "string", "description": "Ghidra CompilerSpecID." },
+        "image_base": {
+          "type": ["string", "null"],
+          "pattern": "^0x[0-9A-Fa-f]+$",
+          "description": "Minimum address of the program image, if known."
+        },
+        "md5": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9a-fA-F]{32}$",
+          "description": "Executable MD5 if Ghidra provided it; null otherwise."
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "Export timestamp (local time)."
+        }
+      }
+    },
+    "name": { "type": "string", "description": "Function name at time of export." },
+    "entry": {
+      "type": "string",
+      "pattern": "^0x[0-9A-Fa-f]+$",
+      "description": "Function entry address (hex)."
+    },
+    "size_bytes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Instruction-address span size for the function body."
+    },
+    "prototype": {
+      "type": "string",
+      "description": "Rendered C-style prototype string (as seen in Ghidra)."
+    },
+    "return_type": { "type": "string" },
+    "calling_convention": {
+      "type": ["string", "null"],
+      "description": "Calling convention name or null if unknown."
+    },
+    "is_thunk": { "type": "boolean" },
+    "is_external": { "type": "boolean" },
+    "has_varargs": { "type": "boolean" },
+    "params": {
+      "type": "array",
+      "description": "Ordered parameter list.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "type"],
+        "properties": {
+          "name": { "type": "string" },
+          "type": { "type": "string" }
+        }
+      }
+    },
+    "callees": {
+      "type": "array",
+      "description": "Direct call targets discovered in the function body.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "entry"],
+        "properties": {
+          "name": { "type": "string" },
+          "entry": {
+            "type": "string",
+            "pattern": "^0x[0-9A-Fa-f]+$"
+          }
+        }
+      }
+    },
+    "callers": {
+      "type": "array",
+      "description": "Direct callers (functions with call refs into this function).",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "entry", "addr_hex"],
+        "properties": {
+          "name": { "type": "string" },
+          "entry": {
+            "type": "string",
+            "pattern": "^0x[0-9A-Fa-f]+$"
+          },
+          "addr_hex": {
+            "type": "string",
+            "pattern": "^0x[0-9A-Fa-f]+$",
+            "description": "Address of the specific call site inside the caller."
+          }
+        }
+      }
+    },
+    "asm": {
+      "type": "string",
+      "description": "Linearized assembly listing; one instruction per line ('0xADDR    TEXT')."
+    },
+    "decompiled_c": {
+      "type": "string",
+      "description": "Raw decompiler output for the function (optional)."
+    }
+  }
+}
