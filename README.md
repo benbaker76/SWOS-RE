@@ -360,8 +360,8 @@ Install the [Amiga Assembly](https://marketplace.visualstudio.com/items?itemName
 After you install the extension you'll need to copy the `Kickstart v3.1 rev 40.68 (1993)(Commodore)(A1200).rom` into the following locations:
 
 - Windows
-    - FS-UAE: `%HomeDrive%%HomePath%\.vscode\extensions\prb28.amiga-assembly-1.8.13\dist\bin\winuae\Kickstarts`
-    - WinUAE: `%HomeDrive%%HomePath%\FS-UAE\Kickstarts`
+    - WinUAE: `%HomeDrive%%HomePath%\.vscode\extensions\prb28.amiga-assembly-1.8.13\dist\bin\winuae\Kickstarts`
+    - FS-UAE: `%HomeDrive%%HomePath%\FS-UAE\Kickstarts`
 
 Unfortunately I can't get FS-UAE to work as I get a `Exception "Stackframe Format Error" ($38) at $939A20 (ExpMem $83A20) occurred.` but WinUAE does launch.
 
