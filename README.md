@@ -103,11 +103,10 @@ Here are some useful shortcuts:
 
 - `u` undefine
 - `y` Enter "C-type"
-- `g` Jump to label
+- `g` Jump to label / address
 - `d` Cycle data type
 - `n` Edit name
 - `:` Edit comment
-- `g` Jump to address
 - `ESC` Jump back to previous location (used ALOT)
 - `CTRL-F` Text search
 - `CTRL-F1` Local types
@@ -154,9 +153,9 @@ Undefined (unknown) file-backed data runs:
 
 #### export_sparse_asm.py
 
-[export_sparse_asm.py](IDAPro/Scripts/export_sparse_asm.py) is an **IDA 9-friendly "sparse assembly" exporter** that writes a clean, readable `.asm` file containing just the _interesting_ heads (code/data items), labels, prototypes, and comments - without dumping every single byte. It iterates segments in address order (optionally skipping Amiga MMIO segments like `AMIGA_CUSTOM`, `CIAA`, `CIAB`), emits an `org 0x...` at each segment start and again only when there's a real hole of unknown bytes, and then walks heads to print one disassembly line per item with a fixed indent. For functions, it prints a labeled header, a **prototype** reconstructed from the function's `tinfo` (or a sensible fallback like `void name(...)`), and both regular and repeatable function comments. Inside functions it can also emit **intra-function code labels** (e.g., `loc_...`) and **data labels** so that cross-references stay meaningful.
+[export_sparse_asm.py](IDAPro/Scripts/export_sparse_asm.py) is an **IDA 9-friendly "sparse assembly" exporter** that writes a clean, readable `.s` file containing just the _interesting_ heads (code/data items), labels, prototypes, and comments - without dumping every single byte. It iterates segments in address order (optionally skipping Amiga MMIO segments like `AMIGA_CUSTOM`, `CIAA`, `CIAB`), emits an `ORG 0x...` at each segment start and again only when there's a real hole of unknown bytes, and then walks heads to print one disassembly line per item with a fixed indent. For functions, it prints a labeled header, a **prototype** reconstructed from the function's `tinfo` (or a sensible fallback like `void name(...)`), and both regular and repeatable function comments. Inside functions it can also emit **intra-function code labels** (e.g., `loc_...`) and **data labels** so that cross-references stay meaningful.
 
-A key feature is robust **comment handling** for IDA 9's wrapped/overflow comments. The script captures the base disassembly line (optionally keeping EOL comments), then collects indented/anterior and extra posterior/anterior comment blocks, and **deduplicates** any lines that merely repeat the EOL text - so you don't get the same comment echoed three times. It also pads EOL semicolons for neat formatting, and avoids `org` spam by detecting genuine unknown-data gaps rather than interleaved items. The result is a compact, navigable assembly listing that's ideal for code review, porting, or feeding into documentation - focused on structure (labels, prototypes, comments) rather than raw bytes.
+A key feature is robust **comment handling** for IDA 9's wrapped/overflow comments. The script captures the base disassembly line (optionally keeping EOL comments), then collects indented/anterior and extra posterior/anterior comment blocks, and **deduplicates** any lines that merely repeat the EOL text - so you don't get the same comment echoed three times. It also pads EOL semicolons for neat formatting, and avoids `ORG` spam by detecting genuine unknown-data gaps rather than interleaved items. The result is a compact, navigable assembly listing that's ideal for code review, porting, or feeding into documentation - focused on structure (labels, prototypes, comments) rather than raw bytes.
 
 #### emit_initialized_c.py
 
@@ -504,6 +503,28 @@ To get a full `SWOS2.s` of the patch you can copy the unpatched `SWOS2.s` into t
 ```sh
 $ git apply SWOS2.patch
 ```
+
+#### Viewing Patch Diffs
+
+Once you've created a full source patch of `SWOS2.s` you can now use VS Code to compare them and view the patches side by side with the original source.
+
+1. Right-click on the original `SWOS2.s` file and select `Select for Compare`
+
+![](images/patch_01.png)
+
+2. Right-click on the newly created `SWOS2.s` file and select `Compare with Selected`
+
+![](images/patch_02.png)
+
+3. It will open a side by side view of both files with some navigation buttons.
+
+![](images/patch_03.png)
+
+4. Click on the down arrow to view the various patches within the assembly.
+
+![](images/patch_04.png)
+
+![](images/patch_05.png)
 
 ## Amiga C
 
