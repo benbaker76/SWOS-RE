@@ -499,6 +499,12 @@ Currently the only change is to remove the size check and automatically launch `
 - [SWOS2.patch](bin/Segra/SWOS2.patch) (Segra) early patched version with change from Yugoslavia to Serbia, cup changes to Euro Cup, Cup Winners, UEFA Cup and World Cup Qualifying Group data and Belarussia, English, Greek, Scottish, Slovakian, Slovenian, Bolivian, Brasilian and Chilean league data
 - [SWOS2.patch](bin/HD/SWOS2.patch) (HD) the patches contained are interesting but unknown as to what they do at this stage
 
+To get a full `SWOS2.s` of the patch you can copy the unpatched `SWOS2.s` into the folder and apply the patch like so:
+
+```sh
+$ git apply SWOS2.patch
+```
+
 ## Amiga C
 
 - [Amiga C/C++ Compile, Debug & Profile](https://marketplace.visualstudio.com/items?itemName=BartmanAbyss.amiga-debug) VSCode Extension.

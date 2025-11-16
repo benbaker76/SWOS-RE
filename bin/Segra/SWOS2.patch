@@ -1,5 +1,5 @@
---- C:/Projects/GitHub/swos-port-c/reverse/SWOS2_TOSEC/SWOS2.asm	Sun Nov  9 17:09:29 2025
-+++ C:/Projects/GitHub/swos-port-c/reverse/SWOS2/SWOS2.asm	Sun Nov  9 15:44:22 2025
+--- ./SWOS2.s	Sun Nov  9 17:09:29 2025
++++ ./SWOS2.s	Sun Nov  9 15:44:22 2025
 @@ -106217,8 +106217,8 @@ aUkraine:
                  dc.b '',0,'UKRAINE',$00,'UKRAINIAN',$00
  aWales:

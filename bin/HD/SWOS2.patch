@@ -1,5 +1,5 @@
---- C:/Projects/Amiga/SWOS-RE/SWOS2/SWOS2.s	Fri Nov 14 14:14:21 2025
-+++ C:/Projects/Amiga/SWOS-IDA/SWOS2_HD/SWOS2.s	Fri Nov 14 14:14:26 2025
+--- ./SWOS2.s	Fri Nov 14 14:14:21 2025
++++ ./SWOS2.s	Fri Nov 14 14:14:26 2025
 @@ -9765,7 +9765,7 @@ _105D60_copy_bootstrap_blob_to_exec_loop:
                  clr.w   d1
                  lea     (g_irqCookieObfuscated).l,a3

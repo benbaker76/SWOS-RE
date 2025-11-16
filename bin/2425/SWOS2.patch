@@ -1,5 +1,5 @@
---- C:/Projects/Amiga/SWOS-RE/SWOS2/SWOS2.s	Fri Nov 14 13:01:05 2025
-+++ C:/Projects/Amiga/SWOS-RE/SWOS2_2425/SWOS2.s	Fri Nov 14 12:53:18 2025
+--- ./SWOS2.s	Fri Nov 14 13:01:05 2025
++++ ./SWOS2.s	Fri Nov 14 12:53:18 2025
 @@ -50933,7 +50933,7 @@ InitCareerVariables:
                  move.w  #$FFFF,(selTeamNumber).l
                  move.w  #$FFFF,(currentTeamNumber).l
