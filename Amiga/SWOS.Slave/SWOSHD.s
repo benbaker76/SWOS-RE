@@ -303,6 +303,9 @@ pl_9697_1
 	PL_P	$5C0,rob_northen_loader
 
 	;;PL_L	$4df98,$4EB80100
+	
+	PL_W   $39EE,$4E73 ; L5: stop jumping into temp-stack trampoline (bra -> rte)
+    PL_W   $39D6,$4E73 ; L3: don’t call set_tmp_stack_ptr either: branch -> rte
 
     PL_END
     
