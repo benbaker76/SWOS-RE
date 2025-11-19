@@ -90,7 +90,6 @@ MAX_LITERAL_UDT_RUN_ELEMS = 2048  # (kept for parity; not referenced directly)
 
 _NAME_CACHE = None
 
-_COMMENTS_EMITTED = set()
 _EMITTED_CMTS = {}
 
 # ---------- tiny utils ----------
@@ -114,7 +113,7 @@ _PRINTED_CODE_SECTION = False
 _PRINTED_BSS_HEADER   = set()   # set of region names we've bannered (BSS_01, BSS_02…)
 
 BSS_REGIONS = [
-    ("BSS_0", 0x00000000, 0x00100000),  # [$00000000, $00100000)
+    ("BSS_0", 0x00000400, 0x00100000),  # [$00000400, $00100000)
     ("BSS_1", 0x0015736A, 0x00200000),  # [$0015736A, $00200000)
 ]
 
@@ -2737,6 +2736,20 @@ def emit_one_data_item(fh, ea: int, seg_end_ea: int) -> int:
             if reg_info:
                 # region-level SECTION/ORG + banner (once)
                 _ensure_bss_section_banner(fh, reg_info[0], reg_info[1], reg_info[2], ea)
+            else:
+                # OLD: equ_line = _equ_line_keepcase(nm, f"$%X" % ea)
+                equ_line = _equ_line_keepcase(nm, _fmt_bss_or_abs(ea))
+                if equ_line:
+                    fh.write(equ_line + "\n")
+                    total_sz, label = item_tinfo_size_and_label(ea, item_len)
+                    if label:
+                        fh.write(col_indent(f"; {label} (size {total_sz})") + "\n")
+                    emit_wrapped_comments_dedup(
+                        fh, ea, equ_line, cmt_col_indent, seg_end_ea,
+                        id="emit_one_data_item:1", include_next=False
+                    )
+                next_ea = ida_bytes.next_head(ea, seg_end_ea)
+                return next_ea if next_ea != idc.BADADDR else seg_end_ea
 
             # In ds.b mode, we also want an inline comment after the size (if there was any EOL).
             # Keep it simple & consistent: reuse the computed label text as the trailing comment.

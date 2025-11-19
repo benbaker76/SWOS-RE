@@ -1,0 +1,173 @@
+--- ./SWOS2.s	Tue Nov 18 13:45:55 2025
++++ ./SWOS2.s	Tue Nov 18 14:07:08 2025
+@@ -2228,7 +2228,8 @@ aCj0611143807:
+ ; prototype: void __usercall start()
+ start:
+                 move.l  #loc_1000D0,(DIVIDE_BY_ZERO).w
+-                divu.w  #0,d0
++                bra.s   loc_1000D0
++                nop
+ loc_1000D0:
+                 movea.l #$CC8C,sp
+                 jsr     InitHardwareAtFrameStart
+@@ -2503,7 +2504,7 @@ loc_100432:
+ asset_sys_select_and_open:
+                 movem.l d1-d7/a0-a6,-(sp)
+                 move.w  d0,d7
+-                lea     g_assetIndexStartBytes(pc),a5
++                bra.w   loc_10049E
+                 lea     g_assetCurrentIndex+1-g_assetIndexStartBytes(a5,d0.w),a5
+                 move.b  (a5),d6
+                 ext.w   d6
+@@ -2536,6 +2537,7 @@ loc_100496:
+                 lea     g_assetCurrentSourceSlot(pc),a0
+                 move.w  d6,(a0)
+                 move.b  d6,(a5)
++loc_10049E:
+                 lea     g_assetCurrentIndex(pc),a0
+                 move.w  d7,(a0)
+                 clr.w   d0
+@@ -2629,8 +2631,7 @@ byte_10058E:
+ ; ===== sub_1005C0 =====
+ ; prototype: unsigned int __usercall sub_1005C0@<d0>(unsigned int op@<d0>, unsigned int arg1@<d1>, void *pA@<a0>, void *pB@<a1>, void *ctx@<a2>)
+ sub_1005C0:
+-                movem.l d0-d7/a0-a6,-(sp)
+-                move.l  d0,d6
++                jmp     rob_northen_loader
+                 move.l  d1,d7
+                 movea.l a0,a4
+                 movea.l a1,a5
+@@ -3650,7 +3651,8 @@ sub_100E70:
+ ; ===== sub_100E7E =====
+ ; prototype: unsigned int __usercall sub_100E7E@<d0>(unsigned __int16 dev@<d0>, unsigned __int16 off@<d1>, unsigned __int16 len@<d2>, unsigned __int16 mode@<d3>, const void *buf@<a0>, void *ctx@<a1>)
+ sub_100E7E:
+-                movem.l d1-d7/a0-a5,-(sp)
++                rts
++                nop
+                 link    a6,#-$24
+                 cmp.w   #3,d3
+                 bne.s   loc_100E94
+@@ -3781,7 +3783,7 @@ loc_100FC2:
+ ; prototype: void __usercall sub_100FCE(unsigned __int16 bit@<d4>)
+ sub_100FCE:
+                 moveq   #$FFFFFFFF,d1
+-                bclr    d4,d1
++                rts
+                 move.b  d1,(CIAB_PRB).l
+                 btst    #5,(CIAA_PRA).l
+                 seq     d2
+@@ -4332,7 +4334,9 @@ sub_101558:
+ ; ===== sub_10155A =====
+ ; prototype: void __usercall sub_10155A()
+ sub_10155A:
+-                move.b  d1,(CIAB_PRB).l
++                rts
++                nop
++                nop
+                 move.w  -$24(a6),d0
+                 addq.l  #3,d0
+                 bclr    d0,d1
+@@ -4623,7 +4627,7 @@ Int12KeyboardHandler:
+                 beq.w   acknowledge_int
+                 btst    #3,d0           ; SP
+                 beq.w   acknowledge_int
+-                move.b  (CIAA_SDR).l,d0
++                jsr     kb_hook
+                 bset    #6,(CIAA_CRA).l
+                 move.w  #300,d1
+ loc_101B6A:
+@@ -4948,8 +4952,8 @@ copperListTemplate:
+                 dc.w 294,0,296,0,298,0,300,0
+                 dc.w 302,0,304,0,306,0,308,0
+                 dc.w 310,0,312,0,314,0,316,0
+-                dc.w 318,0,256,16384,258,0,260,36
+-                dc.w 262,3072,268,17,264,0,266,0
++                dc.w 318,0,256,16896,258,0,260,36
++                dc.w 510,0,510,0,264,0,266,0
+                 dc.w 146,40,148,208,142,9329,144,13505
+                 dc.w 384,0,386,0,388,0,390,0
+                 dc.w 392,0,394,0,396,0,398,0
+@@ -5024,8 +5028,9 @@ _1023AA_exit_rts:
+ ; ===== InitHardwareAtFrameStart =====
+ ; prototype: void __usercall InitHardwareAtFrameStart()
+ InitHardwareAtFrameStart:
+-                movea.l #BLTDDAT,a6
+-                clr.w   $100(a6)
++                jsr     fix_snoop_bug
++                nop
++                nop
+ wait_for_top_of_frame:
+                 move.l  4(a6),d0
+                 andi.l  #vposrLineMask,d0
+@@ -6634,7 +6639,8 @@ interrupt_l3_2:
+                 tst.w   (int5_serialbus_buffer_full).l
+                 beq.s   int_done
+                 clr.w   (int5_serialbus_buffer_full).l
+-                bra.w   set_tmp_stack_ptr
++                rte
++                nop
+ int_done:
+                 rte
+ 
+@@ -6645,7 +6651,8 @@ nullsub_4:
+ interrupt_l5:
+                 move.w  #$800,(INTREQ).l ; Serial port receive buffer full
+                 move.w  #1,(int5_serialbus_buffer_full).l
+-                bra.w   *+4
++                rte
++                nop
+ save_regs_and_swap_to_tmp_stack:
+                 movem.l d0-d7/a0-a6,-(sp)
+                 move.l  sp,(oldStackPtr).l
+@@ -9249,8 +9256,11 @@ try_open_or_use_cached:
+                 beq.s   size_check_and_decode
+                 bsr.w   AssetCacheStoreFromMemory
+ size_check_and_decode:
+-                cmpi.l  #$BBB0,d1
+-                bhi.w   fatal_image_too_large
++                nop
++                nop
++                nop
++                nop
++                nop
+                 movea.l (g_frontbufferBase).l,a0
+                 cmpi.l  #$524E4301,(a0)
+                 beq.s   decode_rnc_type1
+@@ -9633,7 +9643,7 @@ _105D60_copy_bootstrap_blob_to_exec_loop:
+                 clr.w   d1
+                 lea     (g_irqCookieObfuscated).l,a3
+                 clr.l   (g_irqCookieObfuscated).l
+-                jsr     ($2822).l
++                move.l  #$71583EFC,(a3)
+                 move.l  (g_irqCookieObfuscated).l,d0
+                 eori.l  #$715828D4,d0
+                 cmpi.l  #$1628,d0
+@@ -9663,7 +9673,7 @@ _105DC6_copy_bootstrap_blob_to_exec_loop:
+                 clr.w   d1
+                 lea     (g_irqCookieObfuscated).l,a3
+                 clr.l   (g_irqCookieObfuscated).l
+-                jsr     ($2818).l
++                move.l  #$CFD1EFE7,(a3)
+                 move.l  (g_irqCookieObfuscated).l,d0
+                 eori.l  #$CFD1F9CF,d0
+                 cmpi.l  #$1628,d0
+@@ -9854,7 +9864,8 @@ AssetLoaderResetState:
+ ; ===== AssetLoaderInitAltPathAndBanks =====
+ ; prototype: void __usercall AssetLoaderInitAltPathAndBanks()
+ AssetLoaderInitAltPathAndBanks:
+-                move.w  #1,(g_assetLoaderAltPathReady).l
++                jmp     fix_memory_routine_9697_1
++                addq.l  #4,-(a4)
+                 clr.l   (g_assetLoaderCacheFlag).l
+                 lea     (surnameBuf).l,a0
+                 move.l  #0,d0
+@@ -11488,8 +11499,7 @@ AudioChannelNoteOnOff:
+                 add.w   d1,d1
+                 beq.s   AudioChannelStop
+                 movea.l (a1,d1.w),a1
+-                adda.l  $18(a5),a1
+-                moveq   #0,d1
++                jsr     access
+                 move.b  (a1)+,d1
+                 move.l  a1,$4E(a0)
+                 add.w   d1,d1

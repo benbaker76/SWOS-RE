@@ -41,7 +41,7 @@ CIAA_CRA                                EQU $00BFEE01
 ; ===== END AMIGA CIAA REGISTERS =====
 
 ; ===== BSS REGION =====
-BSS_0_BASE                              EQU $00000000
+BSS_0_BASE                              EQU $00000400
 BSS_0_END                               EQU $00100000
 BSS_1_BASE                              EQU $0015736A
 BSS_1_END                               EQU $00200000
@@ -1466,159 +1466,25 @@ TEAMGENERALINFO_RESETCONTROLS_SIZE      EQU 2
 
 ; --- segment CHIP_RAM 00000000-001FFFFF ---
 ; [INFO] scanning CHIP_RAM...
-
-    SECTION bss,BSS
-    ORG $00000000
-
-; --- BSS_00 00000000-00100000 ---
-
-initial_sp:
-                ds.b $4
+NULL                                    EQU $0
                                         ; ; File Name   : D:\Systems\RE\SWOS2
                                         ; ; Format      : Binary file
                                         ; ; Base Address: 0000h Range: 100000h - 15736Ah Loaded length: 5736Ah
-initial_pc:
-                ds.b $4
-bus_error:
-                ds.b $4
-address_rrror:
-                ds.b $4
-illegal_insn:
-                ds.b $4
-divide_by_zero:
-                ds.b $4
-out_of_bounds:
-                ds.b $4
-trap:
-                ds.b $4
-privilege_violation:
-                ds.b $4
-trace:
-                ds.b $4
-line_a_emulator:
-                ds.b $4
-line_f_emulator:
-                ds.b $4
-BSS_00_padding_01:
-                ds.b $4
-coprocessor_protocol_violation:
-                ds.b $4
-format_error:
-                ds.b $4
-uninitialized_interrupt:
-                ds.b $4
-BSS_00_padding_02:
-                ds.b $2
-byte_42:
-                ds.b $1
-BSS_00_padding_03:
-                ds.b $B
-byte_4E:
-                ds.b $1
-BSS_00_padding_04:
-                ds.b $9
-byte_58:
-                ds.b $1
-BSS_00_padding_05:
-                ds.b $7
-spurious_interrupt:
-                ds.b $4
-level_1_interrupt_autovector:
-                ds.b $4
-level_2_interrupt_autovector:
-                ds.b $4
-level_3_interrupt_autovector:
-                ds.b $4
-level_4_interrupt_autovector:
-                ds.b $4
-level_5_interrupt_autovector:
-                ds.b $4
-level_6_interrupt_autovector:
-                ds.b $4
-level_7_interrupt_autovector:
-                ds.b $4
-trap_0_instruction:
-                ds.b $4
-trap_1_instruction:
-                ds.b $4
-trap_2_instruction:
-                ds.b $4
-trap_3_instruction:
-                ds.b $4
-trap_4_instruction:
-                ds.b $4
-trap_5_instruction:
-                ds.b $4
-trap_6_instruction:
-                ds.b $4
-trap_7_instruction:
-                ds.b $4
-trap_8_instruction:
-                ds.b $4
-trap_9_instruction:
-                ds.b $4
-trap_a_instruction:
-                ds.b $4
-trap_b_instruction:
-                ds.b $4
-trap_c_instruction:
-                ds.b $4
-trap_d_instruction:
-                ds.b $4
-trap_e_instruction:
-                ds.b $4
-trap_f_instruction:
-                ds.b $4
-fp_branch_or_set_on_unordered_condition:
-                ds.b $4
-fp_inexact_result:
-                ds.b $4
-fp_divide_by_zero:
-                ds.b $4
-fp_underflow:
-                ds.b $4
-fp_operand_error:
-                ds.b $4
-fp_overflow:
-                ds.b $4
-fp_signaling_nan:
-                ds.b $4
-padding_38:
-                ds.b $4
-mmu_configuration_error:
-                ds.b $4
-mmu_illegal_operation_error:
-                ds.b $4
-mmu_access_level_violation_error:
-                ds.b $4
-byte_EC:
-                ds.b $1
-BSS_00_padding_06:
-                ds.b $A
-byte_F7:
-                ds.b $1
-BSS_00_padding_07:
-                ds.b $2
-byte_FA:
-                ds.b $1
-BSS_00_padding_08:
-                ds.b $1
-byte_FC:
-                ds.b $1
-BSS_00_padding_09:
-                ds.b $1
-byte_FE:
-                ds.b $1
-BSS_00_padding_10:
-                ds.b $201
-byte_300:
-                ds.b $1
-BSS_00_padding_11:
-                ds.b $9F
-byte_3A0:
-                ds.b $1
-BSS_00_padding_12:
-                ds.b $5F
+DIVIDE_BY_ZERO                          EQU $14
+LEVEL_1_INTERRUPT_AUTOVECTOR            EQU $64
+LEVEL_2_INTERRUPT_AUTOVECTOR            EQU $68
+LEVEL_3_INTERRUPT_AUTOVECTOR            EQU $6C
+LEVEL_4_INTERRUPT_AUTOVECTOR            EQU $70
+LEVEL_5_INTERRUPT_AUTOVECTOR            EQU $74
+LEVEL_6_INTERRUPT_AUTOVECTOR            EQU $78
+LEVEL_7_INTERRUPT_AUTOVECTOR            EQU $7C
+BYTE_FC                                 EQU $FC
+
+    SECTION bss,BSS
+    ORG $00000400
+
+; --- BSS_00 00000400-00100000 ---
+
 g_pitchDatBuffer:
                 ds.b $2418
                                         ; this represents virtual pitch - array of pointers to
@@ -1630,47 +1496,47 @@ g_currentMenu:
 ; MenuEntry[100]
 g_menuEntries:
                 ds.b $15E0
-BSS_00_padding_13:
+BSS_00_padding_01:
                 ds.b $36E
 byte_417C:
                 ds.b $1
-BSS_00_padding_14:
+BSS_00_padding_02:
                 ds.b $7CF
 word_494C:
                 ds.b $2
-BSS_00_padding_15:
+BSS_00_padding_03:
                 ds.b $2AA
 word_4BF8:
                 ds.b $2
-BSS_00_padding_16:
+BSS_00_padding_04:
                 ds.b $12B2
 word_5EAC:
                 ds.b $2
-BSS_00_padding_17:
+BSS_00_padding_05:
                 ds.b $2AA
 word_6158:
                 ds.b $2
-BSS_00_padding_18:
+BSS_00_padding_06:
                 ds.b $802
 word_695C:
                 ds.b $2
-BSS_00_padding_19:
+BSS_00_padding_07:
                 ds.b $2AA
 byte_6C08:
                 ds.b $1
-BSS_00_padding_20:
+BSS_00_padding_08:
                 ds.b $2AB
 byte_6EB4:
                 ds.b $1
-BSS_00_padding_21:
+BSS_00_padding_09:
                 ds.b $2AB
 byte_7160:
                 ds.b $1
-BSS_00_padding_22:
+BSS_00_padding_10:
                 ds.b $EA3
 byte_8004:
                 ds.b $1
-BSS_00_padding_23:
+BSS_00_padding_11:
                 ds.b $361B
 competitionFilename:
                 ds.b $E
@@ -1690,7 +1556,7 @@ word_B6C0:
                 ds.b $2
 lastLoadedExtNumber:
                 ds.b $1
-BSS_00_padding_24:
+BSS_00_padding_12:
                 ds.b $1
 topTeamSaved:
                 ds.b $3FA
@@ -1699,22 +1565,22 @@ bottomTeamSaved:
 ; TeamGame
 topTeamInGame:
                 ds.b $2A
-BSS_00_padding_25:
+BSS_00_padding_13:
                 ds.b $3D0
 ; TeamGame
 bottomTeamInGame:
                 ds.b $2A
-BSS_00_padding_26:
+BSS_00_padding_14:
                 ds.b $3D0
 dword_C6AC:
                 ds.b $4
-BSS_00_padding_27:
+BSS_00_padding_15:
                 ds.b $5DC
 gameName:
                 ds.b $64
 gameRound:
                 ds.b $1
-BSS_00_padding_28:
+BSS_00_padding_16:
                 ds.b $63
 tact_4_4_2_Positions:
                 ds.b $B
@@ -1774,123 +1640,123 @@ panicReasonCode:
                 ds.b $2
 g_errorMessagePtr:
                 ds.b $4
-BSS_00_padding_29:
+BSS_00_padding_17:
                 ds.b $A
 panicRegDumpBlock:
                 ds.b $4
-BSS_00_padding_30:
+BSS_00_padding_18:
                 ds.b $3C
 byte_D6A6:
                 ds.b $1
-BSS_00_padding_31:
+BSS_00_padding_19:
                 ds.b $2571
 byte_FC18:
                 ds.b $1
 byte_FC19:
                 ds.b $1
-BSS_00_padding_32:
+BSS_00_padding_20:
                 ds.b $266
 byte_FE80:
                 ds.b $1
-BSS_00_padding_33:
+BSS_00_padding_21:
                 ds.b $2F
 byte_FEB0:
                 ds.b $1
-BSS_00_padding_34:
+BSS_00_padding_22:
                 ds.b $2F
 byte_FEE0:
                 ds.b $1
-BSS_00_padding_35:
+BSS_00_padding_23:
                 ds.b $25
 byte_FF06:
                 ds.b $1
-BSS_00_padding_36:
+BSS_00_padding_24:
                 ds.b $99
 byte_FFA0:
                 ds.b $1
-BSS_00_padding_37:
+BSS_00_padding_25:
                 ds.b $3F
 byte_FFE0:
                 ds.b $1
-BSS_00_padding_38:
+BSS_00_padding_26:
                 ds.b $F
 byte_FFF0:
                 ds.b $1
-BSS_00_padding_39:
+BSS_00_padding_27:
                 ds.b $C
 byte_FFFD:
                 ds.b $1
 byte_FFFE:
                 ds.b $1
-BSS_00_padding_40:
+BSS_00_padding_28:
                 ds.b $1
 kFixedOne_16p16:
                 ds.b $4
-BSS_00_padding_41:
+BSS_00_padding_29:
                 ds.b $773
 byte_10777:
                 ds.b $1
-BSS_00_padding_42:
+BSS_00_padding_30:
                 ds.b $202E
 nextGoalPtrSaved:
                 ds.b $2
 frontbufferBase:
                 ds.b $4
-BSS_00_padding_43:
+BSS_00_padding_31:
                 ds.b $1854
 byte_14000:
                 ds.b $1
-BSS_00_padding_44:
+BSS_00_padding_32:
                 ds.b $A359
 frontbufferBaseAlt:
                 ds.b $4
-BSS_00_padding_45:
+BSS_00_padding_33:
                 ds.b $1CA1
 vposrLineMask:
                 ds.b $1
 byte_20000:
                 ds.b $1
-BSS_00_padding_46:
+BSS_00_padding_34:
                 ds.b $3
 byte_20004:
                 ds.b $1
-BSS_00_padding_47:
+BSS_00_padding_35:
                 ds.b $32E
 byte_20333:
                 ds.b $1
-BSS_00_padding_48:
+BSS_00_padding_36:
                 ds.b $9BD8
 plane0StartWordAddr0:
                 ds.b $4
-BSS_00_padding_49:
+BSS_00_padding_37:
                 ds.b $380
 plane1StartWordAddr0:
                 ds.b $4
-BSS_00_padding_50:
+BSS_00_padding_38:
                 ds.b $380
 plane2StartWordAddr0:
                 ds.b $4
-BSS_00_padding_51:
+BSS_00_padding_39:
                 ds.b $380
 plane3StartWordAddr0:
                 ds.b $4
-BSS_00_padding_52:
+BSS_00_padding_40:
                 ds.b $380
 plane0StartWordAddr1:
                 ds.b $4
-BSS_00_padding_53:
+BSS_00_padding_41:
                 ds.b $380
 plane1StartWordAddr1:
                 ds.b $4
-BSS_00_padding_54:
+BSS_00_padding_42:
                 ds.b $380
 plane2StartWordAddr1:
                 ds.b $4
-BSS_00_padding_55:
+BSS_00_padding_43:
                 ds.b $380
 plane3StartWordAddr1:
                 ds.b $4
-BSS_00_padding_56:
+BSS_00_padding_44:
                 ds.b $380
 plane0WritePtr:
                 ds.b $4
@@ -1904,7 +1770,7 @@ copperListBuffer:
                 ds.b $140
 copperZeroLong:
                 ds.b $4
-BSS_00_padding_57:
+BSS_00_padding_45:
                 ds.b $2
 bootTemp0:
                 ds.b $2
@@ -1934,31 +1800,31 @@ dword_2BCF8:
                 ds.b $4
 renderStackBase:
                 ds.b $1
-BSS_00_padding_58:
+BSS_00_padding_46:
                 ds.b $347
 dword_2C044:
                 ds.b $4
 plane01RenderStackBase:
                 ds.b $1
-BSS_00_padding_59:
+BSS_00_padding_47:
                 ds.b $167
 plane23RenderStackPtr:
                 ds.b $4
 plane23RenderStackBase:
                 ds.b $1
-BSS_00_padding_60:
+BSS_00_padding_48:
                 ds.b $167
 kSpriteBlitQueueSentinel_A:
                 ds.b $2
-BSS_00_padding_61:
+BSS_00_padding_49:
                 ds.b $BB6
 kSpriteBlitQueueSentinel_B:
                 ds.b $2
-BSS_00_padding_62:
+BSS_00_padding_50:
                 ds.b $BB6
 spriteBlitQueue:
                 ds.b $4
-BSS_00_padding_63:
+BSS_00_padding_51:
                 ds.b $2
 ballSpeed:
                 ds.b $2
@@ -1974,11 +1840,11 @@ word_2DA9C:
                 ds.b $2
 dseg_114EB0:
                 ds.b $2
-BSS_00_padding_64:
+BSS_00_padding_52:
                 ds.b $10
 dword_2DAB0:
                 ds.b $4
-BSS_00_padding_65:
+BSS_00_padding_53:
                 ds.b $1C
 diyFileBufferCopy:
                 ds.b $2
@@ -1986,11 +1852,11 @@ word_2DAD2:
                 ds.b $2
 byte_2DAD4:
                 ds.b $1
-BSS_00_padding_66:
+BSS_00_padding_54:
                 ds.b $27
 word_2DAFC:
                 ds.b $2
-BSS_00_padding_67:
+BSS_00_padding_55:
                 ds.b $2
 byte_2DB00:
                 ds.b $1
@@ -2010,7 +1876,7 @@ word_2DB0A:
                 ds.b $2
 word_2DB0C:
                 ds.b $2
-BSS_00_padding_68:
+BSS_00_padding_56:
                 ds.b $6
 word_2DB14:
                 ds.b $2
@@ -2020,13 +1886,13 @@ word_2DB18:
                 ds.b $2
 byte_2DB1A:
                 ds.b $1
-BSS_00_padding_69:
+BSS_00_padding_57:
                 ds.b $1
 word_2DB1C:
                 ds.b $2
 word_2DB1E:
                 ds.b $2
-BSS_00_padding_70:
+BSS_00_padding_58:
                 ds.b $2
 word_2DB22:
                 ds.b $2
@@ -2038,11 +1904,11 @@ word_2DB28:
                 ds.b $2
 word_2DB2A:
                 ds.b $2
-BSS_00_padding_71:
+BSS_00_padding_59:
                 ds.b $3E
 byte_2DB6A:
                 ds.b $1
-BSS_00_padding_72:
+BSS_00_padding_60:
                 ds.b $385
 DIY_competitionStart:
                 ds.b $2
@@ -2050,13 +1916,13 @@ word_2DEF2:
                 ds.b $2
 diyLeagueName:
                 ds.b $23
-BSS_00_padding_73:
+BSS_00_padding_61:
                 ds.b $1
 dword_2DF18:
                 ds.b $4
 word_2DF1C:
                 ds.b $2
-BSS_00_padding_74:
+BSS_00_padding_62:
                 ds.b $1
 byte_2DF1F:
                 ds.b $1
@@ -2080,7 +1946,7 @@ word_2DF2C:
                 ds.b $2
 diySelectedButtonOrd:
                 ds.b $2
-BSS_00_padding_75:
+BSS_00_padding_63:
                 ds.b $2
 diySavedEntryOrd:
                 ds.b $2
@@ -2094,7 +1960,7 @@ word_2DF3A:
                 ds.b $2
 word_2DF3C:
                 ds.b $2
-BSS_00_padding_76:
+BSS_00_padding_64:
                 ds.b $2
 word_2DF40:
                 ds.b $2
@@ -2122,29 +1988,29 @@ diyLeagueMaxSubstitutes:
                 ds.b $2
 word_2DF58:
                 ds.b $2
-BSS_00_padding_77:
+BSS_00_padding_65:
                 ds.b $4
 word_2DF5E:
                 ds.b $2
-BSS_00_padding_78:
+BSS_00_padding_66:
                 ds.b $1A
 word_2DF7A:
                 ds.b $2
-BSS_00_padding_79:
+BSS_00_padding_67:
                 ds.b $62
 word_2DFDE:
                 ds.b $2
-BSS_00_padding_80:
+BSS_00_padding_68:
                 ds.b $3E
 word_2E01E:
                 ds.b $2
-BSS_00_padding_81:
+BSS_00_padding_69:
                 ds.b $1A
 word_2E03A:
                 ds.b $2
 word_2E03C:
                 ds.b $2
-BSS_00_padding_82:
+BSS_00_padding_70:
                 ds.b $70
 word_2E0AE:
                 ds.b $2
@@ -2154,71 +2020,71 @@ word_2E0B2:
                 ds.b $2
 word_2E0B4:
                 ds.b $2
-BSS_00_padding_83:
+BSS_00_padding_71:
                 ds.b $88
 word_2E13E:
                 ds.b $2
-BSS_00_padding_84:
+BSS_00_padding_72:
                 ds.b $7E
 word_2E1BE:
                 ds.b $2
-BSS_00_padding_85:
+BSS_00_padding_73:
                 ds.b $3E
 word_2E1FE:
                 ds.b $2
-BSS_00_padding_86:
+BSS_00_padding_74:
                 ds.b $1E
 word_2E21E:
                 ds.b $2
 word_2E220:
                 ds.b $2
-BSS_00_padding_87:
+BSS_00_padding_75:
                 ds.b $402
 imageCmdWorkbuf:
                 ds.b $8CA
-BSS_00_padding_88:
+BSS_00_padding_76:
                 ds.b $ACA
 byte_2F9B8:
                 ds.b $1
-BSS_00_padding_89:
+BSS_00_padding_77:
                 ds.b $758
 byte_30111:
                 ds.b $1
-BSS_00_padding_90:
+BSS_00_padding_78:
                 ds.b $E4EE
 g_menuInsBank:
                 ds.b $2
-BSS_00_padding_91:
+BSS_00_padding_79:
                 ds.b $19FE
 byte_40000:
                 ds.b $1
-BSS_00_padding_92:
+BSS_00_padding_80:
                 ds.b $9131
 g_menuSongData:
                 ds.b $1
-BSS_00_padding_93:
+BSS_00_padding_81:
                 ds.b $5BF
 byte_496F2:
                 ds.b $1
-BSS_00_padding_94:
+BSS_00_padding_82:
                 ds.b $4B
 byte_4973E:
                 ds.b $1
-BSS_00_padding_95:
+BSS_00_padding_83:
                 ds.b $25F
 numberOfFiles:
                 ds.b $2
-BSS_00_padding_96:
+BSS_00_padding_84:
                 ds.b $2
 foundFilenamesBuffer:
                 ds.b $77E
 teamFileBuffer:
                 ds.b $FA0E
-BSS_00_padding_97:
+BSS_00_padding_85:
                 ds.b $DAFA
 byte_67628:
                 ds.b $1
-BSS_00_padding_98:
+BSS_00_padding_86:
                 ds.b $17
 dword_67640:
                 ds.b $4
@@ -2259,31 +2125,31 @@ poolplyrLoaded:
                                         ; !0 = yes
 poolplyrDatBuffer:
                 ds.b $CBE8
-BSS_00_padding_99:
+BSS_00_padding_87:
                 ds.b $4B64
 g_sfxInsBank2:
                 ds.b $1
-BSS_00_padding_100:
+BSS_00_padding_88:
                 ds.b $7251
 byte_80000:
                 ds.b $1
-BSS_00_padding_101:
+BSS_00_padding_89:
                 ds.b $CA59
 g_sfxSongData:
                 ds.b $1
-BSS_00_padding_102:
+BSS_00_padding_90:
                 ds.b $10B9
 frontbufferPlaneOffset:
                 ds.b $4
-BSS_00_padding_103:
+BSS_00_padding_91:
                 ds.b $BBB0
 highestScorersTable:
                 ds.b $1
-BSS_00_padding_104:
+BSS_00_padding_92:
                 ds.b $1D
 byte_996E6:
                 ds.b $1
-BSS_00_padding_105:
+BSS_00_padding_93:
                 ds.b $3D
 inMenuKeyboardBuffer:
                 ds.b $64
@@ -2298,7 +2164,7 @@ g_exitMenu:
                 ds.b $2
 g_spriteGraphicsPtrSaved:
                 ds.b $2
-BSS_00_padding_106:
+BSS_00_padding_94:
                 ds.b $130E
 numSpritesToRender:
                 ds.b $2
@@ -2361,7 +2227,7 @@ aCj0611143807:
 ; ===== start =====
 ; prototype: void __usercall start()
 start:
-                move.l  #loc_1000D0,(divide_by_zero).w
+                move.l  #loc_1000D0,(DIVIDE_BY_ZERO).w
                 divu.w  #0,d0
 loc_1000D0:
                 movea.l #$CC8C,sp
@@ -2394,9 +2260,9 @@ loc_100140:
                 bne.s   loc_100140
                 move.w  #$8340,(DMACON).l
                 move.w  #$400,(DMACON).l
-                move.l  #Int12KeyboardHandler,(level_2_interrupt_autovector).w
-                move.l  #Int13TimerHandler,(level_3_interrupt_autovector).w
-                move.l  #Level4InterruptHandler,(level_4_interrupt_autovector).w
+                move.l  #Int12KeyboardHandler,(LEVEL_2_INTERRUPT_AUTOVECTOR).w
+                move.l  #Int13TimerHandler,(LEVEL_3_INTERRUPT_AUTOVECTOR).w
+                move.l  #Level4InterruptHandler,(LEVEL_4_INTERRUPT_AUTOVECTOR).w
                 jsr     SetupInterrupts
                 move.b  #$88,(CIAA_ICR).l
                 move.w  #$C008,(INTENA).l
@@ -5075,7 +4941,9 @@ finalize_bltsize:
                 ori.w   #1,d0
                 move.w  d0,(copperListBuffer+$118).l
                 rts
+; unsigned __int16[160]
 copperListTemplate:
+                ; unsigned __int16[160]
                 dc.w 5121,-2,288,0,290,0,292,0
                 dc.w 294,0,296,0,298,0,300,0
                 dc.w 302,0,304,0,306,0,308,0
@@ -6750,9 +6618,9 @@ word_103994:
 ; ===== SetupInterrupts =====
 ; prototype: void __usercall SetupInterrupts()
 SetupInterrupts:
-                move.l  (level_3_interrupt_autovector).w,(level_1_interrupt_autovector).w
-                move.l  #interrupt_l3_2,(level_3_interrupt_autovector).w
-                move.l  #interrupt_l5,(level_5_interrupt_autovector).w
+                move.l  (LEVEL_3_INTERRUPT_AUTOVECTOR).w,(LEVEL_1_INTERRUPT_AUTOVECTOR).w
+                move.l  #interrupt_l3_2,(LEVEL_3_INTERRUPT_AUTOVECTOR).w
+                move.l  #interrupt_l5,(LEVEL_5_INTERRUPT_AUTOVECTOR).w
                 move.w  #%1100100000100100,(INTENA).l ; Master interrupt
                                         ; Serial port receive buffer full
                                         ; Start of vertical blank
@@ -9765,7 +9633,7 @@ _105D60_copy_bootstrap_blob_to_exec_loop:
                 clr.w   d1
                 lea     (g_irqCookieObfuscated).l,a3
                 clr.l   (g_irqCookieObfuscated).l
-                jsr     (g_currentMenu+MENU_ONDRAW+2).l
+                jsr     ($2822).l
                 move.l  (g_irqCookieObfuscated).l,d0
                 eori.l  #$715828D4,d0
                 cmpi.l  #$1628,d0
@@ -9795,7 +9663,7 @@ _105DC6_copy_bootstrap_blob_to_exec_loop:
                 clr.w   d1
                 lea     (g_irqCookieObfuscated).l,a3
                 clr.l   (g_irqCookieObfuscated).l
-                jsr     (g_currentMenu+MENU_INITFUNC).l
+                jsr     ($2818).l
                 move.l  (g_irqCookieObfuscated).l,d0
                 eori.l  #$CFD1F9CF,d0
                 cmpi.l  #$1628,d0
@@ -16640,7 +16508,7 @@ loc_10C198:
                 move.w  (gameMaxSubstitutes).l,(hilMaxSubstitutes).l
                 rts
 kHilFileSig:
-                dc.l address_rrror      ; every *.hil file starts with this dword
+                dc.l $0000000C          ; every *.hil file starts with this dword
 
 ; ===== SaveHighlightsPointers =====
 ; prototype: void __usercall SaveHighlightsPointers()
@@ -70640,7 +70508,7 @@ designDiyTournamentMenu:
                 dc.w $0000              ; background color: yellow-to-green-to-black, no outer frame, no inner frame
                 dc.w $0008              ; type 8 - entry text pointer
                 dc.w $0000              ; string flags: color = white, font = small, alignment = center
-                dc.l initial_pc
+                dc.l $00000004          ; raw
                 dc.w $0000              ; -= end entry 34 =-
                 dc.w -1                 ; byte coords
                 dc.b "q"                ; x (35)
@@ -72980,7 +72848,7 @@ friendlyGameMenu:
                 dc.l FriendlyMenuInit   ; on init function
                 dc.l FriendlyMenuReinit ; on return function
                 dc.l 0                  ; on draw function
-                dc.l bus_error          ; -= default entry =-
+                dc.l $00000008          ; -= default entry =-
                 dc.w -1                 ; byte coords
                 dc.b $5C                ; x (0)
                 dc.b $00                ; y
@@ -78847,7 +78715,7 @@ careerOverMenu:
                 dc.l CareerOverInit     ; on init function
                 dc.l CareerOverFinish   ; on return function
                 dc.l 0                  ; on draw function
-                dc.l initial_pc         ; -= default entry =-
+                dc.l $00000004          ; -= default entry =-
                 dc.w -1                 ; byte coords
                 dc.b $00                ; x (0)
                 dc.b $00                ; y
@@ -86820,7 +86688,7 @@ selectFilesMenu:
                 dc.l SelectFilesInit    ; on init function
                 dc.l SelectFilesOnReturn ; on return function
                 dc.l 0                  ; on draw function
-                dc.l illegal_insn       ; -= default entry =-
+                dc.l $00000010          ; -= default entry =-
                 dc.w $0002              ; x (0)
                 dc.w $0000              ; y
                 dc.w $012C              ; width
@@ -97166,7 +97034,7 @@ selectNationalTeamMenu:
                 dc.l SelectNationalTeamInit ; on init function
                 dc.l SelectNationalTeamFinish ; on return function
                 dc.l 0                  ; on draw function
-                dc.l initial_pc         ; -= default entry =-
+                dc.l $00000004          ; -= default entry =-
                 dc.w $0039              ; x (0)
                 dc.w -10                ; y
                 dc.w $00BE              ; width
@@ -101267,7 +101135,7 @@ jobOffersMenu:
                 dc.l JobOffersInit      ; on init function
                 dc.l JobOffersFinish    ; on return function
                 dc.l 0                  ; on draw function
-                dc.l address_rrror      ; -= default entry =-
+                dc.l $0000000C          ; -= default entry =-
                 dc.w -1                 ; byte coords
                 dc.b $5C                ; x (0)
                 dc.b $00                ; y
@@ -103502,7 +103370,7 @@ editTacticsMenu:
                 dc.l EditTacticsInit    ; on init function
                 dc.l EditTacticsOnRestore ; on return function
                 dc.l 0                  ; on draw function
-                dc.l bus_error          ; -= default entry =-
+                dc.l $00000008          ; -= default entry =-
                 dc.w -1                 ; byte coords
                 dc.b -121               ; x (0)
                 dc.b $00                ; y
@@ -109515,7 +109383,7 @@ worldTable:
 ; __int8 *[6]
 europeTable:
                 ; __int8 *[6]
-                dc.l byte_FC            ; element[0]
+                dc.l BYTE_FC            ; element[0]
                 dc.l europeanChampionships ; element[1]
                 dc.l euroCup            ; element[2]
                 dc.l cupWinnersCup      ; element[3]
