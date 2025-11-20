@@ -1,31 +1,35 @@
 #include "SWOS2.h"
 
 
-dword dword_C6AC;
-undefined4 DAT_0000cc88;
-dword frontbufferBase;
-undefined LAB_00107446;
-dword frontbufferBaseAlt;
-undefined Int12KeyboardHandler;
 undefined Int13TimerHandler;
-dword divide_by_zero;
+dword dword_1573CC;
+undefined4 DAT_0000cc88;
+undefined LAB_00107446;
+dword DIVIDE_BY_ZERO;
 ushort DMACON;
 ushort INTENA;
+dword LEVEL_2_INTERRUPT_AUTOVECTOR;
 dword frontbufferPlaneOffset;
-byte byte_17FFF6;
+dword LEVEL_3_INTERRUPT_AUTOVECTOR;
+dword LEVEL_4_INTERRUPT_AUTOVECTOR;
 short COLOR00;
-dword level_2_interrupt_autovector;
 byte[9240] g_pitchDatBuffer;
-dword level_3_interrupt_autovector;
-dword dword_1573CC;
-dword level_4_interrupt_autovector;
+dword dword_C6AC;
 undefined1 CIAA_PRA;
 undefined1 CIAA_DDRA;
 undefined1 CIAA_ICR;
+dword frontbufferBase;
 dword g_loaderBankBitmap;
+byte byte_17FFF6;
+dword frontbufferBaseAlt;
 dword g_loaderMemTop;
-byte byte_10055C;
+undefined Int12KeyboardHandler;
 undefined assetSysJumpTable;
+byte byte_10055C;
+char *[4] kDriveListPtrs;
+dword g_assetBasePtr;
+dword g_assetAltBasePtr;
+dword[4] g_assetSourceVec;
 dword g_assetSource0;
 dword g_assetSource1;
 dword g_assetSource2;
@@ -33,10 +37,6 @@ dword g_assetSource3;
 word g_assetCurrentSourceSlot;
 word g_assetCurrentIndex;
 word g_assetIndexStartBytes;
-char *[4] kDriveListPtrs;
-dword g_assetBasePtr;
-dword g_assetAltBasePtr;
-dword[4] g_assetSourceVec;
 word word_1003CC;
 word word_100408;
 word g_assetSavedSourceSlot;
@@ -49,17 +49,17 @@ word word_100E2A;
 word word_100E2C;
 word word_100E2E;
 word word_100E30;
+undefined DAT_0000000b;
+dword NULL;
 undefined4 UNK_00000138;
-dword initial_sp;
 undefined4 UNK_0000013c;
 undefined4 UNK_000001fc;
 uint UNK_00000200;
-dword address_rrror;
 byte[32] byte_100E34;
 undefined1 CIAB_PRB;
-ushort INTREQR;
 ushort DSKLEN;
 ushort INTREQ;
+ushort INTREQR;
 undefined4 DAT_00dff020;
 ushort ADKCON;
 undefined2 DAT_00dff07e;
@@ -69,16 +69,13 @@ byte[8] byte_1016AA;
 undefined CIAB_CRA;
 undefined CIAB_TALO;
 undefined CIAB_TAHI;
-uint VPOSR;
-word keyDelay;
-byte keyIn;
-word keyCount;
-byte[12] keyBuffer;
 undefined1 CIAA_SDR;
 undefined1 CIAA_CRA;
-word writeOnly01;
-byte audioDbgFlagA;
-word lastVBlankServiceTick;
+word keyDelay;
+byte keyIn;
+uint VPOSR;
+word keyCount;
+byte[12] keyBuffer;
 word g_audioActive;
 word showingUserStats;
 word paused;
@@ -89,30 +86,38 @@ word didSwapThisFrame;
 FixedPoint_ g_cameraX;
 FixedPoint_ g_cameraY;
 word debug_mode;
+word writeOnly01;
+byte audioDbgFlagA;
+word lastVBlankServiceTick;
 byte[128] keycodeLut;
 word currentKey;
-ushort DMACONR;
-word kSpriteBlitQueueSentinel_A;
-word kSpriteBlitQueueSentinel_B;
-dword plane0StartWordAddr0;
-dword plane1StartWordAddr0;
 uint COP1LC;
-dword plane2StartWordAddr0;
 ushort COPJMP1;
-dword plane3StartWordAddr0;
 dword plane0WritePtr;
 dword plane1WritePtr;
 dword plane2WritePtr;
 dword plane3WritePtr;
 word[160] copperListBuffer;
 dword copperZeroLong;
-word[160] copperListTemplate;
+ushort[160] copperListTemplate;
 dword g_frontbufferBase;
 dword g_frontbufferBaseAlt;
+word kSpriteBlitQueueSentinel_A;
+ushort DMACONR;
+word kSpriteBlitQueueSentinel_B;
+dword plane0StartWordAddr0;
+dword plane1StartWordAddr0;
+dword plane2StartWordAddr0;
+dword plane3StartWordAddr0;
+word cameraYMod320;
 word useAltBaseFlag;
 word[8] usePlaneOffsetFlag;
 word cameraXMod320;
-word cameraYMod320;
+dword plane0StartWordAddr1;
+word cameraYSaved1;
+dword plane1StartWordAddr1;
+dword plane2StartWordAddr1;
+dword plane3StartWordAddr1;
 dword spriteBlitQueue;
 word g_oldCameraX;
 word g_oldCameraY;
@@ -127,30 +132,17 @@ word dstYStartLinesSaved1;
 word oldCameraXSaved1;
 word oldCameraYSaved1;
 word cameraXSaved1;
-dword plane0StartWordAddr1;
-word cameraYSaved1;
-dword plane1StartWordAddr1;
-dword plane2StartWordAddr1;
-dword plane3StartWordAddr1;
 undefined2 DAT_00dff100;
 ushort CIAB_ICR;
-byte pl2Fire;
-word paletteBankIndex;
-CharTable bigCharsTable;
-word pl1Direction;
 byte[3] panicFormatStr;
 byte[105] panicOutBuf;
 byte pl1Fire;
 word panicReasonCode;
 word pl2Direction;
-byte pl1WasLeft;
-byte pl1WasRight;
-ushort JOY1DAT;
-byte pl1WasUp;
-byte pl1WasDown;
-byte pl1LastFired;
-byte pl1Left;
-byte pl1Right;
+byte pl2Fire;
+word paletteBankIndex;
+CharTable bigCharsTable;
+word pl1Direction;
 byte pl1Up;
 byte pl1Down;
 byte pl1UpRight;
@@ -163,14 +155,14 @@ byte pl1UpPress;
 byte pl1DownPress;
 byte pl1ShortFire;
 word pl1FireCounter;
-byte pl2UpRight;
-ushort JOY0DAT;
-byte pl2UpLeft;
-byte pl2DownRight;
-byte pl2DownLeft;
-byte pl2LeftPress;
-byte pl2RightPress;
-byte pl2UpPress;
+byte pl1WasLeft;
+byte pl1WasRight;
+byte pl1WasUp;
+byte pl1WasDown;
+byte pl1LastFired;
+ushort JOY1DAT;
+byte pl1Left;
+byte pl1Right;
 byte pl2DownPress;
 byte pl2ShortFire;
 word pl2FireCounter;
@@ -183,6 +175,14 @@ byte pl2Left;
 byte pl2Right;
 byte pl2Up;
 byte pl2Down;
+byte pl2UpRight;
+byte pl2UpLeft;
+byte pl2DownRight;
+byte pl2DownLeft;
+ushort JOY0DAT;
+byte pl2LeftPress;
+byte pl2RightPress;
+byte pl2UpPress;
 undefined2 DAT_00dff044;
 undefined2 DAT_00dff046;
 undefined2 DAT_00dff042;
@@ -193,11 +193,11 @@ undefined2 DAT_00dff064;
 undefined2 DAT_00dff066;
 undefined2 DAT_00dff058;
 pointer swcPitchMapFiles;
-TeamGame bottomTeamInGame;
-Menu g_currentMenu;
 word fansSidesSwapped;
 word[16] pitchFansConvertTable;
 TeamGame topTeamInGame;
+TeamGame bottomTeamInGame;
+Menu g_currentMenu;
 word cameraCoordinatesValid;
 short DAT_00dff064;
 short DAT_00dff066;
@@ -217,26 +217,26 @@ word fadeStep;
 word fadeInitFlag;
 dword dword_67640;
 word playGame;
-dword dword_67648;
 word playHighlightFlag;
 word g_menuInsBank;
+dword dword_67648;
+word currentSpriteIndex;
 SpriteGraphics * *g_spriteGraphicsPtr;
 word useIndividualPlayerSkinColor;
-word currentSpriteIndex;
 undefined LAB_001039b8;
 undefined LAB_001039de;
-dword level_1_interrupt_autovector;
-dword level_5_interrupt_autovector;
+dword LEVEL_1_INTERRUPT_AUTOVECTOR;
+dword LEVEL_5_INTERRUPT_AUTOVECTOR;
 dword oldStackPtr;
 pointer tmpStackPtr;
 undefined LAB_00103c34;
 short[16] partialSpanMaskTable;
 ushort[16] tailMaskTable;
 int DAT_00dff04c;
-word[16] firstWordMaskTable;
-word[16] lastWordMaskTable;
 short DAT_00dff062;
 ushort DAT_00dff058;
+word[16] firstWordMaskTable;
+word[16] lastWordMaskTable;
 dword DAT_00dff054;
 dword *DAT_00dff050;
 undefined2 DAT_00dff074;
@@ -248,21 +248,21 @@ short DAT_00dff060;
 short WORD_00104932;
 int DWORD_00104934;
 int DWORD_00104938;
-dword dword_2BCF8;
 Sprite goalie1Sprite;
 byte renderStackBase;
 Sprite team2Player11Sprite;
-dword plane23RenderStackPtr;
-byte plane23RenderStackBase;
+dword dword_2BCF8;
 dword dword_2C044;
 byte plane01RenderStackBase;
-byte[52] occlMinYBucketsActive;
+dword plane23RenderStackPtr;
+byte plane23RenderStackBase;
 word overlayActiveFlag;
 word numSpritesToRender;
 dword[78] sortedSprites;
 word plane01BandTopY;
 word plane23BandTopY;
 byte[10] occlMinYBuckets;
+byte[52] occlMinYBucketsActive;
 Sprite *[79] allSpritesArray;
 int DWORD_0010510c;
 word DAT_00dff042;
@@ -281,32 +281,32 @@ word dstRowBytesPerPlane;
 byte[56] dstRowAdvanceBytes;
 dword g_assetLoaderCacheFlag;
 word g_assetLoaderAltPathReady;
-dword g_irqCookieObfuscated;
-word g_assetParamBlock;
 word crowdEventFlags;
 uchar[2226] LoaderBootstrapBlobPI;
+word g_assetParamBlock;
+dword g_irqCookieObfuscated;
 dword g_assetLoaderWorkPtr;
-byte[24] surnameBuf;
-undefined j_start;
 byte byte_80000;
 byte byte_CF13E;
+byte[24] surnameBuf;
+undefined j_start;
+word sfxQueueCount;
+word sfxQueueWriteIdx;
 word goalCounter;
 word currentCrowdSample;
 word crowdChantVolume;
 word patternsGoalCounter;
 word showFansCounter;
-word sfxQueueCount;
-word sfxQueueWriteIdx;
 word fadeInChantTimer;
 word g_crowdChantsOn;
 word nextChantTimer;
 word fadeOutChantTimer;
-word g_trainingGame;
 word[4] crowdSamples;
-string aSoundSfxSng;
-string aSoundSfxIn1;
+word g_trainingGame;
 string aSoundSfxIn2;
 word g_audioBankLoaded;
+string aSoundSfxSng;
+string aSoundSfxIn1;
 byte[52200] poolplyrDatBuffer;
 byte g_sfxSongData;
 string aSoundMenuSng;
@@ -316,15 +316,15 @@ word endOfHalfWriteOnly;
 word lastKickSampleTick;
 word pendingSampleId3_4;
 word gameState;
-byte[22] audioPresetChannelCmdTable;
-byte audioCounter;
-byte[11] audioFlags;
 byte[176] audioChannel0;
 byte[176] audioChannel1;
 byte[176] audioChannel2;
 byte[176] audioChannel3;
-byte[12] audioState;
+byte[22] audioPresetChannelCmdTable;
+byte audioCounter;
+byte[11] audioFlags;
 ushort AUD0LC;
+byte[12] audioState;
 ushort AUD1LC;
 ushort AUD2LC;
 ushort AUD3LC;
@@ -335,21 +335,13 @@ undefined2 DAT_00dff0d8;
 word[36] kAmigaNotePeriodTable;
 short[1024] kAngleCoeficients;
 Sprite *[11] team1SpritesTable;
+word goalScored;
 Sprite *lastPlayerScored;
 word lastTeamScoredNumber;
-word goalScored;
 word gameStatePl;
 AnimTable playerNormalStandingAnimTable;
 word breakCameraMode;
 Sprite ballSprite;
-dword[16] nextCameraDirections;
-word cameraXVelocity;
-word cameraYVelocity;
-word g_substituteInProgress;
-Sprite goal1TopSprite;
-Sprite goal2BottomSprite;
-word whichCard;
-Sprite *bookedPlayer;
 TeamGeneralInfo *lastTeamPlayedBeforeBreak;
 word g_inSubstitutesMenu;
 word g_leavingSubsMenu;
@@ -359,9 +351,23 @@ word penaltiesState;
 word g_benchXLimit;
 dword maxCameraMovement;
 word playingPenalties;
+dword[16] nextCameraDirections;
+word cameraXVelocity;
+word cameraYVelocity;
+word g_substituteInProgress;
+Sprite goal1TopSprite;
+Sprite goal2BottomSprite;
+word whichCard;
+Sprite *bookedPlayer;
+word hideBall;
+word foulXCoordinate;
+word foulYCoordinate;
+word kBallGroundConstant;
+word ballNextX;
 word kBallAirConstant;
 word ballNextY;
 word ballSpeedBounceFactor;
+byte byte_20004;
 word ballQuadrantIndex;
 word ballBounceFactor;
 word ballXQuadrantDead;
@@ -380,62 +386,47 @@ TeamGeneralInfo bottomTeamData;
 word writeOnlyVar04;
 short[5] ballMovingFrameIndices;
 short[3] ballStaticFrameIndices;
-word hideBall;
-byte byte_20004;
-word foulXCoordinate;
-word foulYCoordinate;
-word kBallGroundConstant;
-word ballNextX;
 word[28] dseg_17DEF4;
 word[7] kGoalKeeperClaimingBallHeight;
 Sprite goalie2Sprite;
+Sprite refereeSprite;
 word refWaitingAnimTable;
 word refState;
-Sprite refereeSprite;
 word[2] kRefereeSpeed;
 word refComingAnimTable;
 word refYellowCardAnimTable;
 word refRedCardAnimTable;
 word refSecondYellowAnimTable;
 word[7] injuriesForever;
-dword[8] advert1Pointers;
 dword[8] advert2Pointers;
 dword[8] advert3Pointers;
+dword[8] advert1Pointers;
 word advertIndex;
 word advertSlideTimer;
 word currentAnimatedAdLine;
 Sprite[8] advertInGameSprites;
-word goalCameraMode;
 word frameCount;
 word blockAdvertisements;
+word goalCameraMode;
 Sprite cornerFlagSprite;
 byte[32] cornerFlagPictureIndices;
-word currentPlayerIndicatorPosition;
-word lastFrameTicks;
 word g_subsState;
 Sprite big_S_Sprite;
 word statsTimer;
 word g_spinBigS;
 word big_S_index;
+word currentPlayerIndicatorPosition;
+word lastFrameTicks;
 byte[32] plNamesLengthTable;
 char[16] numberBuffer;
 CharTable smallCharsTable;
 byte[32] plOrdinalsTable;
 byte[32] plNamesLengthTableCopy;
-TeamGame *topTeamPtr;
-TeamGame *bottomTeamPtr;
 word pitchNumberAndType;
 byte[1018] topTeamSaved;
 byte[1018] bottomTeamSaved;
-word dontShowScorers;
-word[7] kBallSpeedBounceFactorTable;
-word[7] kBallBounceFactorTable;
-short[7] kPitchBallSpeedInfluence;
-word showStats;
-word timeDelta;
-word[4] gameLenSecondsTable;
-word playerCardChance;
-pointer playerCardChancesPerGameLength;
+TeamGame *topTeamPtr;
+TeamGame *bottomTeamPtr;
 word subsTeamsSwapped;
 word g_cameraLeavingSubsTimer;
 word benchOff;
@@ -446,8 +437,8 @@ word team2TotalGoals;
 word team1GoalsDigit2;
 word team2GoalsDigit2;
 word team1GoalsDigit1;
-word gameRandValue;
 word team2GoalsDigit1;
+word gameRandValue;
 word team1NumSubs;
 word team2NumSubs;
 word team1GoalkeeperReplaced;
@@ -456,45 +447,52 @@ pointer currentCopperList;
 TeamStatisticsData team1StatsData;
 TeamStatisticsData team2StatsData;
 word[16] g_copperList;
-word secondLeg;
 short *[7] kPaletteTripletPtrs;
+word secondLeg;
 word gameLengthInGame;
 word team1GoalsFirstLeg;
 word team2GoalsFirstLeg;
 word teamStarting;
 word teamPlayingUp;
-word team1NameLength;
-word team2NameLength;
+word dontShowScorers;
+word[7] kBallSpeedBounceFactorTable;
+word[7] kBallBounceFactorTable;
+short[7] kPitchBallSpeedInfluence;
+word showStats;
+word timeDelta;
+word[4] gameLenSecondsTable;
+word playerCardChance;
+pointer playerCardChancesPerGameLength;
+byte byte_10AE4A;
 word team1MostFrequentFace;
+byte byte_10AE4B;
 word team2MostFrequentFace;
+dword dword_67644;
 byte[4] facesFrequency;
 word[16] team1PlayersColorTable;
 word[16] team2PlayersColorTable;
-byte byte_10AE4A;
 word[32] colorTableReserves;
-pointer teamFilenamesTable;
-byte byte_10AE4B;
 word[87] bigNumbersColorConversionTable;
 pointer skinAndHairColorConversionTable;
-dword dword_67644;
 byte[3] team1GoalieFaceToPosition;
+pointer teamFilenamesTable;
 byte[3] team2GoalieFaceToPosition;
 byte team1GoalieFaces;
 byte team2GoalieFaces;
 dword team1Filename;
 dword team2Filename;
+word team1NameLength;
+word team2NameLength;
 Sprite *[11] team2SpritesTable;
+word refTimer;
+Sprite bookedPlayerCardOrNumberSprite;
 char[30] yellowCardTable;
 char[30] redCardTable;
 char[46] secondYellowTable;
 TeamGeneralInfo *lastTeamBooked;
-word refTimer;
-Sprite bookedPlayerCardOrNumberSprite;
-Sprite team1CurPlayerNumSprite;
 Sprite team2CurPlayerNumSprite;
+Sprite team1CurPlayerNumSprite;
 Sprite playerMarkSprite;
-word nobodysBallTimer;
-word nobodysBallLastFrame;
 Sprite *currentScorer;
 TeamGeneralInfo *lastTeamScored;
 Sprite *lastPlayerBeforeGoalkeeper;
@@ -502,25 +500,20 @@ word resultTimer;
 Sprite currentPlayerNameSprite;
 TeamGeneralInfo *lastTeamPlayed;
 Sprite *lastPlayerPlayed;
+word nobodysBallTimer;
+word nobodysBallLastFrame;
+Sprite currentTimeSprite;
 word copyTimeSprite;
 word secondsSwitchAccumulator;
 word gameSeconds;
 dword gameTime;
-Sprite currentTimeSprite;
-word timeVar;
-word endGameCounter;
 word playing2ndGame;
 dword winningTeamPtr;
 word extraTimeState;
 word statsTeam1GoalsCopy;
 word statsTeam2GoalsCopy;
-Sprite dashSprite;
-Sprite team1Scorer1Sprite;
-ScorerInfo[8] team1Scorers;
-ScorerInfo[8] team2Scorers;
-word[8] team1ScorerSpritesWidths;
-Sprite team2Scorer1Sprite;
-word[8] team2ScorerSpritesWidths;
+word timeVar;
+word endGameCounter;
 Sprite resultOnHalftimeSprite;
 Sprite resultAfterTheGameSprite;
 Sprite gridUpperRowLeftSprite;
@@ -539,39 +532,46 @@ Sprite team1TotalGoalsDigit2Sprite;
 Sprite team1TotalGoalsDigit1Sprite;
 Sprite team2TotalGoalsDigit2Sprite;
 Sprite team2TotalGoalsDigit1Sprite;
-byte[16] pitchNumberProbabilities;
+Sprite dashSprite;
+Sprite team1Scorer1Sprite;
+ScorerInfo[8] team1Scorers;
+ScorerInfo[8] team2Scorers;
+word[8] team1ScorerSpritesWidths;
+Sprite team2Scorer1Sprite;
+word[8] team2ScorerSpritesWidths;
 word plg_D0_param;
-word gamePitchTypeOrSeason;
 uchar[84] pitchTypeSeasonalProbabilities;
 word numScenesInHilFile;
-word gamePitchType;
+word gamePitchTypeOrSeason;
 uchar[8] pitchTypeProbabilities;
+word gamePitchType;
 word gameSeason;
-byte[100] gameName;
-byte gameRound;
-byte[2044] hilFileBuffer;
+byte[16] pitchNumberProbabilities;
 byte[100] hilGameName;
 byte[100] hilGameRound;
 word hilNumGoals;
 word hilPitchNumber;
-dword kHilFileSig;
+byte[100] gameName;
+byte gameRound;
+byte[2044] hilFileBuffer;
 word hilTeam1Goals;
-word gameMaxSubstitutes;
 word hilTeam2Goals;
+word gameMaxSubstitutes;
 word hilMaxSubstitutes;
+dword kHilFileSig;
+word hilSceneNumber;
+dword goalBasePtr;
+word goIntoHighlightsLoop;
+dword nextGoalPtr;
+dword savedCurrentHilPtr;
 dword savedCurrentGoalPtr;
 dword savedGoalBasePtr;
 dword savedNextGoalPtr;
 word normalReplayRunning;
 dword currentGoalPtr;
 dword currentHilPtr;
-dword goalBasePtr;
-dword nextGoalPtr;
-word hilSceneNumber;
-word goIntoHighlightsLoop;
-dword savedCurrentHilPtr;
-byte[192890] inGameHilBuffer;
 byte[19000] hilStartOfGoalsBuffer;
+byte[192890] inGameHilBuffer;
 word replayState;
 word throwInDeadVar;
 word animPatternsState;
@@ -579,13 +579,13 @@ word hilLeftTeamGoals;
 word hilRightTeamGoals;
 word savedCameraX;
 word savedCameraY;
-word penalty;
-word runSlower;
-word[16] ingameTeamPlayerOffsets;
 word team1PenaltyGoals;
 word team2PenaltyGoals;
+word[16] ingameTeamPlayerOffsets;
 pointer[3] alreadyScoredTable;
 pointer[3] firstGoalScoredTable;
+word penalty;
+word runSlower;
 word subsWriteOnly;
 word subsTrainingTopTeam;
 word g_goToSubsTimer;
@@ -635,17 +635,17 @@ word substitutedPlX;
 word substitutedPlY;
 word deadBenchVar;
 word maxSubsPerTeam;
+word drawTrainingTopHalfOfTheBench;
+word initialSubsState;
 word[9] benchColors;
 word subsMenuBackgroundColor;
 word subsMenuHighlightColor;
 word subsMenuEntryFrameColor;
-word drawTrainingTopHalfOfTheBench;
-word initialSubsState;
-char *[20] playerPositionsStringTable;
 string aFormation;
 string playerNumberString;
-char *[18] tacticsStringTable;
+char *[20] playerPositionsStringTable;
 TeamTactics *[19] g_tacticsTable;
+char *[18] tacticsStringTable;
 char *[18] positionsTable;
 word bootTemp0;
 word bootTemp1;
@@ -656,28 +656,28 @@ word bootTemp5;
 word bootTemp6;
 string aGrafsDisk22Raw;
 string aGrafsOlddisk1R;
+word isGameFriendly;
+word gameCanceled;
+word strikeDestX;
+word team1NumAllowedInjuries;
+word team2NumAllowedInjuries;
 word replaySelected;
 word isGoalAttempt;
 word instantReplayFlag;
 word saveHighlightScene;
 word fadeAndSaveHighlightScene;
 word spaceReplayTimer;
-word isGameFriendly;
-word gameCanceled;
-word strikeDestX;
-word team1NumAllowedInjuries;
-word team2NumAllowedInjuries;
-word userRequestedReplay;
-dword teamScoredDataPtr;
 word fireBlocked;
 string aBookings;
 string aSendingsOff;
+word userRequestedReplay;
+dword teamScoredDataPtr;
 word lastGameTick;
+pointer savedRandStatePtr;
 byte seed2;
 byte randXorIndex2;
-byte[15] byte_10F2EA;
 byte randXorKey2;
-pointer savedRandStatePtr;
+byte[15] byte_10F2EA;
 char[257] kRandomTable;
 word randomSeed;
 byte seed;
@@ -686,9 +686,9 @@ byte randXorKey;
 word overlayFlagBackup;
 pointer corePrecacheTable;
 pointer[23] menuPrecacheTable;
-word menuControlsDirection;
 string aGrafsMenubg2Ra;
 word fire;
+word menuControlsDirection;
 string aReplay;
 string aExit;
 word ballInGoalkeeperArea;
@@ -701,38 +701,38 @@ string aMinus;
 string aFoulsConceded;
 string aGoals;
 char[6] statsNumber;
-short kPassingSpeed_40000_62500;
-short kPassingSpeed_62500_90000;
-short kPassingSpeed_90000_122500;
-short kPassingSpeedFurtherThan122500;
-short kFreePassReleasingBallSpeed;
 short[8] kAIFailedPassChance;
 short[8] kBallSpeedPassingIncrease;
 short kPassingSpeedCloserThan2500;
 short kPassingSpeed_2500_10000;
 short kPassingSpeed_10000_22500;
 short kPassingSpeed_22500_40000;
-short[8] kBallSpeedFinishing;
-word kBallKickingSpeed;
+short kPassingSpeed_40000_62500;
+short kPassingSpeed_62500_90000;
+short kPassingSpeed_90000_122500;
+short kPassingSpeedFurtherThan122500;
+short kFreePassReleasingBallSpeed;
 short[8] kBallSpeedKicking;
 dword kBallKickingDeltaZ;
+short[8] kBallSpeedFinishing;
+word kBallKickingSpeed;
 word[16] kDefaultDestinations;
 char[8] plAvgTacklingBallControlDiffChance;
 short[8] kBallSpeedDeltaWhenControlled;
 short[8] word_1106EA;
-short[8] kPlayerTacklingDownTime;
 short[8] kComputerTacklingDownTime;
-short[8] kPlayerSpeedsGameInProgress;
-short[8] kPlayerSpeedsGameStopped;
+short[8] kPlayerTacklingDownTime;
 word[8] kInjuriesSpeedHandicap;
 word stoppageTimerTotal;
+short[8] kPlayerSpeedsGameInProgress;
+short[8] kPlayerSpeedsGameStopped;
 GoalieSkill *[8] kGoalieSkillTables;
 GoalieSkill teamPlOfs24Table;
-word spriteClippedY;
 undefined2 DAT_00dff062;
 undefined2 DAT_00dff060;
 undefined4 DAT_00dff04c;
 undefined4 DAT_00dff050;
+word spriteClippedY;
 word[16] playerYQuadrantCoordinates;
 byte playerTackledAnimTable;
 char[7] kInjuryLevels;
@@ -740,12 +740,17 @@ char[7] kInjuryLevelAlreadyInjured;
 short[8] kInjuryRecoveryTime;
 char[4] kTackleInjuryProbability;
 char[4] kTackleInjuryProbabilityAlreadyInjured;
+word savedTeam1Goals;
+word savedTeam2Goals;
 word team1PenaltyAttempts;
 word team2PenaltyAttempts;
 word team1PenaltyShooterIndex;
 word team2PenaltyShooterIndex;
-word savedTeam1Goals;
-word savedTeam2Goals;
+word gameNotInProgressCounterWriteOnly;
+word stoppageTimerActive;
+word stoppageEventTimer;
+word inGameCounter;
+word breakState;
 short playerHadBall;
 Sprite *lastKeeperPlayed;
 word pl1Coach;
@@ -753,17 +758,9 @@ word pl2Coach;
 word topTeamCoachNo;
 word bottomTeamCoachNo;
 word topTeamPlayerNo;
-word bottomTeamPlayerNo;
 word goalOut;
-word gameNotInProgressCounterWriteOnly;
-word stoppageTimerActive;
-word stoppageEventTimer;
-word inGameCounter;
-word breakState;
+word bottomTeamPlayerNo;
 Sprite *penaltyShooterSprite;
-word penaltiesTimer;
-word ballOutOfGameTimer;
-word stoppageAuxFlag;
 word g_autoReplays;
 word g_autoSaveHighlights;
 AnimTable aboutToThrowInAnimTable;
@@ -772,6 +769,9 @@ word initialKickWriteOnlyTicks;
 word deadCameraBreakVar01;
 word deadCameraBreakVar02;
 word deadCameraBreakVar03;
+word penaltiesTimer;
+word ballOutOfGameTimer;
+word stoppageAuxFlag;
 AnimTable jumpHeaderHitAnimTable;
 short[8] kPlayerHeaderSpeedIncrease;
 dword kBallJumpHeaderDeltaZ;
@@ -779,44 +779,44 @@ dword kHeaderLowJumpHeight;
 dword kHeaderHighJumpHeight;
 AnimTable staticHeaderAttemptAnimTable;
 AnimTable staticHeaderAimAnimTable;
-word kStaticHeaderBaseBallSpeed;
 AnimTable staticHeaderHitAnimTable;
+word kStaticHeaderBaseBallSpeed;
 word kStaticHeaderPlayerSpeed;
-byte[5] cardAnimStatesWithFlag;
 word plg_D3_param;
 byte[5] cardAnimStatesNoFlag;
-word ballDefensiveX;
-dword[8] kGoalkeeperDiveDeltas;
+byte[5] cardAnimStatesWithFlag;
 word dseg_114EB0;
 word kKeeperPenaltySaveDistanceFar;
 word[17] kKeeperPenaltySaveDistanceNear;
 short kKeeperSaveDistance;
+word ballDefensiveX;
+dword[8] kGoalkeeperDiveDeltas;
+word ballNotHighZ;
+word strikeDestY;
+word strikeDestZ;
 word ballDefensiveY;
 word ballDefensiveZ;
 word ballNotHighX;
 word ballNotHighY;
-word ballNotHighZ;
-word strikeDestY;
-word strikeDestZ;
 byte BYTE_00140000;
 word ballNextGroundX;
 word ballNextYGroundY;
 word ballNextZDeadVar;
-word cardsDisallowed;
 dword dword_2DAB0;
-AnimTable goalieCatchingBallAnimTable;
+word cardsDisallowed;
 word kGoalkeeperCatchSpeed;
-dword kGoalkeeperDeflectDeltaZ;
+AnimTable goalieCatchingBallAnimTable;
 word kGoalkeeperStrongDeflectBallSpeed;
 word kGoalkeeperMediumDeflectBallSpeed;
 word kGoalkeeperWeakDeflectBallSpeed;
-AnimTable[2] leftGoalieJumpingHighAnimTable;
-AnimTable rightGoalieJumpingHighAnimTable;
-AnimTable leftGoalieJumpingLowAnimTable;
+dword kGoalkeeperDeflectDeltaZ;
 AnimTable[2] rightGoalieJumpingLowAnimTable;
 word kGoalkeeperFarJumpSpeed;
 word kGoalkeeperFarJumpSlowerSpeed;
 short kGoalkeeperNearJumpSpeed;
+AnimTable[2] leftGoalieJumpingHighAnimTable;
+AnimTable rightGoalieJumpingHighAnimTable;
+AnimTable leftGoalieJumpingLowAnimTable;
 word kPlayerTacklingSpeed;
 AnimTable plTacklingAnimTable;
 AnimTable jumpHeaderAttemptAnimTable;
@@ -839,20 +839,16 @@ char[64] kKickSpinFactor;
 short[32] kPassingSpinFactor;
 word forceLeftTeam;
 word playerTurnFlags;
-word cameraMoveToShowerLatch;
 word halfNumber;
+word cameraMoveToShowerLatch;
 word lastCameraDirection;
 word lastPlayerTurnFlags;
-word teamNumThatScored;
-dword teamScoredGamePtr;
 word playRefereeWhistle;
 word statsTeam1GoalsCopy2;
 word statsTeam2GoalsCopy2;
+word teamNumThatScored;
+dword teamScoredGamePtr;
 Position[22] kTeamsStartingCoordinates;
-word kPlayerGroundConstant;
-word kPlayerAirConstant;
-word kGoalkeeperGameSpeed;
-word kInjuryForeverSpeed;
 char[16] goalScoredChances;
 GoalieSkill dseg_17EECC;
 AnimTable playerRunningAnimTable;
@@ -861,10 +857,10 @@ AnimTable[2] throwInKickAnimTable;
 AnimTable plGettingYellowCardAnimTable;
 AnimTable plGettingRedCardAnimTable;
 AnimTable plGetting2ndYellowCardAnimTable;
-word word_10F1F4;
 AnimTable plInjuredAnimTable;
 AnimTable playerLosingReactionAnimTable;
 AnimTable playerWinningReactionAnimTable;
+word word_10F1F4;
 word throwInPassOrKick;
 word ballSpeed;
 word dseg_114EA6;
@@ -890,6 +886,12 @@ word kGoalkeeperSpeedWhenGameStopped;
 dword prevLastTeamPlayed;
 word[7] freeKickFactorsX;
 word freeKickDestX;
+word kPlayerGroundConstant;
+word kPlayerAirConstant;
+word kGoalkeeperGameSpeed;
+word kInjuryForeverSpeed;
+word team1Computer;
+word team2Computer;
 word deadVarAlways0;
 dword playerKickerPtr;
 word AI_turnDirection;
@@ -902,22 +904,19 @@ short[3] AI_longKickTable;
 short AI_counter;
 char[6] AI_throwInDirections;
 word AI_maxStoppageTime;
-word team1Computer;
-word team2Computer;
 short AI_attackHalf;
 short AI_counterWriteOnly;
 word deadVar02;
 byte[6] byte_11FC60;
-undefined InitSkinAndDefaultPointers;
 string aResigned;
-MenuEntry templateMenuEntry;
-word menuX;
-word menuY;
+undefined InitSkinAndDefaultPointers;
 byte byte_417C;
-pointer menuTypesJumpTable;
+MenuEntry templateMenuEntry;
 dword dword_99788;
+word menuX;
 dword dword_9978C;
-word menuCursorFrame;
+word menuY;
+pointer menuTypesJumpTable;
 word shortFire;
 byte up;
 byte down;
@@ -930,41 +929,35 @@ word controlMask;
 word menuTextBlinkCounter;
 word[4] nextEntryDirectionOffsets;
 dword g_errorMessagePtr;
-word coachOrPlayer;
+word menuCursorFrame;
+word teamsLoaded;
+word deadVar01;
+word poolplyrLoaded;
 word word_1573F8;
-byte plNationality;
 word word_1573FA;
-word competitionOver;
+word writeOnlyVar01;
 word word_1573FE;
+pointer SWOS_MainMenu;
+word g_exitMenu;
+word fireResetFlag;
+word g_numSelectedTeams;
+TeamFile *chooseTacticsTeamPtr;
+byte[14] importTacticsFilename;
+word deadVar03;
+word flipOnOff;
+word coachOrPlayer;
+byte plNationality;
+word competitionOver;
 word inFriendlyMenu;
 word isNationalTeam;
 word twoPlayers;
 word player1ClearFlag;
 word player2ClearFlag;
-word deadVar01;
-word writeOnlyVar01;
-word teamsLoaded;
-word poolplyrLoaded;
-pointer SWOS_MainMenu;
-word g_numSelectedTeams;
-word g_exitMenu;
-word fireResetFlag;
-TeamFile *chooseTacticsTeamPtr;
-byte[14] importTacticsFilename;
-word deadVar03;
-word flipOnOff;
+pointer defaultNamesTable;
+pointer defaultSurnamesTable;
 word mrOrMs;
 byte[9] managerNameBuffer;
 byte[13] managerSurnameBuffer;
-pointer defaultNamesTable;
-pointer defaultSurnamesTable;
-string aUSER_D;
-TeamTactics USER_C;
-string aUSER_E;
-TeamTactics USER_D;
-string aUSER_F;
-TeamTactics USER_E;
-TeamTactics USER_F;
 TeamTactics tact_4_4_2;
 TeamTactics tact_5_3_2;
 TeamTactics tacticsSweep;
@@ -973,20 +966,27 @@ string aUSER_B;
 TeamTactics USER_A;
 string aUSER_C;
 TeamTactics USER_B;
+string aUSER_D;
+TeamTactics USER_C;
+string aUSER_E;
+TeamTactics USER_D;
+string aUSER_F;
+TeamTactics USER_E;
+TeamTactics USER_F;
 word g_menuMusic;
 string aGrafsMenubgRaw;
-word fireCounter;
-word menuControlsDirection2;
-word lastControls;
 word controlsHeldTimer;
 word longFireTime;
 word longFireFlag;
 dword g_allowShorterMenuItemsWithFrames;
 word pl1SkipFireCounter;
 word pl2SkipFireCounter;
+word fireCounter;
+word menuControlsDirection2;
+word lastControls;
 byte[32] outerFrameColorsTable;
-word deadInputTextVar;
 byte[100] inMenuKeyboardBuffer;
+word deadInputTextVar;
 byte[12] byte_120F4C;
 word g_allowExtraCharsFlag;
 pointer charTables;
@@ -995,6 +995,7 @@ word forceDrawTransparentMenuItems;
 word[8] kColorTableShine;
 dword g_currentMenuPtr;
 dword kFixedOne_16p16;
+pointer[18] playersPositionsByTactics;
 byte LAB_001217d8;
 byte LAB_001217d8+1;
 byte LAB_001217da;
@@ -1002,22 +1003,17 @@ byte LAB_001217da+1;
 byte LAB_001217dc;
 byte LAB_001217dc+1;
 byte LAB_001217de;
-pointer[18] playersPositionsByTactics;
 byte LAB_001217de+1;
 byte LAB_001217e0;
 byte LAB_001217e0+1;
 byte LAB_001217e2;
-byte byte_16EBD8;
 byte newRandomSeedCopy;
 word currentSeasonShowing;
-pointer[18] off_121DA6;
-pointer[16] off_121DEE;
+byte byte_16EBD8;
 dword dword_122AC2;
 word word_122AC8;
-byte[1292] careerTeam;
 word word_122ACA;
 word word_122ACC;
-word inEditTactics;
 word word_122ACE;
 dword dword_122AD0;
 dword dword_122AD4;
@@ -1043,65 +1039,68 @@ byte[64] byte_122B5A;
 word word_122B9A;
 byte[128] byte_121D20;
 byte[6] byte_121DA0;
+pointer[18] off_121DA6;
+pointer[16] off_121DEE;
+byte[1292] careerTeam;
+word inEditTactics;
 byte[128] byte_121F48;
 byte[3] byte_121FC8;
 byte[3] byte_121FCB;
+byte[4] byte_122236;
 pointer[18] off_12215E;
 word[16] currentMatchPlayers;
-byte[4] byte_122236;
 GameTypes g_gameType;
 word word_2DF2C;
+byte byte_164DC2;
 undefined2 DAT_00164db6;
+word careerNumPlayers;
 undefined2 DAT_00164dba;
 undefined2 DAT_00164dbe;
-byte byte_164DB2;
 undefined2 DAT_00164dc4;
-byte byte_164DC2;
-word careerNumPlayers;
+byte byte_164DB2;
 byte[8] byte_122740;
+byte[48] byte_1229B2;
 byte[64] byte_1229E2;
 byte[160] byte_122A22;
-byte[48] byte_1229B2;
 byte[32] playerPositionsArray;
 word oldPlayerSkill;
 word word_122D8C;
-word totalSkillsFactorSum;
-word numPlayersAtQuadrant;
 uchar[1226] quadrantDistanceFactor;
 dword[35] priceSkillPonders;
 char[240] quadrantCoordinatesToBallQuadrant;
 byte[8] skillValuePonders;
 byte[50] plPricesIncreaseTable;
 dword plPositions;
+word totalSkillsFactorSum;
+word numPlayersAtQuadrant;
 byte[32] byte_164AA0;
 byte[50] byte_1248E2;
-word word_124BCA;
 word diyPointsForAWin;
 word isNationalSelector;
 word DIY_competitionStart;
 byte[144] byte_124B3A;
+word word_124BCA;
 TeamFile currentTeam;
 word[16] playerPositions;
 word numPlayers;
 word word_164B84;
 undefined LAB_0012541a;
+word word_164B56;
 undefined LAB_00125426;
+word word_2DA96;
+word selTeamNumber;
+dword newBalance;
 dword dword_124BD4;
 word word_124BD8;
 dword dword_124BDC;
+dword gateReceipts;
 word word_2DB22;
 word word_2DB24;
-word selTeamNumber;
-dword newBalance;
-word word_164B56;
-word word_2DA96;
-dword gateReceipts;
-dword dword_164A1C;
 word word_164AC8;
-word clubBusinessActive;
+dword dword_164A1C;
 word word_1649CE;
+word clubBusinessActive;
 word word_1649D0;
-word youreSacked;
 word word_164AE4;
 word word_164AE6;
 word word_164AEA;
@@ -1109,14 +1108,7 @@ word word_164AEC;
 word seasonReview;
 word currentMessage;
 word stayingInOldClub;
-dword dword_166B18;
-dword dword_166B1C;
-word word_164ACA;
-word word_164B1C;
-byte byte_169255;
-word word_166BC0;
-word competitionFileBuffer;
-word numDiyTeams;
+word youreSacked;
 word word_1649D2;
 word word_1649D4;
 word word_16E0DC;
@@ -1126,180 +1118,186 @@ word word_16E0DE;
 word word_1649DC;
 word word_16E0E4;
 word word_1649DE;
+dword dword_166B18;
+word competitionFileBuffer;
+dword dword_166B1C;
+word numDiyTeams;
+word word_164ACA;
+word word_164B1C;
+byte byte_169255;
+word word_166BC0;
+word word_124BDA;
+dword generalRunningCosts;
+dword playerWagesBill;
+dword dword_124BE0;
+word word_165CE0;
 dword dword_124BCC;
 dword dword_164A14;
 dword dword_124BD0;
 dword dword_164A18;
-word word_124BDA;
-dword generalRunningCosts;
-dword dword_124BE0;
-dword playerWagesBill;
-word word_165CE0;
-dword dword_166B20;
 dword dword_164A02;
 dword old_balance;
 dword competitionBonuses;
-byte[70] copaAmericaCopy;
-byte[48] africanNationsCupCopy;
-byte[46] northAmericanCupCopy;
-dword dword_166B14;
-byte[48] asianCupCopy;
+dword dword_166B20;
 byte[36] invitationTournamentCopy;
 byte[28] oceaniaCupCopy;
 byte[36] tourCopy;
 byte[112] worldCup2Copy;
 byte[78] europeanChampionships2Copy;
+byte[70] copaAmericaCopy;
+byte[48] africanNationsCupCopy;
+byte[46] northAmericanCupCopy;
+byte[48] asianCupCopy;
+dword dword_166B14;
 word isCareer;
 word word_164ACC;
 word word_164ACE;
 word word_164AD0;
 word word_164AD4;
+word playWinCupAnimation;
+word word_164ADA;
 word word_164ADE;
 word word_164AE0;
 word word_164AE2;
-word playWinCupAnimation;
-word word_164ADA;
 word word_164AD2;
 word[5] word_125C76;
 word seasonFinished;
-byte[36] e_c_qualifying_group_8_copy;
-byte[40] world_cup_qualifying_group_1_copy;
-byte[40] world_cup_qualifying_group_8_copy;
-byte[72] north_america_world_cup_qualification_copy;
-byte[64] south_america_world_cup_qualification_copy;
-byte[112] africa_world_cup_qualification_copy;
-word word_164B4A;
-byte[108] asiaWorldCupQualificationCopy;
-word word_164B4C;
-byte[36] oceaniaWorldCupQualificationCopy;
-word word_164B4E;
-word word_166B28;
 byte someTeamFlags;
+word word_166B28;
 word word_166BAE;
 word word_167702;
 word word_12F0EA;
 word word_12F0EC;
+byte[40] friendlyCopy;
 word word_167F8A;
+byte[40] e_c_qualifying_group_1_copy;
+byte[36] e_c_qualifying_group_8_copy;
 word word_164ADC;
 word word_16E0BE;
+byte[40] world_cup_qualifying_group_1_copy;
 word word_164AE8;
-byte[40] friendlyCopy;
-byte[40] e_c_qualifying_group_1_copy;
 word word_164AEE;
 word word_164AF0;
+byte[40] world_cup_qualifying_group_8_copy;
+byte[72] north_america_world_cup_qualification_copy;
+byte[64] south_america_world_cup_qualification_copy;
+byte[112] africa_world_cup_qualification_copy;
+byte[108] asiaWorldCupQualificationCopy;
+byte[36] oceaniaWorldCupQualificationCopy;
+word word_164B4A;
+word word_164B4C;
+word word_164B4E;
 undefined2 DAT_0016e0f2;
-word[5] word_1261B2;
-word word_164B30;
 word word_164B7C;
 word word_164B7E;
 word word_164B80;
 word word_164B82;
 byte byte_16E1B2;
-byte byte_167F80;
-byte byte_166BA4;
-word playPromotedAnimation;
-byte byte_16E0B4;
+word[5] word_1261B2;
+word word_164B30;
 byte byte_1676F8;
+word playPromotedAnimation;
+byte byte_167F80;
 dword startingBalance;
-word word_164A0E;
-word timeToNegotiate;
+byte byte_166BA4;
+byte byte_16E0B4;
 word word_164B1A;
 word word_164DA0;
 word word_164DA8;
+word timeToNegotiate;
+word word_164A0E;
 word[92] avgTeamValueBases;
 char[131] avgTeamValues;
 string aRes;
 string aLoan;
 string aTrial;
 dword selTeamsPtr;
-word word_2DF1C;
-word word_12F6E0;
-word diyLeaguePlayEachTeam;
 word diyLeagueMinSubstitutes;
 word diyLeagueMaxSubstitutes;
+word word_2DF1C;
+word diyLeaguePlayEachTeam;
+word word_12F6E0;
 undefined2 DAT_0002df62;
 undefined2 DAT_0002df6e;
+word word_2DF48;
+word diyMinSubstitutes;
 word word_2E03A;
 word word_2E03C;
 word word_2E220;
-word diyMinSubstitutes;
-word word_2DF48;
 word word_126A84;
 word word_126A88;
 word word_126A8A;
-word word_126A8E;
 word word_126A8C;
+word word_126A8E;
 TeamFile *gameTeam1;
 TeamFile *gameTeam2;
 word team1AppPercent;
 word team2AppPercent;
-byte[46] byte_1270D0;
 byte shirtType1;
 byte shirtType2;
 word similarityFactor;
+byte[46] byte_1270D0;
 char *[12] off_152020;
 byte[4] teamKitsSimilarity;
 string aBank;
 string pound;
 byte nullString_0;
-string a01m;
 string a1k;
 string a0m;
-word numNeededTeams;
+string a01m;
 word careerFileBuffer;
+word numNeededTeams;
 pointer off_14F132;
 undefined1 DAT_0002df1e;
+word g_pitchType;
+word word_2DF40;
+word word_2DF44;
+word word_2DF46;
+word word_2DF4A;
+char *[4] divisionsTable;
+word word_2DF4C;
+word word_2DF58;
+pointer off_14F07A;
 string aCup_0;
 byte[35] diyLeagueName;
-dword dword_2DF18;
 word diyLeagueNumTeams;
 word diyPitchTypeOrSeason_2;
 word diyLeaguePitchType;
 byte diyLeagueStartMonth;
 byte diyLeagueEndMonth;
-word word_2DF40;
-word word_2DF44;
-word word_2DF46;
 char *[262] countriesTable;
-word word_2DF4A;
-word word_2DF4C;
-word word_2DF58;
-pointer off_14F07A;
-word g_pitchType;
-char *[4] divisionsTable;
+dword dword_2DF18;
 undefined1 DAT_0002dafe;
-word word_2DB0C;
 undefined2 DAT_0002db20;
 char *DAT_0002daf8;
 undefined2 DAT_0002dc2a;
-byte byte_2DB1A;
-word word_2DB1C;
-word word_2DB1E;
-string aAbort;
-word diyFileBufferCopy;
-string aLeague_1;
-word diyPitchTypeOrSeason;
-word word_2DB2A;
-word diyPitchType;
-byte byte_2DB6A;
-string aDiyCompetitionPrompt;
-string aPresetCompetitionPrompt;
-string aSeasonPrompt;
-string aCareerPrompt;
 string aContinue;
+word diyFileBufferCopy;
+word diyPitchTypeOrSeason;
+string aAbort;
+word diyPitchType;
 byte byte_2DAD4;
+string aLeague_1;
 word word_2DB02;
 byte byte_2DB08;
 byte byte_2DB09;
-word word_16EBE2;
+word word_2DB0C;
+byte byte_2DB1A;
+word word_2DB1C;
+word word_2DB1E;
+string aDiyCompetitionPrompt;
+string aPresetCompetitionPrompt;
+word word_2DB2A;
+byte byte_2DB6A;
+string aSeasonPrompt;
+string aCareerPrompt;
 word currentTeamNumber;
 byte[14] competitionFilename;
+word word_16EBE2;
 byte[14] hilFilename;
 byte seasonPlaying;
-short currentTick+1;
 word contestStarted;
-string aAET90Mins23Rep;
-string aAWin01OnPensRe;
+short currentTick+1;
 string aAWin01OnPensAE_3;
 string aAWin01OnPensAE_5;
 string a1stLeg01;
@@ -1307,63 +1305,63 @@ string aAWin23OnAgg;
 string aAWin23OnAggAET;
 string a23OnAggAWinOnA;
 string a23OnAggAWinOnA_0;
-word word_127D3E;
+byte[70] resultString;
 string aReplay_0;
 string a23OnAggAWin01O;
 string aAET;
 string a23OnAggAWin01O_0;
-byte[70] resultString;
 string aAET90Mins23;
 string a23OnAgg;
 string aAWin01OnPens;
 string aAWin01OnPensAE;
 string aAWin01OnPensAE_1;
 string aAETReplay;
-string aTraining;
+string aAET90Mins23Rep;
+string aAWin01OnPensRe;
+word word_127D3E;
 word g_exitGameFlag;
 word pitchTypeOrSeason;
 word friendlyPitchType;
-string aFriendly_1;
 word friendlySeason;
 word minSubstitutes;
+string aFriendly_1;
 word maxSubstitutes;
+string aTraining;
 ushort DAT_0002dc2a;
 undefined2 DAT_0002e03e;
-word word_126A86;
-byte byte_2DF1F;
 word word_2DF38;
 word word_2DF42;
 char *[15] off_152080;
 string a1stLeg;
 string a2ndLeg;
+word word_126A86;
+byte byte_2DF1F;
 word word_2DF3A;
 word word_2DF3C;
 word team1SelectedPlayerIndex;
 word team2SelectedPlayerIndex;
 word careerTeamCoachOnly;
-pointer stadiumMenu;
 word hilStarted;
+pointer stadiumMenu;
+word g_allPlayerTeamsEqual;
 word word_128ECC;
 word g_gameLength;
-word g_allPlayerTeamsEqual;
-byte[17] team_A_name;
-byte[17] team_B_name;
 word word_165494;
 word word_1669E2;
+byte[17] team_A_name;
+byte[17] team_B_name;
 byte[12] teamKitTieBreakColors;
 byte[10] shirtColorTable;
 undefined1 DAT_0016f762;
-word word_2DB14;
+word word_2DF34;
 word DAT_0002df3e;
-word word_2DB16;
-word word_2DB18;
+word word_2DF36;
 short DAT_0002e224;
 undefined2 DAT_0002dc2e;
 undefined2 DAT_0002dc32;
 undefined2 DAT_0002dc34;
 undefined2 DAT_0002dc36;
 undefined2 DAT_0002dc38;
-word word_2DB26;
 undefined2 DAT_0002dc3a;
 undefined2 DAT_0002dc3e;
 undefined2 DAT_0002dc40;
@@ -1371,32 +1369,34 @@ undefined2 DAT_0002dc42;
 undefined2 DAT_0002dc44;
 undefined1 DAT_0002dc46;
 undefined2 DAT_0002e0be;
-undefined1 DAT_0002e228;
-byte byte_2DF20;
-byte byte_2DF21;
-word word_2DF34;
-word word_2DF36;
 word word_2E01E;
+undefined1 DAT_0002e228;
 word word_2E13E;
 word word_2DAFC;
 byte byte_2DB00;
 byte byte_2DB01;
+word word_2DB14;
+word word_2DB16;
+word word_2DB18;
+word word_2DB26;
+byte byte_2DF20;
+byte byte_2DF21;
+word word_2DAD2;
 word word_2DB28;
 word word_169250;
 word word_2E1BE;
 byte byte_169254;
-word word_2DAD2;
-word word_2DB0A;
+word word_129364;
 undefined2 DAT_0002db10;
+word word_2DF2A;
+word word_129366;
 undefined2 DAT_0002df30;
+word word_129368;
 word DAT_0002db0e;
 word DAT_0002db12;
-word word_129364;
-word word_2DF2A;
+word word_2DB0A;
 word diySelectedButtonOrd;
-word word_129366;
 word diySavedEntryOrd;
-word word_129368;
 byte[64] byte_129476;
 uchar[96] worldCup;
 uchar[78] european_championships2;
@@ -1409,8 +1409,8 @@ byte[8] byte_129958;
 byte[18] byte_129960;
 undefined2 DAT_0002db0e;
 undefined2 DAT_0002db12;
-string aDiyTournament;
 word[20] word_129C42;
+string aDiyTournament;
 word word_2DEF2;
 string aDiyCup;
 undefined2 DAT_0002e226;
@@ -1428,8 +1428,8 @@ undefined2 DAT_0002dca2;
 byte byte_16F4BA;
 short DAT_0002e222;
 word word_164AF4;
-word word_2DF5E;
 word word_2DFDE;
+word word_2DF5E;
 string aDiyLeague;
 undefined2 DAT_0002e0bc;
 ushort DAT_0002e0b6;
@@ -1459,19 +1459,19 @@ word[3] word_12B15A;
 word word_6158;
 word word_12B160;
 word word_695C;
+word teamNoOfferAccepted;
+byte byte_6C08;
+byte byte_6EB4;
+byte byte_7160;
 word word_12B142;
 word word_12B144;
 word word_12B146;
-word teamNoOfferAccepted;
 word word_12B1B6;
 word word_12B1B8;
 word word_12B1BA;
 dword dword_12B1BC;
 dword dword_12B1C0;
 dword dword_12B1C4;
-byte byte_6C08;
-byte byte_6EB4;
-byte byte_7160;
 byte[40] e_c_qualifying_group_2_copy;
 byte[40] e_c_qualifying_group_3_copy;
 byte[40] e_c_qualifying_group_4_copy;
@@ -1487,10 +1487,10 @@ byte[40] world_cup_qualifying_group_7_copy;
 byte[78] euroCupCopy;
 byte[92] cupWinnersCupCopy;
 byte[92] uefaCupCopy;
+CountryNumbers[66] all_countries_list;
 byte[17] byte_12B162;
 byte[33] byte_12B173;
 byte[33] byte_12B194;
-CountryNumbers[66] all_countries_list;
 byte[114] byte_1512DC;
 dword dword_12B1C8;
 dword dword_12B1CC;
@@ -1498,30 +1498,30 @@ dword dword_12B1D0;
 byte byte_12B1B5;
 word word_5EAC;
 word word_4BF8;
-char *[256] competitionsTable;
 word playRelegatedAnimation;
+char *[256] competitionsTable;
 byte[32] byte_12B1D4;
 dword dword_166B24;
 word word_167B0C;
 byte[2000] someLeaguesTable;
 byte[64014] teamFileBuffer;
 undefined *DAT_00164b3a;
-undefined *DAT_00164b3e;
-undefined *DAT_00164b42;
-undefined *DAT_00164b46;
-dword dword_164B36;
 pointer[5] off_12C1F4;
+undefined *DAT_00164b3e;
 pointer[5] off_12C208;
+undefined *DAT_00164b42;
 pointer[5] off_12C21C;
+undefined *DAT_00164b46;
 pointer[5] off_12C230;
 dword[5] dword_12C244;
 pointer[5] off_12C258;
-pointer[5] off_12C366;
+dword dword_164B36;
 pointer[5] off_12C302;
 pointer[5] off_12C316;
 pointer[5] off_12C32A;
 pointer[5] off_12C33E;
 dword[5] dword_12C352;
+pointer[5] off_12C366;
 pointer[5] off_12C410;
 pointer[5] off_12C424;
 pointer[5] off_12C438;
@@ -1540,7 +1540,6 @@ pointer[5] off_12C654;
 pointer[5] off_12C668;
 dword[5] dword_12C67C;
 pointer[5] off_12C690;
-pointer[8] off_12C802;
 dword[5] dword_12C822;
 pointer[5] off_12C836;
 pointer[5] off_12C84A;
@@ -1549,44 +1548,45 @@ pointer[5] off_12C872;
 pointer[5] off_12C886;
 dword[5] dword_12C89A;
 pointer[5] off_12C8AE;
+pointer[8] off_12C802;
 pointer[8] off_12CAF0;
 pointer off_12CC98;
-byte[852] nationalTeams;
 word word_14978A;
+byte[852] nationalTeams;
 dword dword_166B2A;
 undefined DAT_00167d5a;
-word word_167B4C;
-word word_167B4E;
 word word_16E0C2;
 word word_16E0C4;
 word word_16E0C6;
 word[4] word_12CE70;
 word word_167B3E;
 word word_167B4A;
+word word_167B4C;
+word word_167B4E;
 word[10] arrayOfPointers;
 word word_16E082;
 string aFriendly;
-word word_164B0A;
-word gamesPlayed;
-word word_164B0C;
-word numWins;
-word word_164B0E;
-word numDrawn;
-word numLost;
-word word_164B10;
-word goalsScored;
-word word_164B12;
-word goalsTaken;
-word word_164B14;
-word word_164B16;
-word word_164B18;
-word word_169252;
 string aEuropeanTour;
 string aOceaniaTour;
+word word_169252;
+word gamesPlayed;
+word numWins;
+word numDrawn;
+word numLost;
+word goalsScored;
+word goalsTaken;
 word word_164B02;
 word word_164B04;
 word word_164B06;
 word word_164B08;
+word word_164B0A;
+word word_164B0C;
+word word_164B0E;
+word word_164B10;
+word word_164B12;
+word word_164B14;
+word word_164B16;
+word word_164B18;
 byte DAT_0002df1e;
 byte[162] byte_166A6E;
 word word_16924C;
@@ -1600,15 +1600,13 @@ word word_16924E;
 word word_164B88;
 word word_164B8A;
 word word_164B8C;
-word word_164AC0;
 word careerTeamLeague;
+word word_164AC0;
 word additionalInvestments;
-word word_164B2C;
-pointer careerContests;
-word word_164C7A;
 uchar[78] euroCup;
 uchar[92] cupWinnersCup;
 uchar[92] uefaCup;
+word word_164C7A;
 word word_166BB2;
 word word_166BB4;
 word word_166BB6;
@@ -1619,24 +1617,26 @@ word word_167F8E;
 word word_167F90;
 word word_167F92;
 word word_164AD6;
+word word_164B2C;
+pointer careerContests;
+word word_164B58;
+word retired;
+uchar[10] byte_150898;
+uchar[10] byte_1508A2;
+word word_165496;
+word lastNationalityCall;
+word numNewJobOffers;
+word numJobOffers;
+dword dword_166B9C;
+dword dword_1676F0;
+pointer[6] off_12E896;
+dword dword_16E0AC;
 byte byte_164B2A;
 byte byte_164B2B;
 byte byte_164B32;
-word word_164B58;
-uchar[10] byte_150898;
-uchar[10] byte_1508A2;
-word retired;
-word word_165496;
-word lastNationalityCall;
-dword dword_166B9C;
-dword dword_1676F0;
-word numNewJobOffers;
-word numJobOffers;
-pointer[6] off_12E896;
-dword dword_16E0AC;
 dword dword_167F78;
-word[24] word_166B30;
 word seasonNumberOfSquads;
+word[24] word_166B30;
 pointer off_14F1C6;
 uchar[28] englishCup;
 uchar[28] englishLeagueCup;
@@ -1649,25 +1649,25 @@ undefined DAT_0002dbd0;
 dword teamFundsAccepted;
 word word_12F0EE;
 undefined1 DAT_0016e172;
-byte byte_16E2D2;
 undefined1 DAT_0016e352;
 byte byte_168AA4;
 byte byte_16E11E;
+byte byte_16E2D2;
 byte[54720] tmdFileBuffer;
+word patternStatic;
+word otherTeamScored;
 byte[64] animPatternsRandomTable;
 word[8] animatedPatterns;
 word animPatternsIndex;
-word patternStatic;
-word otherTeamScored;
 byte[32] trainingMatchSavedPlayers;
 word word_1669E4;
 byte[32] byte_166A06;
-byte[32] byte_166A4C;
-byte byte_166A6D;
 byte[32] lastMatchPlayers;
 byte currentTactics;
 word word_166A28;
 word word_166A2A;
+byte[32] byte_166A4C;
+byte byte_166A6D;
 word word_166A26;
 pointer[8] off_1301EA;
 pointer[18] off_1390C0;
@@ -1675,38 +1675,38 @@ byte[12] byte_1303DC;
 short DAT_0016e0ea;
 short DAT_0016e0d2;
 dword plNameForMessage;
-word viewTeamsColumn1_;
-word viewTeamsColumn2_;
 word leagueNumber;
-word word_131128;
-word word_13112A;
-word selectTeamsNoLimit;
 byte[100] teamsTable;
+word selectTeamsNoLimit;
 byte[100] teamNumbersIndices_;
 dword[100] teamPointers_;
-word topOfStackMark;
 byte lastLoadedExtNumber;
-word chooseTeamsResult;
-word changeTeams;
+word topOfStackMark;
+word viewTeamsColumn1_;
+word viewTeamsColumn2_;
+word word_131128;
+word word_13112A;
 word viewSelectedTeams;
 word abortSelectTeams;
 word exitSelectTeams;
-dword chooseTeamsFunc;
+word chooseTeamsResult;
+word changeTeams;
 dword selectedTeamPtr;
-word word_13F966;
+dword chooseTeamsFunc;
 word selectedTeamCountryNumber;
-dword chooseTeamsHeader1stPart;
+word word_13F966;
 string aChooseTeamsFor;
 string aChangeTeamsFor;
 dword gameTypeStr;
 dword curCountryStr;
+dword chooseTeamsHeader1stPart;
 word[5] word_130F86;
-string aSelect1LessTea;
-string aError;
 string aSelect0MoreTea;
 string aSelect1MoreTea;
-string aSelect0LessTea;
 dword playWhatStr;
+string aSelect0LessTea;
+string aSelect1LessTea;
+string aError;
 word word_13112C;
 word word_13112E;
 uchar[70] copaAmerica;
@@ -1714,9 +1714,9 @@ string aAllSelectedTea;
 dword selectedContest;
 word viewTeamsColumn1;
 word viewTeamsColumn2;
-word choosingPreset;
-word viewTeamsColumn3;
 dword[64] teamPointers;
+word viewTeamsColumn3;
+word choosingPreset;
 word selTeamsUpperBound;
 byte[64] teamNumbersIndices;
 word numSelectedTeamsCopy;
@@ -1725,14 +1725,14 @@ string aChooseTeams;
 string aChangeTeams;
 word viewTeamsStartY;
 word viewTeamsAbortY;
+word diyLeagueLookOnly;
 word diyLeagueSelectTeams;
 pointer designDiyLeagueMenu;
-word diyLeagueLookOnly;
-pointer DIY_leagueTournamentMenu;
 word word_133312;
 word word_133314;
 word word_133316;
 word word_133318;
+pointer DIY_leagueTournamentMenu;
 string aWinnerQualifie;
 string aTop0Qualify;
 string aTeamsPromoted0;
@@ -1745,17 +1745,17 @@ string aPlayLeague;
 word diyPitchTypeOrSeason_1;
 string aX0;
 string aSelect0Teams;
-word currentDiyLine;
 word word_13331A;
-word numDiyResults;
+word currentDiyLine;
 word word_13330A;
 word word_13330C;
-dword competitionStatsMenu;
-word diyCompetitionType;
-dword diyNameOfCompetitionPtr;
+word numDiyResults;
 dword diyTeamsBufferPtr;
 word diyNumberOfTeams;
 word word_13AB78;
+dword competitionStatsMenu;
+word diyCompetitionType;
+dword diyNameOfCompetitionPtr;
 word word_133308;
 dword diyLeftTeamPtr;
 dword diyRightTeamPtr;
@@ -1770,42 +1770,43 @@ undefined2 DAT_0002e1aa;
 undefined2 DAT_0002e1ac;
 undefined2 DAT_0002e1ae;
 pointer[8] off_13323C;
+pointer designDiyCupMenu;
 word diyCupLookOnly;
 word diyCupSelectTeams;
-pointer designDiyCupMenu;
-pointer DIY_cupMenu;
 word word_1350B0;
 word word_1350B2;
 word word_1350B4;
+pointer DIY_cupMenu;
 word word_1350B6;
 word word_134080;
 word word_134082;
 string aPlayCup;
 word word_13407E;
-word word_1350C0;
 word word_1350AE;
+word word_1350C0;
+char *[3] off_1520BC;
 string aDraw;
 string aReplays;
-char *[3] off_1520BC;
 dword dword_1350B8;
 dword dword_1350BC;
 string aOr;
 string aNextRoundDraw;
 string aPlayReplays;
 string a2ndLegRound;
-dword dword_1350C2;
 dword dword_1350C6;
 word word_1350CA;
 word word_1350CC;
+dword dword_1350C2;
 word s_gameLength;
 word showPrereleaseCounter;
+pointer designDiyTournamentMenu;
 word diyTournamentLookOnly;
 word diyTournamentSelectTeams;
-pointer designDiyTournamentMenu;
 word word_136D14;
 word word_136D16;
 string aPlayTournament;
 word word_136D12;
+string asc_135D9A;
 string aKnockout;
 string aQuarterFinal;
 string a1GroupOf1;
@@ -1815,11 +1816,10 @@ string aWinnersOfEachG;
 string aWinnersOfEachG_0;
 string aWinnersOfEachG_1;
 string aTop0InEachGrou;
-string asc_135D9A;
 string aTop0InEachGrou_0;
+string aStar;
 string aTop0InEachGrou_1;
 string aMatchWinnersQu;
-string aStar;
 string aMatchWinnersOn;
 string aTop0InGroupQua;
 string aMatchWinnerWin;
@@ -1836,21 +1836,21 @@ word friendlyOk;
 string aPlayFriendly;
 pointer friendlyPitchTypeTable;
 pointer friendly_season_table;
-string aCustomsEdt;
-string aEditCustomTeam;
 string aSelectTeamToEd;
 string aCustomTeamsChanged;
 string aSave;
 undefined EditTeamsCallback;
 word saveCustomTeams;
-pointer editTeamsMenu;
+string aCustomsEdt;
+string aEditCustomTeam;
 dword editTeamsSelectedTeam;
+pointer editTeamsMenu;
 word teamIsImported;
-byte[43778] editTeamsBuffer;
-byte[21002] editTeamsSaveVarsArea;
 word lastSelectedTeam;
 byte byte_16F4CF;
 string aSelectTeamToIm;
+byte[43778] editTeamsBuffer;
+byte[21002] editTeamsSaveVarsArea;
 char DAT_0016f4d1;
 char DAT_0016f4d0;
 char DAT_0016f4d2;
@@ -1865,36 +1865,36 @@ undefined DAT_0016f4da;
 undefined DAT_0016f504;
 undefined1 DAT_0016f51c;
 byte DAT_0016f4d1;
+byte[32] editTeamsPrimaryShirtColTable;
 byte DAT_0016f4d2;
 byte DAT_0016f4d0;
+byte[32] editTeamsShortsColTable;
+byte[32] editTeamsSocksColTable;
 byte[20] kTeamColorsTable;
 byte[64] shirtTypesTable;
 byte[16] shirtsIndexTable;
-byte[32] editTeamsPrimaryShirtColTable;
-byte[32] editTeamsShortsColTable;
-byte[32] editTeamsSocksColTable;
-byte[32] editTeamsSecondaryShortsColTable;
 byte DAT_0016f4d6;
 byte DAT_0016f4d7;
-byte[32] editTeamsSecondarySocksColTable;
 byte DAT_0016f4d5;
 byte[32] editTeamsSecondaryShirtColTable;
-pointer competitionTopGoalScorersMenu;
+byte[32] editTeamsSecondaryShortsColTable;
+byte[32] editTeamsSecondarySocksColTable;
 dword diyStatsName;
+pointer competitionTopGoalScorersMenu;
 pointer topGoalScorersMenu;
 undefined DAT_000996e7;
-byte byte_996E6;
 byte highestScorersTable;
+byte byte_996E6;
 undefined2 DAT_000996e7;
 undefined1 DAT_000996eb;
 undefined1 DAT_000996ea;
 string aLparen;
 string aRparen;
 string aCup_10;
+pointer off_138E18;
 pointer off_138E34;
 pointer[7] off_138E50;
 pointer[7] off_138E6C;
-pointer off_138E18;
 string aSelectSquadToV;
 dword dword_13A6EA;
 word teamSkillDiffAfterChange;
@@ -1902,17 +1902,17 @@ pointer squadMenu;
 word word_13A6DE;
 word isNationalSquad;
 word word_13A6E0;
+string aClubs;
 word word_13A6E8;
 word word_13A6F0;
 dword dword_13A6F4;
-string aClubs;
 word[3] word_139A3C;
 word word_13A6F2;
-dword dword_13A6E2;
-word word_13A6E6;
+byte byte_164E12;
 string shortCountryNames;
 byte[100] fundsBuffer;
-byte byte_164E12;
+dword dword_13A6E2;
+word word_13A6E6;
 byte[32] oldPlayerPositionsArray;
 word newPlayerSkill;
 string aFr;
@@ -1927,10 +1927,10 @@ string aAc;
 string aOc;
 string aTnm;
 string aTr;
-string aRetire;
 string a0EndSeason;
-string aNoJobOffers;
+string aRetire;
 string aNewJob;
+string aNoJobOffers;
 pointer viewCompetitionsMenu;
 pointer jobOffersMenu;
 word word_14A89A;
@@ -1941,29 +1941,29 @@ string aSelectTeamToMa;
 byte nationalityOrdinal;
 byte[64] nationalityOrdinalsArray;
 string aOther;
-byte[4] managerSexBuffer;
 string aMr;
 string aMs;
-byte byte_167F54;
-byte byte_166B78;
-byte byte_1676CC;
+byte[4] managerSexBuffer;
+byte[36] byte_1676CC;
+byte[36] byte_167F54;
 byte[36] diyPresetNameOfCompetition;
+byte[36] byte_166B78;
 pointer managementRecordMenu;
-string aQualified;
-string aNotQualified;
-string aPromoted;
 string aRelegated;
-string aPosition0;
 pointer careerOverMenu;
+string aPosition0;
 string aKnockedOutInRo;
 string aStillInCompeti;
 string aDash;
-word gameListY;
-word contestEntryHeight;
+string aQualified;
+string aNotQualified;
+string aPromoted;
 string aSquads;
 word word_13CAA0;
-word word_13CAA4;
 word currentGame;
+word word_13CAA4;
+word gameListY;
+word contestEntryHeight;
 pointer clubBusinessMenu;
 pointer transferMarketMenu;
 word word_13F78E;
@@ -1975,35 +1975,35 @@ string aFinishSeason;
 byte[112] gameListArray;
 string a01Season;
 string a001Season;
-string aSquadSelected;
 string aChangeSquad;
 string aSelectSquad;
+string aSquadSelected;
+string aLeg1;
+string aLeg2;
+char *[16] off_151FE0;
 string aH;
+char *[12] off_152050;
 string aA_2;
 string aCup_1;
 string aCup_2;
-string aPlayoffs;
 dword careerGameTopTeamName;
+string aPlayoffs;
 dword careerGameBottomTeamName;
 word cglm_team_control;
 word columnMarker;
 word cglmVar3;
-string aLeg1;
-string aLeg2;
-char *[16] off_151FE0;
-char *[12] off_152050;
-string aManagementReco;
 string aPl0W1D2L3F4A5;
 word currentSeasonNumber;
-string a102Season;
+string aManagementReco;
+word[1060] word_165498;
 string aSeasonSTopScor;
 string aSeasonSTopScor_0;
 string aA0;
-word[1060] word_165498;
 string aRetired;
 string aNational;
 string aA;
 string a12Season;
+string a102Season;
 string aWinners;
 string aRunnerUp;
 string aFinalist;
@@ -2015,39 +2015,36 @@ string aWon0Drawn1Lost;
 string aFriendlies;
 word[10] trophySprites;
 string aSeveral;
+word teamSelected;
+byte[256] dwArrayCountries;
+word numTeamsCountryBuffer;
+byte[64] b_index_countries;
 pointer selectTeamsForTacticsMenu;
 dword chooseTeamMenuName;
-word teamSelected;
-word numTeamsCountryBuffer;
-byte[256] dwArrayCountries;
-byte[64] b_index_countries;
 word selTeamsColumn1;
 word selTeamsColumn2;
 word selTeamsColumn3;
-word word_13DED8;
 word word_13DED6;
-string aEditedCustomTe_0;
-string aPlaySeason;
-pointer chooseTeamsFriendlyMenu;
-uchar[47] byte_14FB39;
+word word_13DED8;
 pointer chooseTeamsFriendlyMenu2;
-word word_13F944;
+byte BYTE_FC;
 uchar[72] northAmericaWorldCupQualification;
 uchar[64] southAmericaWorldCupQualification;
 uchar[112] africaWorldCupQualification;
 uchar[108] asiaWorldCupQualification;
 uchar[36] oceaniaWorldCupQualification;
 pointer selectTeamsMenu;
+uchar[47] byte_14FB39;
+word word_13F944;
 uchar[48] africanNationsCup;
-uchar[46] northAmericanCup;
 word selectedTeamIndex;
-uchar[48] asianCup;
+uchar[46] northAmericanCup;
 word selectedLeagueIndex;
-uchar[28] oceaniaCup;
+uchar[48] asianCup;
 dword selectedTeamText;
+uchar[28] oceaniaCup;
 dword[10] teamNames;
 dword[64] countryNames;
-byte byte_FC;
 word numLeaguesInCountry;
 word chooseTeamsNumTeams;
 word numSelectedTeams;
@@ -2067,6 +2064,9 @@ word numberOfLeagues;
 word stayInSelectTeams;
 word exitFlag;
 dword entryText2;
+string aEditedCustomTe_0;
+string aPlaySeason;
+pointer chooseTeamsFriendlyMenu;
 word[10] selectedTeamsStack;
 word prevSelectedTeamEntry;
 pointer continental_cups;
@@ -2092,51 +2092,51 @@ string aNoDiskInDrive;
 string aFileNotFound;
 string aDiskFull;
 string aCannotFormatGa;
-byte[13] inputSaveFilename;
-byte[13] g_selectedFilename;
-word numMatchedFiles;
 word totalNumberOfFiles;
 word savingFile;
 dword menuTitle;
-dword g_extension;
-byte[180] foundFilesPtrTable;
 word numberOfFiles;
 byte[1918] foundFilenamesBuffer;
+dword g_extension;
+byte[180] foundFilesPtrTable;
 pointer selectFilesMenu;
 byte[180] extensionsBuffer;
+byte[13] inputSaveFilename;
+byte[13] g_selectedFilename;
+word numMatchedFiles;
 word selFilesColumn1NumItems;
 word selFilesColumn2NumItems;
 word selFilesColumn3NumItems;
-string aDiy;
-string aPreset;
-string aSeason_0;
 string aCareer_0;
 string aTact;
 string aHigh;
+string aDiy;
+string aPreset;
+string aSeason_0;
 string aCanOnlySaveMax;
 word selFilesColumnStartY;
 word selFilesColumnEndY;
 string aInsertBlankDis;
 string aFormatSaveDisk;
 string aDeleteFile;
-pointer continueMenu;
 word errorPromptsEnabled;
 dword errorText;
-pointer continueAbortMenu;
+pointer continueMenu;
 dword promptHeader;
 dword whatIsChanging;
 dword continueText;
 dword abortText;
 word contAbortDefault;
 word contAbortResult;
-string aSeason_1;
-byte[70] saveFileTitle;
-string aCareer_1;
-string aContinueA;
+pointer continueAbortMenu;
 string aReplayA;
 string aSaveA;
-string aDiyCompetition_0;
+byte[70] saveFileTitle;
+string aSeason_1;
+string aCareer_1;
+string aContinueA;
 dword diyCompetitionMenu;
+string aDiyCompetition_0;
 string aPresetCompetit_0;
 pointer careerMenu;
 string aLoadOldCompeti;
@@ -2147,28 +2147,28 @@ pointer diskMenu;
 byte byte_496F2;
 byte byte_4973E;
 byte byte_16F4F2;
-MarketPlayer[352] careerForeignMarketPlayers;
 word word_164C7E;
 word numForeignMarketPlayers2;
-word word_164DAC;
-word word_164DAE;
-word numPlayersOnTransferMarket;
-word word_164DB0;
+MarketPlayer[352] careerForeignMarketPlayers;
 word word_164DAA;
+word word_164DAC;
+word numPlayersOnTransferMarket;
+word word_164DAE;
+word word_164DB0;
+word word_164B86;
 word word_164C80;
 word word_164C82;
+word numOffers;
 word word_164C84;
 word word_164C86;
 word word_164C88;
-word numOffers;
-word word_164B86;
+dword playerSales;
+word word_141534;
+word word_141538;
+word word_14153A;
 word teamOffering;
 word numExtraPlayersWanted;
 word offerAmount;
-word word_141534;
-dword playerSales;
-word word_141538;
-word word_14153A;
 dword playerPurchases;
 pointer off_141CB0;
 pointer off_14221C;
@@ -2191,48 +2191,39 @@ word[5] playersOnTransferMarket;
 pointer showPlayerMarketMenu;
 word showDomesticPlayerMarket;
 undefined1 DAT_00164c36;
-byte byte_164C37;
-word word_143E48;
-pointer thirdPartyOfferMenu;
 undefined1 DAT_00164c38;
-byte byte_164C39;
 undefined DAT_00164c3a;
-byte byte_164C41;
 undefined DAT_00164c3c;
 undefined DAT_00164c3e;
 word offerStatus;
 word word_141544;
-string aAFurtherImprov_2;
-string aAFurtherImprov_3;
-string aB_3;
-string aAFurtherImprov_4;
-string aBAndC_3;
-string aAFurtherImprov_5;
-string aOfferForB;
-string aAFurtherImprov_6;
-string aBAndC_4;
+byte byte_164C37;
+word word_143E48;
+byte byte_164C39;
+byte byte_164C41;
+pointer thirdPartyOfferMenu;
 dword dword_14350A;
 dword dword_14350E;
-dword dword_143512;
-dword dword_143516;
-dword dword_14351A;
-dword dword_14351E;
-dword dword_143522;
-dword dword_143526;
-dword dword_14352A;
-dword dword_14352E;
-dword dword_143532;
-dword dword_143536;
 string aAOfferForB;
+dword dword_143512;
 string aAOfferForBAndC;
+dword dword_143516;
 string aAExchangeOffer;
+dword dword_14351A;
 string aAExchangeOffer_0;
+dword dword_14351E;
 string aAOfferFor;
+dword dword_143522;
 string aB;
+dword dword_143526;
 string aAOfferFor_0;
+dword dword_14352A;
 string aBAndC;
+dword dword_14352E;
 string aAExchangeOffer_1;
+dword dword_143532;
 string aB_0;
+dword dword_143536;
 string aAExchangeOffer_2;
 string aBAndC_0;
 string aAImprovedOffer;
@@ -2250,13 +2241,22 @@ string aBAndC_2;
 string aAFurtherImprov;
 string aAFurtherImprov_0;
 string aAFurtherImprov_1;
-word teamWillingToSellOrExchange;
-string aUnlessTheOffer;
+string aAFurtherImprov_2;
+string aAFurtherImprov_3;
+string aB_3;
+string aAFurtherImprov_4;
+string aBAndC_3;
+string aAFurtherImprov_5;
+string aOfferForB;
+string aAFurtherImprov_6;
+string aBAndC_4;
 string aWeHereAtAWould;
 string aDearAB;
+pointer[12] off_143738;
 pointer[4] sellExchangeStrings;
 string aInADealWithAFo;
-pointer[12] off_143738;
+word teamWillingToSellOrExchange;
+string aUnlessTheOffer;
 word word_143990;
 string aWeHereAtAWishT;
 string aWeHereAtAWishT_0;
@@ -2275,33 +2275,33 @@ string aSelectPlayerTo_0;
 word word_164DA2;
 word word_164DA4;
 word word_164DA6;
-dword dword_1448E2;
-dword dword_1448E6;
-dword dword_1448EA;
-pointer viewSquadMenu;
 word word_1448EE;
 word word_1448F0;
 word word_1448F4;
 dword squadTeamPtr;
 dword viewSquadTitle;
+dword dword_1448E2;
+pointer viewSquadMenu;
+dword dword_1448E6;
+dword dword_1448EA;
 word word_1448F6;
 dword dword_144BBA;
 dword dword_144BBE;
-word word_145352;
-word word_145354;
 word word_145356;
 word word_145358;
 word word_14535A;
 word word_14535C;
 word word_14535E;
+word word_145352;
+word word_145354;
 string aPlayersOnDomes;
 string aPlayersOnForei;
 string aList;
 string aMore;
 word[3] word_14507E;
+word word_145362;
 pointer off_144E7A;
 char[17] byte_15350B;
-word word_145362;
 string aBuyOtherDomest;
 pointer buyOtherPlayersMenu;
 string aBuyOtherForeig;
@@ -2312,9 +2312,6 @@ pointer offersMenu;
 word[3] word_1459A0;
 string aNoOffers;
 word word_145D1A;
-word word_1462D2;
-word word_1462D4;
-byte[100] byte_1462D6;
 undefined1 DAT_00164c40;
 word word_2DA9C;
 word word_14153E;
@@ -2323,15 +2320,18 @@ byte[16] byte_146180;
 word word_1462CC;
 word word_1462CE;
 word word_1462D0;
+word word_1462D2;
+word word_1462D4;
+byte[100] byte_1462D6;
 word word_146742;
 word word_146744;
 pointer playerTransferMenu;
 word skipLeagueNumbers;
-undefined AddInternationalPlayerHome;
 undefined AddInternationalPlayerAbroad;
 string aAddInternation;
-word word_146B8E;
 string aAddInternation_0;
+word word_146B8E;
+undefined AddInternationalPlayerHome;
 undefined1 DAT_00164f65;
 dword dword_146B90;
 dword dword_146B94;
@@ -2354,7 +2354,6 @@ pointer nationalTeamAddPlayerMenu;
 word nationalTeamAddPlayerType;
 byte[26] byte_1473C2;
 byte[18] byte_1473E8;
-word playMatchControlFlags;
 word playerNumThatStarted;
 word isFirstPlayerChoosingTeam;
 word playMatchExcludeFlags;
@@ -2363,23 +2362,24 @@ TeamFile *playMatchTeam1Ptr;
 TeamFile *playMatchTeam2Ptr;
 pointer playMatchMenu;
 word maxSubstitutesEntries;
+word playMatchControlFlags;
 word showingCpuTeams;
 word viewingOpponentTeam;
 word is_A_team;
-word selectedPlayerPosition;
-dword pmSelectedPlayerEntry;
 word pmMenuNumPlayers;
 word numPlayersToShowInMenu;
+word selectedPlayerPosition;
+dword pmSelectedPlayerEntry;
 dword currentSelectedPlayerIndexPtr;
 word selectedPlayerTacticsPosition;
 word[3] word_1483E2;
-string aViewMatch;
 string aCoachMatch;
 string aPlayCoachMatch;
 string aViewResult;
+string aViewMatch;
 string aViewATeam;
-string aViewBTeam;
 byte[4] byte_149224;
+string aViewBTeam;
 pointer sidePitchSurnamePositionsTable;
 string aViewOppo;
 string aCoach_1;
@@ -2387,11 +2387,11 @@ string aPlayer_1;
 string aViewOtherTeam;
 string aViewTeam;
 word[4] word_1491F2;
-word word_164B2E;
 word word_1496F4;
+word nat_teams_rand_limit1;
 word word_16E0D8;
 word word_16E0DA;
-word nat_teams_rand_limit1;
+word word_164B2E;
 uchar[4] byte_1508D4;
 word numNationalTeams;
 JobOffer[5] jobOffers;
@@ -2404,14 +2404,6 @@ string aJobOfferFromA;
 string aJobOfferFromAW;
 word teamNoOfferingJob;
 dword jobOfferFunds;
-string aTheMembersOfTh_0;
-string aOfAAreDelighte;
-string aAcceptedThePos;
-string aFromTheStartOf;
-string aWeLookForwardT_0;
-string aInternationalJ;
-dword teamOfferingJobPtr;
-string aAndWeLookForwa;
 string aCoachingJobAtO;
 string aWeCanOfferYouA;
 string aWeHopeToBeAble;
@@ -2428,12 +2420,20 @@ string aAsCoachOfTheNa;
 string aWeCanPromiseYo;
 string aAnAnnuallyRevi;
 string aWeLookForwardT;
+string aTheMembersOfTh_0;
+string aOfAAreDelighte;
+string aAcceptedThePos;
+string aFromTheStartOf;
+string aWeLookForwardT_0;
+string aInternationalJ;
+dword teamOfferingJobPtr;
+string aAndWeLookForwa;
 pointer chairmanMemosMenu;
-pointer clubMessagesTable;
 pointer PTR_aAnyFurtherPlay_0014a952;
+string aDearAB_0;
+pointer clubMessagesTable;
 string aMemoFromThePre;
 string aThePresident;
-string aDearAB_0;
 string aBalanceAtStart;
 string aBalanceAtEndOf;
 string aTotalLoss;
@@ -2444,15 +2444,15 @@ dword sensisoftPlcSponsorship;
 dword[32] dword_164A20;
 string aEditTacticsSel;
 byte[128] editTacticsCountryBuffer;
-pointer chooseTacticsMenu;
 word chosenTactics;
 pointer editTacticsMenu;
+pointer chooseTacticsMenu;
 word word_14C60E;
-dword dword_14C612;
 word editTacticsNumPlayers;
+dword dword_14C612;
 word word_14C616;
-dword some_menu_entry_ptr;
 TeamTactics editTacticsCurrentTactics;
+dword some_menu_entry_ptr;
 word word_14C610;
 string aEditedTacticsWillBeLost;
 string aEditTactics;
@@ -2462,45 +2462,45 @@ string aSaveEditedTact;
 pointer importTacticsMenu;
 word importMenuSelectedTactics;
 word word_14B4B6;
-word editTacticsBallLocation;
 word editTacticsPlayerX;
+word editTacticsBallLocation;
 byte[6] byte_14C0E8;
 word[5] word_14C602;
-word markedPlayerNumber;
 word editTacticsPitchStatus;
 word word_14B490;
+word markedPlayerNumber;
+word[16] littlePlayersConvertTable;
 word ballRow;
 word ballColumn;
 dword editTacticsPlayerNumbers;
-word[16] littlePlayersConvertTable;
-word pitchWidth;
 word word_14B4A6;
+word pitchWidth;
 word editTacticsBallRow;
 word editTacticsBallColumn;
 word editTacticsLastBallLocation;
-word[12] editTacticsPlayerPositions;
 word word_14B4B0;
+word[12] editTacticsPlayerPositions;
 word[35] playerAreas;
 byte[16] arrowSpritesOffsets;
 word[4] tacticCursorFrames;
 TeamTactics savedCurrentTactics;
-string aNotATacticsFil;
 string aLoadEditedTact;
+string aNotATacticsFil;
 word[11] positionDefensiveness;
 undefined DAT_0000bf08;
 undefined DAT_0000c302;
+word[4] littlePlayersSpriteTable;
 word stadiumMenuLittlePlayer;
 byte[32] littlePlayersColorTable;
-word[4] littlePlayersSpriteTable;
+string aNotAHighlights;
 string aCannotPlayOldV;
 string aLoadHighlights;
-string aNotAHighlights;
 string aSaveHighlights;
 word[256] teamsCountryNumbers;
 byte[256] byte_D556;
+string aDataUefacupTmd;
 string aDataEurocupTmd;
 string aDataEurocwcTmd;
-string aDataUefacupTmd;
 byte[64] byte_15154E;
 undefined2 DAT_0002e140;
 byte[32] byte_1517A2;
@@ -2509,18 +2509,18 @@ byte[32] byte_1518C8;
 string aInsertSwosDisk_0;
 string aOk;
 string aInsertGameSave;
-word word_16F4A2;
 dword dword_16F4A4;
 dword dword_16F4A8;
 dword dword_16F4AC;
-string aCj0611143807;
 dword dword_16F4B0;
+string aCj0611143807;
+word word_16F4A2;
 string aFileSavedByDif;
 string aFileSavedOnDif;
 string aCompetitionFil_0;
+byte[50] teamFilenameBuffer;
 string aDataTeamNnn;
 string aEditedCustomTe;
-byte[50] teamFilenameBuffer;
 dword dword_B68A;
 word word_B6C0;
 word nextGoalPtrSaved;
@@ -2541,7 +2541,7 @@ void __usercall j_start(void)
   dword *pdVar6;
   byte *pbVar3;
   
-  divide_by_zero = 0x1000d0;
+  DIVIDE_BY_ZERO = 0x1000d0;
   DAT_0000cc88 = 0x1000dc;
   InitHardwareAtFrameStart();
   pdVar4 = &g_loaderBankBitmap;
@@ -2577,9 +2577,9 @@ void __usercall j_start(void)
   } while (iVar1 != 0);
   DMACON = 0x8340;
   DMACON = 0x400;
-  level_2_interrupt_autovector = (dword)Int12KeyboardHandler;
-  level_3_interrupt_autovector = (dword)Int13TimerHandler;
-  level_4_interrupt_autovector = (dword)&Level4InterruptHandler;
+  LEVEL_2_INTERRUPT_AUTOVECTOR = (dword)Int12KeyboardHandler;
+  LEVEL_3_INTERRUPT_AUTOVECTOR = (dword)Int13TimerHandler;
+  LEVEL_4_INTERRUPT_AUTOVECTOR = (dword)&Level4InterruptHandler;
   DAT_0000cc88 = 0x10017e;
   SetupInterrupts();
   INTENA = 0xc008;
@@ -2607,7 +2607,7 @@ void __usercall start(void)
   dword *pdVar6;
   byte *pbVar3;
   
-  divide_by_zero = 0x1000d0;
+  DIVIDE_BY_ZERO = 0x1000d0;
   DAT_0000cc88 = 0x1000dc;
   InitHardwareAtFrameStart();
   pdVar4 = &g_loaderBankBitmap;
@@ -2643,9 +2643,9 @@ void __usercall start(void)
   } while (iVar1 != 0);
   DMACON = 0x8340;
   DMACON = 0x400;
-  level_2_interrupt_autovector = (dword)Int12KeyboardHandler;
-  level_3_interrupt_autovector = (dword)Int13TimerHandler;
-  level_4_interrupt_autovector = (dword)&Level4InterruptHandler;
+  LEVEL_2_INTERRUPT_AUTOVECTOR = (dword)Int12KeyboardHandler;
+  LEVEL_3_INTERRUPT_AUTOVECTOR = (dword)Int13TimerHandler;
+  LEVEL_4_INTERRUPT_AUTOVECTOR = (dword)&Level4InterruptHandler;
   DAT_0000cc88 = 0x10017e;
   SetupInterrupts();
   INTENA = 0xc008;
@@ -3843,6 +3843,8 @@ void __usercall sub_100BBA(void *ctx)
 
 
 
+// WARNING: Globals starting with '_' overlap smaller symbols at the same address
+
 uint __usercall sub_100BCC(void *ctx,void *text)
 
 {
@@ -3860,8 +3862,8 @@ uint __usercall sub_100BCC(void *ctx,void *text)
   uVar2 = sub_100E70(unaff_D0w,0,0x6e0,2,(void *)0x0,unaff_A1,ctx);
   if (bVar5) {
     sub_100BBA(ctx);
-    initial_sp = 2;
-    address_rrror = 0x48;
+    NULL = 2;
+    ram0x0000000c = 0x48;
     uRam00000138 = 0xffffffff;
     uRam0000013c = 0x371;
     sub_100B4E((void *)0x0,text);
@@ -3875,7 +3877,7 @@ uint __usercall sub_100BCC(void *ctx,void *text)
     } while (uVar1 != 0x6e0);
     sub_100B12(0x370,ctx_00);
     sub_100B12(0x371,ctx_00);
-    divide_by_zero = sub_100DEC((void *)0x0);
+    DIVIDE_BY_ZERO = sub_100DEC((void *)0x0);
     uRam00000200 = sub_100DEC((void *)0x200);
     bVar5 = false;
     uVar2 = sub_100E60((ushort)uRam00000200,0x370,2,2,(void *)0x0,unaff_A1);
@@ -5350,7 +5352,7 @@ void __usercall InitDisplayAndCopper(void)
   uint uVar3;
   ushort uVar4;
   short sVar5;
-  word *pwVar6;
+  ushort *puVar6;
   int iVar7;
   word *pwVar8;
   
@@ -5359,12 +5361,12 @@ void __usercall InitDisplayAndCopper(void)
   _kSpriteBlitQueueSentinel_A = 0xffffffff;
   _kSpriteBlitQueueSentinel_B = 0xffffffff;
   sVar5 = 0x13f;
-  pwVar6 = copperListTemplate;
+  puVar6 = copperListTemplate;
   pwVar8 = copperListBuffer;
   do {
-    *(undefined1 *)pwVar8 = *(undefined1 *)pwVar6;
+    *(undefined1 *)pwVar8 = *(undefined1 *)puVar6;
     sVar5 = sVar5 + -1;
-    pwVar6 = (word *)((int)pwVar6 + 1);
+    puVar6 = (ushort *)((int)puVar6 + 1);
     pwVar8 = (word *)((int)pwVar8 + 1);
   } while (sVar5 != -1);
   copperZeroLong = 0;
@@ -5381,18 +5383,18 @@ void __usercall InitDisplayAndCopper(void)
     iVar7 = iVar7 + 8;
     sVar5 = sVar5 + -1;
   } while (sVar5 != -1);
-  pwVar6 = copperListBuffer + 0x39;
+  pwVar8 = copperListBuffer + 0x39;
   sVar5 = 0xf;
   do {
-    *pwVar6 = 0;
-    pwVar6 = pwVar6 + 2;
+    *pwVar8 = 0;
+    pwVar8 = pwVar8 + 2;
     sVar5 = sVar5 + -1;
   } while (sVar5 != -1);
-  pwVar6 = copperListBuffer + 0x59;
+  pwVar8 = copperListBuffer + 0x59;
   sVar5 = 0xf;
   do {
-    *pwVar6 = 0;
-    pwVar6 = pwVar6 + 2;
+    *pwVar8 = 0;
+    pwVar8 = pwVar8 + 2;
     sVar5 = sVar5 + -1;
   } while (sVar5 != -1);
   plane0WritePtr = (dword)&plane0StartWordAddr0;
@@ -6566,7 +6568,7 @@ dispatch_draw_pack_C:
             unaff_A0 = unaff_A0 + 5;
             BlitDispatch(uVar1 & 0xfff,unaff_D1w,unaff_D2w,(ushort)*(byte *)puVar6,(ushort)*pbVar3,
                          0xffff,(short)*(char *)puVar4,(short)*pcVar5,&frontbufferPlaneOffset,
-                         (void *)((int)&initial_sp + 1));
+                         (void *)((int)&NULL + 1));
           }
           else if (uVar1 == 0xf000) {
             uVar1 = *unaff_A0;
@@ -6578,7 +6580,7 @@ dispatch_draw_pack_D:
             BlitDispatch(uVar1 & 0xfff,unaff_D1w,unaff_D2w,(ushort)*(byte *)puVar6,
                          (ushort)(byte)*puVar6,puVar6[2],(short)*(char *)(puVar6 + 1),
                          (short)*(char *)((int)puVar6 + 3),&frontbufferPlaneOffset,
-                         (void *)((int)&initial_sp + 1));
+                         (void *)((int)&NULL + 1));
           }
           else {
             if (uVar1 == 0xb000) {
@@ -6794,9 +6796,9 @@ void __usercall ReturnFunction(void)
 void __usercall SetupInterrupts(void)
 
 {
-  level_1_interrupt_autovector = level_3_interrupt_autovector;
-  level_3_interrupt_autovector = (dword)&interrupt_l3_2;
-  level_5_interrupt_autovector = (dword)&interrupt_l5;
+  LEVEL_1_INTERRUPT_AUTOVECTOR = LEVEL_3_INTERRUPT_AUTOVECTOR;
+  LEVEL_3_INTERRUPT_AUTOVECTOR = (dword)&interrupt_l3_2;
+  LEVEL_5_INTERRUPT_AUTOVECTOR = (dword)&interrupt_l5;
                     // Master interrupt
                     // Serial port receive buffer full
                     // Start of vertical blank
@@ -29838,11 +29840,11 @@ ushort __usercall InputText(ushort maxLenPlus1,MenuEntry *entry)
         if (uVar1 == 0x7f) {
           if (pos != inMenuKeyboardBuffer) {
             pos = pos + -1;
-            goto LAB_00120eea;
+            goto input_text_space;
           }
         }
         else if (uVar1 == 0x7e) {
-LAB_00120eea:
+input_text_space:
           sub_120EF2((char *)pos);
         }
         else if (((0x1f < uVar1) && (uVar1 < 0x80)) &&
@@ -30084,7 +30086,7 @@ void __usercall DrawMenuItem(MenuEntry *item)
      (unaff_D0w = (*(code *)item->beforeDraw)(), item->isInvisible != 0)) {
     return;
   }
-  if (deadVar03 != 0) goto LAB_00121408;
+  if (deadVar03 != 0) goto post_draw_callback;
   if (item->background != NO_BACKGROUND) {
     if (item->background == ENTRY_FRAME_AND_BACK_COLOR) {
       uVar4 = item->x;
@@ -30100,10 +30102,10 @@ void __usercall DrawMenuItem(MenuEntry *item)
         }
         else {
                     // color is zero, set to 15 
-          unaff_D0w = 0xf;
+          unaff_D0w = YELLOW_GREEN_BLACK_15;
                     // draw entry background with yellow 
                     // and without frame 
-          DrawMenuItemBackground(0xf,uVar4,uVar9,uVar10,height);
+          DrawMenuItemBackground(YELLOW_GREEN_BLACK_15,uVar4,uVar9,uVar10,height);
         }
       }
       else {
@@ -30132,24 +30134,22 @@ void __usercall DrawMenuItem(MenuEntry *item)
       DrawSprite16Pixels();
     }
     else {
-      if (item->background != ENTRY_FUNC1) goto LAB_0012141e;
+      if (item->background != ENTRY_FUNC1) goto panic_unknown_entry_type;
       unaff_D0w = (*(code *)item->bg)();
     }
   }
-                    // MenuEntry.bg+2 
-  if (item->content == NO_FOREGROUND) goto LAB_00121408;
-                    // MenuEntry.bg+2 
+  if (item->content == NO_FOREGROUND) goto post_draw_callback;
   if (item->content == ENTRY_STRING) {
-    if ((item->fg).func2 == 0) goto LAB_00121408;
+    if ((item->fg).func2 == 0) goto post_draw_callback;
     text_00 = *(byte **)&(item->fg).sprite2;
   }
   else {
     if (item->content == ENTRY_SPRITE2) {
-LAB_001212aa:
+fg_sprite_draw_core:
       DrawSprite16Pixels();
-      goto LAB_00121408;
+      goto post_draw_callback;
     }
-    if (item->content == 4) {
+    if (item->content == ENTRY_STRING_TABLE) {
       puVar1 = (undefined4 *)(item->fg).func2;
       text_00 = *(byte **)((int)puVar1 +
                           (short)((*(short *)*puVar1 - *(short *)(puVar1 + 1)) * 4) + 6);
@@ -30196,15 +30196,16 @@ LAB_001212aa:
             } while (sVar11 != -1);
           }
         }
-        goto LAB_00121408;
+        goto post_draw_callback;
       }
-      if (item->content != 6) {
-        if (item->content == 1) {
+      if (item->content != ENTRY_NUMBER) {
+        if (item->content == ENTRY_FUNC2) {
           (*(code *)item->fg)();
-          goto LAB_00121408;
+          goto post_draw_callback;
         }
+                    // only 0..7 allowed 
         if (item->content != ENTRY_SPRITE_COPY) {
-LAB_0012141e:
+panic_unknown_entry_type:
           panicReasonCode = 0x1209;
           PanicHaltLoop();
           sVar11 = unaff_D0w - 1;
@@ -30220,7 +30221,7 @@ LAB_0012141e:
         puVar2 = (ushort *)(item->fg).func2;
         CopyWholeSprite(*puVar2,puVar2[1]);
         ConvertSpriteColors(puVar2[1],puVar2 + 2);
-        goto LAB_001212aa;
+        goto fg_sprite_draw_core;
       }
       Int2Ascii((item->fg).sprite2,(char *)numbersBuffer);
       text_00 = numbersBuffer;
@@ -30273,7 +30274,7 @@ LAB_0012141e:
     }
     DrawMenuText(uVar9,uVar4,uVar10,(char *)text_00,pCVar3);
   }
-LAB_00121408:
+post_draw_callback:
   if (item->afterDraw != (void *)0x0) {
     (*(code *)item->afterDraw)(item);
   }
@@ -45248,7 +45249,6 @@ LAB_0012f966:
         patternIndex = (short)((uint)(int)sVar5 % 0x15) + (short)((uint)(int)sVar5 / 0x15) * 0x2a +
                        (g_cameraX.s.i >> 4);
         pbVar1 = (byte *)((int)(short)(patternIndex * 4) + 0x400);
-                    // g_currentMenu 
         if ((pbVar1 < g_pitchDatBuffer) || (g_pitchDatBuffer + 0x2417 < pbVar1)) {
           panicReasonCode = 0x2772;
           PanicHaltLoop();
@@ -46233,7 +46233,7 @@ void __usercall ChooseTeamsFriendlyInitFinish(void)
   wVar10 = leagueNumber;
   if ((short)topOfStackMark < 0) {
     g_menuEntries[0x38].fg.func2 = (dword)aAbort;
-    g_menuEntries[0x38].bg._0_2_ = (g_menuEntries[0x38].bg.backAndFrameColor & 0xfff0) + 10;
+    g_menuEntries[0x38].bg._0_2_ = (g_menuEntries[0x38].bg.backAndFrameColor & 0xfff0) + RED_10;
   }
   if (selectTeamsNoLimit != 0) {
     g_menuEntries[1].isInvisible = 1;
@@ -47250,9 +47250,9 @@ void __usercall DesignDIYLeagueFinish(void)
   if (g_pitchType != 0xfffe) {
     diyPitchTypeOrSeason_2 = 0;
     diyLeaguePitchType = g_pitchType;
-    g_menuEntries[8].bg._0_2_ = (g_menuEntries[8].bg.backAndFrameColor & 0xfff0) + 9;
+    g_menuEntries[8].bg._0_2_ = (g_menuEntries[8].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
     g_menuEntries[8].isDisabled = 1;
-    g_menuEntries[9].bg._0_2_ = (g_menuEntries[9].bg.backAndFrameColor & 0xfff0) + 9;
+    g_menuEntries[9].bg._0_2_ = (g_menuEntries[9].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
     g_menuEntries[9].isDisabled = 1;
   }
   DIYSetMonthsOrPitchTypeEntries();
@@ -47279,6 +47279,8 @@ void __usercall DesignDIYLeagueFinish(void)
 }
 
 
+
+// DOS: cseg_47981
 
 void __usercall sub_1320B4(void)
 
@@ -48206,17 +48208,17 @@ void __usercall DIYLeagueTournament16BeforeDraw(MenuEntry *entry)
             if (word_2DF4A != 0) goto LAB_00133142;
           }
           else if (uVar5 <= (ushort)((word_2DF42 - word_2DF48) - word_2DF4A)) {
-            g_menuEntries[0x21].bg._0_2_ = 7;
+            g_menuEntries[0x21].bg._0_2_ = PINK_TO_BROWN_7;
             goto LAB_00133168;
           }
         }
 LAB_00133148:
-        g_menuEntries[0x21].bg._0_2_ = 9;
+        g_menuEntries[0x21].bg._0_2_ = PINK_TO_BROWN_9;
       }
       else {
         if (word_2DF46 == 0) goto LAB_00133148;
 LAB_00133142:
-        g_menuEntries[0x21].bg._0_2_ = 7;
+        g_menuEntries[0x21].bg._0_2_ = PINK_TO_BROWN_7;
       }
       if ((&byte_16F4BA)[iVar1] == 1) {
         g_menuEntries[0x20].bg._0_2_ = g_menuEntries[0x21].bg._0_2_;
@@ -48224,7 +48226,7 @@ LAB_00133142:
     }
 LAB_00133168:
     if (word_1573FE == *(word *)((int)&selTeamsPtr + iVar1)) {
-      g_menuEntries[0x20].bg.backAndFrameColor = 0xc;
+      g_menuEntries[0x20].bg.backAndFrameColor = ORANGE_TO_BROWN_12;
     }
     g_menuEntries[0x21].dwHeight = wVar2;
     g_menuEntries[0x21].fg._0_2_ = *(word *)((int)&DAT_0002e1a8 + iVar7);
@@ -48403,9 +48405,9 @@ void __usercall DesignDIYCupReinit(void)
   if (g_pitchType != 0xfffe) {
     diyPitchTypeOrSeason_2 = 0;
     diyLeaguePitchType = g_pitchType;
-    g_menuEntries[3].bg._0_2_ = (g_menuEntries[3].bg.backAndFrameColor & 0xfff0) + 9;
+    g_menuEntries[3].bg._0_2_ = (g_menuEntries[3].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
     g_menuEntries[3].isDisabled = 1;
-    g_menuEntries[4].bg._0_2_ = (g_menuEntries[4].bg.backAndFrameColor & 0xfff0) + 9;
+    g_menuEntries[4].bg._0_2_ = (g_menuEntries[4].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
     g_menuEntries[4].isDisabled = 1;
   }
   sub_133D06();
@@ -49892,9 +49894,9 @@ void __usercall DesignDIYTournamentReinit(void)
   if (g_pitchType != 0xfffe) {
     diyPitchTypeOrSeason = 0;
     diyPitchType = g_pitchType;
-    g_menuEntries[3].bg._0_2_ = (g_menuEntries[3].bg.backAndFrameColor & 0xfff0) + 9;
+    g_menuEntries[3].bg._0_2_ = (g_menuEntries[3].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
     g_menuEntries[3].isDisabled = 1;
-    g_menuEntries[4].bg._0_2_ = (g_menuEntries[4].bg.backAndFrameColor & 0xfff0) + 9;
+    g_menuEntries[4].bg._0_2_ = (g_menuEntries[4].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
     g_menuEntries[4].isDisabled = 1;
   }
   sub_1362B2();
@@ -50872,9 +50874,9 @@ void __usercall FriendlyMenuReinit(void)
   if (g_pitchType != 0xfffe) {
     pitchTypeOrSeason = 0;
     friendlyPitchType = g_pitchType;
-    g_menuEntries[3].bg._0_2_ = (g_menuEntries[3].bg.backAndFrameColor & 0xfff0) + 9;
+    g_menuEntries[3].bg._0_2_ = (g_menuEntries[3].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
     g_menuEntries[3].isDisabled = 1;
-    g_menuEntries[4].bg._0_2_ = (g_menuEntries[4].bg.backAndFrameColor & 0xfff0) + 9;
+    g_menuEntries[4].bg._0_2_ = (g_menuEntries[4].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
     g_menuEntries[4].isDisabled = 1;
   }
   DrawNumbersOfSubstitutes();
@@ -50913,8 +50915,8 @@ void __usercall DisableEntries(void)
   sVar1 = 5;
   do {
     if ((*(short *)(iVar2 + 0x1c) == ENTRY_FRAME_AND_BACK_COLOR) &&
-       ((*(ushort *)(iVar2 + 0x1e) & 0xf) != 0)) {
-      *(ushort *)(iVar2 + 0x1e) = (*(ushort *)(iVar2 + 0x1e) & 0xfff0) + 9;
+       ((*(ushort *)(iVar2 + 0x1e) & YELLOW_GREEN_BLACK_15) != 0)) {
+      *(ushort *)(iVar2 + 0x1e) = (*(ushort *)(iVar2 + 0x1e) & 0xfff0) + PINK_TO_BROWN_9;
       *(undefined2 *)(iVar2 + 6) = 1;
     }
     iVar2 = iVar2 + 0x38;
@@ -51542,6 +51544,7 @@ void __usercall EditTeamsSelectSecondaryShirtType(MenuEntry *menu)
 void __usercall EditTeamsChangePlayerName(MenuEntry *menu)
 
 {
+                    // player name - max 22 characters + null 
   InputText(0x17,menu);
   return;
 }
@@ -51575,11 +51578,15 @@ void __usercall EditTeamsChangePlayerFace(MenuEntry *menu)
   PlayerFile *pPVar2;
   
   pPVar2 = EditTeamsGetPlayerPointer(menu);
+                    // extract bits 3 and 4 - player face index 
+                    // player face index 
+                    // increase face index 
   sVar1 = ((pPVar2[2].positionAndFace & 0x18) >> 3) + 1;
   if (sVar1 == 3) {
     sVar1 = 0;
   }
   pPVar2[2].positionAndFace = pPVar2[2].positionAndFace & 0xe7;
+                    // set new face index bits into position 
   pPVar2[2].positionAndFace = (char)sVar1 * '\b' + pPVar2[2].positionAndFace;
   (menu->fg).sprite2 = sVar1 + SPR_PL_FACE_WHITE_GUY;
   CallDrawMenuItem(menu);
@@ -51633,6 +51640,7 @@ void __usercall EditTeamsPlayersBeforeDraw(MenuEntry *menu)
 {
   int iVar1;
   
+                    // 23 = start of player faces 
   iVar1 = (uint)(ushort)(menu->ordinal - 0x17) * 0x26;
   g_menuEntries[0x37].y = menu->y;
   g_menuEntries[0x37].fg._0_2_ = ZEXT12((byte)(&DAT_0016f504)[iVar1]);
@@ -51739,9 +51747,9 @@ void __usercall MarkFirstKitShirt(void)
   iVar3 = 0x2b76;
   sVar2 = 3;
   do {
-    *(undefined2 *)(iVar3 + 0x1e) = 9;
+    *(undefined2 *)(iVar3 + 0x1e) = PINK_TO_BROWN_9;
     if (cVar1 == (char)sVar2) {
-      *(undefined2 *)(iVar3 + 0x1e) = 10;
+      *(undefined2 *)(iVar3 + 0x1e) = RED_10;
     }
     iVar3 = iVar3 + -0x38;
     sVar2 = sVar2 + -1;
@@ -51766,9 +51774,9 @@ void __usercall MarkSecondKitShirt(void)
   iVar3 = 0x2c56;
   sVar2 = 3;
   do {
-    *(undefined2 *)(iVar3 + 0x1e) = 9;
+    *(undefined2 *)(iVar3 + 0x1e) = PINK_TO_BROWN_9;
     if (cVar1 == (char)sVar2) {
-      *(undefined2 *)(iVar3 + 0x1e) = 10;
+      *(undefined2 *)(iVar3 + 0x1e) = RED_10;
     }
     iVar3 = iVar3 + -0x38;
     sVar2 = sVar2 + -1;
@@ -52129,6 +52137,7 @@ void __usercall CompetitionTopGoalScorersInit(void)
   
   g_menuEntries[0].fg.func2 = diyStatsName;
   iVar7 = 0x28d6;
+                    // 15 scorers 
   sVar2 = 0xe;
   pbVar6 = &highestScorersTable;
   do {
@@ -52615,6 +52624,8 @@ void __usercall Squad45AfterDraw(void)
 
 
 
+// DOS: cseg_114EC
+
 void __usercall sub_139A4C(void)
 
 {
@@ -52655,6 +52666,8 @@ void __usercall sub_139A4C(void)
 
 
 
+// DOS: cseg_116E8
+
 void __usercall sub_139AE4(void)
 
 {
@@ -52667,10 +52680,11 @@ void __usercall sub_139AE4(void)
   UpdateBigCheckMark();
   dVar3 = dword_13A6EA;
   uVar2 = g_menuEntries[2].bg.backAndFrameColor & 0xfff0;
-  g_menuEntries[2].bg._0_2_ = uVar2 + 0xc;
+  g_menuEntries[2].bg._0_2_ = uVar2 + ORANGE_TO_BROWN_12;
   if ((*(char *)(dword_13A6EA + 4) != '\x01') &&
-     (g_menuEntries[2].bg._0_2_ = uVar2 + 0xb, *(char *)(dword_13A6EA + 4) != '\x02')) {
-    g_menuEntries[2].bg._0_2_ = uVar2 + 0xd;
+     (g_menuEntries[2].bg._0_2_ = uVar2 + BLUE_TO_PURPLE_11, *(char *)(dword_13A6EA + 4) != '\x02'))
+  {
+    g_menuEntries[2].bg._0_2_ = uVar2 + BRIGHT_BLUE_TO_BLUE_13;
   }
   iVar1 = *(int *)((int)countriesTable + (int)(short)((ushort)*(byte *)dword_13A6EA << 2));
   pcVar4 = (char *)(g_menuEntries[3].fg.func2 + 1);
@@ -52704,10 +52718,10 @@ void __usercall sub_139AE4(void)
       }
     }
     uVar2 = g_menuEntries[6].bg.backAndFrameColor & 0xfff0;
-    g_menuEntries[6].bg._0_2_ = uVar2 + 0xe;
+    g_menuEntries[6].bg._0_2_ = uVar2 + YELLOW_GREEN_BLACK_14;
     bVar5 = (*(byte *)(dword_13A6EA + 0x17) & 1) != 0;
     if (bVar5) {
-      g_menuEntries[6].bg._0_2_ = uVar2 + 9;
+      g_menuEntries[6].bg._0_2_ = uVar2 + PINK_TO_BROWN_9;
     }
     g_menuEntries[6].isDisabled = (word)bVar5;
     if (-1 < (short)teamSkillDiffAfterChange) {
@@ -53538,16 +53552,16 @@ short __usercall CareerOverFinish(void)
   if ((((teamNoOfferAccepted == 0xffff) && (youreSacked != 0)) && (numNewJobOffers == 0)) &&
      (numJobOffers == 0)) {
     g_menuEntries[4].isDisabled = 1;
-    g_menuEntries[4].bg._0_2_ = (g_menuEntries[4].bg.backAndFrameColor & 0xfff0) + 9;
+    g_menuEntries[4].bg._0_2_ = (g_menuEntries[4].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
     g_menuEntries[6].isDisabled = 1;
-    wVar2 = (g_menuEntries[6].bg.backAndFrameColor & 0xfff0) + 9;
+    wVar2 = (g_menuEntries[6].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
     g_menuEntries[7].isInvisible = 1;
     g_menuEntries[3].isInvisible = 0;
     g_menuEntries[6].bg._0_2_ = wVar2;
   }
   if ((youreSacked != 0) && (teamNoOfferAccepted == 0xffff)) {
     g_menuEntries[6].isDisabled = 1;
-    wVar2 = (g_menuEntries[6].bg.backAndFrameColor & 0xfff0) + 9;
+    wVar2 = (g_menuEntries[6].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
     g_menuEntries[6].bg._0_2_ = wVar2;
   }
   return wVar2;
@@ -53566,14 +53580,14 @@ short __usercall CareerOverUpdateJobOffersEntry(void)
     return unaff_D0w;
   }
                     // yellow-green-black 
-  wVar1 = (g_menuEntries[5].bg.backAndFrameColor & 0xfff0) + 0xe;
+  wVar1 = (g_menuEntries[5].bg.backAndFrameColor & 0xfff0) + YELLOW_GREEN_BLACK_14;
   g_menuEntries[5].isDisabled = 0;
   g_menuEntries[5].stringFlags = g_menuEntries[5].stringFlags & 0xdfff;
   if (teamNoOfferAccepted == 0xffff) {
     if ((numNewJobOffers == 0) && (numJobOffers == 0)) {
       g_menuEntries[5].fg.func2 = (dword)aNoJobOffers;
       g_menuEntries[5].isDisabled = 1;
-      wVar1 = (g_menuEntries[5].bg.backAndFrameColor & 0xfff0) + 9;
+      wVar1 = (g_menuEntries[5].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
     }
     else {
       g_menuEntries[5].stringFlags = g_menuEntries[5].stringFlags | 0x2000;
@@ -53799,9 +53813,9 @@ void __usercall SetPlayerCoachFieldColor(void)
   ushort uVar1;
   
   uVar1 = g_menuEntries[9].bg.backAndFrameColor & 0xfff0;
-  g_menuEntries[9].bg._0_2_ = uVar1 + 0xd;
+  g_menuEntries[9].bg._0_2_ = uVar1 + BRIGHT_BLUE_TO_BLUE_13;
   if (coachOrPlayer != 0) {
-    g_menuEntries[9].bg._0_2_ = uVar1 + 0xb;
+    g_menuEntries[9].bg._0_2_ = uVar1 + BLUE_TO_PURPLE_11;
   }
   return;
 }
@@ -53919,9 +53933,51 @@ void __usercall ViewCompetitionsInit(void)
     }
   }
   g_menuEntries[1].fg.func2 = (dword)diyPresetNameOfCompetition;
-  g_menuEntries[2].fg.func2 = (dword)&byte_166B78;
-  g_menuEntries[3].fg.func2 = (dword)&byte_1676CC;
-  g_menuEntries[4].fg.func2 = (dword)&byte_167F54;
+  g_menuEntries[2].fg.func2 = (dword)byte_166B78;
+  g_menuEntries[3].fg.func2 = (dword)byte_1676CC;
+  g_menuEntries[4].fg.func2 = (dword)byte_167F54;
+  if (((byte *)dword_166B14 == tourCopy) || ((byte *)dword_166B14 == friendlyCopy)) {
+    g_menuEntries[1].isInvisible = 1;
+    g_menuEntries[5].y = g_menuEntries[4].y;
+    g_menuEntries[4].y = g_menuEntries[3].y;
+    g_menuEntries[3].y = g_menuEntries[2].y;
+    g_menuEntries[2].y = g_menuEntries[1].y;
+  }
+  if (((dword_166B18 == 0) || ((byte *)dword_166B18 == friendlyCopy)) ||
+     ((byte *)dword_166B18 == tourCopy)) {
+    g_menuEntries[2].isInvisible = 1;
+    g_menuEntries[5].y = g_menuEntries[4].y;
+    g_menuEntries[4].y = g_menuEntries[3].y;
+    g_menuEntries[3].y = g_menuEntries[2].y;
+  }
+  if (((dword_166B1C == 0) || ((byte *)dword_166B1C == friendlyCopy)) ||
+     ((byte *)dword_166B1C == tourCopy)) {
+    g_menuEntries[3].isInvisible = 1;
+    g_menuEntries[5].y = g_menuEntries[4].y;
+    g_menuEntries[4].y = g_menuEntries[3].y;
+  }
+  if (dword_166B20 == 0) {
+    g_menuEntries[4].isInvisible = 1;
+    g_menuEntries[5].y = g_menuEntries[4].y;
+  }
+  if ((isNationalSelector != 0) || (word_16924C == 0)) {
+    g_menuEntries[5].isInvisible = 1;
+  }
+  if (g_gameType != GAME_TYPE_CAREER) {
+    g_menuEntries[6].isInvisible = 1;
+  }
+  return;
+}
+
+
+
+void __usercall ViewCompetitionsOnReturn(void)
+
+{
+  g_menuEntries[1].fg.func2 = (dword)diyPresetNameOfCompetition;
+  g_menuEntries[2].fg.func2 = (dword)byte_166B78;
+  g_menuEntries[3].fg.func2 = (dword)byte_1676CC;
+  g_menuEntries[4].fg.func2 = (dword)byte_167F54;
   if (((byte *)dword_166B14 == tourCopy) || ((byte *)dword_166B14 == friendlyCopy)) {
     g_menuEntries[1].isInvisible = 1;
     g_menuEntries[5].y = g_menuEntries[4].y;
@@ -54556,8 +54612,7 @@ void __usercall CheckJobOffers(void)
   
   if (g_gameType == GAME_TYPE_CAREER) {
     uVar1 = g_menuEntries[5].bg.backAndFrameColor & 0xfff0;
-                    // blue to purple 
-    g_menuEntries[5].bg._0_2_ = uVar1 + 0xb;
+    g_menuEntries[5].bg._0_2_ = uVar1 + BLUE_TO_PURPLE_11;
     g_menuEntries[5].isDisabled = 0;
     uVar2 = g_menuEntries[5].stringFlags & 0xdfff;
     if (teamNoOfferAccepted == 0xffff) {
@@ -54567,8 +54622,7 @@ void __usercall CheckJobOffers(void)
         }
         g_menuEntries[5].fg.func2 = (dword)aNoJobOffers;
         g_menuEntries[5].isDisabled = 1;
-                    // pink to brown 
-        g_menuEntries[5].bg._0_2_ = uVar1 + 7;
+        g_menuEntries[5].bg._0_2_ = uVar1 + PINK_TO_BROWN_7;
         g_menuEntries[5].stringFlags = uVar2;
       }
       else {
@@ -54604,7 +54658,8 @@ void __usercall ContestSetButtons(void)
   g_menuEntries[7].fg.func2 = (dword)aPlayMatch;
   g_menuEntries[7].stringFlags = g_menuEntries[7].stringFlags & 0xdfff;
   if (g_gameType == GAME_TYPE_SEASON) {
-    g_menuEntries[0xd].bg._0_2_ = (g_menuEntries[0xd].bg.backAndFrameColor & 0xfff0) + 4;
+    g_menuEntries[0xd].bg._0_2_ =
+         (g_menuEntries[0xd].bg.backAndFrameColor & 0xfff0) + ORANGE_TO_BROWN_4;
     g_menuEntries[0xd].isDisabled = 0;
     if (seasonNumberOfSquads == 0) {
       g_menuEntries[7].fg.func2 = (dword)aNextMatch;
@@ -54626,7 +54681,8 @@ void __usercall ContestSetButtons(void)
   }
   if (seasonFinished == 0) {
     g_menuEntries[10].isInvisible = 0;
-    g_menuEntries[10].bg.backAndFrameColor = (g_menuEntries[10].bg.backAndFrameColor & 0xfff0) + 4;
+    g_menuEntries[10].bg.backAndFrameColor =
+         (g_menuEntries[10].bg.backAndFrameColor & 0xfff0) + ORANGE_TO_BROWN_4;
     if (careerFinished == 0) {
       if ((isNationalSelector == 0) && (word_16E082 != 0)) {
         g_menuEntries[7].stringFlags = g_menuEntries[7].stringFlags | 0x2000;
@@ -54637,7 +54693,8 @@ void __usercall ContestSetButtons(void)
     return;
   }
   g_menuEntries[7].fg.func2 = (dword)aFinishSeason;
-  g_menuEntries[10].bg.backAndFrameColor = (g_menuEntries[10].bg.backAndFrameColor & 0xfff0) + 9;
+  g_menuEntries[10].bg.backAndFrameColor =
+       (g_menuEntries[10].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
   g_menuEntries[10].isDisabled = 1;
   return;
 }
@@ -54676,12 +54733,13 @@ void __usercall CheckTransfers(void)
     sub_125B56();
     if (!bVar1) {
 LAB_0013c1ca:
-      g_menuEntries[4].bg._0_2_ = (g_menuEntries[4].bg.backAndFrameColor & 0xfff0) + 9;
+      g_menuEntries[4].bg._0_2_ = (g_menuEntries[4].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9
+      ;
       g_menuEntries[4].isDisabled = 1;
       goto LAB_0013c1e8;
     }
   }
-  g_menuEntries[4].bg._0_2_ = (g_menuEntries[4].bg.backAndFrameColor & 0xfff0) + 8;
+  g_menuEntries[4].bg._0_2_ = (g_menuEntries[4].bg.backAndFrameColor & 0xfff0) + BLUE_TO_BLACK_8;
   g_menuEntries[4].isDisabled = 0;
   bVar1 = timeToNegotiate == 0;
   if ((!bVar1) && (CheckForTransferOffers(), bVar1)) {
@@ -54844,25 +54902,32 @@ void __usercall SetNationalSelectorButtons(void)
     if ((bVar1) && (g_menuEntries[4].fg.func2 = (dword)aChangeSquad, careerNumPlayers != 0x14)) {
       g_menuEntries[4].fg.func2 = (dword)aSelectSquad;
     }
-    g_menuEntries[0xc].bg._0_2_ = (g_menuEntries[0xc].bg.backAndFrameColor & 0xfff0) + 4;
+    g_menuEntries[0xc].bg._0_2_ =
+         (g_menuEntries[0xc].bg.backAndFrameColor & 0xfff0) + ORANGE_TO_BROWN_4;
     g_menuEntries[0xc].isDisabled = 0;
     bVar1 = true;
     sub_125B56();
     if (!bVar1) {
-      g_menuEntries[0xc].bg._0_2_ = (g_menuEntries[0xc].bg.backAndFrameColor & 0xfff0) + 9;
+      g_menuEntries[0xc].bg._0_2_ =
+           (g_menuEntries[0xc].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
       g_menuEntries[0xc].isDisabled = 1;
     }
     g_menuEntries[6].isInvisible = 1;
     if (careerNumPlayers != 0x14) {
-      g_menuEntries[8].bg._0_2_ = (g_menuEntries[8].bg.backAndFrameColor & 0xfff0) + 9;
+      g_menuEntries[8].bg._0_2_ = (g_menuEntries[8].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9
+      ;
       g_menuEntries[8].isDisabled = 1;
-      g_menuEntries[7].bg._0_2_ = (g_menuEntries[7].bg.backAndFrameColor & 0xfff0) + 9;
+      g_menuEntries[7].bg._0_2_ = (g_menuEntries[7].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9
+      ;
       g_menuEntries[7].isDisabled = 1;
-      g_menuEntries[10].bg._0_2_ = (g_menuEntries[10].bg.backAndFrameColor & 0xfff0) + 9;
+      g_menuEntries[10].bg._0_2_ =
+           (g_menuEntries[10].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
       g_menuEntries[10].isDisabled = 1;
-      g_menuEntries[0xb].bg._0_2_ = (g_menuEntries[0xb].bg.backAndFrameColor & 0xfff0) + 9;
+      g_menuEntries[0xb].bg._0_2_ =
+           (g_menuEntries[0xb].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
       g_menuEntries[0xb].isDisabled = 1;
-      g_menuEntries[0xc].bg._0_2_ = (g_menuEntries[0xc].bg.backAndFrameColor & 0xfff0) + 9;
+      g_menuEntries[0xc].bg._0_2_ =
+           (g_menuEntries[0xc].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
       g_menuEntries[0xc].isDisabled = 1;
     }
   }
@@ -56486,7 +56551,7 @@ LAB_0013e120:
         base_00 = (byte *)0xfd;
       }
       else if ((base_00 == worldCup) && ((someTeamFlags & 0x40) != 0)) {
-        base_00 = &byte_FC;
+        base_00 = &BYTE_FC;
       }
     }
     if (base_00 < (byte *)0x100) {
@@ -57065,7 +57130,7 @@ void __usercall SelectTeamsReinit(void)
   wVar2 = numSelectedTeams;
   if (numSelectedTeams == topOfStackMark) {
     g_menuEntries[0x58].fg.func2 = (dword)aAbort;
-    wVar2 = (g_menuEntries[0x58].bg.backAndFrameColor & 0xfff0) + 10;
+    wVar2 = (g_menuEntries[0x58].bg.backAndFrameColor & 0xfff0) + RED_10;
     g_menuEntries[0x58].bg._0_2_ = wVar2;
   }
   pcVar5 = (char *)chooseTeamsHeader1stPart;
@@ -57151,7 +57216,7 @@ void __usercall SetLeagueNames(void)
       *(undefined2 *)(iVar2 + 4) = 0;
       *(dword *)(iVar2 + 0x26) = *pdVar3;
       if (**(char **)(iVar2 + 0x26) == '.') {
-        *(undefined2 *)(iVar2 + 0x1e) = 7;
+        *(undefined2 *)(iVar2 + 0x1e) = PINK_TO_BROWN_7;
       }
       iVar2 = iVar2 + 0x38;
       sVar1 = sVar1 + -1;
@@ -58236,7 +58301,9 @@ void __usercall ContinueInit(void)
 {
   g_menuEntries[0].fg.func2 = errorText;
   if (errorPromptsEnabled == 0) {
+                    // gray 
     g_menuEntries[0].bg.backAndFrameColor = 7;
+                    // hide continue button 
     g_menuEntries[1].isInvisible = 1;
     DrawMenu();
     SetExitMenuFlag();
@@ -58281,7 +58348,7 @@ void __usercall ContinueAbortInit(void)
     return;
   }
   if ((char *)abortText == aAbort) {
-    g_menuEntries[3].bg._0_2_ = (g_menuEntries[3].bg.backAndFrameColor & 0xfff0) + 10;
+    g_menuEntries[3].bg._0_2_ = (g_menuEntries[3].bg.backAndFrameColor & 0xfff0) + RED_10;
   }
   if (contAbortDefault != 0) {
     SetCurrentEntry(3);
@@ -61895,11 +61962,13 @@ void __usercall sub_145084(void)
 
 {
   if (word_145352 != 0) {
-    g_menuEntries[6].bg.backAndFrameColor = (g_menuEntries[6].bg.backAndFrameColor & 0xfff0) + 0xd;
+    g_menuEntries[6].bg.backAndFrameColor =
+         (g_menuEntries[6].bg.backAndFrameColor & 0xfff0) + BRIGHT_BLUE_TO_BLUE_13;
     g_menuEntries[6].isDisabled = 0;
     return;
   }
-  g_menuEntries[6].bg.backAndFrameColor = (g_menuEntries[6].bg.backAndFrameColor & 0xfff0) + 9;
+  g_menuEntries[6].bg.backAndFrameColor =
+       (g_menuEntries[6].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
   g_menuEntries[6].isDisabled = 1;
   return;
 }
@@ -62391,7 +62460,7 @@ void __usercall EnableDisableOffers(void)
   if (numOffers == 0) {
     g_menuEntries[3].fg.func2 = (dword)aNoOffers;
     g_menuEntries[3].isDisabled = 1;
-    g_menuEntries[3].bg._0_2_ = (g_menuEntries[3].bg.backAndFrameColor & 0xfff0) + 9;
+    g_menuEntries[3].bg._0_2_ = (g_menuEntries[3].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
   }
   return;
 }
@@ -64844,7 +64913,7 @@ void __usercall SetGameStartButtonText(void)
   ushort uVar1;
   
   uVar1 = g_menuEntries[9].bg.backAndFrameColor & 0xfff0;
-  g_menuEntries[9].bg._0_2_ = uVar1 + 0xe;
+  g_menuEntries[9].bg._0_2_ = uVar1 + YELLOW_GREEN_BLACK_14;
   g_menuEntries[9].fg.func2 = (dword)aViewResult;
   if (squadChangesAllowed != 0) {
     if ((playMatchTeam1Ptr->teamControls == TEAM_COMPUTER) &&
@@ -64857,7 +64926,7 @@ void __usercall SetGameStartButtonText(void)
         g_menuEntries[9].fg.func2 = (dword)aCoachMatch;
       }
     }
-    g_menuEntries[9].bg._0_2_ = uVar1 + 10;
+    g_menuEntries[9].bg._0_2_ = uVar1 + RED_10;
   }
   return;
 }
@@ -64979,17 +65048,17 @@ void __usercall SetUpTacticsButtons(void)
     uVar1 = *(ushort *)(iVar3 + 0x1e) & 0xfff0;
     if ((viewingOpponentTeam == 0) && (showingCpuTeams == 0)) {
       if ((byte)sVar2 == pTVar4->tactics) {
-        uVar1 = uVar1 | 5;
+        uVar1 = uVar1 | ORANGE_TO_BROWN_5;
       }
       else {
-        uVar1 = uVar1 | 4;
+        uVar1 = uVar1 | ORANGE_TO_BROWN_4;
       }
     }
     else if ((byte)sVar2 == pTVar4->tactics) {
-      uVar1 = uVar1 | 1;
+      uVar1 = uVar1 | PINK_TO_BROWN_1;
     }
     else {
-      uVar1 = uVar1 | 9;
+      uVar1 = uVar1 | PINK_TO_BROWN_9;
     }
     *(ushort *)(iVar3 + 0x1e) = uVar1;
     *(undefined2 *)(iVar3 + 6) = 0;
@@ -65133,10 +65202,9 @@ void __usercall SetVariableButtons(void)
       g_menuEntries[6].fg.func2 = (dword)aPlayer_1;
     }
     uVar2 = g_menuEntries[6].bg.backAndFrameColor & 0xfff0;
-    g_menuEntries[6].bg._0_2_ = uVar2 + 0xd;
+    g_menuEntries[6].bg._0_2_ = uVar2 + BRIGHT_BLUE_TO_BLUE_13;
     if (playMatchTeam1Ptr->teamControls == TEAM_PLAYER_COACH) {
-                    // blue 
-      g_menuEntries[6].bg._0_2_ = uVar2 + 0xb;
+      g_menuEntries[6].bg._0_2_ = uVar2 + BLUE_TO_PURPLE_11;
     }
     if (squadChangesAllowed == 0) {
       g_menuEntries[3].isInvisible = 0;
@@ -65153,16 +65221,15 @@ void __usercall SetVariableButtons(void)
       g_menuEntries[6].isDisabled = 1;
     }
     uVar2 = g_menuEntries[1].bg.backAndFrameColor & 0xfff0;
-    g_menuEntries[1].bg._0_2_ = uVar2 + 0xb;
-                    // light blue 
+    g_menuEntries[1].bg._0_2_ = uVar2 + BLUE_TO_PURPLE_11;
     if ((playMatchTeam1Ptr->teamControls != TEAM_PLAYER_COACH) &&
-       (g_menuEntries[1].bg._0_2_ = uVar2 + 0xd, playMatchTeam1Ptr->teamControls != TEAM_COACH)) {
-                    // dark 
-      g_menuEntries[1].bg._0_2_ = uVar2 + 0xc;
+       (g_menuEntries[1].bg._0_2_ = uVar2 + BRIGHT_BLUE_TO_BLUE_13,
+       playMatchTeam1Ptr->teamControls != TEAM_COACH)) {
+      g_menuEntries[1].bg._0_2_ = uVar2 + ORANGE_TO_BROWN_12;
     }
     if ((g_trainingGame != 0) && (playMatchTeam1Ptr->teamControls == TEAM_COMPUTER)) {
-                    // light blue 
-      g_menuEntries[1].bg._0_2_ = (g_menuEntries[1].bg.backAndFrameColor & 0xfff0) + 0xd;
+      g_menuEntries[1].bg._0_2_ =
+           (g_menuEntries[1].bg.backAndFrameColor & 0xfff0) + BRIGHT_BLUE_TO_BLUE_13;
     }
     g_menuEntries[10].isInvisible = (word)(showingCpuTeams != 0);
     if (is_A_team != 0) {
@@ -65182,7 +65249,8 @@ void __usercall SetVariableButtons(void)
   else {
     g_menuEntries[3].isInvisible = 0;
     g_menuEntries[6].isInvisible = 1;
-    g_menuEntries[1].bg._0_2_ = (g_menuEntries[1].bg.backAndFrameColor & 0xfff0) + 0xc;
+    g_menuEntries[1].bg._0_2_ =
+         (g_menuEntries[1].bg.backAndFrameColor & 0xfff0) + ORANGE_TO_BROWN_12;
     g_menuEntries[10].isInvisible = 1;
     if ((playMatchTeam2Ptr->teamControls != TEAM_COMPUTER) || (squadChangesAllowed == 0)) {
       g_menuEntries[7].isInvisible = 1;
@@ -65232,40 +65300,52 @@ void __usercall DrawPlayerEntries(MenuEntry *entry)
   if (uVar4 == 0x10) {
     bVar6 = true;
     uVar4 = maxSubstitutesEntries + (entry->ordinal - 0x12);
-    g_menuEntries[0x1f].bg._0_2_ = (g_menuEntries[0x1f].bg.backAndFrameColor & 0xfff0) + 8;
-    g_menuEntries[0x21].bg._0_2_ = (g_menuEntries[0x21].bg.backAndFrameColor & 0xfff0) + 8;
+    g_menuEntries[0x1f].bg._0_2_ =
+         (g_menuEntries[0x1f].bg.backAndFrameColor & 0xfff0) + BLUE_TO_BLACK_8;
+    g_menuEntries[0x21].bg._0_2_ =
+         (g_menuEntries[0x21].bg.backAndFrameColor & 0xfff0) + BLUE_TO_BLACK_8;
   }
   else {
     bVar6 = false;
     if (uVar4 < 0xb) {
       if ((showingCpuTeams == 0) && (viewingOpponentTeam == 0)) {
         if (uVar4 == 0) {
-          g_menuEntries[0x1f].bg._0_2_ = (g_menuEntries[0x1f].bg.backAndFrameColor & 0xfff0) + 0xe;
-          g_menuEntries[0x21].bg._0_2_ = (g_menuEntries[0x21].bg.backAndFrameColor & 0xfff0) + 0xe;
+          g_menuEntries[0x1f].bg._0_2_ =
+               (g_menuEntries[0x1f].bg.backAndFrameColor & 0xfff0) + YELLOW_GREEN_BLACK_14;
+          g_menuEntries[0x21].bg._0_2_ =
+               (g_menuEntries[0x21].bg.backAndFrameColor & 0xfff0) + YELLOW_GREEN_BLACK_14;
         }
         else {
-          g_menuEntries[0x1f].bg._0_2_ = (g_menuEntries[0x1f].bg.backAndFrameColor & 0xfff0) + 0xd;
-          g_menuEntries[0x21].bg._0_2_ = (g_menuEntries[0x21].bg.backAndFrameColor & 0xfff0) + 0xd;
+          g_menuEntries[0x1f].bg._0_2_ =
+               (g_menuEntries[0x1f].bg.backAndFrameColor & 0xfff0) + BRIGHT_BLUE_TO_BLUE_13;
+          g_menuEntries[0x21].bg._0_2_ =
+               (g_menuEntries[0x21].bg.backAndFrameColor & 0xfff0) + BRIGHT_BLUE_TO_BLUE_13;
         }
       }
       else {
-        g_menuEntries[0x1f].bg._0_2_ = (g_menuEntries[0x1f].bg.backAndFrameColor & 0xfff0) + 10;
-        g_menuEntries[0x21].bg._0_2_ = (g_menuEntries[0x21].bg.backAndFrameColor & 0xfff0) + 10;
+        g_menuEntries[0x1f].bg._0_2_ = (g_menuEntries[0x1f].bg.backAndFrameColor & 0xfff0) + RED_10;
+        g_menuEntries[0x21].bg._0_2_ = (g_menuEntries[0x21].bg.backAndFrameColor & 0xfff0) + RED_10;
       }
     }
     else if ((viewingOpponentTeam == 0) && (showingCpuTeams == 0)) {
       if ((uVar4 == 0xb) && (5 < maxSubstitutesEntries)) {
-        g_menuEntries[0x1f].bg._0_2_ = (g_menuEntries[0x1f].bg.backAndFrameColor & 0xfff0) + 0xe;
-        g_menuEntries[0x21].bg._0_2_ = (g_menuEntries[0x21].bg.backAndFrameColor & 0xfff0) + 0xe;
+        g_menuEntries[0x1f].bg._0_2_ =
+             (g_menuEntries[0x1f].bg.backAndFrameColor & 0xfff0) + YELLOW_GREEN_BLACK_14;
+        g_menuEntries[0x21].bg._0_2_ =
+             (g_menuEntries[0x21].bg.backAndFrameColor & 0xfff0) + YELLOW_GREEN_BLACK_14;
       }
       else {
-        g_menuEntries[0x1f].bg._0_2_ = (g_menuEntries[0x1f].bg.backAndFrameColor & 0xfff0) + 0xb;
-        g_menuEntries[0x21].bg._0_2_ = (g_menuEntries[0x21].bg.backAndFrameColor & 0xfff0) + 0xb;
+        g_menuEntries[0x1f].bg._0_2_ =
+             (g_menuEntries[0x1f].bg.backAndFrameColor & 0xfff0) + BLUE_TO_PURPLE_11;
+        g_menuEntries[0x21].bg._0_2_ =
+             (g_menuEntries[0x21].bg.backAndFrameColor & 0xfff0) + BLUE_TO_PURPLE_11;
       }
     }
     else {
-      g_menuEntries[0x1f].bg._0_2_ = (g_menuEntries[0x1f].bg.backAndFrameColor & 0xfff0) + 0xc;
-      g_menuEntries[0x21].bg._0_2_ = (g_menuEntries[0x21].bg.backAndFrameColor & 0xfff0) + 0xc;
+      g_menuEntries[0x1f].bg._0_2_ =
+           (g_menuEntries[0x1f].bg.backAndFrameColor & 0xfff0) + ORANGE_TO_BROWN_12;
+      g_menuEntries[0x21].bg._0_2_ =
+           (g_menuEntries[0x21].bg.backAndFrameColor & 0xfff0) + ORANGE_TO_BROWN_12;
     }
   }
   uVar2 = g_menuEntries[0x21].bg.backAndFrameColor;
@@ -65278,13 +65358,15 @@ void __usercall DrawPlayerEntries(MenuEntry *entry)
     bVar5 = playMatchExcludeFlags == 0;
     IsPlayerInjured(player,playMatchExcludeFlags);
     if (!bVar5) {
-      g_menuEntries[0x1f].bg._0_2_ = (g_menuEntries[0x1f].bg.backAndFrameColor & 0xfff0) + 10;
-      g_menuEntries[0x21].bg._0_2_ = (g_menuEntries[0x21].bg.backAndFrameColor & 0xfff0) + 10;
+      g_menuEntries[0x1f].bg._0_2_ = (g_menuEntries[0x1f].bg.backAndFrameColor & 0xfff0) + RED_10;
+      g_menuEntries[0x21].bg._0_2_ = (g_menuEntries[0x21].bg.backAndFrameColor & 0xfff0) + RED_10;
     }
   }
   if ((viewingOpponentTeam == 0) && (uVar4 == selectedPlayerPosition)) {
-    g_menuEntries[0x1f].bg._0_2_ = (g_menuEntries[0x1f].bg.backAndFrameColor & 0xfff0) + 6;
-    g_menuEntries[0x21].bg._0_2_ = (g_menuEntries[0x21].bg.backAndFrameColor & 0xfff0) + 6;
+    g_menuEntries[0x1f].bg._0_2_ =
+         (g_menuEntries[0x1f].bg.backAndFrameColor & 0xfff0) + ORANGE_TO_BROWN_6;
+    g_menuEntries[0x21].bg._0_2_ =
+         (g_menuEntries[0x21].bg.backAndFrameColor & 0xfff0) + ORANGE_TO_BROWN_6;
   }
   wVar1 = entry->y;
   g_menuEntries[0x1f].y = wVar1;
@@ -65339,6 +65421,7 @@ void __usercall DrawPlayerEntries(MenuEntry *entry)
   }
   g_menuEntries[0x24].stringFlags = uVar4 | g_menuEntries[0x24].stringFlags & 0xfff0;
   g_menuEntries[0x24].isInvisible = 0;
+                    // draw 6 items. 31-37 
   DrawMultipleItems(6,g_menuEntries + 0x1f);
   return;
 }
@@ -66407,7 +66490,7 @@ void __usercall GotJobOfferFinish(void)
   n0 = teamNoOfferingJob;
   if ((youreSacked != 0) && ((word)(numJobOffers + numNewJobOffers) == 1)) {
     g_menuEntries[8].fg.func2 = (dword)aRetire;
-    g_menuEntries[8].bg._0_2_ = (g_menuEntries[8].bg.backAndFrameColor & 0xfff0) + 10;
+    g_menuEntries[8].bg._0_2_ = (g_menuEntries[8].bg.backAndFrameColor & 0xfff0) + RED_10;
   }
   if (jobOfferFunds == 0xffffffff) {
     g_menuEntries[0].fg.func2 = (dword)aInternationalJ;
@@ -66478,7 +66561,8 @@ void __usercall GotJobOfferFinish(void)
   }
   if (word_14A89A == 0) {
     g_menuEntries[0xd].isDisabled = 1;
-    g_menuEntries[0xd].bg._0_2_ = (g_menuEntries[0xd].bg.backAndFrameColor & 0xfff0) + 9;
+    g_menuEntries[0xd].bg._0_2_ =
+         (g_menuEntries[0xd].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
   }
   teamOfferingJobPtr = (dword)GetTeamPointer(teamNoOfferingJob);
   PrintFormatted(aDearAB,(char *)g_menuEntries[1].fg,n0,unaff_D1w,unaff_D2w,unaff_D3w,unaff_D4w,
@@ -67682,7 +67766,7 @@ void __usercall CopyTactics(void)
 
 {
   if (word_14B4B6 == 0) {
-    g_menuEntries[4].bg._0_2_ = (g_menuEntries[4].bg.backAndFrameColor & 0xfff0) + 9;
+    g_menuEntries[4].bg._0_2_ = (g_menuEntries[4].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
     CallDrawMenuItem(g_menuEntries + 4);
     EditTacticsMenuSavePlayerPositions();
     DrawPlayerNamesAndFaces();
@@ -67691,8 +67775,9 @@ void __usercall CopyTactics(void)
   EditTacticsStatus(1);
   if (word_14B4B6 == 0) {
     CallDrawMenuItem(g_menuEntries + 2);
-    g_menuEntries[4].bg._0_2_ = (g_menuEntries[4].bg.backAndFrameColor & 0xfff0) + 0xe;
-    SetCurrentEntry(4);
+    g_menuEntries[4].bg._0_2_ =
+         (g_menuEntries[4].bg.backAndFrameColor & 0xfff0) + YELLOW_GREEN_BLACK_14;
+    SetCurrentEntry(ORANGE_TO_BROWN_4);
     CallDrawMenuItem(g_menuEntries + 4);
     sub_14C566();
     DrawPlayerNamesAndFaces();
@@ -67781,20 +67866,24 @@ short __usercall EditTacticsAfterDrawPlayerNames(void *cur)
   teamPtr = chooseTacticsTeamPtr;
   if (uVar4 == 0x10) {
     bVar6 = true;
-    g_menuEntries[0x29].bg._0_2_ = (g_menuEntries[0x29].bg.backAndFrameColor & 0xfff0) + 8;
+    g_menuEntries[0x29].bg._0_2_ =
+         (g_menuEntries[0x29].bg.backAndFrameColor & 0xfff0) + BLUE_TO_BLACK_8;
   }
   else {
     bVar6 = false;
     if (uVar4 < 0xb) {
       if (uVar4 == 0) {
-        g_menuEntries[0x29].bg._0_2_ = (g_menuEntries[0x29].bg.backAndFrameColor & 0xfff0) + 0xe;
+        g_menuEntries[0x29].bg._0_2_ =
+             (g_menuEntries[0x29].bg.backAndFrameColor & 0xfff0) + YELLOW_GREEN_BLACK_14;
       }
       else {
-        g_menuEntries[0x29].bg._0_2_ = (g_menuEntries[0x29].bg.backAndFrameColor & 0xfff0) + 0xd;
+        g_menuEntries[0x29].bg._0_2_ =
+             (g_menuEntries[0x29].bg.backAndFrameColor & 0xfff0) + BRIGHT_BLUE_TO_BLUE_13;
       }
     }
     else {
-      g_menuEntries[0x29].bg._0_2_ = (g_menuEntries[0x29].bg.backAndFrameColor & 0xfff0) + 0xb;
+      g_menuEntries[0x29].bg._0_2_ =
+           (g_menuEntries[0x29].bg.backAndFrameColor & 0xfff0) + BLUE_TO_PURPLE_11;
     }
   }
   uVar3 = g_menuEntries[0x29].bg.backAndFrameColor;
@@ -67805,13 +67894,15 @@ short __usercall EditTacticsAfterDrawPlayerNames(void *cur)
   bVar5 = inEditTactics == 0;
   IsPlayerInjured(player,inEditTactics);
   if (!bVar5) {
-    g_menuEntries[0x29].bg._0_2_ = (g_menuEntries[0x29].bg.backAndFrameColor & 0xfff0) + 10;
+    g_menuEntries[0x29].bg._0_2_ = (g_menuEntries[0x29].bg.backAndFrameColor & 0xfff0) + RED_10;
   }
   if (uVar4 == word_14C60E) {
-    g_menuEntries[0x29].bg._0_2_ = (g_menuEntries[0x29].bg.backAndFrameColor & 0xfff0) + 6;
+    g_menuEntries[0x29].bg._0_2_ =
+         (g_menuEntries[0x29].bg.backAndFrameColor & 0xfff0) + ORANGE_TO_BROWN_6;
   }
   if ((-1 < (short)word_14C616) && (uVar3 == (word)(word_14C616 + 1))) {
-    g_menuEntries[0x29].bg._0_2_ = (g_menuEntries[0x29].bg.backAndFrameColor & 0xfff0) + 0xc;
+    g_menuEntries[0x29].bg._0_2_ =
+         (g_menuEntries[0x29].bg.backAndFrameColor & 0xfff0) + ORANGE_TO_BROWN_12;
   }
   wVar1 = *(word *)((int)cur + 0x16);
   if (!bVar6) {
@@ -67864,8 +67955,10 @@ void __usercall sub_14C372(short playerOrdinal,void *cur)
   PlayerFile *player;
   
   teamPtr = chooseTacticsTeamPtr;
+                    // player 16 
   if (playerOrdinal == 0x10) {
-    g_menuEntries[0x27].bg._0_2_ = (g_menuEntries[0x27].bg.backAndFrameColor & 0xfff0) + 8;
+    g_menuEntries[0x27].bg._0_2_ =
+         (g_menuEntries[0x27].bg.backAndFrameColor & 0xfff0) + BLUE_TO_BLACK_8;
   }
   else if ((ushort)playerOrdinal < 0xb) {
     if (playerOrdinal == 0) {
@@ -67878,10 +67971,12 @@ void __usercall sub_14C372(short playerOrdinal,void *cur)
     }
   }
   else if (playerOrdinal == 0xb) {
-    g_menuEntries[0x27].bg._0_2_ = (g_menuEntries[0x27].bg.backAndFrameColor & 0xfff0) + 0xe;
+    g_menuEntries[0x27].bg._0_2_ =
+         (g_menuEntries[0x27].bg.backAndFrameColor & 0xfff0) + YELLOW_GREEN_BLACK_14;
   }
   else {
-    g_menuEntries[0x27].bg._0_2_ = (g_menuEntries[0x27].bg.backAndFrameColor & 0xfff0) + 0xb;
+    g_menuEntries[0x27].bg._0_2_ =
+         (g_menuEntries[0x27].bg.backAndFrameColor & 0xfff0) + BLUE_TO_PURPLE_11;
   }
   uVar2 = g_menuEntries[0x27].bg.backAndFrameColor;
   bVar1 = chooseTacticsTeamPtr->tactics;
@@ -67889,13 +67984,15 @@ void __usercall sub_14C372(short playerOrdinal,void *cur)
   player = (PlayerFile *)GetPlayerInfoBreakPosition(teamPtr,playerOrdinal);
   chooseTacticsTeamPtr->tactics = bVar1;
   if (((player[2].cardsInjuries & 0xe0) != 0) && ((player[2].cardsInjuries & 0xe0) != 0x20)) {
-    g_menuEntries[0x27].bg._0_2_ = (g_menuEntries[0x27].bg.backAndFrameColor & 0xfff0) + 10;
+    g_menuEntries[0x27].bg._0_2_ = (g_menuEntries[0x27].bg.backAndFrameColor & 0xfff0) + COLOR_RED;
   }
   if (playerOrdinal == word_14C60E) {
-    g_menuEntries[0x27].bg._0_2_ = (g_menuEntries[0x27].bg.backAndFrameColor & 0xfff0) + 6;
+    g_menuEntries[0x27].bg._0_2_ =
+         (g_menuEntries[0x27].bg.backAndFrameColor & 0xfff0) + ORANGE_TO_BROWN_6;
   }
   if ((-1 < (short)word_14C616) && (uVar2 == (word)(word_14C616 + 1))) {
-    g_menuEntries[0x27].bg._0_2_ = (g_menuEntries[0x27].bg.backAndFrameColor & 0xfff0) + 0xc;
+    g_menuEntries[0x27].bg._0_2_ =
+         (g_menuEntries[0x27].bg.backAndFrameColor & 0xfff0) + ORANGE_TO_BROWN_12;
   }
   if (flipOnOff != 0) {
     if (((uVar2 == 0) || (10 < (ushort)uVar2)) ||
@@ -67906,7 +68003,7 @@ void __usercall sub_14C372(short playerOrdinal,void *cur)
       g_menuEntries[0x27].bg._0_2_ =
            *(short *)((int)word_14C602 +
                      (int)(short)((short)(char)editTacticsCurrentTactics.someTable
-                                               [(short)uVar2 + -1] << 1)) +
+                                               [(short)uVar2 + -1] << PINK_TO_BROWN_1)) +
            (g_menuEntries[0x27].bg.backAndFrameColor & 0xfff0);
     }
   }
@@ -67932,6 +68029,7 @@ void __usercall DrawPlayerNamesAndFaces(void)
 
 {
   CallDrawMenuItem(g_menuEntries + 0xb);
+                    // draw 10 items 
   CallDrawMultipleItems(10,g_menuEntries + 0x1d);
   CallDrawMenuItem(g_menuEntries);
   return;
@@ -68013,6 +68111,7 @@ void __usercall SetBigCheckSprite(void)
     g_menuEntries[0].fg.sprite2 = SPR_NOT_CHECK_BIG;
   }
   g_menuEntries[0].stringFlags = g_menuEntries[0].stringFlags | 0x2000;
+                    // make it visible 
   g_menuEntries[0].isInvisible = 0;
   return;
 }
@@ -69493,16 +69592,18 @@ void __usercall HighlightsMenuCommon(void)
 {
   if (hilNumGoals == 0) {
     g_menuEntries[1].isDisabled = 1;
-    g_menuEntries[1].bg._0_2_ = (g_menuEntries[1].bg.backAndFrameColor & 0xfff0) + 9;
+    g_menuEntries[1].bg._0_2_ = (g_menuEntries[1].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
     g_menuEntries[3].isDisabled = 1;
-    g_menuEntries[3].bg._0_2_ = (g_menuEntries[3].bg.backAndFrameColor & 0xfff0) + 9;
+    g_menuEntries[3].bg._0_2_ = (g_menuEntries[3].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
     SetCurrentEntry(2);
     return;
   }
   g_menuEntries[1].isDisabled = 0;
-  g_menuEntries[1].bg.backAndFrameColor = (g_menuEntries[1].bg.backAndFrameColor & 0xfff0) + 0xe;
+  g_menuEntries[1].bg.backAndFrameColor =
+       (g_menuEntries[1].bg.backAndFrameColor & 0xfff0) + YELLOW_GREEN_BLACK_14;
   g_menuEntries[3].isDisabled = 0;
-  g_menuEntries[3].bg.backAndFrameColor = (g_menuEntries[3].bg.backAndFrameColor & 0xfff0) + 0xe;
+  g_menuEntries[3].bg.backAndFrameColor =
+       (g_menuEntries[3].bg.backAndFrameColor & 0xfff0) + YELLOW_GREEN_BLACK_14;
   return;
 }
 

@@ -1,7 +1,7 @@
 /*
  * Auto-generated call graph export
  * Start: GameLoop
- * Date : 2025-11-14 21:14:04
+ * Date : 2025-11-19 22:45:32
  */
 
 /* ===================== INCLUDES ===================== */
@@ -18448,7 +18448,7 @@ void __usercall DrawMenuItem(MenuEntry *item)
      (unaff_D0w = (*(code *)item->beforeDraw)(), item->isInvisible != 0)) {
     return;
   }
-  if (deadVar03 != 0) goto LAB_00121408;
+  if (deadVar03 != 0) goto post_draw_callback;
   if (item->background != NO_BACKGROUND) {
     if (item->background == ENTRY_FRAME_AND_BACK_COLOR) {
       uVar4 = item->x;
@@ -18462,8 +18462,8 @@ void __usercall DrawMenuItem(MenuEntry *item)
           DrawMenuItemBackgroundMasked();
         }
         else {
-          unaff_D0w = 0xf;
-          DrawMenuItemBackground(0xf,uVar4,uVar9,uVar10,height);
+          unaff_D0w = YELLOW_GREEN_BLACK_15;
+          DrawMenuItemBackground(YELLOW_GREEN_BLACK_15,uVar4,uVar9,uVar10,height);
         }
       }
       else {
@@ -18486,22 +18486,22 @@ void __usercall DrawMenuItem(MenuEntry *item)
       DrawSprite16Pixels();
     }
     else {
-      if (item->background != ENTRY_FUNC1) goto LAB_0012141e;
+      if (item->background != ENTRY_FUNC1) goto panic_unknown_entry_type;
       unaff_D0w = (*(code *)item->bg)();
     }
   }
-  if (item->content == NO_FOREGROUND) goto LAB_00121408;
+  if (item->content == NO_FOREGROUND) goto post_draw_callback;
   if (item->content == ENTRY_STRING) {
-    if ((item->fg).func2 == 0) goto LAB_00121408;
+    if ((item->fg).func2 == 0) goto post_draw_callback;
     text_00 = *(byte **)&(item->fg).sprite2;
   }
   else {
     if (item->content == ENTRY_SPRITE2) {
-LAB_001212aa:
+fg_sprite_draw_core:
       DrawSprite16Pixels();
-      goto LAB_00121408;
+      goto post_draw_callback;
     }
-    if (item->content == 4) {
+    if (item->content == ENTRY_STRING_TABLE) {
       puVar1 = (undefined4 *)(item->fg).func2;
       text_00 = *(byte **)((int)puVar1 +
                           (short)((*(short *)*puVar1 - *(short *)(puVar1 + 1)) * 4) + 6);
@@ -18539,15 +18539,15 @@ LAB_001212aa:
             } while (sVar11 != -1);
           }
         }
-        goto LAB_00121408;
+        goto post_draw_callback;
       }
-      if (item->content != 6) {
-        if (item->content == 1) {
+      if (item->content != ENTRY_NUMBER) {
+        if (item->content == ENTRY_FUNC2) {
           (*(code *)item->fg)();
-          goto LAB_00121408;
+          goto post_draw_callback;
         }
         if (item->content != ENTRY_SPRITE_COPY) {
-LAB_0012141e:
+panic_unknown_entry_type:
           panicReasonCode = 0x1209;
           PanicHaltLoop();
           sVar11 = unaff_D0w - 1;
@@ -18563,7 +18563,7 @@ LAB_0012141e:
         puVar2 = (ushort *)(item->fg).func2;
         CopyWholeSprite(*puVar2,puVar2[1]);
         ConvertSpriteColors(puVar2[1],puVar2 + 2);
-        goto LAB_001212aa;
+        goto fg_sprite_draw_core;
       }
       Int2Ascii((item->fg).sprite2,(char *)numbersBuffer);
       text_00 = numbersBuffer;
@@ -18613,7 +18613,7 @@ LAB_0012141e:
     }
     DrawMenuText(uVar9,uVar4,uVar10,(char *)text_00,pCVar3);
   }
-LAB_00121408:
+post_draw_callback:
   if (item->afterDraw != (void *)0x0) {
     (*(code *)item->afterDraw)(item);
   }

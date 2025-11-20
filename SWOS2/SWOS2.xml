@@ -2,7 +2,7 @@
 <?program_dtd version="1"?>
 
 <PROGRAM NAME="SWOS2" EXE_PATH=".\SWOS2" EXE_FORMAT="Binary file" INPUT_MD5="u&#xa7;&#xdd;E&#xcf;&#xe6;&#xeb;&#xe1;?|&#xa8;(&#xe0;&#xa3;">
-    <INFO_SOURCE TOOL="IDA-Pro 9.0 XML plugin v5.0.2 (Python) SDK 900" USER="headk" FILE="C:\Projects\Amiga\SWOS-IDA\SWOS2.i64" TIMESTAMP="2025-11-14 21:05" />
+    <INFO_SOURCE TOOL="IDA-Pro 9.0 XML plugin v5.0.2 (Python) SDK 900" USER="headk" FILE="C:\Projects\Amiga\SWOS-IDA\SWOS2.i64" TIMESTAMP="2025-11-19 22:37" />
     <PROCESSOR NAME="68000" ENDIAN="big" ADDRESS_MODEL="32-bit" />
     <COMPILER NAME="Unknown" />
     <DATATYPES>
@@ -828,22 +828,22 @@
         </STRUCTURE>
         <STRUCTURE NAME="Menu" SIZE="0x16">
             <MEMBER OFFSET="0x0" NAME="initFunc" DATATYPE="void *" SIZE="0x4">
-                <REPEATABLE_CMT>3.</REPEATABLE_CMT>
-            </MEMBER>
-            <MEMBER OFFSET="0x4" NAME="onReturn" DATATYPE="void *" SIZE="0x4">
                 <REPEATABLE_CMT>4.</REPEATABLE_CMT>
             </MEMBER>
-            <MEMBER OFFSET="0x8" NAME="onDraw" DATATYPE="void *" SIZE="0x4">
+            <MEMBER OFFSET="0x4" NAME="onReturn" DATATYPE="void *" SIZE="0x4">
                 <REPEATABLE_CMT>5.</REPEATABLE_CMT>
             </MEMBER>
-            <MEMBER OFFSET="0xC" NAME="selectedEntry" DATATYPE="MenuEntry *" SIZE="0x4">
+            <MEMBER OFFSET="0x8" NAME="onDraw" DATATYPE="void *" SIZE="0x4">
                 <REPEATABLE_CMT>6.</REPEATABLE_CMT>
             </MEMBER>
-            <MEMBER OFFSET="0x10" NAME="numEntries" DATATYPE="word" SIZE="0x2">
+            <MEMBER OFFSET="0xC" NAME="selectedEntry" DATATYPE="MenuEntry *" SIZE="0x4">
                 <REPEATABLE_CMT>7.</REPEATABLE_CMT>
             </MEMBER>
-            <MEMBER OFFSET="0x12" NAME="menuEndPtr" DATATYPE="MenuEntry *" SIZE="0x4">
+            <MEMBER OFFSET="0x10" NAME="numEntries" DATATYPE="word" SIZE="0x2">
                 <REPEATABLE_CMT>8.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x12" NAME="menuEndPtr" DATATYPE="MenuEntry *" SIZE="0x4">
+                <REPEATABLE_CMT>9.</REPEATABLE_CMT>
             </MEMBER>
         </STRUCTURE>
         <UNION NAME="entryType2Union" SIZE="0x4">
@@ -2588,187 +2588,34 @@
     </CODE>
     <DATA>
         <DEFINED_DATA ADDRESS="0x0" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>initial_sp</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x4" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>initial_pc</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x8" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>bus_error</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xC" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>address_rrror</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x10" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>illegal_insn</TYPEINFO_CMT>
+            <TYPEINFO_CMT>NULL</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x14" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>divide_by_zero</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x18" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>out_of_bounds</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x1C" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>trap</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x20" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>privilege_violation</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x24" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>trace</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x28" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>line_a_emulator</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x2C" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>line_f_emulator</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x32" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x34" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>coprocessor_protocol_violation</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x38" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>format_error</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x3C" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>uninitialized_interrupt</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x42" DATATYPE="byte" SIZE="0x1">
-            <TYPEINFO_CMT>byte_42</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x45" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x4E" DATATYPE="byte" SIZE="0x1">
-            <TYPEINFO_CMT>byte_4E</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x58" DATATYPE="byte" SIZE="0x1">
-            <TYPEINFO_CMT>byte_58</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x5E" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x60" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>spurious_interrupt</TYPEINFO_CMT>
+            <TYPEINFO_CMT>DIVIDE_BY_ZERO</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x64" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>level_1_interrupt_autovector</TYPEINFO_CMT>
+            <TYPEINFO_CMT>LEVEL_1_INTERRUPT_AUTOVECTOR</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x68" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>level_2_interrupt_autovector</TYPEINFO_CMT>
+            <TYPEINFO_CMT>LEVEL_2_INTERRUPT_AUTOVECTOR</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x6C" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>level_3_interrupt_autovector</TYPEINFO_CMT>
+            <TYPEINFO_CMT>LEVEL_3_INTERRUPT_AUTOVECTOR</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x70" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>level_4_interrupt_autovector</TYPEINFO_CMT>
+            <TYPEINFO_CMT>LEVEL_4_INTERRUPT_AUTOVECTOR</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x74" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>level_5_interrupt_autovector</TYPEINFO_CMT>
+            <TYPEINFO_CMT>LEVEL_5_INTERRUPT_AUTOVECTOR</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x78" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>level_6_interrupt_autovector</TYPEINFO_CMT>
+            <TYPEINFO_CMT>LEVEL_6_INTERRUPT_AUTOVECTOR</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x7C" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>level_7_interrupt_autovector</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x80" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>trap_0_instruction</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x84" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>trap_1_instruction</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x88" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>trap_2_instruction</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x8C" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>trap_3_instruction</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x90" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>trap_4_instruction</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x94" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>trap_5_instruction</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x98" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>trap_6_instruction</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x9C" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>trap_7_instruction</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xA0" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>trap_8_instruction</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xA4" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>trap_9_instruction</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xA8" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>trap_a_instruction</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xAC" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>trap_b_instruction</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xB0" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>trap_c_instruction</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xB4" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>trap_d_instruction</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xB8" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>trap_e_instruction</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xBC" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>trap_f_instruction</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xC0" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>fp_branch_or_set_on_unordered_condition</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xC4" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>fp_inexact_result</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xC8" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>fp_divide_by_zero</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xCC" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>fp_underflow</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xD0" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>fp_operand_error</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xD4" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>fp_overflow</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xD8" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>fp_signaling_nan</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xDC" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>padding_38</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xE0" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>mmu_configuration_error</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xE4" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>mmu_illegal_operation_error</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xE8" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>mmu_access_level_violation_error</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xEC" DATATYPE="byte" SIZE="0x1">
-            <TYPEINFO_CMT>byte_EC</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xF7" DATATYPE="byte" SIZE="0x1">
-            <TYPEINFO_CMT>byte_F7</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xFA" DATATYPE="byte" SIZE="0x1">
-            <TYPEINFO_CMT>byte_FA</TYPEINFO_CMT>
+            <TYPEINFO_CMT>LEVEL_7_INTERRUPT_AUTOVECTOR</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0xFC" DATATYPE="byte" SIZE="0x1">
-            <TYPEINFO_CMT>byte_FC</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xFE" DATATYPE="byte" SIZE="0x1">
-            <TYPEINFO_CMT>byte_FE</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x300" DATATYPE="byte" SIZE="0x1">
-            <TYPEINFO_CMT>byte_300</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x3A0" DATATYPE="byte" SIZE="0x1">
-            <TYPEINFO_CMT>byte_3A0</TYPEINFO_CMT>
+            <TYPEINFO_CMT>BYTE_FC</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x400" DATATYPE="byte[9240]" SIZE="0x2418">
             <TYPEINFO_CMT>g_pitchDatBuffer</TYPEINFO_CMT>
@@ -2946,12 +2793,6 @@
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0xD6A6" DATATYPE="byte" SIZE="0x1">
             <TYPEINFO_CMT>byte_D6A6</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xFC18" DATATYPE="byte" SIZE="0x1">
-            <TYPEINFO_CMT>byte_FC18</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0xFC19" DATATYPE="byte" SIZE="0x1">
-            <TYPEINFO_CMT>byte_FC19</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0xFE80" DATATYPE="byte" SIZE="0x1">
             <TYPEINFO_CMT>byte_FE80</TYPEINFO_CMT>
@@ -3831,7 +3672,7 @@
         <DEFINED_DATA ADDRESS="0x101D2A" DATATYPE="byte[128]" SIZE="0x80">
             <TYPEINFO_CMT>keycodeLut</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x10208C" DATATYPE="word[160]" SIZE="0x140">
+        <DEFINED_DATA ADDRESS="0x10208C" DATATYPE="ushort[160]" SIZE="0x140">
             <TYPEINFO_CMT>copperListTemplate</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x1024F2" DATATYPE="byte[3]" SIZE="0x3">
@@ -33582,7 +33423,7 @@
         <DEFINED_DATA ADDRESS="0x166B74" DATATYPE="dword" SIZE="0x4">
             <TYPEINFO_CMT>dword_166B74</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x166B78" DATATYPE="byte" SIZE="0x1">
+        <DEFINED_DATA ADDRESS="0x166B78" DATATYPE="byte[36]" SIZE="0x24">
             <TYPEINFO_CMT>byte_166B78</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x166B9C" DATATYPE="dword" SIZE="0x4">
@@ -33609,7 +33450,7 @@
         <DEFINED_DATA ADDRESS="0x1676C8" DATATYPE="dword" SIZE="0x4">
             <TYPEINFO_CMT>dword_1676C8</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x1676CC" DATATYPE="byte" SIZE="0x1">
+        <DEFINED_DATA ADDRESS="0x1676CC" DATATYPE="byte[36]" SIZE="0x24">
             <TYPEINFO_CMT>byte_1676CC</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x1676F0" DATATYPE="dword" SIZE="0x4">
@@ -33651,7 +33492,7 @@
         <DEFINED_DATA ADDRESS="0x167F50" DATATYPE="dword" SIZE="0x4">
             <TYPEINFO_CMT>dword_167F50</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x167F54" DATATYPE="byte" SIZE="0x1">
+        <DEFINED_DATA ADDRESS="0x167F54" DATATYPE="byte[36]" SIZE="0x24">
             <TYPEINFO_CMT>byte_167F54</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x167F78" DATATYPE="dword" SIZE="0x4">
@@ -34992,8 +34833,6 @@ might decide not to draw the item </COMMENT>
         <COMMENT ADDRESS="0x121156" TYPE="end-of-line">width </COMMENT>
         <COMMENT ADDRESS="0x121158" TYPE="end-of-line">height </COMMENT>
         <COMMENT ADDRESS="0x121178" TYPE="end-of-line">index into sprite.dat </COMMENT>
-        <COMMENT ADDRESS="0x1211AC" TYPE="end-of-line">MenuEntry.bg+2 </COMMENT>
-        <COMMENT ADDRESS="0x1211B6" TYPE="end-of-line">MenuEntry.bg+2 </COMMENT>
         <COMMENT ADDRESS="0x1211FC" TYPE="end-of-line">(height - chars_h) / 2 + y
 D2 = text start y </COMMENT>
         <COMMENT ADDRESS="0x121248" TYPE="end-of-line">D1 += 2, (x + 2) </COMMENT>
@@ -35006,6 +34845,7 @@ D2 = text start y </COMMENT>
 +------------
 | free space
 +------------ </COMMENT>
+        <COMMENT ADDRESS="0x1213D0" TYPE="end-of-line">only 0..7 allowed </COMMENT>
         <COMMENT ADDRESS="0x12142C" TYPE="end-of-line">in:
      D0 - max. number of items to draw
      A5 - pointer to first entry to draw </COMMENT>
@@ -35079,7 +34919,6 @@ team1 sec. vs team2 sec. </COMMENT>
         <COMMENT ADDRESS="0x128ED8" TYPE="end-of-line">percent of average player prices, compared to
 average player prices of all selected teams
 formula: sel. teams app * 100 / this team app + 6 </COMMENT>
-        <COMMENT ADDRESS="0x12FA3A" TYPE="end-of-line">g_currentMenu </COMMENT>
         <COMMENT ADDRESS="0x12FEF4" TYPE="end-of-line">tactics </COMMENT>
         <COMMENT ADDRESS="0x1305A8" TYPE="end-of-line">is team full? </COMMENT>
         <COMMENT ADDRESS="0x130694" TYPE="end-of-line">on init function </COMMENT>
@@ -41475,8 +41314,14 @@ set to 1 when ok is selected in friendly game menu </COMMENT>
         <COMMENT ADDRESS="0x137F2E" TYPE="end-of-line">fire + up </COMMENT>
         <COMMENT ADDRESS="0x137F38" TYPE="end-of-line">fire + right </COMMENT>
         <COMMENT ADDRESS="0x137F42" TYPE="end-of-line">fire + down </COMMENT>
+        <COMMENT ADDRESS="0x137FF4" TYPE="end-of-line">player name - max 22 characters + null </COMMENT>
         <COMMENT ADDRESS="0x138002" TYPE="end-of-line">team name = 16 characters + null </COMMENT>
         <COMMENT ADDRESS="0x138010" TYPE="end-of-line">coach name = max 22 chars. + null character </COMMENT>
+        <COMMENT ADDRESS="0x138022" TYPE="end-of-line">extract bits 3 and 4 - player face index </COMMENT>
+        <COMMENT ADDRESS="0x138026" TYPE="end-of-line">player face index </COMMENT>
+        <COMMENT ADDRESS="0x138028" TYPE="end-of-line">increase face index </COMMENT>
+        <COMMENT ADDRESS="0x13803A" TYPE="end-of-line">set new face index bits into position </COMMENT>
+        <COMMENT ADDRESS="0x1380CC" TYPE="end-of-line">23 = start of player faces </COMMENT>
         <COMMENT ADDRESS="0x1382F2" TYPE="end-of-line">if 1, dialog and everything is for saving (teams)
 1 =&gt; save custom teams (show dialog)
 set when in edit teams ok is pressed, and
@@ -41973,6 +41818,7 @@ edited and original teams differ </COMMENT>
         <COMMENT ADDRESS="0x1388C0" TYPE="end-of-line">number to print </COMMENT>
         <COMMENT ADDRESS="0x1388C2" TYPE="end-of-line">-= end entry 62 =- </COMMENT>
         <COMMENT ADDRESS="0x1388C4" TYPE="end-of-line">-= end menu =- </COMMENT>
+        <COMMENT ADDRESS="0x1388E2" TYPE="end-of-line">15 scorers </COMMENT>
         <COMMENT ADDRESS="0x13899E" TYPE="end-of-line">on init function </COMMENT>
         <COMMENT ADDRESS="0x1389A2" TYPE="end-of-line">on return function </COMMENT>
         <COMMENT ADDRESS="0x1389A6" TYPE="end-of-line">on draw function </COMMENT>
@@ -43734,8 +43580,6 @@ edited and original teams differ </COMMENT>
         <COMMENT ADDRESS="0x13B9BE" TYPE="end-of-line">string flags: color = gray, font = small, alignment = center </COMMENT>
         <COMMENT ADDRESS="0x13B9C0" TYPE="end-of-line">-= end entry 43 =- </COMMENT>
         <COMMENT ADDRESS="0x13B9C2" TYPE="end-of-line">-= end menu =- </COMMENT>
-        <COMMENT ADDRESS="0x13BFA2" TYPE="end-of-line">blue to purple </COMMENT>
-        <COMMENT ADDRESS="0x13C004" TYPE="end-of-line">pink to brown </COMMENT>
         <COMMENT ADDRESS="0x13CAA2" TYPE="end-of-line">when showing games list in career basic menu </COMMENT>
         <COMMENT ADDRESS="0x13CAB2" TYPE="end-of-line">in career game list </COMMENT>
         <COMMENT ADDRESS="0x13CAB6" TYPE="end-of-line">in career game list </COMMENT>
@@ -46738,6 +46582,8 @@ in select_teams_menu when this is true, team limitation is honoured
         <COMMENT ADDRESS="0x140950" TYPE="end-of-line">type 13 - on select function - fire only </COMMENT>
         <COMMENT ADDRESS="0x140956" TYPE="end-of-line">-= end entry 1 =- </COMMENT>
         <COMMENT ADDRESS="0x140958" TYPE="end-of-line">-= end menu =- </COMMENT>
+        <COMMENT ADDRESS="0x140974" TYPE="end-of-line">gray </COMMENT>
+        <COMMENT ADDRESS="0x14097A" TYPE="end-of-line">hide continue button </COMMENT>
         <COMMENT ADDRESS="0x140994" TYPE="end-of-line">on init function </COMMENT>
         <COMMENT ADDRESS="0x140998" TYPE="end-of-line">on return function </COMMENT>
         <COMMENT ADDRESS="0x14099C" TYPE="end-of-line">on draw function </COMMENT>
@@ -50540,14 +50386,11 @@ it&apos;s indexed by the tactics; format is, for each player (11 total):
 word - x coordinate - 180
 word - y coordinate - 9
 word - string flags (normally left, right or center alignment) </COMMENT>
-        <COMMENT ADDRESS="0x148AC8" TYPE="end-of-line">blue </COMMENT>
-        <COMMENT ADDRESS="0x148B62" TYPE="end-of-line">light blue </COMMENT>
-        <COMMENT ADDRESS="0x148B7E" TYPE="end-of-line">dark </COMMENT>
-        <COMMENT ADDRESS="0x148BA2" TYPE="end-of-line">light blue </COMMENT>
         <COMMENT ADDRESS="0x148C3C" TYPE="end-of-line">in:
     A5 -&gt; current entry that&apos;s about to be drawn
 
 Function for redrawing player names and all corresponding entries in play match menu. </COMMENT>
+        <COMMENT ADDRESS="0x149004" TYPE="end-of-line">draw 6 items. 31-37 </COMMENT>
         <COMMENT ADDRESS="0x149012" TYPE="end-of-line">draw 11 items </COMMENT>
         <COMMENT ADDRESS="0x1491FA" TYPE="end-of-line">true if the first player is choosing the team </COMMENT>
         <COMMENT ADDRESS="0x1491FC" TYPE="end-of-line">index of player that&apos;s being swapped in play match menu (-1 if none),
@@ -51863,6 +51706,12 @@ in edit tactics menu </COMMENT>
         <COMMENT ADDRESS="0x14BAE4" TYPE="end-of-line">menu y </COMMENT>
         <COMMENT ADDRESS="0x14BAE6" TYPE="end-of-line">-= end menu =- </COMMENT>
         <COMMENT ADDRESS="0x14C0F2" TYPE="end-of-line">player faces </COMMENT>
+        <COMMENT ADDRESS="0x14C372" TYPE="end-of-line">player 16 </COMMENT>
+        <COMMENT ADDRESS="0x14C522" TYPE="end-of-line">draw 10 items </COMMENT>
+        <COMMENT ADDRESS="0x14C5B8" TYPE="repeatable">make it invisible </COMMENT>
+        <COMMENT ADDRESS="0x14C5C2" TYPE="repeatable">clear bit 1 </COMMENT>
+        <COMMENT ADDRESS="0x14C5F4" TYPE="repeatable">set bit 1 </COMMENT>
+        <COMMENT ADDRESS="0x14C5FC" TYPE="end-of-line">make it visible </COMMENT>
         <COMMENT ADDRESS="0x14C618" TYPE="end-of-line">from edit tactics menu </COMMENT>
         <COMMENT ADDRESS="0x14CEDA" TYPE="end-of-line">in edit tactics menu </COMMENT>
         <COMMENT ADDRESS="0x14D00E" TYPE="end-of-line">D1 == 15 &amp;&amp; D2 == 15 </COMMENT>
@@ -52773,56 +52622,16 @@ other values = career </COMMENT>
 ; Base Address: 0000h Range: 100000h - 15736Ah Loaded length: 5736Ah  </COMMENT>
     </COMMENTS>
     <SYMBOL_TABLE>
-        <SYMBOL ADDRESS="0x0" NAME="initial_sp" />
-        <SYMBOL ADDRESS="0x4" NAME="initial_pc" />
-        <SYMBOL ADDRESS="0x8" NAME="bus_error" />
-        <SYMBOL ADDRESS="0xC" NAME="address_rrror" />
-        <SYMBOL ADDRESS="0x10" NAME="illegal_insn" />
-        <SYMBOL ADDRESS="0x14" NAME="divide_by_zero" />
-        <SYMBOL ADDRESS="0x18" NAME="out_of_bounds" />
-        <SYMBOL ADDRESS="0x1C" NAME="trap" />
-        <SYMBOL ADDRESS="0x20" NAME="privilege_violation" />
-        <SYMBOL ADDRESS="0x24" NAME="trace" />
-        <SYMBOL ADDRESS="0x28" NAME="line_a_emulator" />
-        <SYMBOL ADDRESS="0x2C" NAME="line_f_emulator" />
-        <SYMBOL ADDRESS="0x34" NAME="coprocessor_protocol_violation" />
-        <SYMBOL ADDRESS="0x38" NAME="format_error" />
-        <SYMBOL ADDRESS="0x3C" NAME="uninitialized_interrupt" />
-        <SYMBOL ADDRESS="0x60" NAME="spurious_interrupt" />
-        <SYMBOL ADDRESS="0x64" NAME="level_1_interrupt_autovector" />
-        <SYMBOL ADDRESS="0x68" NAME="level_2_interrupt_autovector" />
-        <SYMBOL ADDRESS="0x6C" NAME="level_3_interrupt_autovector" />
-        <SYMBOL ADDRESS="0x70" NAME="level_4_interrupt_autovector" />
-        <SYMBOL ADDRESS="0x74" NAME="level_5_interrupt_autovector" />
-        <SYMBOL ADDRESS="0x78" NAME="level_6_interrupt_autovector" />
-        <SYMBOL ADDRESS="0x7C" NAME="level_7_interrupt_autovector" />
-        <SYMBOL ADDRESS="0x80" NAME="trap_0_instruction" />
-        <SYMBOL ADDRESS="0x84" NAME="trap_1_instruction" />
-        <SYMBOL ADDRESS="0x88" NAME="trap_2_instruction" />
-        <SYMBOL ADDRESS="0x8C" NAME="trap_3_instruction" />
-        <SYMBOL ADDRESS="0x90" NAME="trap_4_instruction" />
-        <SYMBOL ADDRESS="0x94" NAME="trap_5_instruction" />
-        <SYMBOL ADDRESS="0x98" NAME="trap_6_instruction" />
-        <SYMBOL ADDRESS="0x9C" NAME="trap_7_instruction" />
-        <SYMBOL ADDRESS="0xA0" NAME="trap_8_instruction" />
-        <SYMBOL ADDRESS="0xA4" NAME="trap_9_instruction" />
-        <SYMBOL ADDRESS="0xA8" NAME="trap_a_instruction" />
-        <SYMBOL ADDRESS="0xAC" NAME="trap_b_instruction" />
-        <SYMBOL ADDRESS="0xB0" NAME="trap_c_instruction" />
-        <SYMBOL ADDRESS="0xB4" NAME="trap_d_instruction" />
-        <SYMBOL ADDRESS="0xB8" NAME="trap_e_instruction" />
-        <SYMBOL ADDRESS="0xBC" NAME="trap_f_instruction" />
-        <SYMBOL ADDRESS="0xC0" NAME="fp_branch_or_set_on_unordered_condition" />
-        <SYMBOL ADDRESS="0xC4" NAME="fp_inexact_result" />
-        <SYMBOL ADDRESS="0xC8" NAME="fp_divide_by_zero" />
-        <SYMBOL ADDRESS="0xCC" NAME="fp_underflow" />
-        <SYMBOL ADDRESS="0xD0" NAME="fp_operand_error" />
-        <SYMBOL ADDRESS="0xD4" NAME="fp_overflow" />
-        <SYMBOL ADDRESS="0xD8" NAME="fp_signaling_nan" />
-        <SYMBOL ADDRESS="0xDC" NAME="padding_38" />
-        <SYMBOL ADDRESS="0xE0" NAME="mmu_configuration_error" />
-        <SYMBOL ADDRESS="0xE4" NAME="mmu_illegal_operation_error" />
-        <SYMBOL ADDRESS="0xE8" NAME="mmu_access_level_violation_error" />
+        <SYMBOL ADDRESS="0x0" NAME="NULL" />
+        <SYMBOL ADDRESS="0x14" NAME="DIVIDE_BY_ZERO" />
+        <SYMBOL ADDRESS="0x64" NAME="LEVEL_1_INTERRUPT_AUTOVECTOR" />
+        <SYMBOL ADDRESS="0x68" NAME="LEVEL_2_INTERRUPT_AUTOVECTOR" />
+        <SYMBOL ADDRESS="0x6C" NAME="LEVEL_3_INTERRUPT_AUTOVECTOR" />
+        <SYMBOL ADDRESS="0x70" NAME="LEVEL_4_INTERRUPT_AUTOVECTOR" />
+        <SYMBOL ADDRESS="0x74" NAME="LEVEL_5_INTERRUPT_AUTOVECTOR" />
+        <SYMBOL ADDRESS="0x78" NAME="LEVEL_6_INTERRUPT_AUTOVECTOR" />
+        <SYMBOL ADDRESS="0x7C" NAME="LEVEL_7_INTERRUPT_AUTOVECTOR" />
+        <SYMBOL ADDRESS="0xFC" NAME="BYTE_FC" />
         <SYMBOL ADDRESS="0x400" NAME="g_pitchDatBuffer" />
         <SYMBOL ADDRESS="0x2818" NAME="g_currentMenu" />
         <SYMBOL ADDRESS="0x282E" NAME="g_menuEntries" />
@@ -55965,8 +55774,7 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x11FC66" NAME="ZeroOutStars" />
         <SYMBOL ADDRESS="0x11FC88" NAME="UnpackMenu" />
         <SYMBOL ADDRESS="0x11FE02" NAME="convert_menu_switch" TYPE="local" />
-        <SYMBOL ADDRESS="0x11FEA0" NAME="next_entry" />
-        <SYMBOL ADDRESS="0x11FEA0" NAME="_11FEA0_next_entry" TYPE="local" MANGLED="next_entry" />
+        <SYMBOL ADDRESS="0x11FEA0" NAME="_11FEA0_next_entry" />
         <SYMBOL ADDRESS="0x11FECC" NAME="invisible_item" />
         <SYMBOL ADDRESS="0x11FED6" NAME="set_positions" />
         <SYMBOL ADDRESS="0x11FEEA" NAME="left_skip" />
@@ -55988,6 +55796,7 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x11FFE0" NAME="sprite2" />
         <SYMBOL ADDRESS="0x11FFF8" NAME="number" />
         <SYMBOL ADDRESS="0x12000E" NAME="sprite_copy" />
+        <SYMBOL ADDRESS="0x120022" NAME="string_entry2" />
         <SYMBOL ADDRESS="0x120062" NAME="InitMenuEntry" />
         <SYMBOL ADDRESS="0x1200B8" NAME="menuTypesJumpTable" />
         <SYMBOL ADDRESS="0x120114" NAME="MenuProc" />
@@ -56067,6 +55876,8 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x120E9E" NAME="input_text_move_cursor_right" />
         <SYMBOL ADDRESS="0x120EAA" NAME="input_text_insert_character" />
         <SYMBOL ADDRESS="0x120EC2" NAME="InsertCharacter" />
+        <SYMBOL ADDRESS="0x120EDE" NAME="input_text_delete_char_to_the_left" TYPE="local" />
+        <SYMBOL ADDRESS="0x120EEA" NAME="input_text_space" TYPE="local" />
         <SYMBOL ADDRESS="0x120F66" NAME="g_allowExtraCharsFlag" />
         <SYMBOL ADDRESS="0x120F68" NAME="padding_28" />
         <SYMBOL ADDRESS="0x120F8A" NAME="DrawMenuItemsWaitForVSync" />
@@ -56080,6 +55891,33 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x12104A" NAME="draw_menu_items_loop" TYPE="local" />
         <SYMBOL ADDRESS="0x121062" NAME="CallDrawMenuItem" />
         <SYMBOL ADDRESS="0x12107E" NAME="DrawMenuItem" />
+        <SYMBOL ADDRESS="0x1210A6" NAME="draw_bg_start" TYPE="local" />
+        <SYMBOL ADDRESS="0x1210FA" NAME="draw_bg_transparent_or_special" TYPE="local" />
+        <SYMBOL ADDRESS="0x12110A" NAME="draw_bg_and_outer_frame" TYPE="local" />
+        <SYMBOL ADDRESS="0x121136" NAME="draw_bg_inner_frame_if_any" TYPE="local" />
+        <SYMBOL ADDRESS="0x121168" NAME="bg_sprite_1" TYPE="local" />
+        <SYMBOL ADDRESS="0x12118C" NAME="bg_func_1" TYPE="local" />
+        <SYMBOL ADDRESS="0x1211AC" NAME="fg_start" TYPE="local" />
+        <SYMBOL ADDRESS="0x1211CC" NAME="fg_text_common_setup" TYPE="local" />
+        <SYMBOL ADDRESS="0x1211FA" NAME="fg_centering_adjust" TYPE="local" />
+        <SYMBOL ADDRESS="0x1211FC" NAME="fg_centering_apply" TYPE="local" />
+        <SYMBOL ADDRESS="0x12122A" NAME="fg_text_centered_draw" TYPE="local" />
+        <SYMBOL ADDRESS="0x12123C" NAME="fg_text_left_start" TYPE="local" />
+        <SYMBOL ADDRESS="0x121258" NAME="fg_text_left_draw" TYPE="local" />
+        <SYMBOL ADDRESS="0x12126A" NAME="fg_text_right_start" TYPE="local" />
+        <SYMBOL ADDRESS="0x12128C" NAME="fg_text_right_draw" TYPE="local" />
+        <SYMBOL ADDRESS="0x12129E" NAME="fg_sprite_2_start" TYPE="local" />
+        <SYMBOL ADDRESS="0x1212AA" NAME="fg_sprite_draw_core" TYPE="local" />
+        <SYMBOL ADDRESS="0x1212F0" NAME="fg_text_indirect_table" TYPE="local" />
+        <SYMBOL ADDRESS="0x12130C" NAME="fg_multiline_start" TYPE="local" />
+        <SYMBOL ADDRESS="0x121362" NAME="fg_multiline_draw_line" TYPE="local" />
+        <SYMBOL ADDRESS="0x121380" NAME="fg_multiline_skip_to_next_line" TYPE="local" />
+        <SYMBOL ADDRESS="0x12138C" NAME="fg_integer_as_text" TYPE="local" />
+        <SYMBOL ADDRESS="0x1213A8" NAME="fg_function_call" TYPE="local" />
+        <SYMBOL ADDRESS="0x1213CA" NAME="fg_sprite_copy" TYPE="local" />
+        <SYMBOL ADDRESS="0x121408" NAME="post_draw_callback" TYPE="local" />
+        <SYMBOL ADDRESS="0x12141C" NAME="draw_menu_item_return" TYPE="local" />
+        <SYMBOL ADDRESS="0x12141E" NAME="panic_unknown_entry_type" TYPE="local" />
         <SYMBOL ADDRESS="0x12142C" NAME="DrawBackAllItems" />
         <SYMBOL ADDRESS="0x12142E" NAME="draw_back_loop_check" TYPE="local" />
         <SYMBOL ADDRESS="0x121440" NAME="advance_to_next_entry" TYPE="local" />
@@ -56667,6 +56505,7 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x13B35F" NAME="padding_41" />
         <SYMBOL ADDRESS="0x13B360" NAME="viewCompetitionsMenu" />
         <SYMBOL ADDRESS="0x13B458" NAME="ViewCompetitionsInit" />
+        <SYMBOL ADDRESS="0x13B494" NAME="ViewCompetitionsOnReturn" />
         <SYMBOL ADDRESS="0x13B5E0" NAME="OpenDiyFromFile" />
         <SYMBOL ADDRESS="0x13B5EA" NAME="OpenDiyPreset1" />
         <SYMBOL ADDRESS="0x13B5F4" NAME="OpenDiyPreset2" />
@@ -57199,6 +57038,7 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x14D2F0" NAME="SaveCurrentTactics" />
         <SYMBOL ADDRESS="0x14D308" NAME="RestoreTactics" />
         <SYMBOL ADDRESS="0x14D320" NAME="importTacticsMenu" />
+        <SYMBOL ADDRESS="0x14D50A" NAME="ImportTacticsInit" />
         <SYMBOL ADDRESS="0x14D50C" NAME="ImportTacticsSelectTactics" />
         <SYMBOL ADDRESS="0x14D524" NAME="ExitImportTactics" />
         <SYMBOL ADDRESS="0x14D532" NAME="LoadTactics" />
@@ -65309,6 +65149,7 @@ depending on their number.</REGULAR_CMT>
         <FUNCTION ENTRY_POINT="0x1320B4" NAME="sub_1320B4" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x1320B4" END="0x13214B" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
+            <REGULAR_CMT>DOS: cseg_47981</REGULAR_CMT>
             <TYPEINFO_CMT>sub_1320B4</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x13214C" NAME="DIYLeagueSetVariousFields" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -66474,11 +66315,13 @@ Form that weird 3-letter string that comes after player name in play match menu.
         <FUNCTION ENTRY_POINT="0x139A4C" NAME="sub_139A4C" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x139A4C" END="0x139AE1" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
+            <REGULAR_CMT>DOS: cseg_114EC</REGULAR_CMT>
             <TYPEINFO_CMT>sub_139A4C</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x139AE4" NAME="sub_139AE4" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x139AE4" END="0x139F3F" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
+            <REGULAR_CMT>DOS: cseg_116E8</REGULAR_CMT>
             <TYPEINFO_CMT>sub_139AE4</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x139F40" NAME="SquadCommon" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -66706,9 +66549,13 @@ Called from edit tactics and play match menu.</REGULAR_CMT>
             <TYPEINFO_CMT>j_SetExitMenuFlag2</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x13B458" NAME="ViewCompetitionsInit" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
-            <ADDRESS_RANGE START="0x13B458" END="0x13B5DF" />
+            <ADDRESS_RANGE START="0x13B458" END="0x13B493" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>ViewCompetitionsInit</TYPEINFO_CMT>
+        </FUNCTION>
+        <FUNCTION ENTRY_POINT="0x13B494" NAME="ViewCompetitionsOnReturn">
+            <ADDRESS_RANGE START="0x13B494" END="0x13B5DF" />
+            <TYPEINFO_CMT>ViewCompetitionsOnReturn</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x13B5E0" NAME="OpenDiyFromFile" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x13B5E0" END="0x13B5E9" />
@@ -69874,6 +69721,7 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x102328" OPERAND_INDEX="0" TO_ADDRESS="0x2CED4" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1023AC" OPERAND_INDEX="0" TO_ADDRESS="0xDFF000" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1023BA" OPERAND_INDEX="0" TO_ADDRESS="0x1FFFF" PRIMARY="y" />
+        <MEMORY_REFERENCE ADDRESS="0x102A44" OPERAND_INDEX="0" TO_ADDRESS="0x2818" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x102F4E" OPERAND_INDEX="0" TO_ADDRESS="0x8DB14" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x103194" OPERAND_INDEX="0" TO_ADDRESS="0x8DB14" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x10322E" OPERAND_INDEX="0" TO_ADDRESS="0x8DB14" PRIMARY="y" />
@@ -70618,11 +70466,14 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x1204B0" OPERAND_INDEX="0" TO_ADDRESS="0x1204E6" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1204B4" OPERAND_INDEX="0" TO_ADDRESS="0x1204F5" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1204B8" OPERAND_INDEX="0" TO_ADDRESS="0x120502" PRIMARY="y" />
+        <MEMORY_REFERENCE ADDRESS="0x1206A4" OPERAND_INDEX="0" TO_ADDRESS="0x2818" PRIMARY="y" />
+        <MEMORY_REFERENCE ADDRESS="0x1206AA" OPERAND_INDEX="0" TO_ADDRESS="0x2818" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x120BB8" OPERAND_INDEX="0" TO_ADDRESS="0x8DB14" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x120E8E" OPERAND_INDEX="0" TO_ADDRESS="0x99724" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x120EDE" OPERAND_INDEX="0" TO_ADDRESS="0x99724" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x1210B0" OPERAND_INDEX="0" VALUE="0x0" NAME="NO_BACKGROUND" />
         <EQUATE_REFERENCE ADDRESS="0x1210BA" OPERAND_INDEX="0" VALUE="0x2" NAME="ENTRY_FRAME_AND_BACK_COLOR" />
+        <EQUATE_REFERENCE ADDRESS="0x1210E6" OPERAND_INDEX="0" VALUE="0xF" NAME="YELLOW_GREEN_BLACK_15" />
         <EQUATE_REFERENCE ADDRESS="0x121168" OPERAND_INDEX="0" VALUE="0x3" NAME="ENTRY_SPRITE1" />
         <EQUATE_REFERENCE ADDRESS="0x12118C" OPERAND_INDEX="0" VALUE="0x1" NAME="ENTRY_FUNC1" />
         <EQUATE_REFERENCE ADDRESS="0x1211AC" OPERAND_INDEX="0" VALUE="0x0" NAME="NO_FOREGROUND" />
@@ -70635,9 +70486,12 @@ out: D0 = 0 - success
         <EQUATE_REFERENCE ADDRESS="0x121274" OPERAND_INDEX="0" VALUE="0x0" NAME="NO_BACKGROUND" />
         <EQUATE_REFERENCE ADDRESS="0x121282" OPERAND_INDEX="0" VALUE="0xF" NAME="STR_COLOR_MASK" />
         <EQUATE_REFERENCE ADDRESS="0x12129E" OPERAND_INDEX="0" VALUE="0x3" NAME="ENTRY_SPRITE2" />
+        <EQUATE_REFERENCE ADDRESS="0x1212F0" OPERAND_INDEX="0" VALUE="0x4" NAME="ENTRY_STRING_TABLE" />
         <EQUATE_REFERENCE ADDRESS="0x12130C" OPERAND_INDEX="0" VALUE="0x5" NAME="ENTRY_MULTI_LINE_TEXT" />
         <EQUATE_REFERENCE ADDRESS="0x121320" OPERAND_INDEX="0" VALUE="0xF0" NAME="STR_FLAGS_MASK" />
         <EQUATE_REFERENCE ADDRESS="0x121366" OPERAND_INDEX="0" VALUE="0xF" NAME="STR_COLOR_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x12138C" OPERAND_INDEX="0" VALUE="0x6" NAME="ENTRY_NUMBER" />
+        <EQUATE_REFERENCE ADDRESS="0x1213A8" OPERAND_INDEX="0" VALUE="0x1" NAME="ENTRY_FUNC2" />
         <EQUATE_REFERENCE ADDRESS="0x1213CA" OPERAND_INDEX="0" VALUE="0x7" NAME="ENTRY_SPRITE_COPY" />
         <MEMORY_REFERENCE ADDRESS="0x121B6A" OPERAND_INDEX="0" TO_ADDRESS="0x164F86" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x121B92" OPERAND_INDEX="0" TO_ADDRESS="0x164F86" PRIMARY="y" />
@@ -70987,6 +70841,7 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x12FA3A" OPERAND_INDEX="0" TO_ADDRESS="0x2818" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x12FA52" OPERAND_INDEX="0" TO_ADDRESS="0x2818" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x12FA84" OPERAND_INDEX="0" TO_ADDRESS="0x2818" PRIMARY="y" />
+        <MEMORY_REFERENCE ADDRESS="0x12FB4E" OPERAND_INDEX="0" TO_ADDRESS="0x2818" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x12FC38" OPERAND_INDEX="0" TO_ADDRESS="0x8DB14" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x12FF42" OPERAND_INDEX="0" />
         <MEMORY_REFERENCE ADDRESS="0x1301EA" OPERAND_INDEX="0" TO_ADDRESS="0x0" PRIMARY="y" />
@@ -71007,6 +70862,7 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x130A26" OPERAND_INDEX="0" TO_ADDRESS="0x130D78" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x130A48" OPERAND_INDEX="0" TO_ADDRESS="0x130DBA" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x130A6A" OPERAND_INDEX="0" TO_ADDRESS="0x15623A" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x130A7A" OPERAND_INDEX="0" VALUE="0xA" NAME="RED_10" />
         <MEMORY_REFERENCE ADDRESS="0x1311BC" OPERAND_INDEX="0" TO_ADDRESS="0x1316A0" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x131218" OPERAND_INDEX="0" TO_ADDRESS="0x155F85" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x131226" OPERAND_INDEX="0" TO_ADDRESS="0x154412" PRIMARY="y" />
@@ -71106,6 +70962,8 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x131FEA" OPERAND_INDEX="0" TO_ADDRESS="0x156914" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x131FEE" OPERAND_INDEX="0" TO_ADDRESS="0x156918" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x132004" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x13202A" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <EQUATE_REFERENCE ADDRESS="0x132044" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
         <EQUATE_REFERENCE ADDRESS="0x132294" OPERAND_INDEX="0" VALUE="0x2" NAME="GAME_TYPE_PRESET_COMPETITION" />
         <EQUATE_REFERENCE ADDRESS="0x13229E" OPERAND_INDEX="0" VALUE="0x3" NAME="GAME_TYPE_SEASON" />
         <EQUATE_REFERENCE ADDRESS="0x1322A8" OPERAND_INDEX="0" VALUE="0x4" NAME="GAME_TYPE_CAREER" />
@@ -71147,6 +71005,7 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x13286E" OPERAND_INDEX="0" TO_ADDRESS="0x13325C" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x132888" OPERAND_INDEX="0" TO_ADDRESS="0x133276" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x132896" OPERAND_INDEX="0" TO_ADDRESS="0x132B82" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x13292A" OPERAND_INDEX="0" VALUE="0x0" NAME="PINK_TO_BROWN_0" />
         <MEMORY_REFERENCE ADDRESS="0x132D2E" OPERAND_INDEX="0" TO_ADDRESS="0x15624C" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x132DB0" OPERAND_INDEX="0" TO_ADDRESS="0x1562A7" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x132DDA" OPERAND_INDEX="0" TO_ADDRESS="0x156248" PRIMARY="y" />
@@ -71159,6 +71018,10 @@ out: D0 = 0 - success
         <EQUATE_REFERENCE ADDRESS="0x1330C4" OPERAND_INDEX="0" VALUE="0xB" NAME="COLOR_PURPLISH" />
         <EQUATE_REFERENCE ADDRESS="0x1330D2" OPERAND_INDEX="0" VALUE="0xD" NAME="COLOR_LIGHT_BLUE" />
         <EQUATE_REFERENCE ADDRESS="0x1330E0" OPERAND_INDEX="0" VALUE="0x6" NAME="COLOR_ORANGE" />
+        <EQUATE_REFERENCE ADDRESS="0x13313C" OPERAND_INDEX="0" VALUE="0x7" NAME="PINK_TO_BROWN_7" />
+        <EQUATE_REFERENCE ADDRESS="0x133142" OPERAND_INDEX="0" VALUE="0x7" NAME="PINK_TO_BROWN_7" />
+        <EQUATE_REFERENCE ADDRESS="0x133148" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <EQUATE_REFERENCE ADDRESS="0x133172" OPERAND_INDEX="0" VALUE="0xC" NAME="ORANGE_TO_BROWN_12" />
         <MEMORY_REFERENCE ADDRESS="0x13323C" OPERAND_INDEX="0" TO_ADDRESS="0x0" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1333B2" OPERAND_INDEX="0" TO_ADDRESS="0x133AF2" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1333B6" OPERAND_INDEX="0" TO_ADDRESS="0x133B02" PRIMARY="y" />
@@ -71344,6 +71207,8 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x133AE8" OPERAND_INDEX="0" TO_ADDRESS="0x15643A" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x133AEC" OPERAND_INDEX="0" TO_ADDRESS="0x156444" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x133B02" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x133B28" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <EQUATE_REFERENCE ADDRESS="0x133B42" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
         <MEMORY_REFERENCE ADDRESS="0x134088" OPERAND_INDEX="0" TO_ADDRESS="0x1344AA" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13408C" OPERAND_INDEX="0" TO_ADDRESS="0x134542" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1340C8" OPERAND_INDEX="0" TO_ADDRESS="0x134760" PRIMARY="y" />
@@ -71713,6 +71578,8 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x13606E" OPERAND_INDEX="0" TO_ADDRESS="0x155C3D" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x136072" OPERAND_INDEX="0" TO_ADDRESS="0x155C50" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x136086" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x1360AC" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <EQUATE_REFERENCE ADDRESS="0x1360C6" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
         <MEMORY_REFERENCE ADDRESS="0x136696" OPERAND_INDEX="0" TO_ADDRESS="0x135D98" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1366A0" OPERAND_INDEX="0" TO_ADDRESS="0x135D9A" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x136996" OPERAND_INDEX="0" TO_ADDRESS="0x2DAD0" PRIMARY="y" />
@@ -71773,7 +71640,11 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x137058" OPERAND_INDEX="0" TO_ADDRESS="0x156914" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13705C" OPERAND_INDEX="0" TO_ADDRESS="0x156918" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x137070" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x137096" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <EQUATE_REFERENCE ADDRESS="0x1370B0" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
         <EQUATE_REFERENCE ADDRESS="0x137126" OPERAND_INDEX="0" VALUE="0x2" NAME="ENTRY_FRAME_AND_BACK_COLOR" />
+        <EQUATE_REFERENCE ADDRESS="0x137132" OPERAND_INDEX="0" VALUE="0xF" NAME="YELLOW_GREEN_BLACK_15" />
+        <EQUATE_REFERENCE ADDRESS="0x137140" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
         <EQUATE_REFERENCE ADDRESS="0x1371FC" OPERAND_INDEX="0" />
         <MEMORY_REFERENCE ADDRESS="0x1373A8" OPERAND_INDEX="0" TO_ADDRESS="0x137B46" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1373AC" OPERAND_INDEX="0" TO_ADDRESS="0x137B62" PRIMARY="y" />
@@ -71851,6 +71722,10 @@ out: D0 = 0 - success
         <EQUATE_REFERENCE ADDRESS="0x137D12" OPERAND_INDEX="0" VALUE="0x0" NAME="SHIRT_ORDINARY" />
         <EQUATE_REFERENCE ADDRESS="0x138040" OPERAND_INDEX="0" VALUE="0xBA" NAME="SPR_PL_FACE_WHITE_GUY" />
         <EQUATE_REFERENCE ADDRESS="0x1380A4" OPERAND_INDEX="0" VALUE="0xBA" NAME="SPR_PL_FACE_WHITE_GUY" />
+        <EQUATE_REFERENCE ADDRESS="0x138290" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <EQUATE_REFERENCE ADDRESS="0x13829A" OPERAND_INDEX="0" VALUE="0xA" NAME="RED_10" />
+        <EQUATE_REFERENCE ADDRESS="0x1382BC" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <EQUATE_REFERENCE ADDRESS="0x1382C6" OPERAND_INDEX="0" VALUE="0xA" NAME="RED_10" />
         <EQUATE_REFERENCE ADDRESS="0x13838E" OPERAND_INDEX="0" VALUE="0x4" NAME="GAME_TYPE_CAREER" />
         <MEMORY_REFERENCE ADDRESS="0x1385D8" OPERAND_INDEX="0" TO_ADDRESS="0x1388C6" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13860C" OPERAND_INDEX="0" TO_ADDRESS="0x156649" PRIMARY="y" />
@@ -71912,7 +71787,12 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x139616" OPERAND_INDEX="0" TO_ADDRESS="0x164F86" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x139960" OPERAND_INDEX="0" TO_ADDRESS="0x1568B1" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x139970" OPERAND_INDEX="0" TO_ADDRESS="0x153DA7" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x139AFA" OPERAND_INDEX="0" VALUE="0xC" NAME="ORANGE_TO_BROWN_12" />
+        <EQUATE_REFERENCE ADDRESS="0x139B16" OPERAND_INDEX="0" VALUE="0xB" NAME="BLUE_TO_PURPLE_11" />
+        <EQUATE_REFERENCE ADDRESS="0x139B32" OPERAND_INDEX="0" VALUE="0xD" NAME="BRIGHT_BLUE_TO_BLUE_13" />
         <MEMORY_REFERENCE ADDRESS="0x139D3E" OPERAND_INDEX="0" TO_ADDRESS="0x164F86" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x139DB4" OPERAND_INDEX="0" VALUE="0xE" NAME="YELLOW_GREEN_BLACK_14" />
+        <EQUATE_REFERENCE ADDRESS="0x139DDE" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
         <EQUATE_REFERENCE ADDRESS="0x13A6BE" OPERAND_INDEX="0" VALUE="0xCF" NAME="SPR_NOT_CHECK_BIG" />
         <EQUATE_REFERENCE ADDRESS="0x13A6C6" OPERAND_INDEX="0" VALUE="0xCE" NAME="SPR_CHECK_BIG" />
         <MEMORY_REFERENCE ADDRESS="0x13A6FA" OPERAND_INDEX="0" TO_ADDRESS="0x1664B2" PRIMARY="y" />
@@ -71960,8 +71840,13 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x13AC5A" OPERAND_INDEX="0" TO_ADDRESS="0x156191" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13AC60" OPERAND_INDEX="0" TO_ADDRESS="0x13AFC2" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13AD66" OPERAND_INDEX="0" TO_ADDRESS="0x1547D9" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x13ADB0" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <EQUATE_REFERENCE ADDRESS="0x13ADCE" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <EQUATE_REFERENCE ADDRESS="0x13AE08" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <EQUATE_REFERENCE ADDRESS="0x13AE30" OPERAND_INDEX="0" VALUE="0xE" NAME="YELLOW_GREEN_BLACK_14" />
         <MEMORY_REFERENCE ADDRESS="0x13AE6C" OPERAND_INDEX="0" TO_ADDRESS="0x15625C" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13AE76" OPERAND_INDEX="0" TO_ADDRESS="0x156264" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x13AE90" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
         <MEMORY_REFERENCE ADDRESS="0x13B00C" OPERAND_INDEX="0" TO_ADDRESS="0x13B1A6" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13B010" OPERAND_INDEX="0" TO_ADDRESS="0x13B1AC" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13B02A" OPERAND_INDEX="0" TO_ADDRESS="0x156607" PRIMARY="y" />
@@ -71986,6 +71871,8 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x13B198" OPERAND_INDEX="0" TO_ADDRESS="0x164B52" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13B19E" OPERAND_INDEX="0" TO_ADDRESS="0x154425" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13B1A2" OPERAND_INDEX="0" TO_ADDRESS="0x15442B" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x13B28A" OPERAND_INDEX="0" VALUE="0xD" NAME="BRIGHT_BLUE_TO_BLUE_13" />
+        <EQUATE_REFERENCE ADDRESS="0x13B2A6" OPERAND_INDEX="0" VALUE="0xB" NAME="BLUE_TO_PURPLE_11" />
         <MEMORY_REFERENCE ADDRESS="0x13B360" OPERAND_INDEX="0" TO_ADDRESS="0x13B458" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13B364" OPERAND_INDEX="0" TO_ADDRESS="0x13B494" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13B37E" OPERAND_INDEX="0" TO_ADDRESS="0x1548A7" PRIMARY="y" />
@@ -72053,20 +71940,34 @@ out: D0 = 0 - success
         <EQUATE_REFERENCE ADDRESS="0x13BD7A" OPERAND_INDEX="0" VALUE="0x3" NAME="NO_MORE_TIME_TO_NEGOTIATE" />
         <EQUATE_REFERENCE ADDRESS="0x13BF62" OPERAND_INDEX="0" VALUE="0x4" NAME="GAME_TYPE_CAREER" />
         <EQUATE_REFERENCE ADDRESS="0x13BF8C" OPERAND_INDEX="0" VALUE="0x4" NAME="GAME_TYPE_CAREER" />
+        <EQUATE_REFERENCE ADDRESS="0x13BFA2" OPERAND_INDEX="0" VALUE="0xB" NAME="BLUE_TO_PURPLE_11" />
         <MEMORY_REFERENCE ADDRESS="0x13BFE0" OPERAND_INDEX="0" TO_ADDRESS="0x15625C" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13BFEA" OPERAND_INDEX="0" TO_ADDRESS="0x156264" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x13C004" OPERAND_INDEX="0" VALUE="0x7" NAME="PINK_TO_BROWN_7" />
         <MEMORY_REFERENCE ADDRESS="0x13C038" OPERAND_INDEX="0" TO_ADDRESS="0x1562A7" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x13C04C" OPERAND_INDEX="0" VALUE="0x3" NAME="GAME_TYPE_SEASON" />
+        <EQUATE_REFERENCE ADDRESS="0x13C072" OPERAND_INDEX="0" VALUE="0x4" NAME="ORANGE_TO_BROWN_4" />
         <MEMORY_REFERENCE ADDRESS="0x13C0A6" OPERAND_INDEX="0" TO_ADDRESS="0x156299" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13C0B4" OPERAND_INDEX="0" TO_ADDRESS="0x156299" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x13C0C8" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <EQUATE_REFERENCE ADDRESS="0x13C0E8" OPERAND_INDEX="0" VALUE="0x4" NAME="ORANGE_TO_BROWN_4" />
         <MEMORY_REFERENCE ADDRESS="0x13C102" OPERAND_INDEX="0" TO_ADDRESS="0x1562B2" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13C134" OPERAND_INDEX="0" TO_ADDRESS="0x156299" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x13C164" OPERAND_INDEX="0" VALUE="0x4" NAME="GAME_TYPE_CAREER" />
+        <EQUATE_REFERENCE ADDRESS="0x13C194" OPERAND_INDEX="0" VALUE="0x8" NAME="BLUE_TO_BLACK_8" />
+        <EQUATE_REFERENCE ADDRESS="0x13C1D6" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
         <EQUATE_REFERENCE ADDRESS="0x13C268" OPERAND_INDEX="0" VALUE="0x4" NAME="GAME_TYPE_CAREER" />
         <EQUATE_REFERENCE ADDRESS="0x13C35E" OPERAND_INDEX="0" VALUE="0x4" NAME="GAME_TYPE_CAREER" />
         <MEMORY_REFERENCE ADDRESS="0x13C378" OPERAND_INDEX="0" TO_ADDRESS="0x153E99" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13C390" OPERAND_INDEX="0" TO_ADDRESS="0x153E7F" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13C3A2" OPERAND_INDEX="0" TO_ADDRESS="0x153E8C" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x13C3B6" OPERAND_INDEX="0" VALUE="0x4" NAME="ORANGE_TO_BROWN_4" />
+        <EQUATE_REFERENCE ADDRESS="0x13C3D8" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <EQUATE_REFERENCE ADDRESS="0x13C408" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <EQUATE_REFERENCE ADDRESS="0x13C426" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <EQUATE_REFERENCE ADDRESS="0x13C444" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <EQUATE_REFERENCE ADDRESS="0x13C462" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <EQUATE_REFERENCE ADDRESS="0x13C480" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
         <MEMORY_REFERENCE ADDRESS="0x13C4EE" OPERAND_INDEX="0" TO_ADDRESS="0x151EFD" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13C4F8" OPERAND_INDEX="0" TO_ADDRESS="0x151EFD" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13C966" OPERAND_INDEX="0" TO_ADDRESS="0x15624C" PRIMARY="y" />
@@ -72156,6 +72057,8 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x13F10E" OPERAND_INDEX="0" TO_ADDRESS="0x13F4A0" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13F130" OPERAND_INDEX="0" TO_ADDRESS="0x13F46A" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13F1C6" OPERAND_INDEX="0" TO_ADDRESS="0x15623A" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x13F1D6" OPERAND_INDEX="0" VALUE="0xA" NAME="RED_10" />
+        <EQUATE_REFERENCE ADDRESS="0x13F394" OPERAND_INDEX="0" VALUE="0x7" NAME="PINK_TO_BROWN_7" />
         <EQUATE_REFERENCE ADDRESS="0x13F42A" OPERAND_INDEX="0" VALUE="0x7" NAME="PINK_TO_BROWN_7" />
         <MEMORY_REFERENCE ADDRESS="0x13F8D8" OPERAND_INDEX="0" TO_ADDRESS="0x13F8DC" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13F96C" OPERAND_INDEX="0" TO_ADDRESS="0x13FA2A" PRIMARY="y" />
@@ -72199,6 +72102,7 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x1409E2" OPERAND_INDEX="0" TO_ADDRESS="0x140AB0" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x140A00" OPERAND_INDEX="0" TO_ADDRESS="0x140ABC" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x140A7C" OPERAND_INDEX="0" TO_ADDRESS="0x15623A" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x140A94" OPERAND_INDEX="0" VALUE="0xA" NAME="RED_10" />
         <MEMORY_REFERENCE ADDRESS="0x140AE4" OPERAND_INDEX="0" TO_ADDRESS="0x140CA4" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x140AE8" OPERAND_INDEX="0" TO_ADDRESS="0x140CAC" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x140B1C" OPERAND_INDEX="0" TO_ADDRESS="0x1562D2" PRIMARY="y" />
@@ -72428,6 +72332,8 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x144E86" OPERAND_INDEX="0" TO_ADDRESS="0x144E94" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x144FF6" OPERAND_INDEX="0" TO_ADDRESS="0x156AE3" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x145000" OPERAND_INDEX="0" TO_ADDRESS="0x156ADE" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x145098" OPERAND_INDEX="0" VALUE="0xD" NAME="BRIGHT_BLUE_TO_BLUE_13" />
+        <EQUATE_REFERENCE ADDRESS="0x1450B6" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
         <MEMORY_REFERENCE ADDRESS="0x14538A" OPERAND_INDEX="0" TO_ADDRESS="0x14546E" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x14538E" OPERAND_INDEX="0" TO_ADDRESS="0x14546E" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1453A8" OPERAND_INDEX="0" TO_ADDRESS="0x156099" PRIMARY="y" />
@@ -72465,6 +72371,7 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x145692" OPERAND_INDEX="0" TO_ADDRESS="0x14594A" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x1457D6" OPERAND_INDEX="0" VALUE="0x1" NAME="CLUB_UNWILLING_TO_PURCHASE_PLAYERS" />
         <MEMORY_REFERENCE ADDRESS="0x145A0A" OPERAND_INDEX="0" TO_ADDRESS="0x156C08" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x145A24" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
         <MEMORY_REFERENCE ADDRESS="0x146CB6" OPERAND_INDEX="0" TO_ADDRESS="0x146F7E" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x146CBA" OPERAND_INDEX="0" TO_ADDRESS="0x146FA2" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x146CF0" OPERAND_INDEX="0" TO_ADDRESS="0x153E17" PRIMARY="y" />
@@ -72564,6 +72471,7 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x14842E" OPERAND_INDEX="0" TO_ADDRESS="0x164F86" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x14843C" OPERAND_INDEX="0" TO_ADDRESS="0x1664B2" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x14848A" OPERAND_INDEX="0" TO_ADDRESS="0x1664B2" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x1484B2" OPERAND_INDEX="0" VALUE="0xE" NAME="YELLOW_GREEN_BLACK_14" />
         <MEMORY_REFERENCE ADDRESS="0x1484BE" OPERAND_INDEX="0" TO_ADDRESS="0x154468" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x1484DA" OPERAND_INDEX="0" VALUE="0x1" NAME="TEAM_COMPUTER" />
         <EQUATE_REFERENCE ADDRESS="0x1484E2" OPERAND_INDEX="0" VALUE="0x1" NAME="TEAM_COMPUTER" />
@@ -72571,6 +72479,7 @@ out: D0 = 0 - success
         <EQUATE_REFERENCE ADDRESS="0x1484F2" OPERAND_INDEX="0" VALUE="0x2" NAME="TEAM_PLAYER_COACH" />
         <MEMORY_REFERENCE ADDRESS="0x1484FA" OPERAND_INDEX="0" TO_ADDRESS="0x153769" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x148504" OPERAND_INDEX="0" TO_ADDRESS="0x15661B" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x148518" OPERAND_INDEX="0" VALUE="0xA" NAME="RED_10" />
         <MEMORY_REFERENCE ADDRESS="0x148578" OPERAND_INDEX="0" TO_ADDRESS="0x153EE6" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x148588" OPERAND_INDEX="0" TO_ADDRESS="0x153EF2" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x1485BC" OPERAND_INDEX="0" VALUE="0x4" NAME="GAME_TYPE_CAREER" />
@@ -72579,23 +72488,52 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x14867E" OPERAND_INDEX="0" TO_ADDRESS="0x164F86" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x14874A" OPERAND_INDEX="0" TO_ADDRESS="0x1664B2" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x14876E" OPERAND_INDEX="0" TO_ADDRESS="0x1664B2" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x1487C4" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <EQUATE_REFERENCE ADDRESS="0x1487CA" OPERAND_INDEX="0" VALUE="0x1" NAME="PINK_TO_BROWN_1" />
+        <EQUATE_REFERENCE ADDRESS="0x1487D6" OPERAND_INDEX="0" VALUE="0x5" NAME="ORANGE_TO_BROWN_5" />
+        <EQUATE_REFERENCE ADDRESS="0x1487DC" OPERAND_INDEX="0" VALUE="0x4" NAME="ORANGE_TO_BROWN_4" />
         <MEMORY_REFERENCE ADDRESS="0x1488EA" OPERAND_INDEX="0" TO_ADDRESS="0x15489D" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1488FA" OPERAND_INDEX="0" TO_ADDRESS="0x156C99" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x14890A" OPERAND_INDEX="0" TO_ADDRESS="0x153B95" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x148930" OPERAND_INDEX="0" TO_ADDRESS="0x153EE6" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x148944" OPERAND_INDEX="0" TO_ADDRESS="0x153EF2" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x148A06" OPERAND_INDEX="0" VALUE="0xC" NAME="ORANGE_TO_BROWN_12" />
         <EQUATE_REFERENCE ADDRESS="0x148A20" OPERAND_INDEX="0" VALUE="0x1" NAME="TEAM_COMPUTER" />
         <MEMORY_REFERENCE ADDRESS="0x148A88" OPERAND_INDEX="0" TO_ADDRESS="0x154450" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x148A90" OPERAND_INDEX="0" VALUE="0x2" NAME="TEAM_PLAYER_COACH" />
         <MEMORY_REFERENCE ADDRESS="0x148A98" OPERAND_INDEX="0" TO_ADDRESS="0x154458" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x148AAC" OPERAND_INDEX="0" VALUE="0xD" NAME="BRIGHT_BLUE_TO_BLUE_13" />
         <EQUATE_REFERENCE ADDRESS="0x148AB4" OPERAND_INDEX="0" VALUE="0x2" NAME="TEAM_PLAYER_COACH" />
+        <EQUATE_REFERENCE ADDRESS="0x148AC8" OPERAND_INDEX="0" VALUE="0xB" NAME="BLUE_TO_PURPLE_11" />
         <EQUATE_REFERENCE ADDRESS="0x148B06" OPERAND_INDEX="0" VALUE="0x2" NAME="TEAM_PLAYER_COACH" />
         <EQUATE_REFERENCE ADDRESS="0x148B14" OPERAND_INDEX="0" VALUE="0x2" NAME="TEAM_PLAYER_COACH" />
         <EQUATE_REFERENCE ADDRESS="0x148B22" OPERAND_INDEX="0" VALUE="0x2" NAME="TEAM_PLAYER_COACH" />
+        <EQUATE_REFERENCE ADDRESS="0x148B40" OPERAND_INDEX="0" VALUE="0xB" NAME="BLUE_TO_PURPLE_11" />
         <EQUATE_REFERENCE ADDRESS="0x148B4E" OPERAND_INDEX="0" VALUE="0x2" NAME="TEAM_PLAYER_COACH" />
+        <EQUATE_REFERENCE ADDRESS="0x148B62" OPERAND_INDEX="0" VALUE="0xD" NAME="BRIGHT_BLUE_TO_BLUE_13" />
         <EQUATE_REFERENCE ADDRESS="0x148B6A" OPERAND_INDEX="0" VALUE="0x3" NAME="TEAM_COACH" />
+        <EQUATE_REFERENCE ADDRESS="0x148B7E" OPERAND_INDEX="0" VALUE="0xC" NAME="ORANGE_TO_BROWN_12" />
         <EQUATE_REFERENCE ADDRESS="0x148B8E" OPERAND_INDEX="0" VALUE="0x1" NAME="TEAM_COMPUTER" />
+        <EQUATE_REFERENCE ADDRESS="0x148BA2" OPERAND_INDEX="0" VALUE="0xD" NAME="BRIGHT_BLUE_TO_BLUE_13" />
         <MEMORY_REFERENCE ADDRESS="0x148C1C" OPERAND_INDEX="0" TO_ADDRESS="0x164F86" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x148C62" OPERAND_INDEX="0" VALUE="0x8" NAME="BLUE_TO_BLACK_8" />
+        <EQUATE_REFERENCE ADDRESS="0x148C74" OPERAND_INDEX="0" VALUE="0x8" NAME="BLUE_TO_BLACK_8" />
+        <EQUATE_REFERENCE ADDRESS="0x148CA8" OPERAND_INDEX="0" VALUE="0xD" NAME="BRIGHT_BLUE_TO_BLUE_13" />
+        <EQUATE_REFERENCE ADDRESS="0x148CBC" OPERAND_INDEX="0" VALUE="0xD" NAME="BRIGHT_BLUE_TO_BLUE_13" />
+        <EQUATE_REFERENCE ADDRESS="0x148CD4" OPERAND_INDEX="0" VALUE="0xA" NAME="RED_10" />
+        <EQUATE_REFERENCE ADDRESS="0x148CE8" OPERAND_INDEX="0" VALUE="0xA" NAME="RED_10" />
+        <EQUATE_REFERENCE ADDRESS="0x148D00" OPERAND_INDEX="0" VALUE="0xE" NAME="YELLOW_GREEN_BLACK_14" />
+        <EQUATE_REFERENCE ADDRESS="0x148D14" OPERAND_INDEX="0" VALUE="0xE" NAME="YELLOW_GREEN_BLACK_14" />
+        <EQUATE_REFERENCE ADDRESS="0x148D42" OPERAND_INDEX="0" VALUE="0xB" NAME="BLUE_TO_PURPLE_11" />
+        <EQUATE_REFERENCE ADDRESS="0x148D56" OPERAND_INDEX="0" VALUE="0xB" NAME="BLUE_TO_PURPLE_11" />
+        <EQUATE_REFERENCE ADDRESS="0x148D6C" OPERAND_INDEX="0" VALUE="0xC" NAME="ORANGE_TO_BROWN_12" />
+        <EQUATE_REFERENCE ADDRESS="0x148D80" OPERAND_INDEX="0" VALUE="0xC" NAME="ORANGE_TO_BROWN_12" />
+        <EQUATE_REFERENCE ADDRESS="0x148DA2" OPERAND_INDEX="0" VALUE="0xE" NAME="YELLOW_GREEN_BLACK_14" />
+        <EQUATE_REFERENCE ADDRESS="0x148DB6" OPERAND_INDEX="0" VALUE="0xE" NAME="YELLOW_GREEN_BLACK_14" />
+        <EQUATE_REFERENCE ADDRESS="0x148E06" OPERAND_INDEX="0" VALUE="0xA" NAME="RED_10" />
+        <EQUATE_REFERENCE ADDRESS="0x148E1A" OPERAND_INDEX="0" VALUE="0xA" NAME="RED_10" />
+        <EQUATE_REFERENCE ADDRESS="0x148E3E" OPERAND_INDEX="0" VALUE="0x6" NAME="ORANGE_TO_BROWN_6" />
+        <EQUATE_REFERENCE ADDRESS="0x148E50" OPERAND_INDEX="0" VALUE="0x6" NAME="ORANGE_TO_BROWN_6" />
         <EQUATE_REFERENCE ADDRESS="0x148E9C" OPERAND_INDEX="0" VALUE="0xD1" NAME="SPR_NOT_CHECK_SMALL" />
         <EQUATE_REFERENCE ADDRESS="0x148EA4" OPERAND_INDEX="0" VALUE="0xD0" NAME="SPR_CHECK_SMALL" />
         <MEMORY_REFERENCE ADDRESS="0x148EC0" OPERAND_INDEX="0" TO_ADDRESS="0x164F86" PRIMARY="y" />
@@ -72631,7 +72569,9 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x14A30A" OPERAND_INDEX="0" TO_ADDRESS="0x156C89" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x14A310" OPERAND_INDEX="0" TO_ADDRESS="0x14A7A0" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x14A390" OPERAND_INDEX="0" TO_ADDRESS="0x1547D9" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x14A3A4" OPERAND_INDEX="0" VALUE="0xA" NAME="RED_10" />
         <MEMORY_REFERENCE ADDRESS="0x14A3BC" OPERAND_INDEX="0" TO_ADDRESS="0x153D46" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x14A434" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
         <MEMORY_REFERENCE ADDRESS="0x14A5D4" OPERAND_INDEX="0" TO_ADDRESS="0x15625C" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x14A8BC" OPERAND_INDEX="0" TO_ADDRESS="0x14AA7E" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x14A8C0" OPERAND_INDEX="0" TO_ADDRESS="0x14AAA6" PRIMARY="y" />
@@ -72795,8 +72735,28 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x14BAFA" OPERAND_INDEX="0" TO_ADDRESS="0x154DF7" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x14BAFE" OPERAND_INDEX="0" TO_ADDRESS="0x154DFE" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x14BF54" OPERAND_INDEX="0" VALUE="0x3E8" NAME="TACTIC_IMPORTED" />
+        <EQUATE_REFERENCE ADDRESS="0x14C05C" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <EQUATE_REFERENCE ADDRESS="0x14C0A4" OPERAND_INDEX="0" VALUE="0xE" NAME="YELLOW_GREEN_BLACK_14" />
+        <EQUATE_REFERENCE ADDRESS="0x14C0AC" OPERAND_INDEX="0" VALUE="0x4" NAME="ORANGE_TO_BROWN_4" />
+        <EQUATE_REFERENCE ADDRESS="0x14C166" OPERAND_INDEX="0" VALUE="0x8" NAME="BLUE_TO_BLACK_8" />
+        <EQUATE_REFERENCE ADDRESS="0x14C188" OPERAND_INDEX="0" VALUE="0xD" NAME="BRIGHT_BLUE_TO_BLUE_13" />
+        <EQUATE_REFERENCE ADDRESS="0x14C1A0" OPERAND_INDEX="0" VALUE="0xE" NAME="YELLOW_GREEN_BLACK_14" />
+        <EQUATE_REFERENCE ADDRESS="0x14C1B8" OPERAND_INDEX="0" VALUE="0xB" NAME="BLUE_TO_PURPLE_11" />
+        <EQUATE_REFERENCE ADDRESS="0x14C1D0" OPERAND_INDEX="0" VALUE="0xE" NAME="YELLOW_GREEN_BLACK_14" />
+        <EQUATE_REFERENCE ADDRESS="0x14C21E" OPERAND_INDEX="0" VALUE="0xA" NAME="RED_10" />
+        <EQUATE_REFERENCE ADDRESS="0x14C23A" OPERAND_INDEX="0" VALUE="0x6" NAME="ORANGE_TO_BROWN_6" />
+        <EQUATE_REFERENCE ADDRESS="0x14C25A" OPERAND_INDEX="0" VALUE="0xC" NAME="ORANGE_TO_BROWN_12" />
+        <MEMORY_REFERENCE ADDRESS="0x14C31E" OPERAND_INDEX="0" TO_ADDRESS="0x9AC14" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x14C384" OPERAND_INDEX="0" VALUE="0x8" NAME="BLUE_TO_BLACK_8" />
         <EQUATE_REFERENCE ADDRESS="0x14C3A4" OPERAND_INDEX="0" VALUE="0xD" NAME="BRIGHT_BLUE_TO_BLUE_13" />
         <EQUATE_REFERENCE ADDRESS="0x14C3BC" OPERAND_INDEX="0" VALUE="0xE" NAME="YELLOW_GREEN_BLACK_14" />
+        <EQUATE_REFERENCE ADDRESS="0x14C3DA" OPERAND_INDEX="0" VALUE="0xB" NAME="BLUE_TO_PURPLE_11" />
+        <EQUATE_REFERENCE ADDRESS="0x14C3F2" OPERAND_INDEX="0" VALUE="0xE" NAME="YELLOW_GREEN_BLACK_14" />
+        <EQUATE_REFERENCE ADDRESS="0x14C43E" OPERAND_INDEX="0" VALUE="0xA" NAME="COLOR_RED" />
+        <EQUATE_REFERENCE ADDRESS="0x14C45A" OPERAND_INDEX="0" VALUE="0x6" NAME="ORANGE_TO_BROWN_6" />
+        <EQUATE_REFERENCE ADDRESS="0x14C47A" OPERAND_INDEX="0" VALUE="0xC" NAME="ORANGE_TO_BROWN_12" />
+        <EQUATE_REFERENCE ADDRESS="0x14C4A8" OPERAND_INDEX="0" VALUE="0x1" NAME="PINK_TO_BROWN_1" />
+        <EQUATE_REFERENCE ADDRESS="0x14C4CE" OPERAND_INDEX="0" VALUE="0x0" NAME="PINK_TO_BROWN_0" />
         <EQUATE_REFERENCE ADDRESS="0x14C504" OPERAND_INDEX="0" VALUE="0xD1" NAME="SPR_NOT_CHECK_SMALL" />
         <EQUATE_REFERENCE ADDRESS="0x14C50C" OPERAND_INDEX="0" VALUE="0xD0" NAME="SPR_CHECK_SMALL" />
         <EQUATE_REFERENCE ADDRESS="0x14C5E2" OPERAND_INDEX="0" VALUE="0xCF" NAME="SPR_NOT_CHECK_BIG" />
@@ -72860,6 +72820,8 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x14DA28" OPERAND_INDEX="0" TO_ADDRESS="0x14DB1E" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x14DB20" OPERAND_INDEX="0" />
         <EQUATE_REFERENCE ADDRESS="0x14DB42" OPERAND_INDEX="0" />
+        <MEMORY_REFERENCE ADDRESS="0x14DB5A" OPERAND_INDEX="0" TO_ADDRESS="0xCC8C" PRIMARY="y" />
+        <MEMORY_REFERENCE ADDRESS="0x14DB7E" OPERAND_INDEX="0" TO_ADDRESS="0xCCF0" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x14DBAC" OPERAND_INDEX="0" VALUE="0xD" NAME="BRIGHT_BLUE_TO_BLUE_13" />
         <EQUATE_REFERENCE ADDRESS="0x14DBB8" OPERAND_INDEX="0" VALUE="0xB" NAME="BLUE_TO_PURPLE_11" />
         <EQUATE_REFERENCE ADDRESS="0x14DBC4" OPERAND_INDEX="0" VALUE="0xD" NAME="BRIGHT_BLUE_TO_BLUE_13" />
@@ -72881,6 +72843,10 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x14DDEE" OPERAND_INDEX="0" TO_ADDRESS="0x14DF36" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x14DE06" OPERAND_INDEX="0" TO_ADDRESS="0x156191" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x14DE0C" OPERAND_INDEX="0" TO_ADDRESS="0x14DF8E" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x14DE3C" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <EQUATE_REFERENCE ADDRESS="0x14DE5A" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <EQUATE_REFERENCE ADDRESS="0x14DE82" OPERAND_INDEX="0" VALUE="0xE" NAME="YELLOW_GREEN_BLACK_14" />
+        <EQUATE_REFERENCE ADDRESS="0x14DE9E" OPERAND_INDEX="0" VALUE="0xE" NAME="YELLOW_GREEN_BLACK_14" />
         <MEMORY_REFERENCE ADDRESS="0x14E73E" OPERAND_INDEX="0" TO_ADDRESS="0x0" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x14EFC2" OPERAND_INDEX="0" TO_ADDRESS="0x14F4D0" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x14EFC6" OPERAND_INDEX="0" TO_ADDRESS="0x14F8B6" PRIMARY="y" />
