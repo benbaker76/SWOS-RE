@@ -1649,114 +1649,108 @@ BSS_00_padding_18:
 byte_D6A6:
                 ds.b $1
 BSS_00_padding_19:
-                ds.b $2571
-byte_FC18:
-                ds.b $1
-byte_FC19:
-                ds.b $1
-BSS_00_padding_20:
-                ds.b $266
+                ds.b $27D9
 byte_FE80:
                 ds.b $1
-BSS_00_padding_21:
+BSS_00_padding_20:
                 ds.b $2F
 byte_FEB0:
                 ds.b $1
-BSS_00_padding_22:
+BSS_00_padding_21:
                 ds.b $2F
 byte_FEE0:
                 ds.b $1
-BSS_00_padding_23:
+BSS_00_padding_22:
                 ds.b $25
 byte_FF06:
                 ds.b $1
-BSS_00_padding_24:
+BSS_00_padding_23:
                 ds.b $99
 byte_FFA0:
                 ds.b $1
-BSS_00_padding_25:
+BSS_00_padding_24:
                 ds.b $3F
 byte_FFE0:
                 ds.b $1
-BSS_00_padding_26:
+BSS_00_padding_25:
                 ds.b $F
 byte_FFF0:
                 ds.b $1
-BSS_00_padding_27:
+BSS_00_padding_26:
                 ds.b $C
 byte_FFFD:
                 ds.b $1
 byte_FFFE:
                 ds.b $1
-BSS_00_padding_28:
+BSS_00_padding_27:
                 ds.b $1
 kFixedOne_16p16:
                 ds.b $4
-BSS_00_padding_29:
+BSS_00_padding_28:
                 ds.b $773
 byte_10777:
                 ds.b $1
-BSS_00_padding_30:
+BSS_00_padding_29:
                 ds.b $202E
 nextGoalPtrSaved:
                 ds.b $2
 frontbufferBase:
                 ds.b $4
-BSS_00_padding_31:
+BSS_00_padding_30:
                 ds.b $1854
 byte_14000:
                 ds.b $1
-BSS_00_padding_32:
+BSS_00_padding_31:
                 ds.b $A359
 frontbufferBaseAlt:
                 ds.b $4
-BSS_00_padding_33:
+BSS_00_padding_32:
                 ds.b $1CA1
 vposrLineMask:
                 ds.b $1
 byte_20000:
                 ds.b $1
-BSS_00_padding_34:
+BSS_00_padding_33:
                 ds.b $3
 byte_20004:
                 ds.b $1
-BSS_00_padding_35:
+BSS_00_padding_34:
                 ds.b $32E
 byte_20333:
                 ds.b $1
-BSS_00_padding_36:
+BSS_00_padding_35:
                 ds.b $9BD8
 plane0StartWordAddr0:
                 ds.b $4
-BSS_00_padding_37:
+BSS_00_padding_36:
                 ds.b $380
 plane1StartWordAddr0:
                 ds.b $4
-BSS_00_padding_38:
+BSS_00_padding_37:
                 ds.b $380
 plane2StartWordAddr0:
                 ds.b $4
-BSS_00_padding_39:
+BSS_00_padding_38:
                 ds.b $380
 plane3StartWordAddr0:
                 ds.b $4
-BSS_00_padding_40:
+BSS_00_padding_39:
                 ds.b $380
 plane0StartWordAddr1:
                 ds.b $4
-BSS_00_padding_41:
+BSS_00_padding_40:
                 ds.b $380
 plane1StartWordAddr1:
                 ds.b $4
-BSS_00_padding_42:
+BSS_00_padding_41:
                 ds.b $380
 plane2StartWordAddr1:
                 ds.b $4
-BSS_00_padding_43:
+BSS_00_padding_42:
                 ds.b $380
 plane3StartWordAddr1:
                 ds.b $4
-BSS_00_padding_44:
+BSS_00_padding_43:
                 ds.b $380
 plane0WritePtr:
                 ds.b $4
@@ -1770,7 +1764,7 @@ copperListBuffer:
                 ds.b $140
 copperZeroLong:
                 ds.b $4
-BSS_00_padding_45:
+BSS_00_padding_44:
                 ds.b $2
 bootTemp0:
                 ds.b $2
@@ -1800,31 +1794,31 @@ dword_2BCF8:
                 ds.b $4
 renderStackBase:
                 ds.b $1
-BSS_00_padding_46:
+BSS_00_padding_45:
                 ds.b $347
 dword_2C044:
                 ds.b $4
 plane01RenderStackBase:
                 ds.b $1
-BSS_00_padding_47:
+BSS_00_padding_46:
                 ds.b $167
 plane23RenderStackPtr:
                 ds.b $4
 plane23RenderStackBase:
                 ds.b $1
-BSS_00_padding_48:
+BSS_00_padding_47:
                 ds.b $167
 kSpriteBlitQueueSentinel_A:
                 ds.b $2
-BSS_00_padding_49:
+BSS_00_padding_48:
                 ds.b $BB6
 kSpriteBlitQueueSentinel_B:
                 ds.b $2
-BSS_00_padding_50:
+BSS_00_padding_49:
                 ds.b $BB6
 spriteBlitQueue:
                 ds.b $4
-BSS_00_padding_51:
+BSS_00_padding_50:
                 ds.b $2
 ballSpeed:
                 ds.b $2
@@ -1840,11 +1834,11 @@ word_2DA9C:
                 ds.b $2
 dseg_114EB0:
                 ds.b $2
-BSS_00_padding_52:
+BSS_00_padding_51:
                 ds.b $10
 dword_2DAB0:
                 ds.b $4
-BSS_00_padding_53:
+BSS_00_padding_52:
                 ds.b $1C
 diyFileBufferCopy:
                 ds.b $2
@@ -1852,11 +1846,11 @@ word_2DAD2:
                 ds.b $2
 byte_2DAD4:
                 ds.b $1
-BSS_00_padding_54:
+BSS_00_padding_53:
                 ds.b $27
 word_2DAFC:
                 ds.b $2
-BSS_00_padding_55:
+BSS_00_padding_54:
                 ds.b $2
 byte_2DB00:
                 ds.b $1
@@ -1876,7 +1870,7 @@ word_2DB0A:
                 ds.b $2
 word_2DB0C:
                 ds.b $2
-BSS_00_padding_56:
+BSS_00_padding_55:
                 ds.b $6
 word_2DB14:
                 ds.b $2
@@ -1886,13 +1880,13 @@ word_2DB18:
                 ds.b $2
 byte_2DB1A:
                 ds.b $1
-BSS_00_padding_57:
+BSS_00_padding_56:
                 ds.b $1
 word_2DB1C:
                 ds.b $2
 word_2DB1E:
                 ds.b $2
-BSS_00_padding_58:
+BSS_00_padding_57:
                 ds.b $2
 word_2DB22:
                 ds.b $2
@@ -1904,11 +1898,11 @@ word_2DB28:
                 ds.b $2
 word_2DB2A:
                 ds.b $2
-BSS_00_padding_59:
+BSS_00_padding_58:
                 ds.b $3E
 byte_2DB6A:
                 ds.b $1
-BSS_00_padding_60:
+BSS_00_padding_59:
                 ds.b $385
 DIY_competitionStart:
                 ds.b $2
@@ -1916,13 +1910,13 @@ word_2DEF2:
                 ds.b $2
 diyLeagueName:
                 ds.b $23
-BSS_00_padding_61:
+BSS_00_padding_60:
                 ds.b $1
 dword_2DF18:
                 ds.b $4
 word_2DF1C:
                 ds.b $2
-BSS_00_padding_62:
+BSS_00_padding_61:
                 ds.b $1
 byte_2DF1F:
                 ds.b $1
@@ -1946,7 +1940,7 @@ word_2DF2C:
                 ds.b $2
 diySelectedButtonOrd:
                 ds.b $2
-BSS_00_padding_63:
+BSS_00_padding_62:
                 ds.b $2
 diySavedEntryOrd:
                 ds.b $2
@@ -1960,7 +1954,7 @@ word_2DF3A:
                 ds.b $2
 word_2DF3C:
                 ds.b $2
-BSS_00_padding_64:
+BSS_00_padding_63:
                 ds.b $2
 word_2DF40:
                 ds.b $2
@@ -1988,29 +1982,29 @@ diyLeagueMaxSubstitutes:
                 ds.b $2
 word_2DF58:
                 ds.b $2
-BSS_00_padding_65:
+BSS_00_padding_64:
                 ds.b $4
 word_2DF5E:
                 ds.b $2
-BSS_00_padding_66:
+BSS_00_padding_65:
                 ds.b $1A
 word_2DF7A:
                 ds.b $2
-BSS_00_padding_67:
+BSS_00_padding_66:
                 ds.b $62
 word_2DFDE:
                 ds.b $2
-BSS_00_padding_68:
+BSS_00_padding_67:
                 ds.b $3E
 word_2E01E:
                 ds.b $2
-BSS_00_padding_69:
+BSS_00_padding_68:
                 ds.b $1A
 word_2E03A:
                 ds.b $2
 word_2E03C:
                 ds.b $2
-BSS_00_padding_70:
+BSS_00_padding_69:
                 ds.b $70
 word_2E0AE:
                 ds.b $2
@@ -2020,71 +2014,71 @@ word_2E0B2:
                 ds.b $2
 word_2E0B4:
                 ds.b $2
-BSS_00_padding_71:
+BSS_00_padding_70:
                 ds.b $88
 word_2E13E:
                 ds.b $2
-BSS_00_padding_72:
+BSS_00_padding_71:
                 ds.b $7E
 word_2E1BE:
                 ds.b $2
-BSS_00_padding_73:
+BSS_00_padding_72:
                 ds.b $3E
 word_2E1FE:
                 ds.b $2
-BSS_00_padding_74:
+BSS_00_padding_73:
                 ds.b $1E
 word_2E21E:
                 ds.b $2
 word_2E220:
                 ds.b $2
-BSS_00_padding_75:
+BSS_00_padding_74:
                 ds.b $402
 imageCmdWorkbuf:
                 ds.b $8CA
-BSS_00_padding_76:
+BSS_00_padding_75:
                 ds.b $ACA
 byte_2F9B8:
                 ds.b $1
-BSS_00_padding_77:
+BSS_00_padding_76:
                 ds.b $758
 byte_30111:
                 ds.b $1
-BSS_00_padding_78:
+BSS_00_padding_77:
                 ds.b $E4EE
 g_menuInsBank:
                 ds.b $2
-BSS_00_padding_79:
+BSS_00_padding_78:
                 ds.b $19FE
 byte_40000:
                 ds.b $1
-BSS_00_padding_80:
+BSS_00_padding_79:
                 ds.b $9131
 g_menuSongData:
                 ds.b $1
-BSS_00_padding_81:
+BSS_00_padding_80:
                 ds.b $5BF
 byte_496F2:
                 ds.b $1
-BSS_00_padding_82:
+BSS_00_padding_81:
                 ds.b $4B
 byte_4973E:
                 ds.b $1
-BSS_00_padding_83:
+BSS_00_padding_82:
                 ds.b $25F
 numberOfFiles:
                 ds.b $2
-BSS_00_padding_84:
+BSS_00_padding_83:
                 ds.b $2
 foundFilenamesBuffer:
                 ds.b $77E
 teamFileBuffer:
                 ds.b $FA0E
-BSS_00_padding_85:
+BSS_00_padding_84:
                 ds.b $DAFA
 byte_67628:
                 ds.b $1
-BSS_00_padding_86:
+BSS_00_padding_85:
                 ds.b $17
 dword_67640:
                 ds.b $4
@@ -2125,31 +2119,31 @@ poolplyrLoaded:
                                         ; !0 = yes
 poolplyrDatBuffer:
                 ds.b $CBE8
-BSS_00_padding_87:
+BSS_00_padding_86:
                 ds.b $4B64
 g_sfxInsBank2:
                 ds.b $1
-BSS_00_padding_88:
+BSS_00_padding_87:
                 ds.b $7251
 byte_80000:
                 ds.b $1
-BSS_00_padding_89:
+BSS_00_padding_88:
                 ds.b $CA59
 g_sfxSongData:
                 ds.b $1
-BSS_00_padding_90:
+BSS_00_padding_89:
                 ds.b $10B9
 frontbufferPlaneOffset:
                 ds.b $4
-BSS_00_padding_91:
+BSS_00_padding_90:
                 ds.b $BBB0
 highestScorersTable:
                 ds.b $1
-BSS_00_padding_92:
+BSS_00_padding_91:
                 ds.b $1D
 byte_996E6:
                 ds.b $1
-BSS_00_padding_93:
+BSS_00_padding_92:
                 ds.b $3D
 inMenuKeyboardBuffer:
                 ds.b $64
@@ -2164,7 +2158,7 @@ g_exitMenu:
                 ds.b $2
 g_spriteGraphicsPtrSaved:
                 ds.b $2
-BSS_00_padding_94:
+BSS_00_padding_93:
                 ds.b $130E
 numSpritesToRender:
                 ds.b $2
@@ -5451,7 +5445,7 @@ FixupAndColorPitchFile:
                 move.w  #2309,d1        ; sizeof(g_pitchDatBuffer) / 4 ; (= 10032 / 4)
 relocate_pitch_pointer_loop:
                 move.l  (a0),d0
-                addi.l  #$2818,d0
+                addi.l  #g_currentMenu,d0
                 move.l  d0,(a0)+
                 dbf     d1,relocate_pitch_pointer_loop
                 clr.w   (g_cameraX).l
@@ -9633,7 +9627,7 @@ _105D60_copy_bootstrap_blob_to_exec_loop:
                 clr.w   d1
                 lea     (g_irqCookieObfuscated).l,a3
                 clr.l   (g_irqCookieObfuscated).l
-                jsr     ($2822).l
+                jsr     ((g_currentMenu+MENU_ONDRAW+2)).l
                 move.l  (g_irqCookieObfuscated).l,d0
                 eori.l  #$715828D4,d0
                 cmpi.l  #$1628,d0
@@ -9663,7 +9657,7 @@ _105DC6_copy_bootstrap_blob_to_exec_loop:
                 clr.w   d1
                 lea     (g_irqCookieObfuscated).l,a3
                 clr.l   (g_irqCookieObfuscated).l
-                jsr     ($2818).l
+                jsr     (g_currentMenu).l
                 move.l  (g_irqCookieObfuscated).l,d0
                 eori.l  #$CFD1F9CF,d0
                 cmpi.l  #$1628,d0
@@ -42196,9 +42190,9 @@ loc_11FE12:
 loc_11FE24:
                 cmpi.w  #ENTRY_STRING,MENUENTRY_CONTENT(a0)
                 bne.s   loc_11FE60
-                cmpi.l  #$FFFFFFFF,MENUENTRY_FG(a0)
+                cmpi.l  #$FFFFFFFF,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 bne.s   loc_11FE60
-                move.l  a1,MENUENTRY_FG(a0)
+                move.l  a1,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 move.l  #'STDM',(a1)
                 move.l  #'ENUT',4(a1)
                 move.l  #$45585400,8(a1)
@@ -42219,7 +42213,7 @@ loc_11FE60:
                 cmpi.l  #$1722,d0
                 bne.w   loc_1215BC
                 rts
-next_entry:
+_11FEA0_next_entry:
                 cmpa.l  a4,a1
                 bne.s   loc_11FEAA
                 movea.l a5,a1
@@ -42273,70 +42267,70 @@ after_draw_func:
                 bra.w   convert_menu_switch
 func1:
                 move.w  #ENTRY_FUNC1,MENUENTRY_BACKGROUND(a1)
-                move.l  (a0)+,MENUENTRY_BG(a1)
+                move.l  (a0)+,MENUENTRY_BG+ENTRYTYPE1UNION_FUNC1(a1)
                 bra.w   convert_menu_switch
 entry_frame:
                 move.w  #ENTRY_FRAME_AND_BACK_COLOR,MENUENTRY_BACKGROUND(a1)
-                move.w  (a0)+,MENUENTRY_BG(a1)
+                move.w  (a0)+,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a1)
                 clr.w   MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR+2(a1)
                 bra.w   convert_menu_switch
 sprite1:
                 move.w  #ENTRY_SPRITE1,MENUENTRY_BACKGROUND(a1)
-                move.w  (a0)+,MENUENTRY_BG(a1)
+                move.w  (a0)+,MENUENTRY_BG+ENTRYTYPE1UNION_SPRITE1(a1)
                 clr.w   MENUENTRY_BG+ENTRYTYPE1UNION_SPRITE1+2(a1)
                 bra.w   convert_menu_switch
 invalid_type:
                 move.w  #4,MENUENTRY_BACKGROUND(a1)
-                move.w  (a0)+,MENUENTRY_BG(a1)
+                move.w  (a0)+,MENUENTRY_BG+ENTRYTYPE1UNION_SPRITE1(a1)
                 clr.w   MENUENTRY_BG+ENTRYTYPE1UNION_SPRITE1+2(a1)
                 bra.w   convert_menu_switch
 func2:
                 move.w  #ENTRY_FUNC2,MENUENTRY_CONTENT(a1)
                 move.w  #0,MENUENTRY_STRINGFLAGS(a1)
-                move.l  (a0)+,MENUENTRY_FG(a1)
+                move.l  (a0)+,MENUENTRY_FG+ENTRYTYPE2UNION_FUNC2(a1)
                 bra.w   convert_menu_switch
 string_entry:
                 move.w  #ENTRY_STRING,MENUENTRY_CONTENT(a1)
                 move.w  (a0)+,MENUENTRY_STRINGFLAGS(a1)
-                move.l  (a0)+,MENUENTRY_FG(a1)
+                move.l  (a0)+,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1)
 loc_11FF9C:
-                tst.l   MENUENTRY_FG(a1)
+                tst.l   MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1)
                 beq.w   convert_menu_switch
-                cmpi.l  #256,MENUENTRY_FG(a1)
+                cmpi.l  #256,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1)
                 bcc.w   convert_menu_switch
-                move.l  #$FFFFFFFF,MENUENTRY_FG(a1)
+                move.l  #$FFFFFFFF,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1)
                 bra.w   convert_menu_switch
 string_table:
                 move.w  #ENTRY_STRING_TABLE,MENUENTRY_CONTENT(a1)
                 move.w  (a0)+,MENUENTRY_STRINGFLAGS(a1)
-                move.l  (a0)+,MENUENTRY_FG(a1)
+                move.l  (a0)+,MENUENTRY_FG+ENTRYTYPE2UNION_STRINGTABLE(a1)
                 bra.w   convert_menu_switch
 multiLine_text:
                 move.w  #ENTRY_MULTI_LINE_TEXT,MENUENTRY_CONTENT(a1)
                 move.w  (a0)+,MENUENTRY_STRINGFLAGS(a1)
-                move.l  (a0)+,MENUENTRY_FG(a1)
+                move.l  (a0)+,MENUENTRY_FG+ENTRYTYPE2UNION_MULTILINETEXT(a1)
                 bra.w   convert_menu_switch
 sprite2:
                 move.w  #ENTRY_SPRITE2,MENUENTRY_CONTENT(a1)
                 move.w  #0,MENUENTRY_STRINGFLAGS(a1)
-                move.w  (a0)+,MENUENTRY_FG(a1)
+                move.w  (a0)+,MENUENTRY_FG+ENTRYTYPE2UNION_SPRITE2(a1)
                 clr.w   MENUENTRY_FG+ENTRYTYPE2UNION_SPRITE2+2(a1)
                 bra.w   convert_menu_switch
 number:
                 move.w  #ENTRY_NUMBER,MENUENTRY_CONTENT(a1)
                 move.w  (a0)+,MENUENTRY_STRINGFLAGS(a1)
-                move.w  (a0)+,MENUENTRY_FG(a1)
+                move.w  (a0)+,MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a1)
                 clr.w   MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER+2(a1)
                 bra.w   convert_menu_switch
 sprite_copy:
                 move.w  #ENTRY_SPRITE_COPY,MENUENTRY_CONTENT(a1)
                 move.w  #0,MENUENTRY_STRINGFLAGS(a1)
-                move.l  (a0)+,MENUENTRY_FG(a1)
+                move.l  (a0)+,MENUENTRY_FG+ENTRYTYPE2UNION_SPRITECOPY(a1)
                 bra.w   convert_menu_switch
-loc_120022:
+string_entry2:
                 move.w  #ENTRY_STRING,MENUENTRY_CONTENT(a1)
                 move.w  (a0)+,MENUENTRY_STRINGFLAGS(a1)
-                move.l  #$FFFFFFFF,MENUENTRY_FG(a1)
+                move.l  #$FFFFFFFF,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1)
                 bra.w   loc_11FF9C
 loc_120038:
                 move.w  #$9091,(panicReasonCode).l
@@ -42354,7 +42348,7 @@ InitMenuEntry:
                 move.w  #0,MENUENTRY_BACKGROUND(a4)
                 clr.l   MENUENTRY_BG(a4)
                 move.w  #0,MENUENTRY_CONTENT(a4)
-                clr.l   MENUENTRY_FG(a4)
+                clr.l   MENUENTRY_FG+ENTRYTYPE2UNION_FUNC2(a4)
                 clr.w   MENUENTRY_ISINVISIBLE(a4)
                 clr.w   MENUENTRY_ISDISABLED(a4)
                 move.b  #$FF,MENUENTRY_LEFTENTRY(a4)
@@ -42369,7 +42363,7 @@ InitMenuEntry:
                 clr.l   MENUENTRY_AFTERDRAW(a4)
                 rts
 menuTypesJumpTable:
-                dc.l next_entry
+                dc.l _11FEA0_next_entry
                 dc.l invisible_item     ; "3|"
                 dc.l set_positions
                 dc.l func1              ; "3|"
@@ -42391,7 +42385,7 @@ menuTypesJumpTable:
                 dc.l up_skip            ; "0<"
                 dc.l down_skip          ; "0<"
                 dc.l sprite_copy        ; "3|"
-                dc.l loc_120022         ; "3|"
+                dc.l string_entry2      ; "3|"
 
 ; ===== MenuProc =====
 ; prototype: void __usercall MenuProc()
@@ -42534,11 +42528,11 @@ UpdateBlinkingMenuText:
 blink_pass_loop:
                 clr.w   d5
                 lea     (g_currentMenu).w,a6
-                move.w  g_currentMenu+MENU_NUMENTRIES-g_currentMenu(a6),d7
+                move.w  MENU_NUMENTRIES(a6),d7
                 subq.w  #1,d7
                 lea     (g_menuEntries).w,a5
 scan_entries_loop:
-                cmpi.w  #NO_FOREGROUND,g_menuEntries+MENUENTRY_CONTENT-g_menuEntries(a5)
+                cmpi.w  #NO_FOREGROUND,MENUENTRY_CONTENT(a5)
                 beq.s   _12034C_next_entry
                 move.w  MENUENTRY_STRINGFLAGS(a5),d0
                 btst    #MENUENTRY_DIRECTIONRIGHT,d0
@@ -42799,8 +42793,8 @@ frontend_loop_spin:
 ; ===== DoubleBufferSwapSequence =====
 ; prototype: void __usercall DoubleBufferSwapSequence()
 DoubleBufferSwapSequence:
-                move.l  #$2818,d0
-                subi.l  #$2818,d0
+                move.l  #g_currentMenu,d0
+                subi.l  #g_currentMenu,d0
                 beq.s   loc_1206C0
                 move.w  #$8989,(panicReasonCode).l
                 jsr     PanicHaltLoop
@@ -43227,7 +43221,7 @@ loc_120C34:
 SetCurrentEntry:
                 bsr.w   CalcMenuEntryAddress
                 lea     (g_currentMenu).w,a1
-                move.l  a0,g_currentMenu+MENU_SELECTEDENTRY-g_currentMenu(a1)
+                move.l  a0,MENU_SELECTEDENTRY(a1)
                 rts
 
 ; ===== CalcMenuEntryAddress =====
@@ -43446,10 +43440,10 @@ InputText:
                 bhi.w   loc_120F58
                 move.w  d0,d7
                 subq.w  #1,d7
-                movea.l MENUENTRY_FG(a5),a6
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a6
                 movea.l a6,a0
                 lea     (inMenuKeyboardBuffer).l,a1
-                move.l  a1,MENUENTRY_FG(a5)
+                move.l  a1,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5)
                 bsr.w   StringCopy
                 lea     (inMenuKeyboardBuffer).l,a0
                 bsr.w   GetStringLength
@@ -43472,9 +43466,9 @@ loc_120DE8:
                 cmpi.w  #27,d1          ; escape
                 beq.w   input_text_cancel
                 cmpi.w  #127,d1         ; backspace
-                beq.w   loc_120EDE
+                beq.w   input_text_delete_char_to_the_left
                 cmpi.w  #126,d1
-                beq.w   loc_120EEA
+                beq.w   input_text_space
                 cmpi.w  #' ',d1
                 bcs.s   input_text_insert_cursor
                 cmpi.w  #127,d1
@@ -43491,13 +43485,13 @@ commit_input_text_to_menu_entry:
                 lea     (inMenuKeyboardBuffer).l,a0
                 movea.l a6,a1
                 bsr.w   StringCopy
-                move.l  a6,MENUENTRY_FG(a5)
+                move.l  a6,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5)
                 bsr.w   CallDrawMenuItem
                 clr.w   (deadVar02).l
                 clr.w   d0
                 rts
 input_text_cancel:
-                move.l  a6,MENUENTRY_FG(a5)
+                move.l  a6,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5)
                 bsr.w   CallDrawMenuItem
                 clr.w   (deadVar02).l
                 move.w  #1,d0
@@ -43547,11 +43541,11 @@ loc_120ECE:
                 addq.l  #1,a0
                 move.b  d1,(a0)
                 rts
-loc_120EDE:
+input_text_delete_char_to_the_left:
                 cmpa.l  #inMenuKeyboardBuffer,a0
                 beq.w   input_text_insert_cursor
                 subq.l  #1,a0
-loc_120EEA:
+input_text_space:
                 bsr.w   sub_120EF2
                 bra.w   input_text_insert_cursor
 
@@ -43728,50 +43722,50 @@ CallDrawMenuItem:
 ;      A5 -> menu item to draw
 DrawMenuItem:
                 tst.w   MENUENTRY_ISINVISIBLE(a5)
-                bne.w   locret_12141C
+                bne.w   draw_menu_item_return
                 move.w  #1,(a5)         ; set already drawn flag to true
                 tst.l   MENUENTRY_BEFOREDRAW(a5) ; get item function
-                beq.s   loc_1210A6
+                beq.s   draw_bg_start
                 movea.l MENUENTRY_BEFOREDRAW(a5),a0
                 movem.l a5,-(sp)
                 jsr     (a0)            ; execute beforeDraw function
                 movem.l (sp)+,a5
                 tst.w   MENUENTRY_ISINVISIBLE(a5) ; check invisible flag again, beforeDraw func
                                         ; might decide not to draw the item
-                bne.w   locret_12141C
-loc_1210A6:
+                bne.w   draw_menu_item_return
+draw_bg_start:
                 tst.w   (deadVar03).l
-                bne.w   loc_121408
+                bne.w   post_draw_callback
                 cmpi.w  #NO_BACKGROUND,MENUENTRY_BACKGROUND(a5)
-                beq.w   loc_1211AC
+                beq.w   fg_start
                 cmpi.w  #ENTRY_FRAME_AND_BACK_COLOR,MENUENTRY_BACKGROUND(a5)
-                bne.w   loc_121168
+                bne.w   bg_sprite_1
                 move.w  MENUENTRY_X(a5),d1
                 move.w  MENUENTRY_Y(a5),d2
                 move.w  MENUENTRY_DWWIDTH(a5),d3
                 move.w  MENUENTRY_DWHEIGHT(a5),d4
-                move.w  MENUENTRY_BG(a5),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a5),d0
                 andi.w  #$F,d0          ; mask background color
-                bne.s   loc_12110A
+                bne.s   draw_bg_and_outer_frame
                 tst.w   (forceDrawTransparentMenuItems).l
-                beq.s   loc_1210FA
-                move.w  #15,d0          ; color is zero, set to 15
+                beq.s   draw_bg_transparent_or_special
+                move.w  #YELLOW_GREEN_BLACK_15,d0 ; color is zero, set to 15
                 movem.l a5,-(sp)        ; draw entry background with yellow
                 bsr.w   DrawMenuItemBackground ; and without frame
                 movem.l (sp)+,a5
-                bra.w   loc_1211AC
-loc_1210FA:
+                bra.w   fg_start
+draw_bg_transparent_or_special:
                 movem.l a5,-(sp)
                 bsr.w   DrawMenuItemBackgroundMasked
                 movem.l (sp)+,a5
-                bra.w   loc_1211AC
-loc_12110A:
+                bra.w   fg_start
+draw_bg_and_outer_frame:
                 cmpi.w  #8,d4           ; height
                 bhi.s   loc_12111E
                 movem.l a5,-(sp)
                 bsr.w   DrawMenuItemBackground
                 movem.l (sp)+,a5
-                bra.s   loc_121136
+                bra.s   draw_bg_inner_frame_if_any
 loc_12111E:
                 movem.l d0-d4/a5,-(sp)
                 bsr.w   DrawMenuItemBackground
@@ -43779,11 +43773,11 @@ loc_12111E:
                 movem.l a5,-(sp)
                 bsr.w   DrawMenuItemOuterFrame
                 movem.l (sp)+,a5
-loc_121136:
-                move.w  MENUENTRY_BG(a5),d0
+draw_bg_inner_frame_if_any:
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a5),d0
                 andi.w  #$F0,d0
                 lsr.w   #4,d0
-                beq.s   loc_1211AC
+                beq.s   fg_start
                 move.w  MENUENTRY_X(a5),d1
                 move.w  MENUENTRY_Y(a5),d2
                 move.w  MENUENTRY_DWWIDTH(a5),d3
@@ -43795,35 +43789,35 @@ loc_121136:
                 movem.l a5,-(sp)
                 bsr.w   DrawMenuItemInnerFrame
                 movem.l (sp)+,a5
-                bra.s   loc_1211AC
-loc_121168:
+                bra.s   fg_start
+bg_sprite_1:
                 cmpi.w  #ENTRY_SPRITE1,MENUENTRY_BACKGROUND(a5)
-                bne.s   loc_12118C
+                bne.s   bg_func_1
                 move.w  MENUENTRY_X(a5),d1
                 move.w  MENUENTRY_Y(a5),d2
-                move.w  $1E(a5),d0      ; index into sprite.dat
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a5),d0 ; index into sprite.dat
                 movem.l a5,-(sp)
                 jsr     DrawSprite16Pixels
                 movem.l (sp)+,a5
-                bra.s   loc_1211AC
-loc_12118C:
+                bra.s   fg_start
+bg_func_1:
                 cmpi.w  #ENTRY_FUNC1,MENUENTRY_BACKGROUND(a5)
-                bne.w   loc_12141E
+                bne.w   panic_unknown_entry_type
                 move.w  MENUENTRY_X(a5),d1
                 move.w  MENUENTRY_Y(a5),d2
-                movea.l MENUENTRY_BG(a5),a0
+                movea.l MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a5),a0
                 movem.l a5,-(sp)
                 jsr     (a0)
                 movem.l (sp)+,a5
-loc_1211AC:
-                cmpi.w  #NO_FOREGROUND,$22(a5) ; MenuEntry.bg+2
-                beq.w   loc_121408
-                cmpi.w  #ENTRY_STRING,$22(a5) ; MenuEntry.bg+2
-                bne.w   loc_12129E
-                tst.l   MENUENTRY_FG(a5)
-                beq.w   loc_121408
-                movea.l MENUENTRY_FG(a5),a0
-loc_1211CC:
+fg_start:
+                cmpi.w  #NO_FOREGROUND,MENUENTRY_CONTENT(a5)
+                beq.w   post_draw_callback
+                cmpi.w  #ENTRY_STRING,MENUENTRY_CONTENT(a5)
+                bne.w   fg_sprite_2_start
+                tst.l   MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5)
+                beq.w   post_draw_callback
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a0
+fg_text_common_setup:
                 move.w  MENUENTRY_STRINGFLAGS(a5),d0
                 andi.w  #STR_FLAGS_MASK,d0
                 lsr.w   #2,d0
@@ -43833,34 +43827,34 @@ loc_1211CC:
                 move.w  CHARTABLE_CHARHEIGHT(a1),d0
                 sub.w   d0,d2
                 cmpi.w  #1,d2
-                beq.s   loc_1211FC
+                beq.s   fg_centering_apply
                 cmpi.w  #3,d2
-                bne.s   loc_1211FA
+                bne.s   fg_centering_adjust
                 move.w  #2,d2
-                bra.s   loc_1211FC
-loc_1211FA:
+                bra.s   fg_centering_apply
+fg_centering_adjust:
                 asr.w   #1,d2
-loc_1211FC:
+fg_centering_apply:
                 add.w   MENUENTRY_Y(a5),d2 ; (height - chars_h) / 2 + y
                                         ; D2 = text start y
                 move.w  MENUENTRY_STRINGFLAGS(a5),d0
                 btst    #STR_COLOR_MASK,d0
-                bne.s   loc_12123C
+                bne.s   fg_text_left_start
                 btst    #$E,d0
-                bne.w   loc_12126A
+                bne.w   fg_text_right_start
                 move.w  MENUENTRY_DWWIDTH(a5),d1
                 lsr.w   #1,d1
                 add.w   MENUENTRY_X(a5),d1
                 move.w  MENUENTRY_STRINGFLAGS(a5),d3
                 andi.w  #STR_COLOR_MASK,d3
-                bne.s   loc_12122A
+                bne.s   fg_text_centered_draw
                 move.w  #2,d3
-loc_12122A:
+fg_text_centered_draw:
                 movem.l a5,-(sp)
                 jsr     DrawMenuTextCentered
                 movem.l (sp)+,a5
-                bra.w   loc_121408
-loc_12123C:
+                bra.w   post_draw_callback
+fg_text_left_start:
                 move.w  MENUENTRY_X(a5),d1
                 cmpi.w  #NO_BACKGROUND,MENUENTRY_BACKGROUND(a5)
                 beq.s   loc_12124A
@@ -43868,14 +43862,14 @@ loc_12123C:
 loc_12124A:
                 move.w  MENUENTRY_STRINGFLAGS(a5),d3
                 andi.w  #STR_COLOR_MASK,d3
-                bne.s   loc_121258
+                bne.s   fg_text_left_draw
                 move.w  #2,d3
-loc_121258:
+fg_text_left_draw:
                 movem.l a5,-(sp)
                 jsr     DrawMenuText
                 movem.l (sp)+,a5
-                bra.w   loc_121408
-loc_12126A:
+                bra.w   post_draw_callback
+fg_text_right_start:
                 move.w  MENUENTRY_X(a5),d1
                 add.w   MENUENTRY_DWWIDTH(a5),d1
                 subq.w  #1,d1
@@ -43885,18 +43879,18 @@ loc_12126A:
 loc_12127E:
                 move.w  MENUENTRY_STRINGFLAGS(a5),d3
                 andi.w  #STR_COLOR_MASK,d3
-                bne.s   loc_12128C
+                bne.s   fg_text_right_draw
                 move.w  #2,d3
-loc_12128C:
+fg_text_right_draw:
                 movem.l a5,-(sp)
                 jsr     DrawMenuTextRightAligned
                 movem.l (sp)+,a5
-                bra.w   loc_121408
-loc_12129E:
+                bra.w   post_draw_callback
+fg_sprite_2_start:
                 cmpi.w  #ENTRY_SPRITE2,MENUENTRY_CONTENT(a5)
-                bne.s   loc_1212F0
-                move.w  MENUENTRY_FG(a5),d3
-loc_1212AA:
+                bne.s   fg_text_indirect_table
+                move.w  MENUENTRY_FG+ENTRYTYPE2UNION_SPRITE2(a5),d3
+fg_sprite_draw_core:
                 move.w  d3,d0
                 movea.l (g_spriteGraphicsPtr).l,a0
                 lsl.w   #2,d0
@@ -43917,22 +43911,22 @@ loc_1212AA:
                 movem.l a5,-(sp)
                 jsr     DrawSprite16Pixels
                 movem.l (sp)+,a5
-                bra.w   loc_121408
-loc_1212F0:
-                cmpi.w  #4,MENUENTRY_CONTENT(a5)
-                bne.s   loc_12130C
-                movea.l MENUENTRY_FG(a5),a0
+                bra.w   post_draw_callback
+fg_text_indirect_table:
+                cmpi.w  #ENTRY_STRING_TABLE,MENUENTRY_CONTENT(a5)
+                bne.s   fg_multiline_start
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRINGTABLE(a5),a0
                 movea.l (a0)+,a1
                 move.w  (a1),d0
                 sub.w   (a0)+,d0
                 lsl.w   #2,d0
                 movea.l (a0,d0.w),a0
-                bra.w   loc_1211CC
-loc_12130C:
+                bra.w   fg_text_common_setup
+fg_multiline_start:
                 cmpi.w  #ENTRY_MULTI_LINE_TEXT,MENUENTRY_CONTENT(a5)
-                bne.s   loc_12138C
-                tst.l   MENUENTRY_FG(a5)
-                beq.w   loc_121408
+                bne.s   fg_integer_as_text
+                tst.l   MENUENTRY_FG+ENTRYTYPE2UNION_MULTILINETEXT(a5)
+                beq.w   post_draw_callback
                 move.w  MENUENTRY_STRINGFLAGS(a5),d0
                 andi.w  #STR_FLAGS_MASK,d0
                 lsr.w   #2,d0
@@ -43941,9 +43935,9 @@ loc_12130C:
                 move.w  MENUENTRY_DWWIDTH(a5),d1
                 lsr.w   #1,d1
                 add.w   MENUENTRY_X(a5),d1
-                movea.l MENUENTRY_FG(a5),a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_MULTILINETEXT(a5),a0
                 move.b  (a0)+,d4
-                beq.w   loc_121408
+                beq.w   post_draw_callback
                 ext.w   d4
                 move.w  MENUENTRY_DWHEIGHT(a5),d5
                 move.w  CHARTABLE_CHARHEIGHT(a1),d0
@@ -43960,7 +43954,7 @@ loc_12130C:
                 add.w   d5,d2
                 add.w   2(a1),d5
                 subq.w  #2,d4
-loc_121362:
+fg_multiline_draw_line:
                 move.w  MENUENTRY_STRINGFLAGS(a5),d3
                 andi.w  #STR_COLOR_MASK,d3
                 bne.s   loc_121370
@@ -43970,33 +43964,33 @@ loc_121370:
                 jsr     DrawMenuTextCentered
                 movem.l (sp)+,d1-d2/d4-d5/a0-a1/a5
                 add.w   d5,d2
-loc_121380:
+fg_multiline_skip_to_next_line:
                 tst.b   (a0)+
-                bne.s   loc_121380
-                dbf     d4,loc_121362
-                bra.w   loc_121408
-loc_12138C:
-                cmpi.w  #6,MENUENTRY_CONTENT(a5)
-                bne.s   loc_1213A8
+                bne.s   fg_multiline_skip_to_next_line
+                dbf     d4,fg_multiline_draw_line
+                bra.w   post_draw_callback
+fg_integer_as_text:
+                cmpi.w  #ENTRY_NUMBER,MENUENTRY_CONTENT(a5)
+                bne.s   fg_function_call
                 lea     numbersBuffer(pc),a1
-                move.w  MENUENTRY_FG(a5),d0
+                move.w  MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a5),d0
                 bsr.w   Int2Ascii
                 lea     numbersBuffer(pc),a0
-                bra.w   loc_1211CC
-loc_1213A8:
-                cmpi.w  #1,MENUENTRY_CONTENT(a5)
-                bne.s   loc_1213CA
+                bra.w   fg_text_common_setup
+fg_function_call:
+                cmpi.w  #ENTRY_FUNC2,MENUENTRY_CONTENT(a5)
+                bne.s   fg_sprite_copy
                 move.w  MENUENTRY_X(a5),d1
                 move.w  MENUENTRY_Y(a5),d2
-                movea.l MENUENTRY_FG(a5),a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_FUNC2(a5),a0
                 movem.l a5,-(sp)
                 jsr     (a0)
                 movem.l (sp)+,a5
-                bra.w   loc_121408
-loc_1213CA:
+                bra.w   post_draw_callback
+fg_sprite_copy:
                 cmpi.w  #ENTRY_SPRITE_COPY,MENUENTRY_CONTENT(a5)
-                bne.w   loc_12141E
-                movea.l MENUENTRY_FG(a5),a1
+                bne.w   panic_unknown_entry_type ; only 0..7 allowed
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_SPRITECOPY(a5),a1
                 move.w  (a1),d0
                 move.w  2(a1),d1
                 movem.l a1/a5,-(sp)
@@ -44008,17 +44002,17 @@ loc_1213CA:
                 jsr     ConvertSpriteColors
                 movem.l (sp)+,a1/a5
                 move.w  2(a1),d3
-                bra.w   loc_1212AA
-loc_121408:
+                bra.w   fg_sprite_draw_core
+post_draw_callback:
                 tst.l   MENUENTRY_AFTERDRAW(a5)
-                beq.s   locret_12141C
+                beq.s   draw_menu_item_return
                 movea.l MENUENTRY_AFTERDRAW(a5),a0
                 movem.l a5,-(sp)
                 jsr     (a0)
                 movem.l (sp)+,a5
-locret_12141C:
+draw_menu_item_return:
                 rts
-loc_12141E:
+panic_unknown_entry_type:
                 move.w  #$1209,(panicReasonCode).l
                 jsr     PanicHaltLoop
 
@@ -44181,7 +44175,7 @@ loc_1215BC:
                 bsr.w   UnpackMenu
                 movem.l (sp)+,d0/a5
                 lea     (g_currentMenu).w,a6
-                move.l  a5,g_currentMenu+MENU_SELECTEDENTRY-g_currentMenu(a6)
+                move.l  a5,MENU_SELECTEDENTRY(a6)
                 movea.l 4(a6),a0
                 cmpa.l  #0,a0
                 beq.s   locret_1215EA
@@ -60804,7 +60798,7 @@ loc_12FA08:
                 lea     (a0,d0.w),a0
                 cmpa.l  #g_pitchDatBuffer,a0
                 bcs.s   loc_12FA42
-                cmpa.l  #g_currentMenu,a0 ; g_currentMenu
+                cmpa.l  #g_currentMenu,a0
                 bcs.s   range_ok
 loc_12FA42:
                 move.w  #$2772,(panicReasonCode).l
@@ -60891,7 +60885,7 @@ ResetAnimatedPatternsForBothTeams:
 ; prototype: void __usercall ResetAnimatedPatterns()
 ResetAnimatedPatterns:
                 move.l  (a0)+,d0
-                subi.l  #$2818,d0
+                subi.l  #g_currentMenu,d0
                 beq.s   loc_12FB6C
                 cmpi.l  #$B00,d0
                 bhi.s   loc_12FB6C
@@ -62495,11 +62489,11 @@ ChooseTeamsFriendlyInitFinish:
                 tst.w   (topOfStackMark).l
                 bpl.s   loc_130A82
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C40)).w,a0
-                move.l  #aAbort,MENUENTRY_FG(a0) ; "ABORT" ...
-                move.w  MENUENTRY_BG(a0),d0
+                move.l  #aAbort,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "ABORT" ...
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$A,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #RED_10,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_130A82:
                 tst.w   (selectTeamsNoLimit).l
                 beq.s   loc_130AB2
@@ -62827,8 +62821,8 @@ locret_130EE6:
 ; ===== ChooseTeamsSetHeader =====
 ; prototype: void __usercall ChooseTeamsSetHeader()
 ChooseTeamsSetHeader:
-                lea     ($282E).w,a2
-                movea.l g_menuEntries+MENUENTRY_FG-g_menuEntries(a2),a1
+                lea     (g_menuEntries).w,a2
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a2),a1
                 movea.l (chooseTeamsHeader1stPart).l,a0
                 cmpa.l  #0,a0
                 bne.s   loc_130F18
@@ -62844,7 +62838,7 @@ loc_130F18:
                 beq.s   loc_130F32
                 jsr     StringCopy
 loc_130F32:
-                movea.l MENUENTRY_FG(a2),a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a2),a0
                 jsr     GetStringLength
                 move.w  d0,d1
                 movea.l (curCountryStr).l,a0
@@ -62879,11 +62873,11 @@ CheckNumTeamsAllowed:
                 tst.w   (selectTeamsNoLimit).l
                 beq.s   loc_130FB8
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C78)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$C78-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$C78)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$CB0)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$CB0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$CB0)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C08)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$C08-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$C08)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 rts
 loc_130FB8:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C78)).w,a5
@@ -62900,14 +62894,14 @@ loc_130FDA:
                 move.w  #2,34(a5)
                 move.l  (playWhatStr).l,38(a5)
 loc_130FF2:
-                lea     ($3436).w,a5
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$C08-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$C08)(a5)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C08)).w,a5
+                clr.w   MENUENTRY_ISINVISIBLE(a5)
                 tst.w   (g_numSelectedTeams).l
                 bne.s   loc_131008
                 move.w  #1,4(a5)
 loc_131008:
-                lea     ($34DE).w,a5
-                movea.l g_menuEntries+MENUENTRY_FG+$CB0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$CB0)(a5),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$CB0)).w,a5
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a1
                 move.w  (g_numSelectedTeams).l,d0
                 sub.w   (numNeededTeams).l,d0
                 beq.s   loc_131050
@@ -62936,11 +62930,11 @@ loc_131056:
 ; prototype: void __usercall sub_13105E()
 sub_13105E:
                 lea     ($282E).w,a0
-                move.w  g_menuEntries+MENUENTRY_Y-g_menuEntries(a0),d0
+                move.w  MENUENTRY_Y(a0),d0
                 add.w   $1A(a0),d0
                 move.w  d0,(word_13112C).l
                 lea     ($346E).w,a0
-                move.w  g_menuEntries+MENUENTRY_Y+$C40-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$C40)(a0),(word_13112E).l
+                move.w  MENUENTRY_Y(a0),(word_13112E).l
                 move.w  (viewTeamsColumn1_).l,d0
                 cmp.w   (viewTeamsColumn2_).l,d0
                 bhi.s   loc_131090
@@ -62955,7 +62949,7 @@ loc_13109E:
                 sub.w   (word_13112C).l,d1
                 sub.w   d0,d1
                 lea     ($2866).w,a0
-                sub.w   g_menuEntries+MENUENTRY_DWHEIGHT+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a0),d1
+                sub.w   MENUENTRY_DWHEIGHT(a0),d1
                 ext.l   d1
                 divu.w  #3,d1
                 move.w  d1,d2
@@ -62973,7 +62967,7 @@ loc_13109E:
                 move.w  d2,$16(a0)
                 lea     $38(a0),a0
                 lea     ($2866).w,a0
-                add.w   g_menuEntries+MENUENTRY_DWHEIGHT+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a0),d2
+                add.w   MENUENTRY_DWHEIGHT(a0),d2
                 add.w   d2,d1
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
                 move.w  #2,d2
@@ -64083,7 +64077,7 @@ loc_13172E:
                 bne.s   loc_1316EE
 loc_131736:
                 lea     (g_menuEntries).w,a2
-                movea.l MENUENTRY_FG(a2),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a2),a1
                 movea.l (chooseTeamsHeader1stPart).l,a0
                 cmpa.l  #0,a0
                 bne.s   loc_13179E
@@ -64196,7 +64190,7 @@ loc_1318C0:
                 lsl.w   #2,d0
                 movea.l (a4,d0.w),a0
                 lea     TEAMFILE_TEAMNAME(a0),a1
-                move.l  a1,MENUENTRY_FG(a2)
+                move.l  a1,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a2)
                 move.w  #PINK_TO_BROWN_9,d1
                 cmpi.b  #TEAM_NOT_SELECTED,TEAMFILE_TEAMCONTROLS(a0)
                 beq.s   loc_1318FE
@@ -64208,7 +64202,7 @@ loc_1318C0:
                 beq.s   loc_1318FE
                 move.w  #BRIGHT_BLUE_TO_BLUE_13,d1
 loc_1318FE:
-                move.w  d1,MENUENTRY_BG(a2)
+                move.w  d1,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a2)
 loc_131902:
                 lea     56(a2),a2
                 cmpi.w  #74,MENUENTRY_ORDINAL(a2)
@@ -64329,7 +64323,7 @@ SetChooseChangeTeamsEntries:
                 bne.s   loc_131A74
                 lea     (aChangeTeams).l,a1 ; "CHANGE TEAMS"
 loc_131A74:
-                move.l  a1,MENUENTRY_FG(a0)
+                move.l  a1,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$10A0)).w,a5
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$10D8)).w,a4
                 move.w  (numSelectedTeamsCopy).l,d0
@@ -64342,10 +64336,10 @@ loc_131A9A:
                 clr.w   MENUENTRY_ISINVISIBLE(a5)
                 move.w  #1,MENUENTRY_ISINVISIBLE(a4)
                 move.w  #ENTRY_STRING,MENUENTRY_CONTENT(a5)
-                move.l  (playWhatStr).l,MENUENTRY_FG(a5)
+                move.l  (playWhatStr).l,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5)
 loc_131AB2:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$10D8)).w,a5
-                movea.l MENUENTRY_FG(a5),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a1
                 move.w  (numSelectedTeamsCopy).l,d0
                 sub.w   (numNeededTeams).l,d0
                 beq.s   loc_131AFA
@@ -64423,7 +64417,7 @@ loc_131B72:
                 move.w  d2,$16(a0)
                 lea     $38(a0),a0
                 lea     ($289E).w,a0
-                add.w   g_menuEntries+MENUENTRY_DWHEIGHT+$70-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)(a0),d2
+                add.w   MENUENTRY_DWHEIGHT(a0),d2
                 add.w   d2,d1
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
                 move.w  #2,d2
@@ -64929,17 +64923,17 @@ DesignDIYLeagueFinish:
                 beq.s   loc_132052
                 clr.w   (diyPitchTypeOrSeason_2).l
                 move.w  (g_pitchType).l,(diyLeaguePitchType).l
-                lea     ($29EE).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ($2A26).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
 loc_132052:
                 bsr.w   DIYSetMonthsOrPitchTypeEntries
@@ -64968,16 +64962,17 @@ loc_132090:
 
 ; ===== sub_1320B4 =====
 ; prototype: void __usercall sub_1320B4()
+; DOS: cseg_47981
 sub_1320B4:
                 lea     (DIY_competitionStart).l,a6
-                lea     ($2C1E).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$3F0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.b  $12E(a6),d0
-                cmpi.b  #$50,d0         ; 'P'
+                cmpi.b  #80,d0
                 bcs.s   loc_1320EA
-                cmpi.b  #$55,d0         ; 'U'
+                cmpi.b  #85,d0
                 bhi.s   loc_1320EA
-                move.w  $54(a6),d0
+                move.w  84(a6),d0
                 lea     (aWinnerQualifie).l,a0 ; "WINNER QUALIFIES"
                 cmpi.w  #1,d0
                 beq.s   loc_132104
@@ -64985,8 +64980,8 @@ sub_1320B4:
                 bra.s   loc_132104
 loc_1320EA:
                 lea     (aTeamsPromoted0_0).l,a0 ; "TEAMS PROMOTED  %0   TEAMS IN PLAYOFFS "...
-                move.w  $54(a6),d0
-                move.w  $56(a6),d1
+                move.w  84(a6),d0
+                move.w  86(a6),d1
                 bne.s   loc_132104
                 tst.w   d0
                 beq.s   loc_132110
@@ -64998,13 +64993,13 @@ loc_132104:
 loc_132110:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a0
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).w,a1
-                move.w  $16(a0),g_menuEntries+MENUENTRY_Y+$428-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)(a1)
+                move.w  22(a0),MENUENTRY_Y(a1)
 loc_13211E:
-                lea     ($2C56).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$428-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aTeamsRelegated_0).l,a0 ; "TEAMS RELEGATED  %0   TEAMS IN PLAYOFFS"...
-                move.w  $58(a6),d0
-                move.w  $5A(a6),d1
+                move.w  88(a6),d0
+                move.w  90(a6),d1
                 bne.s   loc_132140
                 tst.w   d0
                 beq.s   locret_13214A
@@ -65035,11 +65030,11 @@ loc_13217C:
                 divu.w  #8,d0
                 move.w  d0,(diyLeagueEndingMonth).l
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
-                move.w  (diyLeagueNumTeams).l,MENUENTRY_FG(a0)
+                move.w  (diyLeagueNumTeams).l,MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).w,a5
                 bsr.w   SetPlayEachTeamString
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).w,a0
-                move.w  (diyPointsForAWin).l,MENUENTRY_FG(a0)
+                move.w  (diyPointsForAWin).l,MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a0)
                 bsr.w   ConvertMinMaxSubstitutesNumbers
                 rts
 
@@ -65079,8 +65074,8 @@ jmp_SetExitMenuFlag_6:
 ; ===== DesignDIYLeagueSetName =====
 ; prototype: void __usercall DesignDIYLeagueSetName(struct MenuEntry *entry@<a5>)
 DesignDIYLeagueSetName:
-                movea.l MENUENTRY_FG(a5),a0
-                move.w  #$19,d0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a0
+                move.w  #25,d0
                 jmp     InputText
 
 ; ===== DesignDIYLeagueChooseTeams =====
@@ -65200,7 +65195,7 @@ DesignDIYLeagueChangeNumberOfTeams:
                 bcs.s   loc_1323AC
                 move.w  #2,(diyLeagueNumTeams).l
 loc_1323AC:
-                move.w  (diyLeagueNumTeams).l,MENUENTRY_FG(a5)
+                move.w  (diyLeagueNumTeams).l,MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a5)
                 jmp     CallDrawMenuItem
 
 ; ===== DesignDIYLeagueChangePlayEachTeam =====
@@ -65219,7 +65214,7 @@ loc_1323D2:
 SetPlayEachTeamString:
                 move.w  (diyLeaguePlayEachTeam).l,d0
                 lea     (aX0).l,a0      ; "X %0"
-                movea.l MENUENTRY_FG(a5),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a1
                 jsr     PrintFormatted
                 rts
 
@@ -65227,18 +65222,18 @@ SetPlayEachTeamString:
 ; prototype: void __usercall DesignDIYLeagueChangeNumPointsForWin(struct MenuEntry *entry@<a5>)
 DesignDIYLeagueChangeNumPointsForWin:
                 eori.w  #1,(diyPointsForAWin).l
-                move.w  (diyPointsForAWin).l,MENUENTRY_FG(a5)
+                move.w  (diyPointsForAWin).l,MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a5)
                 jmp     CallDrawMenuItem
 
 ; ===== ConvertMinMaxSubstitutesNumbers =====
 ; prototype: void __usercall ConvertMinMaxSubstitutesNumbers()
 ConvertMinMaxSubstitutesNumbers:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  (diyLeagueMinSubstitutes).l,d0
                 jsr     Int2Ascii
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  (diyLeagueMaxSubstitutes).l,d0
                 jsr     Int2Ascii
                 rts
@@ -65280,7 +65275,7 @@ loc_13248A:
 ; ===== SetNumberOfTeamsToSelect =====
 ; prototype: void __usercall SetNumberOfTeamsToSelect()
 SetNumberOfTeamsToSelect:
-                lea     ($2D36).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$508)).w,a5
                 movea.l MENUENTRY_FG(a5),a1
                 move.w  (diyLeagueNumTeams).l,d0
                 lea     (aSelect0Teams).l,a0 ; "SELECT %0 TEAMS"
@@ -65877,11 +65872,11 @@ loc_132910:
 DIYLeagueTournamentOnRestore:
                 cmpi.w  #1,(word_2DF40).l
                 bne.s   loc_132932
-                lea     ($2BAE).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$380-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #0,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #PINK_TO_BROWN_0,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_132932:
                 tst.w   (word_133312).l
                 beq.s   loc_132948
@@ -65894,27 +65889,27 @@ loc_132942:
 loc_132948:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
-                lea     $38(a0),a0
-                move.w  #1,4(a0)
-                lea     $38(a0),a0
-                move.w  #1,4(a0)
-                lea     $38(a0),a0
-                move.w  #1,4(a0)
-                lea     $38(a0),a0
-                move.w  #1,4(a0)
+                lea     56(a0),a0
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
+                lea     56(a0),a0
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
+                lea     56(a0),a0
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
+                lea     56(a0),a0
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
 loc_13297A:
                 lea     (DIY_competitionStart).l,a2
                 lea     (g_menuEntries).w,a1
-                movea.l MENUENTRY_FG(a1),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1),a1
                 lea     4(a2),a0
                 jsr     StringCopy
-                tst.w   $48(a2)
+                tst.w   72(a2)
                 beq.s   loc_1329BA
-                move.b  #$20,(a1)+      ; ' '
-                move.w  $4A(a2),d0
-                move.w  $50(a2),d1
-                move.w  $4C(a2),d2
-                move.w  $32(a2),d3
+                move.b  #' ',(a1)+
+                move.w  74(a2),d0
+                move.w  80(a2),d1
+                move.w  76(a2),d2
+                move.w  50(a2),d3
                 clr.w   d4
                 jsr     sub_12719C
                 jsr     StringCopy
@@ -65931,7 +65926,7 @@ loc_1329C8:
                 cmpi.w  #$16,$52(a6)
                 bls.w   loc_132A6A
                 lea     (g_menuEntries).w,a0
-                move.w  #9,g_menuEntries+MENUENTRY_DWHEIGHT-g_menuEntries(a0)
+                move.w  #9,MENUENTRY_DWHEIGHT(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
                 move.w  #7,d0
 loc_132A02:
@@ -65940,10 +65935,10 @@ loc_132A02:
                 lea     $38(a0),a0
                 dbf     d0,loc_132A02
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
-                addq.w  #5,g_menuEntries+MENUENTRY_Y+$1F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)(a0)
+                addq.w  #5,MENUENTRY_Y(a0)
                 subq.w  #5,$1A(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
-                addq.w  #5,g_menuEntries+MENUENTRY_Y+$230-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)(a0)
+                addq.w  #5,MENUENTRY_Y(a0)
                 subq.w  #5,$1A(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
                 move.w  #4,d0
@@ -65964,16 +65959,16 @@ loc_132A5C:
                 lea     $38(a0),a0
                 dbf     d0,loc_132A5C
 loc_132A6A:
-                lea     ($2A96).w,a0
-                move.w  g_menuEntries+MENUENTRY_Y+$268-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)(a0),d1
-                lea     ($282E).w,a0
-                move.w  g_menuEntries+MENUENTRY_Y-g_menuEntries(a0),d2
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
+                move.w  MENUENTRY_Y(a0),d1
+                lea     (g_menuEntries).w,a0
+                move.w  MENUENTRY_Y(a0),d2
                 add.w   $1A(a0),d2
                 sub.w   d2,d1
                 move.w  $52(a6),d3
                 mulu.w  (word_13330C).l,d3
-                lea     ($2BAE).w,a0
-                add.w   g_menuEntries+MENUENTRY_DWHEIGHT+$380-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)(a0),d3
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a0
+                add.w   MENUENTRY_DWHEIGHT(a0),d3
                 addq.w  #1,d3
                 move.w  d1,d0
                 ext.l   d0
@@ -65997,11 +65992,11 @@ loc_132AA4:
 loc_132ACE:
                 clr.w   4(a0)
                 add.w   d5,d2
-                move.w  d2,$16(a0)
+                move.w  d2,22(a0)
                 add.w   d3,d2
-                lea     $38(a0),a0
+                lea     56(a0),a0
                 dbf     d0,loc_132ACE
-                move.w  $50(a6),d0
+                move.w  80(a6),d0
                 cmp.w   (numDiyResults).l,d0
                 bne.s   loc_132AFA
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$8C0).w
@@ -66012,25 +66007,25 @@ loc_132AFA:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
                 move.w  #4,d0
 loc_132B0C:
-                subi.w  #$50,$16(a0)    ; 'P'
-                lea     $38(a0),a0
+                subi.w  #80,MENUENTRY_Y(a0)
+                lea     56(a0),a0
                 dbf     d0,loc_132B0C
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$6C8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)(a0)
-                move.w  #1,$3C(a0)
-                move.w  #1,$74(a0)
-                move.w  #1,$AC(a0)
-                move.w  #1,$E4(a0)
-                move.w  #1,$11C(a0)
-                move.w  #1,$154(a0)
-                move.w  #1,$18C(a0)
-                move.w  #1,$1C4(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE+$38(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE+$70(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE+$A8(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE+$E0(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE+$118(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE+$150(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE+$188(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE+$1C0(a0)
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
-                addi.w  #$19,g_menuEntries+MENUENTRY_DWWIDTH+$A8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)(a0)
+                addi.w  #25,MENUENTRY_DWWIDTH(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
-                addi.w  #$19,g_menuEntries+MENUENTRY_X+$118-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)(a0)
-                addi.w  #$19,$18(a0)
+                addi.w  #25,MENUENTRY_X(a0)
+                addi.w  #25,MENUENTRY_DWWIDTH(a0)
 loc_132B74:
                 bsr.w   sub_132E36
                 bsr.w   nullsub_15
@@ -66190,23 +66185,23 @@ DIYSetTeamNamesAndResults:
                 movea.l (diyRightTeamPtr).l,a2
                 move.w  (diyLeftTeamResult).l,d1
                 move.w  (diyRightTeamResult).l,d2
-                lea     ($2A96).w,a3
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$268-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)(a3)
-                move.l  #aMinus,MENUENTRY_FG(a3) ; "-" ...
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a3
+                clr.w   MENUENTRY_ISINVISIBLE(a3)
+                move.l  #aMinus,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a3) ; "-" ...
                 lea     $38(a3),a3
                 clr.w   MENUENTRY_ISINVISIBLE(a3)
                 lea     TEAMFILE_TEAMNAME(a1),a0
-                move.l  a0,MENUENTRY_FG(a3)
+                move.l  a0,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a3)
                 lea     $38(a3),a3
                 clr.w   MENUENTRY_ISINVISIBLE(a3)
                 lea     TEAMFILE_TEAMNAME(a2),a0
-                move.l  a0,MENUENTRY_FG(a3)
+                move.l  a0,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a3)
                 lea     $38(a3),a3
                 clr.w   MENUENTRY_ISINVISIBLE(a3)
-                move.w  d1,MENUENTRY_FG(a3)
+                move.w  d1,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a3)
                 lea     $38(a3),a3
                 clr.w   MENUENTRY_ISINVISIBLE(a3)
-                move.w  d2,MENUENTRY_FG(a3)
+                move.w  d2,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a3)
                 rts
 
 ; ===== DIYLeagueTournamentNextMatch =====
@@ -66232,7 +66227,7 @@ loc_132D8A:
 sub_132DA8:
                 bsr.w   sub_132DCC
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a5
-                move.l  #aPlayMatch,g_menuEntries+MENUENTRY_FG+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a5) ; "PLAY MATCH" ...
+                move.l  #aPlayMatch,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5) ; "PLAY MATCH" ...
                 jsr     CallDrawMenuItem
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a5
                 move.w  #5,d0
@@ -66242,8 +66237,8 @@ sub_132DA8:
 ; prototype: void __usercall sub_132DCC()
 sub_132DCC:
                 jsr     sub_12AC82
-                lea     ($2A96).w,a0
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$268-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
+                clr.w   MENUENTRY_ISINVISIBLE(a0)
                 move.l  #aV,$26(a0)     ; "V"
                 lea     $38(a0),a0
                 clr.w   4(a0)
@@ -66272,7 +66267,7 @@ sub_132E36:
                 tst.w   (word_133314).l
                 beq.s   loc_132E74
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 move.w  #1,$AC(a0)
@@ -66291,13 +66286,13 @@ loc_132E74:
                 move.w  #1,(fireResetFlag).l
 loc_132E96:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$A8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 move.w  #$A,d0
@@ -66316,13 +66311,13 @@ loc_132EFA:
                 move.l  #aNextMatch,$26(a0) ; "NEXT MATCH"
 loc_132F02:
                 lea     ($2866).w,a0
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a0)
+                clr.w   MENUENTRY_ISINVISIBLE(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$A8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 tst.w   (word_133318).l
@@ -66335,31 +66330,31 @@ loc_132F4E:
                 jmp     SetCurrentEntry
 loc_132F58:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 jsr     sub_12AD86
                 tst.w   d0
                 beq.w   loc_132FAC
                 cmpi.w  #1,d0
                 beq.w   loc_132FAC
                 lea     ($28D6).w,a0
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$A8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)(a0)
+                clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   $3C(a0)
                 clr.w   $74(a0)
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 move.w  (diySelectedButtonOrd).l,d0
                 bra.w   loc_133000
 loc_132FAC:
                 lea     ($297E).w,a0
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0)
+                clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   $3C(a0)
                 clr.w   $74(a0)
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$A8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 tst.w   (word_16EBE2).l
@@ -66367,7 +66362,7 @@ loc_132FAC:
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a1
-                move.w  $14(a0),g_menuEntries+MENUENTRY_X+$1C0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)(a1)
+                move.w  $14(a0),MENUENTRY_X(a1)
                 move.w  #$CA,$18(a1)
 loc_132FFA:
                 move.w  (diySavedEntryOrd).l,d0
@@ -66378,7 +66373,7 @@ loc_133000:
 ; prototype: void __usercall DIYLeagueTournament16BeforeDraw(struct MenuEntry *entry@<a5>)
 DIYLeagueTournament16BeforeDraw:
                 move.w  MENUENTRY_ORDINAL(a5),d7
-                subi.w  #$10,d7
+                subi.w  #16,d7
                 add.w   (currentDiyLine).l,d7
                 lea     (DIY_competitionStart).l,a6
                 cmpi.w  #1,word_2DF40-DIY_competitionStart(a6)
@@ -66405,8 +66400,8 @@ loc_133050:
                 movem.l d2/d7/a6,-(sp)
                 jsr     DrawMultipleItems
                 movem.l (sp)+,d2/d7/a6
-                lea     ($2D6E).w,a0
-                add.w   g_menuEntries+MENUENTRY_DWHEIGHT+$540-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)(a0),d2
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).w,a0
+                add.w   MENUENTRY_DWHEIGHT(a0),d2
                 addq.w  #1,d2
                 move.w  (word_13330A).l,d4
                 mulu.w  $52(a6),d7
@@ -66417,25 +66412,25 @@ loc_133090:
                 move.w  $6E(a6,d7.w),d0
                 lea     (a6,d0.w),a4
                 move.w  d2,MENUENTRY_Y(a5)
-                move.w  d5,MENUENTRY_FG(a5)
+                move.w  d5,MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a5)
                 lea     MENUENTRY_SIZE(a5),a5
                 move.w  d2,MENUENTRY_Y(a5)
                 move.w  d4,MENUENTRY_DWHEIGHT(a5)
                 movea.l $2B4(a4),a1
                 adda.l  #selTeamsPtr,a1
-                move.w  #COLOR_RED,MENUENTRY_BG(a5)
-                cmpi.b  #1,4(a1)
+                move.w  #COLOR_RED,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a5)
+                cmpi.b  #1,TEAMFILE_TEAMCONTROLS(a1)
                 beq.s   loc_1330E6
-                move.w  #COLOR_PURPLISH,MENUENTRY_BG(a5)
-                cmpi.b  #2,4(a1)
+                move.w  #COLOR_PURPLISH,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a5)
+                cmpi.b  #2,TEAMFILE_TEAMCONTROLS(a1)
                 beq.s   loc_1330E6
-                move.w  #COLOR_LIGHT_BLUE,MENUENTRY_BG(a5)
-                cmpi.b  #3,4(a1)
+                move.w  #COLOR_LIGHT_BLUE,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a5)
+                cmpi.b  #3,TEAMFILE_TEAMCONTROLS(a1)
                 beq.s   loc_1330E6
-                move.w  #COLOR_ORANGE,MENUENTRY_BG(a5)
+                move.w  #COLOR_ORANGE,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a5)
 loc_1330E6:
                 lea     TEAMFILE_TEAMNAME(a1),a0
-                move.l  a0,MENUENTRY_FG(a5)
+                move.l  a0,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5)
                 tst.w   (word_133308).l
                 beq.s   loc_13315A
                 move.w  $54(a6),d0
@@ -66464,17 +66459,17 @@ loc_133134:
                 sub.w   $5A(a6),d0
                 cmp.w   d0,d5
                 bhi.s   loc_133148
-                move.w  #7,d3
+                move.w  #PINK_TO_BROWN_7,d3
                 bra.s   loc_133168
 loc_133142:
-                move.w  #7,d3
+                move.w  #PINK_TO_BROWN_7,d3
                 bra.s   loc_13314C
 loc_133148:
-                move.w  #9,d3
+                move.w  #PINK_TO_BROWN_9,d3
 loc_13314C:
                 cmpi.b  #1,4(a1)
                 bne.s   loc_133168
-                move.w  d3,MENUENTRY_BG(a5)
+                move.w  d3,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a5)
                 bra.s   loc_133168
 loc_13315A:
                 move.w  #7,d3
@@ -66485,43 +66480,43 @@ loc_133168:
                 move.w  (word_1573FE).l,d0
                 cmp.w   (a1),d0
                 bne.s   loc_133178
-                move.w  #$C,MENUENTRY_BG(a5)
+                move.w  #ORANGE_TO_BROWN_12,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a5)
 loc_133178:
                 lea     MENUENTRY_SIZE(a5),a5
                 move.w  d2,MENUENTRY_Y(a5)
                 move.w  d4,MENUENTRY_DWHEIGHT(a5)
-                move.w  d3,MENUENTRY_BG(a5)
-                move.w  $2B8(a4),MENUENTRY_FG(a5)
+                move.w  d3,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a5)
+                move.w  $2B8(a4),MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a5)
                 lea     MENUENTRY_SIZE(a5),a5
                 move.w  d2,MENUENTRY_Y(a5)
                 move.w  d4,MENUENTRY_DWHEIGHT(a5)
-                move.w  d3,MENUENTRY_BG(a5)
-                move.w  $2BA(a4),MENUENTRY_FG(a5)
+                move.w  d3,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a5)
+                move.w  $2BA(a4),MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a5)
                 lea     MENUENTRY_SIZE(a5),a5
                 move.w  d2,MENUENTRY_Y(a5)
                 move.w  d4,MENUENTRY_DWHEIGHT(a5)
-                move.w  d3,MENUENTRY_BG(a5)
-                move.w  $2BC(a4),MENUENTRY_FG(a5)
+                move.w  d3,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a5)
+                move.w  $2BC(a4),MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a5)
                 lea     $38(a5),a5
                 move.w  d2,MENUENTRY_Y(a5)
                 move.w  d4,MENUENTRY_DWHEIGHT(a5)
-                move.w  d3,MENUENTRY_BG(a5)
-                move.w  $2BE(a4),MENUENTRY_FG(a5)
+                move.w  d3,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a5)
+                move.w  $2BE(a4),MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a5)
                 lea     MENUENTRY_SIZE(a5),a5
                 move.w  d2,MENUENTRY_Y(a5)
                 move.w  d4,MENUENTRY_DWHEIGHT(a5)
-                move.w  d3,MENUENTRY_BG(a5)
-                move.w  $2C0(a4),MENUENTRY_FG(a5)
+                move.w  d3,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a5)
+                move.w  $2C0(a4),MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a5)
                 lea     $38(a5),a5
                 move.w  d2,MENUENTRY_Y(a5)
                 move.w  d4,MENUENTRY_DWHEIGHT(a5)
-                move.w  d3,MENUENTRY_BG(a5)
-                move.w  $2C2(a4),MENUENTRY_FG(a5)
+                move.w  d3,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a5)
+                move.w  $2C2(a4),MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a5)
                 lea     $38(a5),a5
                 move.w  d2,MENUENTRY_Y(a5)
                 move.w  d4,MENUENTRY_DWHEIGHT(a5)
-                move.w  d3,MENUENTRY_BG(a5)
-                move.w  $2C4(a4),MENUENTRY_FG(a5)
+                move.w  d3,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a5)
+                move.w  $2C4(a4),MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a5)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a5
                 move.w  #9,d0
                 movem.l d2/d4-d5/d7/a5-a6,-(sp)
@@ -67630,17 +67625,17 @@ DesignDIYCupReinit:
                 beq.s   loc_133B50
                 clr.w   (diyPitchTypeOrSeason_2).l
                 move.w  (g_pitchType).l,(diyLeaguePitchType).l
-                lea     ($28D6).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$A8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,$1E(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 move.w  #1,6(a0)
-                lea     ($290E).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$E0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,$1E(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 move.w  #1,6(a0)
 loc_133B50:
                 bsr.w   sub_133D06
@@ -67786,7 +67781,7 @@ loc_133D36:
                 tst.w   (word_13407E).l
                 bne.s   loc_133D5A
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$118-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
@@ -67794,7 +67789,7 @@ loc_133D36:
 loc_133D5A:
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
                 lea     ($2946).w,a0
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$118-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)(a0)
+                clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   $3C(a0)
                 clr.w   $74(a0)
                 rts
@@ -67882,12 +67877,12 @@ loc_133E42:
 ; ===== sub_133E5A =====
 ; prototype: void __usercall sub_133E5A()
 sub_133E5A:
-                lea     ($2B06).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$2D8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  (diyMinSubstitutes).l,d0
                 jsr     Int2Ascii
-                lea     ($2B76).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$348-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  (diyPointsForAWin).l,d0
                 jsr     Int2Ascii
                 rts
@@ -67976,8 +67971,8 @@ sub_133F4E:
 ; ===== sub_133F68 =====
 ; prototype: void __usercall sub_133F68()
 sub_133F68:
-                lea     ($3356).w,a5
-                movea.l g_menuEntries+MENUENTRY_FG+$B28-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$B28)(a5),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$B28)).w,a5
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a1
                 move.w  (diyLeagueNumTeams).l,d0
                 lea     (aSelect0Teams).l,a0 ; "SELECT %0 TEAMS"
                 jsr     PrintFormatted
@@ -67987,13 +67982,13 @@ sub_133F68:
 ; prototype: void __usercall DesignDIYCupOnDraw()
 DesignDIYCupOnDraw:
                 lea     (DIY_competitionStart).l,a2
-                lea     ($2A26).w,a4
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)(a4)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a4
+                clr.w   MENUENTRY_ISINVISIBLE(a4)
                 movea.l $26(a4),a0
                 movea.l (a0),a0
                 move.w  $5E(a2),(a0)
-                lea     ($2A96).w,a4
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$268-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)(a4)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a4
+                clr.w   MENUENTRY_ISINVISIBLE(a4)
                 move.w  $5A(a2),$26(a4)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a4
                 clr.w   d7
@@ -69017,8 +69012,8 @@ sub_134836:
 ; prototype: void __usercall sub_134852()
 sub_134852:
                 jsr     sub_12A572
-                lea     ($2A96).w,a0
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$268-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
+                clr.w   MENUENTRY_ISINVISIBLE(a0)
                 move.l  #aV,$26(a0)     ; "V"
                 lea     $38(a0),a0
                 clr.w   4(a0)
@@ -69102,7 +69097,7 @@ locret_13494E:
 ; prototype: void __usercall sub_134950()
 sub_134950:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$268-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 lea     $38(a0),a0
                 move.w  #1,4(a0)
                 lea     $38(a0),a0
@@ -69339,7 +69334,7 @@ sub_134CA8:
                 tst.w   (word_1350B2).l
                 beq.s   loc_134CE6
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 move.w  #1,$AC(a0)
@@ -69358,13 +69353,13 @@ loc_134CE6:
                 move.w  #1,(fireResetFlag).l
 loc_134D08:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$A8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 move.w  #$A,d0
@@ -69407,14 +69402,14 @@ loc_134DD2:
                 move.w  #1,(fireResetFlag).l
                 move.l  #aNextRoundDraw,$26(a0) ; "NEXT ROUND DRAW"
 loc_134DE2:
-                lea     ($2866).w,a0
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                clr.w   MENUENTRY_ISINVISIBLE(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$A8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 move.w  #1,d0
@@ -69422,31 +69417,31 @@ loc_134DE2:
                 bra.w   loc_134ED8
 loc_134E24:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 jsr     sub_12A59E
                 tst.w   d0
                 beq.w   loc_134E78
                 cmpi.w  #1,d0
                 beq.w   loc_134E78
-                lea     ($28D6).w,a0
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$A8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   $3C(a0)
                 clr.w   $74(a0)
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 move.w  (diySelectedButtonOrd).l,d0
                 bra.w   loc_134ED2
 loc_134E78:
-                lea     ($297E).w,a0
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   $3C(a0)
                 clr.w   $74(a0)
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$A8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 tst.w   (word_16EBE2).l
@@ -69455,7 +69450,7 @@ loc_134E78:
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a1
-                move.w  $14(a0),g_menuEntries+MENUENTRY_X+$1C0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)(a1)
+                move.w  $14(a0),MENUENTRY_X(a1)
                 move.w  #$CA,$18(a1)
 loc_134ECC:
                 move.w  (diySavedEntryOrd).l,d0
@@ -69600,7 +69595,7 @@ sub_13504C:
                 move.w  (word_1350CA).l,d1
                 move.w  (word_1350CC).l,d2
                 lea     ($2A96).w,a3
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$268-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)(a3)
+                clr.w   MENUENTRY_ISINVISIBLE(a3)
                 move.l  #aMinus,$26(a3) ; "-"
                 lea     $38(a3),a3
                 lea     5(a1),a0
@@ -71696,17 +71691,17 @@ DesignDIYTournamentReinit:
                 beq.s   loc_1360D4
                 clr.w   (diyPitchTypeOrSeason).l
                 move.w  (g_pitchType).l,(diyPitchType).l
-                lea     ($28D6).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$A8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,$1E(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 move.w  #1,6(a0)
-                lea     ($290E).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$E0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,$1E(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 move.w  #1,6(a0)
 loc_1360D4:
                 bsr.w   sub_1362B2
@@ -71719,7 +71714,7 @@ loc_1360D4:
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$13B0).w
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1420).w
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$13E8)).w,a0
-                addi.w  #$20,g_menuEntries+MENUENTRY_X+$13E8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$13E8)(a0) ; ' '
+                addi.w  #$20,MENUENTRY_X(a0) ; ' '
                 rts
 loc_136108:
                 bsr.w   sub_1361C4
@@ -71861,15 +71856,15 @@ loc_1362E2:
                 tst.w   (word_136D12).l
                 bne.s   loc_136306
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$118-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
                 rts
 loc_136306:
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
-                lea     ($2946).w,a0
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$118-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   $3C(a0)
                 clr.w   $74(a0)
                 rts
@@ -71941,12 +71936,12 @@ loc_1363CA:
 ; ===== sub_1363D4 =====
 ; prototype: void __usercall sub_1363D4()
 sub_1363D4:
-                lea     ($2A96).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$268-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  (word_2DB1C).l,d0
                 jsr     Int2Ascii
-                lea     ($2B06).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$2D8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  (word_2DB1E).l,d0
                 jsr     Int2Ascii
                 rts
@@ -72070,8 +72065,8 @@ sub_13651C:
 ; ===== sub_136542 =====
 ; prototype: void __usercall sub_136542()
 sub_136542:
-                lea     ($3C4E).w,a5
-                movea.l g_menuEntries+MENUENTRY_FG+$1420-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1420)(a5),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1420)).w,a5
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a1
                 move.w  (word_2DB02).l,d0
                 lea     (aSelect0Teams).l,a0 ; "SELECT %0 TEAMS"
                 jsr     PrintFormatted
@@ -72092,14 +72087,14 @@ loc_136578:
                 adda.l  #$76,a2         ; 'v'
                 dbf     d0,loc_13656A
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a4
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)(a4)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a4)
                 lea     -$38(a4),a4
                 move.w  #1,4(a4)
                 bra.s   loc_1365AE
 loc_136598:
                 lea     (diyFileBufferCopy).l,a2
                 lea     ($2A26).w,a4
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)(a4)
+                clr.w   MENUENTRY_ISINVISIBLE(a4)
                 lea     -$38(a4),a4
                 clr.w   4(a4)
 loc_1365AE:
@@ -73061,17 +73056,17 @@ FriendlyMenuReinit:
                 beq.s   loc_1370BE
                 clr.w   (pitchTypeOrSeason).l
                 move.w  (g_pitchType).l,(friendlyPitchType).l
-                lea     ($28D6).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$A8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ($290E).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$E0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
 loc_1370BE:
                 bsr.w   DrawNumbersOfSubstitutes
@@ -73091,11 +73086,11 @@ loc_1370DC:
 ; prototype: void __usercall DrawNumbersOfSubstitutes()
 DrawNumbersOfSubstitutes:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  (minSubstitutes).l,d0
                 jsr     Int2Ascii
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  (maxSubstitutes).l,d0
                 jsr     Int2Ascii
                 bsr.w   SetFriendlyPitchOrSeason
@@ -73109,13 +73104,13 @@ DisableEntries:
 loc_137126:
                 cmpi.w  #ENTRY_FRAME_AND_BACK_COLOR,MENUENTRY_BACKGROUND(a0)
                 bne.s   loc_13714E
-                move.w  MENUENTRY_BG(a0),d0
-                andi.w  #$F,d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
+                andi.w  #YELLOW_GREEN_BLACK_15,d0
                 beq.s   loc_13714E
-                move.w  MENUENTRY_BG(a0),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 move.w  #1,6(a0)
 loc_13714E:
                 lea     56(a0),a0
@@ -73166,7 +73161,7 @@ SetFriendlyPitchOrSeason:
                 lea     friendly_season_table(pc),a0
 loc_1371DA:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a1
-                move.l  a0,g_menuEntries+MENUENTRY_FG+$E0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)(a1)
+                move.l  a0,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1)
                 rts
 
 ; ===== FriendlyPitchTypeProc =====
@@ -73226,7 +73221,7 @@ loc_13727A:
 ; [friendly menu procedure]
 SetSelectTwoTeamsText:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a5
-                movea.l MENUENTRY_FG(a5),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a1
                 move.w  #2,d0
                 lea     (aSelect0Teams).l,a0 ; "SELECT %0 TEAMS"
                 jsr     PrintFormatted
@@ -74743,8 +74738,8 @@ EditTeamsSelectSecondaryShirtType:
 ; ===== EditTeamsChangePlayerName =====
 ; prototype: void __usercall EditTeamsChangePlayerName(MenuEntry *menu@<a5>)
 EditTeamsChangePlayerName:
-                movea.l MENUENTRY_FG(a5),a0
-                move.w  #23,d0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a0
+                move.w  #23,d0          ; player name - max 22 characters + null
                 jmp     InputText
 
 ; ===== EditTeamsSelectTeamName =====
@@ -74766,19 +74761,19 @@ EditTeamsSelectCoachName:
 EditTeamsChangePlayerFace:
                 bsr.w   EditTeamsGetPlayerPointer
                 move.b  PLAYERFILE_POSITIONANDFACE+$4C(a0),d0
-                andi.w  #24,d0
-                lsr.w   #3,d0
-                addq.w  #1,d0
+                andi.w  #$18,d0         ; extract bits 3 and 4 - player face index
+                lsr.w   #3,d0           ; player face index
+                addq.w  #1,d0           ; increase face index
                 cmpi.w  #3,d0
                 bne.s   loc_138032
                 clr.w   d0
 loc_138032:
                 move.w  d0,d1
                 andi.b  #$E7,PLAYERFILE_POSITIONANDFACE+$4C(a0)
-                lsl.b   #3,d0
+                lsl.b   #3,d0           ; set new face index bits into position
                 add.b   d0,PLAYERFILE_POSITIONANDFACE+$4C(a0)
                 addi.w  #SPR_PL_FACE_WHITE_GUY,d1
-                move.w  d1,MENUENTRY_FG(a5)
+                move.w  d1,MENUENTRY_FG+ENTRYTYPE2UNION_SPRITE2(a5)
                 jmp     CallDrawMenuItem
 
 ; ===== InitEditTeamsMenu =====
@@ -74798,10 +74793,10 @@ loc_138060:
                 lea     (selTeamsPtr).l,a6
                 lea     (g_menuEntries).w,a0
                 lea     5(a6),a2
-                move.l  a2,MENUENTRY_FG(a0)
+                move.l  a2,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
                 lea     36(a6),a2
-                move.l  a2,MENUENTRY_FG(a0)
+                move.l  a2,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 bsr.w   PrimaryKitColorConversion
                 bsr.w   SecondaryKitColorConversion
                 bsr.w   MarkFirstKitShirt
@@ -74827,8 +74822,8 @@ loc_13809A:
 ; prototype: void __usercall EditTeamsPlayersBeforeDraw(MenuEntry *menu@<a5>)
 EditTeamsPlayersBeforeDraw:
                 move.w  MENUENTRY_ORDINAL(a5),d0
-                subi.w  #$17,d0
-                mulu.w  #$26,d0         ; '&'
+                subi.w  #23,d0          ; 23 = start of player faces
+                mulu.w  #38,d0
                 lea     (selTeamsPtr).l,a6
                 adda.l  d0,a6
                 move.b  TEAMFILE_PLAYERS+PLAYERFILE_POSITIONANDFACE(a6),d6
@@ -74836,7 +74831,7 @@ EditTeamsPlayersBeforeDraw:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C08)).w,a0
                 clr.w   d0
                 move.b  78(a6),d0
-                move.w  d0,MENUENTRY_FG(a0)
+                move.w  d0,MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a0)
                 move.w  d7,MENUENTRY_Y(a0)
                 lea     56(a0),a0
                 move.w  d7,MENUENTRY_Y(a0)
@@ -74845,7 +74840,7 @@ EditTeamsPlayersBeforeDraw:
                 move.b  102(a6),d0
                 andi.w  #$E0,d0
                 lsr.w   #3,d0
-                move.l  (a2,d0.w),MENUENTRY_FG(a0)
+                move.l  (a2,d0.w),MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 move.w  d7,MENUENTRY_Y(a0)
                 lea     56(a0),a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
@@ -74968,10 +74963,10 @@ MarkFirstKitShirt:
                 move.b  TEAMFILE_PRSHIRTTYPE(a6),d0
                 move.w  #3,d1
 loc_138290:
-                move.w  #9,MENUENTRY_BG(a0)
+                move.w  #PINK_TO_BROWN_9,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 cmp.b   d1,d0
                 bne.s   loc_1382A0
-                move.w  #10,MENUENTRY_BG(a0)
+                move.w  #RED_10,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_1382A0:
                 lea     -56(a0),a0
                 dbf     d1,loc_138290
@@ -74988,10 +74983,10 @@ MarkSecondKitShirt:
                 move.b  TEAMFILE_SECSHIRTTPE(a6),d0
                 move.w  #3,d1
 loc_1382BC:
-                move.w  #9,MENUENTRY_BG(a0)
+                move.w  #PINK_TO_BROWN_9,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 cmp.b   d1,d0
                 bne.s   loc_1382CC
-                move.w  #10,MENUENTRY_BG(a0)
+                move.w  #RED_10,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_1382CC:
                 lea     -56(a0),a0
                 dbf     d1,loc_1382BC
@@ -75804,30 +75799,30 @@ competitionTopGoalScorersMenu:
 ; prototype: void __usercall CompetitionTopGoalScorersInit()
 CompetitionTopGoalScorersInit:
                 lea     (g_menuEntries).w,a5
-                move.l  (diyStatsName).l,MENUENTRY_FG(a5)
+                move.l  (diyStatsName).l,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a5
-                lea     ($996C8).l,a2
+                lea     (highestScorersTable).l,a2
                 move.b  byte_996E6-highestScorersTable(a2),d6
                 lea     (a2),a2
-                move.w  #14,d7
+                move.w  #14,d7          ; 15 scorers
 loc_1388E6:
                 lea     (highestScorersTable).l,a6
                 move.w  (a2)+,d0
                 lea     (a6,d0.w),a6
                 cmpi.w  #$FFFF,32(a6)
                 beq.s   loc_13896A
-                lea     $38(a5),a5
-                move.w  $20(a6),d0
+                lea     56(a5),a5
+                move.w  32(a6),d0
                 jsr     GetTeamPointer
                 lea     5(a0),a3
                 move.b  34(a6),d1
                 ext.w   d1
                 jsr     GetPlayer
                 lea     PLAYERFILE_PLAYERNAME+$4C(a0),a0
-                movea.l MENUENTRY_FG(a5),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a1
                 jsr     StringCopy
                 lea     56(a5),a5
-                movea.l MENUENTRY_FG(a5),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a1
                 lea     (aLparen).l,a0  ; "("
                 jsr     StringCopy
                 movea.l a3,a0
@@ -75838,7 +75833,7 @@ loc_1388E6:
                 lea     56(a5),a5
                 move.b  35(a6),d0
                 andi.w  #$FF,d0
-                move.w  d0,MENUENTRY_FG(a5)
+                move.w  d0,MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a5)
                 lea     56(a5),a5
                 dbf     d7,loc_1388E6
                 rts
@@ -76119,16 +76114,16 @@ TopGoalScorersInit:
                 move.w  $14(a2),$14(a1)
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
-                move.l  #aCup_10,g_menuEntries+MENUENTRY_FG+$70-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)(a0) ; "\x04C\x00U\x00P\x00 " ...
+                move.l  #aCup_10,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "\x04C\x00U\x00P\x00 " ...
 loc_138B90:
                 tst.l   (dword_166B18).l
                 bne.w   locret_138BC2
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$508)).w,a0
-                lea     ($2D6E).w,a1
-                move.w  g_menuEntries+MENUENTRY_X+$540-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)(a1),$14(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).w,a1
+                move.w  MENUENTRY_X(a1),$14(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
-                lea     ($289E).w,a1
-                move.w  g_menuEntries+MENUENTRY_X+$70-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)(a1),$14(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a1
+                move.w  MENUENTRY_X(a1),$14(a0)
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$70).w
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$38).w
 locret_138BC2:
@@ -77381,6 +77376,7 @@ Squad45AfterDraw:
 
 ; ===== sub_139A4C =====
 ; prototype: void __usercall sub_139A4C()
+; DOS: cseg_114EC
 sub_139A4C:
                 movea.l (dword_13A6EA).l,a6
                 lea     $3C(a6),a1
@@ -77415,8 +77411,8 @@ loc_139A88:
                 add.w   d0,d6
                 lea     $26(a0),a0
                 dbf     d7,loc_139A88
-                lea     ($2BAE).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$380-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aGoals).l,a0   ; "GOALS"
                 jsr     StringCopy
                 move.b  #' ',(a1)+
@@ -77431,31 +77427,32 @@ locret_139AE2:
 
 ; ===== sub_139AE4 =====
 ; prototype: void __usercall sub_139AE4()
+; DOS: cseg_116E8
 sub_139AE4:
                 bsr.w   UpdateBigCheckMark
                 movea.l (dword_13A6EA).l,a6
-                lea     ($289E).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$70-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$C,d0
-                move.w  d0,$1E(a0)
+                addi.w  #ORANGE_TO_BROWN_12,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 cmpi.b  #1,4(a6)
                 beq.s   loc_139B3A
-                lea     ($289E).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$70-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$B,d0
-                move.w  d0,$1E(a0)
+                addi.w  #BLUE_TO_PURPLE_11,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 cmpi.b  #2,4(a6)
                 beq.s   loc_139B3A
-                lea     ($289E).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$70-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$D,d0
-                move.w  d0,$1E(a0)
+                addi.w  #BRIGHT_BLUE_TO_BLUE_13,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_139B3A:
-                lea     ($28D6).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$A8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.b  (a6),d0
                 andi.w  #$FF,d0
                 lsl.w   #2,d0
@@ -77498,7 +77495,7 @@ loc_139BB4:
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$5B0).w
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$5E8).w
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$5E8)).w,a0
-                move.w  (word_165496).l,g_menuEntries+MENUENTRY_FG+$5E8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$5E8)(a0)
+                move.w  (word_165496).l,$26(a0)
                 bra.s   loc_139BF6
 loc_139BEA:
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$5B0).w
@@ -77506,8 +77503,8 @@ loc_139BEA:
 loc_139BF6:
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$540).w
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$578).w
-                lea     ($2BAE).w,a0
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$380-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a0
+                clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   $3C(a0)
                 clr.w   $74(a0)
                 clr.w   $AC(a0)
@@ -77519,7 +77516,7 @@ loc_139BF6:
                 tst.w   (isNationalSquad).l
                 beq.s   loc_139C7C
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$380-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 move.w  #1,$AC(a0)
@@ -77567,7 +77564,7 @@ loc_139CEA:
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$460).w
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a0
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).w,a1
-                move.w  $14(a0),g_menuEntries+MENUENTRY_X+$460-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)(a1)
+                move.w  $14(a0),MENUENTRY_X(a1)
                 addi.w  #$B,$14(a1)
                 bra.w   loc_139EDE
 loc_139D24:
@@ -77587,45 +77584,45 @@ loc_139D58:
                 tst.w   (teamSkillDiffAfterChange).l
                 bpl.s   loc_139DA8
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
-                move.w  #$EE,g_menuEntries+MENUENTRY_X+$1C0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)(a0)
+                move.w  #$EE,MENUENTRY_X(a0)
                 move.w  #$3C,$18(a0)    ; '<'
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
-                move.w  #$EE,g_menuEntries+MENUENTRY_X+$1F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)(a0)
+                move.w  #$EE,MENUENTRY_X(a0)
                 move.w  #$3C,$18(a0)    ; '<'
                 tst.w   (isNationalSquad).l
                 beq.s   loc_139DA8
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
-                subi.w  #$E,g_menuEntries+MENUENTRY_X+$1C0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)(a0)
+                subi.w  #$E,MENUENTRY_X(a0)
                 move.w  #$E5,$16(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
-                subi.w  #$E,g_menuEntries+MENUENTRY_X+$1F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)(a0)
+                subi.w  #$E,MENUENTRY_X(a0)
                 move.w  #$F5,$16(a0)
 loc_139DA8:
-                lea     ($297E).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$E,d0
-                move.w  d0,$1E(a0)
-                lea     ($297E).w,a0
-                clr.w   g_menuEntries+MENUENTRY_ISDISABLED+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0)
+                addi.w  #YELLOW_GREEN_BLACK_14,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                clr.w   MENUENTRY_ISDISABLED(a0)
                 movea.l (dword_13A6EA).l,a0
                 btst    #0,$17(a0)
                 beq.s   loc_139DF0
-                lea     ($297E).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0),d0
-                andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,$1E(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISDISABLED+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0)
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
+                andi.w  #$FFF0,d0
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                move.w  #1,MENUENTRY_ISDISABLED(a0)
 loc_139DF0:
                 tst.w   (teamSkillDiffAfterChange).l
                 bmi.s   loc_139E44
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
-                move.w  #$EE,g_menuEntries+MENUENTRY_X+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0)
+                move.w  #$EE,MENUENTRY_X(a0)
                 move.w  #$3C,$18(a0)    ; '<'
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
-                move.w  #$EE,g_menuEntries+MENUENTRY_X+$1F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)(a0)
+                move.w  #$EE,MENUENTRY_X(a0)
                 move.w  #$3C,$18(a0)    ; '<'
                 move.w  #$DD,$16(a0)
                 movea.l (dword_13A6EA).l,a0
@@ -77636,12 +77633,12 @@ loc_139DF0:
                 cmpi.b  #$55,(a0)       ; 'U'
                 bhi.s   loc_139E44
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
-                subi.w  #$E,g_menuEntries+MENUENTRY_X+$1F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)(a0)
+                subi.w  #$E,MENUENTRY_X(a0)
 loc_139E44:
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$5B0).w
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$5E8).w
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$380-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 move.w  #1,$AC(a0)
@@ -77659,7 +77656,7 @@ loc_139E44:
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$540).w
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$578).w
                 lea     ($2BAE).w,a0
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$380-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)(a0)
+                clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   $3C(a0)
                 clr.w   $74(a0)
                 clr.w   $AC(a0)
@@ -77685,8 +77682,8 @@ loc_139EDE:
                 cmp.w   (selTeamNumber).l,d0
                 bne.s   loc_139F20
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$2A0).w
-                lea     ($2ACE).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$2A0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 jsr     GetBankBalance
                 bra.s   loc_139F26
 loc_139F20:
@@ -77694,10 +77691,10 @@ loc_139F20:
 loc_139F26:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
                 lea     5(a6),a2
-                move.l  a2,$26(a0)
+                move.l  a2,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
                 lea     $24(a6),a2
-                move.l  a2,$26(a0)
+                move.l  a2,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 rts
 
 ; ===== SquadCommon =====
@@ -78241,10 +78238,10 @@ UpdateBigCheckMark:
 locret_13A6BC:
                 rts
 loc_13A6BE:
-                move.w  #SPR_NOT_CHECK_BIG,MENUENTRY_FG(a0)
+                move.w  #SPR_NOT_CHECK_BIG,MENUENTRY_FG+ENTRYTYPE2UNION_SPRITE2(a0)
                 bra.s   loc_13A6CC
 loc_13A6C6:
-                move.w  #SPR_CHECK_BIG,MENUENTRY_FG(a0)
+                move.w  #SPR_CHECK_BIG,MENUENTRY_FG+ENTRYTYPE2UNION_SPRITE2(a0)
 loc_13A6CC:
                 move.w  MENUENTRY_STRINGFLAGS(a0),d1
                 bset    #$D,d1
@@ -78487,7 +78484,7 @@ SetMenuEntryPlayerFace:
                 andi.w  #$18,d0
                 lsr.w   #3,d0
                 addi.w  #SPR_PL_FACE_WHITE_GUY,d0
-                move.w  d0,MENUENTRY_FG(a0)
+                move.w  d0,MENUENTRY_FG+ENTRYTYPE2UNION_SPRITE2(a0)
                 rts
 
 ; ===== sub_13A90A =====
@@ -78868,7 +78865,7 @@ loc_13ACAC:
 ; prototype: __int16 __usercall CareerOverFinish@<d0>()
 CareerOverFinish:
                 lea     (g_menuEntries).w,a1
-                movea.l MENUENTRY_FG(a1),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1),a1
                 lea     (managerNameBuffer).l,a0
                 jsr     GetStringLength
                 move.w  d0,d1
@@ -78885,34 +78882,34 @@ CareerOverFinish:
                 bra.s   loc_13ACF6
 loc_13ACEC:
                 jsr     StringCopy
-                move.b  #$20,(a1)+      ; ' '
+                move.b  #' ',(a1)+
 loc_13ACF6:
                 lea     (managerSurnameBuffer).l,a0
                 jsr     StringCopy
                 move.w  (selTeamNumber).l,d0
                 jsr     VerifyTeamLoaded
                 lea     5(a0),a0
-                lea     ($2866).w,a1
-                movea.l g_menuEntries+MENUENTRY_FG+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a1),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1),a1
                 jsr     StringCopy
-                lea     ($289E).w,a1
-                movea.l g_menuEntries+MENUENTRY_FG+$70-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)(a1),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1),a1
                 move.b  (seasonPlaying).l,d0
                 andi.w  #$FF,d0
-                addi.w  #$76C,d0
-                cmpi.w  #$7CC,d0
+                addi.w  #1900,d0
+                cmpi.w  #1996,d0
                 bcc.s   loc_13AD40
-                addi.w  #$64,d0         ; 'd'
+                addi.w  #100,d0
 loc_13AD40:
                 addq.w  #1,d0
                 lea     (a0EndSeason).l,a0 ; "%0 END SEASON"
                 jsr     PrintFormatted
                 bsr.w   CareerOverUpdateJobOffersEntry
-                cmpi.w  #$13,(currentSeasonShowing).l
+                cmpi.w  #19,(currentSeasonShowing).l
                 bne.s   loc_13AD74
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
-                move.l  #aRetire,g_menuEntries+MENUENTRY_FG+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0) ; "RETIRE" ...
+                move.l  #aRetire,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "RETIRE" ...
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
                 rts
 loc_13AD74:
@@ -78925,19 +78922,19 @@ loc_13AD74:
                 tst.w   (numJobOffers).l
                 bne.s   loc_13ADE0
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISDISABLED+$E0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)(a0)
-                lea     ($290E).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$E0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)(a0),d0
+                move.w  #1,MENUENTRY_ISDISABLED(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,$1E(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISDISABLED+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0)
-                lea     ($297E).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0),d0
+                move.w  #1,MENUENTRY_ISDISABLED(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,$1E(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
 loc_13ADE0:
@@ -78946,12 +78943,12 @@ loc_13ADE0:
                 cmpi.w  #$FFFF,(teamNoOfferAccepted).l
                 bne.s   locret_13AE10
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISDISABLED+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0)
-                lea     ($297E).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0),d0
+                move.w  #1,MENUENTRY_ISDISABLED(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,$1E(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 locret_13AE10:
                 rts
 
@@ -78963,15 +78960,15 @@ CareerOverUpdateJobOffersEntry:
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).w
                 rts
 loc_13AE24:
-                lea     ($2946).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #14,d0          ; yellow-green-black
-                move.w  d0,MENUENTRY_BG(a0)
-                lea     ($2946).w,a0
+                addi.w  #YELLOW_GREEN_BLACK_14,d0 ; yellow-green-black
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
                 clr.w   MENUENTRY_ISDISABLED(a0)
                 move.w  MENUENTRY_STRINGFLAGS(a0),d1
-                bclr    #13,d1
+                bclr    #$D,d1
                 cmpi.w  #$FFFF,(teamNoOfferAccepted).l
                 bne.s   loc_13AE6C
                 tst.w   (numNewJobOffers).l
@@ -78984,16 +78981,16 @@ loc_13AE66:
                 move.w  d1,MENUENTRY_STRINGFLAGS(a0)
                 rts
 loc_13AE6C:
-                move.l  #aNewJob,MENUENTRY_FG(a0) ; "NEW JOB" ...
+                move.l  #aNewJob,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "NEW JOB" ...
                 bra.s   loc_13AE66
 loc_13AE76:
-                move.l  #aNoJobOffers,MENUENTRY_FG(a0) ; "NO JOB OFFERS" ...
+                move.l  #aNoJobOffers,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "NO JOB OFFERS" ...
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ($2946).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.s   loc_13AE66
 
 ; ===== ViewCompetitionsMenuRetired =====
@@ -79031,8 +79028,8 @@ loc_13AF06:
                 lea     (gotJobOfferMenu).l,a6
                 jsr     ShowMenu
 loc_13AF12:
-                lea     ($2946).w,a0
-                tst.w   g_menuEntries+MENUENTRY_ISDISABLED+$118-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                tst.w   MENUENTRY_ISDISABLED(a0)
                 beq.s   locret_13AF26
                 move.w  #8,d0
                 jsr     SetCurrentEntry
@@ -79330,8 +79327,8 @@ loc_13B1C8:
 ; prototype: void __usercall SetNationalityField()
 ; Set nationality field when starting career.
 SetNationalityField:
-                lea     ($29B6).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.b  (plNationality).l,d0
                 cmpi.b  #$FF,d0
                 beq.s   loc_13B206
@@ -79385,18 +79382,18 @@ loc_13B260:
 ; ===== SetPlayerCoachFieldColor =====
 ; prototype: void __usercall SetPlayerCoachFieldColor()
 SetPlayerCoachFieldColor:
-                lea     ($2A26).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$1F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$D,d0
-                move.w  d0,$1E(a0)
+                addi.w  #BRIGHT_BLUE_TO_BLUE_13,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 tst.w   (coachOrPlayer).l
                 beq.s   locret_13B2AE
-                lea     ($2A26).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$1F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$B,d0
-                move.w  d0,$1E(a0)
+                addi.w  #BLUE_TO_PURPLE_11,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 locret_13B2AE:
                 rts
 
@@ -79443,14 +79440,14 @@ loc_13B31E:
 ; ===== SetName =====
 ; prototype: void __usercall SetName()
 SetName:
-                movea.l MENUENTRY_FG(a5),a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a0
                 move.w  #9,d0
                 jmp     InputText
 
 ; ===== SetSurname =====
 ; prototype: void __usercall SetSurname()
 SetSurname:
-                movea.l MENUENTRY_FG(a5),a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a0
                 move.w  #13,d0
                 jmp     InputText
 
@@ -79471,7 +79468,7 @@ padding_41:
                 dc.b $00
 viewCompetitionsMenu:
                 dc.l ViewCompetitionsInit ; on init function
-                dc.l loc_13B494         ; on return function
+                dc.l ViewCompetitionsOnReturn ; on return function
                 dc.l 0                  ; on draw function
                 dc.l $00000001          ; -= default entry =-
                 dc.w -1                 ; byte coords
@@ -79612,26 +79609,29 @@ ViewCompetitionsInit:
                 cmpi.l  #tourCopy,(dword_166B14).l
                 beq.s   loc_13B470
                 cmpi.l  #friendlyCopy,(dword_166B14).l
-                bne.s   loc_13B494
+                bne.s   ViewCompetitionsOnReturn
 loc_13B470:
                 move.w  #5,d0
                 jsr     SetCurrentEntry
                 tst.w   (isNationalSelector).l
                 bne.s   loc_13B48A
                 tst.w   (word_16924C).l
-                bne.s   loc_13B494
+                bne.s   ViewCompetitionsOnReturn
 loc_13B48A:
                 move.w  #7,d0
                 jsr     SetCurrentEntry
-loc_13B494:
+
+; ===== ViewCompetitionsOnReturn =====
+; prototype: void ViewCompetitionsOnReturn(...)
+ViewCompetitionsOnReturn:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
-                move.l  #diyPresetNameOfCompetition,g_menuEntries+MENUENTRY_FG+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a0)
+                move.l  #diyPresetNameOfCompetition,$26(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
-                move.l  #byte_166B78,g_menuEntries+MENUENTRY_FG+$70-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)(a0)
+                move.l  #byte_166B78,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
-                move.l  #byte_1676CC,g_menuEntries+MENUENTRY_FG+$A8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)(a0)
+                move.l  #byte_1676CC,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
-                move.l  #byte_167F54,g_menuEntries+MENUENTRY_FG+$E0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)(a0)
+                move.l  #byte_167F54,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 cmpi.l  #tourCopy,(dword_166B14).l
                 beq.s   loc_13B4DC
                 cmpi.l  #friendlyCopy,(dword_166B14).l
@@ -79643,7 +79643,7 @@ loc_13B4DC:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a2
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a3
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a4
-                move.w  $16(a3),g_menuEntries+MENUENTRY_Y+$118-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)(a4)
+                move.w  $16(a3),$16(a4)
                 move.w  $16(a2),$16(a3)
                 move.w  $16(a1),$16(a2)
                 move.w  $16(a0),$16(a1)
@@ -79652,11 +79652,11 @@ loc_13B50E:
                 bne.s   loc_13B540
 loc_13B516:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$70-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a1
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a2
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a3
-                move.w  $16(a2),g_menuEntries+MENUENTRY_Y+$118-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)(a3)
+                move.w  $16(a2),$16(a3)
                 move.w  $16(a1),$16(a2)
                 move.w  $16(a0),$16(a1)
                 bra.s   loc_13B558
@@ -79670,10 +79670,10 @@ loc_13B558:
                 bne.w   loc_13B582
 loc_13B562:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$A8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a1
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a2
-                move.w  $16(a1),g_menuEntries+MENUENTRY_Y+$118-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)(a2)
+                move.w  $16(a1),$16(a2)
                 move.w  $16(a0),$16(a1)
                 bra.s   loc_13B59A
 loc_13B582:
@@ -79685,9 +79685,9 @@ loc_13B59A:
                 tst.l   (dword_166B20).l
                 bne.w   loc_13B5B8
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$E0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a1
-                move.w  $16(a0),g_menuEntries+MENUENTRY_Y+$118-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)(a1)
+                move.w  $16(a0),$16(a1)
 loc_13B5B8:
                 tst.w   (isNationalSelector).l
                 bne.s   loc_13B5C8
@@ -80315,13 +80315,13 @@ loc_13BA34:
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$348).w
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
-                subq.w  #1,g_menuEntries+MENUENTRY_DWHEIGHT+$188-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)(a0)
+                subq.w  #1,MENUENTRY_DWHEIGHT(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
-                subq.w  #1,g_menuEntries+MENUENTRY_DWHEIGHT+$1C0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)(a0)
+                subq.w  #1,MENUENTRY_DWHEIGHT(a0)
                 cmpi.w  #1,(seasonNumberOfSquads).l
                 beq.s   loc_13BA78
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
-                move.l  #aSquads,g_menuEntries+MENUENTRY_FG+$1C0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)(a0) ; "SQUADS" ...
+                move.l  #aSquads,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "SQUADS" ...
 loc_13BA78:
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2A0).w
@@ -80501,8 +80501,8 @@ loc_13BCE4:
                 lea     (gotJobOfferMenu).l,a6
                 jsr     ShowMenu
 loc_13BCF0:
-                lea     ($2946).w,a0
-                tst.w   g_menuEntries+MENUENTRY_ISDISABLED+$118-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                tst.w   MENUENTRY_ISDISABLED(a0)
                 beq.s   locret_13BD04
                 move.w  #7,d0
                 jsr     SetCurrentEntry
@@ -80719,12 +80719,12 @@ locret_13BF8A:
 CheckJobOffers:
                 cmpi.w  #GAME_TYPE_CAREER,(g_gameType).l
                 bne.s   locret_13BFDE
-                lea     ($2946).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #11,d0          ; blue to purple
-                move.w  d0,MENUENTRY_BG(a0)
-                lea     ($2946).w,a0
+                addi.w  #BLUE_TO_PURPLE_11,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
                 clr.w   MENUENTRY_ISDISABLED(a0)
                 move.w  MENUENTRY_STRINGFLAGS(a0),d1
                 bclr    #$D,d1
@@ -80742,16 +80742,16 @@ loc_13BFDA:
 locret_13BFDE:
                 rts
 loc_13BFE0:
-                move.l  #aNewJob,MENUENTRY_FG(a0) ; "NEW JOB" ...
+                move.l  #aNewJob,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "NEW JOB" ...
                 bra.s   loc_13BFDA
 loc_13BFEA:
-                move.l  #aNoJobOffers,MENUENTRY_FG(a0) ; "NO JOB OFFERS" ...
+                move.l  #aNoJobOffers,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "NO JOB OFFERS" ...
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ($2946).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addq.w  #7,d0           ; pink to brown
-                move.w  d0,MENUENTRY_BG(a0)
+                addq.w  #PINK_TO_BROWN_7,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.s   loc_13BFDA
 
 ; ===== sub_13C00C =====
@@ -80774,20 +80774,20 @@ locret_13C032:
 ; prototype: void __usercall ContestSetButtons()
 ContestSetButtons:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
-                move.l  #aPlayMatch,MENUENTRY_FG(a0) ; "PLAY MATCH" ...
+                move.l  #aPlayMatch,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "PLAY MATCH" ...
                 move.w  MENUENTRY_STRINGFLAGS(a0),d0
                 bclr    #$D,d0
-                move.w  d0,$24(a0)
+                move.w  d0,MENUENTRY_STRINGFLAGS(a0)
                 cmpi.w  #GAME_TYPE_SEASON,(g_gameType).l
                 beq.w   loc_13C0DC
                 tst.w   (seasonFinished).l
                 bne.w   loc_13C0B0
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$230).w
-                lea     ($2A5E).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$230-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addq.w  #4,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addq.w  #ORANGE_TO_BROWN_4,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 tst.w   (careerFinished).l
                 bne.s   loc_13C0A2
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
@@ -80802,31 +80802,31 @@ locret_13C0A0:
                 rts
 loc_13C0A2:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
-                move.l  #aFinishSeason,MENUENTRY_FG(a0) ; "FINISH SEASON" ...
+                move.l  #aFinishSeason,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "FINISH SEASON" ...
                 rts
 loc_13C0B0:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
-                move.l  #aFinishSeason,MENUENTRY_FG(a0) ; "FINISH SEASON" ...
-                lea     ($2A5E).w,a0
-                move.w  MENUENTRY_BG(a0),d0
-                andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                move.l  #aFinishSeason,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "FINISH SEASON" ...
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISDISABLED+$230-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)(a0)
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
+                andi.w  #$FFF0,d0
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
+                move.w  #1,MENUENTRY_ISDISABLED(a0)
                 rts
 loc_13C0DC:
-                lea     ($2B06).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$2D8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addq.w  #4,d0
-                move.w  d0,$1E(a0)
+                addq.w  #ORANGE_TO_BROWN_4,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
                 clr.w   MENUENTRY_ISDISABLED(a0)
                 tst.w   (seasonNumberOfSquads).l
                 bne.s   loc_13C118
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
-                move.l  #aNextMatch,MENUENTRY_FG(a0) ; "NEXT MATCH" ...
+                move.l  #aNextMatch,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "NEXT MATCH" ...
                 bsr.w   SeasonLowerButtons
                 tst.w   (seasonFinished).l
                 bne.s   loc_13C130
@@ -80841,7 +80841,7 @@ loc_13C12C:
                 bsr.w   SeasonLowerButtons
 loc_13C130:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
-                move.l  #aFinishSeason,MENUENTRY_FG(a0) ; "FINISH SEASON" ...
+                move.l  #aFinishSeason,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "FINISH SEASON" ...
                 rts
 
 ; ===== SeasonLowerButtons =====
@@ -80854,7 +80854,7 @@ SeasonLowerButtons:
                 move.w  MENUENTRY_Y(a1),MENUENTRY_Y(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).w,a0
                 move.w  MENUENTRY_Y(a1),MENUENTRY_Y(a0)
-                addi.w  #$D,MENUENTRY_Y(a0)
+                addi.w  #13,MENUENTRY_Y(a0)
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2D8).w
                 rts
 
@@ -80872,12 +80872,12 @@ loc_13C180:
                 tst.w   (word_16E082).l
                 bne.s   loc_13C1CA
 loc_13C188:
-                lea     ($290E).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$E0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addq.w  #8,d0
-                move.w  d0,MENUENTRY_BG(a0)
-                lea     ($290E).w,a0
+                addq.w  #BLUE_TO_BLACK_8,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
                 clr.w   MENUENTRY_ISDISABLED(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
                 tst.w   (timeToNegotiate).l
@@ -80892,18 +80892,18 @@ loc_13C188:
 locret_13C1C8:
                 rts
 loc_13C1CA:
-                lea     ($290E).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$E0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)(a0),d0
-                andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,$1E(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISDISABLED+$E0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)(a0)
+                move.w  MENUENTRY_BG(a0),d0
+                andi.w  #$FFF0,d0
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                move.w  #1,MENUENTRY_ISDISABLED(a0)
 loc_13C1E8:
-                lea     ($290E).w,a0
-                move.w  g_menuEntries+MENUENTRY_STRINGFLAGS+$E0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                move.w  MENUENTRY_STRINGFLAGS(a0),d0
                 bclr    #$D,d0
-                move.w  d0,$24(a0)
+                move.w  d0,MENUENTRY_STRINGFLAGS(a0)
                 rts
 
 ; ===== sub_13C1FA =====
@@ -80952,17 +80952,17 @@ PrintNameAndSeason:
                 beq.s   loc_13C28A
                 lea     (g_menuEntries).w,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
-                move.w  #1,$3C(a0)
-                move.w  #1,$74(a0)
+                move.w  #1,60(a0)
+                move.w  #1,116(a0)
                 rts
 loc_13C28A:
                 lea     (g_menuEntries).w,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
-                clr.w   $3C(a0)
-                clr.w   $74(a0)
+                clr.w   60(a0)
+                clr.w   116(a0)
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
                 lea     (g_menuEntries).w,a1
-                movea.l MENUENTRY_FG(a1),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1),a1
                 lea     (managerNameBuffer).l,a0
                 jsr     GetStringLength
                 move.w  d0,d1
@@ -80970,16 +80970,16 @@ loc_13C28A:
                 jsr     GetStringLength
                 add.w   d1,d0
                 lea     (managerNameBuffer).l,a0
-                cmpi.w  #$C,d0
+                cmpi.w  #12,d0
                 bls.s   loc_13C2DC
                 tst.b   (a0)
                 beq.s   loc_13C2E6
                 move.b  (a0)+,(a1)+
-                move.b  #$20,(a1)+      ; ' '
+                move.b  #' ',(a1)+
                 bra.s   loc_13C2E6
 loc_13C2DC:
                 jsr     StringCopy
-                move.b  #$20,(a1)+      ; ' '
+                move.b  #' ',(a1)+
 loc_13C2E6:
                 lea     (managerSurnameBuffer).l,a0
                 jsr     StringCopy
@@ -80987,24 +80987,24 @@ loc_13C2E6:
                 jsr     VerifyTeamLoaded
                 lea     5(a0),a0
                 lea     ($2866).w,a1
-                movea.l g_menuEntries+MENUENTRY_FG+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a1),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1),a1
                 jsr     StringCopy
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a1
-                movea.l MENUENTRY_FG(a1),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1),a1
                 move.b  (seasonPlaying).l,d0
                 andi.w  #$FF,d0
                 move.w  d0,d1
-                addi.w  #$76C,d0
+                addi.w  #1900,d0
                 cmpi.w  #1996,d0
                 bcc.s   loc_13C332
-                addi.w  #$64,d0         ; 'd'
+                addi.w  #100,d0
 loc_13C332:
                 addq.w  #1,d1
-                cmpi.w  #$64,d1         ; 'd'
+                cmpi.w  #100,d1
                 bcs.s   loc_13C33E
-                subi.w  #$64,d1         ; 'd'
+                subi.w  #100,d1
 loc_13C33E:
-                cmpi.w  #$A,d1
+                cmpi.w  #10,d1
                 bcs.s   loc_13C350
                 lea     (a01Season).l,a0 ; "%0/%1 SEASON"
                 jmp     PrintFormatted
@@ -81025,69 +81025,69 @@ SetNationalSelectorButtons:
                 tst.w   (isNationalSelector).l
                 beq.w   locret_13C492
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
-                move.l  #aSquadSelected,MENUENTRY_FG(a0) ; "SQUAD SELECTED" ...
+                move.l  #aSquadSelected,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "SQUAD SELECTED" ...
                 movem.l a0,-(sp)
                 jsr     sub_125B56
                 movem.l (sp)+,a0
                 bne.s   loc_13C3AA
-                move.l  #aChangeSquad,MENUENTRY_FG(a0) ; "CHANGE SQUAD" ...
+                move.l  #aChangeSquad,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "CHANGE SQUAD" ...
                 cmpi.w  #20,(careerNumPlayers).l
                 beq.s   loc_13C3AA
-                move.l  #aSelectSquad,MENUENTRY_FG(a0) ; "SELECT SQUAD" ...
+                move.l  #aSelectSquad,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "SELECT SQUAD" ...
 loc_13C3AA:
-                lea     ($2ACE).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addq.w  #4,d0
-                move.w  d0,MENUENTRY_BG(a0)
-                lea     ($2ACE).w,a0
+                addq.w  #ORANGE_TO_BROWN_4,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
                 clr.w   MENUENTRY_ISDISABLED(a0)
                 jsr     sub_125B56
                 beq.s   loc_13C3EA
-                lea     ($2ACE).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
 loc_13C3EA:
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
                 cmpi.w  #$14,(careerNumPlayers).l
                 beq.w   locret_13C492
-                lea     ($29EE).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ($29B6).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ($2A5E).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ($2A96).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ($2ACE).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
 locret_13C492:
@@ -81115,7 +81115,7 @@ loc_13C4B2:
                 beq.w   loc_13CA7C
                 movea.l 4(a3,d0.w),a4
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a5
-                move.w  #1,g_menuEntries+MENUENTRY_ISINVISIBLE+$738-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)(a5)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a5)
                 lea     $38(a5),a5
                 move.l  #aError,(careerGameTopTeamName).l ; "ERROR" ...
                 move.l  #aError,(careerGameBottomTeamName).l ; "ERROR" ...
@@ -81772,13 +81772,13 @@ managementRecordMenu:
 ManagementRecordInit:
                 move.w  (currentSeasonShowing).l,(currentSeasonNumber).l
                 lea     (g_menuEntries).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aManagementReco).l,a0 ; "MANAGEMENT RECORD OF %a %b"
                 lea     (managerNameBuffer).l,a2
                 lea     (managerSurnameBuffer).l,a3
                 jsr     PrintFormatted
-                lea     ($2BAE).w,a4
-                movea.l MENUENTRY_FG(a4),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a4
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a4),a1
                 lea     (aDash).l,a0    ; "-"
                 move.w  (gamesPlayed).l,d0
                 beq.s   loc_13CCE8
@@ -81827,9 +81827,9 @@ FillManagementRecordInfo:
                 lea     (a6,d0.w),a6
                 bsr.w   SetTrophySprites
                 move.w  (currentSeasonNumber).l,d6
-                move.w  #$37,d5         ; '7'
+                move.w  #55,d5
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a4
-                movea.l MENUENTRY_FG(a4),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a4),a1
                 move.w  (currentSeasonNumber).l,d0
                 addq.w  #1,d0
                 move.w  (currentSeasonNumber).l,d1
@@ -81850,14 +81850,14 @@ loc_13CD88:
                 jsr     PrintFormatted
                 move.w  d5,MENUENTRY_Y(a4)
                 addi.w  #$F,d5
-                lea     ($290E).w,a4
-                movea.l MENUENTRY_FG(a4),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a4
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a4),a1
                 lea     2(a6),a0
                 jsr     StringCopy
                 move.w  d5,MENUENTRY_Y(a4)
                 addi.w  #$A,d5
-                lea     ($2946).w,a4
-                movea.l MENUENTRY_FG(a4),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a4
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a4),a1
                 move.b  (a6),d0
                 cmpi.b  #CN_EUROPE,d0
                 bcs.s   loc_13CDCE
@@ -81875,28 +81875,28 @@ loc_13CDE2:
                 lea     (aA).l,a0       ; "(%a)"
                 jsr     PrintFormatted
                 move.w  d5,MENUENTRY_Y(a4)
-                addi.w  #$11,d5
-                movea.l $16(a6),a0
-                move.b  $56(a6),d4
-                move.b  $68(a6),d7
+                addi.w  #17,d5
+                movea.l 22(a6),a0
+                move.b  86(a6),d4
+                move.b  104(a6),d7
                 bsr.w   RenderCompLine
-                movea.l $1A(a6),a0
-                move.b  $57(a6),d4
+                movea.l 26(a6),a0
+                move.b  87(a6),d4
                 clr.b   d7
                 bsr.w   RenderCompLine
-                movea.l $1E(a6),a0
-                move.b  $58(a6),d4
+                movea.l 30(a6),a0
+                move.b  88(a6),d4
                 clr.b   d7
                 bsr.w   RenderCompLine
-                movea.l $22(a6),a0
-                move.b  $59(a6),d4
+                movea.l 34(a6),a0
+                move.b  89(a6),d4
                 clr.b   d7
                 bsr.w   RenderCompLine
                 addq.w  #8,d5
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a4
-                move.w  d5,g_menuEntries+MENUENTRY_Y+$230-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)(a4)
+                move.w  d5,MENUENTRY_Y(a4)
                 addi.w  #9,d5
-                lea     ($2A96).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a4
                 movea.l MENUENTRY_FG(a4),a1
                 tst.b   SEASONINFORMATIONS_BESTSCORERNAME(a6)
                 bne.s   loc_13CE5A
@@ -81934,23 +81934,23 @@ loc_13CE90:
                 beq.s   loc_13CF22
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a4
-                move.w  d5,g_menuEntries+MENUENTRY_Y+$1F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)(a4)
+                move.w  d5,MENUENTRY_Y(a4)
                 move.w  #10,d0
                 tst.b   SEASONINFORMATIONS_MANAGERSTATUS(a6)
                 bmi.s   loc_13CEF2
                 move.w  #6,d0
-                move.l  #aResigned,MENUENTRY_FG(a4) ; "- RESIGNED -" ...
+                move.l  #aResigned,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a4) ; "- RESIGNED -" ...
                 cmpi.b  #1,SEASONINFORMATIONS_MANAGERSTATUS(a6)
                 beq.s   loc_13CEF2
                 move.w  #15,d0
-                move.l  #aRetired,MENUENTRY_FG(a4) ; "- RETIRED -" ...
+                move.l  #aRetired,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a4) ; "- RETIRED -" ...
 loc_13CEF2:
                 move.w  MENUENTRY_STRINGFLAGS(a4),d1
                 andi.w  #$FFF0,d1
                 or.w    d0,d1
                 move.w  d1,MENUENTRY_STRINGFLAGS(a4)
                 move.w  MENUENTRY_STRINGFLAGS(a4),d1
-                bset    #$D,d1
+                bset    #13,d1
                 move.w  d1,MENUENTRY_STRINGFLAGS(a4)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a5
                 move.w  #1,d0
@@ -81960,17 +81960,17 @@ loc_13CEF2:
 loc_13CF22:
                 addi.w  #13,d5
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a4
-                move.l  #aSeasonSTopScor,MENUENTRY_FG(a4) ; "SEASON'S TOP SCORER" ...
+                move.l  #aSeasonSTopScor,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a4) ; "SEASON'S TOP SCORER" ...
                 tst.b   SEASONINFORMATIONS_BESTSCORERNAME(a6)
                 beq.w   loc_13CF48
                 tst.b   63(a6)
                 beq.s   loc_13CF48
-                move.l  #aSeasonSTopScor_0,MENUENTRY_FG(a4) ; "SEASON'S TOP SCORERS" ...
+                move.l  #aSeasonSTopScor_0,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a4) ; "SEASON'S TOP SCORERS" ...
 loc_13CF48:
                 move.w  d5,MENUENTRY_Y(a4)
                 addi.w  #10,d5
-                lea     ($2B06).w,a4
-                movea.l MENUENTRY_FG(a4),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a4
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a4),a1
                 tst.w   SEASONINFORMATIONS_BESTSCORERNUMGOALS(a6)
                 beq.s   loc_13CF64
                 tst.b   SEASONINFORMATIONS_BESTSCORERNAME(a6)
@@ -81998,11 +81998,11 @@ loc_13CF86:
                 tst.b   $3F(a6)
                 beq.s   loc_13CFF4
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$310).w
-                lea     ($2B3E).w,a4
-                movea.l MENUENTRY_FG(a4),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).w,a4
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a4),a1
                 lea     $3F(a6),a2
                 lea     (aA0).l,a0      ; "%a  %0"
-                move.w  MENUENTRY_FG(a6),d0
+                move.w  MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a6),d0
                 jsr     PrintFormatted
                 move.w  d5,$16(a4)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).w,a5
@@ -82041,7 +82041,7 @@ RenderCompLine:
                 cmpa.l  #0,a0
                 beq.w   locret_13D242
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a4
-                move.w  d5,g_menuEntries+MENUENTRY_Y+$188-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)(a4)
+                move.w  d5,MENUENTRY_Y(a4)
                 cmpa.l  #aFriendly,a0   ; "FRIENDLY"
                 bne.s   loc_13D044
                 lea     (aFriendlies).l,a0 ; "FRIENDLIES"
@@ -82050,7 +82050,7 @@ loc_13D044:
                 jsr     StringCopy
                 ext.w   d4
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a4
-                move.w  d5,g_menuEntries+MENUENTRY_Y+$1C0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)(a4)
+                move.w  d5,MENUENTRY_Y(a4)
                 move.w  $24(a4),d0
                 andi.w  #$FFF0,d0
                 ori.w   #2,d0
@@ -82162,7 +82162,7 @@ loc_13D1A2:
                 tst.b   d7
                 beq.w   locret_13D242
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a4
-                move.w  d5,g_menuEntries+MENUENTRY_Y+$1C0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)(a4)
+                move.w  d5,MENUENTRY_Y(a4)
                 movea.l $26(a4),a1
                 clr.b   (a1)
                 lea     (aQualified).l,a0 ; "(QUALIFIED)"
@@ -82208,7 +82208,7 @@ SetTrophySprites:
                 move.w  #1,MENUENTRY_ISINVISIBLE+$A8(a0)
                 move.w  #176,d0
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a0
-                move.w  d0,g_menuEntries+MENUENTRY_X+$3B8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)(a0)
+                move.w  d0,MENUENTRY_X(a0)
                 addi.w  #20,d0
                 lea     56(a0),a0
                 move.w  d0,MENUENTRY_X(a0)
@@ -82248,7 +82248,7 @@ SetTrophySprite:
                 clr.w   MENUENTRY_ISINVISIBLE(a1)
                 lea     56(a1),a1
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a0
-                subi.w  #10,g_menuEntries+MENUENTRY_X+$3B8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)(a0)
+                subi.w  #10,MENUENTRY_X(a0)
                 lea     56(a0),a0
                 subi.w  #10,MENUENTRY_X(a0)
                 lea     56(a0),a0
@@ -83540,7 +83540,7 @@ selectTeamsForTacticsMenu:
 ; prototype: void __usercall SelTeamForTacticsInit()
 SelTeamForTacticsInit:
                 lea     (g_menuEntries).w,a0
-                move.l  (chooseTeamMenuName).l,MENUENTRY_FG(a0)
+                move.l  (chooseTeamMenuName).l,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 cmpi.w  #66,(numTeamsCountryBuffer).l
                 bcs.s   loc_13DCC0
                 move.w  #22,(selTeamsColumn1).l
@@ -85727,12 +85727,12 @@ SelectTeamsReinit:
                 ext.l   d0
                 divu.w  #3,d0
                 add.w   (numLeaguesInCountry).l,d0
-                cmpi.w  #$12,d0
+                cmpi.w  #18,d0
                 bls.s   loc_13F1AE
-                move.w  #$A,d1
-                cmpi.w  #$13,d0
+                move.w  #10,d1
+                cmpi.w  #19,d0
                 beq.s   loc_13F18E
-                move.w  #$F,d1
+                move.w  #15,d1
 loc_13F18E:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1308)).w,a0
                 add.w   d1,MENUENTRY_Y(a0)
@@ -85748,14 +85748,14 @@ loc_13F1AE:
                 cmp.w   (topOfStackMark).l,d0
                 bne.s   loc_13F1DE
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1340)).w,a0
-                move.l  #aAbort,MENUENTRY_FG(a0) ; "ABORT" ...
-                move.w  MENUENTRY_BG(a0),d0
+                move.l  #aAbort,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "ABORT" ...
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$A,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #RED_10,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_13F1DE:
-                lea     ($282E).w,a2
-                movea.l g_menuEntries+MENUENTRY_FG-g_menuEntries(a2),a1
+                lea     (g_menuEntries).w,a2
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a2),a1
                 movea.l (chooseTeamsHeader1stPart).l,a0
                 cmpa.l  #0,a0
                 bne.s   loc_13F20E
@@ -85771,7 +85771,7 @@ loc_13F20E:
                 beq.s   loc_13F228
                 jsr     StringCopy
 loc_13F228:
-                movea.l MENUENTRY_FG(a2),a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a2),a0
                 jsr     GetStringLength
                 move.w  d0,d1
                 movea.l (curCountryStr).l,a0
@@ -85860,11 +85860,11 @@ SetLeagueNames:
                 subq.w  #1,d7
 loc_13F382:
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
-                move.l  (a1)+,MENUENTRY_FG(a0)
+                move.l  (a1)+,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 movea.l MENUENTRY_FG(a0),a2
                 cmpi.b  #'.',(a2)
                 bne.s   loc_13F39A
-                move.w  #7,MENUENTRY_BG(a0)
+                move.w  #PINK_TO_BROWN_7,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_13F39A:
                 lea     56(a0),a0
                 dbf     d7,loc_13F382
@@ -85915,10 +85915,10 @@ loc_13F404:
 loc_13F418:
                 clr.w   4(a2)
                 move.l  (a1)+,MENUENTRY_FG(a2)
-                movea.l MENUENTRY_FG(a2),a0
-                cmpi.b  #46,(a0)
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a2),a0
+                cmpi.b  #'.',(a0)
                 bne.s   loc_13F430
-                move.w  #PINK_TO_BROWN_7,MENUENTRY_BG(a2)
+                move.w  #PINK_TO_BROWN_7,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a2)
 loc_13F430:
                 lea     56(a2),a2
                 cmpi.w  #87,MENUENTRY_ORDINAL(a2)
@@ -85973,7 +85973,7 @@ loc_13F4E6:
 ; ===== SelectTeamsCommon =====
 ; prototype: void __usercall SelectTeamsCommon(struct MenuEntry *entry@<a5>)
 SelectTeamsCommon:
-                movea.l MENUENTRY_FG(a5),a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a0
                 cmpi.b  #' ',(a0)
                 beq.w   locret_13F574
                 move.w  MENUENTRY_ORDINAL(a5),d0
@@ -85992,7 +85992,7 @@ loc_13F530:
 loc_13F53A:
                 move.w  d0,(selectedTeamIndex).l
                 move.w  #$FFFF,(selectedLeagueIndex).l
-                move.l  MENUENTRY_FG(a5),(selectedTeamText).l
+                move.l  MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),(selectedTeamText).l
                 clr.w   (chooseTeamsResult).l
                 clr.w   (viewSelectedTeams).l
                 clr.w   (changeTeams).l
@@ -86005,8 +86005,8 @@ locret_13F574:
 ; ===== SelectLeaguesCommon =====
 ; prototype: void __usercall SelectLeaguesCommon(struct MenuEntry *entry@<a5>)
 SelectLeaguesCommon:
-                movea.l MENUENTRY_FG(a5),a0
-                cmpi.b  #$20,(a0)       ; ' '
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a0
+                cmpi.b  #' ',(a0)
                 beq.w   locret_13F5D2
                 move.w  MENUENTRY_ORDINAL(a5),d0
                 move.w  d0,(lastSelectedTeam).l
@@ -86017,7 +86017,7 @@ SelectLeaguesCommon:
 loc_13F598:
                 move.w  d0,(selectedLeagueIndex).l
                 move.w  #$FFFF,(selectedTeamIndex).l
-                move.l  MENUENTRY_FG(a5),(selectedTeamText).l
+                move.l  MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),(selectedTeamText).l
                 clr.w   (chooseTeamsResult).l
                 clr.w   (viewSelectedTeams).l
                 clr.w   (changeTeams).l
@@ -86121,16 +86121,16 @@ loc_13F6FC:
                 clr.w   MENUENTRY_ISINVISIBLE(a5)
                 move.w  #1,MENUENTRY_ISINVISIBLE(a4)
                 move.w  #2,MENUENTRY_CONTENT(a5)
-                move.l  (playWhatStr).l,MENUENTRY_FG(a5)
+                move.l  (playWhatStr).l,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5)
 loc_13F714:
-                lea     ($3B36).w,a5
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$1308-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1308)(a5)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1308)).w,a5
+                clr.w   MENUENTRY_ISINVISIBLE(a5)
                 tst.w   (g_numSelectedTeams).l
                 bne.s   loc_13F72A
                 move.w  #1,MENUENTRY_ISINVISIBLE(a5)
 loc_13F72A:
-                lea     ($3BDE).w,a5
-                movea.l g_menuEntries+MENUENTRY_FG+$13B0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$13B0)(a5),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$13B0)).w,a5
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a1
                 move.w  (g_numSelectedTeams).l,d0
                 sub.w   (numNeededTeams).l,d0
                 beq.s   loc_13F772
@@ -86441,10 +86441,10 @@ loc_13FAAC:
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$70).w
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
                 lea     (g_menuEntries).w,a0
-                add.w   d7,g_menuEntries+MENUENTRY_Y-g_menuEntries(a0)
+                add.w   d7,MENUENTRY_Y(a0)
                 add.w   d7,$16(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
-                add.w   d7,g_menuEntries+MENUENTRY_Y+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a0)
+                add.w   d7,MENUENTRY_Y(a0)
                 add.w   d7,$16(a0)
 loc_13FADA:
                 cmpi.w  #1,d6
@@ -86453,8 +86453,8 @@ loc_13FADA:
                 bne.w   ClubTeams
                 bra.w   NationalTeams
 loc_13FAEE:
-                lea     ($2946).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$118-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 movea.l chooseTeamsHeader1stPart(pc),a0
                 cmpa.l  #0,a0
                 bne.s   loc_13FB08
@@ -87390,12 +87390,12 @@ loc_140214:
 ; prototype: void __usercall SelectFilesOnReturn()
 SelectFilesOnReturn:
                 lea     (g_menuEntries).w,a0
-                move.l  (menuTitle).l,MENUENTRY_FG(a0)
+                move.l  (menuTitle).l,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 tst.w   (savingFile).l
                 beq.s   loc_140266
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A80)).w,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
-                movea.l MENUENTRY_FG(a0),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 clr.b   (a1)
                 lea     (inputSaveFilename).l,a0
                 move.b  #46,d0
@@ -87480,7 +87480,7 @@ loc_140334:
 loc_140348:
                 clr.w   MENUENTRY_ISINVISIBLE(a2)
                 movea.l (a1)+,a0
-                movea.l MENUENTRY_FG(a2),a3
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a2),a3
 loc_140352:
                 move.b  (a0)+,(a3)+
                 cmpi.b  #$2E,-1(a0)     ; '.'
@@ -87562,7 +87562,7 @@ SelectFilesInputSaveFilenameOnSelect:
                 lea     (aCanOnlySaveMax).l,a0 ; "CAN ONLY SAVE MAXIMUM 45 FILES ON DISK"
                 jmp     ShowErrorMenu
 loc_14044E:
-                movea.l MENUENTRY_FG(a5),a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a0
                 move.w  #9,d0
                 move.w  #1,(g_allowExtraCharsFlag).l
                 movem.l a0,-(sp)
@@ -87580,7 +87580,7 @@ loc_140478:
                 bra.s   loc_140478
 loc_140486:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A80)).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (inputSaveFilename).l,a0
                 move.b  #46,d0
                 jsr     StringCopyUntilChar
@@ -87951,12 +87951,12 @@ continueMenu:
 ContinueInit:
                 movea.l (errorText).l,a1
                 lea     (g_menuEntries).w,a0
-                move.l  a1,MENUENTRY_FG(a0)
+                move.l  a1,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 tst.w   (errorPromptsEnabled).l
                 bne.s   locret_14098C
                 lea     (g_menuEntries).w,a0
-                move.w  #7,MENUENTRY_BG(a0)
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$38).w
+                move.w  #7,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0) ; gray
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$38).w ; hide continue button
                 jsr     DrawMenu
                 jmp     SetExitMenuFlag
 locret_14098C:
@@ -88048,25 +88048,25 @@ loc_140A38:
                 move.w  d7,MENUENTRY_DWWIDTH(a0)
                 lsr.w   #1,d7
                 sub.w   d7,MENUENTRY_X(a0)
-                move.l  (promptHeader).l,MENUENTRY_FG(a0)
+                move.l  (promptHeader).l,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
 loc_140A4E:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
-                move.l  (whatIsChanging).l,MENUENTRY_FG(a0)
+                move.l  (whatIsChanging).l,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
-                move.l  (continueText).l,MENUENTRY_FG(a0)
+                move.l  (continueText).l,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
-                move.l  (abortText).l,MENUENTRY_FG(a0)
+                move.l  (abortText).l,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 bne.s   loc_140A7C
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
                 rts
 loc_140A7C:
                 cmpi.l  #aAbort,(abortText).l ; "ABORT" ...
                 bne.s   loc_140A9C
-                lea     ($28D6).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$A8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$A,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #RED_10,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_140A9C:
                 tst.w   (contAbortDefault).l
                 beq.s   locret_140AAE
@@ -88407,8 +88407,8 @@ loc_140D24:
 loc_140D2C:
                 lea     (aReplayA).l,a0 ; "REPLAY %a"
 loc_140D32:
-                lea     ($2A96).w,a1
-                movea.l g_menuEntries+MENUENTRY_FG+$268-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)(a1),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1),a1
                 jsr     PrintFormatted
                 lea     (aSaveA).l,a0   ; "SAVE %a"
                 lea     (saveFileTitle).l,a1
@@ -91285,18 +91285,18 @@ OffersAfterDrawCommon:
                 move.w  2(a5),d7
                 sub.w   2(a0),d7
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
-                move.w  $16(a5),g_menuEntries+MENUENTRY_Y+$188-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)(a0)
+                move.w  $16(a5),MENUENTRY_Y(a0)
                 move.w  #1,4(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
-                move.w  $16(a5),g_menuEntries+MENUENTRY_Y+$1C0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)(a0)
+                move.w  $16(a5),MENUENTRY_Y(a0)
                 addq.w  #2,$16(a0)
                 move.w  #1,4(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
-                move.w  $16(a5),g_menuEntries+MENUENTRY_Y+$1F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)(a0)
+                move.w  $16(a5),MENUENTRY_Y(a0)
                 addi.w  #$B,$16(a0)
                 move.w  #1,4(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
-                move.w  $16(a5),g_menuEntries+MENUENTRY_Y+$230-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)(a0)
+                move.w  $16(a5),MENUENTRY_Y(a0)
                 addq.w  #7,$16(a0)
                 move.w  #1,4(a0)
                 move.w  d7,$26(a0)
@@ -91318,8 +91318,8 @@ OffersAfterDrawCommon:
                 beq.s   loc_1431E6
                 move.w  #6,d1
 loc_1431E6:
-                lea     ($29B6).w,a0
-                move.w  g_menuEntries+MENUENTRY_STRINGFLAGS+$188-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                move.w  MENUENTRY_STRINGFLAGS(a0),d0
                 andi.w  #$FFF0,d0
                 or.w    d1,d0
                 move.w  d0,$24(a0)
@@ -91340,7 +91340,7 @@ loc_1431E6:
                 move.w  d0,$24(a0)
                 lea     $38(a0),a0
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
-                move.w  $16(a5),g_menuEntries+MENUENTRY_Y+$188-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)(a0)
+                move.w  $16(a5),MENUENTRY_Y(a0)
                 move.l  #aAOfferForB,(dword_14350A).l ; "%a OFFER FOR %b" ...
                 move.l  #aAOfferForBAndC,(dword_14350E).l ; "%a OFFER FOR %b AND %c" ...
                 move.l  #aAExchangeOffer,(dword_143512).l ; "%a EXCHANGE OFFER FOR %b" ...
@@ -91429,18 +91429,18 @@ loc_14342C:
                 cmpi.w  #$2F,d0         ; '/'
                 bhi.s   loc_143478
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a1
-                addq.w  #5,g_menuEntries+MENUENTRY_Y+$1C0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)(a1)
+                addq.w  #5,MENUENTRY_Y(a1)
                 movea.l $26(a1),a1
                 jsr     StringCopy
-                lea     ($2A26).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$1F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)(a0),a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a0
                 clr.b   (a0)
                 bra.w   loc_1434FA
 loc_143478:
-                lea     ($2A26).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$1F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)(a0),a6
-                lea     ($29EE).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$1C0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)(a0),a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a6
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a0
                 cmpa.l  (dword_14350E).l,a1
                 beq.s   loc_1434B0
                 cmpa.l  (dword_143512).l,a1
@@ -91779,7 +91779,7 @@ TransferPlayerInit:
                 bhi.s   loc_14378E
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).w
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
-                subi.w  #$3C,g_menuEntries+MENUENTRY_X+$268-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)(a0) ; '<'
+                subi.w  #$3C,MENUENTRY_X(a0) ; '<'
                 bra.s   loc_1437B0
 loc_14378E:
                 tst.w   (teamWillingToSellOrExchange).l
@@ -91792,8 +91792,8 @@ loc_14378E:
 loc_1437B0:
                 lea     (managerSexBuffer).l,a2
                 lea     (managerSurnameBuffer).l,a3
-                lea     ($2866).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aDearAB).l,a0  ; "DEAR %a %b"
                 jsr     PrintFormatted
                 lea     sellExchangeStrings(pc),a4
@@ -91808,15 +91808,15 @@ loc_1437E8:
                 move.w  teamOffering(pc),d0
                 bsr.w   GetTeamPointer
                 lea     5(a0),a2
-                lea     ($289E).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$70-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 movea.l (a4),a0
                 jsr     PrintFormatted
                 move.w  (selTeamNumber).l,d0
                 bsr.w   GetTeamPointer
                 lea     5(a0),a2
-                lea     ($28D6).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$A8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aInADealWithAFo).l,a0 ; "IN A DEAL WITH %a FOR"
                 jsr     PrintFormatted
                 move.w  (teamWillingToSellOrExchange).l,d0
@@ -91825,14 +91825,14 @@ loc_1437E8:
                 lea     (fundsBuffer).l,a1
                 mulu.w  #$3E8,d0
                 jsr     Int2Pounds
-                lea     ($290E).w,a0
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$E0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                clr.w   MENUENTRY_ISINVISIBLE(a0)
                 movea.l $26(a0),a1
                 lea     (fundsBuffer).l,a2
                 lea     (aUnlessTheOffer).l,a0 ; "UNLESS THE OFFER IS RAISED BY %a"
                 jsr     PrintFormatted
-                lea     ($2946).w,a0
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$118-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                clr.w   MENUENTRY_ISINVISIBLE(a0)
                 movea.l $26(a0),a1
                 lea     (fundsBuffer).l,a2
                 lea     (aWeHereAtAWould).l,a0 ; "\x00WE HERE AT %a WOULD LIKE TO OFFER Y"...
@@ -91844,22 +91844,22 @@ loc_14387E:
                 lea     (a4,d0.w),a4
                 tst.l   (a4)
                 beq.s   loc_1438A0
-                lea     ($290E).w,a0
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$E0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                clr.w   MENUENTRY_ISINVISIBLE(a0)
                 movea.l $26(a0),a1
                 movea.l (a4),a0
                 jsr     StringCopy
 loc_1438A0:
                 tst.l   4(a4)
                 beq.s   loc_1438BC
-                lea     ($2946).w,a0
-                clr.w   g_menuEntries+MENUENTRY_ISINVISIBLE+$118-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                clr.w   MENUENTRY_ISINVISIBLE(a0)
                 movea.l $26(a0),a1
                 movea.l 4(a4),a0
                 jsr     StringCopy
 loc_1438BC:
-                lea     ($2A26).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$1F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  offerAmount(pc),d0
                 mulu.w  #$3E8,d0
                 jsr     Int2Pounds
@@ -92240,21 +92240,21 @@ thirdPartyOfferMenu:
 ; prototype: void __usercall ThirdPartyOfferMenuInit(MenuEntry *entry@<a5>)
 ThirdPartyOfferMenuInit:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  offerAmount(pc),d0
                 mulu.w  #1000,d0
                 jsr     Int2Pounds
                 lea     (managerSexBuffer).l,a2
                 lea     (managerSurnameBuffer).l,a3
-                lea     ($2866).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aDearAB).l,a0  ; "DEAR %a %b"
                 jsr     PrintFormatted
                 move.w  teamOffering(pc),d0
                 bsr.w   GetTeamPointer
                 lea     TEAMFILE_TEAMNAME(a0),a2
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 tst.w   (offerStatus).l
                 bne.s   loc_143C14
                 lea     (aWeHereAtAWishT).l,a0 ; "WE HERE AT %a WISH TO BUY"
@@ -92280,9 +92280,9 @@ loc_143C66:
                 movem.l a2,-(sp)
                 jsr     PrintFormatted
                 movem.l (sp)+,a2
-                lea     ($28D6).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
-                movea.l MENUENTRY_FG(a0),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 movea.l a3,a0
                 jsr     PrintFormatted
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
@@ -92291,8 +92291,8 @@ loc_143C90:
                 move.w  (selTeamNumber).l,d0
                 bsr.w   GetTeamPointer
                 lea     TEAMFILE_TEAMNAME(a0),a2
-                lea     ($290E).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aFromAInExchang).l,a0 ; "FROM %a IN EXCHANGE FOR"
                 jsr     PrintFormatted
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).w
@@ -92727,21 +92727,21 @@ playerOffersMenu:
 ; prototype: void __usercall PlayerOffersInit(MenuEntry *entry@<a5>)
 PlayerOffersInit:
                 bsr.w   sub_14441E
-                lea     ($2866).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 jsr     GetBankBalance
                 move.w  (selTeamNumber).l,d0
                 bsr.w   GetTeamPointer
                 lea     5(a0),a2
-                lea     ($28D6).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$A8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aWeHereAtAWishT).l,a0 ; "WE HERE AT %a WISH TO BUY"
                 jsr     PrintFormatted
                 move.w  teamOffering(pc),d0
                 bsr.w   GetTeamPointer
                 lea     5(a0),a2
-                lea     ($290E).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$E0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aFromAInExchang).l,a0 ; "FROM %a IN EXCHANGE FOR"
                 jsr     PrintFormatted
                 bsr.w   sub_1440B2
@@ -92751,21 +92751,21 @@ PlayerOffersInit:
 ; prototype: void __usercall sub_1440B2()
 sub_1440B2:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
-                move.l  #aPlus,g_menuEntries+MENUENTRY_FG+$1C0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)(a0) ; "+" ...
+                move.l  #aPlus,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "+" ...
                 tst.w   (numExtraPlayersWanted).l
                 bmi.s   loc_1440CE
-                move.l  #aMinus,$26(a0) ; "-"
+                move.l  #aMinus,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "-" ...
 loc_1440CE:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a1
-                move.l  #aPlus,$26(a0)  ; "+"
-                move.l  #aPlus,$26(a1)  ; "+"
+                move.l  #aPlus,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "+" ...
+                move.l  #aPlus,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1) ; "+" ...
                 tst.w   (word_141538).l
                 bmi.s   loc_144106
-                move.l  #aMinus,$26(a0) ; "-"
+                move.l  #aMinus,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "-" ...
                 tst.w   (word_14153A).l
                 bmi.s   loc_144106
-                move.l  #aMinus,$26(a1) ; "-"
+                move.l  #aMinus,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1) ; "-" ...
 loc_144106:
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).w
                 tst.w   (numExtraPlayersWanted).l
@@ -93022,8 +93022,8 @@ loc_14440E:
 ; ===== sub_14441E =====
 ; prototype: void __usercall sub_14441E()
 sub_14441E:
-                lea     ($2A26).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$1F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  offerAmount(pc),d0
                 mulu.w  #$3E8,d0
                 jmp     Int2Pounds
@@ -93473,19 +93473,19 @@ ViewSquadInit:
                 movea.l (squadTeamPtr).l,a0
                 cmp.w   (a0),d0
                 bne.s   loc_14478A
-                cmpi.w  #$10,(careerNumPlayers).l
+                cmpi.w  #16,(careerNumPlayers).l
                 beq.s   loc_14478A
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$460).w
-                cmpi.w  #$11,(careerNumPlayers).l
+                cmpi.w  #17,(careerNumPlayers).l
                 bls.s   loc_14478A
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$498).w
 loc_14478A:
                 lea     (g_menuEntries).w,a0
-                move.l  (viewSquadTitle).l,MENUENTRY_FG(a0)
+                move.l  (viewSquadTitle).l,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
                 movea.l (squadTeamPtr).l,a1
                 lea     5(a1),a1
-                move.l  a1,MENUENTRY_FG(a0)
+                move.l  a1,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 tst.w   (word_1448EE).l
                 beq.s   loc_1447C4
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$70).w
@@ -93932,7 +93932,7 @@ BuyOtherPlayersInit:
 ; prototype: void __usercall BuyOtherPlayersFinish()
 BuyOtherPlayersFinish:
                 lea     (g_menuEntries).w,a0
-                move.l  (dword_144BBA).l,g_menuEntries+MENUENTRY_FG-g_menuEntries(a0)
+                move.l  (dword_144BBA).l,$26(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
                 movea.l (dword_144BBE).l,a1
                 lea     5(a1),a1
@@ -94399,8 +94399,8 @@ ShowPlayerMarket:
 loc_144EE0:
                 lea     (g_menuEntries).w,a0
                 move.l  a1,g_menuEntries+MENUENTRY_FG-g_menuEntries(a0)
-                lea     ($2866).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 jsr     GetBankBalance
                 bsr.w   sub_145084
                 rts
@@ -94523,22 +94523,22 @@ word_14507E:
 sub_145084:
                 tst.w   (word_145352).l
                 beq.s   loc_1450AA
-                lea     ($297E).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$D,d0
-                move.w  d0,$1E(a0)
-                lea     ($297E).w,a0
-                clr.w   g_menuEntries+MENUENTRY_ISDISABLED+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0)
+                addi.w  #BRIGHT_BLUE_TO_BLUE_13,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                clr.w   MENUENTRY_ISDISABLED(a0)
                 rts
 loc_1450AA:
-                lea     ($297E).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0),d0
-                andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,$1E(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISDISABLED+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0)
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
+                andi.w  #$FFF0,d0
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                move.w  #1,MENUENTRY_ISDISABLED(a0)
                 rts
 loc_1450CA:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
@@ -94899,8 +94899,8 @@ buyPlayerMenu:
 ; ===== BuyPlayerInit =====
 ; prototype: void __usercall BuyPlayerInit()
 BuyPlayerInit:
-                lea     ($2866).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 jsr     GetBankBalance
                 rts
 
@@ -95313,8 +95313,8 @@ TransferMarketFinish:
 ; ===== TransferMenuSetBankState =====
 ; prototype: char __usercall TransferMenuSetBankState@<d0>()
 TransferMenuSetBankState:
-                lea     ($2866).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 jmp     GetBankBalance
 
 ; ===== BuyPlayerMenu =====
@@ -95513,13 +95513,13 @@ EnableDisableOffers:
 loc_145A02:
                 tst.w   (numOffers).l
                 bne.s   locret_145A2C
-                move.l  #aNoOffers,MENUENTRY_FG(a1) ; "NO OFFERS" ...
+                move.l  #aNoOffers,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1) ; "NO OFFERS" ...
                 move.w  #1,MENUENTRY_ISDISABLED(a1)
-                lea     ($28D6).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 locret_145A2C:
                 rts
 
@@ -97470,11 +97470,11 @@ loc_146F9E:
 ; prototype: void __usercall SelectNationalTeamFinish()
 SelectNationalTeamFinish:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$850)).w,a0
-                subi.w  #$19,g_menuEntries+MENUENTRY_X+$850-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$850)(a0)
+                subi.w  #$19,MENUENTRY_X(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISDISABLED+$188-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)(a0)
-                lea     ($2866).w,a0
-                move.w  g_menuEntries+MENUENTRY_STRINGFLAGS+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a0),d0
+                move.w  #1,MENUENTRY_ISDISABLED(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                move.w  MENUENTRY_STRINGFLAGS(a0),d0
                 bset    #$D,d0
                 move.w  d0,$24(a0)
                 bsr.w   sub_146FD4
@@ -97494,8 +97494,8 @@ sub_146FD4:
                 bls.s   loc_146FFC
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$578).w
 loc_146FFC:
-                lea     ($282E).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG-g_menuEntries(a0),a1
+                lea     (g_menuEntries).w,a0
+                movea.l MENUENTRY_FG(a0),a1
                 lea     (aASquad).l,a0  ; "%a SQUAD"
                 lea     ((careerTeam+5)).l,a2
                 jsr     PrintFormatted
@@ -97504,7 +97504,7 @@ loc_146FFC:
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$70).w
                 lea     (g_menuEntries).w,a0
-                move.w  #$1A,g_menuEntries+MENUENTRY_Y-g_menuEntries(a0)
+                move.w  #$1A,MENUENTRY_Y(a0)
                 tst.w   (word_1473C0).l
                 beq.s   loc_14705A
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
@@ -97512,7 +97512,7 @@ loc_146FFC:
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$70).w
                 lea     (g_menuEntries).w,a0
-                move.w  #$12,g_menuEntries+MENUENTRY_Y-g_menuEntries(a0)
+                move.w  #$12,MENUENTRY_Y(a0)
 loc_14705A:
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$38).w
                 tst.w   (word_1473C0).l
@@ -97520,8 +97520,8 @@ loc_14705A:
                 cmpi.w  #$14,(careerNumPlayers).l
                 beq.s   locret_1470A2
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$38).w
-                lea     ($2866).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aSelect1MoreInt).l,a0 ; "SELECT 1 MORE INTERNATIONAL SQUAD PLAYE"...
                 move.w  #$14,d0
                 sub.w   (careerNumPlayers).l,d0
@@ -97591,10 +97591,10 @@ loc_147132:
 loc_147138:
                 dbf     d1,loc_147132
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
-                move.l  #aRemovePlayer,g_menuEntries+MENUENTRY_FG+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0) ; "REMOVE PLAYER" ...
+                move.l  #aRemovePlayer,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "REMOVE PLAYER" ...
                 cmpi.w  #1,d2
                 beq.s   locret_147156
-                move.l  #aRemovePlayers,$26(a0) ; "REMOVE PLAYERS"
+                move.l  #aRemovePlayers,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "REMOVE PLAYERS" ...
 locret_147156:
                 rts
 
@@ -99371,7 +99371,7 @@ loc_14844C:
                 cmp.w   (pmMenuNumPlayers).l,d1
                 bcc.s   loc_14848A
 loc_148462:
-                lea     ($3046).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$818)).w,a1
                 move.w  MENUENTRY_STRINGFLAGS(a1),d0
                 bset    #13,d0
                 move.w  d0,MENUENTRY_STRINGFLAGS(a1)
@@ -99397,13 +99397,13 @@ loc_14849C:
 ; "view result", "play match", "view match", "coach match"
 ; Set background color to green if match is simulated ("view result"), red otherwise.
 SetGameStartButtonText:
-                lea     ($2A26).w,a0
-                move.w  MENUENTRY_BG(a0),d0
-                andi.w  #$FFF0,d0
-                addi.w  #$E,d0
-                move.w  d0,MENUENTRY_BG(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
-                move.l  #aViewResult,MENUENTRY_FG(a0) ; "VIEW RESULT" ...
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
+                andi.w  #$FFF0,d0
+                addi.w  #YELLOW_GREEN_BLACK_14,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                move.l  #aViewResult,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "VIEW RESULT" ...
                 tst.w   (squadChangesAllowed).l
                 beq.s   locret_148520
                 movea.l (playMatchTeam1Ptr).l,a1
@@ -99413,19 +99413,19 @@ SetGameStartButtonText:
                 cmpi.b  #TEAM_COMPUTER,TEAMFILE_TEAMCONTROLS(a2)
                 beq.s   loc_148504
 loc_1484EA:
-                move.l  #aPlayCoachMatch,MENUENTRY_FG(a0) ; "PLAY/COACH MATCH" ...
+                move.l  #aPlayCoachMatch,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "PLAY/COACH MATCH" ...
                 cmpi.b  #TEAM_PLAYER_COACH,TEAMFILE_TEAMCONTROLS(a1)
                 beq.s   loc_14850C
-                move.l  #aCoachMatch,MENUENTRY_FG(a0) ; "COACH MATCH" ...
+                move.l  #aCoachMatch,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "COACH MATCH" ...
                 bra.s   loc_14850C
 loc_148504:
-                move.l  #aViewMatch,MENUENTRY_FG(a0) ; "VIEW MATCH" ...
+                move.l  #aViewMatch,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "VIEW MATCH" ...
 loc_14850C:
-                lea     ($2A26).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #10,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #RED_10,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 locret_148520:
                 rts
 
@@ -99452,10 +99452,10 @@ loc_14855C:
                 move.w  d0,MENUENTRY_STRINGFLAGS(a0)
                 tst.w   (g_trainingGame).l
                 beq.s   loc_148590
-                move.l  #aViewATeam,MENUENTRY_FG(a0) ; "VIEW A TEAM" ...
+                move.l  #aViewATeam,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "VIEW A TEAM" ...
                 tst.w   (is_A_team).l
                 bne.s   loc_148590
-                move.l  #aViewBTeam,MENUENTRY_FG(a0) ; "VIEW B TEAM" ...
+                move.l  #aViewBTeam,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "VIEW B TEAM" ...
 loc_148590:
                 movea.l (playMatchTeam1Ptr).l,a0
                 move.w  (playMatchExcludeFlags).l,d0
@@ -99521,8 +99521,8 @@ loc_148654:
                 jsr     GetNumberOfSubstitutes
                 cmpi.w  #1,d0
                 beq.s   loc_1486D0
-                lea     ($29B6).w,a0
-                move.w  g_menuEntries+MENUENTRY_STRINGFLAGS+$188-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                move.w  MENUENTRY_STRINGFLAGS(a0),d0
                 bset    #$D,d0
                 move.w  d0,$24(a0)
                 movea.l (playMatchTeam1Ptr).l,a0
@@ -99595,7 +99595,7 @@ loc_14879C:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$850)).w,a0
                 clr.w   d1
 loc_1487A6:
-                move.w  $1E(a0),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 tst.w   (viewingOpponentTeam).l
                 bne.s   loc_1487BE
@@ -99604,20 +99604,20 @@ loc_1487A6:
 loc_1487BE:
                 cmp.b   TEAMFILE_TACTICS(a6),d1
                 beq.s   loc_1487CA
-                ori.w   #9,d0
+                ori.w   #PINK_TO_BROWN_9,d0
                 bra.s   loc_1487E0
 loc_1487CA:
-                ori.w   #1,d0
+                ori.w   #PINK_TO_BROWN_1,d0
                 bra.s   loc_1487E0
 loc_1487D0:
                 cmp.b   TEAMFILE_TACTICS(a6),d1
                 bne.s   loc_1487DC
-                ori.w   #5,d0
+                ori.w   #ORANGE_TO_BROWN_5,d0
                 bra.s   loc_1487E0
 loc_1487DC:
-                ori.w   #4,d0
+                ori.w   #ORANGE_TO_BROWN_4,d0
 loc_1487E0:
-                move.w  d0,MENUENTRY_BG(a0)
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 clr.w   MENUENTRY_ISDISABLED(a0)
                 tst.w   (showingCpuTeams).l
                 bne.s   loc_1487F8
@@ -99681,7 +99681,7 @@ loc_148894:
                 jsr     ExtractSurname
                 movem.l (sp)+,d1-d2/d7/a5-a6
 loc_1488A6:
-                movea.l MENUENTRY_FG(a5),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a1
                 jsr     StringCopy
                 lea     MENUENTRY_SIZE(a5),a5
                 addq.w  #1,d1
@@ -99712,39 +99712,39 @@ SetVariableButtons:
                 bsr.w   SetGameStartButtonText
                 bsr.s   ShowUseMatchTeamIfTraining
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
-                move.l  #aViewOppo,MENUENTRY_FG(a0) ; "VIEW OPPO" ...
+                move.l  #aViewOppo,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "VIEW OPPO" ...
                 tst.w   (viewingOpponentTeam).l
                 beq.s   loc_148902
-                move.l  #aViewTeam,MENUENTRY_FG(a0) ; "VIEW TEAM" ...
+                move.l  #aViewTeam,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "VIEW TEAM" ...
 loc_148902:
                 tst.w   (showingCpuTeams).l
                 beq.s   loc_148918
-                move.l  #aViewOtherTeam,MENUENTRY_FG(a0) ; "VIEW OTHER TEAM" ...
+                move.l  #aViewOtherTeam,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "VIEW OTHER TEAM" ...
                 move.w  #93,MENUENTRY_DWWIDTH(a0)
 loc_148918:
-                lea     ($29B6).w,a0
-                move.w  g_menuEntries+MENUENTRY_STRINGFLAGS+$188-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                move.w  MENUENTRY_STRINGFLAGS(a0),d0
                 bclr    #$D,d0
                 move.w  d0,MENUENTRY_STRINGFLAGS(a0)
                 tst.w   (g_trainingGame).l
                 beq.s   loc_148972
-                move.l  #aViewATeam,MENUENTRY_FG(a0) ; "VIEW A TEAM" ...
+                move.l  #aViewATeam,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "VIEW A TEAM" ...
                 tst.w   (is_A_team).l
                 bne.s   loc_148972
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
-                move.l  #aViewBTeam,MENUENTRY_FG(a0) ; "VIEW B TEAM" ...
+                move.l  #aViewBTeam,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "VIEW B TEAM" ...
                 move.w  #1,d0
                 lea     (currentTeam).l,a0
                 jsr     GetNumberOfSubstitutes
                 cmpi.w  #1,d0
                 beq.s   loc_148972
-                lea     ($29B6).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
                 move.w  MENUENTRY_STRINGFLAGS(a0),d0
                 bset    #$D,d0
                 move.w  d0,MENUENTRY_STRINGFLAGS(a0)
 loc_148972:
-                lea     ($289E).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 tst.w   (g_trainingGame).l
                 beq.s   loc_14898A
                 tst.w   (is_A_team).l
@@ -99777,11 +99777,11 @@ loc_1489C2:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
                 move.w  #204,MENUENTRY_Y(a0)
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
-                lea     ($2866).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$C,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #ORANGE_TO_BROWN_12,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 movea.l (playMatchTeam2Ptr).l,a6
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).w
                 movea.l (playMatchTeam2Ptr).l,a0
@@ -99811,31 +99811,31 @@ loc_148A4A:
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
 loc_148A88:
-                move.l  #aCoach_1,MENUENTRY_FG(a0) ; "\x01COACH:" ...
+                move.l  #aCoach_1,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "\x01COACH:" ...
                 cmpi.b  #TEAM_PLAYER_COACH,TEAMFILE_TEAMCONTROLS(a1)
                 bne.s   loc_148AA0
-                move.l  #aPlayer_1,MENUENTRY_FG(a0) ; "\x02PLAYER" ...
+                move.l  #aPlayer_1,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "\x02PLAYER" ...
 loc_148AA0:
-                lea     ($297E).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$D,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #BRIGHT_BLUE_TO_BLUE_13,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 cmpi.b  #TEAM_PLAYER_COACH,TEAMFILE_TEAMCONTROLS(a1)
                 bne.s   loc_148AD0
-                lea     ($297E).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #11,d0          ; blue
-                move.w  d0,$1E(a0)
+                addi.w  #BLUE_TO_PURPLE_11,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_148AD0:
                 tst.w   (squadChangesAllowed).l
                 bne.s   loc_148AE2
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
 loc_148AE2:
-                lea     ($297E).w,a0
-                clr.w   g_menuEntries+MENUENTRY_ISDISABLED+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                clr.w   MENUENTRY_ISDISABLED(a0)
                 tst.w   (is_A_team).l
                 beq.s   loc_148AF8
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
@@ -99853,38 +99853,38 @@ loc_148B1C:
                 cmpi.b  #TEAM_PLAYER_COACH,TEAMFILE_TEAMCONTROLS(a1)
                 beq.s   loc_148B34
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
-                move.w  #1,g_menuEntries+MENUENTRY_ISDISABLED+$150-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)(a0)
+                move.w  #1,MENUENTRY_ISDISABLED(a0)
 loc_148B34:
-                lea     ($2866).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$B,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #BLUE_TO_PURPLE_11,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 movea.l (playMatchTeam1Ptr).l,a1
                 cmpi.b  #TEAM_PLAYER_COACH,TEAMFILE_TEAMCONTROLS(a1)
                 beq.s   loc_148B86
-                lea     ($2866).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #13,d0          ; light blue
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #BRIGHT_BLUE_TO_BLUE_13,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 cmpi.b  #TEAM_COACH,TEAMFILE_TEAMCONTROLS(a1)
                 beq.s   loc_148B86
-                lea     ($2866).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #12,d0          ; dark
-                move.w  d0,$1E(a0)
+                addi.w  #ORANGE_TO_BROWN_12,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_148B86:
                 tst.w   (g_trainingGame).l
                 beq.s   loc_148BAA
                 cmpi.b  #TEAM_COMPUTER,TEAMFILE_TEAMCONTROLS(a1)
                 bne.s   loc_148BAA
-                lea     ($2866).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$38-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #13,d0          ; light blue
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #BRIGHT_BLUE_TO_BLUE_13,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_148BAA:
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$230).w
                 tst.w   (showingCpuTeams).l
@@ -99918,10 +99918,10 @@ loc_148C06:
                 beq.s   loc_148C2A
                 lea     (team_B_name).l,a1
 loc_148C2A:
-                move.l  a1,MENUENTRY_FG(a0)
+                move.l  a1,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
                 lea     TEAMFILE_COACHNAME(a6),a1
-                move.l  a1,MENUENTRY_FG(a0)
+                move.l  a1,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 rts
 
 ; ===== DrawPlayerEntries =====
@@ -99941,15 +99941,15 @@ DrawPlayerEntries:
                 subq.w  #5,d7
                 add.w   (maxSubstitutesEntries).l,d7
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addq.w  #8,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addq.w  #BLUE_TO_BLACK_8,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addq.w  #8,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addq.w  #BLUE_TO_BLACK_8,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.w   loc_148DBE
 loc_148C7E:
                 clr.w   d5
@@ -99962,39 +99962,39 @@ loc_148C7E:
                 tst.w   d7
                 beq.s   loc_148CF4
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #13,d0
-                move.w  d0,30(a0)
+                addi.w  #BRIGHT_BLUE_TO_BLUE_13,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #13,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #BRIGHT_BLUE_TO_BLUE_13,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.w   loc_148DBE
 loc_148CC8:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #10,d0
+                addi.w  #RED_10,d0
                 move.w  d0,30(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #10,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #RED_10,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.w   loc_148DBE
 loc_148CF4:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #14,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #YELLOW_GREEN_BLACK_14,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #14,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #YELLOW_GREEN_BLACK_14,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.w   loc_148DBE
 loc_148D20:
                 tst.w   (viewingOpponentTeam).l
@@ -100005,41 +100005,41 @@ loc_148D20:
                 beq.s   loc_148D8C
 loc_148D36:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #11,d0
-                move.w  d0,$1E(a0)
+                addi.w  #BLUE_TO_PURPLE_11,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #11,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #BLUE_TO_PURPLE_11,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.s   loc_148DBE
 loc_148D60:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #12,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #ORANGE_TO_BROWN_12,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #12,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #ORANGE_TO_BROWN_12,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.w   loc_148DBE
 loc_148D8C:
                 cmpi.w  #5,(maxSubstitutesEntries).l
                 bls.s   loc_148D36
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #14,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #YELLOW_GREEN_BLACK_14,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #14,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #YELLOW_GREEN_BLACK_14,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_148DBE:
                 movea.l (playMatchTeam1Ptr).l,a0
                 tst.w   (viewingOpponentTeam).l
@@ -100058,34 +100058,34 @@ loc_148DD2:
                 movem.l (sp)+,d1
                 beq.s   loc_148E22
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #10,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #RED_10,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_SPRITE1(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #10,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #RED_10,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_148E22:
                 tst.w   (viewingOpponentTeam).l
                 bne.s   loc_148E56
                 cmp.w   (selectedPlayerPosition).l,d1
                 bne.s   loc_148E56
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addq.w  #6,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addq.w  #ORANGE_TO_BROWN_6,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addq.w  #6,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addq.w  #ORANGE_TO_BROWN_6,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_148E56:
                 move.w  MENUENTRY_Y(a5),d7
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
-                move.w  d7,g_menuEntries+MENUENTRY_Y+$6C8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)(a0)
+                move.w  d7,MENUENTRY_Y(a0)
                 move.w  (playMatchExcludeFlags).l,d0
                 movem.l d1,-(sp)
                 jsr     sub_13A748
@@ -100100,10 +100100,10 @@ loc_148E56:
                 cmp.b   (a1,d1.w),d0
                 bhi.s   loc_148EA4
                 beq.s   loc_148EAA
-                move.w  #SPR_NOT_CHECK_SMALL,MENUENTRY_FG(a0)
+                move.w  #SPR_NOT_CHECK_SMALL,MENUENTRY_FG+ENTRYTYPE2UNION_SPRITE2(a0)
                 bra.s   loc_148EAA
 loc_148EA4:
-                move.w  #SPR_CHECK_SMALL,MENUENTRY_FG(a0)
+                move.w  #SPR_CHECK_SMALL,MENUENTRY_FG+ENTRYTYPE2UNION_SPRITE2(a0)
 loc_148EAA:
                 movea.l (currentSelectedPlayerIndexPtr).l,a2
                 move.w  (a2),d0
@@ -100122,8 +100122,8 @@ loc_148EE6:
                 bne.s   loc_148F00
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$818)).w,a2
                 move.w  MENUENTRY_Y(a0),MENUENTRY_Y(a2)
-                move.w  MENUENTRY_BG(a0),MENUENTRY_BG(a2)
-                move.w  MENUENTRY_FG(a0),MENUENTRY_FG(a2)
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a2)
+                move.w  MENUENTRY_FG+ENTRYTYPE2UNION_SPRITE2(a0),MENUENTRY_FG+ENTRYTYPE2UNION_SPRITE2(a2)
 loc_148F00:
                 lea     MENUENTRY_SIZE(a0),a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
@@ -100131,7 +100131,7 @@ loc_148F00:
                 bne.s   loc_148F1C
                 clr.w   d0
                 move.b  PLAYERFILE_SHIRTNUMBER+$4C(a6),d0
-                move.w  d0,MENUENTRY_FG(a0)
+                move.w  d0,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
 loc_148F1C:
                 move.w  d7,MENUENTRY_Y(a0)
@@ -100144,17 +100144,17 @@ loc_148F1C:
                 movem.l (sp)+,d6-d7/a6
                 movea.l a0,a1
                 movea.l (sp)+,a0
-                move.l  a1,MENUENTRY_FG(a0)
+                move.l  a1,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 move.w  d7,MENUENTRY_Y(a0)
                 lea     MENUENTRY_SIZE(a0),a0
                 lea     (playerPositionsStringTable).l,a2
                 move.b  PLAYERFILE_POSITIONANDFACE+$4C(a6),d0
                 andi.w  #%11100000,d0
                 lsr.w   #3,d0
-                move.l  (a2,d0.w),MENUENTRY_FG(a0)
+                move.l  (a2,d0.w),MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 move.w  d7,MENUENTRY_Y(a0)
                 lea     MENUENTRY_SIZE(a0),a0
-                movea.l MENUENTRY_FG(a0),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 jsr     FormTopSkillsString
                 move.w  d7,MENUENTRY_Y(a0)
                 lea     MENUENTRY_SIZE(a0),a0
@@ -100194,7 +100194,7 @@ loc_148FEA:
                 clr.w   4(a0)
                 lea     MENUENTRY_SIZE(a0),a0
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a5
-                move.w  #6,d0
+                move.w  #6,d0           ; draw 6 items. 31-37
                 jmp     DrawMultipleItems
 
 ; ===== RedrawPlayerNames =====
@@ -100258,10 +100258,10 @@ UpdateCheckMarkSprite:
 locret_1490C6:
                 rts
 loc_1490C8:
-                move.w  #SPR_NOT_CHECK_BIG,MENUENTRY_FG(a0)
+                move.w  #SPR_NOT_CHECK_BIG,MENUENTRY_FG+ENTRYTYPE2UNION_SPRITE2(a0)
                 bra.s   loc_1490D6
 loc_1490D0:
-                move.w  #SPR_CHECK_BIG,MENUENTRY_FG(a0)
+                move.w  #SPR_CHECK_BIG,MENUENTRY_FG+ENTRYTYPE2UNION_SPRITE2(a0)
 loc_1490D6:
                 move.w  MENUENTRY_STRINGFLAGS(a0),d1
                 bset    #$D,d1
@@ -101472,7 +101472,7 @@ sub_14A032:
                 cmp.w   (numJobOffers).l,d7
                 bcc.w   locret_14A11A
                 clr.w   6(a5)
-                lea     ($2B76).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).w,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   $3C(a0)
                 clr.w   d1
@@ -101480,24 +101480,24 @@ sub_14A032:
                 bne.s   loc_14A06C
                 move.w  #$D,d5
 loc_14A06C:
-                lea     ($2B76).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 or.w    d5,d0
-                move.w  d0,$1E(a0)
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 lea     $38(a0),a0
-                move.w  $1E(a0),d0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 or.w    d5,d0
-                move.w  d0,$1E(a0)
-                lea     ($2B76).w,a3
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).w,a3
                 move.w  MENUENTRY_STRINGFLAGS(a3),d3
                 andi.w  #$FFF0,d3
                 move.w  $16(a5),$16(a3)
                 move.w  d7,d0
                 addq.w  #1,d0
                 move.w  d0,$26(a3)
-                lea     ($2BAE).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a4
                 move.w  MENUENTRY_STRINGFLAGS(a4),d4
                 andi.w  #$FFF0,d4
                 move.w  $16(a5),$16(a4)
@@ -101539,26 +101539,26 @@ JobOffersAfterDrawCommon:
                 cmp.w   (numNewJobOffers).l,d7
                 bcc.w   locret_14A1D2
                 clr.w   6(a5)
-                lea     ($2B06).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   MENUENTRY_ISINVISIBLE+$38(a0)
-                lea     ($2B06).w,a3
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a3
                 move.w  MENUENTRY_STRINGFLAGS(a3),d3
                 andi.w  #$FFF0,d3
                 move.w  MENUENTRY_Y(a5),MENUENTRY_Y(a3)
                 move.w  d7,d0
                 addq.w  #1,d0
-                move.w  d0,MENUENTRY_FG(a3)
-                lea     ($2B3E).w,a4
+                move.w  d0,MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a3)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).w,a4
                 move.w  MENUENTRY_STRINGFLAGS(a4),d4
                 andi.w  #$FFF0,d4
                 move.w  MENUENTRY_Y(a5),MENUENTRY_Y(a4)
-                movea.l MENUENTRY_FG(a4),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a4),a1
                 move.w  d7,d0
                 bsr.w   GetNewJobOfferPtr
                 movea.l a0,a6
                 lea     2(a6),a2
-                cmpi.l  #$FFFFFFFF,$14(a6)
+                cmpi.l  #$FFFFFFFF,20(a6)
                 bne.s   loc_14A196
                 lea     (aInternationalJ_0).l,a0 ; "INTERNATIONAL JOB OFFER FROM %a"
                 bra.s   loc_14A19C
@@ -101790,17 +101790,17 @@ GotJobOfferFinish:
                 cmpi.w  #1,d0
                 bne.s   loc_14A3AC
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
-                move.l  #aRetire,MENUENTRY_FG(a0) ; "RETIRE" ...
-                lea     ($29EE).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$1C0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)(a0),d0
+                move.l  #aRetire,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "RETIRE" ...
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$A,d0
-                move.w  d0,$1E(a0)
+                addi.w  #RED_10,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_14A3AC:
                 cmpi.l  #$FFFFFFFF,(jobOfferFunds).l
                 bne.s   loc_14A3F0
                 lea     (g_menuEntries).w,a0
-                move.l  #aInternationalJ,MENUENTRY_FG(a0) ; "INTERNATIONAL JOB OFFER" ...
+                move.l  #aInternationalJ,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "INTERNATIONAL JOB OFFER" ...
                 subi.w  #30,SEASONINFORMATIONS_TROPHYFLAGS(a0)
                 addi.w  #60,MENUENTRY_DWWIDTH(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
@@ -101825,19 +101825,19 @@ loc_14A416:
                 bne.s   loc_14A43C
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ($2B06).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_14A43C:
                 move.w  (teamNoOfferingJob).l,d0
                 bsr.w   GetTeamPointer
                 move.l  a0,(teamOfferingJobPtr).l
                 lea     (managerSexBuffer).l,a2
                 lea     (managerSurnameBuffer).l,a3
-                lea     ($2866).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aDearAB).l,a0  ; "DEAR %a %b"
                 jsr     PrintFormatted
                 cmpi.l  #$FFFFFFFF,(jobOfferFunds).l
@@ -101845,41 +101845,41 @@ loc_14A43C:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
                 movea.l (teamOfferingJobPtr).l,a2
                 lea     5(a2),a2
-                movea.l MENUENTRY_FG(a0),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     ((aWeHereAtAWould+1)).l,a0 ; "WE HERE AT %a WOULD LIKE TO OFFER YOU T"...
                 movem.l a2,-(sp)
                 jsr     PrintFormatted
                 movem.l (sp)+,a2
-                lea     ($28D6).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aCoachingJobAtO).l,a0 ; "COACHING JOB AT OUR CLUB FOR NEXT SEASO"...
                 jsr     PrintFormatted
                 move.l  (jobOfferFunds).l,d0
                 lea     (fundsBuffer).l,a1
                 jsr     Int2Pounds
                 lea     (fundsBuffer).l,a2
-                lea     ($290E).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aWeCanOfferYouA).l,a0 ; "WE CAN OFFER YOU A VERY COMPETITIVE SAL"...
                 jsr     PrintFormatted
                 lea     (fundsBuffer).l,a2
-                lea     ($2946).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aWeHopeToBeAble).l,a0 ; "WE HOPE TO BE ABLE TO MAKE FUNDS AVAILA"...
                 jsr     PrintFormatted
                 lea     (fundsBuffer).l,a2
-                lea     ($297E).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aInTheRegionOfA).l,a0 ; "IN THE REGION OF %a FOR IMPROVING THE T"...
                 jsr     PrintFormatted
                 lea     (fundsBuffer).l,a2
-                lea     ($29B6).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aWeLookForwardT_1).l,a0 ; "WE LOOK FORWARD TO HEARING FROM YOU"
                 jsr     PrintFormatted
                 rts
 loc_14A530:
-                lea     ($28D6).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
                 move.w  MENUENTRY_Y(a0),d1
                 addi.w  #$A,d1
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
@@ -101892,33 +101892,33 @@ loc_14A530:
                 movem.l a2,-(sp)
                 jsr     PrintFormatted
                 movem.l (sp)+,a2
-                lea     ($28D6).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aOfAWouldLikeTo).l,a0 ; "OF %a WOULD LIKE TO OFFER YOU THE JOB"
                 jsr     PrintFormatted
-                lea     ($290E).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aAsCoachOfTheNa).l,a0 ; "AS COACH OF THE NATIONAL TEAM"
                 jsr     PrintFormatted
-                lea     ($2946).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aWeCanPromiseYo).l,a0 ; "WE CAN PROMISE YOU AN EXCELLENT SALARY "...
                 jsr     PrintFormatted
-                lea     ($297E).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aAnAnnuallyRevi).l,a0 ; "AN ANNUALLY REVIEWABLE CONTRACT"
                 jsr     PrintFormatted
-                lea     ($29B6).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aWeLookForwardT).l,a0 ; "WE LOOK FORWARD TO HEARING FROM YOU"
                 jsr     PrintFormatted
                 rts
 loc_14A5D0:
                 lea     (g_menuEntries).w,a0
-                move.l  #aNewJob,MENUENTRY_FG(a0) ; "NEW JOB" ...
-                lea     ($28D6).w,a0
+                move.l  #aNewJob,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "NEW JOB" ...
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
                 move.w  MENUENTRY_Y(a0),d1
-                addi.w  #$A,d1
+                addi.w  #10,d1
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
                 move.w  d1,MENUENTRY_Y(a0)
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).w
@@ -101929,8 +101929,8 @@ loc_14A5D0:
                 move.l  a0,(teamOfferingJobPtr).l
                 lea     (managerSexBuffer).l,a2
                 lea     (managerSurnameBuffer).l,a3
-                lea     ($2866).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aDearAB).l,a0  ; "DEAR %a %b"
                 jsr     PrintFormatted
                 cmpi.l  #$FFFFFFFF,(jobOfferFunds).l
@@ -101938,73 +101938,73 @@ loc_14A5D0:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
                 movea.l (teamOfferingJobPtr).l,a2
                 lea     5(a2),a2
-                movea.l $26(a0),a1
+                movea.l 38(a0),a1
                 lea     (aWeHereAtAAreDe).l,a0 ; "WE HERE AT %a ARE DELIGHTED THAT YOU"
                 movem.l a2,-(sp)
                 jsr     PrintFormatted
                 movem.l (sp)+,a2
-                lea     ($28D6).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aHaveAcceptedTh).l,a0 ; "HAVE ACCEPTED THE POSITION OF COACH AT "...
                 jsr     PrintFormatted
                 move.l  (teamFundsAccepted).l,d0
                 lea     (fundsBuffer).l,a1
                 jsr     Int2Pounds
                 lea     (fundsBuffer).l,a2
-                lea     ($290E).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aFromTheStartOf_0).l,a0 ; "FROM THE START OF NEXT SEASON"
                 jsr     PrintFormatted
                 lea     (fundsBuffer).l,a2
-                lea     ($2946).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aWeHopeToBeAble_0).l,a0 ; "WE HOPE TO BE ABLE TO MAKE FUNDS AVAILA"...
                 jsr     PrintFormatted
                 lea     (fundsBuffer).l,a2
-                lea     ($297E).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aInTheRegionOfA_0).l,a0 ; "IN THE REGION OF %a FOR IMPROVING THE T"...
                 jsr     PrintFormatted
                 lea     (fundsBuffer).l,a2
-                lea     ($29B6).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aAndWeLookForwa).l,a0 ; "AND WE LOOK FORWARD TO SEEING YOU SOON"
                 jsr     PrintFormatted
                 rts
 loc_14A6F6:
-                lea     ($290E).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
                 move.w  MENUENTRY_Y(a0),d1
-                addi.w  #$A,d1
+                addi.w  #10,d1
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
                 move.w  d1,MENUENTRY_Y(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
-                subi.w  #$F,MENUENTRY_Y(a0)
+                subi.w  #15,MENUENTRY_Y(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
                 movea.l (teamOfferingJobPtr).l,a2
                 lea     5(a2),a2
-                movea.l $26(a0),a1
+                movea.l 38(a0),a1
                 lea     (aTheMembersOfTh_0).l,a0 ; "THE MEMBERS OF THE FOOTBALLING COMMITEE"
                 movem.l a2,-(sp)
                 jsr     PrintFormatted
                 movem.l (sp)+,a2
-                lea     ($28D6).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aOfAAreDelighte).l,a0 ; "OF %a ARE DELIGHTED THAT YOU HAVE"
                 jsr     PrintFormatted
-                lea     ($290E).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aAcceptedThePos).l,a0 ; "ACCEPTED THE POSITION AS COACH OF THE N"...
                 jsr     PrintFormatted
-                lea     ($2946).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aFromTheStartOf).l,a0 ; "FROM THE START OF NEXT SEASON"
                 jsr     PrintFormatted
-                lea     ($297E).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aWeLookForwardT_0).l,a0 ; "\x00WE LOOK FORWARD TO SEEING YOU SOON"
                 jsr     PrintFormatted
-                lea     ($29B6).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     ((aWeLookForwardT_0+1)).l,a0 ; "WE LOOK FORWARD TO SEEING YOU SOON"
                 jsr     PrintFormatted
                 rts
@@ -102271,9 +102271,9 @@ ChairmanMemosInit:
                 tst.w   (isNationalSelector).l
                 beq.s   ChairmanMemosOnReturn
                 lea     (g_menuEntries).w,a0
-                move.l  #aMemoFromThePre,MENUENTRY_FG(a0) ; "MEMO FROM THE PRESIDENT" ...
+                move.l  #aMemoFromThePre,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "MEMO FROM THE PRESIDENT" ...
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
-                move.l  #aThePresident,MENUENTRY_FG(a0) ; "THE PRESIDENT" ...
+                move.l  #aThePresident,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "THE PRESIDENT" ...
 
 ; ===== ChairmanMemosOnReturn =====
 ; prototype: void __usercall ChairmanMemosOnReturn()
@@ -102281,7 +102281,7 @@ ChairmanMemosOnReturn:
                 lea     (managerSexBuffer).l,a2
                 lea     (managerSurnameBuffer).l,a3
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aDearAB_0).l,a0 ; "DEAR %a %b"
                 jsr     PrintFormatted
                 move.w  currentMessage(pc),d0
@@ -102290,20 +102290,20 @@ ChairmanMemosOnReturn:
                 lea     clubMessagesTable(pc),a5
                 lea     (a5,d0.w),a5
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 movea.l (a5)+,a0
                 lea     (managerNameBuffer).l,a2
                 movea.l plNameForMessage(pc),a3
                 jsr     PrintFormatted
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 movea.l (a5),a0
                 lea     (managerNameBuffer).l,a2
                 movea.l plNameForMessage(pc),a3
                 jsr     PrintFormatted
                 jsr     DrawMenu
                 movem.l d0-d1,-(sp)
-                move.w  #$63,d1         ; 'c'
+                move.w  #99,d1
 loc_14AB18:
                 move.w  (currentGameTick).l,d0
 loc_14AB1E:
@@ -102532,30 +102532,30 @@ ClubBusinessInit:
                 beq.w   loc_14ADC2
                 bra.w   loc_14AED4
 loc_14ACC8:
-                lea     ($2ACE).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (old_balance).l,d0
                 jsr     Int2PoundsSigned
-                lea     ($2B3E).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (gateReceipts).l,d0
                 jsr     WriteAccountBalance
-                lea     ($2B76).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (generalRunningCosts).l,d0
                 neg.l   d0
                 jsr     WriteAccountBalance
-                lea     ($2BE6).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (playerSales).l,d0
                 jsr     WriteAccountBalance
-                lea     ($2C1E).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (playerPurchases).l,d0
                 neg.l   d0
                 jsr     WriteAccountBalance
-                lea     ($2C56).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (playerWagesBill).l,d0
                 neg.l   d0
                 jsr     WriteAccountBalance
@@ -102568,52 +102568,52 @@ loc_14ACC8:
                 sub.l   (generalRunningCosts).l,d1
                 bpl.s   loc_14AD7E
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
-                move.l  #aTotalLoss,MENUENTRY_FG(a0) ; "TOTAL LOSS:" ...
+                move.l  #aTotalLoss,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "TOTAL LOSS:" ...
 loc_14AD7E:
-                lea     ($2C8E).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  d1,d0
                 jsr     WriteAccountBalance
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).w,a0
                 move.l  (newBalance).l,d0
                 bpl.s   loc_14ADB6
-                move.w  $24(a0),d1
-                bset    #$D,d1
-                move.w  d1,$24(a0)
-                move.w  $1E(a0),d1
+                move.w  36(a0),d1
+                bset    #13,d1
+                move.w  d1,36(a0)
+                move.w  30(a0),d1
                 andi.w  #$FFF0,d1
-                ori.w   #$C,d1
-                move.w  d1,$1E(a0)
+                ori.w   #12,d1
+                move.w  d1,30(a0)
 loc_14ADB6:
-                movea.l $26(a0),a1
+                movea.l 38(a0),a1
                 jsr     Int2PoundsSigned
                 rts
 loc_14ADC2:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
-                addi.w  #$1E,MENUENTRY_Y(a0)
+                addi.w  #30,MENUENTRY_Y(a0)
                 move.l  #aBalanceAtStart,$26(a0) ; "BALANCE AT START OF SEASON:"
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
-                addi.w  #$1E,MENUENTRY_Y(a0)
-                movea.l $26(a0),a1
+                addi.w  #30,MENUENTRY_Y(a0)
+                movea.l 38(a0),a1
                 move.l  (old_balance).l,d0
                 jsr     Int2PoundsSigned
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).w
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$310).w
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$348).w
-                lea     ($2BE6).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (playerSales).l,d0
                 jsr     WriteAccountBalance
-                lea     ($2C1E).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (playerPurchases).l,d0
                 neg.l   d0
                 jsr     WriteAccountBalance
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$428).w
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
-                subi.w  #$F,MENUENTRY_Y(a0)
+                subi.w  #15,MENUENTRY_Y(a0)
                 move.l  (dword_164A02).l,d1
                 add.l   (competitionBonuses).l,d1
                 add.l   (gateReceipts).l,d1
@@ -102622,28 +102622,28 @@ loc_14ADC2:
                 sub.l   (playerWagesBill).l,d1
                 sub.l   (generalRunningCosts).l,d1
                 bpl.s   loc_14AE7A
-                move.l  #aTotalLoss,$26(a0) ; "TOTAL LOSS:"
+                move.l  #aTotalLoss,38(a0) ; "TOTAL LOSS:"
 loc_14AE7A:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).w,a0
-                subi.w  #$F,MENUENTRY_Y(a0)
-                movea.l $26(a0),a1
+                subi.w  #15,MENUENTRY_Y(a0)
+                movea.l 38(a0),a1
                 move.l  d1,d0
                 jsr     WriteAccountBalance
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
-                subi.w  #$F,MENUENTRY_Y(a0)
+                subi.w  #15,MENUENTRY_Y(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).w,a0
-                subi.w  #$F,MENUENTRY_Y(a0)
+                subi.w  #15,MENUENTRY_Y(a0)
                 move.l  (newBalance).l,d0
                 bpl.s   loc_14AEC8
-                move.w  $24(a0),d1
-                bset    #$D,d1
-                move.w  d1,$24(a0)
-                move.w  $1E(a0),d1
+                move.w  36(a0),d1
+                bset    #13,d1
+                move.w  d1,36(a0)
+                move.w  30(a0),d1
                 andi.w  #$FFF0,d1
-                ori.w   #$C,d1
-                move.w  d1,$1E(a0)
+                ori.w   #12,d1
+                move.w  d1,30(a0)
 loc_14AEC8:
-                movea.l $26(a0),a1
+                movea.l 38(a0),a1
                 jsr     Int2PoundsSigned
                 rts
 loc_14AED4:
@@ -102652,86 +102652,86 @@ loc_14AED4:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
                 move.w  #9,d1
 loc_14AEE4:
-                subi.w  #$D,$16(a0)
-                lea     $38(a0),a0
+                subi.w  #13,22(a0)
+                lea     56(a0),a0
                 dbf     d1,loc_14AEE4
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
                 move.w  #9,d1
 loc_14AEFA:
-                subi.w  #$D,$16(a0)
-                lea     $38(a0),a0
+                subi.w  #13,22(a0)
+                lea     56(a0),a0
                 dbf     d1,loc_14AEFA
 loc_14AF08:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
-                move.l  #aBalanceAtEndOf,MENUENTRY_FG(a0) ; "BALANCE AT END OF LAST SEASON:" ...
-                addq.w  #5,$16(a0)
+                move.l  #aBalanceAtEndOf,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "BALANCE AT END OF LAST SEASON:" ...
+                addq.w  #5,22(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
                 addq.w  #5,MENUENTRY_Y(a0)
-                movea.l $26(a0),a1
+                movea.l 38(a0),a1
                 move.l  (old_balance).l,d0
                 jsr     Int2PoundsSigned
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$2D8).w
-                lea     ($2B06).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (competitionBonuses).l,d0
                 jsr     WriteAccountBalance
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
                 move.w  #7,d1
 loc_14AF54:
-                addi.w  #$F,$16(a0)
-                lea     $38(a0),a0
+                addi.w  #15,22(a0)
+                lea     56(a0),a0
                 dbf     d1,loc_14AF54
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).w,a0
                 move.w  #7,d1
 loc_14AF6A:
-                addi.w  #$F,$16(a0)
-                lea     $38(a0),a0
+                addi.w  #15,22(a0)
+                lea     56(a0),a0
                 dbf     d1,loc_14AF6A
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
-                move.l  #aSponsorshipFor,MENUENTRY_FG(a0) ; "SPONSORSHIP FOR THE CLUB FOR THIS" ...
-                addq.w  #5,$16(a0)
+                move.l  #aSponsorshipFor,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "SPONSORSHIP FOR THE CLUB FOR THIS" ...
+                addq.w  #5,22(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
-                move.l  #aSeasonFromSens,MENUENTRY_FG(a0) ; "SEASON FROM SENSISOFT PLC:" ...
+                move.l  #aSeasonFromSens,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "SEASON FROM SENSISOFT PLC:" ...
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).w,a0
-                addi.w  #$A,MENUENTRY_Y(a0)
+                addi.w  #10,MENUENTRY_Y(a0)
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$348).w
-                lea     ($2B3E).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (dword_164A02).l,d0
                 jsr     WriteAccountBalance
                 tst.w   (word_164AC0).l
                 beq.w   loc_14B01E
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
                 clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$380).w
-                lea     ($2BAE).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (sensisoftPlcSponsorship).l,d0
                 jsr     WriteAccountBalance
                 tst.w   (additionalInvestments).l
                 beq.s   loc_14AFF2
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
-                move.l  #aAdditionalInve,MENUENTRY_FG(a0) ; "ADDITIONAL INVESTMENT FROM THE NEW CHAI"... ...
+                move.l  #aAdditionalInve,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "ADDITIONAL INVESTMENT FROM THE NEW CHAI"... ...
 loc_14AFF2:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
                 move.w  #4,d1
 loc_14AFFA:
-                addi.w  #$F,$16(a0)
-                lea     $38(a0),a0
+                addi.w  #15,22(a0)
+                lea     56(a0),a0
                 dbf     d1,loc_14AFFA
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a0
                 move.w  #4,d1
 loc_14B010:
-                addi.w  #$F,$16(a0)
-                lea     $38(a0),a0
+                addi.w  #15,22(a0)
+                lea     56(a0),a0
                 dbf     d1,loc_14B010
 loc_14B01E:
-                lea     ($2BE6).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (playerSales).l,d0
                 jsr     WriteAccountBalance
-                lea     ($2C1E).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (playerPurchases).l,d0
                 neg.l   d0
                 jsr     WriteAccountBalance
@@ -102750,8 +102750,8 @@ loc_14B01E:
                 move.l  #aTotalLoss,$26(a0) ; "TOTAL LOSS:"
 loc_14B092:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).w,a0
-                subi.w  #$F,MENUENTRY_Y(a0)
-                movea.l $26(a0),a1
+                subi.w  #15,MENUENTRY_Y(a0)
+                movea.l 38(a0),a1
                 move.l  d1,d0
                 jsr     WriteAccountBalance
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
@@ -102760,15 +102760,15 @@ loc_14B092:
                 subi.w  #$F,MENUENTRY_Y(a0)
                 move.l  (newBalance).l,d0
                 bpl.s   loc_14B0E0
-                move.w  $24(a0),d1
-                bset    #$D,d1
-                move.w  d1,$24(a0)
-                move.w  $1E(a0),d1
+                move.w  36(a0),d1
+                bset    #13,d1
+                move.w  d1,36(a0)
+                move.w  30(a0),d1
                 andi.w  #$FFF0,d1
-                ori.w   #$C,d1
-                move.w  d1,$1E(a0)
+                ori.w   #12,d1
+                move.w  d1,30(a0)
 loc_14B0E0:
-                movea.l $26(a0),a1
+                movea.l 38(a0),a1
                 jsr     Int2PoundsSigned
                 rts
 
@@ -103312,17 +103312,17 @@ off_14B6B8:
 ChooseTacticsInit:
                 jsr     CheckIsTeamNational
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
-                move.l  #USER_A+TEAMTACTICS_TACTICSNAME,MENUENTRY_FG(a0)
+                move.l  #USER_A+TEAMTACTICS_TACTICSNAME,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
-                move.l  #USER_B+TEAMTACTICS_TACTICSNAME,MENUENTRY_FG(a0)
+                move.l  #USER_B+TEAMTACTICS_TACTICSNAME,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
-                move.l  #USER_C+TEAMTACTICS_TACTICSNAME,MENUENTRY_FG(a0)
+                move.l  #USER_C+TEAMTACTICS_TACTICSNAME,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
-                move.l  #USER_D+TEAMTACTICS_TACTICSNAME,MENUENTRY_FG(a0)
+                move.l  #USER_D+TEAMTACTICS_TACTICSNAME,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
-                move.l  #USER_E+TEAMTACTICS_TACTICSNAME,MENUENTRY_FG(a0)
+                move.l  #USER_E+TEAMTACTICS_TACTICSNAME,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
-                move.l  #USER_F+TEAMTACTICS_TACTICSNAME,MENUENTRY_FG(a0)
+                move.l  #USER_F+TEAMTACTICS_TACTICSNAME,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 rts
 
 ; ===== User_A_Tactics =====
@@ -104317,8 +104317,8 @@ loc_14BFD8:
 ; prototype: void __usercall CopyCurrentTacticName()
 ; Sets edit tactics menu header to name of current tactics.
 CopyCurrentTacticName:
-                lea     ($2866).w,a0
-                movea.l MENUENTRY_FG(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aEditTactics).l,a0 ; "EDIT TACTICS"
                 jsr     StringCopy
                 move.b  #' ',(a1)+
@@ -104353,11 +104353,11 @@ locret_14C046:
 CopyTactics:
                 tst.w   (word_14B4B6).l
                 bne.s   loc_14C07E
-                lea     ($290E).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a5
                 jsr     CallDrawMenuItem
                 bsr.w   EditTacticsMenuSavePlayerPositions
@@ -104370,12 +104370,12 @@ loc_14C07E:
                 bne.s   locret_14C0C8
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a5
                 jsr     CallDrawMenuItem
-                lea     ($290E).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$E0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$E,d0
-                move.w  d0,MENUENTRY_BG(a0)
-                move.w  #4,d0
+                addi.w  #YELLOW_GREEN_BLACK_14,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
+                move.w  #ORANGE_TO_BROWN_4,d0
                 jsr     SetCurrentEntry
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a5
                 jsr     CallDrawMenuItem
@@ -104444,11 +104444,11 @@ EditTacticsAfterDrawPlayerNames:
                 cmpi.w  #$10,d7
                 bne.s   loc_14C170
                 move.w  #1,d5
-                lea     ($3126).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$8F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addq.w  #8,d0
-                move.w  d0,$1E(a0)
+                addq.w  #BLUE_TO_BLACK_8,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.w   loc_14C1D8
 loc_14C170:
                 clr.w   d5
@@ -104456,31 +104456,31 @@ loc_14C170:
                 bcc.s   loc_14C1AC
                 tst.w   d7
                 beq.s   loc_14C194
-                lea     ($3126).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$8F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$D,d0
-                move.w  d0,$1E(a0)
+                addi.w  #BRIGHT_BLUE_TO_BLUE_13,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.w   loc_14C1D8
 loc_14C194:
-                lea     ($3126).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$8F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$E,d0
-                move.w  d0,$1E(a0)
+                addi.w  #YELLOW_GREEN_BLACK_14,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.w   loc_14C1D8
 loc_14C1AC:
-                lea     ($3126).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$8F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$B,d0
-                move.w  d0,$1E(a0)
+                addi.w  #BLUE_TO_PURPLE_11,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.w   loc_14C1D8
-                lea     ($3126).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$8F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$E,d0
-                move.w  d0,$1E(a0)
+                addi.w  #YELLOW_GREEN_BLACK_14,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_14C1D8:
                 movea.l chooseTacticsTeamPtr(pc),a0
                 move.b  $18(a0),d6
@@ -104497,30 +104497,30 @@ loc_14C1D8:
                 jsr     IsPlayerInjured
                 movem.l (sp)+,d1
                 beq.s   loc_14C226
-                lea     ($3126).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$8F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$A,d0
-                move.w  d0,$1E(a0)
+                addi.w  #RED_10,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_14C226:
                 cmp.w   (word_14C60E).l,d1
                 bne.s   loc_14C240
-                lea     ($3126).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$8F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addq.w  #6,d0
-                move.w  d0,$1E(a0)
+                addq.w  #ORANGE_TO_BROWN_6,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_14C240:
                 move.w  (word_14C616).l,d0
                 bmi.s   loc_14C262
                 addq.w  #1,d0
                 cmp.w   d0,d7
                 bne.s   loc_14C262
-                lea     ($3126).w,a0
-                move.w  g_menuEntries+MENUENTRY_BG+$8F8-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$C,d0
-                move.w  d0,$1E(a0)
+                addi.w  #ORANGE_TO_BROWN_12,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_14C262:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8C0)).w,a0
                 move.w  $16(a5),d7
@@ -104572,7 +104572,7 @@ loc_14C30C:
                 movea.l a6,a0
                 jsr     sub_126504
                 movem.l (sp)+,a0
-                move.l  #$9AC14,$26(a0)
+                move.l  #fundsBuffer,$26(a0)
 loc_14C326:
                 clr.w   4(a0)
                 move.w  #$D,d1
@@ -104601,28 +104601,28 @@ loc_14C352:
 ;      D7 - player ordinal
 ; dos: cseg_4F37E
 sub_14C372:
-                cmpi.w  #16,d7
+                cmpi.w  #16,d7          ; player 16
                 bne.s   loc_14C38E
-                lea     ($30B6).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addq.w  #8,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addq.w  #BLUE_TO_BLACK_8,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.w   loc_14C3FA
 loc_14C38E:
                 cmpi.w  #11,d7
                 bcc.s   loc_14C3C8
                 tst.w   d7
                 beq.s   loc_14C3B0
-                lea     ($30B6).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #BRIGHT_BLUE_TO_BLUE_13,d0
                 move.w  d0,MENUENTRY_BG(a0)
                 bra.w   loc_14C3FA
 loc_14C3B0:
-                lea     ($30B6).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #YELLOW_GREEN_BLACK_14,d0
                 move.w  d0,MENUENTRY_BG(a0)
@@ -104630,22 +104630,22 @@ loc_14C3B0:
 loc_14C3C8:
                 cmpi.w  #$B,d7
                 beq.s   loc_14C3E6
-                lea     ($30B6).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #11,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #BLUE_TO_PURPLE_11,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.w   loc_14C3FA
 loc_14C3E6:
-                lea     ($30B6).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #14,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #YELLOW_GREEN_BLACK_14,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_14C3FA:
                 movea.l chooseTacticsTeamPtr(pc),a0
                 move.b  TEAMFILE_TACTICS(a0),d6
-                move.b  (editTacticsCurrentTactics+TEAMTACTICS_BALLOUTOFPLAYTACTICS).l,$18(a0)
+                move.b  (editTacticsCurrentTactics+TEAMTACTICS_BALLOUTOFPLAYTACTICS).l,TEAMFILE_TACTICS(a0)
                 move.w  d7,d1
                 bsr.w   GetPlayerInfoBreakPosition
                 move.w  d1,d5
@@ -104659,30 +104659,30 @@ loc_14C3FA:
                 beq.s   loc_14C446
                 cmpi.w  #$20,d0         ; ' '
                 beq.s   loc_14C446
-                lea     ($30B6).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$A,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #COLOR_RED,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_14C446:
                 cmp.w   (word_14C60E).l,d1
                 bne.s   loc_14C460
-                lea     ($30B6).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addq.w  #6,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addq.w  #ORANGE_TO_BROWN_6,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_14C460:
                 move.w  (word_14C616).l,d0
                 bmi.s   loc_14C482
                 addq.w  #1,d0
                 cmp.w   d0,d7
                 bne.s   loc_14C482
-                lea     ($30B6).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$C,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #ORANGE_TO_BROWN_12,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_14C482:
                 tst.w   (flipOnOff).l
                 beq.s   loc_14C4D6
@@ -104690,25 +104690,25 @@ loc_14C482:
                 beq.s   loc_14C4C2
                 cmpi.w  #11,d7
                 bcc.s   loc_14C4C2
-                lea     ($D1D9).l,a0
+                lea     (editTacticsCurrentTactics+TEAMTACTICS_SOMETABLE).l,a0
                 move.b  -1(a0,d7.w),d0
                 bmi.s   loc_14C4C2
                 ext.w   d0
                 lea     (word_14C602).l,a0
-                lsl.w   #1,d0
+                lsl.w   #PINK_TO_BROWN_1,d0
                 move.w  (a0,d0.w),d1
-                lea     ($30B6).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 add.w   d1,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.s   loc_14C4D6
 loc_14C4C2:
-                lea     ($30B6).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #0,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #PINK_TO_BROWN_0,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_14C4D6:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
                 move.w  MENUENTRY_Y(a5),MENUENTRY_Y(a0)
@@ -104721,10 +104721,10 @@ loc_14C4D6:
                 cmp.b   (a1,d5.w),d0
                 bhi.s   loc_14C50C
                 beq.s   locret_14C512
-                move.w  #SPR_NOT_CHECK_SMALL,MENUENTRY_FG(a0)
+                move.w  #SPR_NOT_CHECK_SMALL,MENUENTRY_FG+ENTRYTYPE2UNION_SPRITE2(a0)
                 rts
 loc_14C50C:
-                move.w  #SPR_CHECK_SMALL,MENUENTRY_FG(a0)
+                move.w  #SPR_CHECK_SMALL,MENUENTRY_FG+ENTRYTYPE2UNION_SPRITE2(a0)
 locret_14C512:
                 rts
 
@@ -104735,7 +104735,7 @@ DrawPlayerNamesAndFaces:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a5
                 jsr     CallDrawMenuItem
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$658)).w,a5
-                move.w  #10,d0
+                move.w  #10,d0          ; draw 10 items
                 jsr     CallDrawMultipleItems
                 lea     (g_menuEntries).w,a5
                 jsr     CallDrawMenuItem
@@ -104784,9 +104784,9 @@ loc_14C580:
 ; [edit tactics menu procedure]
 SetBigCheckSprite:
                 lea     (g_menuEntries).w,a0
-                move.w  #1,MENUENTRY_ISINVISIBLE(a0)
+                move.w  #1,MENUENTRY_ISINVISIBLE(a0) ; make it invisible
                 move.w  MENUENTRY_STRINGFLAGS(a0),d1
-                bclr    #$D,d1
+                bclr    #$D,d1          ; clear bit 1
                 move.w  d1,MENUENTRY_STRINGFLAGS(a0)
                 move.w  (oldPlayerSkill).l,d1
                 cmp.w   (newPlayerSkill).l,d1
@@ -104795,15 +104795,15 @@ SetBigCheckSprite:
                 bcs.s   loc_14C5E2
                 rts
 loc_14C5E2:
-                move.w  #SPR_NOT_CHECK_BIG,MENUENTRY_FG(a0)
+                move.w  #SPR_NOT_CHECK_BIG,MENUENTRY_FG+ENTRYTYPE2UNION_SPRITE2(a0)
                 bra.s   loc_14C5F0
 loc_14C5EA:
-                move.w  #SPR_CHECK_BIG,MENUENTRY_FG(a0)
+                move.w  #SPR_CHECK_BIG,MENUENTRY_FG+ENTRYTYPE2UNION_SPRITE2(a0)
 loc_14C5F0:
                 move.w  MENUENTRY_STRINGFLAGS(a0),d1
-                bset    #$D,d1
+                bset    #$D,d1          ; set bit 1
                 move.w  d1,MENUENTRY_STRINGFLAGS(a0)
-                clr.w   MENUENTRY_ISINVISIBLE(a0)
+                clr.w   MENUENTRY_ISINVISIBLE(a0) ; make it visible
                 rts
 word_14C602:
                 dc.w 14,10,12,6,11
@@ -105926,7 +105926,7 @@ loc_14D318:
                 dbf     d0,loc_14D318
                 rts
 importTacticsMenu:
-                dc.l locret_14D50A      ; on init function
+                dc.l ImportTacticsInit  ; on init function
                 dc.l 0                  ; on return function
                 dc.l 0                  ; on draw function
                 dc.l $00000002          ; -= default entry =-
@@ -106227,7 +106227,7 @@ importTacticsMenu:
                 dc.l ExitImportTactics
                 dc.w $0000              ; -= end entry 20 =-
                 dc.w -999               ; -= end menu =-
-locret_14D50A:
+ImportTacticsInit:
                 rts
 
 ; ===== ImportTacticsSelectTactics =====
@@ -106993,7 +106993,7 @@ ShowStadiumInit:
                 lea     (aGrafsMenubg2Ra).l,a0 ; "grafs/menubg2.raw"
                 jsr     LoadOverlayToFrontbuffer
                 lea     (g_menuEntries).w,a0
-                move.l  #52364,MENUENTRY_FG(a0)
+                move.l  #gameName,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 tst.b   (gameRound).l
                 bne.s   loc_14DB7A
                 move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$38).w
@@ -107002,13 +107002,13 @@ ShowStadiumInit:
                 bra.s   loc_14DB86
 loc_14DB7A:
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
-                move.l  #$CCF0,MENUENTRY_FG(a0)
+                move.l  #gameRound,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
 loc_14DB86:
-                lea     ($289E).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$70-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)(a0),a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (topTeamInGame+TEAMGAME_TEAMNAME).l,a0
                 jsr     StringCopy
-                move.b  #$20,(a1)+      ; ' '
+                move.b  #' ',(a1)+
                 clr.b   (a1)
                 tst.w   (hilStarted).l
                 bne.s   loc_14DBD8
@@ -107024,11 +107024,11 @@ loc_14DB86:
                 bne.s   loc_14DBD4
                 move.w  #RED_10,d1
 loc_14DBD4:
-                move.w  d1,MENUENTRY_BG(a0)
+                move.w  d1,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_14DBD8:
-                lea     ($290E).w,a0
-                movea.l g_menuEntries+MENUENTRY_FG+$E0-(g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)(a0),a1
-                move.b  #$20,(a1)+      ; ' '
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
+                move.b  #' ',(a1)+
                 lea     (bottomTeamInGame+TEAMGAME_TEAMNAME).l,a0
                 jsr     StringCopy
                 tst.w   (hilStarted).l
@@ -107045,7 +107045,7 @@ loc_14DBD8:
                 bne.s   loc_14DC24
                 move.w  #RED_10,d1
 loc_14DC24:
-                move.w  d1,MENUENTRY_BG(a0)
+                move.w  d1,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_14DC28:
                 lea     (topTeamInGame).l,a6
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a5
@@ -107055,10 +107055,10 @@ loc_14DC34:
                 mulu.w  #PLAYERINFO_SIZE,d0
                 lea     (a6,d0.w),a0
                 lea     PLAYERINFOHEADER_FULLNAME(a0),a0
-                move.l  a0,MENUENTRY_FG(a5)
+                move.l  a0,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5)
                 lea     MENUENTRY_SIZE(a5),a5
                 addq.w  #1,d1
-                cmpi.w  #$10,d1
+                cmpi.w  #16,d1
                 bcs.s   loc_14DC34
                 lea     (bottomTeamInGame).l,a6
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$968)).w,a5
@@ -107068,7 +107068,7 @@ loc_14DC5E:
                 mulu.w  #PLAYERINFO_SIZE,d0
                 lea     (a6,d0.w),a0
                 lea     PLAYERINFOHEADER_FULLNAME(a0),a0
-                move.l  a0,MENUENTRY_FG(a5)
+                move.l  a0,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5)
                 lea     MENUENTRY_SIZE(a5),a5
                 addq.w  #1,d1
                 cmpi.w  #16,d1
@@ -107262,35 +107262,35 @@ HighlightsMenuCommon:
                 bne.s   loc_14DE6E
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ($2866).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ($28D6).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #9,d0
-                move.w  d0,MENUENTRY_BG(a0)
+                addi.w  #PINK_TO_BROWN_9,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 move.w  #2,d0
                 jsr     SetCurrentEntry
                 rts
 loc_14DE6E:
-                lea     ($2866).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
                 clr.w   MENUENTRY_ISDISABLED(a0)
-                lea     ($2866).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$E,d0
-                move.w  d0,MENUENTRY_BG(a0)
-                lea     ($28D6).w,a0
+                addi.w  #YELLOW_GREEN_BLACK_14,d0
+                move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
                 clr.w   MENUENTRY_ISDISABLED(a0)
-                lea     ($28D6).w,a0
-                move.w  MENUENTRY_BG(a0),d0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
-                addi.w  #$E,d0
+                addi.w  #YELLOW_GREEN_BLACK_14,d0
                 move.w  d0,MENUENTRY_BG(a0)
                 rts
 
@@ -113732,20 +113732,18 @@ arrayOfPointers:
 dword_166B74:
                 ds.b $4
 byte_166B78:
-                ds.b $1
-BSS_01_padding_16:
-                ds.b $23
+                ds.b $24
 dword_166B9C:
                 ds.b $4
-BSS_01_padding_17:
+BSS_01_padding_16:
                 ds.b $4
 byte_166BA4:
                 ds.b $1
-BSS_01_padding_18:
+BSS_01_padding_17:
                 ds.b $9
 word_166BAE:
                 ds.b $2
-BSS_01_padding_19:
+BSS_01_padding_18:
                 ds.b $2
 word_166BB2:
                 ds.b $2
@@ -113753,29 +113751,27 @@ word_166BB4:
                 ds.b $2
 word_166BB6:
                 ds.b $2
-BSS_01_padding_20:
+BSS_01_padding_19:
                 ds.b $8
 word_166BC0:
                 ds.b $2
-BSS_01_padding_21:
+BSS_01_padding_20:
                 ds.b $B06
 dword_1676C8:
                 ds.b $4
 byte_1676CC:
-                ds.b $1
-BSS_01_padding_22:
-                ds.b $23
+                ds.b $24
 dword_1676F0:
                 ds.b $4
-BSS_01_padding_23:
+BSS_01_padding_21:
                 ds.b $4
 byte_1676F8:
                 ds.b $1
-BSS_01_padding_24:
+BSS_01_padding_22:
                 ds.b $9
 word_167702:
                 ds.b $2
-BSS_01_padding_25:
+BSS_01_padding_23:
                 ds.b $2
 word_167706:
                 ds.b $2
@@ -113783,19 +113779,19 @@ word_167708:
                 ds.b $2
 word_16770A:
                 ds.b $2
-BSS_01_padding_26:
+BSS_01_padding_24:
                 ds.b $8
 word_167714:
                 ds.b $2
-BSS_01_padding_27:
+BSS_01_padding_25:
                 ds.b $3F6
 word_167B0C:
                 ds.b $2
-BSS_01_padding_28:
+BSS_01_padding_26:
                 ds.b $30
 word_167B3E:
                 ds.b $2
-BSS_01_padding_29:
+BSS_01_padding_27:
                 ds.b $A
 word_167B4A:
                 ds.b $2
@@ -113803,25 +113799,23 @@ word_167B4C:
                 ds.b $2
 word_167B4E:
                 ds.b $2
-BSS_01_padding_30:
+BSS_01_padding_28:
                 ds.b $400
 dword_167F50:
                 ds.b $4
 byte_167F54:
-                ds.b $1
-BSS_01_padding_31:
-                ds.b $23
+                ds.b $24
 dword_167F78:
                 ds.b $4
-BSS_01_padding_32:
+BSS_01_padding_29:
                 ds.b $4
 byte_167F80:
                 ds.b $1
-BSS_01_padding_33:
+BSS_01_padding_30:
                 ds.b $9
 word_167F8A:
                 ds.b $2
-BSS_01_padding_34:
+BSS_01_padding_31:
                 ds.b $2
 word_167F8E:
                 ds.b $2
@@ -113829,11 +113823,11 @@ word_167F90:
                 ds.b $2
 word_167F92:
                 ds.b $2
-BSS_01_padding_35:
+BSS_01_padding_32:
                 ds.b $B10
 byte_168AA4:
                 ds.b $1
-BSS_01_padding_36:
+BSS_01_padding_33:
                 ds.b $7F
 euroCupCopy:
                 ds.b $4E
@@ -113915,13 +113909,13 @@ byte_169254:
                 ds.b $1
 byte_169255:
                 ds.b $1
-BSS_01_padding_37:
+BSS_01_padding_34:
                 ds.b $74C
 ; MarketPlayer[352]
 careerForeignMarketPlayers:
                 ds.b $39C0
                                         ; teamId
-BSS_01_padding_38:
+BSS_01_padding_35:
                 ds.b $D20
 word_16E082:
                 ds.b $2
@@ -113935,15 +113929,15 @@ diyPresetNameOfCompetition:
                 ds.b $24
 dword_16E0AC:
                 ds.b $4
-BSS_01_padding_39:
+BSS_01_padding_36:
                 ds.b $4
 byte_16E0B4:
                 ds.b $1
-BSS_01_padding_40:
+BSS_01_padding_37:
                 ds.b $1
 numDiyTeams:
                 ds.b $2
-BSS_01_padding_41:
+BSS_01_padding_38:
                 ds.b $6
 word_16E0BE:
                 ds.b $2
@@ -113955,7 +113949,7 @@ word_16E0C4:
                 ds.b $2
 word_16E0C6:
                 ds.b $2
-BSS_01_padding_42:
+BSS_01_padding_39:
                 ds.b $10
 word_16E0D8:
                 ds.b $2
@@ -113965,23 +113959,23 @@ word_16E0DC:
                 ds.b $2
 word_16E0DE:
                 ds.b $2
-BSS_01_padding_43:
+BSS_01_padding_40:
                 ds.b $4
 word_16E0E4:
                 ds.b $2
-BSS_01_padding_44:
+BSS_01_padding_41:
                 ds.b $38
 byte_16E11E:
                 ds.b $1
-BSS_01_padding_45:
+BSS_01_padding_42:
                 ds.b $93
 byte_16E1B2:
                 ds.b $1
-BSS_01_padding_46:
+BSS_01_padding_43:
                 ds.b $11F
 byte_16E2D2:
                 ds.b $1
-BSS_01_padding_47:
+BSS_01_padding_44:
                 ds.b $905
 byte_16EBD8:
                 ds.b $1
@@ -114085,29 +114079,29 @@ byte_16F4BA:
                 ds.b $1
 byte_16F4BB:
                 ds.b $1
-BSS_01_padding_48:
+BSS_01_padding_45:
                 ds.b $13
 byte_16F4CF:
                 ds.b $1
-BSS_01_padding_49:
+BSS_01_padding_46:
                 ds.b $4
 byte_16F4D4:
                 ds.b $1
-BSS_01_padding_50:
+BSS_01_padding_47:
                 ds.b $1D
 byte_16F4F2:
                 ds.b $1
-BSS_01_padding_51:
+BSS_01_padding_48:
                 ds.b $51B
 editTeamsBuffer:
                 ds.b $AB02
 editTeamsSaveVarsArea:
                 ds.b $520A
-BSS_01_padding_52:
+BSS_01_padding_49:
                 ds.b $8CC
 s_gameLength:
                 ds.b $2
-BSS_01_padding_53:
+BSS_01_padding_50:
                 ds.b $A
 g_irqCookieObfuscated:
                 ds.b $4
