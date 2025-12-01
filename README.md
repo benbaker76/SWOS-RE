@@ -857,6 +857,31 @@ This generates a **listing file** (`SWOS2.lst`) that interleaves:
 - Final addresses
 - Assembled opcodes
 
+Here's a small section from the `SWOS2.lst` file:
+```
+                            	 19256: ; ===== GameLoop =====
+                            	 19257: ; prototype: void __usercall GameLoop()
+                            	 19258: ; in:
+                            	 19259: ;      A5 -> left team in-game struct
+                            	 19260: ;      A6 -> right team in-game struct
+                            	 19261: GameLoop:
+01:0010E8D6 42790012F6FC    	 19262:                 clr.w   (gameCanceled).l
+01:0010E8DC 42790010F056    	 19263:                 clr.w   (instantReplayFlag).l
+01:0010E8E2 42790010F058    	 19264:                 clr.w   (saveHighlightScene).l
+01:0010E8E8 42790010F05A    	 19265:                 clr.w   (fadeAndSaveHighlightScene).l
+01:0010E8EE 42790010F05C    	 19266:                 clr.w   (spaceReplayTimer).l
+01:0010E8F4 323C00A8        	 19267:                 move.w  #168,d1
+01:0010E8F8 343C0139        	 19268:                 move.w  #313,d2
+01:0010E8FC 4A790012FF94    	 19269:                 tst.w   (g_trainingGame).l
+01:0010E902 661A            	 19270:                 bne.s   pre_frame_init
+01:0010E904 4EB90010F3FA    	 19271:                 jsr     Rand
+01:0010E90A 08000000        	 19272:                 btst    #0,d0
+01:0010E90E 6706            	 19273:                 beq.s   set_small_scroll
+01:0010E910 343C0250        	 19274:                 move.w  #592,d2
+01:0010E914 6004            	 19275:                 bra.s   reset_base_scroll
+...
+```
+
 This is invaluable when combined with WHDLoad's register snapshot:
 
 1. Open `*.whdl_register` in a text editor.
