@@ -787,17 +787,17 @@ Besides illegal instruction traps, WHDLoad intercepts a lot of other problems an
 
 Typical categories you’ll see include:
 
-- **DOS / file I/O errors** – read/write/scan/delete failures on specific files.
-- **CPU exceptions** – address/bus/illegal instruction, always with a PC.
-- **OS emulation / `resload_` API errors** – bad SR/SP, destroyed registers, invalid `PLCMD_*` patch commands, failed decrunch/delta/relocate.
-- **Kickstart / data integrity issues** – invalid Kickstart images, corrupt relocation/patch tables, CRC mismatches.
-- **Hardware misuse** – blitter not waited for, blitter out of bounds, copperlist problems, incomplete MMU trees.
-- **Self-modifying code / SMC checks** – modified opcodes detected, unsupported addressing modes for Snoop/S.
-- **CPU / chipset / video mode requirements** – needs 68020+, AGA, PAL/NTSC, etc.
-- **Stack / interrupts / VBR / CACR problems** – bad SP or modified VBR/CACR on entering `resload_*`.
-- **Misc config issues** – XPK not cached, PreLoad/Examine errors, invalid QuitKey/controller combinations.
+- **DOS / file I/O errors** - read/write/scan/delete failures on specific files.
+- **CPU exceptions** - address/bus/illegal instruction, always with a PC.
+- **OS emulation / `resload_` API errors** - bad SR/SP, destroyed registers, invalid `PLCMD_*` patch commands, failed decrunch/delta/relocate.
+- **Kickstart / data integrity issues** - invalid Kickstart images, corrupt relocation/patch tables, CRC mismatches.
+- **Hardware misuse** - blitter not waited for, blitter out of bounds, copperlist problems, incomplete MMU trees.
+- **Self-modifying code / SMC checks** - modified opcodes detected, unsupported addressing modes for Snoop/S.
+- **CPU / chipset / video mode requirements** - needs 68020+, AGA, PAL/NTSC, etc.
+- **Stack / interrupts / VBR / CACR problems** - bad SP or modified VBR/CACR on entering `resload_*`.
+- **Misc config issues** - XPK not cached, PreLoad/Examine errors, invalid QuitKey/controller combinations.
 
-When you hit one of these dialogs, treat it like a mini crash report: note the **PC**, any mentioned **address or range**, and the **error type**. You can then cross-reference that information with your `.lst` file and disassembly, and—in combination with the WHDLoad dump files—narrow down where your code or data is going wrong even without a "real" debugger attached.
+When you hit one of these dialogs, treat it like a mini crash report: note the **PC**, any mentioned **address or range**, and the **error type**. You can then cross-reference that information with your `.lst` file and disassembly, and-in combination with the WHDLoad dump files-narrow down where your code or data is going wrong even without a "real" debugger attached.
 
 ![](/images/debug_02.png)
 
@@ -941,9 +941,9 @@ Coming Soon!
 
 Here's a collection of useful tools and utilities:
 
-- [010 Editor](https://www.sweetscape.com/010editor/) – Commercial text and hex editor with powerful binary templates for inspecting and editing complex binary formats.  
-- [HxD](https://mh-nexus.de/en/hxd/) – Free, fast hex editor and disk editor for Windows, useful for inspecting raw files, memory, and disks.  
-- [grepWin](https://tools.stefankueng.com/grepWin.html) – Lightweight Windows search tool that adds grep-style regex search and replace to folders via a simple GUI and Explorer integration.
+- [010 Editor](https://www.sweetscape.com/010editor/) - Commercial text and hex editor with powerful binary templates for inspecting and editing complex binary formats.  
+- [HxD](https://mh-nexus.de/en/hxd/) - Free, fast hex editor and disk editor for Windows, useful for inspecting raw files, memory, and disks.  
+- [grepWin](https://tools.stefankueng.com/grepWin.html) - Lightweight Windows search tool that adds grep-style regex search and replace to folders via a simple GUI and Explorer integration.
 
 ## Resources
 
