@@ -1,3 +1,11 @@
+#define ASSET_OP_INIT_CONTEXT 0x0
+#define ASSET_OP_LOAD_FILE 0x2
+#define FPS_50HZ 0x31
+#define ASSET_OP_RESOLVE_ASSET_LIST 0x4
+#define ASSET_OP_QUERY_ASSET_METADATA 0xc
+#define ASSET_OP_OPEN_ANY_SOURCE 0x8
+#define ASSET_OP_SERVICE_LOADER 0xe
+#define ST_PENALTY 0xe
 #define PL_NORMAL 0x0
 #define ST_GAME_IN_PROGRESS 0x64
 #define ST_CORNER_LEFT 0x4
@@ -20,6 +28,7 @@
 #define REF_ABOUT_TO_GIVE_CARD 0x3
 #define REF_WAITING_PLAYER 0x2
 #define REF_BOOKING 0x4
+#define CARD_RED 0x2
 #define CARD_SECOND_YELLOW 0x3
 #define SPR_ADVERT_1_PART_1 0x71
 #define SPR_ADVERT_3_PART_1 0x81
@@ -34,7 +43,6 @@
 #define SPR_EDIT_TEAMS_SHORTS 0xc2
 #define PL_BOOKED 0xc
 #define CARD_YELLOW 0x1
-#define CARD_RED 0x2
 #define SPR_CORNER_FLAG_FRAME_3 0x431
 #define SPR_YELLOW_CARD 0x49a
 #define SPR_RED_CARD 0x499
@@ -74,7 +82,6 @@
 #define ST_STOPPED 0x65
 #define ST_FIRST_EXTRA_STARTING 0x1b
 #define ST_FIRST_EXTRA_ENDED 0x1c
-#define ST_PENALTY 0xe
 #define ST_FOUL 0xd
 #define ST_FREE_KICK_LEFT1 0x6
 #define ST_FREE_KICK_RIGHT3 0xc
@@ -188,6 +195,9 @@
 #define CN_NORTH_AMERICA 0x53
 #define CN_ASIA 0x54
 #define CLUB_TEAMS 0x1
+#define ASSET_OP_WAIT_FOR_SAVE_DISK 0x10
+#define ASSET_OP_OPEN_SAVE_VOLUME 0xa
+#define ASSET_OP_DELETE_FILE 0x6
 #define CLUB_UNWILLING_TO_PURCHASE_PLAYERS 0x1
 #define PINK_TO_BROWN_1 0x1
 #define ORANGE_TO_BROWN_5 0x5
@@ -758,6 +768,7 @@ struct TeamGame {
     byte unk1;
     byte numOwnGoals;
     byte unk3;
+    byte unk4[976];
 };
 
 typedef struct GoalInfo GoalInfo, *PGoalInfo;
@@ -956,15 +967,6 @@ struct PlayerPositions {
     byte positions[35];
 };
 
-typedef struct ScorerInfo ScorerInfo, *PScorerInfo;
-
-struct ScorerInfo {
-    word shirtNum;
-    word numSpritesTaken;
-    word numGoals;
-    struct GoalInfo goals[10];
-};
-
 typedef enum TacticsEnum {
     TACTIC_DEFAULT=0,
     TACTIC_5_4_1=1,
@@ -1129,6 +1131,10 @@ typedef enum PitchTypeEnum {
     RANDOM=65535
 } PitchTypeEnum;
 
+typedef enum Fps {
+    FPS_50HZ=49
+} Fps;
+
 typedef enum RefereeState {
     REF_OFF_SCREEN=0,
     REF_INCOMING=1,
@@ -1249,6 +1255,15 @@ struct PoolPlayer {
     struct PlayerFile player;
 };
 
+typedef struct ScorerInfo ScorerInfo, *PScorerInfo;
+
+struct ScorerInfo {
+    word shirtNum;
+    word numSpritesTaken;
+    word numGoals;
+    struct GoalInfo goals[10];
+};
+
 typedef enum Seasons {
     SEASON_JAN=0,
     SEASON_FEB=1,
@@ -1283,6 +1298,25 @@ typedef enum Positions {
     POS_MIDFIELDER=6,
     POS_ATTACKER=7
 } Positions;
+
+typedef enum AssetSysOp {
+    ASSET_OP_INIT_CONTEXT=0,
+    ASSET_OP_INIT_SOURCE0=1,
+    ASSET_OP_LOAD_FILE=2,
+    ASSET_OP_INIT_SOURCE2=3,
+    ASSET_OP_RESOLVE_ASSET_LIST=4,
+    ASSET_OP_DO_CRITICAL=5,
+    ASSET_OP_DELETE_FILE=6,
+    ASSET_OP_SELECT_AND_OPEN=7,
+    ASSET_OP_OPEN_ANY_SOURCE=8,
+    ASSET_OP_UNK_09=9,
+    ASSET_OP_OPEN_SAVE_VOLUME=10,
+    ASSET_OP_QUERY_ASSET_METADATA=12,
+    ASSET_OP_UNK_0D=13,
+    ASSET_OP_SERVICE_LOADER=14,
+    ASSET_OP_UNK_0F=15,
+    ASSET_OP_WAIT_FOR_SAVE_DISK=16
+} AssetSysOp;
 
 typedef enum DiyCompetitionTypes {
     DIY_LEAGUE=0,
@@ -1387,94 +1421,94 @@ typedef enum GameState {
 
 void __usercall j_start(void);
 void __usercall start(void);
-short __usercall AssetSysDispatch(ushort selector);
-void __usercall assetSysJumpTable(void);
-void __usercall asset_sys_init_context(void);
-void asset_sys_init_open_source_0(void);
-void asset_sys_init_open_source_1(void);
-void asset_sys_init_open_source_2(void);
-undefined8 asset_sys_resolve_asset_list(void);
-void asset_sys_do_critical(void);
-void __usercall asset_sys_op5_then_maybe6(void);
-undefined8 asset_sys_select_and_open(void);
-undefined6 asset_sys_open_any_source(void);
-void __usercall asset_sys_prep_copy_params(void);
-uint __usercall sub_1005C0(uint op,uint arg1,void *pA,void *pB,void *ctx);
-uint __usercall sub_10065E(void *src);
-void __usercall sub_1006A4(void *entry);
-uint __usercall sub_1006AE(uint value,void *entry);
-uint __usercall sub_1006C4(void *entry,void *dst,uint remaining);
-void __usercall sub_10079C(uint pos);
-void __usercall sub_1007CE(uint index);
-void __usercall sub_1007E8(void *ctx,void *dst);
-uint __usercall sub_1007FC(void *dst,void *ctx,uint remaining);
-void __usercall sub_10086A(uint count,void *src,void *dst);
-uint __usercall sub_100896(void *state);
-uint __usercall sub_1008C0(void *ctx,void *nameSrc,void *data,uint size);
-uint __usercall sub_100A6A(uint id,void *ctx);
-void __usercall sub_100AA0(uint index,void *ctx);
-void __usercall sub_100AC4(uint start,void *ctx);
-uint __usercall sub_100AD8(uint start,void *ctx);
-void __usercall sub_100AF4(uint index,void *ctx);
-void __usercall sub_100B12(uint index,void *ctx);
-void __usercall sub_100B36(void *ctx);
-void __usercall sub_100B4E(void *rec,void *text);
-uint __usercall sub_100B66(void *ctx,void *outBuf);
-void __usercall sub_100BBA(void *ctx);
-uint __usercall sub_100BCC(void *ctx,void *text);
-void __usercall sub_100C62(void *ctx);
-uint __usercall sub_100C64(char *path,uint mode);
-void __usercall sub_100D06(uint mode,uchar *p);
-uchar __usercall sub_100D3E(uchar *p);
-uchar __usercall sub_100D40(uchar c);
-uint __usercall sub_100D54(char *path);
-uint __usercall sub_100DA8(void *ctx);
-uint __usercall sub_100DD0(void);
-uint __usercall sub_100DE0(void);
-uint __usercall sub_100DEC(void *base);
-void __usercall sub_100E54(void *rec);
-uint __usercall sub_100E5E(ushort dev,ushort off,ushort len,ushort mode,void *buf,void *ctx);
-uint __usercall sub_100E60(ushort dev,ushort off,ushort len,ushort mode,void *buf,void *ctx);
-uint __usercall sub_100E6C(ushort dev,ushort off,ushort len,ushort mode,void *buf,void *ctx);
-uint __usercall sub_100E6E(ushort dev,ushort off,ushort len,ushort mode,void *buf,void *ctx);
-uint __usercall sub_100E70(ushort dev,ushort off,ushort len,ushort mode,void *buf,void *ctx,void *state);
-uint __usercall sub_100E7E(ushort dev,ushort off,ushort len,ushort mode,void *buf,void *ctx);
-uint __usercall sub_100F90(void);
-uint __usercall sub_100FBE(ushort bit);
-void __usercall sub_100FCE(ushort bit);
-uint __usercall sub_100FEC(void);
+short __usercall AssetSys_Dispatch(AssetSysOp op);
+short __usercall AssetSys_JumpTable(void *loaderBase,char *disk0Path,char *disk1Path,char *disk2Path,char *disk3Path);
+short __usercall AssetSys_InitContext(void *loaderBase,char *disk0Path,char *disk1Path,char *disk2Path,char *disk3Path);
+int __usercall AssetSys_InitSource0(char *filename);
+int __usercall AssetSys_LoadFileOp(char *filename);
+int __usercall AssetSys_InitSource2(char *filename);
+int __usercall AssetSys_ResolveAssetList(void);
+int __usercall AssetSys_DoCriticalOp(char *filename);
+int __usercall AssetSys_Op5ThenMaybe6(void *source_desc);
+int __usercall AssetSys_SelectAndOpen(ushort asset_index);
+short __usercall AssetSys_OpenAnySource(void);
+char * __usercall AssetSysPrepCopyParams(char *filename);
+uint __usercall FloppyAsset_DispatchOp(uint op,uint arg1,void *pA,void *pB,void *ctx);
+uint __usercall Floppy_AllocTmpEntry(void *src);
+void __usercall Floppy_ClearTmpEntry(void *entry);
+uint __usercall Floppy_SetTmpEntryLimit(uint value,void *entry);
+uint __usercall Floppy_ReadFromTmpEntry(void *entry,void *dst,uint remaining);
+void __usercall Floppy_PosToCHS(uint pos);
+void __usercall Floppy_MapIndexToTmpEntryOrFail(uint index);
+void __usercall Floppy_StreamInit(void *ctx,void *dst);
+uint __usercall Floppy_StreamContinue(void *dst,void *ctx,uint remaining);
+void __usercall Floppy_CopyBytesWithAlignment(uint count,void *src,void *dst);
+uint __usercall Floppy_RefillSymbolStack(void *state);
+uint __usercall Floppy_LoadByName(void *ctx,void *nameSrc,void *data,uint size);
+uint __usercall Floppy_SelectId(uint id,void *ctx);
+void __usercall Floppy_BitSet(uint index,void *ctx);
+void __usercall Floppy_FindNextSetBitOrSame(uint start,void *ctx);
+uint __usercall Floppy_CountFollowingSetBits(uint start,void *ctx);
+void __usercall Floppy_BitTest(uint index,void *ctx);
+void __usercall Floppy_BitClear(uint index,void *ctx);
+void __usercall Floppy_FlushErrorState(void *ctx);
+void __usercall Floppy_RecordCopyText(void *rec,void *text);
+uint __usercall Floppy_DumpStatus(void *ctx,void *outBuf);
+void __usercall Floppy_ClearCtx3500(void *ctx);
+uint __usercall Floppy_SendTextRecord(void *ctx,void *text);
+void __usercall Floppy_CtxAliasA0(void *ctx);
+uint __usercall Floppy_FindRecordByPath(char *path,uint mode);
+void __usercall Floppy_ParseDrivePrefix(uint mode,uchar *p);
+uchar __usercall Floppy_GetNextChar(uchar *p);
+uchar __usercall Floppy_ToUpperOrZero(uchar c);
+uint __usercall Floppy_HashLastPathComponent(char *path);
+uint __usercall Floppy_Check370Record(void *ctx);
+uint __usercall Floppy_TransferNonBlockingLen1Wrapper(void);
+uint __usercall Floppy_CheckErrorOr195(void);
+uint __usercall Floppy_Checksum512Words(void *base);
+void __usercall AssetDriveCtx_ProbeDrives(void *rec);
+uint __usercall FloppyDev_TransferBlockingLen1(ushort dev,ushort off,ushort len,ushort mode,void *buf,void *ctx);
+uint __usercall FloppyDev_TransferBlocking(ushort dev,ushort off,ushort len,ushort mode,void *buf,void *ctx);
+uint __usercall FloppyDev_TransferNonBlockingLen1(ushort dev,ushort off,ushort len,ushort mode,void *buf,void *ctx);
+uint __usercall FloppyDev_TransferNonBlocking(ushort dev,ushort off,ushort len,ushort mode,void *buf,void *ctx);
+uint __usercall FloppyDev_TransferWithState(ushort dev,ushort off,ushort len,ushort mode,void *buf,void *ctx,void *state);
+uint __usercall FloppyDev_TransferImpl(ushort dev,ushort off,ushort len,ushort mode,void *buf,void *ctx);
+uint __usercall FloppyDev_ProbeDriveMask(void);
+uint __usercall FloppyCIA_ReadLongBitstream(ushort bit);
+void __usercall FloppyCIA_ReadBit(ushort bit);
+uint __usercall FloppyDMA_ReadSectorsWithRetry(void);
 uint __usercall FloppyDMAReadAttempt(void);
-void __usercall sub_101164(ushort start);
-uint __usercall sub_1011DC(void);
-uint __usercall sub_101234(void *custom);
-uint __usercall sub_101356(ushort cylIdx);
-void __usercall sub_101366(ushort secIdx);
-void __usercall sub_101376(void *base);
-uint __usercall sub_101388(void);
-uint __usercall sub_1013A8(void *p);
-uint __usercall sub_1013BE(void);
-uint __usercall sub_1013CC(void);
-uint __usercall sub_1013D2(void *p,uint bytes);
-void __usercall sub_1013EC(void);
-void __usercall sub_10142A(void *src,void *dst);
-void __usercall sub_101452(void *src,void *dst,uint sizeBytes);
-void __usercall sub_101480(uint value,void *buf);
-void __usercall sub_10148A(void *p);
-void __usercall sub_1014A8(uint value,void *p);
-void __usercall sub_1014D4(void *dmaBuf,uint byteCount);
-uint __usercall sub_101512(void);
-void __usercall sub_10154A(void);
-void __usercall sub_101558(void);
-void __usercall sub_10155A(void);
-void __usercall sub_101578(void);
-uint __usercall sub_101590(uint val);
-uint __usercall sub_1015DE(void);
-void __usercall sub_101612(uint steps,int dir);
-void __usercall sub_101636(void);
-uint __usercall sub_101640(void);
-void __usercall sub_101670(uint ticks);
-void __usercall sub_101682(uint limit);
-void __usercall sub_101690(void);
+void __usercall FloppyDMA_BuildTrackBuffer(ushort startSector);
+uint __usercall FloppyDMA_ScanSyncAndHeader(void);
+uint __usercall FloppyDMA_HandleIrqAndTransfer(void *custom);
+uint __usercall FloppyGeom_CylinderByteOffset(ushort cylIdx);
+void __usercall FloppyGeom_MarkSectorDone(ushort secIdx);
+void __usercall FloppyDMA_ClearTrackStatus(void *base);
+uint __usercall FloppyID_DecodeHeader(void);
+uint __usercall FloppyMFM_DecodeLongPair(void *p);
+uint __usercall FloppyMFM_CheckHeaderSync(void);
+uint __usercall FloppyMFM_PrepHeaderChecksum(void);
+uint __usercall FloppyMFM_ComputeChecksum(void *p,uint bytes);
+void __usercall FloppyDMA_FillGapPattern(void);
+void __usercall FloppyMFM_DecodeInterleavedTrack(void *src,void *dst);
+void __usercall FloppyMFM_EncodeBuffer(void *src,void *dst,uint sizeBytes);
+void __usercall FloppyMFM_WriteEncodedLong(uint value,void *buf);
+void __usercall FloppyMFM_AdjustClockBit(void *p);
+void __usercall FloppyMFM_EncodeLong(uint value,void *p);
+void __usercall FloppyDMA_StartBlitterTransfer(void *dmaBuf,uint byteCount);
+uint __usercall FloppyDMA_WaitBlitterDone(void);
+void __usercall FloppyHW_PrepareAdkcon(void);
+void __usercall FloppyCIA_InitProbeBits(void);
+void __usercall FloppyCIA_SelectDriveFromState(void);
+void __usercall FloppyCIA_ProbeStepPulse(void);
+uint __usercall FloppyStep_AdjustCalibration(uint val);
+uint __usercall FloppyStep_AutoCalibrateOrTimeout(void);
+void __usercall FloppyStep_DoSteps(uint steps,int dir);
+void __usercall FloppyCIA_UpdateLinesFromTable(void);
+uint __usercall FloppyCIA_BuildStepPattern(void);
+void __usercall FloppyTimer_DelayTicks(uint ticks);
+void __usercall FloppyTimer_WaitIfRunning(uint limit);
+void __usercall FloppyTimer_StartCiaB(void);
 void __usercall Int12KeyboardHandler(void);
 void __usercall Int13TimerHandler(void);
 ushort __usercall GetKey(void);
@@ -1483,7 +1517,7 @@ void __usercall UpdatePlanePtrsAndBlitParams(void);
 void __usercall SwapBuffersAndCameraViewState(void);
 void __usercall InitHardwareAtFrameStart(void);
 void __usercall PanicHaltLoop(void);
-void __usercall sub_10255E(void);
+void __usercall FlashColor0Delay(void);
 ushort __usercall Player1StatusProc(void);
 ushort __usercall Player2StatusProc(void);
 void __usercall ProcessSpriteBlitQueue(void);
@@ -1507,9 +1541,11 @@ void __usercall nullsub_2(void);
 void __usercall nullsub_3(void);
 void __usercall ReturnFunction(void);
 void __usercall SetupInterrupts(void);
+void __usercall Int_Level3_2_Handler(void);
 void __usercall nullsub_4(void);
-undefined8 set_tmp_stack_ptr(void);
-void __usercall return_from_function(void);
+void __usercall Int_Level5_Handler(void);
+undefined8 SetTempStackPtr(void);
+void __usercall ReturnFromFunction(void);
 void __usercall BlitterSpan4Planes(void);
 void __usercall BlitterSpanCoreMasked(void);
 void align_and_prepare_left_mask(void);
@@ -1548,21 +1584,21 @@ short __usercall DrawMenuTextCentered(ushort x_center,ushort y,ushort color,char
 ushort __usercall Text2Sprite(ushort xOff,ushort yOff,ushort dstSpriteIndex,char *text,CharTable *charsTable);
 void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ushort planeMask);
 void __usercall BlitGlyphToSpriteBitmap(ushort glyphIndex,ushort xOff,ushort yOff,ushort planeMask,ushort dstSpriteIndex);
-void __usercall InitDiskImageSources(void);
+void __usercall AssetSys_InitDiskImageSources(void);
 ushort __usercall LoadRNCToBufferNoBlit(char *filename,void *dst);
 ushort __usercall LoadFile(char *filename,void *dst);
 ushort __usercall PlaySong(char *filename);
 ushort __usercall AssetEnsureReadyWithRetry(char *name);
 ushort __usercall WriteFile(char *filename,void *src,uint size);
 ushort __usercall FindFilesExtensionPresent(char *ext);
-ushort __usercall sub_105BC6(int param,void *buffer);
-ushort __usercall sub_105C44(uint length,void *buffer);
-ushort __usercall sub_105C8A(char *path);
-ushort __usercall sub_105CD4(char *path);
-ushort __usercall sub_105CEE(void);
-void __usercall sub_105CFE(char *path);
-void __usercall sub_105D0C(char *path);
-char * __usercall sub_105D1A(char *path);
+ushort __usercall Loader_ReadFileChunks(int param,void *buffer);
+ushort __usercall Loader_WriteFileChunks(uint length,void *buffer);
+ushort __usercall Loader_OpenFileForRead(char *path);
+ushort __usercall Loader_OpenFileForWrite(char *path);
+ushort __usercall Loader_CloseFile(void);
+void __usercall Loader_NormalizePath(char *path);
+void __usercall Loader_NormalizePath2(char *path);
+char * __usercall Loader_CopyNormalizedPath(char *path);
 void __usercall InstallAndRunLoaderBootstrap_Op3(void);
 void __usercall InstallAndInitLoaderBootstrap(void);
 void __usercall AssetSvcLoaderOp(void);
@@ -1576,15 +1612,15 @@ int __usercall AssetCacheFindByName(char *name);
 short __usercall AssetCacheCopyByName(char *name,void *dst);
 short __usercall AssetCacheLoadFromAssetSys(char *name);
 void __usercall AssetCacheStoreFromMemory(char *name,void *src,uint size);
-void __usercall DecompressRNCHeader02(void *src,void *dst);
-int __usercall DecompressRNCHeader01(void *src,void *dst,uint expectedSize);
-int __usercall sub_1069A4(void *src,void *dst);
-int __usercall sub_106AC2(void *tab);
-int __usercall sub_106AF8(uint mask,uint nbits);
-void __usercall sub_106B04(void);
-uint __usercall sub_106B1C(uchar **pp);
-void __usercall sub_106B28(void *outTab);
-void __usercall sub_106BB0(void *src,void *dst);
+void __usercall RncDecompressV2(void *src,void *dst);
+int __usercall RncDecompressV1(void *src,void *dst,uint expectedSize);
+int __usercall RncDecodeBlock(void *src,void *dst);
+int __usercall RncDecodeSymbol(void *tab);
+int __usercall RncGetBits(uint mask,uint nbits);
+void __usercall RncRefillBits(void);
+uint __usercall RncReadU32(uchar **pp);
+void __usercall RncBuildTable(void *outTab);
+void __usercall RncDecodeV2Body(void *src,void *dst);
 void __usercall nullsub_5(void);
 void __usercall CrowdResetMatchState(void);
 void __usercall TurnCrowdChantsOn(void);
@@ -1615,7 +1651,7 @@ void __usercall PlayEndGameWhistleSample(void);
 void __usercall PlaySample1IfNotTraining(void);
 void PlaySample3IfNotTraining(void);
 void __usercall PlaySample3(void);
-void __usercall sub_107322(void);
+void __usercall PlaySample5(void);
 void __usercall PlayMissGoalSample(void);
 void __usercall PlayPenalty(void);
 void __usercall PlayGameStateWhistleSample(void);
@@ -1635,7 +1671,7 @@ void __usercall InitAudioState(void *bankBase,void *songPtr);
 void __usercall ClearAudioChannelStruct(void *chan);
 void __usercall StopAllAudioChannels(void);
 void __usercall AudioSetChannelVolume(uint channelOrAll,uint volume);
-void __usercall sub_10760C(uint modeFlags);
+void __usercall AudioSetMode(uint modeFlags);
 void __usercall AudioApplyPresetToChannels(uint presetId);
 void __usercall AudioChannelNoteOnOff(uint channel,uint noteId);
 void __usercall AudioChannelQueueNextWaveIfEnabled(uint channel,uint waveId);
@@ -1650,25 +1686,25 @@ void __usercall AudioIRQScriptCmdJumpTable(void *chan,uchar *script);
 void __usercall audioirq_cmd_play_note_from_track(void *chan,uchar *script);
 void __usercall AudioIRQUpdateBeepVoiceParams(void *chan);
 void __usercall AudioIRQApplyBeepVolumeAndWriteAUDxVOL(void *chan);
-void __usercall sub_10796C(void *chan);
-void __usercall sub_10799E(void *chan);
-void __usercall sub_107A30(void *chan);
+void __usercall AudioIRQBeepVolumeLfoStep(void *chan);
+void __usercall AudioIRQBeepVolumeEnvStep(void *chan);
+void __usercall AudioIRQInitVolumeEnvForNote(void *chan);
 void __usercall AudioIRQBeepLFOAndPitchSlide(void *chan);
 void __usercall AudioIRQNoteOnInitChannel(void *chan,uint amigaPeriod);
-void __usercall sub_107B12(uint variantId,void *chan);
+void __usercall AudioIRQSelectVariant(uint variantId,void *chan);
 uchar __usercall AudioIRQLoadAUDxPtrLenIfReloadNeeded2(void *chan);
 void __usercall AudioIRQEnableDMAIfStartFlag2(void *chan);
 void __usercall AudioIRQRunModCommandStream(void *chan);
-void __usercall switchD_00107bec::sub_107C18(void *chan,uchar *stream);
+void __usercall switchD_00107bec::AudioIRQDispatchModCommand(void *chan,uchar *stream);
 void __usercall switchD_00107bec::caseD_4e(void *chan,uchar *stream);
-void __usercall sub_107C76(void *chan);
+void __usercall AudioIRQServiceVolume(void *chan);
 void __usercall AudioIRQApplyVolumeAndWriteAUDxVOL(void *chan,void *audxRegs);
-void __usercall sub_107CA8(void *chan);
-void __usercall sub_107CDA(void *chan);
-void __usercall sub_107D6C(void *chan);
+void __usercall AudioIRQVolumeLfoStep(void *chan);
+void __usercall AudioIRQVolumeEnvStep(void *chan);
+void __usercall AudioIRQInitVolumeEnv(void *chan);
 void __usercall AudioIRQLFOAndPitchSlide(void *chan);
-void __usercall sub_107DEE(void *chan,uint amigaPeriod);
-void __usercall sub_107E4E(void *chan,uint amigaPeriod);
+void __usercall AudioIRQInitPitchEnv(void *chan,uint amigaPeriod);
+void __usercall AudioIRQSelectInstrument(void *chan,uint amigaPeriod);
 short __usercall CalculateDeltaXAndY(short speed,short destX,short destY,short curX,short curY);
 void __usercall MovePlayers(void);
 void __usercall SetNextPlayerFrame(Sprite *player);
@@ -1769,7 +1805,7 @@ void __usercall DrawFormationMenu(void);
 void __usercall DrawFormationMenuEntry(uchar *charsTable,ushort y,ushort entryColor,ushort entryIndex);
 void * __usercall GetBenchPlayerPointer(ushort index);
 void main(void);
-void __usercall sub_10E89A(void);
+void __usercall ViewMatchSequence(void);
 void __usercall ViewHighlights(void);
 void __usercall StartMatchSequence(void *topTeam,void *bottomTeam);
 void __usercall GameLoop(void);
@@ -1793,6 +1829,15 @@ void __usercall ReplayExitMenuAfterFriendly(void);
 void __usercall DrawReplayOrExitMenu(void);
 void __usercall DrawMenuBack150x20(ushort color,ushort x,ushort y);
 void __usercall DrawReplayContinueShiningFrame(short x,short y);
+void __usercall ShowLoaderIntroSequence(void);
+void __usercall LoaderIntroShowFrameFadeInOut(void);
+void __usercall LoaderIntroShowFrameWithMusic(void);
+void FUN_0010fe84(void);
+void __usercall LoaderIntroWaitForFireOrTimeout(void);
+void __usercall LoaderIntroLoadFrameToFrontbufferAlt(void);
+void __usercall LoaderIntroLoadHeroAudioBank(void);
+void __usercall LoaderIntroEnsureMenuMusicPlaying(void);
+void __usercall LoaderIntroStopMusicAndResetAudio(void);
 void __usercall ResetGoalAttempt(void);
 void __usercall AllowStatistics(void);
 void __usercall StatisticsOff(void);
@@ -1891,7 +1936,7 @@ void __usercall SetDefaultNameAndSurname(void);
 void __usercall InitUserTactics(void);
 void __usercall FrontEndPreLoopSetup(void);
 void __usercall PrepareMenuForFadeIn(void);
-void __usercall sub_120668(void);
+void __usercall PrepareMenuBackground(void);
 void __usercall LoadOverlayToFrontbuffer(char *path);
 void __usercall FrontEndMainLoop(void);
 void __usercall DoubleBufferSwapSequence(void);
@@ -1907,18 +1952,18 @@ void __usercall BlitterCopyPanelToScreen2(void);
 void __usercall Int2Ascii(ushort value,char *out);
 void __usercall SetCurrentEntry(ushort index);
 MenuEntry * __usercall CalcMenuEntryAddress(ushort ordinal);
-void __usercall GetStringLength(void);
-void __usercall sub_120C90(void);
+uchar __usercall GetStringLength(void);
+void __usercall StringEquals(char *s1,char *s2);
 char * __usercall StringCopy(char *src,char *dst);
 char * __usercall StringCopyUntilChar(char *src,char *dst,uchar ch);
 void __usercall PrintFormatted(char *fmt,char *out,ushort n0,ushort n1,ushort n2,ushort n3,ushort n4,ushort n5,ushort n6,char *a,char *b,char *c);
 ushort __usercall InputText(ushort maxLenPlus1,MenuEntry *entry);
 void __usercall InsertCharacter(char *pos,uchar ch);
-void __usercall sub_120EF2(char *pos);
-ushort __usercall sub_120F02(void);
+void __usercall InputTextDeleteCharAtCursor(char *pos);
+ushort __usercall InputTextFilterKey(void);
 void __usercall DrawMenuItemsWaitForVSync(short *list);
 void __usercall DrawMenuItemsFromList(short *list);
-void __usercall sub_120FEC(MenuEntry *entry);
+void __usercall CallDrawMultipleItemsRect(MenuEntry *entry);
 void __usercall CallDrawMultipleItems(ushort count,MenuEntry *items);
 void __usercall DrawMultipleItems(ushort maxItems,MenuEntry *firstEntry);
 void __usercall CallDrawMenuItem(MenuEntry *item);
@@ -1932,9 +1977,9 @@ void __usercall RestorePreviousMenu(void *oldSelectedEntry,void *oldPackedMenu);
 void __usercall SetExitMenuFlag(void);
 short __usercall ActivateMenu(Menu *menu);
 void __usercall DrawMenuPanelBackground(void);
-short __usercall sub_121684(void *team,void *info);
+short __usercall CalcTeamPriceRankPercentOffset(void *team,void *info);
 char __usercall AssignFakeGoalsToScorers(ushort winningTeam,ushort numGoals);
-void __usercall sub_1217E6(TeamFile *teamFile);
+void __usercall CalcTeamViewOffset(TeamFile *teamFile);
 void __usercall CalculateViewResult(void *ctx,ushort arg0,ushort team1Goals,ushort team2Goals,ushort arg3,void *p1,void *p2);
 ushort __usercall sub_121CFA(ushort value);
 ushort FUN_00121e56(void);
@@ -2047,7 +2092,7 @@ void __usercall sub_127E0A(TeamFile *team1,TeamFile *team2);
 void __usercall sub_12818C(TeamFile *team1,TeamFile *team2);
 void __usercall SetupPlayers(TeamFile *team1,TeamFile *team2);
 void __usercall ShowHighlights(void);
-void __usercall sub_1284FE(void);
+void __usercall ShowMatchSequence(void);
 void __usercall ViewHighlightsSaveCurrentMenu(void);
 void __usercall InitializeInGameTeamsAndStartGame(short randomizePitch,short minSubs,short maxSubs,short paramD3,short paramD7,TeamFile *team1,TeamFile *team2);
 void __usercall sub_1288C4(TeamGame *teamGame,TeamFile *teamFile);
@@ -2075,6 +2120,7 @@ void __usercall sub_1295DE(void);
 void __usercall sub_129650(void);
 void __usercall sub_129772(void);
 void __usercall sub_129800(void *a2);
+void __usercall sub_129960(void);
 void __usercall sub_129972(void *diy,void *slot,void *comp);
 void __usercall sub_129A16(void *diy,void *slot);
 void __usercall sub_129AC6(void *diy,void *slot);
@@ -3061,9 +3107,9 @@ uint __usercall sub_15178A(ushort teamId,void *endPtr);
 void FUN_001517c2(void);
 uint __usercall sub_1518B0(ushort teamId,void *endPtr);
 void __usercall ShowInsertDisk2Dialog(void);
-ushort __usercall sub_151912(char *title);
-void __usercall sub_151948(void);
-void __usercall sub_15197A(void);
+ushort __usercall Asset_PromptInsertSaveDiskDf0(char *title);
+void __usercall SaveCompetitionFile(void);
+void __usercall LoadCompetitionFile(void);
 void __usercall LoadCareerFile(void);
 void __usercall SaveCareerFile(void);
 void __usercall j_LoadCareerFile(void);

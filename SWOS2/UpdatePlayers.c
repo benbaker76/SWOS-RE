@@ -1,7 +1,7 @@
 /*
  * Auto-generated call graph export
  * Start: UpdatePlayers
- * Date : 2025-11-19 22:46:26
+ * Date : 2025-11-30 18:40:06
  */
 
 /* ===================== INCLUDES ===================== */
@@ -416,7 +416,7 @@ ushort __usercall GetTextWidth(char *text,CharTable *charsTable)
     }
     else {
       uVar2 = charsTable->charSpacing +
-              *(short *)(*(int *)((int)g_spriteGraphicsPtr +
+              *(short *)(*(int *)((int)spriteGraphicsPtr +
                                  (int)(short)((charsTable->spriteIndexOffset +
                                               (ushort)charsTable->conversionTable
                                                       [(short)(ushort)(byte)(cVar1 - 0x20)]) * 4)) +
@@ -453,7 +453,7 @@ short __usercall DrawMenuText(ushort x,ushort y,ushort color,char *text,CharTabl
   ushort x_00;
   char *pcVar5;
   
-  ppSVar4 = g_spriteGraphicsPtr;
+  ppSVar4 = spriteGraphicsPtr;
   wVar1 = chars->spriteIndexOffset;
   wVar2 = chars->charSpacing;
   do {
@@ -540,7 +540,7 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
   
   textBlitPlaneMask = planeMask;
   uVar9 = spriteIndex << 2;
-  pbVar1 = *(byte **)((int)g_spriteGraphicsPtr + (int)(short)uVar9);
+  pbVar1 = *(byte **)((int)spriteGraphicsPtr + (int)(short)uVar9);
   if (*(short *)(pbVar1 + 8) == 0) {
     uVar11 = *(ushort *)(pbVar1 + 0xc);
     x = cameraXMod320 + x;
@@ -591,7 +591,7 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
       blitSrcB_GlyphPtr = dVar18;
       iVar8 = (uint)y * 0xb0 + iVar7;
       while( true ) {
-        DAT_00dff048 = g_frontbufferBase + iVar8;
+        DAT_00dff048 = frontbufferBasePtr + iVar8;
         sVar10 = 2;
         uVar13 = planeMask;
         do {
@@ -639,9 +639,9 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
   panicReasonCode = 0x1556;
   PanicHaltLoop();
   *pbVar1 = *pbVar1 | 0x28;
-  piVar2 = *(int **)((int)g_spriteGraphicsPtr + (int)(short)((uVar9 | 0xc3) << 2));
+  piVar2 = *(int **)((int)spriteGraphicsPtr + (int)(short)((uVar9 | 0xc3) << 2));
   if (*(short *)(piVar2 + 2) == 0) {
-    piVar3 = *(int **)((int)g_spriteGraphicsPtr + (int)(short)(unaff_D4w << 2));
+    piVar3 = *(int **)((int)spriteGraphicsPtr + (int)(short)(unaff_D4w << 2));
     sVar10 = *(short *)((int)piVar3 + 0xe);
     dstRowBytesPerPlane = sVar10 * 2;
     iVar8 = (int)(short)dstRowBytesPerPlane;
@@ -827,7 +827,7 @@ void __usercall PlayGameStateWhistleSample(void)
   if (g_trainingGame != 0) {
     return;
   }
-  if ((gameState != 0xe) || (sfxQueueWriteIdx == 0)) {
+  if ((gameState != ST_PENALTY) || (sfxQueueWriteIdx == 0)) {
     PlayPenaltySample();
   }
   sfxQueueWriteIdx = 0x96;
@@ -1879,13 +1879,13 @@ void __usercall PlayerTackled(Sprite *playerSprite,TeamGeneralInfo *team)
                         (int)(short)((playerSprite->playerOrdinal - 1) * 2));
       pTVar1 = team->inGameTeamPtr;
       pcVar7 = kTackleInjuryProbability;
-      if ((pTVar1[1].teamName[sVar2 + 0xd] & 0xe0) == 0x20) {
+      if ((pTVar1->unk4[sVar2 + 0x23] & 0xe0) == 0x20) {
         pcVar7 = kTackleInjuryProbabilityAlreadyInjured;
       }
       uVar5 = Rand();
       if ((byte)uVar5 < (byte)pcVar7[(short)wVar4]) {
         pcVar7 = kInjuryLevels;
-        if ((pTVar1[1].teamName[sVar2 + 0xd] & 0xe0) == 0x20) {
+        if ((pTVar1->unk4[sVar2 + 0x23] & 0xe0) == 0x20) {
           pcVar7 = kInjuryLevelAlreadyInjured;
         }
         uVar5 = Rand();
@@ -1915,9 +1915,9 @@ void __usercall PlayerTackled(Sprite *playerSprite,TeamGeneralInfo *team)
             }
           }
         }
-        pTVar1[1].teamName[sVar2 + -0x10] = 1;
-        if (pTVar1[1].teamName[sVar2 + 0xd] < (byte)uVar5) {
-          pTVar1[1].teamName[sVar2 + 0xd] = (byte)uVar5;
+        pTVar1->unk4[sVar2 + 6] = 1;
+        if (pTVar1->unk4[sVar2 + 0x23] < (byte)uVar5) {
+          pTVar1->unk4[sVar2 + 0x23] = (byte)uVar5;
         }
         playerSprite->injuryLevel =
              *(word *)((int)kInjuryRecoveryTime + (int)(short)((uVar5 >> 5) << 1));
@@ -2232,16 +2232,16 @@ ushort __usercall TryBookingThePlayer(Sprite *player,TeamGeneralInfo *team)
   sVar4 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)((player->playerOrdinal - 1) * 2));
   if (plg_D3_param == 0) {
     pbVar5 = cardAnimStatesNoFlag;
-    if (pTVar1[1].teamName[sVar4 + -0xd] != 0) {
+    if (pTVar1->unk4[sVar4 + 9] != 0) {
       pbVar5 = cardAnimStatesWithFlag;
     }
-    pTVar1[1].teamName[sVar4 + -0xc] = pbVar5[(short)(player->cards + 1)];
+    pTVar1->unk4[sVar4 + 10] = pbVar5[(short)(player->cards + 1)];
   }
-  else if (pTVar1[1].teamName[sVar4 + -0xc] == 0) {
-    pTVar1[1].teamName[sVar4 + -0xc] = 1;
+  else if (pTVar1->unk4[sVar4 + 10] == 0) {
+    pTVar1->unk4[sVar4 + 10] = 1;
   }
   else {
-    pTVar1[1].teamName[sVar4 + -0xc] = 3;
+    pTVar1->unk4[sVar4 + 10] = 3;
   }
   player->cards = player->cards + 1;
   refTimer = 0;
@@ -2299,13 +2299,13 @@ ushort __usercall TrySendingOffThePlayer(Sprite *player,TeamGeneralInfo *team)
   sVar4 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)((player->playerOrdinal - 1) * 2));
   if (plg_D3_param == 0) {
     pbVar5 = cardAnimStatesNoFlag;
-    if (pTVar1[1].teamName[sVar4 + -0xd] != 0) {
+    if (pTVar1->unk4[sVar4 + 9] != 0) {
       pbVar5 = cardAnimStatesWithFlag;
     }
-    pTVar1[1].teamName[sVar4 + -0xc] = pbVar5[(short)((player->cards ^ 1) + 3)];
+    pTVar1->unk4[sVar4 + 10] = pbVar5[(short)((player->cards ^ 1) + 3)];
   }
   else {
-    pTVar1[1].teamName[sVar4 + -0xc] = 3;
+    pTVar1->unk4[sVar4 + 10] = 3;
   }
   refTimer = 0;
   whichCard = CARD_RED;
@@ -3046,9 +3046,9 @@ void __usercall PlayerBeginTackling(short pressedDir,Sprite *player,TeamGeneralI
   SetPlayerAnimationTable(&plTacklingAnimTable,player);
   player->playerState = PL_TACKLING;
   player->playerDownTimer = 0x32;
-  if (team->inGameTeamPtr[1].teamName
-      [*(short *)((int)ingameTeamPlayerOffsets + (int)(short)((player->playerOrdinal - 1) * 2)) +
-       -0xe] != 0) {
+  if (team->inGameTeamPtr->unk4
+      [*(short *)((int)ingameTeamPlayerOffsets + (int)(short)((player->playerOrdinal - 1) * 2)) + 8]
+      != 0) {
     player->playerDownTimer = 0x19;
   }
   player->playerDownTimer = 0xff;
@@ -3422,7 +3422,8 @@ out_reset_spin_timer:
     return;
   }
   if (((short)team->opponentsTeam->goalkeeperSavedCommentTimer < 0) ||
-     ((gameStatePl != 100 && (gameState == 3)))) goto reset_spin_timer_out;
+     ((gameStatePl != ST_GAME_IN_PROGRESS && (gameState == ST_KEEPER_HOLDS_BALL))))
+  goto reset_spin_timer_out;
   if ((short)team->spinTimer < 0) {
     return;
   }
@@ -4274,7 +4275,7 @@ speed_drop_positional_offset:
                   else if ((int)ballSprite.deltaY.raw < 0) {
 check_ball_x_overlap_with_goalie:
                     if (-1 < (short)pSVar2->imageIndex) {
-                      sVar21 = *(short *)(*(int *)((int)g_spriteGraphicsPtr +
+                      sVar21 = *(short *)(*(int *)((int)spriteGraphicsPtr +
                                                   (int)(short)(pSVar2->imageIndex << 2)) + 10);
                       wVar13 = (pSVar2->x).s.i;
                       uVar15 = (undefined2)((uint)puVar18 >> 0x10);
