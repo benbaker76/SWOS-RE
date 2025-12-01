@@ -427,7 +427,7 @@ The WHDLoad SWOS.Slave has the following patches:
 	- User data (seasons, leagues, careers, highlights, tactics, DIY, etc.) is saved/loaded from a `SAVE` directory.
 	- Allows loading **larger team files** (`team.xxx`) without having to RNC-pack them (with some remaining size limits).
 - **Quality-of-life & WHDLoad integration**
-	- Full load from hard drive (“real files”, no virtual disk images).
+	- Full load from hard drive ("real files", no virtual disk images).
 	- Quit key added (Del / WHDLoad quit support, including on 68000 in most versions).
 	- Provides icons (RomIcon, NewIcon, GlowIcon) and standard WHDLoad tooltype hints (NOCACHE, PAL/NTSC, etc.).
 - **Known original-game bug that remains**
@@ -452,7 +452,7 @@ C:UAEquit
 - **Declares runtime requirements** (chip/fast memory, version, flags) via the WHDLoad slave header, and exposes a quit key.
 - **Loads and relocates the game binary** (e.g., `SWOS2` plus its relocation table), placing code/data into the configured ExpMem/ChipMem.
 - **Applies patches at startup** (via a patch list) to fix compatibility/snoop issues, skip copy-protection, adjust blitter/timing, and route file I/O.
-- **Bridges file access** (save/load) to WHDLoad's “resload” API so saves go to a folder (e.g., `SAVE/`) instead of disks.
+- **Bridges file access** (save/load) to WHDLoad's "resload" API so saves go to a folder (e.g., `SAVE/`) instead of disks.
 - **Handles WHDLoad tooltypes** like `PRELOAD`, `NOCACHE`, `NOVBRMOVE`, etc., and cooperates with options like `whdload_quit`.
 - **Installs small hooks** (e.g., keyboard exit) and cleanup paths, then jumps into the game's entry point.
 
@@ -715,6 +715,190 @@ Because the new SWOS2 hunk build removes the rigid address dependencies and exte
 ## `swos-port-c`
 
 `swos-port-c` is the long-term C port of the Amiga SWOS2 codebase, using the new SWOS2 Amiga Hunk executable as the reference for behaviour. The goal is to translate the original 68k gameplay and menu logic into clean, portable C and drive it with an SDL2 frontend (for video, input, audio, and timing) so the game can run on modern platforms (Windows, Linux, macOS, etc.). Once the C core reaches parity with the Amiga version, it will be integrated into the SWOS 2020 project, providing a single, maintainable engine for future seasons and feature updates.
+
+# Debugging without a debugger
+
+When launching SWOS2 under **WHDLoad**, you cannot attach the Amiga Assembly VSCode extension's debugger directly to the running game. Instead, you rely on low-level techniques that let you *observe* control flow and state by manipulating hardware registers and deliberately triggering exceptions.
+
+This section describes two practical techniques:
+
+- Using the **COLOR00** register to visualise execution paths.
+- Using **illegal / NOP opcodes** to trigger WHDLoad's core dump mechanism and then analysing the dumps with tools like **HxD** and the assembler **.lst** listing.
+
+---
+
+## 1. Using COLOR00 to trace execution
+
+The Amiga's first colour register, `COLOR00`, controls the background colour. By writing different values to this register at key points in the code, you can tell *where* the CPU is executing just by watching the screen.
+
+Example (set background to bright red):
+
+```asm
+move.w  #$F00,(COLOR00).l   ; Red
+```
+
+![](/images/debug_00.png)
+
+Some useful 12-bit RGB examples (OCS/ECS format: `0xRGB`, 4 bits per channel):
+
+```asm
+move.w  #$000,(COLOR00).l   ; Black
+move.w  #$F00,(COLOR00).l   ; Red
+move.w  #$0F0,(COLOR00).l   ; Green
+move.w  #$00F,(COLOR00).l   ; Blue
+move.w  #$FF0,(COLOR00).l   ; Yellow
+move.w  #$FFF,(COLOR00).l   ; White
+```
+
+Typical usage patterns:
+
+- **Entry/exit markers** - Set `COLOR00` to one colour on function entry and another on exit to see if/when a routine runs.
+- **Branch tracing** - Use different colours on each side of a conditional branch to see which path is taken.
+- **Critical sections** - Mark "should never happen" code paths with a loud colour (e.g. bright red) to make failures visually obvious.
+
+Because `COLOR00` is a simple hardware write, it is a very low-overhead way to gain insight into control flow when no debugger is attached.
+
+---
+
+## 2. Using illegal and NOP opcodes with WHDLoad core dumps
+
+When running under WHDLoad, an **illegal instruction** will cause WHDLoad to interrupt the game and show an error dialog with the current PC and other state. You can leverage this behavior to capture full memory/register dumps at interesting points.
+
+### 2.1. ILLEGAL vs NOP
+
+On 68000:
+
+- `ILLEGAL` is encoded as **`$4AFC`**.
+- `NOP` is encoded as **`$4E71`**.
+
+A common pattern is:
+
+- Replace an existing instruction with `ILLEGAL` (`$4AFC`) to *trap* execution when it reaches that point.
+- If you need to keep instruction count/size stable (for the **static version** with hard-coded offsets), use `NOP` (`$4E71`) to pad out or neutralise instructions without changing the byte count.
+
+> **Important (static 1:1 version):**  
+> When patching the original static image you **must** keep the total byte count identical. Shifting code or data will break all hard-coded offsets used with the original `SWOS2.REL`. That means any injected ILLEGAL/NOP sequence must be the same size as the code it replaces.
+
+### 2.2. Triggering the WHDLoad error dialog
+
+Once you've patched in an ILLEGAL instruction, run the game under WHDLoad. When execution hits that opcode, WHDLoad will display a message similar to:
+
+> `Exception "Illegal Instruction" ($10) at $8760EC (ExpMem $800EC) occurred.`
+
+![](/images/debug_01.png)
+
+#### Other WHDLoad-trapped errors (at a glance)
+
+Besides illegal instruction traps, WHDLoad intercepts a lot of other problems and turns them into readable error dialogs. This effectively gives you "poor-man’s debugging" information: a description, a PC, sometimes a memory range, and often the name of the `resload_` function involved.
+
+Typical categories you’ll see include:
+
+- **DOS / file I/O errors** – read/write/scan/delete failures on specific files.
+- **CPU exceptions** – address/bus/illegal instruction, always with a PC.
+- **OS emulation / `resload_` API errors** – bad SR/SP, destroyed registers, invalid `PLCMD_*` patch commands, failed decrunch/delta/relocate.
+- **Kickstart / data integrity issues** – invalid Kickstart images, corrupt relocation/patch tables, CRC mismatches.
+- **Hardware misuse** – blitter not waited for, blitter out of bounds, copperlist problems, incomplete MMU trees.
+- **Self-modifying code / SMC checks** – modified opcodes detected, unsupported addressing modes for Snoop/S.
+- **CPU / chipset / video mode requirements** – needs 68020+, AGA, PAL/NTSC, etc.
+- **Stack / interrupts / VBR / CACR problems** – bad SP or modified VBR/CACR on entering `resload_*`.
+- **Misc config issues** – XPK not cached, PreLoad/Examine errors, invalid QuitKey/controller combinations.
+
+When you hit one of these dialogs, treat it like a mini crash report: note the **PC**, any mentioned **address or range**, and the **error type**. You can then cross-reference that information with your `.lst` file and disassembly, and—in combination with the WHDLoad dump files—narrow down where your code or data is going wrong even without a "real" debugger attached.
+
+![](/images/debug_02.png)
+
+From this dialog:
+
+1. Click **"Make CoreDump"**.
+2. WHDLoad will write a set of dump files into `DH0:C` (or the configured WHDLoad directory):
+
+   - `*.whdl_dump`
+   - `*.whdl_expmem`
+   - `*.whdl_memory`
+   - `*.whdl_register`
+
+### 2.3. What the WHDLoad dump files contain
+
+The exact format is internal to WHDLoad, but for debugging SWOS2 you can treat them roughly as:
+
+- **`.whdl_register`** - A **text file** with a snapshot of all CPU registers (D0-D7, A0-A7, SR, PC, etc.) plus some WHDLoad state. This is your starting point for understanding what the CPU was doing when the ILLEGAL occurred.
+- **`.whdl_memory`** - A **binary dump of main memory** (chip/fast) as seen by the program at the time of the exception. Addresses like `$0010xxxx` can usually be located directly in this file.
+- **`.whdl_expmem`** - A **binary dump of the expansion memory area** used by WHDLoad (`ExpMem`). If the error message mentions `ExpMem $800EC`, for example, you can subtract the expansion base (e.g. `$80000`) to get an offset inside this file.
+- **`.whdl_dump`** - A WHDLoad-specific consolidated dump intended mainly for WHDLoad authors; you typically don't need to touch this directly for day-to-day SWOS2 work.
+
+### 2.4. Inspecting dumps with HxD
+
+[HxD](https://mh-nexus.de/en/hxd/) is a versatile hex editor that you can use to inspect the `.whdl_memory` and `.whdl_expmem` binaries:
+
+1. Open `*.whdl_memory` or `*.whdl_expmem` in HxD.
+2. Use **Search → Goto...** (or Ctrl+G) and select "hexadecimal offset".
+3. To locate an address reported by WHDLoad:
+
+   - If the exception shows `PC = $0010ABCD`, you can usually use `$0010ABCD` directly as an offset in `.whdl_memory` (or subtract the base if the dump is offset).
+   - If the exception shows `ExpMem $800EC`, subtract the expansion base (e.g. `$80000`) to get the offset (`$800EC - $80000 = $EC`) and jump to that offset in `.whdl_expmem`.
+
+This lets you see exactly what bytes were at the faulting address and around it at the moment of the crash.
+
+![](/images/debug_03.png)
+
+---
+
+## 3. Using the vasm listing (`.lst`) with `.whdl_register`
+
+When building the static version, run `vasm` with a listing option, for example:
+
+```bash
+vasmm68k_mot ... -L build/SWOS2.lst ...
+```
+
+This generates a **listing file** (`SWOS2.lst`) that interleaves:
+
+- Source lines
+- Final addresses
+- Assembled opcodes
+
+This is invaluable when combined with WHDLoad's register snapshot:
+
+1. Open `*.whdl_register` in a text editor.
+2. Note key values, especially:
+
+   - **PC** - the program counter at the time of the ILLEGAL.
+   - **SR** - the status register (condition codes, interrupt level).
+   - Any registers that look relevant (e.g. A0/A1 for pointers, D0/D1 for loop counters).
+
+3. Determine whether the PC is in main memory or expansion memory:
+
+   - If it looks like a normal code address (e.g. `$0010xxxx`), treat it as a main memory address.
+   - If it matches an `ExpMem` range, adjust by the expansion base (as you did when using HxD).
+
+4. In `SWOS2.lst`, search for the **hex address** of the PC.  
+   The listing will show you:
+
+   - The exact instruction that triggered the ILLEGAL.
+   - The surrounding instructions and labels (function name, local labels, etc.).
+   - The assembled bytes, which you can cross-check against `.whdl_memory` or `.whdl_expmem`.
+
+By combining:
+
+- The **PC and register state** from `.whdl_register`,
+- The **raw bytes** from `.whdl_memory` / `.whdl_expmem` via HxD, and
+- The **symbolic listing** from `SWOS2.lst`,
+
+you can reconstruct what the engine was doing at the moment of failure and track down bugs even without an interactive debugger.
+
+---
+
+## 4. Why we eventually remove the WHDLoad dependency
+
+These techniques are essential while we're still running via WHDLoad and the static version, because we can't attach the Amiga Assembly VSCode debugger directly to the game process.
+
+One of the long-term goals of converting SWOS2 into a **stand-alone Amiga Hunk executable** (with its own HDD file I/O routines instead of WHDLoad's `resload_*` helpers) is to **eliminate the WHDLoad layer** entirely. Once SWOS2 can be launched as a normal Hunk executable:
+
+- We can run it under the Amiga Assembly VSCode extension's debugger,
+- Set breakpoints and single-step directly in our source code,
+- And make development and porting (e.g. to C) much easier.
+
+Those debugger-based workflows are covered in the following sections once the custom HDD routines and stand-alone Hunk build are in place.
 
 ## AI Assistance
 
