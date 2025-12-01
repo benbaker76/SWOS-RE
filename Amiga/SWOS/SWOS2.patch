@@ -1,16 +1,16 @@
---- C:/Projects/Amiga/SWOS-RE/SWOS2/SWOS2.s	Fri Nov 28 21:15:44 2025
-+++ C:/Projects/Amiga/SWOS-RE/Amiga/SWOS/SWOS2.s	Sat Nov 29 08:35:14 2025
-@@ -1705,7 +1705,7 @@ BSS_00_padding_27:
+--- ./SWOS2.s	Sat Nov 29 16:23:26 2025
++++ ./SWOS2.s	Sat Nov 29 18:22:35 2025
+@@ -1667,7 +1667,7 @@ goalBase:
  nextGoal:
                  ds.b $2
  frontbufferBase:
 -                ds.b $BBB0
 +                ds.b $40000 ; proper sized buffer for big team files
- BSS_00_padding_28:
+ BSS_00_1E35A:
                  ds.b $2
  frontbufferBaseAlt:
-@@ -2171,7 +2171,7 @@ inGameHilBuffer:
- BSS_00_padding_77:
+@@ -2133,7 +2133,7 @@ inGameHilBuffer:
+ BSS_00_CF13E:
                  ds.b $5582
  g_assetLoaderMainRegion:
 -                ds.b $2F9B8
@@ -18,7 +18,7 @@
  
  ; ===== j_start =====
  ; prototype: void __usercall j_start()
-@@ -2179,6 +2179,28 @@ g_assetLoaderMainRegion:
+@@ -2141,6 +2141,28 @@ g_assetLoaderMainRegion:
      SECTION text,CODE
  j_start:
                  jmp     start
@@ -47,7 +47,7 @@
  aSensibleWorldO:
                  dc.b 'SENSIBLE WORLD OF SOCCER',0
  aCopyrightC1994:
-@@ -2196,7 +2218,7 @@ aCj0611143807:
+@@ -2158,7 +2180,7 @@ aCj0611143807:
  ; prototype: void __usercall start()
  start:
                  move.l  #loc_1000D0,(DIVIDE_BY_ZERO).w
@@ -56,7 +56,7 @@
  loc_1000D0:
                  movea.l #$CC8C,sp
                  jsr     InitHardwareAtFrameStart
-@@ -2492,6 +2514,7 @@ asset_op5_then_6_exit:
+@@ -2454,6 +2476,7 @@ asset_op5_then_6_exit:
  AssetSys_SelectAndOpen:
                  movem.l d1-d7/a0-a6,-(sp)
                  move.w  d0,d7
@@ -64,7 +64,7 @@
                  lea     g_assetIndexStartBytes(pc),a5
                  lea     -1(a5,d0.w),a5
                  move.b  (a5),d6
-@@ -2525,6 +2548,7 @@ asset_select_and_open_success:
+@@ -2487,6 +2510,7 @@ asset_select_and_open_success:
                  lea     g_assetCurrentSourceSlot(pc),a0
                  move.w  d6,(a0)
                  move.b  d6,(a5)
@@ -72,7 +72,7 @@
                  lea     g_assetCurrentIndex(pc),a0
                  move.w  d7,(a0)
                  clr.w   d0
-@@ -2619,6 +2643,7 @@ g_assetFilename:
+@@ -2581,6 +2605,7 @@ g_assetFilename:
  ; ===== FloppyAsset_DispatchOp =====
  ; prototype: unsigned int __usercall FloppyAsset_DispatchOp@<d0>(unsigned int op@<d0>, unsigned int arg1@<d1>, void *pA@<a0>, void *pB@<a1>, void *ctx@<a2>)
  FloppyAsset_DispatchOp:
@@ -80,7 +80,7 @@
                  movem.l d0-d7/a0-a6,-(sp)
                  move.l  d0,d6
                  move.l  d1,d7
-@@ -3643,6 +3668,7 @@ FloppyDev_TransferWithState:
+@@ -3605,6 +3630,7 @@ FloppyDev_TransferWithState:
  ; ===== FloppyDev_TransferImpl =====
  ; prototype: unsigned int __usercall FloppyDev_TransferImpl@<d0>(unsigned __int16 dev@<d0>, unsigned __int16 off@<d1>, unsigned __int16 len@<d2>, unsigned __int16 mode@<d3>, const void *buf@<a0>, void *ctx@<a1>)
  FloppyDev_TransferImpl:
@@ -88,7 +88,7 @@
                  movem.l d1-d7/a0-a5,-(sp)
                  link    a6,#-$24
                  cmp.w   #3,d3
-@@ -3774,6 +3800,7 @@ cia_bitstream_shift32_loop:
+@@ -3736,6 +3762,7 @@ cia_bitstream_shift32_loop:
  ; prototype: void __usercall FloppyCIA_ReadBit(unsigned __int16 bit@<d4>)
  FloppyCIA_ReadBit:
                  moveq   #$FFFFFFFF,d1
@@ -96,7 +96,7 @@
                  bclr    d4,d1
                  move.b  d1,(CIAB_PRB).l
                  btst    #5,(CIAA_PRA).l
-@@ -4325,6 +4352,7 @@ FloppyCIA_InitProbeBits:
+@@ -4287,6 +4314,7 @@ FloppyCIA_InitProbeBits:
  ; ===== FloppyCIA_SelectDriveFromState =====
  ; prototype: void __usercall FloppyCIA_SelectDriveFromState()
  FloppyCIA_SelectDriveFromState:
@@ -104,7 +104,7 @@
                  move.b  d1,(CIAB_PRB).l
                  move.w  -$24(a6),d0
                  addq.l  #3,d0
-@@ -4619,7 +4647,8 @@ Int12KeyboardHandler:
+@@ -4581,7 +4609,8 @@ Int12KeyboardHandler:
                  beq.w   acknowledge_int
                  btst    #3,d0           ; SP
                  beq.w   acknowledge_int
@@ -114,7 +114,7 @@
                  bset    #6,(CIAA_CRA).l
                  move.w  #300,d1
  loc_101B6A:
-@@ -4944,8 +4973,8 @@ copperListTemplate:
+@@ -4906,8 +4935,8 @@ copperListTemplate:
                  dc.w $0126,$0000,$0128,$0000,$012A,$0000,$012C,$0000
                  dc.w $012E,$0000,$0130,$0000,$0132,$0000,$0134,$0000
                  dc.w $0136,$0000,$0138,$0000,$013A,$0000,$013C,$0000
@@ -125,7 +125,7 @@
                  dc.w $0092,$0028,$0094,$00D0,$008E,$2471,$0090,$34C1
                  dc.w $0180,$0000,$0182,$0000,$0184,$0000,$0186,$0000
                  dc.w $0188,$0000,$018A,$0000,$018C,$0000,$018E,$0000
-@@ -5020,8 +5049,9 @@ _1023AA_exit_rts:
+@@ -4982,8 +5011,9 @@ _1023AA_exit_rts:
  ; ===== InitHardwareAtFrameStart =====
  ; prototype: void __usercall InitHardwareAtFrameStart()
  InitHardwareAtFrameStart:
@@ -136,8 +136,8 @@
 +                ;clr.w   $100(a6)
  wait_for_top_of_frame:
                  move.l  4(a6),d0
-                 andi.l  #(frontbufferBaseAlt+$1CA5),d0
-@@ -6629,7 +6659,7 @@ Int_Level3_2_Handler:
+                 andi.l  #$1FFFF,d0
+@@ -6591,7 +6621,7 @@ Int_Level3_2_Handler:
                  tst.w   (int5SerialBusBufferFull).l
                  beq.s   int_done
                  clr.w   (int5SerialBusBufferFull).l
@@ -146,7 +146,7 @@
  int_done:
                  rte
  
-@@ -6643,7 +6673,8 @@ nullsub_4:
+@@ -6605,7 +6635,8 @@ nullsub_4:
  Int_Level5_Handler:
                  move.w  #$800,(INTREQ).l ; Serial port receive buffer full
                  move.w  #1,(int5SerialBusBufferFull).l
@@ -156,7 +156,7 @@
  save_regs_and_swap_to_tmp_stack:
                  movem.l d0-d7/a0-a6,-(sp)
                  move.l  sp,(oldStackPtr).l
-@@ -9247,7 +9278,7 @@ try_open_or_use_cached:
+@@ -9209,7 +9240,7 @@ try_open_or_use_cached:
                  beq.s   size_check_and_decode
                  bsr.w   AssetCacheStoreFromMemory
  size_check_and_decode:
@@ -165,7 +165,7 @@
                  bhi.w   fatal_image_too_large
                  movea.l (frontbufferBasePtr).l,a0
                  cmpi.l  #$524E4301,(a0)
-@@ -9631,7 +9662,8 @@ _105D60_copy_bootstrap_blob_to_exec_loop:
+@@ -9593,7 +9624,8 @@ _105D60_copy_bootstrap_blob_to_exec_loop:
                  clr.w   d1
                  lea     (g_irqCookieObfuscated).l,a3
                  clr.l   (g_irqCookieObfuscated).l
@@ -175,7 +175,7 @@
                  move.l  (g_irqCookieObfuscated).l,d0
                  eori.l  #$715828D4,d0
                  cmpi.l  #$1628,d0
-@@ -9661,7 +9693,8 @@ _105DC6_copy_bootstrap_blob_to_exec_loop:
+@@ -9623,7 +9655,8 @@ _105DC6_copy_bootstrap_blob_to_exec_loop:
                  clr.w   d1
                  lea     (g_irqCookieObfuscated).l,a3
                  clr.l   (g_irqCookieObfuscated).l
@@ -185,7 +185,7 @@
                  move.l  (g_irqCookieObfuscated).l,d0
                  eori.l  #$CFD1F9CF,d0
                  cmpi.l  #$1628,d0
-@@ -9852,6 +9885,8 @@ AssetLoaderResetState:
+@@ -9814,6 +9847,8 @@ AssetLoaderResetState:
  ; ===== AssetLoaderInitAltPathAndBanks =====
  ; prototype: void __usercall AssetLoaderInitAltPathAndBanks()
  AssetLoaderInitAltPathAndBanks:
@@ -194,7 +194,16 @@
                  move.w  #1,(g_assetLoaderAltPathReady).l
                  clr.l   (g_assetLoaderCacheFlag).l
                  lea     (surnameBuf).l,a0
-@@ -11486,8 +11521,9 @@ AudioChannelNoteOnOff:
+@@ -11135,7 +11170,7 @@ PlayGameStateWhistleSample:
+                 beq.s   check_and_play_whistle
+                 rts
+ check_and_play_whistle:
+-                cmpi.w  #ST_PENALTY,(gameState).l
++                cmpi.w  #$E,(gameState).l
+                 bne.s   whistle_play_sample6
+                 tst.w   (sfxQueueWriteIdx).l
+                 bne.s   queue_game_state_whistle
+@@ -11448,8 +11483,9 @@ AudioChannelNoteOnOff:
                  add.w   d1,d1
                  beq.s   AudioChannelStop
                  movea.l (a1,d1.w),a1
@@ -206,14 +215,3 @@
                  move.b  (a1)+,d1
                  move.l  a1,$4E(a0)
                  add.w   d1,d1
-@@ -19440,8 +19476,8 @@ wait_for_vblank_flag_clear:
-                 move.w  #$400,(DMACON).l
-                 move.l  (g_irqCookieObfuscated).l,d0
-                 eori.l  #$CFD1F9BD,d0
--                cmpi.l  #(g_pitchDatBuffer+$125A),d0
--                bne.w   swap_to_bottom_team_goalkeeper+4
-+                ;cmpi.l  #(g_pitchDatBuffer+$125A),d0
-+                ;bne.w   swap_to_bottom_team_goalkeeper+4
-                 move.w  #1,(waitingInterrupt).l
-                 jsr nullsub_5(pc)
-                 jsr     nullsub_4
