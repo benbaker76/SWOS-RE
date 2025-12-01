@@ -68,12 +68,6 @@ The adf's used in this project are:
 - Sensible World of Soccer 96-97 (1996)(Renegade)[cr HF](Disk 1 of 2).adf
 - Sensible World of Soccer 96-97 (1996)(Renegade)[cr HF](Disk 2 of 2).adf
 
-### Useful Tools
-
-- [UAEUNP 0.8](https://www.winuae.net/download/) list and extract Amiga based disk images and archives such as ADF.
-- [rnc_lib.exe](https://www.romhacking.net/utilities/1310/) will compress or decompress an RNC compressed file.
-- [SWOEditorS](https://swoes.info/editor_downloads/) an editor for Sensible world of soccer
-
 ### Memory Regions
 
 | Section Name  | Start Address | Length    | Permissions |
@@ -937,6 +931,12 @@ Coming Soon!
 	- https://github.com/jtang613/GhidrAssistMCP
 	- https://github.com/mrexodia/ida-pro-mcp
 
+### SWOS Tools
+
+- [UAEUNP 0.8](https://www.winuae.net/download/) list and extract Amiga based disk images and archives such as ADF.
+- [rnc_lib.exe](https://www.romhacking.net/utilities/1310/) will compress or decompress an RNC compressed file.
+- [SWOEditorS](https://swoes.info/editor_downloads/) an editor for Sensible world of soccer
+
 ## Utilities
 
 Here's a collection of useful tools and utilities:
@@ -944,6 +944,17 @@ Here's a collection of useful tools and utilities:
 - [010 Editor](https://www.sweetscape.com/010editor/) – Commercial text and hex editor with powerful binary templates for inspecting and editing complex binary formats.  
 - [HxD](https://mh-nexus.de/en/hxd/) – Free, fast hex editor and disk editor for Windows, useful for inspecting raw files, memory, and disks.  
 - [grepWin](https://tools.stefankueng.com/grepWin.html) – Lightweight Windows search tool that adds grep-style regex search and replace to folders via a simple GUI and Explorer integration.
+
+## Resources
+
+- [MarkeyJester's Motorola 68000 Beginner's Tutorial](https://mrjester.hapisan.com/04_MC68)
+- [Reverse-engineering Amiga games](https://tetracorp.github.io/guide/reverse-engineering-amiga.html)
+- [An approach to reverse engineering for old amiga games...](https://github.com/kermitfrog/Amiga-Re-Engineering)
+
+## VSCode Extensions
+- [Amiga Assembly](https://marketplace.visualstudio.com/items?itemName=prb28.amiga-assembly)
+- [Amiga C/C++ Compile, Debug & Profile](https://marketplace.visualstudio.com/items?itemName=BartmanAbyss.amiga-debug)
+- [Amiga C/C++ Compile, Debug & Profile (fork with libs support)](https://marketplace.visualstudio.com/items?itemName=JOB.amiga-debug-job)
 
 ## Credits
 
