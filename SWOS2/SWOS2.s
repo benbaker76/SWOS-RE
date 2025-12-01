@@ -294,39 +294,6 @@ GT_REGULAR                              EQU 0
 GT_PENALTY                              EQU 1
 GT_OWN_GOAL                             EQU 2
 
-; ==== STRUCT: TEAMGAME ====
-TEAMGAME_SIZE                           EQU 42
-TEAMGAME_PRSHIRTTYPE                    EQU 0
-TEAMGAME_PRSHIRTTYPE_SIZE               EQU 2
-TEAMGAME_PRSHIRTCOL                     EQU 2
-TEAMGAME_PRSHIRTCOL_SIZE                EQU 2
-TEAMGAME_PRSTRIPESCOL                   EQU 4
-TEAMGAME_PRSTRIPESCOL_SIZE              EQU 2
-TEAMGAME_PRSHORTSCOL                    EQU 6
-TEAMGAME_PRSHORTSCOL_SIZE               EQU 2
-TEAMGAME_PRSOCKSCOL                     EQU 8
-TEAMGAME_PRSOCKSCOL_SIZE                EQU 2
-TEAMGAME_SECSHIRTTYPE                   EQU 10
-TEAMGAME_SECSHIRTTYPE_SIZE              EQU 2
-TEAMGAME_SECSHIRTCOL                    EQU 12
-TEAMGAME_SECSHIRTCOL_SIZE               EQU 2
-TEAMGAME_SECSTRIPESCOL                  EQU 14
-TEAMGAME_SECSTRIPESCOL_SIZE             EQU 2
-TEAMGAME_SECSHORTSCOL                   EQU 16
-TEAMGAME_SECSHORTSCOL_SIZE              EQU 2
-TEAMGAME_SECSOCKSCOL                    EQU 18
-TEAMGAME_SECSOCKSCOL_SIZE               EQU 2
-TEAMGAME_MARKEDPLAYER                   EQU 20
-TEAMGAME_MARKEDPLAYER_SIZE              EQU 2
-TEAMGAME_TEAMNAME                       EQU 22
-TEAMGAME_TEAMNAME_SIZE                  EQU 17
-TEAMGAME_UNK1                           EQU 39
-TEAMGAME_UNK1_SIZE                      EQU 1
-TEAMGAME_NUMOWNGOALS                    EQU 40
-TEAMGAME_NUMOWNGOALS_SIZE               EQU 1
-TEAMGAME_UNK3                           EQU 41
-TEAMGAME_UNK3_SIZE                      EQU 1
-
 ; ==== STRUCT: PLAYERINFO ====
 PLAYERINFO_SIZE                         EQU 61
 PLAYERINFO_SKIP                         EQU 0
@@ -1462,6 +1429,62 @@ TEAMGENERALINFO_GOALKEEPERPLAYING_SIZE  EQU 2
 TEAMGENERALINFO_RESETCONTROLS           EQU 142
 TEAMGENERALINFO_RESETCONTROLS_SIZE      EQU 2
 
+; ==== ENUM: ASSETSYSOP ====
+ASSET_OP_INIT_CONTEXT                   EQU 0
+ASSET_OP_INIT_SOURCE0                   EQU 1
+ASSET_OP_LOAD_FILE                      EQU 2
+ASSET_OP_INIT_SOURCE2                   EQU 3
+ASSET_OP_RESOLVE_ASSET_LIST             EQU 4
+ASSET_OP_DO_CRITICAL                    EQU 5
+ASSET_OP_DELETE_FILE                    EQU 6
+ASSET_OP_SELECT_AND_OPEN                EQU 7
+ASSET_OP_OPEN_ANY_SOURCE                EQU 8
+ASSET_OP_UNK_09                         EQU 9
+ASSET_OP_OPEN_SAVE_VOLUME               EQU 10
+ASSET_OP_QUERY_ASSET_METADATA           EQU 12
+ASSET_OP_UNK_0D                         EQU 13
+ASSET_OP_SERVICE_LOADER                 EQU 14
+ASSET_OP_UNK_0F                         EQU 15
+ASSET_OP_WAIT_FOR_SAVE_DISK             EQU 16
+
+; ==== ENUM: FPS ====
+FPS_50HZ                                EQU 49
+
+; ==== STRUCT: TEAMGAME ====
+TEAMGAME_SIZE                           EQU 1018
+TEAMGAME_PRSHIRTTYPE                    EQU 0
+TEAMGAME_PRSHIRTTYPE_SIZE               EQU 2
+TEAMGAME_PRSHIRTCOL                     EQU 2
+TEAMGAME_PRSHIRTCOL_SIZE                EQU 2
+TEAMGAME_PRSTRIPESCOL                   EQU 4
+TEAMGAME_PRSTRIPESCOL_SIZE              EQU 2
+TEAMGAME_PRSHORTSCOL                    EQU 6
+TEAMGAME_PRSHORTSCOL_SIZE               EQU 2
+TEAMGAME_PRSOCKSCOL                     EQU 8
+TEAMGAME_PRSOCKSCOL_SIZE                EQU 2
+TEAMGAME_SECSHIRTTYPE                   EQU 10
+TEAMGAME_SECSHIRTTYPE_SIZE              EQU 2
+TEAMGAME_SECSHIRTCOL                    EQU 12
+TEAMGAME_SECSHIRTCOL_SIZE               EQU 2
+TEAMGAME_SECSTRIPESCOL                  EQU 14
+TEAMGAME_SECSTRIPESCOL_SIZE             EQU 2
+TEAMGAME_SECSHORTSCOL                   EQU 16
+TEAMGAME_SECSHORTSCOL_SIZE              EQU 2
+TEAMGAME_SECSOCKSCOL                    EQU 18
+TEAMGAME_SECSOCKSCOL_SIZE               EQU 2
+TEAMGAME_MARKEDPLAYER                   EQU 20
+TEAMGAME_MARKEDPLAYER_SIZE              EQU 2
+TEAMGAME_TEAMNAME                       EQU 22
+TEAMGAME_TEAMNAME_SIZE                  EQU 17
+TEAMGAME_UNK1                           EQU 39
+TEAMGAME_UNK1_SIZE                      EQU 1
+TEAMGAME_NUMOWNGOALS                    EQU 40
+TEAMGAME_NUMOWNGOALS_SIZE               EQU 1
+TEAMGAME_UNK3                           EQU 41
+TEAMGAME_UNK3_SIZE                      EQU 1
+TEAMGAME_UNK4                           EQU 42
+TEAMGAME_UNK4_SIZE                      EQU 976
+
 ; ===== END TYPES / ENUMS =====
 
 ; --- segment CHIP_RAM 00000000-001FFFFF ---
@@ -1478,11 +1501,8 @@ LEVEL_4_INTERRUPT_AUTOVECTOR            EQU $70
 LEVEL_5_INTERRUPT_AUTOVECTOR            EQU $74
 LEVEL_6_INTERRUPT_AUTOVECTOR            EQU $78
 LEVEL_7_INTERRUPT_AUTOVECTOR            EQU $7C
-BYTE_FC                                 EQU $FC
 
-    SECTION bss,BSS
-    ORG $00000400
-
+    SECTION BSSInChip,BSS,CHIP
 ; --- BSS_00 00000400-00100000 ---
 
 g_pitchDatBuffer:
@@ -1496,47 +1516,41 @@ g_currentMenu:
 ; MenuEntry[100]
 g_menuEntries:
                 ds.b $15E0
-BSS_00_padding_01:
+BSS_00_417C:
                 ds.b $36E
-byte_417C:
-                ds.b $1
-BSS_00_padding_02:
-                ds.b $7CF
+diyLeagueScratchBuffer:
+                ds.b $7D0
 word_494C:
                 ds.b $2
-BSS_00_padding_03:
+BSS_00_4BF8:
                 ds.b $2AA
 word_4BF8:
                 ds.b $2
-BSS_00_padding_04:
-                ds.b $12B2
-word_5EAC:
-                ds.b $2
-BSS_00_padding_05:
-                ds.b $2AA
+BSS_00_6158:
+                ds.b $155E
 word_6158:
                 ds.b $2
-BSS_00_padding_06:
+BSS_00_695C:
                 ds.b $802
 word_695C:
                 ds.b $2
-BSS_00_padding_07:
+BSS_00_6C08:
                 ds.b $2AA
 byte_6C08:
                 ds.b $1
-BSS_00_padding_08:
+BSS_00_6EB4:
                 ds.b $2AB
 byte_6EB4:
                 ds.b $1
-BSS_00_padding_09:
+BSS_00_7160:
                 ds.b $2AB
 byte_7160:
                 ds.b $1
-BSS_00_padding_10:
+BSS_00_8004:
                 ds.b $EA3
 byte_8004:
                 ds.b $1
-BSS_00_padding_11:
+BSS_00_B620:
                 ds.b $361B
 competitionFilename:
                 ds.b $E
@@ -1556,31 +1570,29 @@ word_B6C0:
                 ds.b $2
 lastLoadedExtNumber:
                 ds.b $1
-BSS_00_padding_12:
+BSS_00_B6C4:
                 ds.b $1
+; TeamGame
 topTeamSaved:
                 ds.b $3FA
+; TeamGame
 bottomTeamSaved:
                 ds.b $3FA
 ; TeamGame
 topTeamInGame:
-                ds.b $2A
-BSS_00_padding_13:
-                ds.b $3D0
+                ds.b $3FA
 ; TeamGame
 bottomTeamInGame:
-                ds.b $2A
-BSS_00_padding_14:
-                ds.b $3D0
-dword_C6AC:
+                ds.b $3FA
+magicValue:
                 ds.b $4
-BSS_00_padding_15:
+BSS_00_CC8C:
                 ds.b $5DC
 gameName:
                 ds.b $64
 gameRound:
                 ds.b $1
-BSS_00_padding_16:
+BSS_00_CD54:
                 ds.b $63
 tact_4_4_2_Positions:
                 ds.b $B
@@ -1640,131 +1652,69 @@ panicReasonCode:
                 ds.b $2
 g_errorMessagePtr:
                 ds.b $4
-BSS_00_padding_17:
+BSS_00_D666:
                 ds.b $A
 panicRegDumpBlock:
                 ds.b $4
-BSS_00_padding_18:
+BSS_00_D6A6:
                 ds.b $3C
 byte_D6A6:
                 ds.b $1
-BSS_00_padding_19:
-                ds.b $27D9
-byte_FE80:
-                ds.b $1
-BSS_00_padding_20:
-                ds.b $2F
-byte_FEB0:
-                ds.b $1
-BSS_00_padding_21:
-                ds.b $2F
-byte_FEE0:
-                ds.b $1
-BSS_00_padding_22:
-                ds.b $25
-byte_FF06:
-                ds.b $1
-BSS_00_padding_23:
-                ds.b $99
-byte_FFA0:
-                ds.b $1
-BSS_00_padding_24:
-                ds.b $3F
-byte_FFE0:
-                ds.b $1
-BSS_00_padding_25:
-                ds.b $F
-byte_FFF0:
-                ds.b $1
-BSS_00_padding_26:
-                ds.b $C
-byte_FFFD:
-                ds.b $1
-byte_FFFE:
-                ds.b $1
-BSS_00_padding_27:
-                ds.b $1
-kFixedOne_16p16:
-                ds.b $4
-BSS_00_padding_28:
-                ds.b $773
-byte_10777:
-                ds.b $1
-BSS_00_padding_29:
-                ds.b $202E
-nextGoalPtrSaved:
+BSS_00_DD6E:
+                ds.b $6C7
+goalBase:
+                ds.b $4A38
+nextGoal:
                 ds.b $2
 frontbufferBase:
-                ds.b $4
-BSS_00_padding_30:
-                ds.b $1854
-byte_14000:
-                ds.b $1
-BSS_00_padding_31:
-                ds.b $A359
+                ds.b $BBB0
+BSS_00_1E35A:
+                ds.b $2
 frontbufferBaseAlt:
+                ds.b $BBB0
+BSS_00_29F0C:
+                ds.b $2
+; unsigned __int32[2][4][225]
+bitPlane0Base:
+                ds.b $1C20
+; unsigned __int32[2][4][225]
+bitPlane1Base:
+                ds.b $1C20
+; unsigned __int32[2][4][225]
+bitPlane2Base:
+                ds.b $1C20
+; unsigned __int32[2][4][225]
+bitPlane3Base:
+                ds.b $1C20
+; unsigned __int32[2][4][225]
+bitPlane0BaseAlt:
+                ds.b $1C20
+; unsigned __int32[2][4][225]
+bitPlane1BaseAlt:
+                ds.b $1C20
+; unsigned __int32[2][4][225]
+bitPlane2BaseAlt:
+                ds.b $1C20
+; unsigned __int32[2][4][225]
+bitPlane3BaseAlt:
+                ds.b $1C20
+; unsigned __int32*
+bitPlane0BasePtr:
                 ds.b $4
-BSS_00_padding_32:
-                ds.b $1CA1
-vposrLineMask:
-                ds.b $1
-byte_20000:
-                ds.b $1
-BSS_00_padding_33:
-                ds.b $3
-byte_20004:
-                ds.b $1
-BSS_00_padding_34:
-                ds.b $32E
-byte_20333:
-                ds.b $1
-BSS_00_padding_35:
-                ds.b $9BD8
-plane0StartWordAddr0:
+; unsigned __int32*
+bitPlane1BasePtr:
                 ds.b $4
-BSS_00_padding_36:
-                ds.b $380
-plane1StartWordAddr0:
+; unsigned __int32*
+bitPlane2BasePtr:
                 ds.b $4
-BSS_00_padding_37:
-                ds.b $380
-plane2StartWordAddr0:
-                ds.b $4
-BSS_00_padding_38:
-                ds.b $380
-plane3StartWordAddr0:
-                ds.b $4
-BSS_00_padding_39:
-                ds.b $380
-plane0StartWordAddr1:
-                ds.b $4
-BSS_00_padding_40:
-                ds.b $380
-plane1StartWordAddr1:
-                ds.b $4
-BSS_00_padding_41:
-                ds.b $380
-plane2StartWordAddr1:
-                ds.b $4
-BSS_00_padding_42:
-                ds.b $380
-plane3StartWordAddr1:
-                ds.b $4
-BSS_00_padding_43:
-                ds.b $380
-plane0WritePtr:
-                ds.b $4
-plane1WritePtr:
-                ds.b $4
-plane2WritePtr:
-                ds.b $4
-plane3WritePtr:
+; unsigned __int32*
+bitPlane3BasePtr:
                 ds.b $4
 copperListBuffer:
                 ds.b $140
 copperZeroLong:
                 ds.b $4
-BSS_00_padding_44:
+BSS_00_2BC82:
                 ds.b $2
 bootTemp0:
                 ds.b $2
@@ -1780,9 +1730,9 @@ bootTemp5:
                 ds.b $2
 bootTemp6:
                 ds.b $2
-g_frontbufferBase:
+frontbufferBasePtr:
                 ds.b $4
-g_frontbufferBaseAlt:
+frontbufferBaseAltPtr:
                 ds.b $4
 plOrdinalsTable:
                 ds.b $20
@@ -1794,31 +1744,31 @@ dword_2BCF8:
                 ds.b $4
 renderStackBase:
                 ds.b $1
-BSS_00_padding_45:
+BSS_00_2C044:
                 ds.b $347
 dword_2C044:
                 ds.b $4
 plane01RenderStackBase:
                 ds.b $1
-BSS_00_padding_46:
+BSS_00_2C1B0:
                 ds.b $167
 plane23RenderStackPtr:
                 ds.b $4
 plane23RenderStackBase:
                 ds.b $1
-BSS_00_padding_47:
+BSS_00_2C31C:
                 ds.b $167
 kSpriteBlitQueueSentinel_A:
                 ds.b $2
-BSS_00_padding_48:
+BSS_00_2CED4:
                 ds.b $BB6
 kSpriteBlitQueueSentinel_B:
                 ds.b $2
-BSS_00_padding_49:
+BSS_00_2DA8C:
                 ds.b $BB6
 spriteBlitQueue:
                 ds.b $4
-BSS_00_padding_50:
+BSS_00_2DA92:
                 ds.b $2
 ballSpeed:
                 ds.b $2
@@ -1834,11 +1784,11 @@ word_2DA9C:
                 ds.b $2
 dseg_114EB0:
                 ds.b $2
-BSS_00_padding_51:
+BSS_00_2DAB0:
                 ds.b $10
 dword_2DAB0:
                 ds.b $4
-BSS_00_padding_52:
+BSS_00_2DAD0:
                 ds.b $1C
 diyFileBufferCopy:
                 ds.b $2
@@ -1846,11 +1796,11 @@ word_2DAD2:
                 ds.b $2
 byte_2DAD4:
                 ds.b $1
-BSS_00_padding_53:
+BSS_00_2DAFC:
                 ds.b $27
 word_2DAFC:
                 ds.b $2
-BSS_00_padding_54:
+BSS_00_2DB00:
                 ds.b $2
 byte_2DB00:
                 ds.b $1
@@ -1870,7 +1820,7 @@ word_2DB0A:
                 ds.b $2
 word_2DB0C:
                 ds.b $2
-BSS_00_padding_55:
+BSS_00_2DB14:
                 ds.b $6
 word_2DB14:
                 ds.b $2
@@ -1880,13 +1830,13 @@ word_2DB18:
                 ds.b $2
 byte_2DB1A:
                 ds.b $1
-BSS_00_padding_56:
+BSS_00_2DB1C:
                 ds.b $1
 word_2DB1C:
                 ds.b $2
 word_2DB1E:
                 ds.b $2
-BSS_00_padding_57:
+BSS_00_2DB22:
                 ds.b $2
 word_2DB22:
                 ds.b $2
@@ -1898,11 +1848,11 @@ word_2DB28:
                 ds.b $2
 word_2DB2A:
                 ds.b $2
-BSS_00_padding_58:
+BSS_00_2DB6A:
                 ds.b $3E
 byte_2DB6A:
                 ds.b $1
-BSS_00_padding_59:
+BSS_00_2DEF0:
                 ds.b $385
 DIY_competitionStart:
                 ds.b $2
@@ -1910,16 +1860,14 @@ word_2DEF2:
                 ds.b $2
 diyLeagueName:
                 ds.b $23
-BSS_00_padding_60:
+BSS_00_2DF18:
                 ds.b $1
 dword_2DF18:
                 ds.b $4
 word_2DF1C:
                 ds.b $2
-BSS_00_padding_61:
-                ds.b $1
-byte_2DF1F:
-                ds.b $1
+BSS_00_2DF20:
+                ds.b $2
 byte_2DF20:
                 ds.b $1
 byte_2DF21:
@@ -1940,7 +1888,7 @@ word_2DF2C:
                 ds.b $2
 diySelectedButtonOrd:
                 ds.b $2
-BSS_00_padding_62:
+BSS_00_2DF32:
                 ds.b $2
 diySavedEntryOrd:
                 ds.b $2
@@ -1954,7 +1902,7 @@ word_2DF3A:
                 ds.b $2
 word_2DF3C:
                 ds.b $2
-BSS_00_padding_63:
+BSS_00_2DF40:
                 ds.b $2
 word_2DF40:
                 ds.b $2
@@ -1982,29 +1930,29 @@ diyLeagueMaxSubstitutes:
                 ds.b $2
 word_2DF58:
                 ds.b $2
-BSS_00_padding_64:
+BSS_00_2DF5E:
                 ds.b $4
 word_2DF5E:
                 ds.b $2
-BSS_00_padding_65:
+BSS_00_2DF7A:
                 ds.b $1A
 word_2DF7A:
                 ds.b $2
-BSS_00_padding_66:
+BSS_00_2DFDE:
                 ds.b $62
 word_2DFDE:
                 ds.b $2
-BSS_00_padding_67:
+BSS_00_2E01E:
                 ds.b $3E
 word_2E01E:
                 ds.b $2
-BSS_00_padding_68:
+BSS_00_2E03A:
                 ds.b $1A
 word_2E03A:
                 ds.b $2
 word_2E03C:
                 ds.b $2
-BSS_00_padding_69:
+BSS_00_2E0AE:
                 ds.b $70
 word_2E0AE:
                 ds.b $2
@@ -2014,77 +1962,63 @@ word_2E0B2:
                 ds.b $2
 word_2E0B4:
                 ds.b $2
-BSS_00_padding_70:
+BSS_00_2E13E:
                 ds.b $88
 word_2E13E:
                 ds.b $2
-BSS_00_padding_71:
+BSS_00_2E1BE:
                 ds.b $7E
 word_2E1BE:
                 ds.b $2
-BSS_00_padding_72:
+BSS_00_2E1FE:
                 ds.b $3E
 word_2E1FE:
                 ds.b $2
-BSS_00_padding_73:
-                ds.b $1E
-word_2E21E:
-                ds.b $2
-word_2E220:
-                ds.b $2
-BSS_00_padding_74:
-                ds.b $402
+BSS_00_2E4B8:
+                ds.b $2B8
+dword_2E4B8:
+                ds.b $4
+BSS_00_2E624:
+                ds.b $168
 imageCmdWorkbuf:
                 ds.b $8CA
-BSS_00_padding_75:
-                ds.b $ACA
-byte_2F9B8:
-                ds.b $1
-BSS_00_padding_76:
-                ds.b $758
-byte_30111:
-                ds.b $1
-BSS_00_padding_77:
-                ds.b $E4EE
+BSS_00_3E600:
+                ds.b $F712
 g_menuInsBank:
                 ds.b $2
-BSS_00_padding_78:
-                ds.b $19FE
-byte_40000:
-                ds.b $1
-BSS_00_padding_79:
-                ds.b $9131
+BSS_00_49132:
+                ds.b $AB30
 g_menuSongData:
                 ds.b $1
-BSS_00_padding_80:
+BSS_00_496F2:
                 ds.b $5BF
 byte_496F2:
                 ds.b $1
-BSS_00_padding_81:
+BSS_00_4973E:
                 ds.b $4B
 byte_4973E:
                 ds.b $1
-BSS_00_padding_82:
+BSS_00_4999E:
                 ds.b $25F
 numberOfFiles:
                 ds.b $2
-BSS_00_padding_83:
+BSS_00_499A2:
                 ds.b $2
 foundFilenamesBuffer:
                 ds.b $77E
 teamFileBuffer:
                 ds.b $FA0E
-BSS_00_padding_84:
+BSS_00_67628:
                 ds.b $DAFA
 byte_67628:
                 ds.b $1
-BSS_00_padding_85:
+BSS_00_67640:
                 ds.b $17
-dword_67640:
+imageStreamCursor:
                 ds.b $4
-dword_67644:
+menuImageStreamBaseEnd:
                 ds.b $4
-dword_67648:
+imageStreamBytesLeft:
                 ds.b $4
 replayState:
                 ds.b $2
@@ -2119,31 +2053,35 @@ poolplyrLoaded:
                                         ; !0 = yes
 poolplyrDatBuffer:
                 ds.b $CBE8
-BSS_00_padding_86:
-                ds.b $4B64
+BSS_00_75D30:
+                ds.b $1AE6
+dword_75D30:
+                ds.b $4
+BSS_00_78DAE:
+                ds.b $307A
 g_sfxInsBank2:
                 ds.b $1
-BSS_00_padding_87:
+BSS_00_80000:
                 ds.b $7251
-byte_80000:
+g_assetLoaderBank0Base:
                 ds.b $1
-BSS_00_padding_88:
+BSS_00_8CA5A:
                 ds.b $CA59
 g_sfxSongData:
                 ds.b $1
-BSS_00_padding_89:
+BSS_00_8DB14:
                 ds.b $10B9
-frontbufferPlaneOffset:
-                ds.b $4
-BSS_00_padding_90:
+frontbufferMaskBuffer:
                 ds.b $BBB0
+BSS_00_996C8:
+                ds.b $4
 highestScorersTable:
                 ds.b $1
-BSS_00_padding_91:
+BSS_00_996E6:
                 ds.b $1D
 byte_996E6:
                 ds.b $1
-BSS_00_padding_92:
+BSS_00_99724:
                 ds.b $3D
 inMenuKeyboardBuffer:
                 ds.b $64
@@ -2156,10 +2094,8 @@ templateMenuEntry:
                 ds.b $38
 g_exitMenu:
                 ds.b $2
-g_spriteGraphicsPtrSaved:
-                ds.b $2
-BSS_00_padding_93:
-                ds.b $130E
+spriteGraphics:
+                ds.b $1310
 numSpritesToRender:
                 ds.b $2
                                         ; number of sprites in spritesPtrArray
@@ -2192,17 +2128,17 @@ hilMaxSubstitutes:
 hilStartOfGoalsBuffer:
                 ds.b $4A38
 inGameHilBuffer:
-                ds.b $2F17A
+                ds.b $29BF8
                                         ; hils are stored here during the game
-byte_CF13E:
-                ds.b $1
+BSS_00_CF13E:
+                ds.b $5582
+g_assetLoaderMainRegion:
+                ds.b $2F9B8
 
 ; ===== j_start =====
 ; prototype: void __usercall j_start()
 
     SECTION text,CODE
-    ORG $00100000
-
 j_start:
                 jmp     start
 aSensibleWorldO:
@@ -2236,7 +2172,7 @@ loc_1000F4:
                 move.w  #$BBBB,(a0)+
                 cmpa.l  #1043190,a0
                 bne.s   loc_1000F4
-                move.l  #$12345678,(dword_C6AC).l
+                move.l  #$12345678,(magicValue).l
                 move.l  d7,(g_loaderMemTop).l
                 move.l  d6,(g_loaderBankBitmap).l
                 move.l  d5,(dword_1573CC).l
@@ -2244,7 +2180,7 @@ loc_1000F4:
                 move.w  #0,(COLOR00).l
                 lea     (frontbufferBase).l,a0
                 lea     (frontbufferBaseAlt).l,a1
-                lea     (frontbufferPlaneOffset).l,a2
+                lea     (frontbufferMaskBuffer).l,a2
                 move.l  #$BBB0,d0
 loc_100140:
                 move.w  #$F0F0,(a0)+
@@ -2265,34 +2201,37 @@ loc_100140:
                 bset    #1,(CIAA_PRA).l
                 jmp     main
 
-; ===== AssetSysDispatch =====
-; prototype: __int16 __usercall AssetSysDispatch@<d0>(unsigned __int16 selector@<d7>)
-AssetSysDispatch:
+; ===== AssetSys_Dispatch =====
+; prototype: __int16 __usercall AssetSys_Dispatch@<d0>(AssetSysOp op@<d7>)
+AssetSys_Dispatch:
                 movem.l a6,-(sp)
-                lea     byte_10055C(pc),a6
+                lea     g_assetSelect(pc),a6
                 move.w  d7,(a6)
                 lsl.w   #1,d7
-                lea     assetSysJumpTable(pc),a6
+                lea     AssetSys_JumpTable(pc),a6
                 jsr     (a6,d7.w)
-                lea     byte_10055C(pc),a6
+                lea     g_assetSelect(pc),a6
                 move.w  #$FFFF,(a6)
                 tst.w   d0
                 movem.l (sp)+,a6
                 rts
 
-; ===== assetSysJumpTable =====
-; prototype: void __usercall assetSysJumpTable()
-assetSysJumpTable:
-                bra.w   asset_sys_init_context
-                bra.w   asset_sys_init_open_source_0
-                bra.w   asset_sys_init_open_source_1
-                bra.w   asset_sys_init_open_source_2
-                bra.w   asset_sys_resolve_asset_list
-                bra.w   asset_sys_do_critical
-                bra.w   asset_sys_op5_then_maybe6
-                bra.w   asset_sys_select_and_open
-                bra.w   asset_sys_open_any_source
-asset_sys_init_context:
+; ===== AssetSys_JumpTable =====
+; prototype: __int32 __usercall AssetSys_JumpTable@<d0>(unsigned __int16 assetIndex@<d0>)
+AssetSys_JumpTable:
+                bra.w   AssetSys_InitContext
+                bra.w   AssetSys_InitSource0
+                bra.w   AssetSys_LoadFileOp
+                bra.w   AssetSys_InitSource2
+                bra.w   AssetSys_ResolveAssetList
+                bra.w   AssetSys_DoCriticalOp
+                bra.w   AssetSys_Op5ThenMaybe6
+                bra.w   AssetSys_SelectAndOpen
+                bra.w   AssetSys_OpenAnySource
+
+; ===== AssetSys_InitContext =====
+; prototype: __int16 __usercall AssetSys_InitContext@<d0>(void *loaderBase@<a0>, const char *disk0Path@<a1>, const char *disk1Path@<a2>, const char *disk2Path@<a3>, const char *disk3Path@<a4>)
+AssetSys_InitContext:
                 movem.l d1-d7/a0-a6,-(sp)
                 lea     g_assetBasePtr(pc),a6
                 move.l  a0,(a6)
@@ -2309,20 +2248,20 @@ asset_sys_init_context:
                 move.l  a4,(a0)
                 move.w  #3,d3
                 movea.l g_assetBasePtr(pc),a1
-                bsr.w   sub_100E7E
+                bsr.w   FloppyDev_TransferImpl
                 lea     g_assetSourceVec(pc),a6
                 lea     (kDriveListPtrs).l,a3
                 clr.w   d1
-loc_100238:
+build_source_vec_loop:
                 movea.l (a3)+,a0
                 btst    d1,d0
-                bne.s   loc_100244
+                bne.s   store_source_entry
                 movea.l #0,a0
-loc_100244:
+store_source_entry:
                 move.l  a0,(a6)+
                 addq.w  #1,d1
                 cmpi.w  #4,d1
-                bne.s   loc_100238
+                bne.s   build_source_vec_loop
                 lea     g_assetIndexStartBytes(pc),a0
                 clr.l   (a0)
                 lea     g_assetCurrentSourceSlot(pc),a0
@@ -2347,158 +2286,176 @@ aDf2:
                 dc.b "DF2:",0
 aDf3:
                 dc.b "DF3:",0
-asset_sys_init_open_source_0:
+
+; ===== AssetSys_InitSource0 =====
+; prototype: __int32 __usercall AssetSys_InitSource0@<d0>(const char *filename@<a0>)
+AssetSys_InitSource0:
                 movem.l d2-d7/a0-a6,-(sp)
-                bsr.w   asset_sys_prep_copy_params
+                bsr.w   AssetSysPrepCopyParams
                 moveq   #0,d0
                 movea.l g_assetBasePtr(pc),a2
-                bsr.w   sub_1005C0
+                bsr.w   FloppyAsset_DispatchOp
                 tst.l   d0
                 movem.l (sp)+,d2-d7/a0-a6
                 rts
-asset_sys_init_open_source_1:
+
+; ===== AssetSys_LoadFileOp =====
+; prototype: __int32 __usercall AssetSys_LoadFileOp@<d0>(const char *filename@<a0>)
+AssetSys_LoadFileOp:
                 movem.l d1-d7/a0-a6,-(sp)
-                bsr.w   asset_sys_prep_copy_params
+                bsr.w   AssetSysPrepCopyParams
                 moveq   #1,d0
                 movea.l g_assetBasePtr(pc),a2
-                bsr.w   sub_1005C0
+                bsr.w   FloppyAsset_DispatchOp
                 tst.l   d0
                 movem.l (sp)+,d1-d7/a0-a6
                 rts
-asset_sys_init_open_source_2:
+
+; ===== AssetSys_InitSource2 =====
+; prototype: __int32 __usercall AssetSys_InitSource2@<d0>(const char *filename@<a0>)
+AssetSys_InitSource2:
                 movem.l d1-d7/a0-a6,-(sp)
-                bsr.w   asset_sys_prep_copy_params
+                bsr.w   AssetSysPrepCopyParams
                 moveq   #2,d0
                 movea.l g_assetBasePtr(pc),a2
-                bsr.w   sub_1005C0
+                bsr.w   FloppyAsset_DispatchOp
                 tst.l   d0
                 movem.l (sp)+,d1-d7/a0-a6
                 rts
-asset_sys_resolve_asset_list:
+
+; ===== AssetSys_ResolveAssetList =====
+; prototype: __int32 __usercall AssetSys_ResolveAssetList@<d0>()
+AssetSys_ResolveAssetList:
                 movem.l d1-d7/a0-a6,-(sp)
-                lea     word_1003CC(pc),a0
-                bsr.w   asset_sys_prep_copy_params
+                lea     g_assetResolveDummyWord(pc),a0
+                bsr.w   AssetSysPrepCopyParams
                 movea.l a1,a4
                 lea     2(a4),a1
                 moveq   #3,d0
                 movea.l g_assetBasePtr(pc),a2
                 movem.l d2-d7/a0-a6,-(sp)
-                bsr.w   sub_1005C0
+                bsr.w   FloppyAsset_DispatchOp
                 movem.l (sp)+,d2-d7/a0-a6
                 tst.l   d0
-                bne.w   loc_1003C6
+                bne.w   asset_resolve_exit
                 movea.l a4,a0
                 move.w  d1,(a0)
-                beq.w   loc_1003C4
+                beq.w   asset_resolve_success
                 subq.w  #1,d1
-loc_10030E:
+asset_resolve_clear_suffix_char_loop:
                 move.b  3(a0),d0
                 ext.w   d0
                 clr.b   4(a0,d0.w)
-                adda.l  #$20,a0         ; ' '
-                dbf     d1,loc_10030E
+                adda.l  #' ',a0
+                dbf     d1,asset_resolve_clear_suffix_char_loop
                 movea.l a4,a2
                 movea.l a4,a3
                 move.w  (a4),d1
                 subq.w  #1,d1
-loc_10032A:
+asset_resolve_scan_entries_loop:
                 cmpi.b  #2,2(a2)
-                beq.s   loc_10039E
-                bra.w   loc_1003A2
+                beq.s   asset_resolve_drop_entry
+                bra.w   asset_resolve_keep_entry
                 lea     4(a2),a0
                 movea.l (g_assetSource0).l,a1
                 cmpa.l  #0,a1
-                beq.s   loc_100354
-                jsr     sub_120C90
-                beq.s   loc_10039E
+                beq.s   asset_resolve_check_source1
+                jsr     StringEquals
+                beq.s   asset_resolve_drop_entry
                 lea     4(a2),a0
-loc_100354:
+asset_resolve_check_source1:
                 movea.l (g_assetSource1).l,a1
                 cmpa.l  #0,a1
-                beq.s   loc_10036E
-                jsr     sub_120C90
-                beq.s   loc_10039E
+                beq.s   asset_resolve_check_source2
+                jsr     StringEquals
+                beq.s   asset_resolve_drop_entry
                 lea     4(a2),a0
-loc_10036E:
+asset_resolve_check_source2:
                 movea.l (g_assetSource2).l,a1
                 cmpa.l  #0,a1
-                beq.s   loc_100388
-                jsr     sub_120C90
-                beq.s   loc_10039E
+                beq.s   asset_resolve_check_source3
+                jsr     StringEquals
+                beq.s   asset_resolve_drop_entry
                 lea     4(a2),a0
-loc_100388:
+asset_resolve_check_source3:
                 movea.l (g_assetSource3).l,a1
                 cmpa.l  #0,a1
-                beq.s   loc_1003A2
-                jsr     sub_120C90
-                bne.s   loc_1003A2
-loc_10039E:
+                beq.s   asset_resolve_keep_entry
+                jsr     StringEquals
+                bne.s   asset_resolve_keep_entry
+asset_resolve_drop_entry:
                 subq.w  #1,(a4)
-                bra.s   loc_1003BA
-loc_1003A2:
+                bra.s   asset_resolve_advance_src_ptr
+asset_resolve_keep_entry:
                 cmpa.l  a2,a3
-                beq.s   loc_1003B4
+                beq.s   asset_resolve_advance_dest_ptr
                 lea     4(a2),a0
                 lea     4(a3),a1
                 jsr     StringCopy
-loc_1003B4:
-                adda.l  #$20,a3         ; ' '
-loc_1003BA:
-                adda.l  #$20,a2         ; ' '
-                dbf     d1,loc_10032A
-loc_1003C4:
+asset_resolve_advance_dest_ptr:
+                adda.l  #' ',a3
+asset_resolve_advance_src_ptr:
+                adda.l  #' ',a2
+                dbf     d1,asset_resolve_scan_entries_loop
+asset_resolve_success:
                 clr.l   d0
-loc_1003C6:
+asset_resolve_exit:
                 movem.l (sp)+,d1-d7/a0-a6
                 rts
-word_1003CC:
+g_assetResolveDummyWord:
                 dc.w $0000
-asset_sys_do_critical:
+
+; ===== AssetSys_DoCriticalOp =====
+; prototype: __int32 __usercall AssetSys_DoCriticalOp@<d0>(const char *filename@<a0>)
+AssetSys_DoCriticalOp:
                 movem.l d1-d7/a0-a6,-(sp)
                 cmpa.l  #0,a0
-                bne.s   loc_1003DE
-                lea     word_100408(pc),a0
-loc_1003DE:
-                bsr.w   asset_sys_prep_copy_params
+                bne.s   asset_sys_do_critical_prep_params
+                lea     g_assetCriticalDummyWord(pc),a0
+asset_sys_do_critical_prep_params:
+                bsr.w   AssetSysPrepCopyParams
                 move.w  #$4000,(INTENA).l
                 move    sr,-(sp)
                 moveq   #4,d0
                 movea.l g_assetBasePtr(pc),a2
-                bsr.w   sub_1005C0
+                bsr.w   FloppyAsset_DispatchOp
                 move    (sp)+,sr
                 move.w  #$C000,(INTENA).l
                 tst.l   d0
                 movem.l (sp)+,d1-d7/a0-a6
                 rts
-word_100408:
+g_assetCriticalDummyWord:
                 dc.w $0000
 
-; ===== asset_sys_op5_then_maybe6 =====
-; prototype: void asset_sys_op5_then_maybe6(...)
-asset_sys_op5_then_maybe6:
+; ===== AssetSys_Op5ThenMaybe6 =====
+; prototype: __int32 __usercall AssetSys_Op5ThenMaybe6@<d0>(void *source_desc@<a0>)
+AssetSys_Op5ThenMaybe6:
                 movem.l d2-d7/a0-a6,-(sp)
-                bsr.w   asset_sys_prep_copy_params
+                bsr.w   AssetSysPrepCopyParams
                 moveq   #5,d0
                 movea.l g_assetAltBasePtr(pc),a1
                 movea.l g_assetBasePtr(pc),a2
-                bsr.w   sub_1005C0
+                bsr.w   FloppyAsset_DispatchOp
                 tst.l   d0
-                beq.s   loc_100430
+                beq.s   asset_op5_then_6_op5_failed
                 movea.l d0,a0
                 moveq   #6,d0
-                bsr.w   sub_1005C0
+                bsr.w   FloppyAsset_DispatchOp
                 clr.l   d0
-                bra.s   loc_100432
-loc_100430:
+                bra.s   asset_op5_then_6_exit
+asset_op5_then_6_op5_failed:
                 moveq   #1,d0
-loc_100432:
+asset_op5_then_6_exit:
                 movem.l (sp)+,d2-d7/a0-a6
                 rts
-asset_sys_select_and_open:
+
+; ===== AssetSys_SelectAndOpen =====
+; prototype: __int32 __usercall AssetSys_SelectAndOpen@<d0>(unsigned __int16 asset_index@<d0>)
+AssetSys_SelectAndOpen:
                 movem.l d1-d7/a0-a6,-(sp)
                 move.w  d0,d7
                 lea     g_assetIndexStartBytes(pc),a5
-                lea     g_assetCurrentIndex+1-g_assetIndexStartBytes(a5,d0.w),a5
+                lea     -1(a5,d0.w),a5
                 move.b  (a5),d6
                 ext.w   d6
                 lea     g_assetSource0(pc),a1
@@ -2507,64 +2464,67 @@ asset_sys_select_and_open:
                 movea.l (a1,d0.w),a6
                 lea     g_assetSourceVec(pc),a4
                 move.w  #3,d5
-loc_10045E:
+asset_select_and_open_attempt_loop:
                 move.w  d6,d0
                 lsl.w   #2,d0
                 movea.l (a4,d0.w),a0
                 cmpa.l  #0,a0
-                beq.s   loc_100488
+                beq.s   asset_select_and_open_next_slot
                 move.w  (g_assetCurrentSourceSlot).l,d2
                 move.w  d6,(g_assetCurrentSourceSlot).l
                 movea.l a6,a0
-                bsr.s   asset_sys_op5_then_maybe6
+                bsr.s   AssetSys_Op5ThenMaybe6
                 move.w  d2,(g_assetCurrentSourceSlot).l
                 tst.l   d0
-                beq.s   loc_100496
-loc_100488:
+                beq.s   asset_select_and_open_success
+asset_select_and_open_next_slot:
                 addq.w  #1,d6
                 andi.w  #3,d6
-                dbf     d5,loc_10045E
+                dbf     d5,asset_select_and_open_attempt_loop
                 moveq   #$FFFFFFFF,d0
-                bra.s   loc_1004A6
-loc_100496:
+                bra.s   asset_select_and_open_exit
+asset_select_and_open_success:
                 lea     g_assetCurrentSourceSlot(pc),a0
                 move.w  d6,(a0)
                 move.b  d6,(a5)
                 lea     g_assetCurrentIndex(pc),a0
                 move.w  d7,(a0)
                 clr.w   d0
-loc_1004A6:
+asset_select_and_open_exit:
                 movem.l (sp)+,d1-d7/a0-a6
                 rts
-asset_sys_open_any_source:
+
+; ===== AssetSys_OpenAnySource =====
+; prototype: __int16 __usercall AssetSys_OpenAnySource@<d0>()
+AssetSys_OpenAnySource:
                 movem.l d1-d7/a0-a6,-(sp)
                 move.w  (g_assetCurrentSourceSlot).l,(g_assetSavedSourceSlot).l
                 move.w  (g_assetCurrentIndex).l,(g_assetSavedIndex).l
                 move.w  #4,(g_assetCurrentIndex).l
                 clr.w   (g_assetCurrentSourceSlot).l
                 movea.l g_assetSource0(pc),a0
-                bsr.w   asset_sys_op5_then_maybe6
-                beq.s   loc_100504
+                bsr.w   AssetSys_Op5ThenMaybe6
+                beq.s   asset_open_any_fail_restore_state
                 movea.l g_assetSource1(pc),a0
                 cmpa.l  #0,a0
-                beq.s   loc_1004EE
-                bsr.w   asset_sys_op5_then_maybe6
-                beq.s   loc_100504
-loc_1004EE:
+                beq.s   asset_open_any_try_source2
+                bsr.w   AssetSys_Op5ThenMaybe6
+                beq.s   asset_open_any_fail_restore_state
+asset_open_any_try_source2:
                 movea.l g_assetSource2(pc),a0
                 cmpa.l  #0,a0
-                beq.s   loc_100500
-                bsr.w   asset_sys_op5_then_maybe6
-                beq.s   loc_100504
-loc_100500:
+                beq.s   asset_open_any_no_more_sources
+                bsr.w   AssetSys_Op5ThenMaybe6
+                beq.s   asset_open_any_fail_restore_state
+asset_open_any_no_more_sources:
                 clr.w   d0
-                bra.s   loc_10051E
-loc_100504:
+                bra.s   asset_open_any_exit
+asset_open_any_fail_restore_state:
                 move.w  #$FF9C,d0
                 move.w  (g_assetSavedSourceSlot).l,(g_assetCurrentSourceSlot).l
                 move.w  (g_assetSavedIndex).l,(g_assetCurrentIndex).l
                 tst.w   d0
-loc_10051E:
+asset_open_any_exit:
                 movem.l (sp)+,d1-d7/a0-a6
                 rts
 g_assetSavedSourceSlot:
@@ -2572,12 +2532,12 @@ g_assetSavedSourceSlot:
 g_assetSavedIndex:
                 dc.w $0000
 
-; ===== asset_sys_prep_copy_params =====
-; prototype: void asset_sys_prep_copy_params(...)
-asset_sys_prep_copy_params:
+; ===== AssetSysPrepCopyParams =====
+; prototype: char *__usercall AssetSysPrepCopyParams@<a0>(const char *filename@<a0>)
+AssetSysPrepCopyParams:
                 movem.l d0-d7/a1-a6,-(sp)
                 movea.l a0,a2
-                lea     byte_10058E(pc),a1
+                lea     g_assetFilename(pc),a1
                 move.w  (g_assetCurrentSourceSlot).l,d0
                 lsl.w   #2,d0
                 lea     (g_assetSourceVec).l,a0
@@ -2585,13 +2545,11 @@ asset_sys_prep_copy_params:
                 jsr     StringCopy
                 movea.l a2,a0
                 jsr     StringCopy
-                lea     byte_10058E(pc),a0
+                lea     g_assetFilename(pc),a0
                 movem.l (sp)+,d0-d7/a1-a6
                 rts
-byte_10055C:
-                dc.b $00
-padding_01:
-                dc.b $00
+g_assetSelect:
+                dc.w $0000
 g_assetBasePtr:
                 dc.l 0
 g_assetAltBasePtr:
@@ -2614,89 +2572,89 @@ g_assetIndexStartBytes:
                 dc.w $0000
 g_assetParamBlock:
                 dc.w $0000
-byte_10058E:
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00
+g_assetFilename:
+                dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+                dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+                dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+                dc.b 0,0
 
-; ===== sub_1005C0 =====
-; prototype: unsigned int __usercall sub_1005C0@<d0>(unsigned int op@<d0>, unsigned int arg1@<d1>, void *pA@<a0>, void *pB@<a1>, void *ctx@<a2>)
-sub_1005C0:
+; ===== FloppyAsset_DispatchOp =====
+; prototype: unsigned int __usercall FloppyAsset_DispatchOp@<d0>(unsigned int op@<d0>, unsigned int arg1@<d1>, void *pA@<a0>, void *pB@<a1>, void *ctx@<a2>)
+FloppyAsset_DispatchOp:
                 movem.l d0-d7/a0-a6,-(sp)
                 move.l  d0,d6
                 move.l  d1,d7
                 movea.l a0,a4
                 movea.l a1,a5
                 movea.l a2,a6
-                bsr.w   sub_100D06
+                bsr.w   Floppy_ParseDrivePrefix
                 tst.l   d6
-                bne.s   loc_1005E0
-                bsr.w   sub_1007E8
+                bne.s   floppy_load_by_name
+                bsr.w   Floppy_StreamInit
                 move.l  d1,4(sp)
-                bra.s   loc_100648
-loc_1005E0:
+                bra.s   floppydev_transfer_with_state
+floppy_load_by_name:
                 cmp.b   #1,d6
-                bne.s   loc_1005EC
-                bsr.w   sub_1008C0
-                bra.s   loc_100648
-loc_1005EC:
+                bne.s   flopyy_select_id
+                bsr.w   Floppy_LoadByName
+                bra.s   floppydev_transfer_with_state
+flopyy_select_id:
                 cmp.b   #2,d6
-                bne.s   loc_1005F8
-                bsr.w   sub_100A6A
-                bra.s   loc_100648
-loc_1005F8:
+                bne.s   floppy_dump_status
+                bsr.w   Floppy_SelectId
+                bra.s   floppydev_transfer_with_state
+floppy_dump_status:
                 cmp.b   #3,d6
-                bne.s   loc_100608
-                bsr.w   sub_100B66
+                bne.s   floppy_sent_text_record
+                bsr.w   Floppy_DumpStatus
                 move.l  d1,4(sp)
-                bra.s   loc_100648
-loc_100608:
+                bra.s   floppydev_transfer_with_state
+floppy_sent_text_record:
                 cmp.b   #4,d6
-                bne.s   loc_100614
-                bsr.w   sub_100BCC
-                bra.s   loc_100648
-loc_100614:
+                bne.s   floppy_alloc_tmp_entry
+                bsr.w   Floppy_SendTextRecord
+                bra.s   floppydev_transfer_with_state
+floppy_alloc_tmp_entry:
                 cmp.b   #5,d6
-                bne.s   loc_100622
-                bsr.s   sub_10065E
+                bne.s   floppy_clear_tmp_entry
+                bsr.s   Floppy_AllocTmpEntry
                 movem.l d0-d1,(sp)
-                bra.s   loc_100656
-loc_100622:
+                bra.s   floppy_return
+floppy_clear_tmp_entry:
                 cmp.b   #6,d6
-                bne.s   loc_10062C
-                bsr.s   sub_1006A4
-                bra.s   loc_100648
-loc_10062C:
+                bne.s   floppy_read_from_tmp_entry
+                bsr.s   Floppy_ClearTmpEntry
+                bra.s   floppydev_transfer_with_state
+floppy_read_from_tmp_entry:
                 cmp.b   #7,d6
-                bne.s   loc_10063C
-                bsr.w   sub_1006C4
+                bne.s   floppy_set_tmp_entry_limit
+                bsr.w   Floppy_ReadFromTmpEntry
                 movem.l d0-d1,(sp)
-                bra.s   loc_100656
-loc_10063C:
+                bra.s   floppy_return
+floppy_set_tmp_entry_limit:
                 cmp.b   #8,d6
-                bne.s   loc_100648
-                bsr.s   sub_1006AE
+                bne.s   floppydev_transfer_with_state
+                bsr.s   Floppy_SetTmpEntryLimit
                 move.l  d0,(sp)
-                bra.s   loc_100656
-loc_100648:
+                bra.s   floppy_return
+floppydev_transfer_with_state:
                 move.l  d0,(sp)
                 moveq   #0,d1
                 moveq   #0,d2
                 move.w  #$8000,d3
-                bsr.w   sub_100E70
-loc_100656:
+                bsr.w   FloppyDev_TransferWithState
+floppy_return:
                 movem.l (sp)+,d0-d7/a0-a6
                 tst.l   d0
                 rts
 
-; ===== sub_10065E =====
-; prototype: unsigned int __usercall sub_10065E@<d0>(void *src@<a5>)
-sub_10065E:
+; ===== Floppy_AllocTmpEntry =====
+; prototype: unsigned int __usercall Floppy_AllocTmpEntry@<d0>(void *src@<a5>)
+Floppy_AllocTmpEntry:
                 moveq   #1,d5
-                lea     byte_100E04(pc),a3
+                lea     floppyTmpBuf0(pc),a3
 loc_100664:
-                tst.l   byte_100E0E-byte_100E04(a3)
+                tst.l   floppyTmpBuf1-floppyTmpBuf0(a3)
                 beq.s   loc_10067A
                 lea     $12(a3),a3
                 addq.b  #1,d5
@@ -2707,9 +2665,9 @@ loc_100676:
                 rts
 loc_10067A:
                 movea.l a5,a0
-                bsr.w   sub_100C64
+                bsr.w   Floppy_FindRecordByPath
                 bne.s   loc_100676
-                move.w  word_100E32(pc),(a3)
+                move.w  floppyCurrentDrive(pc),(a3)
                 clr.w   2(a3)
                 moveq   #$FFFFFFFF,d0
                 move.w  d0,4(a3)
@@ -2720,17 +2678,17 @@ loc_10067A:
                 move.l  d5,d0
                 rts
 
-; ===== sub_1006A4 =====
-; prototype: void __usercall sub_1006A4(void *entry@<a4>)
-sub_1006A4:
-                bsr.w   sub_1007CE
+; ===== Floppy_ClearTmpEntry =====
+; prototype: void __usercall Floppy_ClearTmpEntry(void *entry@<a4>)
+Floppy_ClearTmpEntry:
+                bsr.w   Floppy_MapIndexToTmpEntryOrFail
                 clr.l   $A(a4)
                 rts
 
-; ===== sub_1006AE =====
-; prototype: unsigned int __usercall sub_1006AE@<d0>(unsigned int value@<d1>, void *entry@<a4>)
-sub_1006AE:
-                bsr.w   sub_1007CE
+; ===== Floppy_SetTmpEntryLimit =====
+; prototype: unsigned int __usercall Floppy_SetTmpEntryLimit@<d0>(unsigned int value@<d1>, void *entry@<a4>)
+Floppy_SetTmpEntryLimit:
+                bsr.w   Floppy_MapIndexToTmpEntryOrFail
                 cmp.l   $E(a4),d1
                 ble.s   loc_1006BC
                 move.l  $E(a4),d1
@@ -2739,11 +2697,11 @@ loc_1006BC:
                 moveq   #0,d0
                 rts
 
-; ===== sub_1006C4 =====
-; prototype: unsigned int __usercall sub_1006C4@<d0>(void *entry@<a4>, void *dst@<a5>, unsigned int remaining@<d7>)
-sub_1006C4:
+; ===== Floppy_ReadFromTmpEntry =====
+; prototype: unsigned int __usercall Floppy_ReadFromTmpEntry@<d0>(void *entry@<a4>, void *dst@<a5>, unsigned int remaining@<d7>)
+Floppy_ReadFromTmpEntry:
                 clr.l   -(sp)
-                bsr.w   sub_1007CE
+                bsr.w   Floppy_MapIndexToTmpEntryOrFail
                 move.l  $E(a4),d0
                 sub.l   6(a4),d0
                 beq.w   loc_100798
@@ -2751,10 +2709,10 @@ sub_1006C4:
                 bge.s   loc_1006DC
                 move.l  d0,d7
 loc_1006DC:
-                lea     word_100E32(pc),a0
+                lea     floppyCurrentDrive(pc),a0
                 move.w  (a4),(a0)
                 move.l  6(a4),d0
-                bsr.w   sub_10079C
+                bsr.w   Floppy_PosToCHS
                 movea.l $A(a4),a0
                 move.w  2(a4),d0
                 cmp.w   d0,d2
@@ -2773,7 +2731,7 @@ loc_100710:
                 move.l  $1F8(a0),d1
                 addq.w  #1,2(a4)
 loc_100718:
-                bsr.w   sub_100DD0
+                bsr.w   Floppy_TransferNonBlockingLen1Wrapper
                 bne.s   loc_100798
                 cmp.w   2(a4),d2
                 bne.s   loc_100710
@@ -2786,7 +2744,7 @@ loc_100724:
                 sub.w   d0,d1
                 move.l  (a0,d1.w),d1
                 lea     $200(a0),a0
-                bsr.w   sub_100DD0
+                bsr.w   Floppy_TransferNonBlockingLen1Wrapper
                 bne.s   loc_100798
                 move.w  d4,4(a4)
 loc_100746:
@@ -2802,7 +2760,7 @@ loc_10075E:
                 sub.l   d0,d7
                 add.l   d0,6(a4)
                 add.l   d0,(sp)
-                bsr.w   sub_10086A
+                bsr.w   Floppy_CopyBytesWithAlignment
                 move.l  d7,d0
                 beq.s   loc_100798
                 addq.l  #1,d3
@@ -2811,22 +2769,22 @@ loc_10075E:
                 lea     $138(a1),a2
                 lsl.w   #2,d3
                 suba.l  d3,a2
-                bsr.s   sub_1007FC
+                bsr.s   Floppy_StreamContinue
                 bne.s   loc_100798
                 add.l   d1,(sp)
                 add.l   d1,6(a4)
                 move.l  6(a4),d0
                 subq.l  #1,d0
-                bsr.s   sub_10079C
+                bsr.s   Floppy_PosToCHS
                 move.w  d2,2(a4)
                 moveq   #0,d0
 loc_100798:
                 move.l  (sp)+,d1
                 rts
 
-; ===== sub_10079C =====
-; prototype: void __usercall sub_10079C(unsigned int pos@<d0>)
-sub_10079C:
+; ===== Floppy_PosToCHS =====
+; prototype: void __usercall Floppy_PosToCHS(unsigned int pos@<d0>)
+Floppy_PosToCHS:
                 move.l  d0,d4
                 andi.l  #$1FF,d0
                 moveq   #9,d5
@@ -2846,13 +2804,13 @@ sub_10079C:
                 andi.l  #$FFFF,d2
                 rts
 
-; ===== sub_1007CE =====
-; prototype: void __usercall sub_1007CE(unsigned int index@<a4>)
-sub_1007CE:
+; ===== Floppy_MapIndexToTmpEntryOrFail =====
+; prototype: void __usercall Floppy_MapIndexToTmpEntryOrFail(unsigned int index@<a4>)
+Floppy_MapIndexToTmpEntryOrFail:
                 move.l  a4,d0
                 subq.b  #1,d0
                 mulu.w  #$12,d0
-                lea     byte_100E04(pc),a4
+                lea     floppyTmpBuf0(pc),a4
                 adda.w  d0,a4
                 tst.l   $A(a4)
                 bne.s   locret_1007E6
@@ -2861,21 +2819,21 @@ sub_1007CE:
 locret_1007E6:
                 rts
 
-; ===== sub_1007E8 =====
-; prototype: void __usercall sub_1007E8(void *ctx@<a6>, void *dst@<a5>)
-sub_1007E8:
-                bsr.w   sub_100C62
+; ===== Floppy_StreamInit =====
+; prototype: void __usercall Floppy_StreamInit(void *ctx@<a6>, void *dst@<a5>)
+Floppy_StreamInit:
+                bsr.w   Floppy_CtxAliasA0
                 bne.s   locret_100868
                 move.l  $144(a0),d7
                 movea.l a6,a1
                 clr.l   $1FC(a1)
                 lea     $138(a1),a2
 
-; ===== sub_1007FC =====
-; prototype: unsigned int __usercall sub_1007FC@<d0>(void *dst@<a5>, void *ctx@<a6>, unsigned int remaining@<d7>)
-sub_1007FC:
+; ===== Floppy_StreamContinue =====
+; prototype: unsigned int __usercall Floppy_StreamContinue@<d0>(void *dst@<a5>, void *ctx@<a6>, unsigned int remaining@<d7>)
+Floppy_StreamContinue:
                 clr.l   -(sp)
-                bsr.w   sub_100896
+                bsr.w   Floppy_RefillSymbolStack
                 bne.s   loc_100864
 loc_100804:
                 move.l  d1,d2
@@ -2894,7 +2852,7 @@ loc_100804:
                 addq.l  #1,d2
                 bra.s   loc_100838
 loc_100826:
-                bsr.s   sub_100896
+                bsr.s   Floppy_RefillSymbolStack
                 bne.s   loc_100864
                 addq.l  #1,d2
                 move.l  d1,d5
@@ -2907,10 +2865,10 @@ loc_100838:
                 move.l  d4,d1
                 sub.l   d4,d2
                 movea.l a3,a0
-                bsr.w   sub_100E6E
+                bsr.w   FloppyDev_TransferNonBlocking
                 bne.s   loc_100864
 loc_100844:
-                bsr.w   sub_100DE0
+                bsr.w   Floppy_CheckErrorOr195
                 bne.s   loc_100864
                 move.l  $C(a0),d0
                 cmp.l   d0,d7
@@ -2919,7 +2877,7 @@ loc_100844:
 loc_100854:
                 sub.l   d0,d7
                 add.l   d0,(sp)
-                bsr.s   sub_10086A
+                bsr.s   Floppy_CopyBytesWithAlignment
                 subq.l  #1,d2
                 bne.s   loc_100844
                 move.l  d5,d1
@@ -2931,9 +2889,9 @@ loc_100864:
 locret_100868:
                 rts
 
-; ===== sub_10086A =====
-; prototype: void __usercall sub_10086A(unsigned int count@<d0>, void *src@<a0>, void *dst@<a5>)
-sub_10086A:
+; ===== Floppy_CopyBytesWithAlignment =====
+; prototype: void __usercall Floppy_CopyBytesWithAlignment(unsigned int count@<d0>, void *src@<a0>, void *dst@<a5>)
+Floppy_CopyBytesWithAlignment:
                 lea     $18(a0),a0
                 move.w  a0,-(sp)
                 andi.w  #1,(sp)+
@@ -2956,16 +2914,16 @@ loc_100890:
                 dbf     d0,loc_10088E
                 rts
 
-; ===== sub_100896 =====
-; prototype: unsigned int __usercall sub_100896@<d0>(void *state@<a1>)
-sub_100896:
+; ===== Floppy_RefillSymbolStack =====
+; prototype: unsigned int __usercall Floppy_RefillSymbolStack@<d0>(void *state@<a1>)
+Floppy_RefillSymbolStack:
                 move.l  8(a1),d0
                 sub.l   $1FC(a1),d0
                 bne.s   loc_1008B6
                 move.l  $1F8(a1),d1
                 beq.s   locret_1008BE
                 movea.l a1,a0
-                bsr.w   sub_100DD0
+                bsr.w   Floppy_TransferNonBlockingLen1Wrapper
                 bne.s   locret_1008BE
                 clr.l   $1FC(a1)
                 lea     $138(a1),a2
@@ -2976,35 +2934,35 @@ loc_1008B6:
 locret_1008BE:
                 rts
 
-; ===== sub_1008C0 =====
-; prototype: unsigned int __usercall sub_1008C0@<d0>(void *ctx@<a6>, void *nameSrc@<a4>, void *data@<a5>, unsigned int size@<d7>)
-sub_1008C0:
-                bsr.w   sub_100A6A
+; ===== Floppy_LoadByName =====
+; prototype: unsigned int __usercall Floppy_LoadByName@<d0>(void *ctx@<a6>, void *nameSrc@<a4>, void *data@<a5>, unsigned int size@<d7>)
+Floppy_LoadByName:
+                bsr.w   Floppy_SelectId
                 beq.s   loc_1008D8
                 cmp.l   #$CD,d0
                 bne.w   locret_100A68
-                bsr.w   sub_100B36
+                bsr.w   Floppy_FlushErrorState
                 bne.w   locret_100A68
 loc_1008D8:
-                bsr.w   sub_100BBA
+                bsr.w   Floppy_ClearCtx3500
                 moveq   #2,d0
                 move.l  d0,(a0)
                 move.l  d7,$144(a0)
-                bsr.w   sub_100B4E
-                move.w  word_100E28(pc),$1F6(a0)
+                bsr.w   Floppy_RecordCopyText
+                move.w  floppyIoStatusWord(pc),$1F6(a0)
                 moveq   #$FFFFFFFD,d0
                 move.l  d0,$1FC(a0)
                 moveq   #1,d0
                 move.l  d0,$34FC(a6)
                 moveq   #2,d6
-                bsr.w   sub_100AC4
+                bsr.w   Floppy_FindNextSetBitOrSame
                 beq.w   loc_100A62
-                lea     word_100E30(pc),a0
+                lea     floppyIoMode(pc),a0
                 move.w  d0,(a0)
                 move.l  d0,$3504(a6)
                 move.l  d7,d1
 loc_100910:
-                bsr.w   sub_100AC4
+                bsr.w   Floppy_FindNextSetBitOrSame
                 beq.w   loc_100A62
                 addq.l  #1,d6
                 subi.l  #$8940,d1
@@ -3012,8 +2970,8 @@ loc_100910:
                 move.l  d6,d5
 loc_100924:
                 move.l  $3504(a6),d6
-                bsr.w   sub_100AC4
-                bsr.w   sub_100B12
+                bsr.w   Floppy_FindNextSetBitOrSame
+                bsr.w   Floppy_BitClear
                 move.l  d6,$3504(a6)
                 clr.l   $3508(a6)
                 clr.l   $36F8(a6)
@@ -3021,7 +2979,7 @@ loc_100924:
 loc_100940:
                 lea     $3700(a6),a1
                 move.l  d5,d6
-                bsr.w   sub_100AD8
+                bsr.w   Floppy_CountFollowingSetBits
                 beq.w   loc_100A62
                 move.l  d6,d5
                 moveq   #0,d3
@@ -3032,7 +2990,7 @@ loc_100940:
 loc_10095A:
                 move.l  d6,-(a2)
                 move.l  d6,d0
-                bsr.w   sub_100B12
+                bsr.w   Floppy_BitClear
                 addq.l  #1,d6
                 movea.l a1,a3
                 moveq   #8,d0
@@ -3055,7 +3013,7 @@ loc_10098C:
                 move.b  (a5)+,(a1)+
                 dbf     d0,loc_10098C
                 movea.l a3,a0
-                bsr.w   sub_100DEC
+                bsr.w   Floppy_Checksum512Words
                 move.l  d0,$14(a0)
                 addq.l  #1,d3
                 moveq   #1,d0
@@ -3071,14 +3029,14 @@ loc_10098C:
                 bra.s   loc_1009E2
 loc_1009BA:
                 move.l  $3504(a6),d6
-                bsr.w   sub_100AC4
+                bsr.w   Floppy_FindNextSetBitOrSame
                 move.l  d6,$36F8(a6)
 loc_1009C6:
                 lea     $3500(a6),a0
                 move.l  $134(a0),d0
                 move.l  d0,$10(a0)
                 move.l  4(a0),d1
-                bsr.w   sub_100E54
+                bsr.w   AssetDriveCtx_ProbeDrives
                 bne.w   locret_100A68
                 moveq   #$10,d0
                 move.l  d0,(a0)
@@ -3086,17 +3044,17 @@ loc_1009E2:
                 move.l  d7,d0
                 beq.s   loc_1009EC
                 move.l  d5,d6
-                bsr.w   sub_100AC4
+                bsr.w   Floppy_FindNextSetBitOrSame
 loc_1009EC:
                 movea.l a3,a0
                 move.l  d0,$10(a0)
                 clr.l   $14(a0)
-                bsr.w   sub_100DEC
+                bsr.w   Floppy_Checksum512Words
                 move.l  d0,$14(a0)
                 move.l  d5,d1
                 move.l  d3,d2
                 lea     $3700(a6),a0
-                bsr.w   sub_100E60
+                bsr.w   FloppyDev_TransferBlocking
                 bne.s   locret_100A68
                 tst.l   d7
                 beq.s   loc_100A1E
@@ -3105,61 +3063,61 @@ loc_1009EC:
                 beq.w   loc_100924
                 bra.w   loc_100940
 loc_100A1E:
-                move.w  word_100E2C(pc),d1
+                move.w  floppyIoCylinder(pc),d1
                 lea     $3500(a6),a0
-                bsr.w   sub_100DD0
+                bsr.w   Floppy_TransferNonBlockingLen1Wrapper
                 bne.s   locret_100A68
-                move.w  word_100E30(pc),d0
-                move.w  word_100E2E(pc),d3
+                move.w  floppyIoMode(pc),d0
+                move.w  floppyIoSector(pc),d3
                 move.l  d0,(a0,d3.w)
-                bsr.w   sub_100E54
+                bsr.w   AssetDriveCtx_ProbeDrives
                 bne.s   locret_100A68
-                move.w  word_100E30(pc),d0
+                move.w  floppyIoMode(pc),d0
                 beq.s   loc_100A4E
-                lea     word_100E2C(pc),a0
+                lea     floppyIoCylinder(pc),a0
                 move.w  d0,(a0)+
                 move.w  #$1F0,(a0)+
 loc_100A4E:
                 lea     $3300(a6),a0
-                move.w  word_100E2A(pc),d1
+                move.w  floppyIoErrorWord(pc),d1
                 clr.l   (a0)
-                bsr.w   sub_100DEC
+                bsr.w   Floppy_Checksum512Words
                 move.l  d0,(a0)
-                bra.w   sub_100E5E
+                bra.w   FloppyDev_TransferBlockingLen1
 loc_100A62:
                 move.l  #$DD,d0
 locret_100A68:
                 rts
 
-; ===== sub_100A6A =====
-; prototype: unsigned int __usercall sub_100A6A@<d0>(unsigned int id@<d1>, void *ctx@<a6>)
-sub_100A6A:
-                bsr.w   sub_100C62
+; ===== Floppy_SelectId =====
+; prototype: unsigned int __usercall Floppy_SelectId@<d0>(unsigned int id@<d1>, void *ctx@<a6>)
+Floppy_SelectId:
+                bsr.w   Floppy_CtxAliasA0
                 bne.s   locret_100AC2
                 move.l  d1,d4
-                bsr.w   sub_100B36
+                bsr.w   Floppy_FlushErrorState
                 bne.s   locret_100AC2
                 move.l  d4,d0
 loc_100A7A:
-                bsr.s   sub_100AA0
+                bsr.s   Floppy_BitSet
                 lea     $138(a6),a1
                 move.l  8(a6),d1
                 subq.l  #1,d1
 loc_100A86:
                 move.l  -(a1),d0
-                bsr.s   sub_100AA0
+                bsr.s   Floppy_BitSet
                 dbf     d1,loc_100A86
                 move.l  $1F8(a6),d1
                 beq.s   loc_100A1E
                 movea.l a6,a0
-                bsr.w   sub_100DD0
+                bsr.w   Floppy_TransferNonBlockingLen1Wrapper
                 bne.s   locret_100AC2
                 move.l  d1,d0
                 bra.s   loc_100A7A
 
-; ===== sub_100AA0 =====
-; prototype: void __usercall sub_100AA0(unsigned int index@<d0>, void *ctx@<a6>)
-sub_100AA0:
+; ===== Floppy_BitSet =====
+; prototype: void __usercall Floppy_BitSet(unsigned int index@<d0>, void *ctx@<a6>)
+Floppy_BitSet:
                 movem.l d0-d1,-(sp)
                 subq.w  #2,d0
                 divu.w  #$20,d0         ; ' '
@@ -3174,26 +3132,26 @@ sub_100AA0:
 locret_100AC2:
                 rts
 
-; ===== sub_100AC4 =====
-; prototype: void __usercall sub_100AC4(unsigned int start@<d6>, void *ctx@<a6>)
-sub_100AC4:
+; ===== Floppy_FindNextSetBitOrSame =====
+; prototype: void __usercall Floppy_FindNextSetBitOrSame(unsigned int start@<d6>, void *ctx@<a6>)
+Floppy_FindNextSetBitOrSame:
                 move.l  d6,d0
                 subq.w  #1,d0
 loc_100AC8:
                 addq.w  #1,d0
                 cmp.w   #$6E0,d0
                 beq.s   locret_100AD6
-                bsr.s   sub_100AF4
+                bsr.s   Floppy_BitTest
                 beq.s   loc_100AC8
                 move.l  d0,d6
 locret_100AD6:
                 rts
 
-; ===== sub_100AD8 =====
-; prototype: unsigned int __usercall sub_100AD8@<d0>(unsigned int start@<d6>, void *ctx@<a6>)
-sub_100AD8:
+; ===== Floppy_CountFollowingSetBits =====
+; prototype: unsigned int __usercall Floppy_CountFollowingSetBits@<d0>(unsigned int start@<d6>, void *ctx@<a6>)
+Floppy_CountFollowingSetBits:
                 moveq   #0,d1
-                bsr.s   sub_100AC4
+                bsr.s   Floppy_FindNextSetBitOrSame
                 beq.s   loc_100AEE
                 move.l  d6,d0
 loc_100AE0:
@@ -3201,16 +3159,16 @@ loc_100AE0:
                 addq.w  #1,d0
                 cmp.w   #$6E0,d0
                 beq.s   loc_100AEE
-                bsr.s   sub_100AF4
+                bsr.s   Floppy_BitTest
                 bne.s   loc_100AE0
 loc_100AEE:
                 move.l  d6,d0
                 tst.l   d1
                 rts
 
-; ===== sub_100AF4 =====
-; prototype: void __usercall sub_100AF4(unsigned int index@<d0>, void *ctx@<a6>)
-sub_100AF4:
+; ===== Floppy_BitTest =====
+; prototype: void __usercall Floppy_BitTest(unsigned int index@<d0>, void *ctx@<a6>)
+Floppy_BitTest:
                 movem.l d0-d1,-(sp)
                 subq.w  #2,d0
                 divu.w  #$20,d0         ; ' '
@@ -3222,9 +3180,9 @@ sub_100AF4:
                 movem.l (sp)+,d0-d1
                 rts
 
-; ===== sub_100B12 =====
-; prototype: void __usercall sub_100B12(unsigned int index@<d0>, void *ctx@<a6>)
-sub_100B12:
+; ===== Floppy_BitClear =====
+; prototype: void __usercall Floppy_BitClear(unsigned int index@<d0>, void *ctx@<a6>)
+Floppy_BitClear:
                 movem.l d0-d1,-(sp)
                 subq.w  #2,d0
                 divu.w  #$20,d0         ; ' '
@@ -3238,21 +3196,21 @@ sub_100B12:
                 movem.l (sp)+,d0-d1
                 rts
 
-; ===== sub_100B36 =====
-; prototype: void __usercall sub_100B36(void *ctx@<a6>)
-sub_100B36:
-                move.w  word_100E2A(pc),d1
+; ===== Floppy_FlushErrorState =====
+; prototype: void __usercall Floppy_FlushErrorState(void *ctx@<a6>)
+Floppy_FlushErrorState:
+                move.w  floppyIoErrorWord(pc),d1
                 lea     $3300(a6),a0
-                bsr.w   sub_100E6C
+                bsr.w   FloppyDev_TransferNonBlockingLen1
                 bne.s   locret_100B4C
-                bsr.w   sub_100DEC
+                bsr.w   Floppy_Checksum512Words
                 bne.w   loc_100DE4
 locret_100B4C:
                 rts
 
-; ===== sub_100B4E =====
-; prototype: void __usercall sub_100B4E(void *rec@<a0>, const void *text@<a4>)
-sub_100B4E:
+; ===== Floppy_RecordCopyText =====
+; prototype: void __usercall Floppy_RecordCopyText(void *rec@<a0>, const void *text@<a4>)
+Floppy_RecordCopyText:
                 lea     $1B1(a0),a1
                 moveq   #$FFFFFFFF,d0
 loc_100B54:
@@ -3265,10 +3223,10 @@ loc_100B60:
                 move.b  d0,$1B0(a0)
                 rts
 
-; ===== sub_100B66 =====
-; prototype: unsigned int __usercall sub_100B66@<d1>(void *ctx@<a6>, void *outBuf@<a5>)
-sub_100B66:
-                bsr.w   sub_100C62
+; ===== Floppy_DumpStatus =====
+; prototype: unsigned int __usercall Floppy_DumpStatus@<d1>(void *ctx@<a6>, void *outBuf@<a5>)
+Floppy_DumpStatus:
+                bsr.w   Floppy_CtxAliasA0
                 bne.s   locret_100BB8
                 moveq   #0,d4
                 moveq   #0,d5
@@ -3277,7 +3235,7 @@ loc_100B70:
                 beq.s   loc_100BAC
 loc_100B76:
                 lea     $3300(a6),a0
-                bsr.w   sub_100DD0
+                bsr.w   Floppy_TransferNonBlockingLen1Wrapper
                 bne.s   locret_100BB8
                 moveq   #2,d0
                 cmp.l   (a0),d0
@@ -3307,9 +3265,9 @@ loc_100BAC:
 locret_100BB8:
                 rts
 
-; ===== sub_100BBA =====
-; prototype: void __usercall sub_100BBA(void *ctx@<a6>)
-sub_100BBA:
+; ===== Floppy_ClearCtx3500 =====
+; prototype: void __usercall Floppy_ClearCtx3500(void *ctx@<a6>)
+Floppy_ClearCtx3500:
                 lea     $3500(a6),a0
                 movea.l a0,a1
                 move.w  #$5FF,d0
@@ -3318,16 +3276,16 @@ loc_100BC4:
                 dbf     d0,loc_100BC4
                 rts
 
-; ===== sub_100BCC =====
-; prototype: unsigned int __usercall sub_100BCC@<d0>(void *ctx@<a6>, const void *text@<a4>)
-sub_100BCC:
+; ===== Floppy_SendTextRecord =====
+; prototype: unsigned int __usercall Floppy_SendTextRecord@<d0>(void *ctx@<a6>, const void *text@<a4>)
+Floppy_SendTextRecord:
                 moveq   #0,d1
                 move.w  #$6E0,d2
                 moveq   #2,d3
                 suba.l  a0,a0
-                bsr.w   sub_100E70
+                bsr.w   FloppyDev_TransferWithState
                 bne.w   locret_100C60
-                bsr.s   sub_100BBA
+                bsr.s   Floppy_ClearCtx3500
                 moveq   #2,d0
                 move.l  d0,(a0)
                 moveq   #$48,d0         ; 'H'
@@ -3335,30 +3293,30 @@ sub_100BCC:
                 moveq   #$FFFFFFFF,d0
                 move.l  d0,$138(a0)
                 move.l  #$371,$13C(a0)
-                bsr.w   sub_100B4E
+                bsr.w   Floppy_RecordCopyText
                 moveq   #1,d0
                 move.l  d0,$1FC(a0)
                 lea     $400(a6),a6
                 moveq   #2,d0
 loc_100C08:
-                bsr.w   sub_100AA0
+                bsr.w   Floppy_BitSet
                 addq.w  #1,d0
                 cmp.w   #$6E0,d0
                 bne.s   loc_100C08
                 move.l  #$370,d0
-                bsr.w   sub_100B12
+                bsr.w   Floppy_BitClear
                 addq.l  #1,d0
-                bsr.w   sub_100B12
+                bsr.w   Floppy_BitClear
                 lea     -$400(a6),a6
-                bsr.w   sub_100DEC
+                bsr.w   Floppy_Checksum512Words
                 move.l  d0,$14(a0)
                 lea     $200(a0),a0
-                bsr.w   sub_100DEC
+                bsr.w   Floppy_Checksum512Words
                 move.l  d0,(a0)
                 lea     -$200(a0),a0
                 move.w  #$370,d1
                 moveq   #2,d2
-                bsr.w   sub_100E60
+                bsr.w   FloppyDev_TransferBlocking
                 bne.s   locret_100C60
                 movea.l a0,a1
                 move.w  #$7F,d0
@@ -3366,35 +3324,35 @@ loc_100C50:
                 move.l  #$444F5300,(a1)+
                 dbf     d0,loc_100C50
                 moveq   #0,d1
-                bsr.w   sub_100E5E
+                bsr.w   FloppyDev_TransferBlockingLen1
 locret_100C60:
                 rts
 
-; ===== sub_100C62 =====
-; prototype: void __usercall sub_100C62(void *ctx@<a6>)
-sub_100C62:
+; ===== Floppy_CtxAliasA0 =====
+; prototype: void __usercall Floppy_CtxAliasA0(void *ctx@<a6>)
+Floppy_CtxAliasA0:
                 movea.l a6,a0
 
-; ===== sub_100C64 =====
-; prototype: unsigned int __usercall sub_100C64@<d0>(const char *path@<a4>, unsigned int mode@<d6>)
-sub_100C64:
+; ===== Floppy_FindRecordByPath =====
+; prototype: unsigned int __usercall Floppy_FindRecordByPath@<d0>(const char *path@<a4>, unsigned int mode@<d6>)
+Floppy_FindRecordByPath:
                 move.l  a4,-(sp)
-                bsr.w   sub_100DA8
+                bsr.w   Floppy_Check370Record
                 bne.w   loc_100D00
 loc_100C6E:
-                lea     word_100E28(pc),a1
+                lea     floppyIoStatusWord(pc),a1
                 move.w  d1,(a1)
                 move.l  a4,(sp)
-                bsr.w   sub_100D54
+                bsr.w   Floppy_HashLastPathComponent
                 beq.w   loc_100D00
                 lsl.w   #2,d0
 loc_100C80:
-                lea     word_100E2C(pc),a1
+                lea     floppyIoCylinder(pc),a1
                 move.w  d1,(a1)+
                 move.w  d0,(a1)+
                 move.l  (a0,d0.w),d1
                 beq.s   loc_100CD8
-                bsr.w   sub_100DD0
+                bsr.w   Floppy_TransferNonBlockingLen1Wrapper
                 bne.s   loc_100D00
                 move.l  #$E1,d0
                 moveq   #2,d2
@@ -3410,13 +3368,13 @@ loc_100CAE:
                 cmp.l   $1FC(a0),d2
                 bne.s   loc_100CD2
                 lea     $1B0(a0),a1
-                lea     byte_100E34(pc),a2
+                lea     floppyDriveFlags(pc),a2
                 moveq   #0,d2
                 move.b  (a1)+,d2
                 subq.b  #1,d2
 loc_100CC2:
                 move.b  (a1)+,d0
-                bsr.s   sub_100D40
+                bsr.s   Floppy_ToUpperOrZero
                 cmp.b   (a2)+,d0
                 dbne    d2,loc_100CC2
                 bne.s   loc_100CD2
@@ -3436,7 +3394,7 @@ loc_100CD8:
 loc_100CF0:
                 tst.b   (a4)
                 bne.w   loc_100C6E
-                lea     word_100E30(pc),a1
+                lea     floppyIoMode(pc),a1
                 move.w  $1F2(a0),(a1)
                 moveq   #0,d0
 loc_100D00:
@@ -3444,62 +3402,62 @@ loc_100D00:
                 tst.l   d0
                 rts
 
-; ===== sub_100D06 =====
-; prototype: void __usercall sub_100D06(unsigned int mode@<d6>, const unsigned __int8 *p@<a4>)
-sub_100D06:
+; ===== Floppy_ParseDrivePrefix =====
+; prototype: void __usercall Floppy_ParseDrivePrefix(unsigned int mode@<d6>, const unsigned __int8 *p@<a4>)
+Floppy_ParseDrivePrefix:
                 cmp.b   #6,d6
                 bge.s   locret_100D3C
                 movea.l a4,a0
-                bsr.s   sub_100D3E
-                cmp.b   #$44,d0         ; 'D'
+                bsr.s   Floppy_GetNextChar
+                cmp.b   #'D',d0
                 bne.s   locret_100D3C
-                bsr.s   sub_100D3E
-                cmp.b   #$46,d0         ; 'F'
+                bsr.s   Floppy_GetNextChar
+                cmp.b   #'F',d0
                 bne.s   locret_100D3C
                 move.b  (a0)+,d0
-                subi.b  #$30,d0         ; '0'
+                subi.b  #'0',d0
                 blt.s   locret_100D3C
-                cmp.b   #$33,d0         ; '3'
+                cmp.b   #'3',d0
                 bgt.s   locret_100D3C
-                cmpi.b  #$3A,(a0)+      ; ':'
+                cmpi.b  #':',(a0)+
                 bne.s   locret_100D3C
-                lea     word_100E32(pc),a0
-                move.b  d0,word_100E32+1-word_100E32(a0)
+                lea     floppyCurrentDrive(pc),a0
+                move.b  d0,floppyCurrentDrive+1-floppyCurrentDrive(a0)
                 addq.w  #4,a4
 locret_100D3C:
                 rts
 
-; ===== sub_100D3E =====
-; prototype: unsigned __int8 __usercall sub_100D3E@<d0>(const unsigned __int8 *p@<a0>)
-sub_100D3E:
+; ===== Floppy_GetNextChar =====
+; prototype: unsigned __int8 __usercall Floppy_GetNextChar@<d0>(const unsigned __int8 *p@<a0>)
+Floppy_GetNextChar:
                 move.b  (a0)+,d0
 
-; ===== sub_100D40 =====
-; prototype: unsigned __int8 __usercall sub_100D40@<d0>(unsigned __int8 c@<d0>)
-sub_100D40:
-                cmp.b   #$61,d0         ; 'a'
+; ===== Floppy_ToUpperOrZero =====
+; prototype: unsigned __int8 __usercall Floppy_ToUpperOrZero@<d0>(unsigned __int8 c@<d0>)
+Floppy_ToUpperOrZero:
+                cmp.b   #'a',d0
                 blt.s   loc_100D50
-                cmp.b   #$7A,d0         ; 'z'
+                cmp.b   #'z',d0
                 bgt.s   loc_100D50
                 andi.b  #$DF,d0
 loc_100D50:
                 tst.b   d0
                 rts
 
-; ===== sub_100D54 =====
-; prototype: unsigned int __usercall sub_100D54@<d0>(const char *path@<a4>)
-sub_100D54:
+; ===== Floppy_HashLastPathComponent =====
+; prototype: unsigned int __usercall Floppy_HashLastPathComponent@<d0>(const char *path@<a4>)
+Floppy_HashLastPathComponent:
                 movem.l d1/a0-a1,-(sp)
                 moveq   #0,d0
                 moveq   #$FFFFFFFF,d1
                 movea.l a4,a0
-                lea     byte_100E34(pc),a1
+                lea     floppyDriveFlags(pc),a1
                 clr.b   (a1)
 loc_100D64:
                 addq.l  #1,d1
                 tst.b   (a4)
                 beq.s   loc_100D72
-                cmpi.b  #$2F,(a4)+      ; '/'
+                cmpi.b  #'/',(a4)+
                 bne.s   loc_100D64
                 subq.w  #1,a4
 loc_100D72:
@@ -3508,18 +3466,18 @@ loc_100D72:
 loc_100D76:
                 mulu.w  #$D,d1
                 move.b  (a0)+,d0
-                bsr.s   sub_100D40
+                bsr.s   Floppy_ToUpperOrZero
                 move.b  d0,(a1)+
                 add.w   d0,d1
                 andi.l  #$7FF,d1
                 cmpa.l  a0,a4
                 bne.s   loc_100D76
-                cmpi.b  #$2F,(a4)       ; '/'
+                cmpi.b  #'/',(a4)
                 bne.s   loc_100D94
                 addq.w  #1,a4
 loc_100D94:
                 clr.b   (a1)+
-                divu.w  #$48,d1         ; 'H'
+                divu.w  #'H',d1
                 clr.w   d1
                 swap    d1
                 addq.w  #6,d1
@@ -3528,11 +3486,11 @@ loc_100DA0:
                 movem.l (sp)+,d1/a0-a1
                 rts
 
-; ===== sub_100DA8 =====
-; prototype: unsigned int __usercall sub_100DA8@<d0>(void *ctx@<a6>)
-sub_100DA8:
+; ===== Floppy_Check370Record =====
+; prototype: unsigned int __usercall Floppy_Check370Record@<d0>(void *ctx@<a6>)
+Floppy_Check370Record:
                 move.w  #$370,d1
-                bsr.s   sub_100DD0
+                bsr.s   Floppy_TransferNonBlockingLen1Wrapper
                 bne.s   locret_100DCE
                 move.l  #$E1,d0
                 moveq   #2,d2
@@ -3541,34 +3499,34 @@ sub_100DA8:
                 moveq   #1,d2
                 cmp.l   $1FC(a0),d2
                 bne.s   locret_100DCE
-                lea     word_100E2A(pc),a1
+                lea     floppyIoErrorWord(pc),a1
                 move.w  $13E(a0),(a1)
                 moveq   #0,d0
 locret_100DCE:
                 rts
 
-; ===== sub_100DD0 =====
-; prototype: unsigned int __usercall sub_100DD0@<d0>()
-sub_100DD0:
+; ===== Floppy_TransferNonBlockingLen1Wrapper =====
+; prototype: unsigned int __usercall Floppy_TransferNonBlockingLen1Wrapper@<d0>()
+Floppy_TransferNonBlockingLen1Wrapper:
                 movem.l d2-d3,-(sp)
-                bsr.w   sub_100E6C
+                bsr.w   FloppyDev_TransferNonBlockingLen1
                 movem.l (sp)+,d2-d3
                 tst.l   d0
                 bne.s   locret_100DEA
 
-; ===== sub_100DE0 =====
-; prototype: unsigned int __usercall sub_100DE0@<d0>()
-sub_100DE0:
-                bsr.s   sub_100DEC
+; ===== Floppy_CheckErrorOr195 =====
+; prototype: unsigned int __usercall Floppy_CheckErrorOr195@<d0>()
+Floppy_CheckErrorOr195:
+                bsr.s   Floppy_Checksum512Words
                 beq.s   locret_100DEA
 loc_100DE4:
                 move.l  #$195,d0
 locret_100DEA:
                 rts
 
-; ===== sub_100DEC =====
-; prototype: unsigned int __usercall sub_100DEC@<d0>(const void *base@<a0>)
-sub_100DEC:
+; ===== Floppy_Checksum512Words =====
+; prototype: unsigned int __usercall Floppy_Checksum512Words@<d0>(const void *base@<a0>)
+Floppy_Checksum512Words:
                 movem.l d1/a0,-(sp)
                 moveq   #0,d0
                 move.w  #$7F,d1
@@ -3578,79 +3536,82 @@ loc_100DF6:
                 neg.l   d0
                 movem.l (sp)+,d1/a0
                 rts
-byte_100E04:
+; unsigned __int8[10]
+floppyTmpBuf0:
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-byte_100E0E:
+; unsigned __int8[26]
+floppyTmpBuf1:
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-word_100E28:
+floppyIoStatusWord:
                 dc.w $0000
-word_100E2A:
+floppyIoErrorWord:
                 dc.w $0000
-word_100E2C:
+floppyIoCylinder:
                 dc.w $0000
-word_100E2E:
+floppyIoSector:
                 dc.w $0000
-word_100E30:
+floppyIoMode:
                 dc.w $0000
-word_100E32:
+floppyCurrentDrive:
                 dc.w $0000
-byte_100E34:
+; unsigned __int8[32]
+floppyDriveFlags:
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 
-; ===== sub_100E54 =====
-; prototype: void __usercall sub_100E54(void *rec@<a0>)
-sub_100E54:
+; ===== AssetDriveCtx_ProbeDrives =====
+; prototype: void __usercall AssetDriveCtx_ProbeDrives(void *rec@<a0>)
+AssetDriveCtx_ProbeDrives:
                 clr.l   $14(a0)
-                bsr.s   sub_100DEC
+                bsr.s   Floppy_Checksum512Words
                 move.l  d0,$14(a0)
 
-; ===== sub_100E5E =====
-; prototype: unsigned int __usercall sub_100E5E@<d0>(unsigned __int16 dev@<d0>, unsigned __int16 off@<d1>, unsigned __int16 len@<d2>, unsigned __int16 mode@<d3>, const void *buf@<a0>, void *ctx@<a1>)
-sub_100E5E:
+; ===== FloppyDev_TransferBlockingLen1 =====
+; prototype: unsigned int __usercall FloppyDev_TransferBlockingLen1@<d0>(unsigned __int16 dev@<d0>, unsigned __int16 off@<d1>, unsigned __int16 len@<d2>, unsigned __int16 mode@<d3>, const void *buf@<a0>, void *ctx@<a1>)
+FloppyDev_TransferBlockingLen1:
                 moveq   #1,d2
 
-; ===== sub_100E60 =====
-; prototype: unsigned int __usercall sub_100E60@<d0>(unsigned __int16 dev@<d0>, unsigned __int16 off@<d1>, unsigned __int16 len@<d2>, unsigned __int16 mode@<d3>, const void *buf@<a0>, void *ctx@<a1>)
-sub_100E60:
+; ===== FloppyDev_TransferBlocking =====
+; prototype: unsigned int __usercall FloppyDev_TransferBlocking@<d0>(unsigned __int16 dev@<d0>, unsigned __int16 off@<d1>, unsigned __int16 len@<d2>, unsigned __int16 mode@<d3>, const void *buf@<a0>, void *ctx@<a1>)
+FloppyDev_TransferBlocking:
                 move.l  d3,-(sp)
                 moveq   #1,d3
-                bsr.s   sub_100E70
+                bsr.s   FloppyDev_TransferWithState
                 move.l  (sp)+,d3
                 tst.l   d0
                 rts
 
-; ===== sub_100E6C =====
-; prototype: unsigned int __usercall sub_100E6C@<d0>(unsigned __int16 dev@<d0>, unsigned __int16 off@<d1>, unsigned __int16 len@<d2>, unsigned __int16 mode@<d3>, const void *buf@<a0>, void *ctx@<a1>)
-sub_100E6C:
+; ===== FloppyDev_TransferNonBlockingLen1 =====
+; prototype: unsigned int __usercall FloppyDev_TransferNonBlockingLen1@<d0>(unsigned __int16 dev@<d0>, unsigned __int16 off@<d1>, unsigned __int16 len@<d2>, unsigned __int16 mode@<d3>, const void *buf@<a0>, void *ctx@<a1>)
+FloppyDev_TransferNonBlockingLen1:
                 moveq   #1,d2
 
-; ===== sub_100E6E =====
-; prototype: unsigned int __usercall sub_100E6E@<d0>(unsigned __int16 dev@<d0>, unsigned __int16 off@<d1>, unsigned __int16 len@<d2>, unsigned __int16 mode@<d3>, const void *buf@<a0>, void *ctx@<a1>)
-sub_100E6E:
+; ===== FloppyDev_TransferNonBlocking =====
+; prototype: unsigned int __usercall FloppyDev_TransferNonBlocking@<d0>(unsigned __int16 dev@<d0>, unsigned __int16 off@<d1>, unsigned __int16 len@<d2>, unsigned __int16 mode@<d3>, const void *buf@<a0>, void *ctx@<a1>)
+FloppyDev_TransferNonBlocking:
                 moveq   #0,d3
 
-; ===== sub_100E70 =====
-; prototype: unsigned int __usercall sub_100E70@<d0>(unsigned __int16 dev@<d0>, unsigned __int16 off@<d1>, unsigned __int16 len@<d2>, unsigned __int16 mode@<d3>, const void *buf@<a0>, void *ctx@<a1>, void *state@<a6>)
-sub_100E70:
+; ===== FloppyDev_TransferWithState =====
+; prototype: unsigned int __usercall FloppyDev_TransferWithState@<d0>(unsigned __int16 dev@<d0>, unsigned __int16 off@<d1>, unsigned __int16 len@<d2>, unsigned __int16 mode@<d3>, const void *buf@<a0>, void *ctx@<a1>, void *state@<a6>)
+FloppyDev_TransferWithState:
                 move.l  a1,-(sp)
                 movea.l a6,a1
-                move.w  word_100E32(pc),d0
-                bsr.s   sub_100E7E
+                move.w  floppyCurrentDrive(pc),d0
+                bsr.s   FloppyDev_TransferImpl
                 movea.l (sp)+,a1
                 rts
 
-; ===== sub_100E7E =====
-; prototype: unsigned int __usercall sub_100E7E@<d0>(unsigned __int16 dev@<d0>, unsigned __int16 off@<d1>, unsigned __int16 len@<d2>, unsigned __int16 mode@<d3>, const void *buf@<a0>, void *ctx@<a1>)
-sub_100E7E:
+; ===== FloppyDev_TransferImpl =====
+; prototype: unsigned int __usercall FloppyDev_TransferImpl@<d0>(unsigned __int16 dev@<d0>, unsigned __int16 off@<d1>, unsigned __int16 len@<d2>, unsigned __int16 mode@<d3>, const void *buf@<a0>, void *ctx@<a1>)
+FloppyDev_TransferImpl:
                 movem.l d1-d7/a0-a5,-(sp)
                 link    a6,#-$24
                 cmp.w   #3,d3
-                bne.s   loc_100E94
-                bsr.w   sub_100F90
-                bra.w   loc_100F86
-loc_100E94:
+                bne.s   floppy_xfer_setup_params
+                bsr.w   FloppyDev_ProbeDriveMask
+                bra.w   floppy_xfer_return
+floppy_xfer_setup_params:
                 move.w  d0,d4
                 andi.w  #3,d4
                 move.w  d4,-$24(a6)
@@ -3665,115 +3626,115 @@ loc_100E94:
                 move.w  d0,-$14(a6)
                 moveq   #0,d0
                 move.w  d2,d3
-                beq.w   loc_100F5C
+                beq.w   floppy_xfer_cleanup_and_status
                 moveq   #$1E,d0
                 add.w   d1,d3
                 cmp.w   #$6E0,d3
-                bgt.w   loc_100F86
+                bgt.w   floppy_xfer_return
                 andi.l  #$FFFF,d1
                 divu.w  #$B,d1
                 cmpi.w  #1,-$14(a6)
-                beq.s   loc_100EE6
+                beq.s   floppy_xfer_adjust_logical_sector
                 add.w   d1,d1
-loc_100EE6:
+floppy_xfer_adjust_logical_sector:
                 move.w  d1,-$12(a6)
                 swap    d1
                 move.w  d1,-$10(a6)
-                bsr.w   sub_101578
+                bsr.w   FloppyCIA_ProbeStepPulse
                 tst.b   -$1D(a6)
-                beq.s   loc_100EFE
-                bsr.w   sub_1013EC
-loc_100EFE:
+                beq.s   floppy_xfer_calc_chunk_and_cmd
+                bsr.w   FloppyDMA_FillGapPattern
+floppy_xfer_calc_chunk_and_cmd:
                 move.w  -$10(a6),d0
                 moveq   #$B,d1
                 sub.w   d0,d1
                 cmp.w   -$20(a6),d1
-                ble.s   loc_100F10
+                ble.s   floppy_xfer_clamp_chunk_len
                 move.w  -$20(a6),d1
-loc_100F10:
+floppy_xfer_clamp_chunk_len:
                 move.w  d1,-$E(a6)
-                bsr.w   sub_100FEC
-                bne.s   loc_100F5C
+                bsr.w   FloppyDMA_ReadSectorsWithRetry
+                bne.s   floppy_xfer_cleanup_and_status
                 tst.b   -$1D(a6)
-                beq.s   loc_100F26
+                beq.s   floppy_xfer_post_dma_check_remaining
                 bsr.w   FloppyDMAReadAttempt
-                bne.s   loc_100F5C
-loc_100F26:
+                bne.s   floppy_xfer_cleanup_and_status
+floppy_xfer_post_dma_check_remaining:
                 move.w  -$20(a6),d0
                 sub.w   -$E(a6),d0
-                beq.s   loc_100F5C
+                beq.s   floppy_xfer_cleanup_and_status
                 move.w  d0,-$20(a6)
                 cmpi.b  #2,-$1D(a6)
-                bne.s   loc_100F42
+                bne.s   floppy_xfer_advance_buffer_if_needed
                 tst.l   -$1C(a6)
-                beq.s   loc_100F4E
-loc_100F42:
+                beq.s   floppy_xfer_reset_remainder_and_cylinder
+floppy_xfer_advance_buffer_if_needed:
                 move.w  -$E(a6),d0
                 lsl.l   #8,d0
                 add.l   d0,d0
                 add.l   d0,-$1C(a6)
-loc_100F4E:
+floppy_xfer_reset_remainder_and_cylinder:
                 clr.w   -$10(a6)
                 move.w  -$14(a6),d0
                 add.w   d0,-$12(a6)
-                bra.s   loc_100EFE
-loc_100F5C:
+                bra.s   floppy_xfer_calc_chunk_and_cmd
+floppy_xfer_cleanup_and_status:
                 move.l  d0,-(sp)
-                bsr.w   sub_10154A
+                bsr.w   FloppyHW_PrepareAdkcon
                 move.l  (sp)+,d0
-                beq.s   loc_100F86
+                beq.s   floppy_xfer_return
                 moveq   #0,d1
                 move.w  -$12(a6),d1
                 cmpi.w  #1,-$14(a6)
-                beq.s   loc_100F76
+                beq.s   floppy_xfer_adjust_sectors_for_side
                 lsr.w   #1,d1
-loc_100F76:
+floppy_xfer_adjust_sectors_for_side:
                 mulu.w  #$B,d1
                 add.w   -$10(a6),d1
                 add.w   -6(a6),d1
                 move.l  d1,$28(sp)
-loc_100F86:
+floppy_xfer_return:
                 unlk    a6
                 tst.l   d0
                 movem.l (sp)+,d1-d7/a0-a5
                 rts
 
-; ===== sub_100F90 =====
-; prototype: unsigned int __usercall sub_100F90@<d0>()
-sub_100F90:
+; ===== FloppyDev_ProbeDriveMask =====
+; prototype: unsigned int __usercall FloppyDev_ProbeDriveMask@<d0>()
+FloppyDev_ProbeDriveMask:
                 move.w  #3,-$24(a6)
                 moveq   #1,d5
-loc_100F98:
-                bsr.w   sub_101578
-                bsr.w   sub_101558
+floppy_probe_loop_drives:
+                bsr.w   FloppyCIA_ProbeStepPulse
+                bsr.w   FloppyCIA_InitProbeBits
                 move.w  -$24(a6),d4
                 addq.w  #3,d4
-                bsr.s   sub_100FBE
+                bsr.s   FloppyCIA_ReadLongBitstream
                 cmp.l   #$FFFFFFFF,d0
-                bne.s   loc_100FB4
+                bne.s   floppy_probe_mark_missing
                 subq.w  #3,d4
                 bset    d4,d5
-loc_100FB4:
+floppy_probe_mark_missing:
                 subq.w  #1,-$24(a6)
-                bne.s   loc_100F98
+                bne.s   floppy_probe_loop_drives
                 move.l  d5,d0
                 rts
 
-; ===== sub_100FBE =====
-; prototype: unsigned int __usercall sub_100FBE@<d0>(unsigned __int16 bit@<d4>)
-sub_100FBE:
+; ===== FloppyCIA_ReadLongBitstream =====
+; prototype: unsigned int __usercall FloppyCIA_ReadLongBitstream@<d0>(unsigned __int16 bit@<d4>)
+FloppyCIA_ReadLongBitstream:
                 moveq   #$1F,d3
                 moveq   #0,d0
-loc_100FC2:
-                bsr.s   sub_100FCE
+cia_bitstream_shift32_loop:
+                bsr.s   FloppyCIA_ReadBit
                 addx.b  d2,d2
                 addx.l  d0,d0
-                dbf     d3,loc_100FC2
+                dbf     d3,cia_bitstream_shift32_loop
                 rts
 
-; ===== sub_100FCE =====
-; prototype: void __usercall sub_100FCE(unsigned __int16 bit@<d4>)
-sub_100FCE:
+; ===== FloppyCIA_ReadBit =====
+; prototype: void __usercall FloppyCIA_ReadBit(unsigned __int16 bit@<d4>)
+FloppyCIA_ReadBit:
                 moveq   #$FFFFFFFF,d1
                 bclr    d4,d1
                 move.b  d1,(CIAB_PRB).l
@@ -3783,44 +3744,44 @@ sub_100FCE:
                 move.b  d1,(CIAB_PRB).l
                 rts
 
-; ===== sub_100FEC =====
-; prototype: unsigned int __usercall sub_100FEC@<d0>()
-sub_100FEC:
+; ===== FloppyDMA_ReadSectorsWithRetry =====
+; prototype: unsigned int __usercall FloppyDMA_ReadSectorsWithRetry@<d0>()
+FloppyDMA_ReadSectorsWithRetry:
                 moveq   #2,d4
-loc_100FEE:
+floppy_read_retry_outer_loop:
                 clr.w   -4(a6)
                 clr.w   -6(a6)
                 clr.w   -8(a6)
                 move.w  -$12(a6),d2
-                bsr.w   sub_101590
-                bne.w   loc_1010BC
+                bsr.w   FloppyStep_AdjustCalibration
+                bne.w   floppy_read_error_cleanup
                 moveq   #$1D,d0
                 btst    #2,(CIAA_PRA).l
-                beq.w   loc_1010BC
+                beq.w   floppy_read_error_cleanup
                 moveq   #0,d0
                 cmpi.b  #2,-$1D(a6)
-                beq.w   loc_1010D8
+                beq.w   floppy_read_exit_to_common_return
                 movea.l -$18(a6),a5
                 lea     $400(a5),a5
                 move.l  #$AAAAAAAA,(a5)
                 move.w  #$4489,4(a5)
-                bsr.w   sub_101376
-                bsr.w   sub_1011DC
-                bne.s   loc_1010BC
+                bsr.w   FloppyDMA_ClearTrackStatus
+                bsr.w   FloppyDMA_ScanSyncAndHeader
+                bne.s   floppy_read_error_cleanup
                 move.w  -$C(a6),d0
-                beq.s   loc_101092
+                beq.s   floppy_read_handle_second_group
                 mulu.w  #$440,d0
                 lea     6(a5),a0
-                bsr.w   sub_1014D4
+                bsr.w   FloppyDMA_StartBlitterTransfer
                 lea     (INTREQR).l,a4
-                bsr.w   sub_101234
-                bne.s   loc_1010D4
+                bsr.w   FloppyDMA_HandleIrqAndTransfer
+                bne.s   floppy_read_retry_dec_counter
                 cmpi.b  #1,-$1D(a6)
-                beq.s   loc_10106E
+                beq.s   floppy_read_repeat_track_cmd
                 move.w  -6(a6),d0
                 sub.w   -$E(a6),d0
-                beq.s   loc_1010D8
-loc_10106E:
+                beq.s   floppy_read_exit_to_common_return
+floppy_read_repeat_track_cmd:
                 movea.l -$18(a6),a5
                 lea     $400(a5),a5
                 move.w  -$C(a6),d0
@@ -3829,34 +3790,34 @@ loc_10106E:
                 move.l  #$AAAAAAAA,(a5)
                 move.w  #$4489,4(a5)
                 movea.l a5,a0
-                bsr.w   sub_10148A
-loc_101092:
+                bsr.w   FloppyMFM_AdjustClockBit
+floppy_read_handle_second_group:
                 move.w  -$A(a6),d0
-                beq.s   loc_1010B0
+                beq.s   floppy_read_handle_third_group
                 mulu.w  #$440,d0
                 lea     6(a5),a0
-                bsr.w   sub_1014D4
+                bsr.w   FloppyDMA_StartBlitterTransfer
                 lea     -2(a6),a4
                 clr.w   (a4)
-                bsr.w   sub_101234
-                bne.s   loc_1010D4
-loc_1010B0:
+                bsr.w   FloppyDMA_HandleIrqAndTransfer
+                bne.s   floppy_read_retry_dec_counter
+floppy_read_handle_third_group:
                 move.w  -6(a6),d0
                 sub.w   -$E(a6),d0
-                beq.s   loc_1010D8
+                beq.s   floppy_read_exit_to_common_return
                 moveq   #$1A,d0
-loc_1010BC:
+floppy_read_error_cleanup:
                 move.l  d0,-(sp)
                 moveq   #2,d2
-                bsr.w   sub_101590
-                bsr.w   sub_1015DE
+                bsr.w   FloppyStep_AdjustCalibration
+                bsr.w   FloppyStep_AutoCalibrateOrTimeout
                 move.l  (sp)+,d0
                 btst    #2,(CIAA_PRA).l
-                beq.s   loc_1010D8
-loc_1010D4:
-                dbf     d4,loc_100FEE
-loc_1010D8:
-                bra.w   loc_101536
+                beq.s   floppy_read_exit_to_common_return
+floppy_read_retry_dec_counter:
+                dbf     d4,floppy_read_retry_outer_loop
+floppy_read_exit_to_common_return:
+                bra.w   floppy_read_common_return
 
 ; ===== FloppyDMAReadAttempt =====
 ; prototype: unsigned int __usercall FloppyDMAReadAttempt@<d0>()
@@ -3867,11 +3828,11 @@ FloppyDMAReadAttempt:
                 bne.s   floppy_retry_loop
                 move.w  -$12(a6),d0
                 movea.l -$18(a6),a0
-                bsr.s   sub_101164
+                bsr.s   FloppyDMA_BuildTrackBuffer
 floppy_retry_loop:
-                bsr.w   sub_101636
+                bsr.w   FloppyCIA_UpdateLinesFromTable
                 moveq   #$7F,d0
-                bsr.w   sub_101670
+                bsr.w   FloppyTimer_DelayTicks
                 moveq   #$1C,d0
                 btst    #3,(CIAA_PRA).l
                 beq.s   floppy_start_exit
@@ -3888,19 +3849,19 @@ floppy_start_config_done:
                 move.w  #2,$9C(a0)
                 move.w  #$D961,$24(a0)
                 move.w  #$D961,$24(a0)
-                bsr.w   sub_101512
+                bsr.w   FloppyDMA_WaitBlitterDone
                 beq.s   floppy_start_exit
                 dbf     d4,floppy_retry_loop
 floppy_start_exit:
                 move.l  d0,-(sp)
                 moveq   #2,d0
-                bsr.w   sub_101670
+                bsr.w   FloppyTimer_DelayTicks
                 move.l  (sp)+,d0
                 rts
 
-; ===== sub_101164 =====
-; prototype: void __usercall sub_101164(unsigned __int16 start@<d0>)
-sub_101164:
+; ===== FloppyDMA_BuildTrackBuffer =====
+; prototype: void __usercall FloppyDMA_BuildTrackBuffer(unsigned __int16 startSector@<d0>)
+FloppyDMA_BuildTrackBuffer:
                 move.l  d0,d3
                 ori.w   #$FF00,d3
                 swap    d3
@@ -3908,204 +3869,204 @@ sub_101164:
                 movea.l -$18(a6),a5
                 lea     $400(a5),a5
                 movea.l -$1C(a6),a4
-loc_10117C:
+build_track_sector_loop:
                 movea.l a5,a0
                 addq.w  #4,a0
                 move.l  #$44894489,(a0)+
                 move.l  d3,d0
-                bsr.w   sub_101480
+                bsr.w   FloppyMFM_WriteEncodedLong
                 subq.w  #8,a0
-                bsr.w   sub_10148A
+                bsr.w   FloppyMFM_AdjustClockBit
                 moveq   #$28,d1         ; '('
-                bsr.w   sub_1013D2
-                bsr.w   sub_101480
+                bsr.w   FloppyMFM_ComputeChecksum
+                bsr.w   FloppyMFM_WriteEncodedLong
                 subq.w  #8,a0
-                bsr.w   sub_10148A
+                bsr.w   FloppyMFM_AdjustClockBit
                 move.l  a4,d0
-                beq.s   loc_1011CE
+                beq.s   build_track_next_sector
                 movea.l a4,a0
                 lea     $40(a5),a1
                 move.l  #$200,d0
-                bsr.w   sub_101452
+                bsr.w   FloppyMFM_EncodeBuffer
                 lea     $40(a5),a0
                 move.w  #$400,d1
-                bsr.w   sub_1013D2
+                bsr.w   FloppyMFM_ComputeChecksum
                 lea     $38(a5),a0
-                bsr.w   sub_101480
+                bsr.w   FloppyMFM_WriteEncodedLong
                 lea     $200(a4),a4
-loc_1011CE:
+build_track_next_sector:
                 lea     $440(a5),a5
                 addi.w  #$100,d3
                 subq.b  #1,d3
-                bne.s   loc_10117C
+                bne.s   build_track_sector_loop
                 rts
 
-; ===== sub_1011DC =====
-; prototype: unsigned int __usercall sub_1011DC@<d0>()
-sub_1011DC:
+; ===== FloppyDMA_ScanSyncAndHeader =====
+; prototype: unsigned int __usercall FloppyDMA_ScanSyncAndHeader@<d0>()
+FloppyDMA_ScanSyncAndHeader:
                 moveq   #$A,d2
-loc_1011DE:
+header_scan_retry_loop:
                 lea     6(a5),a0
                 move.w  #$40,d0         ; '@'
-                bsr.w   sub_1014D4
-                bsr.w   sub_101512
-                bne.s   locret_101226
-                bsr.w   sub_1013BE
-                beq.s   loc_1011FC
-                dbf     d2,loc_1011DE
-                bra.s   loc_101228
-loc_1011FC:
-                bsr.w   sub_101388
-                bne.s   loc_10122C
+                bsr.w   FloppyDMA_StartBlitterTransfer
+                bsr.w   FloppyDMA_WaitBlitterDone
+                bne.s   header_scan_return
+                bsr.w   FloppyMFM_CheckHeaderSync
+                beq.s   header_scan_check_id_ok
+                dbf     d2,header_scan_retry_loop
+                bra.s   header_scan_error_timeout
+header_scan_check_id_ok:
+                bsr.w   FloppyID_DecodeHeader
+                bne.s   header_scan_error_pattern
                 cmp.w   -$12(a6),d1
-                bne.s   loc_10122C
+                bne.s   header_scan_error_pattern
                 cmp.b   #$B,d2
-                bge.s   loc_10122C
+                bge.s   header_scan_error_pattern
                 cmp.b   #$B,d3
-                bgt.s   loc_10122C
+                bgt.s   header_scan_error_pattern
                 subq.b  #1,d3
                 move.w  d3,-$C(a6)
                 move.w  #$B,-$A(a6)
                 sub.w   d3,-$A(a6)
                 moveq   #0,d0
-locret_101226:
+header_scan_return:
                 rts
-loc_101228:
+header_scan_error_timeout:
                 moveq   #$18,d0
                 rts
-loc_10122C:
+header_scan_error_pattern:
                 moveq   #$1B,d0
                 rts
-loc_101230:
+dma_read_checksum_error_return:
                 moveq   #$19,d0
                 rts
 
-; ===== sub_101234 =====
-; prototype: unsigned int __usercall sub_101234@<d0>(volatile void *custom@<a4>)
-sub_101234:
+; ===== FloppyDMA_HandleIrqAndTransfer =====
+; prototype: unsigned int __usercall FloppyDMA_HandleIrqAndTransfer@<d0>(volatile void *custom@<a4>)
+FloppyDMA_HandleIrqAndTransfer:
                 movea.l -$18(a6),a5
                 lea     $400(a5),a5
                 move.w  -8(a6),d0
                 mulu.w  #$440,d0
                 adda.l  d0,a5
                 move.l  #$1770,d0
-                bsr.w   sub_101690
-loc_101250:
+                bsr.w   FloppyTimer_StartCiaB
+dma_read_wait_irq_loop:
                 btst    #1,1(a4)
-                bne.w   loc_10134E
-                bsr.w   sub_101682
-                beq.w   loc_101352
+                bne.w   dma_read_success_return
+                bsr.w   FloppyTimer_WaitIfRunning
+                beq.w   dma_read_timeout_return
                 tst.l   $440(a5)
-                beq.s   loc_101250
-                bsr.w   sub_1013BE
-                bne.s   loc_101228
-                bsr.w   sub_101388
-                bne.s   loc_10122C
+                beq.s   dma_read_wait_irq_loop
+                bsr.w   FloppyMFM_CheckHeaderSync
+                bne.s   header_scan_error_timeout
+                bsr.w   FloppyID_DecodeHeader
+                bne.s   header_scan_error_pattern
                 cmp.w   -$12(a6),d1
-                bne.s   loc_10122C
+                bne.s   header_scan_error_pattern
                 move.w  d2,d3
                 lea     8(a5),a0
-                bsr.w   sub_1013A8
+                bsr.w   FloppyMFM_DecodeLongPair
                 move.b  #$B,d0
                 sub.b   -7(a6),d0
                 lea     8(a5),a0
-                bsr.w   sub_101480
-                bsr.w   sub_1013CC
+                bsr.w   FloppyMFM_WriteEncodedLong
+                bsr.w   FloppyMFM_PrepHeaderChecksum
                 lea     $30(a5),a0
-                bsr.w   sub_101480
+                bsr.w   FloppyMFM_WriteEncodedLong
                 cmp.w   -$10(a6),d3
-                blt.w   loc_101340
+                blt.w   dma_read_advance_sector_index
                 move.w  -$E(a6),d0
                 add.w   -$10(a6),d0
                 cmp.w   d0,d3
-                bge.w   loc_101340
+                bge.w   dma_read_advance_sector_index
                 btst    #1,1(a4)
-                bne.w   loc_10134E
+                bne.w   dma_read_success_return
                 move.w  -4(a6),d0
                 btst    d3,d0
-                bne.s   loc_101340
+                bne.s   dma_read_advance_sector_index
                 tst.b   -$1D(a6)
-                beq.s   loc_101300
-                bsr.w   sub_101356
+                beq.s   dma_read_compare_crc_and_copy
+                bsr.w   FloppyGeom_CylinderByteOffset
                 movea.l -$1C(a6),a0
                 adda.l  d1,a0
                 lea     $40(a5),a1
-                bsr.w   sub_101452
+                bsr.w   FloppyMFM_EncodeBuffer
                 btst    #1,1(a4)
-                bne.s   loc_10134E
+                bne.s   dma_read_success_return
                 lea     $40(a5),a0
                 move.w  #$400,d1
-                bsr.w   sub_1013D2
+                bsr.w   FloppyMFM_ComputeChecksum
                 lea     $38(a5),a0
-                bsr.w   sub_101480
-                bsr.s   sub_101366
-                bra.s   loc_101340
-loc_101300:
+                bsr.w   FloppyMFM_WriteEncodedLong
+                bsr.s   FloppyGeom_MarkSectorDone
+                bra.s   dma_read_advance_sector_index
+dma_read_compare_crc_and_copy:
                 lea     $40(a5),a0
                 move.w  #$400,d1
-                bsr.w   sub_1013D2
+                bsr.w   FloppyMFM_ComputeChecksum
                 move.l  d0,-(sp)
                 lea     $38(a5),a0
-                bsr.w   sub_1013A8
+                bsr.w   FloppyMFM_DecodeLongPair
                 cmp.l   (sp)+,d0
-                bne.w   loc_101230
+                bne.w   dma_read_checksum_error_return
                 btst    #1,1(a4)
-                bne.s   loc_10134E
-                bsr.s   sub_101356
+                bne.s   dma_read_success_return
+                bsr.s   FloppyGeom_CylinderByteOffset
                 lea     $40(a5),a0
                 movea.l -$1C(a6),a1
                 adda.l  d1,a1
-                bsr.w   sub_10142A
-                bsr.s   sub_101366
+                bsr.w   FloppyMFM_DecodeInterleavedTrack
+                bsr.s   FloppyGeom_MarkSectorDone
                 move.w  -6(a6),d0
                 cmp.w   -$E(a6),d0
-                beq.s   loc_10134E
-loc_101340:
+                beq.s   dma_read_success_return
+dma_read_advance_sector_index:
                 addq.w  #1,-8(a6)
                 cmpi.w  #$B,-8(a6)
-                bne.w   sub_101234
-loc_10134E:
+                bne.w   FloppyDMA_HandleIrqAndTransfer
+dma_read_success_return:
                 moveq   #0,d0
                 rts
-loc_101352:
+dma_read_timeout_return:
                 moveq   #$FFFFFFFF,d0
                 rts
 
-; ===== sub_101356 =====
-; prototype: unsigned int __usercall sub_101356@<d1>(unsigned __int16 cylIdx@<d3>)
-sub_101356:
+; ===== FloppyGeom_CylinderByteOffset =====
+; prototype: unsigned int __usercall FloppyGeom_CylinderByteOffset@<d1>(unsigned __int16 cylIdx@<d3>)
+FloppyGeom_CylinderByteOffset:
                 move.l  d3,d1
                 sub.w   -$10(a6),d1
                 move.l  #$200,d0
                 mulu.w  d0,d1
                 rts
 
-; ===== sub_101366 =====
-; prototype: void __usercall sub_101366(unsigned __int16 secIdx@<d3>)
-sub_101366:
+; ===== FloppyGeom_MarkSectorDone =====
+; prototype: void __usercall FloppyGeom_MarkSectorDone(unsigned __int16 secIdx@<d3>)
+FloppyGeom_MarkSectorDone:
                 move.w  -4(a6),d0
                 bset    d3,d0
                 move.w  d0,-4(a6)
                 addq.w  #1,-6(a6)
                 rts
 
-; ===== sub_101376 =====
-; prototype: void __usercall sub_101376(void *base@<a5>)
-sub_101376:
+; ===== FloppyDMA_ClearTrackStatus =====
+; prototype: void __usercall FloppyDMA_ClearTrackStatus(void *base@<a5>)
+FloppyDMA_ClearTrackStatus:
                 movea.l a5,a0
                 moveq   #$A,d1
                 moveq   #0,d0
-loc_10137C:
+clear_status_loop:
                 lea     $440(a0),a0
                 move.l  d0,(a0)
-                dbf     d1,loc_10137C
+                dbf     d1,clear_status_loop
                 rts
 
-; ===== sub_101388 =====
-; prototype: unsigned int __usercall sub_101388@<d0>()
-sub_101388:
+; ===== FloppyID_DecodeHeader =====
+; prototype: unsigned int __usercall FloppyID_DecodeHeader@<d0>()
+FloppyID_DecodeHeader:
                 lea     8(a5),a0
-                bsr.s   sub_1013A8
+                bsr.s   FloppyMFM_DecodeLongPair
                 move.w  d0,d3
                 andi.w  #$FF,d3
                 move.w  d0,d2
@@ -4117,9 +4078,9 @@ sub_101388:
                 cmp.b   #$FF,d0
                 rts
 
-; ===== sub_1013A8 =====
-; prototype: unsigned int __usercall sub_1013A8@<d0>(const void *p@<a0>)
-sub_1013A8:
+; ===== FloppyMFM_DecodeLongPair =====
+; prototype: unsigned int __usercall FloppyMFM_DecodeLongPair@<d0>(const void *p@<a0>)
+FloppyMFM_DecodeLongPair:
                 move.l  (a0)+,d0
                 move.l  (a0)+,d1
                 andi.l  #$55555555,d0
@@ -4128,40 +4089,40 @@ sub_1013A8:
                 or.l    d1,d0
                 rts
 
-; ===== sub_1013BE =====
-; prototype: unsigned int __usercall sub_1013BE@<d0>()
-sub_1013BE:
-                bsr.s   sub_1013CC
+; ===== FloppyMFM_CheckHeaderSync =====
+; prototype: unsigned int __usercall FloppyMFM_CheckHeaderSync@<d0>()
+FloppyMFM_CheckHeaderSync:
+                bsr.s   FloppyMFM_PrepHeaderChecksum
                 move.l  d0,-(sp)
                 lea     $30(a5),a0
-                bsr.s   sub_1013A8
+                bsr.s   FloppyMFM_DecodeLongPair
                 cmp.l   (sp)+,d0
                 rts
 
-; ===== sub_1013CC =====
-; prototype: unsigned int __usercall sub_1013CC@<d0>()
-sub_1013CC:
+; ===== FloppyMFM_PrepHeaderChecksum =====
+; prototype: unsigned int __usercall FloppyMFM_PrepHeaderChecksum@<d0>()
+FloppyMFM_PrepHeaderChecksum:
                 lea     8(a5),a0
                 moveq   #$28,d1         ; '('
 
-; ===== sub_1013D2 =====
-; prototype: unsigned int __usercall sub_1013D2@<d0>(const void *p@<a0>, unsigned int bytes@<d1>)
-sub_1013D2:
+; ===== FloppyMFM_ComputeChecksum =====
+; prototype: unsigned int __usercall FloppyMFM_ComputeChecksum@<d0>(const void *p@<a0>, unsigned int bytes@<d1>)
+FloppyMFM_ComputeChecksum:
                 move.l  d2,-(sp)
                 lsr.w   #2,d1
                 subq.w  #1,d1
                 moveq   #0,d0
-loc_1013DA:
+checksum_xor_loop:
                 move.l  (a0)+,d2
                 eor.l   d2,d0
-                dbf     d1,loc_1013DA
+                dbf     d1,checksum_xor_loop
                 move.l  (sp)+,d2
                 andi.l  #$55555555,d0
                 rts
 
-; ===== sub_1013EC =====
-; prototype: void __usercall sub_1013EC()
-sub_1013EC:
+; ===== FloppyDMA_FillGapPattern =====
+; prototype: void __usercall FloppyDMA_FillGapPattern()
+FloppyDMA_FillGapPattern:
                 movea.l -$18(a6),a0
                 move.l  #$AAAAAAAA,d0
                 move.l  d0,d1
@@ -4173,26 +4134,26 @@ sub_1013EC:
                 move.l  d0,d7
                 lea     $400(a0),a1
                 cmpi.b  #1,-$1D(a6)
-                beq.s   loc_101414
+                beq.s   gap_fill_copy_loop
                 lea     $32C0(a0),a1
-loc_101414:
+gap_fill_copy_loop:
                 movem.l d0-d7,-(a1)
                 cmpa.l  a1,a0
-                bne.s   loc_101414
+                bne.s   gap_fill_copy_loop
                 rts
-loc_10141E:
+FloppyDMA_WaitDmaDone:
                 btst    #6,(DMACONR).l
-                bne.s   loc_10141E
+                bne.s   FloppyDMA_WaitDmaDone
                 rts
 
-; ===== sub_10142A =====
-; prototype: void __usercall sub_10142A(const void *src@<a0>, void *dst@<a1>)
-sub_10142A:
+; ===== FloppyMFM_DecodeInterleavedTrack =====
+; prototype: void __usercall FloppyMFM_DecodeInterleavedTrack(const void *src@<a0>, void *dst@<a1>)
+FloppyMFM_DecodeInterleavedTrack:
                 movem.l d0-d3/a0-a2,-(sp)
                 moveq   #$7F,d0
                 lea     $200(a0),a2
                 move.l  #$55555555,d3
-loc_10143A:
+decode_interleaved_mfm_loop:
                 move.l  (a0)+,d1
                 move.l  (a2)+,d2
                 and.l   d3,d1
@@ -4200,63 +4161,63 @@ loc_10143A:
                 add.l   d1,d1
                 or.l    d2,d1
                 move.l  d1,(a1)+
-                dbf     d0,loc_10143A
+                dbf     d0,decode_interleaved_mfm_loop
                 movem.l (sp)+,d0-d3/a0-a2
                 rts
 
-; ===== sub_101452 =====
-; prototype: void __usercall sub_101452(const void *src@<a0>, void *dst@<a1>, unsigned int sizeBytes@<d0>)
-sub_101452:
+; ===== FloppyMFM_EncodeBuffer =====
+; prototype: void __usercall FloppyMFM_EncodeBuffer(const void *src@<a0>, void *dst@<a1>, unsigned int sizeBytes@<d0>)
+FloppyMFM_EncodeBuffer:
                 movem.l d0-d5/a0-a1,-(sp)
                 exg     a1,a0
                 move.l  d0,d3
                 lsr.l   #2,d3
                 subq.l  #1,d3
                 move.l  d0,d5
-loc_101460:
+encode_mfm_pair_loop:
                 move.l  (a1),d0
                 lsr.l   #1,d0
-                bsr.s   sub_1014A8
+                bsr.s   FloppyMFM_EncodeLong
                 move.l  (a1)+,d0
                 lea     -4(a0,d5.l),a0
-                bsr.s   sub_1014A8
+                bsr.s   FloppyMFM_EncodeLong
                 suba.l  d5,a0
-                dbf     d3,loc_101460
-                bsr.s   sub_10148A
+                dbf     d3,encode_mfm_pair_loop
+                bsr.s   FloppyMFM_AdjustClockBit
                 adda.l  d5,a0
-                bsr.s   sub_10148A
+                bsr.s   FloppyMFM_AdjustClockBit
                 movem.l (sp)+,d0-d5/a0-a1
                 rts
 
-; ===== sub_101480 =====
-; prototype: void __usercall sub_101480(unsigned int value@<d0>, void *buf@<a0>)
-sub_101480:
+; ===== FloppyMFM_WriteEncodedLong =====
+; prototype: void __usercall FloppyMFM_WriteEncodedLong(unsigned int value@<d0>, void *buf@<a0>)
+FloppyMFM_WriteEncodedLong:
                 move.l  d0,-(sp)
                 lsr.l   #1,d0
-                bsr.s   sub_1014A8
+                bsr.s   FloppyMFM_EncodeLong
                 move.l  (sp)+,d0
-                bsr.s   sub_1014A8
+                bsr.s   FloppyMFM_EncodeLong
 
-; ===== sub_10148A =====
-; prototype: void __usercall sub_10148A(void *p@<a0>)
-sub_10148A:
+; ===== FloppyMFM_AdjustClockBit =====
+; prototype: void __usercall FloppyMFM_AdjustClockBit(void *p@<a0>)
+FloppyMFM_AdjustClockBit:
                 move.b  (a0),d0
                 btst    #0,-1(a0)
-                bne.s   loc_1014A0
+                bne.s   mfm_clock_bit_clear_branch
                 btst    #6,d0
-                bne.s   locret_1014A6
+                bne.s   mfm_clock_bit_return
                 bset    #7,d0
-                bra.s   loc_1014A4
-loc_1014A0:
+                bra.s   mfm_clock_bit_store
+mfm_clock_bit_clear_branch:
                 bclr    #7,d0
-loc_1014A4:
+mfm_clock_bit_store:
                 move.b  d0,(a0)
-locret_1014A6:
+mfm_clock_bit_return:
                 rts
 
-; ===== sub_1014A8 =====
-; prototype: void __usercall sub_1014A8(unsigned int value@<d0>, void *p@<a0>)
-sub_1014A8:
+; ===== FloppyMFM_EncodeLong =====
+; prototype: void __usercall FloppyMFM_EncodeLong(unsigned int value@<d0>, void *p@<a0>)
+FloppyMFM_EncodeLong:
                 andi.l  #$55555555,d0
                 move.l  d0,d2
                 eori.l  #$55555555,d2
@@ -4267,15 +4228,15 @@ sub_1014A8:
                 and.l   d2,d1
                 or.l    d1,d0
                 btst    #0,-1(a0)
-                beq.s   loc_1014D0
+                beq.s   mfm_store_encoded_long
                 bclr    #$1F,d0
-loc_1014D0:
+mfm_store_encoded_long:
                 move.l  d0,(a0)+
                 rts
 
-; ===== sub_1014D4 =====
-; prototype: void __usercall sub_1014D4(void *dmaBuf@<a0>, unsigned int byteCount@<d0>)
-sub_1014D4:
+; ===== FloppyDMA_StartBlitterTransfer =====
+; prototype: void __usercall FloppyDMA_StartBlitterTransfer(void *dmaBuf@<a0>, unsigned int byteCount@<d0>)
+FloppyDMA_StartBlitterTransfer:
                 lea     (BLTDDAT).l,a1
                 move.w  #$4000,$24(a1)
                 move.w  #$8210,$96(a1)
@@ -4290,42 +4251,42 @@ sub_1014D4:
                 move.w  d0,$24(a1)
                 rts
 
-; ===== sub_101512 =====
-; prototype: unsigned int __usercall sub_101512@<d0>()
-sub_101512:
+; ===== FloppyDMA_WaitBlitterDone =====
+; prototype: unsigned int __usercall FloppyDMA_WaitBlitterDone@<d0>()
+FloppyDMA_WaitBlitterDone:
                 lea     (BLTDDAT).l,a1
                 move.l  #$9C4,d0
-                bsr.w   sub_101690
-loc_101522:
+                bsr.w   FloppyTimer_StartCiaB
+blitter_wait_loop:
                 btst    #1,$1F(a1)
-                bne.s   loc_101534
-                bsr.w   sub_101682
-                bne.s   loc_101522
+                bne.s   blitter_done_ok
+                bsr.w   FloppyTimer_WaitIfRunning
+                bne.s   blitter_wait_loop
                 moveq   #$FFFFFFFF,d0
-                bra.s   loc_101536
-loc_101534:
+                bra.s   floppy_read_common_return
+blitter_done_ok:
                 moveq   #0,d0
-loc_101536:
+floppy_read_common_return:
                 move.w  #2,(INTREQ).l
                 move.w  #$4000,(DSKLEN).l
                 tst.l   d0
                 rts
 
-; ===== sub_10154A =====
-; prototype: void __usercall sub_10154A()
-sub_10154A:
+; ===== FloppyHW_PrepareAdkcon =====
+; prototype: void __usercall FloppyHW_PrepareAdkcon()
+FloppyHW_PrepareAdkcon:
                 move.w  #$400,(ADKCON).l
                 tst.w   -$1E(a6)
-                bpl.s   locret_101576
+                bpl.s   adkcon_or_drive_select_return
 
-; ===== sub_101558 =====
-; prototype: void __usercall sub_101558()
-sub_101558:
+; ===== FloppyCIA_InitProbeBits =====
+; prototype: void __usercall FloppyCIA_InitProbeBits()
+FloppyCIA_InitProbeBits:
                 moveq   #$FFFFFFFF,d1
 
-; ===== sub_10155A =====
-; prototype: void __usercall sub_10155A()
-sub_10155A:
+; ===== FloppyCIA_SelectDriveFromState =====
+; prototype: void __usercall FloppyCIA_SelectDriveFromState()
+FloppyCIA_SelectDriveFromState:
                 move.b  d1,(CIAB_PRB).l
                 move.w  -$24(a6),d0
                 addq.l  #3,d0
@@ -4333,107 +4294,107 @@ sub_10155A:
                 move.b  d1,(CIAB_PRB).l
                 bset    d0,d1
                 move.b  d1,(CIAB_PRB).l
-locret_101576:
+adkcon_or_drive_select_return:
                 rts
 
-; ===== sub_101578 =====
-; prototype: void __usercall sub_101578()
-sub_101578:
+; ===== FloppyCIA_ProbeStepPulse =====
+; prototype: void __usercall FloppyCIA_ProbeStepPulse()
+FloppyCIA_ProbeStepPulse:
                 moveq   #$FFFFFFFF,d1
                 move.b  d1,(CIAB_PRB).l
                 bclr    #7,d1
-                bsr.s   sub_10155A
+                bsr.s   FloppyCIA_SelectDriveFromState
                 move.l  #$C8,d0
-                bra.w   sub_101670
+                bra.w   FloppyTimer_DelayTicks
 
-; ===== sub_101590 =====
-; prototype: unsigned int __usercall sub_101590@<d0>(unsigned int val@<d2>)
-sub_101590:
+; ===== FloppyStep_AdjustCalibration =====
+; prototype: unsigned int __usercall FloppyStep_AdjustCalibration@<d0>(unsigned int val@<d2>)
+FloppyStep_AdjustCalibration:
                 movem.l d2-d3,-(sp)
                 move.l  d2,d3
-                bsr.w   sub_101636
+                bsr.w   FloppyCIA_UpdateLinesFromTable
                 move.w  -$24(a6),d0
                 add.w   d0,d0
                 lea     byte_1016AA(pc),a0
                 move.w  (a0,d0.w),d0
-                bpl.s   loc_1015AE
-                bsr.s   sub_1015DE
-                bne.s   loc_1015D8
-loc_1015AE:
+                bpl.s   step_calculation_start
+                bsr.s   FloppyStep_AutoCalibrateOrTimeout
+                bne.s   step_calibration_return
+step_calculation_start:
                 lsr.w   #1,d0
                 lsr.w   #1,d2
                 moveq   #1,d1
                 sub.w   d0,d2
-                beq.s   loc_1015C6
-                bpl.s   loc_1015BE
+                beq.s   step_calibration_store_new
+                bpl.s   step_calibration_adjust_loop
                 moveq   #$FFFFFFFF,d1
                 neg.w   d2
-loc_1015BE:
+step_calibration_adjust_loop:
                 moveq   #4,d0
-                bsr.s   sub_101612
+                bsr.s   FloppyStep_DoSteps
                 subq.w  #1,d2
-                bne.s   loc_1015BE
-loc_1015C6:
+                bne.s   step_calibration_adjust_loop
+step_calibration_store_new:
                 move.w  -$24(a6),d0
                 add.w   d0,d0
                 lea     byte_1016AA(pc),a0
                 move.w  d3,(a0,d0.w)
-                bsr.s   sub_101636
+                bsr.s   FloppyCIA_UpdateLinesFromTable
                 moveq   #0,d0
-loc_1015D8:
+step_calibration_return:
                 movem.l (sp)+,d2-d3
                 rts
 
-; ===== sub_1015DE =====
-; prototype: unsigned int __usercall sub_1015DE@<d0>()
-sub_1015DE:
+; ===== FloppyStep_AutoCalibrateOrTimeout =====
+; prototype: unsigned int __usercall FloppyStep_AutoCalibrateOrTimeout@<d0>()
+FloppyStep_AutoCalibrateOrTimeout:
                 movem.l d2,-(sp)
                 moveq   #$55,d2         ; 'U'
-loc_1015E4:
+seek_calibration_loop:
                 btst    #4,(CIAA_PRA).l
-                beq.s   loc_1015FC
+                beq.s   seek_calibration_clear_entry
                 moveq   #4,d0
                 moveq   #$FFFFFFFF,d1
-                bsr.s   sub_101612
-                dbf     d2,loc_1015E4
+                bsr.s   FloppyStep_DoSteps
+                dbf     d2,seek_calibration_loop
                 moveq   #$1E,d0
-                bra.s   loc_10160C
-loc_1015FC:
+                bra.s   seek_calibration_return
+seek_calibration_clear_entry:
                 move.w  -$24(a6),d0
                 add.w   d0,d0
                 lea     byte_1016AA(pc),a0
                 clr.w   (a0,d0.w)
                 moveq   #0,d0
-loc_10160C:
+seek_calibration_return:
                 movem.l (sp)+,d2
                 rts
 
-; ===== sub_101612 =====
-; prototype: void __usercall sub_101612(unsigned int steps@<d0>, int dir@<d1>)
-sub_101612:
+; ===== FloppyStep_DoSteps =====
+; prototype: void __usercall FloppyStep_DoSteps(unsigned int steps@<d0>, int dir@<d1>)
+FloppyStep_DoSteps:
                 move.l  d0,-(sp)
-                bsr.s   sub_101640
+                bsr.s   FloppyCIA_BuildStepPattern
                 tst.b   d1
-                bmi.s   loc_10161E
+                bmi.s   step_dir_mask_apply
                 bclr    #1,d0
-loc_10161E:
+step_dir_mask_apply:
                 bclr    #0,d0
                 move.b  d0,(CIAB_PRB).l
                 bset    #0,d0
                 move.b  d0,(CIAB_PRB).l
                 move.l  (sp)+,d0
-                bra.s   sub_101670
+                bra.s   FloppyTimer_DelayTicks
 
-; ===== sub_101636 =====
-; prototype: void __usercall sub_101636()
-sub_101636:
-                bsr.s   sub_101640
+; ===== FloppyCIA_UpdateLinesFromTable =====
+; prototype: void __usercall FloppyCIA_UpdateLinesFromTable()
+FloppyCIA_UpdateLinesFromTable:
+                bsr.s   FloppyCIA_BuildStepPattern
                 move.b  d0,(CIAB_PRB).l
                 rts
 
-; ===== sub_101640 =====
-; prototype: unsigned int __usercall sub_101640@<d0>()
-sub_101640:
+; ===== FloppyCIA_BuildStepPattern =====
+; prototype: unsigned int __usercall FloppyCIA_BuildStepPattern@<d0>()
+FloppyCIA_BuildStepPattern:
                 movem.w d1-d2,-(sp)
                 move.w  -$24(a6),d0
                 move.b  (CIAB_PRB).l,d2
@@ -4444,45 +4405,45 @@ sub_101640:
                 add.w   d0,d0
                 move.w  byte_1016AA(pc,d0.w),d1
                 btst    #0,d1
-                beq.s   loc_101668
+                beq.s   step_pattern_optional_clear_pulse
                 bclr    #2,d2
-loc_101668:
+step_pattern_optional_clear_pulse:
                 move.b  d2,d0
                 movem.w (sp)+,d1-d2
                 rts
 
-; ===== sub_101670 =====
-; prototype: void __usercall sub_101670(unsigned int ticks@<d0>)
-sub_101670:
-                bsr.s   sub_101690
-loc_101672:
+; ===== FloppyTimer_DelayTicks =====
+; prototype: void __usercall FloppyTimer_DelayTicks(unsigned int ticks@<d0>)
+FloppyTimer_DelayTicks:
+                bsr.s   FloppyTimer_StartCiaB
+timer_delay_wait_ciab_flag:
                 btst    #0,(CIAB_CRA).l
-                bne.s   loc_101672
+                bne.s   timer_delay_wait_ciab_flag
                 subq.w  #1,d0
-                bne.s   sub_101670
+                bne.s   FloppyTimer_DelayTicks
                 rts
 
-; ===== sub_101682 =====
-; prototype: void __usercall sub_101682(unsigned int limit@<d0>)
-sub_101682:
+; ===== FloppyTimer_WaitIfRunning =====
+; prototype: void __usercall FloppyTimer_WaitIfRunning(unsigned int limit@<d0>)
+FloppyTimer_WaitIfRunning:
                 btst    #0,(CIAB_CRA).l
-                bne.s   locret_1016A8
+                bne.s   timer_return
                 subq.w  #1,d0
-                beq.s   locret_1016A8
+                beq.s   timer_return
 
-; ===== sub_101690 =====
-; prototype: void __usercall sub_101690()
-sub_101690:
+; ===== FloppyTimer_StartCiaB =====
+; prototype: void __usercall FloppyTimer_StartCiaB()
+FloppyTimer_StartCiaB:
                 move.b  #8,(CIAB_CRA).l
                 move.b  #$CC,(CIAB_TALO).l
                 move.b  #2,(CIAB_TAHI).l
-locret_1016A8:
+timer_return:
                 rts
 byte_1016AA:
                 dc.b $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
 g_copperList:
-                dc.w 864,2457,4095,0,1825,2624,3953,592
-                dc.w 48,880,3840,15,1794,2191,896,4080
+                dc.w $0360,$0999,$0FFF,$0000,$0721,$0A40,$0F71,$0250
+                dc.w $0030,$0370,$0F00,$000F,$0702,$088F,$0380,$0FF0
 kNibbleMaskSeedA:
                 dc.b $00,$00,$22,$AA,$00,$00,$FF,$BB,$00,$33,$33,$33,$44,$33,$AA,$00
                 dc.b $88,$00,$CC,$CC,$CC,$88,$88,$88,$55,$55,$55,$FF,$FF,$99,$DD,$DD
@@ -4507,6 +4468,7 @@ kNibbleMaskLineB:
 kNibbleMaskLineC:
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+kNibbleMaskLineD:
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$0F
 fadeStep:
@@ -4598,7 +4560,9 @@ aGrafsTacticsRa:
 aGrafsDisk22Raw:
                 dc.b 'grafs/disk22.raw',0
 aGrafsOlddisk1R:
-                dc.b 'grafs/olddisk1.raw',0,'grafs/socpic.raw',$00,$00
+                dc.b 'grafs/olddisk1.raw',0
+aGrafsSocpicRaw:
+                dc.b 'grafs/socpic.raw',0,$00
 team1Filename:
                 dc.l 0
 team2Filename:
@@ -4656,7 +4620,7 @@ lastVBlankServiceTick:
 ; prototype: void __interrupt Int13TimerHandler()
 Int13TimerHandler:
                 movem.l d0-d7/a0-a6,-(sp)
-                lea     ($DFF000).l,a6
+                lea     (BLTDDAT).l,a6
                 tst.w   (waitingInterrupt).l
                 beq.w   isr_common_housekeeping
                 move.w  (currentGameTick).l,d0
@@ -4766,8 +4730,8 @@ keycodeLut:
 ; prototype: void __usercall InitDisplayAndCopper()
 InitDisplayAndCopper:
                 movem.l d0-d1/a0-a1,-(sp)
-                move.l  #frontbufferBase,(g_frontbufferBase).l
-                move.l  #frontbufferBaseAlt,(g_frontbufferBaseAlt).l
+                move.l  #frontbufferBase,(frontbufferBasePtr).l
+                move.l  #frontbufferBaseAlt,(frontbufferBaseAltPtr).l
                 lea     (kSpriteBlitQueueSentinel_A).l,a0
                 move.l  #$FFFFFFFF,(a0)
                 lea     (kSpriteBlitQueueSentinel_B).l,a0
@@ -4782,7 +4746,7 @@ copy_copperlist_loop:
                 move.w  #$4000,(INTENA).l
 wait_top_of_frame:
                 move.l  (VPOSR).l,d0
-                andi.l  #vposrLineMask,d0
+                andi.l  #$1FFFF,d0
                 lsr.l   #8,d0
                 cmpi.l  #$A,d0
                 bhi.s   wait_top_of_frame
@@ -4809,17 +4773,17 @@ clear_word_table_b_loop:
                 clr.w   (a1)+
                 addq.l  #2,a1
                 dbf     d0,clear_word_table_b_loop
-                move.l  #plane0StartWordAddr0,(plane0WritePtr).l
-                move.l  #plane1StartWordAddr0,(plane1WritePtr).l
-                move.l  #plane2StartWordAddr0,(plane2WritePtr).l
-                move.l  #plane3StartWordAddr0,(plane3WritePtr).l
-                movea.l (plane0WritePtr).l,a0
+                move.l  #bitPlane0Base,(bitPlane0BasePtr).l
+                move.l  #bitPlane1Base,(bitPlane1BasePtr).l
+                move.l  #bitPlane2Base,(bitPlane2BasePtr).l
+                move.l  #bitPlane3Base,(bitPlane3BasePtr).l
+                movea.l (bitPlane0BasePtr).l,a0
                 move.l  (copperZeroLong).l,(a0)
-                movea.l (plane1WritePtr).l,a0
+                movea.l (bitPlane1BasePtr).l,a0
                 move.l  (copperZeroLong).l,(a0)
-                movea.l (plane2WritePtr).l,a0
+                movea.l (bitPlane2BasePtr).l,a0
                 move.l  (copperZeroLong).l,(a0)
-                movea.l (plane3WritePtr).l,a0
+                movea.l (bitPlane3BasePtr).l,a0
                 move.l  (copperZeroLong).l,(a0)
                 bsr.w   UpdatePlanePtrsAndBlitParams
                 lea     (copperListBuffer).l,a0
@@ -4839,24 +4803,24 @@ _101EE0_wait_blitter_idle:
 ; ===== UpdatePlanePtrsAndBlitParams =====
 ; prototype: void __usercall UpdatePlanePtrsAndBlitParams()
 UpdatePlanePtrsAndBlitParams:
-                move.l  (plane0WritePtr).l,d0
+                move.l  (bitPlane0BasePtr).l,d0
                 lea     ((copperListBuffer+4)).l,a0
                 move.w  d0,6(a0)
                 swap    d0
                 move.w  d0,2(a0)
-                move.l  (plane1WritePtr).l,d0
+                move.l  (bitPlane1BasePtr).l,d0
                 lea     ((copperListBuffer+$C)).l,a0
-                move.w  d0,copperListBuffer+$12-(copperListBuffer+$C)(a0)
+                move.w  d0,6(a0)
                 swap    d0
                 move.w  d0,2(a0)
-                move.l  (plane2WritePtr).l,d0
+                move.l  (bitPlane2BasePtr).l,d0
                 lea     ((copperListBuffer+$14)).l,a0
-                move.w  d0,copperListBuffer+$1A-(copperListBuffer+$14)(a0)
+                move.w  d0,6(a0)
                 swap    d0
                 move.w  d0,2(a0)
-                move.l  (plane3WritePtr).l,d0
+                move.l  (bitPlane3BasePtr).l,d0
                 lea     ((copperListBuffer+$1C)).l,a0
-                move.w  d0,copperListBuffer+$22-(copperListBuffer+$1C)(a0)
+                move.w  d0,6(a0)
                 swap    d0
                 move.w  d0,2(a0)
                 move.w  (cameraXMod320).l,d1
@@ -4884,15 +4848,15 @@ emit_plane_ptr_tables:
                 mulu.w  #$B0,d0
                 tst.w   (usePlaneOffsetFlag).l
                 beq.s   check_alt_base
-                addi.l  #frontbufferPlaneOffset,d0
+                addi.l  #frontbufferMaskBuffer,d0
                 bra.s   apply_x_offset
 check_alt_base:
                 tst.w   (useAltBaseFlag).l
                 beq.s   add_primary_base
-                add.l   (g_frontbufferBaseAlt).l,d0
+                add.l   (frontbufferBaseAltPtr).l,d0
                 bra.s   apply_x_offset
 add_primary_base:
-                add.l   (g_frontbufferBase).l,d0
+                add.l   (frontbufferBasePtr).l,d0
 apply_x_offset:
                 move.w  (cameraXMod320).l,d1
                 lsr.w   #3,d1
@@ -4900,10 +4864,10 @@ apply_x_offset:
                 add.l   d1,d0
                 tst.w   (usePlaneOffsetFlag).l
                 beq.s   add_primary_base_for_x
-                addi.l  #frontbufferPlaneOffset,d1
+                addi.l  #frontbufferMaskBuffer,d1
                 bra.s   finalize_plane_ptrs
 add_primary_base_for_x:
-                add.l   (g_frontbufferBase).l,d1
+                add.l   (frontbufferBasePtr).l,d1
 finalize_plane_ptrs:
                 move.w  #3,d2
 write_plane_ptrs_loop:
@@ -4938,42 +4902,42 @@ finalize_bltsize:
 ; unsigned __int16[160]
 copperListTemplate:
                 ; unsigned __int16[160]
-                dc.w 5121,-2,288,0,290,0,292,0
-                dc.w 294,0,296,0,298,0,300,0
-                dc.w 302,0,304,0,306,0,308,0
-                dc.w 310,0,312,0,314,0,316,0
-                dc.w 318,0,256,16384,258,0,260,36
-                dc.w 262,3072,268,17,264,0,266,0
-                dc.w 146,40,148,208,142,9329,144,13505
-                dc.w 384,0,386,0,388,0,390,0
-                dc.w 392,0,394,0,396,0,398,0
-                dc.w 400,0,402,0,404,0,406,0
-                dc.w 408,0,410,0,412,0,414,0
-                dc.w 416,0,418,0,420,0,422,0
-                dc.w 424,0,426,0,428,0,430,0
-                dc.w 432,0,434,0,436,0,438,0
-                dc.w 440,0,442,0,444,0,446,0
-                dc.w 9217,-2,224,0,226,0,228,0
-                dc.w 230,0,232,0,234,0,236,0
-                dc.w 238,0,-31,-2,1,-2,224,0
-                dc.w 226,0,228,0,230,0,232,0
-                dc.w 234,0,236,0,238,0,-1,-2
+                dc.w $1401,$FFFE,$0120,$0000,$0122,$0000,$0124,$0000
+                dc.w $0126,$0000,$0128,$0000,$012A,$0000,$012C,$0000
+                dc.w $012E,$0000,$0130,$0000,$0132,$0000,$0134,$0000
+                dc.w $0136,$0000,$0138,$0000,$013A,$0000,$013C,$0000
+                dc.w $013E,$0000,$0100,$4000,$0102,$0000,$0104,$0024
+                dc.w $0106,$0C00,$010C,$0011,$0108,$0000,$010A,$0000
+                dc.w $0092,$0028,$0094,$00D0,$008E,$2471,$0090,$34C1
+                dc.w $0180,$0000,$0182,$0000,$0184,$0000,$0186,$0000
+                dc.w $0188,$0000,$018A,$0000,$018C,$0000,$018E,$0000
+                dc.w $0190,$0000,$0192,$0000,$0194,$0000,$0196,$0000
+                dc.w $0198,$0000,$019A,$0000,$019C,$0000,$019E,$0000
+                dc.w $01A0,$0000,$01A2,$0000,$01A4,$0000,$01A6,$0000
+                dc.w $01A8,$0000,$01AA,$0000,$01AC,$0000,$01AE,$0000
+                dc.w $01B0,$0000,$01B2,$0000,$01B4,$0000,$01B6,$0000
+                dc.w $01B8,$0000,$01BA,$0000,$01BC,$0000,$01BE,$0000
+                dc.w $2401,$FFFE,$00E0,$0000,$00E2,$0000,$00E4,$0000
+                dc.w $00E6,$0000,$00E8,$0000,$00EA,$0000,$00EC,$0000
+                dc.w $00EE,$0000,$FFE1,$FFFE,$0001,$FFFE,$00E0,$0000
+                dc.w $00E2,$0000,$00E4,$0000,$00E6,$0000,$00E8,$0000
+                dc.w $00EA,$0000,$00EC,$0000,$00EE,$0000,$FFFF,$FFFE
 
 ; ===== SwapBuffersAndCameraViewState =====
 ; prototype: void __usercall SwapBuffersAndCameraViewState()
 SwapBuffersAndCameraViewState:
-                cmpi.l  #frontbufferBase,(g_frontbufferBase).l
+                cmpi.l  #frontbufferBase,(frontbufferBasePtr).l
                 beq.w   swap_to_alt_buffer
-                move.l  #plane0StartWordAddr0,(plane0WritePtr).l
-                move.l  #plane1StartWordAddr0,(plane1WritePtr).l
-                move.l  #plane2StartWordAddr0,(plane2WritePtr).l
-                move.l  #plane3StartWordAddr0,(plane3WritePtr).l
-                move.l  (copperZeroLong).l,(plane0StartWordAddr0).l
-                move.l  (copperZeroLong).l,(plane1StartWordAddr0).l
-                move.l  (copperZeroLong).l,(plane2StartWordAddr0).l
-                move.l  (copperZeroLong).l,(plane3StartWordAddr0).l
-                move.l  #frontbufferBase,(g_frontbufferBase).l
-                move.l  #frontbufferBaseAlt,(g_frontbufferBaseAlt).l
+                move.l  #bitPlane0Base,(bitPlane0BasePtr).l
+                move.l  #bitPlane1Base,(bitPlane1BasePtr).l
+                move.l  #bitPlane2Base,(bitPlane2BasePtr).l
+                move.l  #bitPlane3Base,(bitPlane3BasePtr).l
+                move.l  (copperZeroLong).l,(bitPlane0Base).l
+                move.l  (copperZeroLong).l,(bitPlane1Base).l
+                move.l  (copperZeroLong).l,(bitPlane2Base).l
+                move.l  (copperZeroLong).l,(bitPlane3Base).l
+                move.l  #frontbufferBase,(frontbufferBasePtr).l
+                move.l  #frontbufferBaseAlt,(frontbufferBaseAltPtr).l
                 move.l  #kSpriteBlitQueueSentinel_A,(spriteBlitQueue).l
                 move.w  (cameraXMod320).l,(dstXByteOffsetSaved1).l
                 move.w  (cameraYMod320).l,(dstYStartLinesSaved1).l
@@ -4989,16 +4953,16 @@ SwapBuffersAndCameraViewState:
                 move.w  (cameraYSaved0).l,(g_cameraY).l
                 bra.w   _1023AA_exit_rts
 swap_to_alt_buffer:
-                move.l  #plane0StartWordAddr1,(plane0WritePtr).l
-                move.l  #plane1StartWordAddr1,(plane1WritePtr).l
-                move.l  #plane2StartWordAddr1,(plane2WritePtr).l
-                move.l  #plane3StartWordAddr1,(plane3WritePtr).l
-                move.l  (copperZeroLong).l,(plane0StartWordAddr1).l
-                move.l  (copperZeroLong).l,(plane1StartWordAddr1).l
-                move.l  (copperZeroLong).l,(plane2StartWordAddr1).l
-                move.l  (copperZeroLong).l,(plane3StartWordAddr1).l
-                move.l  #frontbufferBaseAlt,(g_frontbufferBase).l
-                move.l  #frontbufferBase,(g_frontbufferBaseAlt).l
+                move.l  #bitPlane0BaseAlt,(bitPlane0BasePtr).l
+                move.l  #bitPlane1BaseAlt,(bitPlane1BasePtr).l
+                move.l  #bitPlane2BaseAlt,(bitPlane2BasePtr).l
+                move.l  #bitPlane3BaseAlt,(bitPlane3BasePtr).l
+                move.l  (copperZeroLong).l,(bitPlane0BaseAlt).l
+                move.l  (copperZeroLong).l,(bitPlane1BaseAlt).l
+                move.l  (copperZeroLong).l,(bitPlane2BaseAlt).l
+                move.l  (copperZeroLong).l,(bitPlane3BaseAlt).l
+                move.l  #frontbufferBaseAlt,(frontbufferBasePtr).l
+                move.l  #frontbufferBase,(frontbufferBaseAltPtr).l
                 move.l  #kSpriteBlitQueueSentinel_B,(spriteBlitQueue).l
                 move.w  (cameraXMod320).l,(dstXByteOffsetSaved0).l
                 move.w  (cameraYMod320).l,(dstYStartLinesSaved0).l
@@ -5022,7 +4986,7 @@ InitHardwareAtFrameStart:
                 clr.w   $100(a6)
 wait_for_top_of_frame:
                 move.l  4(a6),d0
-                andi.l  #vposrLineMask,d0
+                andi.l  #$1FFFF,d0
                 lsr.l   #8,d0
                 cmpi.l  #$A,d0
                 bhi.s   wait_for_top_of_frame
@@ -5104,12 +5068,12 @@ panicOutBuf:
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
                 dc.b $00,$00,$00,$00,$00,$C0,$FC,$00,$0A
 
-; ===== sub_10255E =====
-; prototype: void sub_10255E(...)
-sub_10255E:
+; ===== FlashColor0Delay =====
+; prototype: void __usercall FlashColor0Delay(unsigned __int32 loopCount, unsigned __int16 color)
+FlashColor0Delay:
                 move.w  d1,(COLOR00).l
                 subq.l  #1,d0
-                bne.s   sub_10255E
+                bne.s   FlashColor0Delay
                 move.w  (copperListBuffer+$72).l,(COLOR00).l
                 rts
 
@@ -5442,7 +5406,7 @@ _102A34_done:
 FixupAndColorPitchFile:
                 lea     (g_pitchDatBuffer).l,a0
                 clr.w   d2
-                move.w  #2309,d1        ; sizeof(g_pitchDatBuffer) / 4 ; (= 10032 / 4)
+                move.w  #2309,d1        ; sizeof(g_pitchDatBuffer) / 4 ; (= 9240 / 4)
 relocate_pitch_pointer_loop:
                 move.l  (a0),d0
                 addi.l  #g_currentMenu,d0
@@ -5461,7 +5425,7 @@ relocate_pitch_pointer_loop:
                 move.w  #1,(fansSidesSwapped).l
 maybe_swap_fans_sides:
                 lea     (topTeamInGame).l,a0
-                move.w  topTeamInGame+TEAMGAME_SECSHIRTCOL-topTeamInGame(a0),(pitchFansConvertTable+$16).l
+                move.w  $C(a0),((pitchFansConvertTable+$16)).l
                 move.w  $E(a0),d0
                 cmp.w   $C(a0),d0
                 bne.s   selected_kit_color_ready
@@ -5477,7 +5441,7 @@ apply_top_team_fan_patches_loop:
                 movem.l (sp)+,d7/a5-a6
                 dbf     d7,apply_top_team_fan_patches_loop
                 lea     (bottomTeamInGame).l,a0
-                move.w  bottomTeamInGame+TEAMGAME_SECSHIRTCOL-bottomTeamInGame(a0),(pitchFansConvertTable+$16).l
+                move.w  $C(a0),(pitchFansConvertTable+$16).l
                 move.w  $E(a0),d0
                 cmp.w   $C(a0),d0
                 bne.s   selected_bottom_team_kit_color_ready
@@ -5662,7 +5626,7 @@ x_scroll_crossed_tile_boundary:
                 add.w   d1,d0
                 lea     (g_pitchDatBuffer).l,a1
                 lea     (a1,d0.w),a1
-                movea.l (g_frontbufferBase).l,a0
+                movea.l (frontbufferBasePtr).l,a0
                 move.w  (cameraXMod320).l,d0
                 add.w   d5,d0
                 lsr.w   #3,d0
@@ -5722,7 +5686,7 @@ loc_102E26:
 loc_102E46:
                 cmpi.w  #$110,d2
                 bcs.s   blit_loop_top_segment
-                movea.l (g_frontbufferBase).l,a0
+                movea.l (frontbufferBasePtr).l,a0
                 move.w  (cameraXMod320).l,d0
                 add.w   d5,d0
                 lsr.w   #3,d0
@@ -5771,7 +5735,7 @@ loc_102F0C:
                 add.w   d5,d0
                 lsr.w   #3,d0
                 andi.l  #$FFFE,d0
-                add.l   (g_frontbufferBase).l,d0
+                add.l   (frontbufferBasePtr).l,d0
                 move.w  #$8400,(DMACON).l
                 btst    #6,(DMACONR).l
 loc_102F32:
@@ -5779,8 +5743,8 @@ loc_102F32:
                 bne.s   loc_102F32
                 move.w  #$400,(DMACON).l
                 move.l  d0,$50(a6)
-                sub.l   (g_frontbufferBase).l,d0
-                addi.l  #frontbufferPlaneOffset,d0
+                sub.l   (frontbufferBasePtr).l,d0
+                addi.l  #frontbufferMaskBuffer,d0
                 move.l  d0,$54(a6)
                 move.w  #$2A,$64(a6)    ; '*'
                 move.w  #$1001,$58(a6)
@@ -5821,7 +5785,7 @@ loc_102FB0:
                 lsl.w   #2,d0
                 ext.l   d0
                 adda.l  d0,a1
-                movea.l (g_frontbufferBase).l,a3
+                movea.l (frontbufferBasePtr).l,a3
                 move.w  (cameraXMod320).l,d0
                 lsr.w   #3,d0
                 andi.l  #$FFFE,d0
@@ -5930,8 +5894,8 @@ loc_103172:
                 move.w  #$400,(DMACON).l
                 move.l  (dword_103286).l,d0
                 move.l  d0,$50(a6)
-                sub.l   (g_frontbufferBase).l,d0
-                addi.l  #frontbufferPlaneOffset,d0
+                sub.l   (frontbufferBasePtr).l,d0
+                addi.l  #frontbufferMaskBuffer,d0
                 move.l  d0,$54(a6)
 loc_10319E:
                 move.w  (word_10328A).l,d0
@@ -5964,8 +5928,8 @@ loc_10320C:
                 move.w  #$400,(DMACON).l
                 move.l  (dword_10328C).l,d0
                 move.l  d0,$50(a6)
-                sub.l   (g_frontbufferBase).l,d0
-                addi.l  #frontbufferPlaneOffset,d0
+                sub.l   (frontbufferBasePtr).l,d0
+                addi.l  #frontbufferMaskBuffer,d0
                 move.l  d0,$54(a6)
 loc_103238:
                 move.w  (word_103290).l,d0
@@ -6026,11 +5990,7 @@ fade_write_palette_loop:
                 dbf     d1,fade_write_palette_loop
                 rts
 kFadeShiftMaskTable:
-                dc.l byte_40000
-                dc.l byte_30111
-                dc.l byte_20333
-                dc.l byte_10777
-                dc.l $00000FFF          ; raw
+                dc.l $00040000,$00030111,$00020333,$00010777,$00000FFF
 ApplyFadeLoaderPath:
                 lsr.w   #5,d2
                 lea     (fadeShiftMaskTable).l,a0
@@ -6156,7 +6116,7 @@ FadeOutAndIn:
 ; ===== ProcessImageCommandStream =====
 ; prototype: void __usercall ProcessImageCommandStream()
 ProcessImageCommandStream:
-                move.l  a3,(dword_67640).l
+                move.l  a3,(imageStreamCursor).l
 read_next_opcode:
                 move.w  (a0)+,d0
                 cmpi.w  #$FFFF,d0
@@ -6167,7 +6127,7 @@ read_next_opcode:
                 move.l  a0,-(sp)
                 movea.l (a0)+,a0
 process_nested_list:
-                lea     (frontbufferPlaneOffset).l,a1
+                lea     (frontbufferMaskBuffer).l,a1
 call_image_chunk_until_done:
                 jsr     LoadFile
                 bne.s   call_image_chunk_until_done
@@ -6203,7 +6163,7 @@ dispatch_draw_pack_A:
                 andi.w  #$FF,d3
                 move.b  (a0)+,d4
                 andi.w  #$FF,d4
-                lea     (frontbufferPlaneOffset).l,a1
+                lea     (frontbufferMaskBuffer).l,a1
                 move.w  #$FFFF,d5
                 movea.l #0,a6
                 clr.w   d6
@@ -6223,7 +6183,7 @@ opcode_5000_pack_fffe_mask:
                 andi.w  #$FF,d3
                 move.b  (a0)+,d4
                 andi.w  #$FF,d4
-                lea     (frontbufferPlaneOffset).l,a1
+                lea     (frontbufferMaskBuffer).l,a1
                 move.w  #$FFFE,d5
                 movea.l #0,a6
                 clr.w   d6
@@ -6258,7 +6218,7 @@ dispatch_draw_pack_B:
                 ext.w   d6
                 move.b  (a0)+,d7
                 ext.w   d7
-                lea     (frontbufferPlaneOffset).l,a1
+                lea     (frontbufferMaskBuffer).l,a1
                 move.w  #$FFFF,d5
                 movea.l #0,a6
                 movem.l a0,-(sp)
@@ -6293,7 +6253,7 @@ dispatch_draw_pack_C:
                 ext.w   d7
                 move.w  (a0)+,d5
                 movea.l #0,a6
-                lea     (frontbufferPlaneOffset).l,a1
+                lea     (frontbufferMaskBuffer).l,a1
                 movem.l a0,-(sp)
                 bsr.w   BlitDispatch
                 movem.l (sp)+,a0
@@ -6313,7 +6273,7 @@ opcode_A000_pack_plane1:
                 ext.w   d6
                 move.b  (a0)+,d7
                 ext.w   d7
-                lea     (frontbufferPlaneOffset).l,a1
+                lea     (frontbufferMaskBuffer).l,a1
                 move.w  #$FFFF,d5
                 movea.l #1,a6
                 movem.l a0,-(sp)
@@ -6348,7 +6308,7 @@ dispatch_draw_pack_D:
                 ext.w   d7
                 move.w  (a0)+,d5
                 movea.l #1,a6
-                lea     (frontbufferPlaneOffset).l,a1
+                lea     (frontbufferMaskBuffer).l,a1
                 movem.l a0,-(sp)
                 bsr.w   BlitDispatch
                 movem.l (sp)+,a0
@@ -6373,8 +6333,8 @@ opcode_unknown_fallback:
                 move.w  #$378,(panicReasonCode).l
                 jsr PanicHaltLoop(pc)
 final_copy_and_return:
-                movea.l (g_frontbufferBase).l,a0
-                lea     (frontbufferPlaneOffset).l,a1
+                movea.l (frontbufferBasePtr).l,a0
+                lea     (frontbufferMaskBuffer).l,a1
                 move.w  #$5DD7,d0
 copy_frontbuffer_to_planeoffset_loop:
                 move.w  (a0)+,(a1)+
@@ -6423,10 +6383,10 @@ sprite_index_filter_block_5:
                 cmpi.w  #$428,d0
                 bls.w   dispatch_return
 sprite_index_filter_done:
-                movea.l (g_spriteGraphicsPtr).l,a2
+                movea.l (spriteGraphicsPtr).l,a2
                 lsl.w   #2,d0
-                move.l  (dword_67640).l,(a2,d0.w)
-                movea.l (dword_67640).l,a2
+                move.l  (imageStreamCursor).l,(a2,d0.w)
+                movea.l (imageStreamCursor).l,a2
                 lsr.w   #2,d0
                 move.w  d0,$16(a2)
                 move.w  d0,(currentSpriteIndex).l
@@ -6492,7 +6452,7 @@ finish_header_clear_next_ptr:
                 tst.w   d5
                 beq.w   update_stream_cursor
                 bmi.s   inline_compose_begin
-                movea.l (g_spriteGraphicsPtr).l,a1
+                movea.l (spriteGraphicsPtr).l,a1
                 lsl.w   #2,d5
                 movea.l (a1,d5.w),a1
                 move.l  4(a1),4(a0)
@@ -6558,23 +6518,23 @@ generate_right_edge_mask_inner_loop:
                 move.w  d2,-2(a2)
                 dbf     d1,loc_1038FE
 update_stream_cursor:
-                move.l  a2,(dword_67640).l
+                move.l  a2,(imageStreamCursor).l
                 tst.w   (playGame).l
                 bne.s   update_stream_size_rel_to_cursor
                 tst.w   (playHighlightFlag).l
                 bne.s   update_stream_size_rel_to_cursor
                 move.l  #g_menuInsBank,d0
                 sub.l   a2,d0
-                move.l  d0,(dword_67648).l
+                move.l  d0,(imageStreamBytesLeft).l
                 cmpa.l  #g_menuInsBank,a2
                 bcs.s   dispatch_return
                 move.w  #8,(panicReasonCode).l
                 jsr PanicHaltLoop(pc)
 update_stream_size_rel_to_cursor:
-                move.l  #dword_67640,d0
+                move.l  #imageStreamCursor,d0
                 sub.l   a2,d0
-                move.l  d0,(dword_67648).l
-                cmpa.l  #dword_67640,a2
+                move.l  d0,(imageStreamBytesLeft).l
+                cmpa.l  #imageStreamCursor,a2
                 bcs.s   dispatch_return
                 move.w  #8,(panicReasonCode).l
                 jsr PanicHaltLoop(pc)
@@ -6613,22 +6573,25 @@ word_103994:
 ; prototype: void __usercall SetupInterrupts()
 SetupInterrupts:
                 move.l  (LEVEL_3_INTERRUPT_AUTOVECTOR).w,(LEVEL_1_INTERRUPT_AUTOVECTOR).w
-                move.l  #interrupt_l3_2,(LEVEL_3_INTERRUPT_AUTOVECTOR).w
-                move.l  #interrupt_l5,(LEVEL_5_INTERRUPT_AUTOVECTOR).w
+                move.l  #Int_Level3_2_Handler,(LEVEL_3_INTERRUPT_AUTOVECTOR).w
+                move.l  #Int_Level5_Handler,(LEVEL_5_INTERRUPT_AUTOVECTOR).w
                 move.w  #%1100100000100100,(INTENA).l ; Master interrupt
                                         ; Serial port receive buffer full
                                         ; Start of vertical blank
                                         ; software initiated interrupt.
                 rts
-int5_serialbus_buffer_full:
+int5SerialBusBufferFull:
                 dc.w $0000
-interrupt_l3_2:
+
+; ===== Int_Level3_2_Handler =====
+; prototype: void __usercall Int_Level3_2_Handler()
+Int_Level3_2_Handler:
                 move.w  #$20,(INTREQ).l ; Clear level5 int
                 move.w  #$8004,(INTREQ).l ; trigger software initiated interrupt.
-                tst.w   (int5_serialbus_buffer_full).l
+                tst.w   (int5SerialBusBufferFull).l
                 beq.s   int_done
-                clr.w   (int5_serialbus_buffer_full).l
-                bra.w   set_tmp_stack_ptr
+                clr.w   (int5SerialBusBufferFull).l
+                bra.w   SetTempStackPtr
 int_done:
                 rte
 
@@ -6636,9 +6599,12 @@ int_done:
 ; prototype: void nullsub_4(...)
 nullsub_4:
                 rts
-interrupt_l5:
+
+; ===== Int_Level5_Handler =====
+; prototype: void __usercall Int_Level5_Handler()
+Int_Level5_Handler:
                 move.w  #$800,(INTREQ).l ; Serial port receive buffer full
-                move.w  #1,(int5_serialbus_buffer_full).l
+                move.w  #1,(int5SerialBusBufferFull).l
                 bra.w   *+4
 save_regs_and_swap_to_tmp_stack:
                 movem.l d0-d7/a0-a6,-(sp)
@@ -6648,11 +6614,11 @@ save_regs_and_swap_to_tmp_stack:
                 bne.s   restore_regs_and_rte
                 move.w  #1,(isrTrampolineGuard).l
                 move    #$201F,sr
-                jmp     return_from_function
+                jmp     ReturnFromFunction
 restore_regs_and_rte:
                 movem.l (sp)+,d0-d7/a0-a6
                 rte
-set_tmp_stack_ptr:
+SetTempStackPtr:
                 movem.l d0-d7/a0-a6,-(sp)
                 move.l  sp,(tmpStackPtr).l
                 movea.l (oldStackPtr).l,sp
@@ -6661,35 +6627,35 @@ set_tmp_stack_ptr:
 oldStackPtr:
                 dc.l 0
 tmpStackPtr:
-                dc.l return_from_function
+                dc.l ReturnFromFunction
 isrTrampolineGuard:
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0
-return_from_function:
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000
+ReturnFromFunction:
                 jmp ReturnFunction(pc)
 
 ; ===== BlitterSpan4Planes =====
@@ -6723,8 +6689,8 @@ BlitterSpan4Planes:
 loc_103C34:
                 bra.s   BlitterSpanCoreMasked
 leftMaskTable:
-                dc.w -32768,-16384,-8192,-4096,-2048,-1024,-512,-256
-                dc.w -128,-64,-32,-16,-8,-4,-2
+                dc.w $8000,$C000,$E000,$F000,$F800,$FC00,$FE00,$FF00
+                dc.w $FF80,$FFC0,$FFE0,$FFF0,$FFF8,$FFFC,$FFFE
 
 ; ===== BlitterSpanCoreMasked =====
 ; prototype: void __usercall BlitterSpanCoreMasked()
@@ -6773,16 +6739,16 @@ wait_blitter_ready_left:
                 addq.w  #2,a0
                 tst.w   d2
                 bne.s   blit_aligned_middle_words
-; __int16[16]
+; unsigned __int16[16]
 partialSpanMaskTable:
-                ; __int16[16]
-                dc.w 20085,1,3,7,15,31,63,127
-                dc.w 255,511,1023,2047,4095,8191,16383,32767
+                ; unsigned __int16[16]
+                dc.w $4E75,$0001,$0003,$0007,$000F,$001F,$003F,$007F
+                dc.w $00FF,$01FF,$03FF,$07FF,$0FFF,$1FFF,$3FFF,$7FFF
 ; unsigned __int16[16]
 tailMaskTable:
                 ; unsigned __int16[16]
-                dc.w -1,-32768,-16384,-8192,-4096,-2048,-1024,-512
-                dc.w -256,-128,-64,-32,-16,-8,-4,-2
+                dc.w $FFFF,$8000,$C000,$E000,$F000,$F800,$FC00,$FE00
+                dc.w $FF00,$FF80,$FFC0,$FFE0,$FFF0,$FFF8,$FFFC,$FFFE
 blit_aligned_middle_words:
                 move.w  d2,d0
                 lsr.w   #4,d0
@@ -6890,11 +6856,11 @@ wait_blitter_ready:
                 move.w  d3,$58(a6)
                 rts
 firstWordMaskTable:
-                dc.w -1,32767,16383,8191,4095,2047,1023,511
-                dc.w 255,127,63,31,15,7,3,1
+                dc.w $FFFF,$7FFF,$3FFF,$1FFF,$0FFF,$07FF,$03FF,$01FF
+                dc.w $00FF,$007F,$003F,$001F,$000F,$0007,$0003,$0001
 lastWordMaskTable:
-                dc.w -32768,-16384,-8192,-4096,-2048,-1024,-512,-256
-                dc.w -128,-64,-32,-16,-8,-4,-2,-1
+                dc.w $8000,$C000,$E000,$F000,$F800,$FC00,$FE00,$FF00
+                dc.w $FF80,$FFC0,$FFE0,$FFF0,$FFF8,$FFFC,$FFFE,$FFFF
 
 ; ===== BuildNibbleMaskLine =====
 ; prototype: void __usercall BuildNibbleMaskLine()
@@ -6933,9 +6899,9 @@ _103F12_wait_blitter_idle_pre_copy:
                 move.w  #$9F0,$40(a6)
                 clr.w   $64(a6)
                 clr.w   $66(a6)
-                move.l  (g_frontbufferBase).l,$54(a6)
+                move.l  (frontbufferBasePtr).l,$54(a6)
                 move.l  #frontbufferBase,d0
-                cmpi.l  #frontbufferBaseAlt,(g_frontbufferBase).l
+                cmpi.l  #frontbufferBaseAlt,(frontbufferBasePtr).l
                 beq.s   select_offscreen_buffer_done
                 move.l  #frontbufferBaseAlt,d0
 select_offscreen_buffer_done:
@@ -6968,8 +6934,8 @@ wait_for_blitter_idle_before_setup:
                 move.w  #$9F0,$40(a6)
                 clr.w   $64(a6)
                 clr.w   $66(a6)
-                move.l  #frontbufferPlaneOffset,$50(a6)
-                move.l  (g_frontbufferBase).l,$54(a6)
+                move.l  #frontbufferMaskBuffer,$50(a6)
+                move.l  (frontbufferBasePtr).l,$54(a6)
                 move.w  #$1116,$58(a6)
                 move.w  #$8400,(DMACON).l
                 btst    #6,(DMACONR).l
@@ -6984,7 +6950,7 @@ wait_for_blitter_idle_before_kick_size16:
 ; prototype: void __usercall HWSprite_LoadFromSpriteGraphics()
 HWSprite_LoadFromSpriteGraphics:
                 lea     (BLTDDAT).l,a6
-                movea.l (g_spriteGraphicsPtr).l,a0
+                movea.l (spriteGraphicsPtr).l,a0
                 lsl.w   #2,d0
                 movea.l (a0,d0.w),a0
                 move.w  #$8400,(DMACON).l
@@ -7009,7 +6975,7 @@ _104040_wait_blitter_idle:
 ; ===== BlitSpritePlanar_Word =====
 ; prototype: void __usercall BlitSpritePlanar_Word()
 BlitSpritePlanar_Word:
-                movea.l (g_spriteGraphicsPtr).l,a0
+                movea.l (spriteGraphicsPtr).l,a0
                 lsl.w   #2,d0
                 movea.l (a0,d0.w),a0
                 tst.w   8(a0)
@@ -7128,7 +7094,7 @@ row_loop_fastpath_4planes:
 ; ===== BlitSpritePlanar_Word_StridedDest =====
 ; prototype: void __usercall BlitSpritePlanar_Word_StridedDest()
 BlitSpritePlanar_Word_StridedDest:
-                movea.l (g_spriteGraphicsPtr).l,a0
+                movea.l (spriteGraphicsPtr).l,a0
                 lsl.w   #2,d0
                 movea.l (a0,d0.w),a0
                 tst.w   8(a0)
@@ -7188,7 +7154,7 @@ row_loop_4planes_strided:
 ; ===== BlitSpritePlanar_Long_StridedDest =====
 ; prototype: void __usercall BlitSpritePlanar_Long_StridedDest()
 BlitSpritePlanar_Long_StridedDest:
-                movea.l (g_spriteGraphicsPtr).l,a0
+                movea.l (spriteGraphicsPtr).l,a0
                 lsl.w   #2,d0
                 movea.l (a0,d0.w),a0
                 tst.w   8(a0)
@@ -7259,7 +7225,7 @@ DrawSprite_entry2:
 ; ===== DrawSprite16Pixels =====
 ; prototype: void __usercall DrawSprite16Pixels()
 DrawSprite16Pixels:
-                movea.l (g_spriteGraphicsPtr).l,a0
+                movea.l (spriteGraphicsPtr).l,a0
                 lsl.w   #2,d0
                 movea.l (a0,d0.w),a0
                 bra.s   DrawSprite_entry2
@@ -7273,7 +7239,7 @@ DrawSprite16Pixels:
 ; 
 ; Destroys ebp.
 DrawSpriteCentered:
-                movea.l (g_spriteGraphicsPtr).l,a0
+                movea.l (spriteGraphicsPtr).l,a0
                 lsl.w   #2,d0
                 movea.l (a0,d0.w),a0
                 sub.w   SPRITEGRAPHICS_CENTERX(a0),d1
@@ -7291,7 +7257,7 @@ DrawSpriteCentered:
 ; 
 ; Note: x offset can only start from even number (rounded down).
 CopySprite:
-                movea.l (g_spriteGraphicsPtr).l,a0
+                movea.l (spriteGraphicsPtr).l,a0
                 lsl.w   #2,d3
                 movea.l (a0,d3.w),a1
                 lsl.w   #2,d0
@@ -7441,7 +7407,7 @@ pass4_wait_and_setup:
 ; ===== DrawSpriteHotspotInCameraView =====
 ; prototype: void __usercall DrawSpriteHotspotInCameraView()
 DrawSpriteHotspotInCameraView:
-                movea.l (g_spriteGraphicsPtr).l,a0
+                movea.l (spriteGraphicsPtr).l,a0
                 lsl.w   #2,d0
                 movea.l (a0,d0.w),a0
                 lsr.w   #2,d0
@@ -7457,7 +7423,7 @@ DrawSpriteHotspotInCameraView:
 ;      D2 - y
 ;      ebp - save sprite flag, -1 = don't save sprite
 DrawSpriteInCameraView:
-                movea.l (g_spriteGraphicsPtr).l,a0
+                movea.l (spriteGraphicsPtr).l,a0
                 lsl.w   #2,d0
                 movea.l (a0,d0.w),a0
                 sub.w   (g_cameraX).l,d1
@@ -7492,7 +7458,7 @@ _10456E_exit_rts:
 ; has its darkened counterpart with index + 128.
 ; Saves sprite area unconditionally.
 DarkenRectangle:
-                movea.l (g_spriteGraphicsPtr).l,a0
+                movea.l (spriteGraphicsPtr).l,a0
                 lsl.w   #2,d0
                 movea.l (a0,d0.w),a0
                 bra.w   *+4
@@ -7500,11 +7466,11 @@ DarkenRectangle:
 ; ===== DrawSpriteClipped =====
 ; prototype: void __usercall DrawSpriteClipped(void *sprite@<a0>, unsigned __int16 x@<d1>, unsigned __int16 y@<d2>)
 DrawSpriteClipped:
-                tst.w   8(a0)
+                tst.w   SPRITE_ANIMATIONTABLE+2(a0)
                 bne.w   branch_linked_planes
                 movea.l (spriteBlitQueue).l,a3
-                movea.l (g_frontbufferBase).l,a1
-                tst.w   8(a0)
+                movea.l (frontbufferBasePtr).l,a1
+                tst.w   SPRITE_ANIMATIONTABLE+2(a0)
                 bne.w   reload_height
                 movem.l a2/a4-a5,-(sp)
                 move.w  $C(a0),d3
@@ -7588,7 +7554,7 @@ save_rows_to_blit:
                 movea.l d0,a2
                 move.l  d0,4(a3)
                 sub.l   a1,d0
-                addi.l  #frontbufferPlaneOffset,d0
+                addi.l  #frontbufferMaskBuffer,d0
                 move.l  d0,(a3)
                 move.w  d3,d0
                 lsl.w   #2,d0
@@ -7696,7 +7662,7 @@ tail_pass_wait_and_setup:
                 move.l  d6,d0
                 move.l  d0,4(a3)
                 sub.l   a1,d0
-                addi.l  #frontbufferPlaneOffset,d0
+                addi.l  #frontbufferMaskBuffer,d0
                 move.l  d0,(a3)
                 lsr.w   #1,d7
                 move.w  d4,d0
@@ -7764,7 +7730,7 @@ savedSrcPlaneA:
                 dc.l 0
 branch_linked_planes:
                 movea.l (spriteBlitQueue).l,a3
-                movea.l (g_frontbufferBase).l,a1
+                movea.l (frontbufferBasePtr).l,a1
                 move.w  $C(a0),d3
 reload_height:
                 move.w  $C(a0),d3
@@ -7846,7 +7812,7 @@ compute_dest_ptrs:
                 move.l  d0,$54(a6)
                 move.l  d0,4(a3)
                 sub.l   a1,d0
-                addi.l  #frontbufferPlaneOffset,d0
+                addi.l  #frontbufferMaskBuffer,d0
                 move.l  d0,(a3)
                 lsl.w   #2,d3
                 lsl.w   #6,d3
@@ -7895,7 +7861,7 @@ wait_blitter_idle_tail:
                 move.l  d6,$54(a6)
                 move.w  d4,$58(a6)
                 sub.l   a1,d6
-                addi.l  #frontbufferPlaneOffset,d6
+                addi.l  #frontbufferMaskBuffer,d6
                 move.l  d6,(a3)
                 move.w  -4(a3),8(a3)
                 move.w  d4,$A(a3)
@@ -7957,8 +7923,8 @@ _104B6C_wait_blitter_idle:
                 move.w  #$9F0,$40(a6)
                 move.w  #4,$64(a6)
                 clr.w   $66(a6)
-                movea.l (plane0WritePtr).l,a4
-                movea.l (plane1WritePtr).l,a5
+                movea.l (bitPlane0BasePtr).l,a4
+                movea.l (bitPlane1BasePtr).l,a5
                 movea.l (dword_2C044).l,a3
 draw_loop_planes01:
                 cmpa.l  #plane01RenderStackBase,a3
@@ -7979,8 +7945,8 @@ blit_entry_planes01:
 seal_planes01:
                 move.l  (copperZeroLong).l,(a4)
                 move.l  (copperZeroLong).l,(a5)
-                movea.l (plane2WritePtr).l,a4
-                movea.l (plane3WritePtr).l,a5
+                movea.l (bitPlane2BasePtr).l,a4
+                movea.l (bitPlane3BasePtr).l,a5
                 movea.l (plane23RenderStackPtr).l,a3
 draw_loop_planes23:
                 cmpa.l  #plane23RenderStackBase,a3
@@ -8118,7 +8084,7 @@ loop_next_sorted_sprite:
                 movea.l -(a2),a1
                 move.w  $46(a1),d0
                 bmi.w   dec_and_loop
-                movea.l (g_spriteGraphicsPtr).l,a0
+                movea.l (spriteGraphicsPtr).l,a0
                 lsl.w   #2,d0
                 movea.l (a0,d0.w),a0
                 move.w  $1E(a1),d1
@@ -8244,7 +8210,7 @@ occlMinYBucketsActive:
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
                 dc.b $00,$00,$00,$00
 padding_37:
-                dc.b $77,$77
+                dc.b 119,119
 
 ; ===== InitDisplaySprites =====
 ; prototype: void __usercall InitDisplaySprites()
@@ -8383,7 +8349,7 @@ ConvertSpriteColors:
                 tst.w   (a0)
                 beq.w   loc_105110
                 movea.l a0,a1
-                movea.l (g_spriteGraphicsPtr).l,a0
+                movea.l (spriteGraphicsPtr).l,a0
                 lsl.w   #2,d0
                 movea.l (a0,d0.w),a0
                 move.w  SPRITEGRAPHICS_WQUADS(a0),d0
@@ -8459,7 +8425,7 @@ dword_10510C:
                 dc.l 0
 loc_105110:
                 movea.l a0,a1
-                movea.l (g_spriteGraphicsPtr).l,a0
+                movea.l (spriteGraphicsPtr).l,a0
                 lsl.w   #2,d0
                 movea.l (a0,d0.w),a0
                 move.w  $E(a0),d0
@@ -8549,7 +8515,7 @@ RectRowMaskedApplyScreenOffset:
 ; ===== FillRectangle =====
 ; prototype: void __usercall FillRectangle()
 FillRectangle:
-                movea.l (g_frontbufferBase).l,a0
+                movea.l (frontbufferBasePtr).l,a0
                 add.w   (cameraXMod320).l,d0
                 add.w   (cameraYMod320).l,d1
                 cmpi.w  #272,d1
@@ -8596,7 +8562,7 @@ GetTextWidth:
                 move.w  CHARTABLE_CHARSPACING(a5),d5
                 lea     CHARTABLE_CONVERSIONTABLE(a5),a3
                 clr.w   d7
-                movea.l (g_spriteGraphicsPtr).l,a2
+                movea.l (spriteGraphicsPtr).l,a2
 _105260_string_loop:
                 move.b  (a0)+,d0
                 beq.s   _105292_done
@@ -8637,7 +8603,7 @@ DrawMenuText:
                 move.w  CHARTABLE_SPRITEINDEXOFFSET(a5),d4
                 move.w  CHARTABLE_CHARSPACING(a5),d5
                 lea     CHARTABLE_CONVERSIONTABLE(a5),a3
-                movea.l (g_spriteGraphicsPtr).l,a2
+                movea.l (spriteGraphicsPtr).l,a2
                 move.w  #336,d6
 next_char_loop:
                 move.b  (a0)+,d0
@@ -8742,7 +8708,7 @@ Text2Sprite:
                 bsr.w   GetTextWidth
                 movem.l (sp)+,d1-d4/a0-a1
                 add.w   d1,d7
-                movea.l (g_spriteGraphicsPtr).l,a2
+                movea.l (spriteGraphicsPtr).l,a2
                 move.w  d4,d0
                 lsl.w   #2,d0
                 movea.l (a2,d0.w),a2
@@ -8752,7 +8718,7 @@ Text2Sprite:
                 move.w  CHARTABLE_SPRITEINDEXOFFSET(a5),d6
                 move.w  CHARTABLE_CHARSPACING(a5),d5
                 lea     14(a5),a3
-                movea.l (g_spriteGraphicsPtr).l,a2
+                movea.l (spriteGraphicsPtr).l,a2
 _105368_string_loop:
                 move.b  (a0)+,d0
                 beq.s   string_done
@@ -8795,12 +8761,12 @@ text_out_of_bounds:
 ; prototype: void __usercall BlitStringToFrontBuffer(unsigned __int16 spriteIndex@<d0>, unsigned __int16 x@<d1>, unsigned __int16 y@<d2>, unsigned __int16 planeMask@<d3>)
 BlitStringToFrontBuffer:
                 move.w  d3,(textBlitPlaneMask).l
-                movea.l (g_spriteGraphicsPtr).l,a0
+                movea.l (spriteGraphicsPtr).l,a0
                 lsl.w   #2,d0
                 movea.l (a0,d0.w),a0
                 tst.w   8(a0)
                 bne.w   panic_bad_font_or_params
-                movea.l (g_frontbufferBase).l,a1
+                movea.l (frontbufferBasePtr).l,a1
                 move.w  $C(a0),d3
                 add.w   (cameraXMod320).l,d1
                 add.w   (cameraYMod320).l,d2
@@ -8978,12 +8944,12 @@ blitSrcB_GlyphPtr:
 ; prototype: void __usercall BlitGlyphToSpriteBitmap(unsigned __int16 glyphIndex@<d0>, unsigned __int16 xOff@<d1>, unsigned __int16 yOff@<d2>, unsigned __int16 planeMask@<d3>, unsigned __int16 dstSpriteIndex@<d4>)
 BlitGlyphToSpriteBitmap:
                 move.w  d3,(glyphBlitPlaneMask).l
-                movea.l (g_spriteGraphicsPtr).l,a0
+                movea.l (spriteGraphicsPtr).l,a0
                 lsl.w   #2,d0
                 movea.l (a0,d0.w),a0
                 tst.w   8(a0)
                 bne.w   panic_bad_glyph_header
-                movea.l (g_spriteGraphicsPtr).l,a1
+                movea.l (spriteGraphicsPtr).l,a1
                 lsl.w   #2,d4
                 movea.l (a1,d4.w),a1
                 move.w  $E(a1),d0
@@ -9153,16 +9119,16 @@ g_assetLoaderWorkPtr:
 g_assetLoaderAltPathReady:
                 dc.w $0000
 
-; ===== InitDiskImageSources =====
-; prototype: void __usercall InitDiskImageSources()
-InitDiskImageSources:
+; ===== AssetSys_InitDiskImageSources =====
+; prototype: void __usercall AssetSys_InitDiskImageSources()
+AssetSys_InitDiskImageSources:
                 lea     (byte_D6A6).l,a0
                 lea     aSwos4Dk1(pc),a1 ; "swos4.dk1"
                 lea     aSwos4Dk2(pc),a2 ; "swos4.dk2"
                 lea     aGrafsDisk2Raw(pc),a3 ; "grafs/disk2.raw"
                 lea     aSwos4Dku(pc),a4 ; "swos4.dku"
-                move.w  #0,d7
-                jsr AssetSysDispatch(pc)
+                move.w  #ASSET_OP_INIT_CONTEXT,d7
+                jsr AssetSys_Dispatch(pc)
                 jsr     InstallAndInitLoaderBootstrap
                 rts
 
@@ -9171,8 +9137,8 @@ InitDiskImageSources:
 LoadRNCToBufferNoBlit:
                 movem.l d2-d7/a0-a6,-(sp)
                 movea.l a1,a6
-                move.w  #2,d7
-                jsr AssetSysDispatch(pc)
+                move.w  #ASSET_OP_LOAD_FILE,d7
+                jsr AssetSys_Dispatch(pc)
                 bne.s   read_failed_retry_or_exit
                 cmpi.l  #$524E4301,(a6)
                 bne.w   loc_105940
@@ -9180,7 +9146,7 @@ LoadRNCToBufferNoBlit:
                 movea.l a6,a0
                 movea.l a6,a1
                 movem.l d1,-(sp)
-                jsr     DecompressRNCHeader01
+                jsr     RncDecompressV1
                 movem.l (sp)+,d1
                 clr.w   d0
 done_restore_regs:
@@ -9191,7 +9157,7 @@ read_failed_retry_or_exit:
                 beq.s   done_restore_regs
                 movem.l (sp)+,d2-d7/a0-a6
                 movem.l d0-d1,-(sp)
-                move.w  #$31,d1         ; '1'
+                move.w  #49,d1
 retry_delay_outer:
                 move.w  (currentGameTick).l,d0
 retry_wait_for_tick:
@@ -9223,20 +9189,20 @@ LoadFile:
                 movem.l d2-d7/a0-a6,-(sp)
                 cmpi.w  #4,(g_assetCurrentIndex).l
                 bne.s   stage_in_frontbuffer
-                move.w  #2,d7
-                jsr AssetSysDispatch(pc)
-                bra.w   restore_regs_and_rts
+                move.w  #ASSET_OP_LOAD_FILE,d7
+                jsr AssetSys_Dispatch(pc)
+                bra.w   load_file_restore_regs_and_rts
 stage_in_frontbuffer:
                 movea.l a1,a6
-                movea.l (g_frontbufferBase).l,a1
+                movea.l (frontbufferBasePtr).l,a1
                 tst.l   (g_assetLoaderCacheFlag).l
                 beq.s   try_open_or_use_cached
                 bsr.w   AssetCacheCopyByName
                 beq.s   size_check_and_decode
 try_open_or_use_cached:
-                move.w  #2,d7
-                jsr AssetSysDispatch(pc)
-                bne.w   read_failed_retry_with_delay
+                move.w  #ASSET_OP_LOAD_FILE,d7
+                jsr AssetSys_Dispatch(pc)
+                bne.w   load_file_read_failed_retry
                 tst.l   (g_assetLoaderCacheFlag).l
                 beq.s   size_check_and_decode
                 tst.w   (g_assetLoaderAltPathReady).l
@@ -9245,7 +9211,7 @@ try_open_or_use_cached:
 size_check_and_decode:
                 cmpi.l  #$BBB0,d1
                 bhi.w   fatal_image_too_large
-                movea.l (g_frontbufferBase).l,a0
+                movea.l (frontbufferBasePtr).l,a0
                 cmpi.l  #$524E4301,(a0)
                 beq.s   decode_rnc_type1
                 cmpi.l  #$524E4302,(a0)
@@ -9253,14 +9219,14 @@ size_check_and_decode:
                 move.l  4(a0),d1
                 movea.l a6,a1
                 movem.l d1,-(sp)
-                jsr     DecompressRNCHeader02
+                jsr     RncDecompressV2
                 movem.l (sp)+,d1
                 bra.s   post_load_blit_overlay
 decode_rnc_type1:
                 move.l  4(a0),d1
                 movea.l a6,a1
                 movem.l d1,-(sp)
-                jsr     DecompressRNCHeader01
+                jsr     RncDecompressV1
                 movem.l (sp)+,d1
                 bra.s   post_load_blit_overlay
 copy_raw_from_frontbuffer:
@@ -9274,21 +9240,21 @@ post_load_blit_overlay:
                 jsr BlitterCopyOverlayToScreen(pc)
                 movem.l (sp)+,d1
                 clr.w   d0
-restore_regs_and_rts:
+load_file_restore_regs_and_rts:
                 movem.l (sp)+,d2-d7/a0-a6
                 rts
-read_failed_retry_with_delay:
+load_file_read_failed_retry:
                 cmpi.w  #4,(g_assetCurrentIndex).l
-                beq.s   restore_regs_and_rts
+                beq.s   load_file_restore_regs_and_rts
                 movem.l (sp)+,d2-d7/a0-a6
                 movem.l d0-d1,-(sp)
-                move.w  #$31,d1         ; '1'
-retry_delay_outer_loop:
+                move.w  #FPS_50HZ,d1
+load_file_retry_delay_outer_loop:
                 move.w  (currentGameTick).l,d0
-retry_delay_wait_tick:
+load_file_retry_delay_wait_tick:
                 cmp.w   (currentGameTick).l,d0
-                beq.s   retry_delay_wait_tick
-                dbf     d1,retry_delay_outer_loop
+                beq.s   load_file_retry_delay_wait_tick
+                dbf     d1,load_file_retry_delay_outer_loop
                 movem.l (sp)+,d0-d1
                 bra.w   LoadFile
 fatal_image_too_large:
@@ -9300,41 +9266,41 @@ fatal_image_too_large:
 PlaySong:
                 movem.l d2-d7/a0-a6,-(sp)
                 cmpi.w  #4,(g_assetCurrentIndex).l
-                bne.s   loc_105A5C
-                move.w  #2,d7
-                jsr AssetSysDispatch(pc)
-                bra.w   loc_105A8A
-loc_105A5C:
+                bne.s   play_song_use_frontbuffer_path
+                move.w  #ASSET_OP_LOAD_FILE,d7
+                jsr AssetSys_Dispatch(pc)
+                bra.w   play_song_restore_regs_and_return
+play_song_use_frontbuffer_path:
                 tst.l   (g_assetLoaderCacheFlag).l
-                beq.s   loc_105A6A
+                beq.s   play_song_try_cache_or_load
                 bsr.w   AssetCacheCopyByName
-                beq.s   loc_105A88
-loc_105A6A:
-                move.w  #2,d7
-                jsr AssetSysDispatch(pc)
-                bne.s   loc_105A90
+                beq.s   play_song_success_clear_d0
+play_song_try_cache_or_load:
+                move.w  #ASSET_OP_LOAD_FILE,d7
+                jsr AssetSys_Dispatch(pc)
+                bne.s   play_song_retry_on_error
                 tst.l   (g_assetLoaderCacheFlag).l
-                beq.s   loc_105A88
+                beq.s   play_song_success_clear_d0
                 tst.w   (g_assetLoaderAltPathReady).l
-                beq.s   loc_105A88
+                beq.s   play_song_success_clear_d0
                 bsr.w   AssetCacheStoreFromMemory
-loc_105A88:
+play_song_success_clear_d0:
                 clr.w   d0
-loc_105A8A:
+play_song_restore_regs_and_return:
                 movem.l (sp)+,d2-d7/a0-a6
                 rts
-loc_105A90:
+play_song_retry_on_error:
                 cmpi.w  #4,(g_assetCurrentIndex).l
-                beq.s   loc_105A8A
+                beq.s   play_song_restore_regs_and_return
                 movem.l (sp)+,d2-d7/a0-a6
                 movem.l d0-d1,-(sp)
-                move.w  #$31,d1         ; '1'
-loc_105AA6:
+                move.w  #FPS_50HZ,d1
+play_song_retry_delay_outer_loop:
                 move.w  (currentGameTick).l,d0
-loc_105AAC:
+play_song_retry_delay_wait_tick:
                 cmp.w   (currentGameTick).l,d0
-                beq.s   loc_105AAC
-                dbf     d1,loc_105AA6
+                beq.s   play_song_retry_delay_wait_tick
+                dbf     d1,play_song_retry_delay_outer_loop
                 movem.l (sp)+,d0-d1
                 bra.s   PlaySong
 
@@ -9343,68 +9309,68 @@ loc_105AAC:
 AssetEnsureReadyWithRetry:
                 movem.l d2-d7/a0-a6,-(sp)
                 cmpi.w  #4,(g_assetCurrentIndex).l
-                bne.s   loc_105AD8
-                move.w  #2,d7
-                jsr AssetSysDispatch(pc)
-                bra.w   loc_105AF2
-loc_105AD8:
+                bne.s   asset_ensure_use_frontbuffer_path
+                move.w  #ASSET_OP_LOAD_FILE,d7
+                jsr AssetSys_Dispatch(pc)
+                bra.w   asset_ensure_restore_regs_and_return
+asset_ensure_use_frontbuffer_path:
                 tst.l   (g_assetLoaderCacheFlag).l
-                beq.s   loc_105AE6
+                beq.s   asset_ensure_try_cache_or_load
                 bsr.w   AssetCacheCopyByName
-                beq.s   loc_105AF0
-loc_105AE6:
-                move.w  #2,d7
-                jsr AssetSysDispatch(pc)
-                bne.s   loc_105AF8
-loc_105AF0:
+                beq.s   asset_ensure_success_clear_d0
+asset_ensure_try_cache_or_load:
+                move.w  #ASSET_OP_LOAD_FILE,d7
+                jsr AssetSys_Dispatch(pc)
+                bne.s   asset_ensure_retry_on_error
+asset_ensure_success_clear_d0:
                 clr.w   d0
-loc_105AF2:
+asset_ensure_restore_regs_and_return:
                 movem.l (sp)+,d2-d7/a0-a6
                 rts
-loc_105AF8:
+asset_ensure_retry_on_error:
                 cmpi.w  #4,(g_assetCurrentIndex).l
-                beq.s   loc_105AF2
+                beq.s   asset_ensure_restore_regs_and_return
                 movem.l (sp)+,d2-d7/a0-a6
                 movem.l d0-d1,-(sp)
-                move.w  #$31,d1         ; '1'
-loc_105B0E:
+                move.w  #FPS_50HZ,d1
+asset_ensure_retry_delay_outer_loop:
                 move.w  (currentGameTick).l,d0
-loc_105B14:
+asset_ensure_retry_delay_wait_tick:
                 cmp.w   (currentGameTick).l,d0
-                beq.s   loc_105B14
-                dbf     d1,loc_105B0E
+                beq.s   asset_ensure_retry_delay_wait_tick
+                dbf     d1,asset_ensure_retry_delay_outer_loop
                 movem.l (sp)+,d0-d1
                 bra.s   AssetEnsureReadyWithRetry
 
 ; ===== WriteFile =====
 ; prototype: unsigned __int16 __usercall WriteFile@<d0>(const char *filename@<a0>, const void *src@<a1>, unsigned int size@<d1>)
 WriteFile:
-                move.w  #4,d7
-                jsr AssetSysDispatch(pc)
+                move.w  #ASSET_OP_RESOLVE_ASSET_LIST,d7
+                jsr AssetSys_Dispatch(pc)
                 rts
-                move.w  #$C,d7
-                jsr AssetSysDispatch(pc)
+                move.w  #ASSET_OP_QUERY_ASSET_METADATA,d7
+                jsr AssetSys_Dispatch(pc)
                 rts
 
 ; ===== FindFilesExtensionPresent =====
 ; prototype: unsigned __int16 __usercall FindFilesExtensionPresent@<d0>(const char *ext@<a0>)
 FindFilesExtensionPresent:
-                move.w  #8,d7
-                jsr AssetSysDispatch(pc)
+                move.w  #ASSET_OP_OPEN_ANY_SOURCE,d7
+                jsr AssetSys_Dispatch(pc)
                 rts
                 dc.w -24063
                 rts
                 cmpa.l  #0,a1
                 beq.w   loc_105B7A
                 movem.l d2-d7/a0-a6,-(sp)
-                bsr.w   sub_105D1A
-                bsr.w   sub_105C8A
+                bsr.w   Loader_CopyNormalizedPath
+                bsr.w   Loader_OpenFileForRead
                 bne.s   loc_105B74
                 movem.l d1,-(sp)
                 moveq   #$FFFFFFFF,d1
-                bsr.w   sub_105BC6
+                bsr.w   Loader_ReadFileChunks
                 movem.l (sp)+,d1
-                bsr.w   sub_105CEE
+                bsr.w   Loader_CloseFile
                 tst.w   d0
 loc_105B74:
                 movem.l (sp)+,d2-d7/a0-a6
@@ -9413,17 +9379,17 @@ loc_105B7A:
                 move.w  #$5590,(panicReasonCode).l
                 jsr PanicHaltLoop(pc)
                 movem.l d1-d7/a0-a6,-(sp)
-                bsr.w   sub_105D1A
-                bsr.w   sub_105CD4
+                bsr.w   Loader_CopyNormalizedPath
+                bsr.w   Loader_OpenFileForWrite
                 bne.w   loc_105BB4
-                bsr.w   sub_105C44
+                bsr.w   Loader_WriteFileChunks
                 bne.s   loc_105BA2
-                bsr.w   sub_105CEE
+                bsr.w   Loader_CloseFile
                 bra.s   loc_105BB2
 loc_105BA2:
-                bsr.w   sub_105CEE
+                bsr.w   Loader_CloseFile
                 movem.l d0,-(sp)
-                bsr.w   sub_105CFE
+                bsr.w   Loader_NormalizePath
                 movem.l (sp)+,d0
 loc_105BB2:
                 tst.w   d0
@@ -9433,9 +9399,9 @@ loc_105BB4:
                 move.w  #$1265,(panicReasonCode).l
                 jsr PanicHaltLoop(pc)
 
-; ===== sub_105BC6 =====
-; prototype: unsigned __int16 __usercall sub_105BC6@<d0>(int param@<d1>, void *buffer@<a1>)
-sub_105BC6:
+; ===== Loader_ReadFileChunks =====
+; prototype: unsigned __int16 __usercall Loader_ReadFileChunks@<d0>(int param@<d1>, void *buffer@<a1>)
+Loader_ReadFileChunks:
                 movem.l d1-d7/a0-a6,-(sp)
                 cmpi.l  #$FFFFFFFF,d1
                 bne.s   loc_105BFC
@@ -9486,9 +9452,9 @@ loc_105C3E:
                 movem.l (sp)+,d1-d7/a0-a6
                 rts
 
-; ===== sub_105C44 =====
-; prototype: unsigned __int16 __usercall sub_105C44@<d0>(unsigned int length@<d1>, void *buffer@<a1>)
-sub_105C44:
+; ===== Loader_WriteFileChunks =====
+; prototype: unsigned __int16 __usercall Loader_WriteFileChunks@<d0>(unsigned int length@<d1>, void *buffer@<a1>)
+Loader_WriteFileChunks:
                 movem.l d1-d7/a0-a6,-(sp)
                 move.l  d1,d3
                 movea.l a1,a0
@@ -9518,11 +9484,11 @@ loc_105C84:
                 movem.l (sp)+,d1-d7/a0-a6
                 rts
 
-; ===== sub_105C8A =====
-; prototype: unsigned __int16 __usercall sub_105C8A@<d0>(const char *path@<a0>)
-sub_105C8A:
+; ===== Loader_OpenFileForRead =====
+; prototype: unsigned __int16 __usercall Loader_OpenFileForRead@<d0>(const char *path@<a0>)
+Loader_OpenFileForRead:
                 movem.l d2-d7/a0-a6,-(sp)
-                bsr.w   sub_105D1A
+                bsr.w   Loader_CopyNormalizedPath
                 clr.w   d1
                 dc.w -24061
                 bne.s   loc_105CBE
@@ -9543,19 +9509,19 @@ sub_105C8A:
 loc_105CBE:
                 movem.l (sp)+,d2-d7/a0-a6
                 rts
-                bsr.w   sub_105D1A
-                bsr.s   sub_105C8A
+                bsr.w   Loader_CopyNormalizedPath
+                bsr.s   Loader_OpenFileForRead
                 bne.s   locret_105CD2
-                bsr.w   sub_105CEE
+                bsr.w   Loader_CloseFile
                 tst.w   d0
 locret_105CD2:
                 rts
 
-; ===== sub_105CD4 =====
-; prototype: unsigned __int16 __usercall sub_105CD4@<d0>(const char *path@<a0>)
-sub_105CD4:
+; ===== Loader_OpenFileForWrite =====
+; prototype: unsigned __int16 __usercall Loader_OpenFileForWrite@<d0>(const char *path@<a0>)
+Loader_OpenFileForWrite:
                 movem.l d1-d7/a0-a6,-(sp)
-                bsr.w   sub_105D1A
+                bsr.w   Loader_CopyNormalizedPath
                 clr.w   d1
                 dc.w -24062
                 move.w  d1,(dstRowAdvanceBytes+4).l
@@ -9563,34 +9529,34 @@ sub_105CD4:
                 movem.l (sp)+,d1-d7/a0-a6
                 rts
 
-; ===== sub_105CEE =====
-; prototype: unsigned __int16 __usercall sub_105CEE@<d0>()
-sub_105CEE:
+; ===== Loader_CloseFile =====
+; prototype: unsigned __int16 __usercall Loader_CloseFile@<d0>()
+Loader_CloseFile:
                 movem.l d0-d7/a0-a6,-(sp)
                 move.w  dstRowAdvanceBytes+4(pc),d1
                 dc.w -24060
                 movem.l (sp)+,d0-d7/a0-a6
                 rts
 
-; ===== sub_105CFE =====
-; prototype: void __usercall sub_105CFE(const char *path@<a0>)
-sub_105CFE:
+; ===== Loader_NormalizePath =====
+; prototype: void __usercall Loader_NormalizePath(const char *path@<a0>)
+Loader_NormalizePath:
                 movem.l d1-d7/a0-a6,-(sp)
-                bsr.w   sub_105D1A
+                bsr.w   Loader_CopyNormalizedPath
                 movem.l (sp)+,d1-d7/a0-a6
                 rts
 
-; ===== sub_105D0C =====
-; prototype: void __usercall sub_105D0C(const char *path@<a0>)
-sub_105D0C:
+; ===== Loader_NormalizePath2 =====
+; prototype: void __usercall Loader_NormalizePath2(const char *path@<a0>)
+Loader_NormalizePath2:
                 movem.l d1-d7/a0-a6,-(sp)
-                bsr.w   sub_105D1A
+                bsr.w   Loader_CopyNormalizedPath
                 movem.l (sp)+,d1-d7/a0-a6
                 rts
 
-; ===== sub_105D1A =====
-; prototype: const char *__usercall sub_105D1A@<a0>(const char *path@<a0>)
-sub_105D1A:
+; ===== Loader_CopyNormalizedPath =====
+; prototype: const char *__usercall Loader_CopyNormalizedPath@<a0>(const char *path@<a0>)
+Loader_CopyNormalizedPath:
                 move.l  a1,-(sp)
                 lea     (dstRowAdvanceBytes+6)(pc),a1
 loc_105D20:
@@ -9616,13 +9582,13 @@ wait_for_asset_service_op3_idle:
                 bne.s   wait_for_asset_service_op3_idle
                 lea     (LoaderBootstrapBlobPI).l,a0
                 lea     (g_currentMenu).l,a1
-                move.w  #$8B1,d0
+                move.w  #2225,d0
 _105D60_copy_bootstrap_blob_to_exec_loop:
                 move.b  (a0)+,(a1)+
                 dbf     d0,_105D60_copy_bootstrap_blob_to_exec_loop
                 move    sr,-(sp)
                 lea     g_assetIndexStartBytes(pc),a0
-                move.b  g_assetParamBlock-g_assetIndexStartBytes(a0),d0
+                move.b  2(a0),d0
                 ext.w   d0
                 clr.w   d1
                 lea     (g_irqCookieObfuscated).l,a3
@@ -9646,7 +9612,7 @@ wait_for_asset_service_idle:
                 bne.s   wait_for_asset_service_idle
                 lea     (LoaderBootstrapBlobPI).l,a0
                 lea     (g_currentMenu).l,a1
-                move.w  #$8B1,d0
+                move.w  #2225,d0
 _105DC6_copy_bootstrap_blob_to_exec_loop:
                 move.b  (a0)+,(a1)+
                 dbf     d0,_105DC6_copy_bootstrap_blob_to_exec_loop
@@ -9813,8 +9779,8 @@ LoaderBootstrapBlobPI:
 AssetSvcLoaderOp:
                 movem.l d2-d7/a0-a6,-(sp)
                 move.w  #1,d0
-                move.w  #$E,d7
-                jsr AssetSysDispatch(pc)
+                move.w  #ASSET_OP_SERVICE_LOADER,d7
+                jsr AssetSys_Dispatch(pc)
                 movem.l (sp)+,d2-d7/a0-a6
                 rts
 
@@ -9823,8 +9789,8 @@ AssetSvcLoaderOp:
 AssetSvcLoaderOp2:
                 movem.l d2-d7/a0-a6,-(sp)
                 move.w  #2,d0
-                move.w  #$E,d7
-                jsr AssetSysDispatch(pc)
+                move.w  #ASSET_OP_SERVICE_LOADER,d7
+                jsr AssetSys_Dispatch(pc)
                 movem.l (sp)+,d2-d7/a0-a6
                 rts
 
@@ -9833,8 +9799,8 @@ AssetSvcLoaderOp2:
 AssetSvcLoaderOp3:
                 movem.l d2-d7/a0-a6,-(sp)
                 move.w  #3,d0
-                move.w  #$E,d7
-                jsr AssetSysDispatch(pc)
+                move.w  #ASSET_OP_SERVICE_LOADER,d7
+                jsr AssetSys_Dispatch(pc)
                 movem.l (sp)+,d2-d7/a0-a6
                 rts
 
@@ -9853,30 +9819,30 @@ AssetLoaderInitAltPathAndBanks:
                 lea     (surnameBuf).l,a0
                 move.l  #0,d0
                 bsr.w   AssetLoaderRegisterRegion
-                lea     (byte_CF13E).l,a0
-                move.l  #byte_2F9B8,d0
+                lea     (g_assetLoaderMainRegion).l,a0
+                move.l  #195000,d0
                 bsr.w   AssetLoaderRegisterRegion
                 cmpi.l  #j_start,(g_loaderMemTop).l
-                bls.s   locret_106786
-                move.l  #byte_80000,d0
+                bls.s   asset_loader_done
+                move.l  #$80000,d0
                 move.l  (g_loaderBankBitmap).l,d1
                 move.w  #1,d2
-                lea     (byte_80000).l,a0
+                lea     (g_assetLoaderBank0Base).l,a0
 bank_scan_loop:
                 btst    d2,d1
                 beq.s   skip_or_advance_bank
                 cmpa.l  #j_start,a0
                 beq.s   skip_or_advance_bank
-                cmpa.l  #byte_80000,a0
+                cmpa.l  #$80000,a0
                 beq.s   skip_or_advance_bank
-                move.l  #byte_80000,d0
+                move.l  #$80000,d0
                 bsr.w   AssetLoaderRegisterRegion
 skip_or_advance_bank:
-                adda.l  #byte_80000,a0
+                adda.l  #$80000,a0
                 addq.w  #1,d2
-                cmpi.w  #$20,d2         ; ' '
+                cmpi.w  #32,d2
                 bne.s   bank_scan_loop
-locret_106786:
+asset_loader_done:
                 rts
 
 ; ===== AssetLoaderRegisterRegion =====
@@ -9885,7 +9851,7 @@ AssetLoaderRegisterRegion:
                 movem.l d0-d7/a0-a6,-(sp)
                 btst    #0,d0
                 bne.w   loc_1067D2
-                subi.l  #$30,d0         ; '0'
+                subi.l  #48,d0
                 ble.s   loc_1067CC
                 add.l   d0,(g_assetLoaderWorkPtr).l
                 movea.l g_assetLoaderCacheFlag(pc),a5
@@ -9934,14 +9900,14 @@ check_next_node_or_bail:
 block_fits_here:
                 move.l  6(a5),d2
                 sub.l   d1,d2
-                subi.l  #$30,d2         ; '0'
+                subi.l  #48,d2
                 move.l  d1,6(a5)
-                move.l  d0,$A(a5)
+                move.l  d0,10(a5)
                 clr.w   4(a5)
                 tst.l   d2
                 bmi.s   commit_allocation
                 movea.l a5,a6
-                adda.l  #$30,a6         ; '0'
+                adda.l  #48,a6
                 adda.l  d1,a6
                 move.l  (a5),(a6)
                 move.l  a6,(a5)
@@ -9968,7 +9934,7 @@ AssetCacheFindByName:
 scan_nodes_for_match:
                 tst.w   4(a3)
                 bne.s   advance_to_next_node
-                lea     $E(a3),a2
+                lea     14(a3),a2
                 movea.l a0,a1
 name_cmp_loop:
                 move.b  (a1)+,d0
@@ -9976,8 +9942,8 @@ name_cmp_loop:
                 bne.s   advance_to_next_node
                 tst.b   -1(a1)
                 bne.s   name_cmp_loop
-                lea     $30(a3),a0
-                move.l  $A(a3),d0
+                lea     48(a3),a0
+                move.l  10(a3),d0
                 movem.l (sp)+,d1-d7/a1-a6
                 rts
 advance_to_next_node:
@@ -10006,7 +9972,7 @@ AssetCacheCopyByName:
                 move.l  a0,d2
                 btst    #0,d2
                 bne.s   copy_byte_loop
-                cmpi.l  #byte_20000,d0
+                cmpi.l  #$20000,d0
                 bhi.s   copy_byte_loop
                 lsr.l   #1,d0
                 subq.w  #1,d0
@@ -10032,19 +9998,19 @@ name_not_found_return:
 AssetCacheLoadFromAssetSys:
                 movem.l d1-d7/a0-a6,-(sp)
                 movea.l a0,a6
-                move.w  #$C,d7
-                jsr AssetSysDispatch(pc)
+                move.w  #ASSET_OP_QUERY_ASSET_METADATA,d7
+                jsr AssetSys_Dispatch(pc)
                 bne.w   assetsys_failed_return
                 move.l  d1,d0
                 bsr.w   AssetCacheAlloc
                 bne.w   alloc_failed_return
                 movea.l a0,a5
                 movea.l a6,a0
-                lea     $30(a5),a1
-                move.w  #2,d7
-                jsr AssetSysDispatch(pc)
+                lea     48(a5),a1
+                move.w  #ASSET_OP_LOAD_FILE,d7
+                jsr AssetSys_Dispatch(pc)
                 bne.w   assetsys_failed_return
-                lea     $E(a5),a0
+                lea     14(a5),a0
 _10692C_copy_name_to_node:
                 move.b  (a6)+,(a0)+
                 bne.s   _10692C_copy_name_to_node
@@ -10068,12 +10034,12 @@ AssetCacheStoreFromMemory:
                 move.l  d1,d0
                 bsr.w   AssetCacheAlloc
                 bne.w   return_after_store
-                lea     $30(a0),a2
+                lea     48(a0),a2
 copy_payload_into_node:
                 move.b  (a1)+,(a2)+
                 subq.l  #1,d1
                 bne.s   copy_payload_into_node
-                lea     $E(a0),a0
+                lea     14(a0),a0
 _10696A_copy_name_to_node:
                 move.b  (a6)+,(a0)+
                 bne.s   _10696A_copy_name_to_node
@@ -10081,16 +10047,16 @@ return_after_store:
                 movem.l (sp)+,d0-d7/a0-a6
                 rts
 
-; ===== DecompressRNCHeader02 =====
-; prototype: int __usercall DecompressRNCHeader02@<d0>(void *src@<a0>, void *dst@<a1>, unsigned int expectedSize@<d1>)
-DecompressRNCHeader02:
-                bra.w   sub_106BB0
+; ===== RncDecompressV2 =====
+; prototype: int __usercall RncDecompressV2@<d0>(void *src@<a0>, void *dst@<a1>, unsigned int expectedSize@<d1>)
+RncDecompressV2:
+                bra.w   RncDecodeV2Body
 
-; ===== DecompressRNCHeader01 =====
-; prototype: int __usercall DecompressRNCHeader01@<d0>(void *src@<a0>, void *dst@<a1>, unsigned int expectedSize@<d1>)
-DecompressRNCHeader01:
+; ===== RncDecompressV1 =====
+; prototype: int __usercall RncDecompressV1@<d0>(void *src@<a0>, void *dst@<a1>, unsigned int expectedSize@<d1>)
+RncDecompressV1:
                 clr.l   d0
-                bsr.w   sub_1069A4
+                bsr.w   RncDecodeBlock
                 cmpi.l  #0,d0
                 beq.s   loc_106998
                 cmpi.l  #$FFFFFFFF,d0
@@ -10102,22 +10068,22 @@ loc_106998:
                 move.w  #$E003,(panicReasonCode).l
                 jsr PanicHaltLoop(pc)
 
-; ===== sub_1069A4 =====
-; prototype: int __usercall sub_1069A4@<d0>(void *src@<a0>, void *dst@<a1>)
-sub_1069A4:
+; ===== RncDecodeBlock =====
+; prototype: int __usercall RncDecodeBlock@<d0>(void *src@<a0>, void *dst@<a1>)
+RncDecodeBlock:
                 movem.l d0-d7/a0-a6,-(sp)
                 lea     -$180(sp),sp
                 movea.l sp,a2
-                bsr.w   sub_106B1C
+                bsr.w   RncReadU32
                 moveq   #0,d1
                 cmpi.l  #$524E4301,d0
                 bne.w   loc_106AB4
-                bsr.w   sub_106B1C
+                bsr.w   RncReadU32
                 move.l  d0,$180(sp)
                 lea     $A(a0),a3
                 movea.l a1,a5
                 lea     (a5,d0.l),a6
-                bsr.w   sub_106B1C
+                bsr.w   RncReadU32
                 lea     (a3,d0.l),a4
                 clr.w   -(sp)
                 cmpa.l  a4,a5
@@ -10165,35 +10131,35 @@ loc_106A2A:
                 move.b  (a3),d6
                 moveq   #2,d0
                 moveq   #2,d1
-                bsr.w   sub_106AF8
+                bsr.w   RncGetBits
 loc_106A3C:
                 movea.l a2,a0
-                bsr.w   sub_106B28
+                bsr.w   RncBuildTable
                 lea     $80(a2),a0
-                bsr.w   sub_106B28
+                bsr.w   RncBuildTable
                 lea     $100(a2),a0
-                bsr.w   sub_106B28
+                bsr.w   RncBuildTable
                 moveq   #$FFFFFFFF,d0
                 moveq   #$10,d1
-                bsr.w   sub_106AF8
+                bsr.w   RncGetBits
                 move.w  d0,d4
                 subq.w  #1,d4
                 bra.s   loc_106A7C
 loc_106A60:
                 lea     $80(a2),a0
                 moveq   #0,d0
-                bsr.s   sub_106AC2
+                bsr.s   RncDecodeSymbol
                 neg.l   d0
                 lea     -1(a5,d0.l),a1
                 lea     $100(a2),a0
-                bsr.s   sub_106AC2
+                bsr.s   RncDecodeSymbol
                 move.b  (a1)+,(a5)+
 loc_106A76:
                 move.b  (a1)+,(a5)+
                 dbf     d0,loc_106A76
 loc_106A7C:
                 movea.l a2,a0
-                bsr.s   sub_106AC2
+                bsr.s   RncDecodeSymbol
                 subq.w  #1,d0
                 bmi.s   loc_106A9E
 loc_106A84:
@@ -10228,17 +10194,17 @@ loc_106AB8:
                 movem.l (sp)+,d0-d7/a0-a6
                 rts
 
-; ===== sub_106AC2 =====
-; prototype: int __usercall sub_106AC2@<d0>(void *tab@<a0>)
-sub_106AC2:
+; ===== RncDecodeSymbol =====
+; prototype: int __usercall RncDecodeSymbol@<d0>(void *tab@<a0>)
+RncDecodeSymbol:
                 move.w  (a0)+,d0
                 and.w   d6,d0
                 sub.w   (a0)+,d0
-                bne.s   sub_106AC2
+                bne.s   RncDecodeSymbol
                 move.b  $3C(a0),d1
                 sub.b   d1,d7
                 bge.s   loc_106AD4
-                bsr.s   sub_106B04
+                bsr.s   RncRefillBits
 loc_106AD4:
                 lsr.l   d1,d6
                 move.b  $3D(a0),d0
@@ -10251,27 +10217,27 @@ loc_106AD4:
                 and.w   d6,d0
                 sub.b   d1,d7
                 bge.s   loc_106AF2
-                bsr.s   sub_106B04
+                bsr.s   RncRefillBits
 loc_106AF2:
                 lsr.l   d1,d6
                 bset    d2,d0
 locret_106AF6:
                 rts
 
-; ===== sub_106AF8 =====
-; prototype: int __usercall sub_106AF8@<d0>(unsigned int mask@<d0>, unsigned int nbits@<d1>)
-sub_106AF8:
+; ===== RncGetBits =====
+; prototype: int __usercall RncGetBits@<d0>(unsigned int mask@<d0>, unsigned int nbits@<d1>)
+RncGetBits:
                 and.w   d6,d0
                 sub.b   d1,d7
                 bge.s   loc_106B00
-                bsr.s   sub_106B04
+                bsr.s   RncRefillBits
 loc_106B00:
                 lsr.l   d1,d6
                 rts
 
-; ===== sub_106B04 =====
-; prototype: void __usercall sub_106B04()
-sub_106B04:
+; ===== RncRefillBits =====
+; prototype: void __usercall RncRefillBits()
+RncRefillBits:
                 add.b   d1,d7
                 lsr.l   d7,d6
                 swap    d6
@@ -10285,9 +10251,9 @@ sub_106B04:
                 sub.b   d1,d7
                 rts
 
-; ===== sub_106B1C =====
-; prototype: unsigned int __usercall sub_106B1C@<d0>(const unsigned __int8 **pp@<a0>)
-sub_106B1C:
+; ===== RncReadU32 =====
+; prototype: unsigned int __usercall RncReadU32@<d0>(const unsigned __int8 **pp@<a0>)
+RncReadU32:
                 moveq   #3,d1
 loc_106B1E:
                 lsl.l   #8,d0
@@ -10295,12 +10261,12 @@ loc_106B1E:
                 dbf     d1,loc_106B1E
                 rts
 
-; ===== sub_106B28 =====
-; prototype: void __usercall sub_106B28(void *outTab@<a0>)
-sub_106B28:
+; ===== RncBuildTable =====
+; prototype: void __usercall RncBuildTable(void *outTab@<a0>)
+RncBuildTable:
                 moveq   #$1F,d0
                 moveq   #5,d1
-                bsr.s   sub_106AF8
+                bsr.s   RncGetBits
                 subq.w  #1,d0
                 bmi.s   locret_106BAE
                 move.w  d0,d2
@@ -10310,7 +10276,7 @@ sub_106B28:
 loc_106B3C:
                 moveq   #$F,d0
                 moveq   #4,d1
-                bsr.s   sub_106AF8
+                bsr.s   RncGetBits
                 move.b  d0,(a1)+
                 dbf     d2,loc_106B3C
                 moveq   #1,d0
@@ -10361,9 +10327,9 @@ loc_106B98:
 locret_106BAE:
                 rts
 
-; ===== sub_106BB0 =====
-; prototype: void __usercall sub_106BB0(void *src@<a0>, void *dst@<a1>)
-sub_106BB0:
+; ===== RncDecodeV2Body =====
+; prototype: void __usercall RncDecodeV2Body(void *src@<a0>, void *dst@<a1>)
+RncDecodeV2Body:
                 movem.l d0-d2/a0-a2,-(sp)
                 lea     $12(a0),a0
                 moveq   #$FFFFFF80,d2
@@ -10579,7 +10545,7 @@ g_crowdChantsOn:
 cameraMoveToShowerLatch:
                 dc.w -1
 padding_02:
-                dc.b $00,$00
+                dc.b 0,0
 lastKickSampleTick:
                 dc.w -1
 audioDbgFlagA:
@@ -10591,7 +10557,7 @@ g_audioActive:
 g_audioBankLoaded:
                 dc.w $0000
 padding_04:
-                dc.b $00,$00
+                dc.b 0,0
 
 ; ===== CrowdResetMatchState =====
 ; prototype: void __usercall CrowdResetMatchState()
@@ -10703,7 +10669,7 @@ crowd_fadein_tick:
 _106EA4_exit_rts:
                 rts
 crowdSamples:
-                dc.w 55,56,58,62
+                dc.w $0037,$0038,$003A,$003E
 currentCrowdSample:
                 dc.w $0000
 fadeInChantTimer:
@@ -11127,9 +11093,9 @@ PlaySample4:
                 move.w  #4,d0
                 bra.w   PlaySample
 
-; ===== sub_107322 =====
-; prototype: void __usercall sub_107322()
-sub_107322:
+; ===== PlaySample5 =====
+; prototype: void __usercall PlaySample5()
+PlaySample5:
                 tst.w   (g_trainingGame).l
                 beq.s   loc_10732C
                 rts
@@ -11169,7 +11135,7 @@ PlayGameStateWhistleSample:
                 beq.s   check_and_play_whistle
                 rts
 check_and_play_whistle:
-                cmpi.w  #$E,(gameState).l
+                cmpi.w  #ST_PENALTY,(gameState).l
                 bne.s   whistle_play_sample6
                 tst.w   (sfxQueueWriteIdx).l
                 bne.s   queue_game_state_whistle
@@ -11287,7 +11253,7 @@ SetVolumeOrStopChants:
 ; prototype: void __usercall StopAudio()
 StopAudio:
                 bra.w   StopAllAudioChannels
-                bra.w   sub_10760C
+                bra.w   AudioSetMode
 aCodedByAndiSmi:
                 dc.b 'CODED BY ANDI SMITHERS, VECTORDEAN (C) MILLENNIUM 1992',0,$00
 
@@ -11413,9 +11379,9 @@ audio_setvol_return:
                 movem.l (sp)+,d0-d1/a0/a5
                 rts
 
-; ===== sub_10760C =====
-; prototype: void __usercall sub_10760C(unsigned int modeFlags@<d0>)
-sub_10760C:
+; ===== AudioSetMode =====
+; prototype: void __usercall AudioSetMode(unsigned int modeFlags@<d0>)
+AudioSetMode:
                 movem.l d0/a5,-(sp)
                 lea     audioState(pc),a5
                 andi.w  #$F,d0
@@ -11577,7 +11543,7 @@ AudioIRQServiceOneChannel:
                 bsr.w   AudioIRQEnableDMAIfStartFlag2
                 bsr.w   AudioIRQRunChannelScriptStep
                 bsr.w   AudioIRQRunModCommandStream
-                bsr.w   sub_107C76
+                bsr.w   AudioIRQServiceVolume
                 bsr.w   AudioIRQLFOAndPitchSlide
                 rts
 audioirq_check_start_or_continue:
@@ -11677,7 +11643,7 @@ AudioIRQScriptCmdJumpTable:
                 bra.s   audioirq_cmd_set_env_params
                 bra.s   audioirq_skip_note_init_if_active
 audioirq_cmd_init_instrument_or_noteparams:
-                bsr.w   sub_107A30
+                bsr.w   AudioIRQInitVolumeEnvForNote
                 bra.s   audioirq_skip_note_init_if_active
 audioirq_cmd_set_step_period:
                 move.b  (a1)+,$56(a0)
@@ -11688,7 +11654,7 @@ audioirq_cmd_set_repeat_period:
 audioirq_cmd_set_variant_if_nonzero:
                 move.b  (a1)+,d0
                 beq.s   loc_1078BA
-                bsr.w   sub_107B12
+                bsr.w   AudioIRQSelectVariant
 loc_1078BA:
                 bra.s   audioirq_fetch_cmd_byte
 audioirq_cmd_set_volume_scale:
@@ -11743,8 +11709,8 @@ audioirq_track_end_disable_channel:
 ; prototype: void __usercall AudioIRQUpdateBeepVoiceParams(void *chan@<a0>)
 AudioIRQUpdateBeepVoiceParams:
                 movea.l (a0),a2
-                bsr.s   sub_10799E
-                bsr.s   sub_10796C
+                bsr.s   AudioIRQBeepVolumeEnvStep
+                bsr.s   AudioIRQBeepVolumeLfoStep
                 bsr.s   AudioIRQApplyBeepVolumeAndWriteAUDxVOL
                 rts
 
@@ -11768,9 +11734,9 @@ write_beep_vol_to_AUDxVOL:
                 move.w  d0,8(a2)
                 rts
 
-; ===== sub_10796C =====
-; prototype: void __usercall sub_10796C(void *chan@<a0>)
-sub_10796C:
+; ===== AudioIRQBeepVolumeLfoStep =====
+; prototype: void __usercall AudioIRQBeepVolumeLfoStep(void *chan@<a0>)
+AudioIRQBeepVolumeLfoStep:
                 move.l  $C(a0),d0
                 beq.s   locret_10799C
                 movea.l d0,a1
@@ -11791,9 +11757,9 @@ loc_107998:
 locret_10799C:
                 rts
 
-; ===== sub_10799E =====
-; prototype: void __usercall sub_10799E(void *chan@<a0>)
-sub_10799E:
+; ===== AudioIRQBeepVolumeEnvStep =====
+; prototype: void __usercall AudioIRQBeepVolumeEnvStep(void *chan@<a0>)
+AudioIRQBeepVolumeEnvStep:
                 tst.b   $3A(a0)
                 beq.s   loc_1079E6
                 move.w  #$FF,d2
@@ -11848,9 +11814,9 @@ loc_107A08:
                 move.b  #2,$3A(a0)
                 rts
 
-; ===== sub_107A30 =====
-; prototype: void __usercall sub_107A30(void *chan@<a0>)
-sub_107A30:
+; ===== AudioIRQInitVolumeEnvForNote =====
+; prototype: void __usercall AudioIRQInitVolumeEnvForNote(void *chan@<a0>)
+AudioIRQInitVolumeEnvForNote:
                 movea.l $10(a0),a2
                 moveq   #0,d0
                 move.b  d0,$3E(a0)
@@ -11931,9 +11897,9 @@ AudioIRQNoteOnInitChannel:
                 st      $38(a0)
                 rts
 
-; ===== sub_107B12 =====
-; prototype: void __usercall sub_107B12(unsigned int variantId@<d0>, void *chan@<a0>)
-sub_107B12:
+; ===== AudioIRQSelectVariant =====
+; prototype: void __usercall AudioIRQSelectVariant(unsigned int variantId@<d0>, void *chan@<a0>)
+AudioIRQSelectVariant:
                 cmp.b   $5A(a0),d0
                 bne.s   loc_107B1A
                 rts
@@ -12013,7 +11979,7 @@ AudioIRQRunModCommandStream:
                 bra.s   modcmd_fetch_or_dispatch
 modcmd_indirect_jump:
                 add.b   d0,d0
-                jmp     sub_107C18(pc,d0.w)
+                jmp     AudioIRQDispatchModCommand(pc,d0.w)
 modcmd_fetch_or_dispatch:
                 moveq   #0,d0
                 move.b  (a1)+,d0
@@ -12021,7 +11987,7 @@ modcmd_fetch_or_dispatch:
                 lea     kAmigaNotePeriodTable(pc),a2
                 move.w  (a2,d0.w),d1
                 move.b  $AE(a0),d0
-                bsr.w   sub_107DEE
+                bsr.w   AudioIRQInitPitchEnv
 loc_107C06:
                 move.l  a1,$A6(a0)
                 move.b  $AC(a0),$AD(a0)
@@ -12030,9 +11996,9 @@ modcmd_reload_inner_timer:
 modcmd_ret:
                 rts
 
-; ===== sub_107C18 =====
-; prototype: void __usercall sub_107C18(void *chan@<a0>, unsigned __int8 *stream@<a1>)
-sub_107C18:
+; ===== AudioIRQDispatchModCommand =====
+; prototype: void __usercall AudioIRQDispatchModCommand(void *chan@<a0>, unsigned __int8 *stream@<a1>)
+AudioIRQDispatchModCommand:
                 bra.s   loc_107C66
                 bra.s   loc_107C28
                 bra.s   loc_107C2E
@@ -12042,7 +12008,7 @@ sub_107C18:
                 bra.s   loc_107C4C
                 bra.s   loc_107C06
 loc_107C28:
-                bsr.w   sub_107D6C
+                bsr.w   AudioIRQInitVolumeEnv
                 bra.s   loc_107C06
 loc_107C2E:
                 move.b  (a1)+,$AA(a0)
@@ -12053,7 +12019,7 @@ loc_107C34:
 loc_107C3A:
                 move.b  (a1)+,d0
                 beq.s   loc_107C42
-                bsr.w   sub_107E4E
+                bsr.w   AudioIRQSelectInstrument
 loc_107C42:
                 bra.s   modcmd_fetch_or_dispatch
 loc_107C44:
@@ -12075,12 +12041,12 @@ loc_107C66:
                 bclr    d0,$2C(a5)
                 bra.w   loc_107C06
 
-; ===== sub_107C76 =====
-; prototype: void __usercall sub_107C76(void *chan@<a0>)
-sub_107C76:
+; ===== AudioIRQServiceVolume =====
+; prototype: void __usercall AudioIRQServiceVolume(void *chan@<a0>)
+AudioIRQServiceVolume:
                 movea.l (a0),a2
-                bsr.s   sub_107CDA
-                bsr.s   sub_107CA8
+                bsr.s   AudioIRQVolumeEnvStep
+                bsr.s   AudioIRQVolumeLfoStep
                 bsr.s   AudioIRQApplyVolumeAndWriteAUDxVOL
                 rts
 
@@ -12104,9 +12070,9 @@ write_vol_to_AUDxVOL:
                 move.w  d0,8(a2)
                 rts
 
-; ===== sub_107CA8 =====
-; prototype: void __usercall sub_107CA8(void *chan@<a0>)
-sub_107CA8:
+; ===== AudioIRQVolumeLfoStep =====
+; prototype: void __usercall AudioIRQVolumeLfoStep(void *chan@<a0>)
+AudioIRQVolumeLfoStep:
                 move.l  $64(a0),d0
                 beq.s   locret_107CD8
                 movea.l d0,a1
@@ -12127,9 +12093,9 @@ loc_107CD4:
 locret_107CD8:
                 rts
 
-; ===== sub_107CDA =====
-; prototype: void __usercall sub_107CDA(void *chan@<a0>)
-sub_107CDA:
+; ===== AudioIRQVolumeEnvStep =====
+; prototype: void __usercall AudioIRQVolumeEnvStep(void *chan@<a0>)
+AudioIRQVolumeEnvStep:
                 tst.b   $92(a0)
                 beq.s   loc_107D22
                 move.w  #$FF,d2
@@ -12184,9 +12150,9 @@ loc_107D44:
                 move.b  #2,$92(a0)
                 rts
 
-; ===== sub_107D6C =====
-; prototype: void __usercall sub_107D6C(void *chan@<a0>)
-sub_107D6C:
+; ===== AudioIRQInitVolumeEnv =====
+; prototype: void __usercall AudioIRQInitVolumeEnv(void *chan@<a0>)
+AudioIRQInitVolumeEnv:
                 movea.l $68(a0),a2
                 moveq   #0,d0
                 move.b  d0,$96(a0)
@@ -12237,9 +12203,9 @@ pitchslide_apply_and_store:
                 move.w  d0,6(a2)
                 rts
 
-; ===== sub_107DEE =====
-; prototype: void __usercall sub_107DEE(void *chan@<a0>, unsigned int amigaPeriod@<d1>)
-sub_107DEE:
+; ===== AudioIRQInitPitchEnv =====
+; prototype: void __usercall AudioIRQInitPitchEnv(void *chan@<a0>, unsigned int amigaPeriod@<d1>)
+AudioIRQInitPitchEnv:
                 movea.l $A2(a0),a2
                 move.w  d1,$8C(a0)
                 move.w  d1,$8E(a0)
@@ -12267,9 +12233,9 @@ sub_107DEE:
                 st      $90(a0)
                 rts
 
-; ===== sub_107E4E =====
-; prototype: void __usercall sub_107E4E(void *chan@<a0>, unsigned int amigaPeriod@<d1>)
-sub_107E4E:
+; ===== AudioIRQSelectInstrument =====
+; prototype: void __usercall AudioIRQSelectInstrument(void *chan@<a0>, unsigned int amigaPeriod@<d1>)
+AudioIRQSelectInstrument:
                 cmp.b   $AE(a0),d0
                 bne.s   loc_107E56
                 rts
@@ -13351,7 +13317,7 @@ loc_10950A:
                 cmpi.w  #5,SPRITE_Z(a0)
                 beq.s   loc_109572
                 bhi.w   loc_10951E
-                move.l  #byte_20004,d3
+                move.l  #(frontbufferBaseAlt+$1CAA),d3
                 bra.s   loc_109538
 loc_10951E:
                 move.l  #$FFFEFFFE,d3
@@ -13602,10 +13568,10 @@ loc_109860:
 loc_109878:
                 neg.l   SPRITE_DELTAZ(a0)
                 move.l  d7,SPRITE_Z(a0)
-                addi.l  #kFixedOne_16p16,d6
+                addi.l  #(goalBase+$2292),d6
 loc_109886:
                 movem.l a0,-(sp)
-                bsr.w   sub_107322
+                bsr.w   PlaySample5
                 movem.l (sp)+,a0
                 move.w  SPRITE_SPEED(a0),d0
                 lsr.w   #2,d0
@@ -14079,7 +14045,7 @@ loc_109E64:
                 bra.s   locret_109ED0
 loc_109E8E:
                 move.w  #REF_BOOKING,(refState).l
-                cmpi.w  #2,(whichCard).l
+                cmpi.w  #CARD_RED,(whichCard).l
                 beq.s   loc_109EB6
                 cmpi.w  #CARD_SECOND_YELLOW,(whichCard).l
                 beq.s   loc_109EC2
@@ -14158,7 +14124,7 @@ injury_update_return:
 ; ===== CopyAdvertisementsData =====
 ; prototype: void __usercall CopyAdvertisementsData()
 CopyAdvertisementsData:
-                movea.l (g_spriteGraphicsPtr).l,a2
+                movea.l (spriteGraphicsPtr).l,a2
                 lea     (advert1Pointers).l,a3
                 lea     $1C4(a2),a1
                 move.w  #7,d0
@@ -14294,7 +14260,7 @@ start_slide_pause:
                 move.w  #$28,(advertSlideTimer).l ; '('
 build_ad_strip_loop_entry:
                 lea     (advertInGameSprites).l,a0
-                movea.l (g_spriteGraphicsPtr).l,a2
+                movea.l (spriteGraphicsPtr).l,a2
                 lsl.w   #2,d7
                 lea     (a2,d7.w),a2
                 lsr.w   #2,d7
@@ -14337,11 +14303,11 @@ advertSlideTimer:
 currentAnimatedAdLine:
                 dc.w $0000              ; what line are we drawing of an animated pattern
 advert1Pointers:
-                dc.l 0,0,0,0,0,0,0,0
+                dc.l $00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000
 advert2Pointers:
-                dc.l 0,0,0,0,0,0,0,0
+                dc.l $00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000
 advert3Pointers:
-                dc.l 0,0,0,0,0,0,0,0
+                dc.l $00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000
 blockAdvertisements:
                 dc.w $0000              ; don't animate advertisements if this is true
 
@@ -14546,15 +14512,15 @@ kPaletteTripletPtrs:
                 dc.l paletteTriplet5    ; element[6]
 ; unsigned __int8[84]
 pitchTypeSeasonalProbabilities:
-                dc.b $1E,$14,$1E,$14,$00,$00,$00,$14,$1E,$14,$14,$0A,$00,$00,$0A,$1E
-                dc.b $0A,$1E,$14,$00,$00,$00,$0A,$0A,$1E,$28,$0A,$00,$00,$00,$00,$0A
-                dc.b $28,$28,$0A,$00,$00,$00,$00,$28,$28,$14,$00,$00,$00,$00,$1E,$1E
-                dc.b $28,$00,$00,$00,$00,$32,$1E,$14,$00,$00,$00,$14,$28,$1E,$0A,$00
-                dc.b $14,$00,$28,$1E,$0A,$00,$0A,$1E,$0A,$28,$0A,$00,$00,$14,$1E,$14
-                dc.b $1E,$00,$00,$00
+                dc.b 30,20,30,20,0,0,0,20,30,20,20,10,0,0,10,30
+                dc.b 10,30,20,0,0,0,10,10,30,40,10,0,0,0,0,10
+                dc.b 40,40,10,0,0,0,0,40,40,20,0,0,0,0,30,30
+                dc.b 40,0,0,0,0,50,30,20,0,0,0,20,40,30,10,0
+                dc.b 20,0,40,30,10,0,10,30,10,40,10,0,0,20,30,20
+                dc.b 30,0,0,0
 ; unsigned __int8[8]
 pitchTypeProbabilities:
-                dc.b $05,$05,$0A,$14,$1E,$14,$0A,$00
+                dc.b 5,5,10,20,30,20,10,0
 
 ; ===== InitGameSaveTeams =====
 ; prototype: void __usercall InitGameSaveTeams(void *leftTeamInGame@<a5>, void *rightTeamInGame@<a6>)
@@ -14744,13 +14710,13 @@ init_game_restore_teams_exit:
 ConvertColorsAndTextSprites:
                 lea     (teamFilenamesTable).l,a0
                 move.w  (a5),d0
-                lsl.w   #2,d0
+                lsl.w   #TEAMGAME_PRSHIRTCOL,d0
                 move.l  (a0,d0.w),(team1Filename).l
                 move.w  (a6),d0
-                lsl.w   #2,d0
+                lsl.w   #TEAMGAME_PRSHIRTCOL,d0
                 move.l  (a0,d0.w),(team2Filename).l
-                lea     (word_118622).l,a0
-                movea.l (dword_67644).l,a3
+                lea     (menuColorAndTextScript).l,a0
+                movea.l (menuImageStreamBaseEnd).l,a3
                 movem.l a5-a6,-(sp)
                 bsr.w   ProcessImageCommandStream
                 movem.l (sp)+,a5-a6
@@ -14761,28 +14727,28 @@ ConvertColorsAndTextSprites:
                 bsr.w   MakeSpritesFromPlayerNames
                 movem.l (sp)+,d0-d7/a0-a6
                 lea     (bigNumbersColorConversionTable).l,a0
-                move.w  #2,bigNumbersColorConversionTable+$16-bigNumbersColorConversionTable(a0)
+                move.w  #2,$16(a0)
                 move.w  #2,$14(a0)
                 move.w  #SPR_BIG_DASH,d0
                 movem.l a0/a5-a6,-(sp)
                 bsr.w   ConvertSpriteColors
                 movem.l (sp)+,a0/a5-a6
                 move.w  #SPR_BIG_0,d0
-loc_10A802:
+convert_big_score_digits_loop:
                 movem.l d0/a0/a5-a6,-(sp)
                 bsr.w   ConvertSpriteColors
                 movem.l (sp)+,d0/a0/a5-a6
                 addq.w  #1,d0
                 cmpi.w  #SPR_RESULT_BIG_0,d0
-                bne.s   loc_10A802
+                bne.s   convert_big_score_digits_loop
                 move.w  #SPR_RESULT_BIG_0,d0
-loc_10A81A:
+convert_result_and_teamname_prefix_loop:
                 movem.l d0/a0/a5-a6,-(sp)
                 bsr.w   ConvertSpriteColors
                 movem.l (sp)+,d0/a0/a5-a6
                 addq.w  #1,d0
                 cmpi.w  #SPR_TEAM1_NAME,d0
-                bne.s   loc_10A81A
+                bne.s   convert_result_and_teamname_prefix_loop
                 move.w  #SPR_TEAM1_NAME,d0
                 movem.l a5-a6,-(sp)
                 bsr.w   HWSprite_LoadFromSpriteGraphics
@@ -14820,13 +14786,13 @@ loc_10A8B4:
                 move.w  d0,(colorTableReserves+$16).l
                 lea     (colorTableReserves).l,a0
                 move.w  #1196,d0
-loc_10A8C4:
+convert_team1_reserve_player_sprites_loop:
                 movem.l d0/a0/a5-a6,-(sp)
                 bsr.w   ConvertSpriteColors
                 movem.l (sp)+,d0/a0/a5-a6
                 addq.w  #1,d0
                 cmpi.w  #$4B8,d0
-                bne.s   loc_10A8C4
+                bne.s   convert_team1_reserve_player_sprites_loop
                 move.w  2(a6),(colorTableReserves+$1E).l
                 move.w  4(a6),d0
                 cmp.w   2(a6),d0
@@ -14835,13 +14801,13 @@ loc_10A8C4:
 loc_10A8EE:
                 move.w  d0,(colorTableReserves+$16).l
                 move.w  #1208,d0
-loc_10A8F8:
+convert_team1_extra_sprites_loop:
                 movem.l d0/a0/a5-a6,-(sp)
                 bsr.w   ConvertSpriteColors
                 movem.l (sp)+,d0/a0/a5-a6
                 addq.w  #1,d0
                 cmpi.w  #1220,d0
-                bne.s   loc_10A8F8
+                bne.s   convert_team1_extra_sprites_loop
                 lea     (team1GoalieFaceToPosition).l,a1
                 lea     (team1GoalieFaces).l,a2
                 movea.l a5,a0
@@ -14871,12 +14837,12 @@ loc_10A96E:
                 lsl.w   #2,d0
                 lea     (skinAndHairColorConversionTable).l,a0
                 movea.l (a0,d0.w),a0
-loc_10A986:
+build_team1_players_color_table_from_skin_hair_lut:
                 move.w  (a0)+,d0
                 bmi.s   loc_10A992
                 lsl.w   #1,d0
                 move.w  (a0)+,(a1,d0.w)
-                bra.s   loc_10A986
+                bra.s   build_team1_players_color_table_from_skin_hair_lut
 loc_10A992:
                 movea.l a6,a1
                 bsr.w   CountFaces
@@ -14897,12 +14863,12 @@ loc_10A9C6:
                 lsl.w   #2,d0
                 lea     (skinAndHairColorConversionTable).l,a0
                 movea.l (a0,d0.w),a0
-loc_10A9DE:
+build_team2_players_color_table_from_skin_hair_lut:
                 move.w  (a0)+,d0
                 bmi.s   loc_10A9EA
                 lsl.w   #1,d0
                 move.w  (a0)+,(a1,d0.w)
-                bra.s   loc_10A9DE
+                bra.s   build_team2_players_color_table_from_skin_hair_lut
 loc_10A9EA:
                 move.w  2(a5),d1
                 move.w  4(a5),d2
@@ -14921,14 +14887,14 @@ loc_10A9FA:
                 bsr.w   ConvertColorTableToSkinColor
 loc_10AA2C:
                 move.w  #227,d0
-loc_10AA30:
+recolor_team1_player_sprites_loop:
                 lea     (team1PlayersColorTable).l,a0
                 movem.l d0/a5-a6,-(sp)
                 bsr.w   ConvertSpriteColors
                 movem.l (sp)+,d0/a5-a6
                 addq.w  #1,d0
                 cmpi.w  #$148,d0
-                bne.s   loc_10AA30
+                bne.s   recolor_team1_player_sprites_loop
                 tst.w   (useIndividualPlayerSkinColor).l
                 beq.s   loc_10AA7E
                 move.b  #1,d0
@@ -15007,14 +14973,14 @@ loc_10AB30:
                 bsr.w   ConvertColorTableToSkinColor
 loc_10AB62:
                 move.w  #$212,d0
-loc_10AB66:
+recolor_team2_player_sprites_loop:
                 lea     (team2PlayersColorTable).l,a0
                 movem.l d0/a6,-(sp)
                 bsr.w   ConvertSpriteColors
                 movem.l (sp)+,d0/a6
                 addq.w  #1,d0
                 cmpi.w  #$277,d0
-                bne.s   loc_10AB66
+                bne.s   recolor_team2_player_sprites_loop
                 tst.w   (useIndividualPlayerSkinColor).l
                 beq.s   loc_10ABB4
                 move.b  #1,d0
@@ -15165,16 +15131,16 @@ locret_10AD02:
 facesFrequency:
                 dc.b $00,$00,$00,$00    ; number of occurences of each face type in a team
 team1PlayersColorTable:
-                dc.w 0,1,2,3,0,0,0,0
-                dc.w 8,0,0,0,0,0,0,0
+                dc.w $0000,$0001,$0002,$0003,$0000,$0000,$0000,$0000
+                dc.w $0008,$0000,$0000,$0000,$0000,$0000,$0000,$0000
 team2PlayersColorTable:
-                dc.w 0,1,2,3,0,0,0,0
-                dc.w 8,0,0,0,0,0,0,0
+                dc.w $0000,$0001,$0002,$0003,$0000,$0000,$0000,$0000
+                dc.w $0008,$0000,$0000,$0000,$0000,$0000,$0000,$0000
 colorTableReserves:
-                dc.w 0,1,2,3,4,5,6,7    ; color table for reserve players, sitting and standing
-                dc.w 8,9,10,0,12,13,14,0
-                dc.w 0,1,2,3,4,5,6,7
-                dc.w 8,9,0,11,12,13,14,15
+                dc.w $0000,$0001,$0002,$0003,$0004,$0005,$0006,$0007 ; color table for reserve players, sitting and standing
+                dc.w $0008,$0009,$000A,$0000,$000C,$000D,$000E,$0000
+                dc.w $0000,$0001,$0002,$0003,$0004,$0005,$0006,$0007
+                dc.w $0008,$0009,$0000,$000B,$000C,$000D,$000E,$000F
 bigNumbersColorConversionTable:
                 dc.w 0,1,2,3,4,5,6,7    ; table for spr 309, 287-296, 297-306 (big numbers for result)
                 dc.w 8,9,0,0,12,13,14,15
@@ -15188,9 +15154,7 @@ bigNumbersColorConversionTable:
                 dc.w 4,-1,6,4,5,4,4,3
                 dc.w 13,3,9,3,12,3,-1
 skinAndHairColorConversionTable:
-                dc.l $0010ADE8          ; raw
-                dc.l $0010AE02          ; raw
-                dc.l $0010AE1C          ; raw
+                dc.l bigNumbersColorConversionTable+$60,bigNumbersColorConversionTable+$7A,bigNumbersColorConversionTable+$94
 team1GoalieFaceToPosition:
                 dc.b $00,$00,$00        ; values are 0 or 1 (0 primary, 1 reserve goalkeeper)
 team2GoalieFaceToPosition:
@@ -15357,7 +15321,7 @@ UpdateControlledPlayerNumbers:
                 move.w  #1,d7
                 lea     (team1CurPlayerNumSprite).l,a0
                 lea     (topTeamData).l,a1
-                movea.l topTeamData+TEAMGENERALINFO_INGAMETEAMPTR-topTeamData(a1),a2
+                movea.l TEAMGENERALINFO_INGAMETEAMPTR(a1),a2
 loc_10B084:
                 tst.w   TEAMGENERALINFO_ISPLCOACH(a1)
                 bne.w   loc_10B09A
@@ -15401,7 +15365,7 @@ loc_10B0FE:
 loc_10B104:
                 lea     (team2CurPlayerNumSprite).l,a0
                 lea     (bottomTeamData).l,a1
-                movea.l bottomTeamData+TEAMGENERALINFO_INGAMETEAMPTR-bottomTeamData(a1),a2
+                movea.l TEAMGENERALINFO_INGAMETEAMPTR(a1),a2
                 dbf     d7,loc_10B084
                 rts
 
@@ -15413,9 +15377,9 @@ MarkPlayer:
                 beq.s   loc_10B130      ; don't blink for both teams at the same time
                 lea     (bottomTeamData).l,a1
 loc_10B130:
-                movea.l bottomTeamData+TEAMGENERALINFO_INGAMETEAMPTR-bottomTeamData(a1),a2
+                movea.l TEAMGENERALINFO_INGAMETEAMPTR(a1),a2
                 lea     (playerMarkSprite).l,a0
-                move.w  #$FFFF,playerMarkSprite+SPRITE_IMAGEINDEX-playerMarkSprite(a0)
+                move.w  #$FFFF,SPRITE_IMAGEINDEX(a0)
                 move.w  TEAMGAME_MARKEDPLAYER(a2),d0
                 bmi.s   locret_10B17E
                 cmpi.w  #11,d0
@@ -15583,7 +15547,7 @@ ResetTime:
                 clr.w   (secondsSwitchAccumulator).l
                 move.w  #1,(copyTimeSprite).l
                 lea     (currentTimeSprite).l,a0
-                move.w  #SPR_8_MINS,currentTimeSprite+SPRITE_IMAGEINDEX-currentTimeSprite(a0)
+                move.w  #SPR_8_MINS,SPRITE_IMAGEINDEX(a0)
                 clr.w   (currentTimeSprite+SPRITE_VISIBLE).l
                 rts
 
@@ -15959,8 +15923,8 @@ ResetResultSprites:
                 clr.w   (dashSprite+SPRITE_VISIBLE).l
                 lea     (team1Scorer1Sprite).l,a1
                 lea     (team2Scorer1Sprite).l,a2
-                lea     (team1Scorers).l,a3
-                lea     (team2Scorers).l,a4
+                lea     (ShowLoaderIntroSequence).l,a3 ; ScorerInfo team1Scorers[8]
+                lea     ((loc_10FE24+2)).l,a4 ; ScorerInfo team2Scorers[8]
                 lea     (team1ScorerSpritesWidths).l,a5
                 lea     (team2ScorerSpritesWidths).l,a6
                 move.w  #7,d0
@@ -16135,7 +16099,7 @@ loc_10BBB4:
                 move.w  #$FFF2,d7
 loc_10BBBE:
                 lea     (team1NameSprite).l,a0
-                move.w  (g_cameraX).l,team1NameSprite+SPRITE_X-team1NameSprite(a0)
+                move.w  (g_cameraX).l,SPRITE_X(a0)
                 addi.w  #136,SPRITE_X(a0)
                 move.w  (team1NameLength).l,d0
                 sub.w   d0,SPRITE_X(a0)
@@ -16147,41 +16111,41 @@ loc_10BBBE:
                 move.w  SPRITE_Y(a0),d0
                 subi.w  #1015,d0
                 lea     (gridUpperRowLeftSprite).l,a1
-                move.w  (g_cameraX).l,gridUpperRowLeftSprite+SPRITE_X-gridUpperRowLeftSprite(a1)
+                move.w  (g_cameraX).l,SPRITE_X(a1)
                 move.w  d0,SPRITE_Y(a1)
                 move.w  #9000,SPRITE_Z(a1)
                 lea     (gridUpperRowRightSprite).l,a1
-                move.w  (g_cameraX).l,gridUpperRowRightSprite+SPRITE_X-gridUpperRowRightSprite(a1)
+                move.w  (g_cameraX).l,SPRITE_X(a1)
                 addi.w  #168,SPRITE_X(a1)
                 move.w  d0,SPRITE_Y(a1)
                 move.w  #9000,SPRITE_Z(a1)
                 addi.w  #32,d0
                 lea     (gridMiddleRowLeftSprite).l,a1
-                move.w  (g_cameraX).l,gridMiddleRowLeftSprite+SPRITE_X-gridMiddleRowLeftSprite(a1)
+                move.w  (g_cameraX).l,SPRITE_X(a1)
                 move.w  d0,SPRITE_Y(a1)
                 move.w  #9000,SPRITE_Z(a1)
                 lea     (gridMiddleRowRightSprite).l,a1
-                move.w  (g_cameraX).l,gridMiddleRowRightSprite+SPRITE_X-gridMiddleRowRightSprite(a1)
+                move.w  (g_cameraX).l,SPRITE_X(a1)
                 addi.w  #168,SPRITE_X(a1)
                 move.w  d0,SPRITE_Y(a1)
                 move.w  #9000,SPRITE_Z(a1)
                 addi.w  #32,d0
                 lea     (gridBottomRowLeftSprite).l,a1
-                move.w  (g_cameraX).l,gridBottomRowLeftSprite+SPRITE_X-gridBottomRowLeftSprite(a1)
+                move.w  (g_cameraX).l,SPRITE_X(a1)
                 move.w  d0,SPRITE_Y(a1)
                 move.w  #9000,SPRITE_Z(a1)
                 lea     (gridBottomRowRightSprite).l,a1
-                move.w  (g_cameraX).l,gridBottomRowRightSprite+SPRITE_X-gridBottomRowRightSprite(a1)
+                move.w  (g_cameraX).l,SPRITE_X(a1)
                 addi.w  #168,SPRITE_X(a1)
                 move.w  d0,SPRITE_Y(a1)
                 move.w  #9000,SPRITE_Z(a1)
                 lea     (team2NameSprite).l,a1
-                move.w  (g_cameraX).l,team2NameSprite+SPRITE_X-team2NameSprite(a1)
+                move.w  (g_cameraX).l,SPRITE_X(a1)
                 addi.w  #200,SPRITE_X(a1)
                 move.w  SPRITE_Y(a0),SPRITE_Y(a1)
                 move.w  #10000,SPRITE_Z(a1)
                 lea     (team1GoalsDigit2Sprite).l,a0
-                move.w  (g_cameraX).l,team1GoalsDigit2Sprite+SPRITE_X-team1GoalsDigit2Sprite(a0)
+                move.w  (g_cameraX).l,SPRITE_X(a0)
                 addi.w  #151,SPRITE_X(a0)
                 move.w  (g_cameraY).l,SPRITE_Y(a0)
                 addi.w  #241,SPRITE_Y(a0)
@@ -16193,7 +16157,7 @@ loc_10BBBE:
                 add.w   (team1GoalsDigit2).l,d0
                 move.w  d0,SPRITE_IMAGEINDEX(a0)
                 lea     (team1GoalsDigit1Sprite).l,a1
-                tst.w   team1GoalsDigit1Sprite+SPRITE_VISIBLE-team1GoalsDigit1Sprite(a1)
+                tst.w   SPRITE_VISIBLE(a1)
                 beq.s   loc_10BD42
                 move.w  SPRITE_X(a0),SPRITE_X(a1)
                 subi.w  #12,SPRITE_X(a1)
@@ -16227,7 +16191,7 @@ loc_10BD78:
                 add.w   d1,d0
                 move.w  d0,SPRITE_IMAGEINDEX(a0)
                 lea     (team1TotalGoalsDigit1Sprite).l,a1
-                tst.w   team1TotalGoalsDigit1Sprite+SPRITE_VISIBLE-team1TotalGoalsDigit1Sprite(a1)
+                tst.w   SPRITE_VISIBLE(a1)
                 beq.s   loc_10BDE2
                 move.w  SPRITE_X(a0),SPRITE_X(a1)
                 subq.w  #6,SPRITE_X(a1)
@@ -16244,7 +16208,7 @@ loc_10BDC4:
                 move.w  d0,SPRITE_IMAGEINDEX(a1)
 loc_10BDE2:
                 lea     (team2GoalsDigit2Sprite).l,a0
-                move.w  (g_cameraX).l,team2GoalsDigit2Sprite+SPRITE_X-team2GoalsDigit2Sprite(a0)
+                move.w  (g_cameraX).l,SPRITE_X(a0)
                 addi.w  #173,SPRITE_X(a0)
                 move.w  (g_cameraY).l,SPRITE_Y(a0)
                 addi.w  #241,SPRITE_Y(a0)
@@ -16256,7 +16220,7 @@ loc_10BDE2:
                 add.w   (team2GoalsDigit2).l,d0
                 move.w  d0,SPRITE_IMAGEINDEX(a0)
                 lea     (team2GoalsDigit1Sprite).l,a1
-                tst.w   team2GoalsDigit1Sprite+SPRITE_VISIBLE-team2GoalsDigit1Sprite(a1)
+                tst.w   SPRITE_VISIBLE(a1)
                 beq.s   loc_10BE58
                 move.w  SPRITE_X(a0),SPRITE_X(a1)
                 addi.w  #12,SPRITE_X(a0)
@@ -16267,7 +16231,7 @@ loc_10BDE2:
                 move.w  d0,SPRITE_IMAGEINDEX(a1)
 loc_10BE58:
                 lea     (team2TotalGoalsDigit2Sprite).l,a0
-                tst.w   team2TotalGoalsDigit2Sprite+SPRITE_VISIBLE-team2TotalGoalsDigit2Sprite(a0)
+                tst.w   SPRITE_VISIBLE(a0)
                 beq.w   loc_10BEEE
                 move.w  (team2TotalGoals).l,d1
                 ext.l   d1
@@ -16286,7 +16250,7 @@ loc_10BE58:
                 add.w   d1,d0
                 move.w  d0,SPRITE_IMAGEINDEX(a0)
                 lea     (team2TotalGoalsDigit1Sprite).l,a1
-                tst.w   team2TotalGoalsDigit1Sprite+SPRITE_VISIBLE-team2TotalGoalsDigit1Sprite(a1)
+                tst.w   SPRITE_VISIBLE(a1)
                 beq.s   loc_10BEEE
                 move.w  SPRITE_X(a0),SPRITE_X(a1)
                 addq.w  #6,SPRITE_X(a0)
@@ -16303,7 +16267,7 @@ loc_10BED0:
                 move.w  d0,SPRITE_IMAGEINDEX(a1)
 loc_10BEEE:
                 lea     (dashSprite).l,a0
-                move.w  (g_cameraX).l,dashSprite+SPRITE_X-dashSprite(a0)
+                move.w  (g_cameraX).l,SPRITE_X(a0)
                 addi.w  #165,SPRITE_X(a0)
                 move.w  (g_cameraY).l,SPRITE_Y(a0)
                 addi.w  #249,SPRITE_Y(a0)
@@ -16311,7 +16275,7 @@ loc_10BEEE:
                 addi.w  #10000,SPRITE_Y(a0)
                 move.w  #10000,SPRITE_Z(a0)
                 lea     (team1Scorer1Sprite).l,a0
-                lea     (team1Scorers).l,a2
+                lea     (ShowLoaderIntroSequence).l,a2
                 lea     (team1ScorerSpritesWidths).l,a3
                 move.w  #263,d1
                 add.w   d7,d1
@@ -16334,7 +16298,7 @@ loc_10BF3C:
                 dbf     d0,loc_10BF3C
 loc_10BF84:
                 lea     (team2Scorer1Sprite).l,a0
-                lea     (team2Scorers).l,a2
+                lea     ((loc_10FE24+2)).l,a2
                 lea     (team2ScorerSpritesWidths).l,a3
                 move.w  #263,d1
                 add.w   d7,d1
@@ -16355,10 +16319,10 @@ loc_10BFA0:
                 dbf     d0,loc_10BFA0
 loc_10BFE0:
                 lea     (gridUpperRowLeftSprite).l,a1
-                move.w  gridUpperRowLeftSprite+SPRITE_Y-gridUpperRowLeftSprite(a1),d0
+                move.w  SPRITE_Y(a1),d0
                 addi.w  #990,d0
                 lea     (resultOnHalftimeSprite).l,a0
-                move.w  (g_cameraX).l,resultOnHalftimeSprite+SPRITE_X-resultOnHalftimeSprite(a0)
+                move.w  (g_cameraX).l,SPRITE_X(a0)
                 addi.w  #168,SPRITE_X(a0)
                 move.w  d0,SPRITE_Y(a0)
                 move.w  #10000,SPRITE_Z(a0)
@@ -16389,51 +16353,51 @@ savedNextGoalPtr:
 SetPitchTypeAndNumber:
                 clr.w   (numScenesInHilFile).l
                 tst.w   (gamePitchTypeOrSeason).l
-                bne.s   loc_10C058
+                bne.s   use_seasonal_pitch_type_probs
                 move.w  (gamePitchType).l,d1
-                bpl.s   loc_10C080
+                bpl.s   pitch_type_selected
                 lea     pitchTypeProbabilities(pc),a0
-                bra.s   loc_10C068
-loc_10C058:
+                bra.s   choose_pitch_type
+use_seasonal_pitch_type_probs:
                 lea     pitchTypeSeasonalProbabilities(pc),a0
                 move.w  (gameSeason).l,d0
                 mulu.w  #7,d0
                 adda.l  d0,a0
-loc_10C068:
+choose_pitch_type:
                 bsr.w   Rand
                 mulu.w  #100,d0
                 divu.w  #256,d0
                 clr.w   d1
-loc_10C076:
+select_pitch_type_loop:
                 cmp.b   (a0),d0
-                blt.s   loc_10C080
+                blt.s   pitch_type_selected
                 sub.b   (a0)+,d0
                 addq.w  #1,d1
-                bra.s   loc_10C076
-loc_10C080:
+                bra.s   select_pitch_type_loop
+pitch_type_selected:
                 move.w  (currentGameTick).l,d0
                 andi.w  #$10,d0
                 lsl.w   #4,d0
                 tst.w   (plg_D0_param).l
-                beq.s   loc_10C0A0
+                beq.s   derive_pitchnum_from_team
                 jsr     Rand
                 andi.w  #$F,d0
-                bra.s   loc_10C0BA
-loc_10C0A0:
+                bra.s   pitch_number_and_type_done
+derive_pitchnum_from_team:
                 move.w  (topTeamInGame+TEAMGAME_TEAMNAME).l,d0
                 move.w  (topTeamInGame+TEAMGAME_PRSHIRTCOL).l,d2
                 eor.w   d2,d0
                 move.w  (topTeamInGame+TEAMGAME_PRSHORTSCOL).l,d2
                 eor.w   d2,d0
                 andi.w  #$F,d0
-loc_10C0BA:
+pitch_number_and_type_done:
                 lea     (pitchNumberProbabilities).l,a0
                 move.b  (a0,d0.w),d0
                 lsl.w   #8,d0
                 tst.w   (g_trainingGame).l
-                beq.s   loc_10C0D2
+                beq.s   combine_pitchnum_and_type
                 move.w  #$500,d0
-loc_10C0D2:
+combine_pitchnum_and_type:
                 add.w   d0,d1
                 move.w  d1,(pitchNumberAndType).l
                 rts
@@ -16610,7 +16574,7 @@ ThrowInDeadProc:
                 move.w  #1,(throwInDeadVar).l
                 rts
                 movea.l (goalBasePtr).l,a0
-                move.w  #$128D,d0
+                move.w  #4749,d0
 loc_10C336:
                 clr.l   (a0)+
                 dbf     d0,loc_10C336
@@ -17002,7 +16966,7 @@ apply_penalty_override:
 select_scorer_tables_by_team:
                 cmpi.w  #1,d0
                 bne.s   team2_branch_select_tables
-                lea     (team1Scorers).l,a3
+                lea     (ShowLoaderIntroSequence).l,a3
                 lea     (team1Scorer1Sprite).l,a4
                 lea     (team1ScorerSpritesWidths).l,a6
                 cmpi.w  #GT_OWN_GOAL,d1
@@ -17012,7 +16976,7 @@ set_team_ptrs_normal_order:
                 movea.l (bottomTeamPtr).l,a1
                 bra.s   finalize_team_ptr_selection
 team2_branch_select_tables:
-                lea     (team2Scorers).l,a3
+                lea     ((loc_10FE24+2)).l,a3
                 lea     (team2Scorer1Sprite).l,a4
                 lea     (team2ScorerSpritesWidths).l,a6
                 cmpi.w  #GT_OWN_GOAL,d1
@@ -17197,9 +17161,9 @@ aOg:
 aAsc_2:
                 dc.b "****,",0
 alreadyScoredTable:
-                dc.l 1100334,1100350,1100372
+                dc.l aAsc_1,aPen_0,aAsc_2
 firstGoalScoredTable:
-                dc.l 1100328,1100340,1100362
+                dc.l aAsc_0,aPen,aOg
 
 ; ===== BenchCheckControls =====
 ; prototype: void __usercall BenchCheckControls()
@@ -17575,7 +17539,7 @@ loc_10D0FC:
                 tst.w   (g_benchPlayerIndex).l
                 beq.s   loc_10D118
 loc_10D10C:
-                cmpi.w  #3,(gameState).l
+                cmpi.w  #ST_KEEPER_HOLDS_BALL,(gameState).l
                 beq.w   _10CF6C_exit_rts
 loc_10D118:
                 move.w  #1,(subsBlockDirections).l
@@ -17812,9 +17776,9 @@ loc_10D486:
                 move.b  #$FF,PLAYERINFOHEADER_POSITION(a0,d7.w)
                 move.w  #60,d1          ; sizeof(GamePlayer) - 1
 loc_10D4AC:
-                move.b  TEAMGAME_SIZE+TEAMGAME_PRSHIRTTYPE(a0,d6.w),d0 ; 42 = sizeof(TeamGameHeader)
-                move.b  TEAMGAME_SIZE+TEAMGAME_PRSHIRTTYPE(a0,d7.w),TEAMGAME_SIZE+TEAMGAME_PRSHIRTTYPE(a0,d6.w)
-                move.b  d0,TEAMGAME_SIZE+TEAMGAME_PRSHIRTTYPE(a0,d7.w)
+                move.b  TEAMGAME_UNK4(a0,d6.w),d0 ; 42 = sizeof(TeamGameHeader)
+                move.b  TEAMGAME_UNK4(a0,d7.w),TEAMGAME_UNK4(a0,d6.w)
+                move.b  d0,TEAMGAME_UNK4(a0,d7.w)
                 addq.l  #1,a0
                 dbf     d1,loc_10D4AC
                 bsr.w   InitializePlayerSpriteFrameIndices
@@ -18985,10 +18949,10 @@ playerNumberString:
                 dc.b "--",0,$00         ; when drawing player list in substitutes menu during the game
                                         ; this align saves the day so we can add three digit number support ;)
 playerFacesTable:
-                dc.w 1179,1180,1181     ; when drawing substitutes menu during the game
+                dc.w $049B,$049C,$049D  ; when drawing substitutes menu during the game
 benchColors:
-                dc.w 0,0,0,0,0,0,0,0    ; init when drawing subs menus
-                dc.w 0
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000 ; init when drawing subs menus
+                dc.w $0000
 subsMenuBackgroundColor:
                 dc.w $0000              ; used as a background color for substitute menu entries, and also
                                         ; as a frame color for tactics icon sprite in formation menu
@@ -18998,11 +18962,11 @@ subsMenuHighlightColor:
 subsMenuEntryFrameColor:
                 dc.w $0000              ; entry frame color of formation/substitutes title menu entry during the game
 ourCoachFrames:
-                dc.w 2,1,0,2,0,1,0,1
-                dc.w 2,2,1,1,0,2,1,0
+                dc.w $0002,$0001,$0000,$0002,$0000,$0001,$0000,$0001
+                dc.w $0002,$0002,$0001,$0001,$0000,$0002,$0001,$0000
 opponentCoachFrames:
-                dc.w 2,1,2,2,1,2,0,1
-                dc.w 2,0,1,1,1,0,1,2
+                dc.w $0002,$0001,$0002,$0002,$0001,$0002,$0000,$0001
+                dc.w $0002,$0000,$0001,$0001,$0001,$0000,$0001,$0002
 
 ; ===== GetBenchPlayerPointer =====
 ; prototype: void *__usercall GetBenchPlayerPointer@<a0>(unsigned __int16 index@<d0>)
@@ -19035,7 +18999,7 @@ select_formation_order:
                 move.w  (sp)+,d1
                 rts
 padding_05:
-                dc.b $01,$00
+                dc.b 1,0
 kGoalkeeperBurstSpeed:
                 dc.w 512,1024
 kGoalkeeperCatchSpeed:
@@ -19055,9 +19019,9 @@ kGoalkeeperWeakDeflectBallSpeed:
 kGoalkeeperDeflectDeltaZ:
                 dc.l $0000C000          ; raw
 dword_10E52A:
-                dc.l byte_20000
+                dc.l $00020000          ; raw
 word_10E52E:
-                dc.w 512,128,-128,-640
+                dc.w $0200,$0080,$FF80,$FD80
 kGoalKeeperRecoveryStepBase:
                 dc.w $0070
 kGoalKeeperRecoveryStepAlt:
@@ -19065,11 +19029,11 @@ kGoalKeeperRecoveryStepAlt:
 kGoalKeeperRecoveryStepFar:
                 dc.w $0080              ; goalkeeper speed delta while diving for the ball
 padding_06:
-                dc.b $01,$00
+                dc.b 1,0
 kShotAtGoalMinumumSpeed:
                 dc.w $0200
 kGoalkeeperDiveDeltas:
-                dc.l 196608,229376,262144,294912,327680,360448,393216,425984 ; fixed point values:
+                dc.l $00030000,$00038000,$00040000,$00048000,$00050000,$00058000,$00060000,$00068000 ; fixed point values:
                                         ; 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6
 padding_07:
                 dc.w $0000
@@ -19088,7 +19052,7 @@ padding_08:
 kGoalkeeperSpeedWhenGameStopped:
                 dc.w $0400              ; =4.0
 padding_09:
-                dc.b $01,$80
+                dc.b 1,-128
 kBallGroundConstant:
                 dc.w $0010              ; applied when some player is controlling the ball
 kBallAirConstant:
@@ -19129,14 +19093,14 @@ kGoalkeeperGameSpeed:
 kPlayerTacklingSpeed:
                 dc.w $0700              ; =7.0, set player speed to this when they go in tackling state
 kJumpHeaderSpeed:
-                dc.w 2048,1536,1536,1792,2048,1792,0,8192 ; =8.0, player speed when he's jumping in attempt to head the ball (flying/lob headers not static)
-                dc.w 48,1,0,2048
+                dc.w $0800,$0600,$0600,$0700,$0800,$0700,$0000,$2000 ; =8.0, player speed when he's jumping in attempt to head the ball (flying/lob headers not static)
+                dc.w $0030,$0001,$0000,$0800
 kBallKickingDeltaZ:
-                dc.l byte_14000         ; =1.25, height delta of kicked ball
+                dc.l $00014000          ; =1.25, height delta of kicked ball
 kBallKickingSpeed:
                 dc.w $08A0              ; =8.625, ball speed when kicked
 kHighKickDeltaZ:
-                dc.l byte_20000         ; =2.0, controls ball height increment per frame during high kicks
+                dc.l $00020000          ; =2.0, controls ball height increment per frame during high kicks
 kHighKickBallSpeed:
                 dc.w $0A80              ; =10.5
 kNormalKickDeltaZ:
@@ -19175,14 +19139,14 @@ kPassingSpinFactor:
                                         ; 7 - right spin Y /
                                         ;       .
 kRefereeSpeed:
-                dc.w 1024,1280
+                dc.w $0400,$0500
 kInjuryForeverSpeed:
                 dc.w $0300
 main:
                 jsr     AssetLoaderResetState
                 clr.w   (g_assetLoaderAltPathReady).l
                 jsr     InitDisplayAndCopper
-                jsr     InitDiskImageSources
+                jsr     AssetSys_InitDiskImageSources
                 jsr     InitSkinAndDefaultPointers
                 lea     (kNibbleMaskSeedA).l,a0
                 lea     (kNibbleMaskLineA).l,a1
@@ -19201,7 +19165,7 @@ main:
                 clr.w   (bootTemp5).l
                 clr.w   (bootTemp6).l
                 move.w  #1,(loaderModeFlag).l
-                jsr     team1Scorers+SCORERINFO_SHIRTNUM
+                jsr     ShowLoaderIntroSequence
                 jsr     AssetLoaderInitAltPathAndBanks
                 jsr     AssetPrecacheCore
                 jsr     InstallAndInitLoaderBootstrap
@@ -19209,7 +19173,7 @@ main:
                 clr.w   (loaderModeFlag).l
                 jsr     DoubleBufferSwapSequence
                 clr.w   (paletteBankIndex).l
-                lea     (aGrafsOlddisk1R).l,a0 ; "grafs/olddisk1.raw\x00grafs/socpic.raw"
+                lea     (aGrafsOlddisk1R).l,a0 ; "grafs/olddisk1.raw"
                 jsr     LoadOverlayToFrontbuffer
                 jsr     BlitterCopyPanelToScreen2
                 jsr     WaitForVSync
@@ -19219,7 +19183,7 @@ main:
                 jsr     FadeIn
 poll_loader_op3_with_delays:
                 movem.l d0-d1,-(sp)
-                move.w  #$31,d1         ; '1'
+                move.w  #FPS_50HZ,d1
 delay_0x32_ticks_outer:
                 move.w  (currentGameTick).l,d0
 wait_for_next_tick_inner:
@@ -19239,7 +19203,7 @@ wait_for_next_tick_inner:
                 jsr     FadeIn
 poll_loader_op2_with_delays:
                 movem.l d0-d1,-(sp)
-                move.w  #$31,d1         ; '1'
+                move.w  #FPS_50HZ,d1
 delay_0x32_ticks_outer2:
                 move.w  (currentGameTick).l,d0
 wait_for_next_tick_inner2:
@@ -19251,18 +19215,18 @@ wait_for_next_tick_inner2:
                 bne.s   poll_loader_op2_with_delays
                 jsr     FadeOutToBlack
 build_intro_menu_assets:
-                lea     (word_118374).l,a0
+                lea     (introMenuImageScript).l,a0
                 lea     (imageCmdWorkbuf).l,a3
                 jsr     ProcessImageCommandStream
-                move.l  (dword_67640).l,(dword_67644).l
+                move.l  (imageStreamCursor).l,(menuImageStreamBaseEnd).l
                 jsr     AssetPrecacheMenuPack
                 move.w  #1,(g_assetLoaderAltPathReady).l
                 clr.w   (hilNumGoals).l
                 jmp     FrontEndMainLoop
 
-; ===== sub_10E89A =====
-; prototype: void __usercall sub_10E89A()
-sub_10E89A:
+; ===== ViewMatchSequence =====
+; prototype: void __usercall ViewMatchSequence()
+ViewMatchSequence:
                 lea     (topTeamInGame).l,a5
                 lea     (bottomTeamInGame).l,a6
                 bsr.w   StartMatchSequence
@@ -19438,7 +19402,7 @@ wait_for_vblank_flag_clear:
                 move.w  #$400,(DMACON).l
                 move.l  (g_irqCookieObfuscated).l,d0
                 eori.l  #$CFD1F9BD,d0
-                cmpi.l  #(g_pitchDatBuffer+$125A),d0
+                cmpi.l  #$165A,d0
                 bne.w   swap_to_bottom_team_goalkeeper+4
                 move.w  #1,(waitingInterrupt).l
                 jsr nullsub_5(pc)
@@ -20111,7 +20075,7 @@ overlayFlagBackup:
 forceLeftTeam:
                 dc.w $0002
 padding_15:
-                dc.b $00,$01
+                dc.b 0,1
 currentPlayerIndicatorPosition:
                 dc.w $0004
 hilLeftTeamGoals:
@@ -20195,11 +20159,7 @@ paletteBankTable:
                 dc.l paletteBankDefault16
                 dc.l paletteBankBlack16
 currentCopperList:
-                dc.l g_copperList
-                dc.l kNibbleMaskLineB
-                dc.l $001017E2          ; raw
-                dc.l kNibbleMaskLineC
-                dc.l kNibbleMaskLineA
+                dc.l g_copperList,kNibbleMaskLineB,kNibbleMaskLineD,kNibbleMaskLineC,kNibbleMaskLineA
 word_10F1CE:
                 dc.w $1234
 cameraSnapToPlayerCount:
@@ -20211,17 +20171,17 @@ deadCameraBreakVar04:
 deadThrowInDirectionVar:
                 dc.w $0000
 padding_16:
-                dc.b $00,$00
+                dc.b 0,0
 initialKickWriteOnlyTicks:
                 dc.w $0000
 disallowedTurnFlagsCounter:
                 dc.w $0000
 padding_17:
-                dc.b $00,$00,$00,$00,$00,$00
+                dc.b 0,0,0,0,0,0
 writeOnlyVar04:
                 dc.w $0000
 padding_18:
-                dc.b $00,$00
+                dc.b 0,0
 deadCameraBreakVar01:
                 dc.w $0000
 deadCameraBreakVar02:
@@ -20229,11 +20189,11 @@ deadCameraBreakVar02:
 deadCameraBreakVar03:
                 dc.w $1234
 padding_19:
-                dc.b $12,$34
+                dc.b 18,52
 AI_maxStoppageTime:
                 dc.w $0000
 padding_20:
-                dc.b $00,$00
+                dc.b 0,0
 word_10F1F4:
                 dc.w $0000
 lastCameraDirection:
@@ -20682,9 +20642,9 @@ precache_menu_load_until_cached:
 precache_menu_return:
                 rts
 menuPrecacheTable:
-                dc.l 1055137,1055153,1055396,1055415,1055302,1055320,1055339,1055358
-                dc.l 1055377,1055102,1055188,1055226,1055245,1055264,1055283,1054845
-                dc.l 1054826,1054724,1054739,1054784,1054798,1112270,-1
+                dc.l aGrafsMenusRaw,aGrafsMenus2Raw,aGrafsCjcgrafsR,aGrafsCjcbenchR,aGrafsCjcbitsRa,aGrafsCjcteam1R,aGrafsCjcteam2R,aGrafsCjcteam3R
+                dc.l aGrafsCjcteamgR,aGrafsMenubgRaw,aGrafsSwcpich1M,aGrafsSwcpich3M,aGrafsSwcpich4M,aGrafsSwcpich5M,aGrafsSwcpich6M,aDataPoolplyrDa
+                dc.l aGrafsSoccerSRa,aSoundMenuSng,aSoundMenuIns,aSoundSfxSng,aSoundSfxIn1,aDataTeam008,$FFFFFFFF
 aDataTeam008:
                 dc.b 'data/team.008',0
 
@@ -20692,7 +20652,7 @@ aDataTeam008:
 ; prototype: void __usercall ReplayExitMenuAfterFriendly()
 ReplayExitMenuAfterFriendly:
                 lea     (aGrafsMenubg2Ra).l,a0 ; "grafs/menubg2.raw"
-                lea     (frontbufferPlaneOffset).l,a1
+                lea     (frontbufferMaskBuffer).l,a1
                 lea     (0).w,a2
                 moveq   #0,d0
                 moveq   #0,d1
@@ -20897,9 +20857,9 @@ replayContTbl:
                 dc.w 0,1,2,3,4,5,6,7
                 dc.w 8,9,0,11,12,13,14,15
 padding_22:
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00
+                dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+                dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+                dc.b 0,0
 replaySelected:
                 dc.w $0000
 loc_10FC06:
@@ -20913,576 +20873,260 @@ loc_10FC0E:
                 rts
 loaderModeFlag:
                 dc.w $0000
-; ScorerInfo[8]
-team1Scorers:
-                ; ScorerInfo[8]
-                ; element[0]
-                ; SCORERINFO
-                dc.w $203C              ; shirtNum
-                dc.w $0007              ; numSpritesTaken
-                dc.w $5D30              ; numGoals
-                ; goals[0]
-                dc.w $0C80              ; goalType
-                dc.l j_start            ; time
-                ; goals[1]
-                dc.w $630A              ; goalType
-                dc.l $33C100DF          ; time
-                ; goals[2]
-                dc.w -3712              ; goalType
-                dc.l $524160F6          ; time
-                ; goals[3]
-                dc.w $323C              ; goalType
-                dc.l $00004242          ; time
-                ; goals[4]
-                dc.w $4EB9              ; goalType
-                dc.l SetCameraCoordinates ; time
-                ; goals[5]
-                dc.w $4EB9              ; goalType
-                dc.l SwapBuffersAndCameraViewState ; time
-                ; goals[6]
-                dc.w $4EB9              ; goalType
-                dc.l UpdatePlanePtrsAndBlitParams ; time
-                ; goals[7]
-                dc.w $4EB9              ; goalType
-                dc.l SwapBuffersAndCameraViewState ; time
-                ; goals[8]
-                dc.w $4EB9              ; goalType
-                dc.l UpdatePlanePtrsAndBlitParams ; time
-                ; goals[9]
-                dc.w $4EB9              ; goalType
-                dc.l Player1StatusProc  ; time
-                ; element[1]
-                ; SCORERINFO
-                dc.w $4A39              ; shirtNum
-                dc.w $0010              ; numSpritesTaken
-                dc.w -3873              ; numGoals
-                ; goals[0]
-                dc.w $6600              ; goalType
-                dc.l $015A4EB9          ; time
-                ; goals[1]
-                dc.w $0010              ; goalType
-                dc.l -17943556          ; time
-                ; goals[2]
-                dc.w $0006              ; goalType
-                dc.l paletteBankIndex   ; time
-                ; goals[3]
-                dc.w $3E3C              ; goalType
-                dc.l $00FA41F9          ; time
-                ; goals[4]
-                dc.w $0010              ; goalType
-                dc.l $188F6100          ; time
-                ; goals[5]
-                dc.w $0198              ; goalType
-                dc.l $66000164          ; time
-                ; goals[6]
-                dc.w $3E3C              ; goalType
-                dc.l $00FA41F9          ; time
-                ; goals[7]
-                dc.w $0010              ; goalType
-                dc.l $18A26100          ; time
-                ; goals[8]
-                dc.w $0186              ; goalType
-                dc.l $66000152          ; time
-                ; goals[9]
-                dc.w $33FC              ; goalType
-                dc.l $00030010          ; time
-                ; element[2]
-                ; SCORERINFO
-                dc.w -3664              ; shirtNum
-                dc.w $3E3C              ; numSpritesTaken
-                dc.w $00FA              ; numGoals
-                ; goals[0]
-                dc.w $41F9              ; goalType
-                dc.l aGrafsLoader1Ra    ; time
-                ; goals[1]
-                dc.w $6100              ; goalType
-                dc.l $019C6600          ; time
-                ; goals[2]
-                dc.w $0106              ; goalType
-                dc.l $33FC0005          ; time
-                ; goals[3]
-                dc.w $0010              ; goalType
-                dc.l -240107972         ; time
-                ; goals[4]
-                dc.w $00FA              ; goalType
-                dc.l $41F90010          ; time
-                ; goals[5]
-                dc.w $18C7              ; goalType
-                dc.l $61000152          ; time
-                ; goals[6]
-                dc.w $6600              ; goalType
-                dc.l $00BE3E3C          ; time
-                ; goals[7]
-                dc.w $00FA              ; goalType
-                dc.l $41F90010          ; time
-                ; goals[8]
-                dc.w $18D9              ; goalType
-                dc.l $61000140          ; time
-                ; goals[9]
-                dc.w $6600              ; goalType
-                dc.l $00AC3E3C          ; time
-                ; element[3]
-                ; SCORERINFO
-                dc.w $00FA              ; shirtNum
-                dc.w $41F9              ; numSpritesTaken
-                dc.w $0010              ; numGoals
-                ; goals[0]
-                dc.w $18EB              ; goalType
-                dc.l $6100012E          ; time
-                ; goals[1]
-                dc.w $6600              ; goalType
-                dc.l $009A3E3C          ; time
-                ; goals[2]
-                dc.w $00FA              ; goalType
-                dc.l $41F90010          ; time
-                ; goals[3]
-                dc.w $18FD              ; goalType
-                dc.l $6100011C          ; time
-                ; goals[4]
-                dc.w $6600              ; goalType
-                dc.l $00883E3C          ; time
-                ; goals[5]
-                dc.w $00FA              ; goalType
-                dc.l $41F90010          ; time
-                ; goals[6]
-                dc.w $190F              ; goalType
-                dc.l $6100010A          ; time
-                ; goals[7]
-                dc.w $6600              ; goalType
-                dc.l $00763E3C          ; time
-                ; goals[8]
-                dc.w $00FA              ; goalType
-                dc.l $41F90010          ; time
-                ; goals[9]
-                dc.w $1921              ; goalType
-                dc.l $610000F8          ; time
-                ; element[4]
-                ; SCORERINFO
-                dc.w $6600              ; shirtNum
-                dc.w $0064              ; numSpritesTaken
-                dc.w $3E3C              ; numGoals
-                ; goals[0]
-                dc.w $00FA              ; goalType
-                dc.l $41F90010          ; time
-                ; goals[1]
-                dc.w $1933              ; goalType
-                dc.l $610000E6          ; time
-                ; goals[2]
-                dc.w $6600              ; goalType
-                dc.l $00523E3C          ; time
-                ; goals[3]
-                dc.w $00FA              ; goalType
-                dc.l $41F90010          ; time
-                ; goals[4]
-                dc.w $1946              ; goalType
-                dc.l $610000D4          ; time
-                ; goals[5]
-                dc.w $6600              ; goalType
-                dc.l $00403E3C          ; time
-                ; goals[6]
-                dc.w $00FA              ; goalType
-                dc.l $41F90010          ; time
-                ; goals[7]
-                dc.w $1959              ; goalType
-                dc.l $610000C2          ; time
-                ; goals[8]
-                dc.w $6600              ; goalType
-                dc.l $002E3E3C          ; time
-                ; goals[9]
-                dc.w $00FA              ; goalType
-                dc.l $41F90010          ; time
-                ; element[5]
-                ; SCORERINFO
-                dc.w $196B              ; shirtNum
-                dc.w $6100              ; numSpritesTaken
-                dc.w $00B0              ; numGoals
-                ; goals[0]
-                dc.w $6600              ; goalType
-                dc.l $001C3E3C          ; time
-                ; goals[1]
-                dc.w $06D6              ; goalType
-                dc.l $33FC0003          ; time
-                ; goals[2]
-                dc.w $0010              ; goalType
-                dc.l -240107015         ; time
-                ; goals[3]
-                dc.w $0010              ; goalType
-                dc.l $18B56100          ; time
-                ; goals[4]
-                dc.w $0096              ; goalType
-                dc.l $60000030          ; time
-                ; goals[5]
-                dc.w $4EB9              ; goalType
-                dc.l FadeOutToBlack     ; time
-                ; goals[6]
-                dc.w $33FC              ; goalType
-                dc.l $00030010          ; time
-                ; goals[7]
-                dc.w -3664              ; goalType
-                dc.l $41F90010          ; time
-                ; goals[8]
-                dc.w $18B5              ; goalType
-                dc.l $48E70100          ; time
-                ; goals[9]
-                dc.w $6100              ; goalType
-                dc.l $01444CDF          ; time
-                ; element[6]
-                ; SCORERINFO
-                dc.w $0080              ; shirtNum
-                dc.w $48E7              ; numSpritesTaken
-                dc.w $0100              ; numGoals
-                ; goals[0]
-                dc.w $4EB9              ; goalType
-                dc.l FadeIn             ; time
-                ; goals[1]
-                dc.w $4CDF              ; goalType
-                dc.l $00804EB9          ; time
-                ; goals[2]
-                dc.w $0010              ; goalType
-                dc.l -10858891          ; time
-                ; goals[3]
-                dc.w $33FC              ; goalType
-                dc.l $00030010          ; time
-                ; goals[4]
-                dc.w -3664              ; goalType
-                dc.l $41F90010          ; time
-                ; goals[5]
-                dc.w $18B5              ; goalType
-                dc.l $48E70100          ; time
-                ; goals[6]
-                dc.w $6100              ; goalType
-                dc.l $01144CDF          ; time
-                ; goals[7]
-                dc.w $0080              ; goalType
-                dc.l $48E70100          ; time
-                ; goals[8]
-                dc.w $4EB9              ; goalType
-                dc.l FadeIn             ; time
-                ; goals[9]
-                dc.w $4CDF              ; goalType
-                dc.l $00804E75          ; time
-                ; element[7]
-                ; SCORERINFO
-                dc.w $4EB9              ; shirtNum
-                dc.w $0010              ; numSpritesTaken
-                dc.w $3428              ; numGoals
-                ; goals[0]
-                dc.w $33FC              ; goalType
-                dc.l $00030010          ; time
-                ; goals[1]
-                dc.w -3664              ; goalType
-                dc.l $41F90010          ; time
-                ; goals[2]
-                dc.w $18B5              ; goalType
-                dc.l $48E70100          ; time
-                ; goals[3]
-                dc.w $6100              ; goalType
-                dc.l $00E44CDF          ; time
-                ; goals[4]
-                dc.w $0080              ; goalType
-                dc.l $48E70100          ; time
-                ; goals[5]
-                dc.w $4EB9              ; goalType
-                dc.l FadeIn             ; time
-                ; goals[6]
-                dc.w $4CDF              ; goalType
-                dc.l $00804E75          ; time
-                ; goals[7]
-                dc.w $48E7              ; goalType
-                dc.l $01006100          ; time
-                ; goals[8]
-                dc.w $00C8              ; goalType
-                dc.l $4CDF0080          ; time
-                ; goals[9]
-                dc.w $48E7              ; goalType
-                dc.l $01004EB9          ; time
-; ScorerInfo[8]
-team2Scorers:
-                ; ScorerInfo[8]
-                ; element[0]
-                ; SCORERINFO
-                dc.w $0010              ; shirtNum
-                dc.w $33EC              ; numSpritesTaken
-                dc.w $4CDF              ; numGoals
-                ; goals[0]
-                dc.w $0080              ; goalType
-                dc.l $61000078          ; time
-                ; goals[1]
-                dc.w $660E              ; goalType
-                dc.l $48E70100          ; time
-                ; goals[2]
-                dc.w $4EB9              ; goalType
-                dc.l FadeOutToBlack     ; time
-                ; goals[3]
-                dc.w $4CDF              ; goalType
-                dc.l $00804E75          ; time
-                ; goals[4]
-                dc.w $48E7              ; goalType
-                dc.l $01006100          ; time
-                ; goals[5]
-                dc.w $0098              ; goalType
-                dc.l $4CDF0080          ; time
-                ; goals[6]
-                dc.w $48E7              ; goalType
-                dc.l $01004EB9          ; time
-                ; goals[7]
-                dc.w $0010              ; goalType
-                dc.l -14791457          ; time
-                ; goals[8]
-                dc.w $0080              ; goalType
-                dc.l $48E70100          ; time
-                ; goals[9]
-                dc.w $4EB9              ; goalType
-                dc.l FadeIn             ; time
-                ; element[1]
-                ; SCORERINFO
-                dc.w $4CDF              ; shirtNum
-                dc.w $0080              ; numSpritesTaken
-                dc.w $6100              ; numGoals
-                ; goals[0]
-                dc.w $003A              ; goalType
-                dc.l $661048E7          ; time
-                ; goals[1]
-                dc.w $0100              ; goalType
-                dc.l $4EB90010          ; time
-                ; goals[2]
-                dc.w $3428              ; goalType
-                dc.l $4CDF0080          ; time
-                ; goals[3]
-                dc.w $4240              ; goalType
-                dc.l $4E7548E7          ; time
-                ; goals[4]
-                dc.w $0100              ; goalType
-                dc.l $61000058          ; time
-                ; goals[5]
-                dc.w $4CDF              ; goalType
-                dc.l $008048E7          ; time
-                ; goals[6]
-                dc.w $0100              ; goalType
-                dc.l $4EB90010          ; time
-                ; goals[7]
-                dc.w $33EC              ; goalType
-                dc.l $4CDF0080          ; time
-                ; goals[8]
-                dc.w $6100              ; goalType
-                dc.l $00086602          ; time
-                ; goals[9]
-                dc.w $4240              ; goalType
-                dc.l $4E753C07          ; time
-                ; element[2]
-                ; SCORERINFO
-                dc.w $48E7              ; shirtNum
-                dc.w $0100              ; numSpritesTaken
-                dc.w $4EB9              ; numGoals
-                ; goals[0]
-                dc.w $0010              ; goalType
-                dc.l $25744CDF          ; time
-                ; goals[1]
-                dc.w $0080              ; goalType
-                dc.l $4A390010          ; time
-                ; goals[2]
-                dc.w -3873              ; goalType
-                dc.l $662048E7          ; time
-                ; goals[3]
-                dc.w -16384             ; goalType
-                dc.l $323C0000          ; time
-                ; goals[4]
-                dc.w $303A              ; goalType
-                dc.l -230641542         ; time
-                ; goals[5]
-                dc.w -3524              ; goalType
-                dc.l $67FA51C9          ; time
-                ; goals[6]
-                dc.w -12                ; goalType
-                dc.l $4CDF0003          ; time
-                ; goals[7]
-                dc.w $51CE              ; goalType
-                dc.l -3259840           ; time
-                ; goals[8]
-                dc.w $4E75              ; goalType
-                dc.l $22790002          ; time
-                ; goals[9]
-                dc.w -17260             ; goalType
-                dc.l $4EF90010          ; time
-                ; element[3]
-                ; SCORERINFO
-                dc.w $594C              ; shirtNum
-                dc.w $4279              ; numSpritesTaken
-                dc.w $0010              ; numGoals
-                ; goals[0]
-                dc.w $6D06              ; goalType
-                dc.l $41F90010          ; time
-                ; goals[1]
-                dc.w $1822              ; goalType
-                dc.l $43F90002          ; time
-                ; goals[2]
-                dc.w -9520              ; goalType
-                dc.l $4EB90010          ; time
-                ; goals[3]
-                dc.w $5ABE              ; goalType
-                dc.l $66E641F9          ; time
-                ; goals[4]
-                dc.w $0010              ; goalType
-                dc.l $183143F9          ; time
-                ; goals[5]
-                dc.w $0002              ; goalType
-                dc.l -457683271         ; time
-                ; goals[6]
-                dc.w $0010              ; goalType
-                dc.l $58CC66D2          ; time
-                ; goals[7]
-                dc.w $4E75              ; goalType
-                dc.l $4A790010          ; time
-                ; goals[8]
-                dc.w $6D06              ; goalType
-                dc.l $662041F9          ; time
-                ; goals[9]
-                dc.w $0002              ; goalType
-                dc.l -623885319         ; time
-                ; element[4]
-                ; SCORERINFO
-                dc.w $0002              ; shirtNum
-                dc.w -6984              ; numSpritesTaken
-                dc.w $4EB9              ; numGoals
-                ; goals[0]
-                dc.w $0010              ; goalType
-                dc.l $74604EB9          ; time
-                ; goals[1]
-                dc.w $0010              ; goalType
-                dc.l $744C33FC          ; time
-                ; goals[2]
-                dc.w $0001              ; goalType
-                dc.l g_audioBankLoaded  ; time
-                ; goals[3]
-                dc.w $303C              ; goalType
-                dc.l $00004EB9          ; time
-                ; goals[4]
-                dc.w $0010              ; goalType
-                dc.l $745433FC          ; time
-                ; goals[5]
-                dc.w $0001              ; goalType
-                dc.l g_audioActive      ; time
-                ; goals[6]
-                dc.w $4E75              ; goalType
-                dc.l $4EB90010          ; time
-                ; goals[7]
-                dc.w $6FD0              ; goalType
-                dc.l $4EB90010          ; time
-                ; goals[8]
-                dc.w $7460              ; goalType
-                dc.l $42790010          ; time
-                ; goals[9]
-                dc.w $6D04              ; goalType
-                dc.l $42790010          ; time
-                ; element[5]
-                ; SCORERINFO
-                dc.w $6D06              ; shirtNum
-                dc.w $4E75              ; numSpritesTaken
-                dc.w $0000              ; numGoals
-                ; goals[0]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[1]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[2]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[3]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[4]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[5]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[6]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[7]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[8]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[9]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; element[6]
-                ; SCORERINFO
-                dc.w $0000              ; shirtNum
-                dc.w $0000              ; numSpritesTaken
-                dc.w $0000              ; numGoals
-                ; goals[0]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[1]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[2]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[3]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[4]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[5]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[6]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[7]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[8]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[9]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; element[7]
-                ; SCORERINFO
-                dc.w $0000              ; shirtNum
-                dc.w $0000              ; numSpritesTaken
-                dc.w $0000              ; numGoals
-                ; goals[0]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[1]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[2]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[3]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[4]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[5]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[6]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[7]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[8]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
-                ; goals[9]
-                dc.w $0000              ; goalType
-                dc.l 0                  ; time
+
+; ===== ShowLoaderIntroSequence =====
+; prototype: void __usercall ShowLoaderIntroSequence()
+ShowLoaderIntroSequence:
+                move.l  #dword_75D30,d0
+                cmpi.l  #$100000,d0
+                bls.s   loader_intro_main
+loader_intro_bad_dword_spin:
+                move.w  d1,(COLOR00).l
+                addq.w  #1,d1
+                bra.s   loader_intro_bad_dword_spin
+loader_intro_main:
+                move.w  #0,d1
+                clr.w   d2
+                jsr     SetCameraCoordinates
+                jsr     SwapBuffersAndCameraViewState
+                jsr     UpdatePlanePtrsAndBlitParams
+                jsr     SwapBuffersAndCameraViewState
+                jsr     UpdatePlanePtrsAndBlitParams
+                jsr     Player1StatusProc ; Returns
+                tst.b   (pl1Fire).l
+                bne.w   loader_intro_fire_pressed_path
+                jsr     LoaderIntroLoadHeroAudioBank
+                move.w  #6,(paletteBankIndex).l
+                move.w  #$FA,d7
+                lea     (aGrafsLoader00R).l,a0 ; "grafs/loader00.raw"
+                bsr.w   LoaderIntroShowFrameFadeInOut
+                bne.w   loader_intro_load_fail_early
+                move.w  #$FA,d7
+                lea     (aGrafsLoader01R).l,a0 ; "grafs/loader01.raw"
+                bsr.w   LoaderIntroShowFrameFadeInOut
+                bne.w   loader_intro_load_fail_early
+                move.w  #3,(paletteBankIndex).l
+                move.w  #$FA,d7
+                lea     (aGrafsLoader1Ra).l,a0 ; "grafs/loader1.raw"
+                bsr.w   LoaderIntroShowFrameWithMusic
+                bne.w   loader_intro_exit_cleanup
+                move.w  #5,(paletteBankIndex).l
+                move.w  #$FA,d7
+                lea     (aGrafsLoader2Ra).l,a0 ; "grafs/loader2.raw"
+                bsr.w   LoaderIntroShowFrameFadeInOut
+                bne.w   loader_intro_load_fail_mid
+                move.w  #$FA,d7
+                lea     (aGrafsLoader3Ra).l,a0 ; "grafs/loader3.raw"
+                bsr.w   LoaderIntroShowFrameFadeInOut
+                bne.w   loader_intro_load_fail_mid
+                move.w  #$FA,d7
+                lea     (aGrafsLoader4Ra).l,a0 ; "grafs/loader4.raw"
+                bsr.w   LoaderIntroShowFrameFadeInOut
+                bne.w   loader_intro_load_fail_mid
+                move.w  #$FA,d7
+                lea     (aGrafsLoader5Ra).l,a0 ; "grafs/loader5.raw"
+                bsr.w   LoaderIntroShowFrameFadeInOut
+                bne.w   loader_intro_load_fail_mid
+                move.w  #$FA,d7
+                lea     (aGrafsLoader6Ra).l,a0 ; "grafs/loader6.raw"
+                bsr.w   LoaderIntroShowFrameFadeInOut
+                bne.w   loader_intro_load_fail_mid
+                move.w  #$FA,d7
+                lea     (aGrafsLoader7Ra).l,a0 ; "grafs/loader7.raw"
+                bsr.w   LoaderIntroShowFrameFadeInOut
+                bne.w   loader_intro_load_fail_mid
+                move.w  #$FA,d7
+                lea     (aGrafsLoader8aR).l,a0 ; "grafs/loader8a.raw"
+                bsr.w   LoaderIntroShowFrameFadeInOut
+                bne.w   loader_intro_load_fail_mid
+                move.w  #$FA,d7
+                lea     (aGrafsLoader8bR).l,a0 ; "grafs/loader8b.raw"
+                bsr.w   LoaderIntroShowFrameFadeInOut
+                bne.w   loader_intro_load_fail_mid
+                move.w  #$FA,d7
+                lea     (aGrafsLoader9Ra).l,a0 ; "grafs/loader9.raw"
+                bsr.w   LoaderIntroShowFrameFadeInOut
+                bne.w   loader_intro_load_fail_mid
+                move.w  #$FA,d7
+                lea     (aGrafsLoader10R).l,a0 ; "grafs/loader10.raw"
+                bsr.w   LoaderIntroShowFrameFadeInOut
+                bne.w   loader_intro_load_fail_mid
+                move.w  #$6D6,d7
+                move.w  #3,(paletteBankIndex).l
+                lea     (aGrafsLoader1Ra).l,a0 ; "grafs/loader1.raw"
+                bsr.w   LoaderIntroShowFrameFadeInOut
+                bra.w   loader_intro_exit_cleanup
+loader_intro_load_fail_mid:
+                jsr     FadeOutToBlack
+                move.w  #3,(paletteBankIndex).l
+                lea     (aGrafsLoader1Ra).l,a0 ; "grafs/loader1.raw"
+                movem.l d7,-(sp)
+                bsr.w   LoaderIntroLoadFrameToFrontbufferAlt
+                movem.l (sp)+,d7
+                movem.l d7,-(sp)
+                jsr     FadeIn
+                movem.l (sp)+,d7
+loader_intro_exit_cleanup:
+                jsr     LoaderIntroStopMusicAndResetAudio
+                rts
+loader_intro_fire_pressed_path:
+                move.w  #3,(paletteBankIndex).l
+                lea     (aGrafsLoader1Ra).l,a0 ; "grafs/loader1.raw"
+                movem.l d7,-(sp)
+                bsr.w   LoaderIntroLoadFrameToFrontbufferAlt
+                movem.l (sp)+,d7
+                movem.l d7,-(sp)
+                jsr     FadeIn
+                movem.l (sp)+,d7
+                rts
+loader_intro_load_fail_early:
+                jsr     FadeOutToBlack
+                move.w  #3,(paletteBankIndex).l
+                lea     (aGrafsLoader1Ra).l,a0 ; "grafs/loader1.raw"
+                movem.l d7,-(sp)
+                bsr.w   LoaderIntroLoadFrameToFrontbufferAlt
+                movem.l (sp)+,d7
+                movem.l d7,-(sp)
+                jsr     FadeIn
+                movem.l (sp)+,d7
+                rts
+
+; ===== LoaderIntroShowFrameFadeInOut =====
+; prototype: void __usercall LoaderIntroShowFrameFadeInOut()
+LoaderIntroShowFrameFadeInOut:
+                movem.l d7,-(sp)
+                bsr.w   LoaderIntroLoadFrameToFrontbufferAlt
+                movem.l (sp)+,d7
+                movem.l d7,-(sp)
+loc_10FE24:
+                jsr     FadeIn
+                movem.l (sp)+,d7
+                bsr.w   LoaderIntroWaitForFireOrTimeout
+                bne.s   locret_10FE42
+                movem.l d7,-(sp)
+                jsr     FadeOutToBlack
+                movem.l (sp)+,d7
+locret_10FE42:
+                rts
+
+; ===== LoaderIntroShowFrameWithMusic =====
+; prototype: void __usercall LoaderIntroShowFrameWithMusic()
+LoaderIntroShowFrameWithMusic:
+                movem.l d7,-(sp)
+                bsr.w   LoaderIntroLoadFrameToFrontbufferAlt
+                movem.l (sp)+,d7
+                movem.l d7,-(sp)
+                jsr     LoaderIntroEnsureMenuMusicPlaying
+                movem.l (sp)+,d7
+                movem.l d7,-(sp)
+                jsr     FadeIn
+                movem.l (sp)+,d7
+                bsr.w   LoaderIntroWaitForFireOrTimeout
+                bne.s   locret_10FE82
+                movem.l d7,-(sp)
+                jsr     FadeOutToBlack
+                movem.l (sp)+,d7
+                clr.w   d0
+locret_10FE82:
+                rts
+                movem.l d7,-(sp)
+                bsr.w   LoaderIntroLoadFrameToFrontbufferAlt
+                movem.l (sp)+,d7
+                movem.l d7,-(sp)
+                jsr     FadeIn
+                movem.l (sp)+,d7
+                bsr.w   LoaderIntroWaitForFireOrTimeout
+                bne.s   locret_10FEA6
+                clr.w   d0
+locret_10FEA6:
+                rts
+
+; ===== LoaderIntroWaitForFireOrTimeout =====
+; prototype: void __usercall LoaderIntroWaitForFireOrTimeout()
+LoaderIntroWaitForFireOrTimeout:
+                move.w  d7,d6
+loc_10FEAA:
+                movem.l d7,-(sp)
+                jsr     Player1StatusProc ; Returns
+                movem.l (sp)+,d7
+                tst.b   (pl1Fire).l
+                bne.s   locret_10FEE0
+                movem.l d0-d1,-(sp)
+                move.w  #0,d1
+loc_10FEC8:
+                move.w  currentGameTick(pc),d0
+loc_10FECC:
+                cmp.w   currentGameTick(pc),d0
+                beq.s   loc_10FECC
+                dbf     d1,loc_10FEC8
+                movem.l (sp)+,d0-d1
+                dbf     d6,loc_10FEAA
+                clr.w   d0
+locret_10FEE0:
+                rts
+
+; ===== LoaderIntroLoadFrameToFrontbufferAlt =====
+; prototype: void __usercall LoaderIntroLoadFrameToFrontbufferAlt()
+LoaderIntroLoadFrameToFrontbufferAlt:
+                movea.l (frontbufferBaseAltPtr).l,a1
+                jmp     LoadFile
+
+; ===== LoaderIntroLoadHeroAudioBank =====
+; prototype: void __usercall LoaderIntroLoadHeroAudioBank()
+LoaderIntroLoadHeroAudioBank:
+                clr.w   (g_audioBankLoaded).l
+                lea     (aSoundHeroSng).l,a0 ; "sound/hero.sng"
+                lea     (diyFileBufferCopy).l,a1
+                jsr     AssetEnsureReadyWithRetry
+                bne.s   LoaderIntroLoadHeroAudioBank
+                lea     (aSoundHeroIns).l,a0 ; "sound/hero.ins"
+                lea     (dword_2E4B8).l,a1
+                jsr     LoadRNCToBufferNoBlit
+                bne.s   LoaderIntroLoadHeroAudioBank
+                rts
+
+; ===== LoaderIntroEnsureMenuMusicPlaying =====
+; prototype: void __usercall LoaderIntroEnsureMenuMusicPlaying()
+LoaderIntroEnsureMenuMusicPlaying:
+                tst.w   (g_audioBankLoaded).l
+                bne.s   loc_10FF46
+                lea     (diyFileBufferCopy).l,a0
+                lea     (dword_2E4B8).l,a1
+                jsr     StopAudio
+                jsr     StartMenuMusic
+                move.w  #1,(g_audioBankLoaded).l
+loc_10FF46:
+                move.w  #0,d0
+                jsr     j_AudioApplyPresetToChannels
+                move.w  #1,(g_audioActive).l
+                rts
+
+; ===== LoaderIntroStopMusicAndResetAudio =====
+; prototype: void __usercall LoaderIntroStopMusicAndResetAudio()
+LoaderIntroStopMusicAndResetAudio:
+                jsr     AudioBeepAllShort
+                jsr     StopAudio
+                clr.w   (g_audioActive).l
+                clr.w   (g_audioBankLoaded).l
+                rts
+scorer_padding:
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00
 team1ScorerSpritesWidths:
-                dc.w 0,0,0,0,0,0,0,0
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
 team2ScorerSpritesWidths:
-                dc.w 0,0,0,0,0,0,0,0
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
 showingUserStats:
                 dc.w $0000              ; are statistics on screen? (boolean)
                                         ; because user called it
@@ -22738,7 +22382,7 @@ ballNextX:
 ballNextY:
                 dc.w $0000
 padding_24:
-                dc.b $00,$00,$00,$00
+                dc.b 0,0,0,0
 
 ; ===== CalculateNextBallPosition =====
 ; prototype: void __usercall CalculateNextBallPosition()
@@ -22845,7 +22489,7 @@ check_x_overlap_and_setup:
                 cmpi.w  #$10,d0
                 bhi.w   setup_right_edge_clip
                 movea.l (spriteBlitQueue).l,a3
-                movea.l (g_frontbufferBase).l,a1
+                movea.l (frontbufferBasePtr).l,a1
                 lea     (BLTDDAT).l,a6
                 move.w  d1,d0
                 andi.w  #$F,d0
@@ -22871,7 +22515,7 @@ wait_blitter_ready_a:
                 move.l  d0,$54(a6)
                 move.l  d0,4(a3)
                 sub.l   a1,d0
-                addi.l  #frontbufferPlaneOffset,d0
+                addi.l  #frontbufferMaskBuffer,d0
                 move.l  d0,(a3)
                 move.w  #0,$64(a6)
                 move.w  #0,$62(a6)
@@ -22890,7 +22534,7 @@ wait_blitter_ready_a:
                 rts
 setup_right_edge_clip:
                 movea.l (spriteBlitQueue).l,a3
-                movea.l (g_frontbufferBase).l,a1
+                movea.l (frontbufferBasePtr).l,a1
                 lea     (BLTDDAT).l,a6
                 move.w  d1,d0
                 andi.w  #$F,d0
@@ -22916,7 +22560,7 @@ wait_blitter_ready_b:
                 move.l  d0,$54(a6)
                 move.l  d0,4(a3)
                 sub.l   a1,d0
-                addi.l  #frontbufferPlaneOffset,d0
+                addi.l  #frontbufferMaskBuffer,d0
                 move.l  d0,(a3)
                 move.w  #$FFFE,$64(a6)
                 move.w  #$FFFE,$62(a6)
@@ -22946,17 +22590,17 @@ playerXQuadrantOffset:
 playerYQuadrantOffset:
                 dc.w $0000
 padding_25:
-                dc.b $00,$51
+                dc.b 0,81
 ballXQuadrantLimits:
-                dc.w 183,285,387,489,129
+                dc.w $00B7,$011D,$0183,$01E9,$0081
 ballYQuadrantLimits:
-                dc.w 220,312,403,495,586,678
+                dc.w $00DC,$0138,$0193,$01EF,$024A,$02A6
 playerXQuadrantsCoordinates:
-                dc.w 98,132,166,200,234,268,302,336
-                dc.w 370,404,438,472,506,540,574
+                dc.w $0062,$0084,$00A6,$00C8,$00EA,$010C,$012E,$0150
+                dc.w $0172,$0194,$01B6,$01D8,$01FA,$021C,$023E
 playerYQuadrantCoordinates:
-                dc.w 149,189,229,269,309,349,389,429
-                dc.w 469,509,549,589,629,669,709,749
+                dc.w $0095,$00BD,$00E5,$010D,$0135,$015D,$0185,$01AD
+                dc.w $01D5,$01FD,$0225,$024D,$0275,$029D,$02C5,$02ED
 
 ; ===== SetPlayerWithNoBallDestination =====
 ; prototype: void __usercall SetPlayerWithNoBallDestination(Sprite *player@<a1>, TeamGeneralInfo *team@<a6>)
@@ -23583,7 +23227,7 @@ refState:
                                         ; 4 = booking player and showing card
                                         ; 5 = leaving
 injuriesForever:
-                dc.w 0,0,0,0,0,0,0      ; dead variable; if true, player never gets out of injured state
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000 ; dead variable; if true, player never gets out of injured state
                                         ; probably something for testing
 cardsDisallowed:
                 dc.w $0000              ; if true don't book players
@@ -23608,17 +23252,17 @@ playerCardChance:
                                         ; for the referee to give out a card when there's a foul;
                                         ; gotten from the tables below
 playerCardChances3min:
-                dc.w 4,4,4,4,5,5,5,5
-                dc.w 6,6,6,7,7,8,9,10
+                dc.w $0004,$0004,$0004,$0004,$0005,$0005,$0005,$0005
+                dc.w $0006,$0006,$0006,$0007,$0007,$0008,$0009,$000A
 playerCardChances5min:
-                dc.w 2,2,3,3,3,3,3,3
-                dc.w 4,4,4,4,4,5,5,6
+                dc.w $0002,$0002,$0003,$0003,$0003,$0003,$0003,$0003
+                dc.w $0004,$0004,$0004,$0004,$0004,$0005,$0005,$0006
 playerCardChances7min:
-                dc.w 1,1,2,2,2,2,2,2
-                dc.w 3,3,3,3,3,4,4,4
+                dc.w $0001,$0001,$0002,$0002,$0002,$0002,$0002,$0002
+                dc.w $0003,$0003,$0003,$0003,$0003,$0004,$0004,$0004
 playerCardChances10min:
-                dc.w 1,1,1,1,1,2,2,2
-                dc.w 2,2,2,2,2,2,3,3
+                dc.w $0001,$0001,$0001,$0001,$0001,$0002,$0002,$0002
+                dc.w $0002,$0002,$0002,$0002,$0002,$0002,$0003,$0003
 playerCardChancesPerGameLength:
                 dc.l playerCardChances3min
                 dc.l playerCardChances5min
@@ -24687,7 +24331,7 @@ SetPlayerJumpHeaderHitAnimationTable:
 locret_11284E:
                 rts
 kHeaderLowJumpHeight:
-                dc.l byte_20000         ; =2.0, for flying headers
+                dc.l $00020000          ; =2.0, for flying headers
 kHeaderHighJumpHeight:
                 dc.l $00024000          ; =4.25, for lob headers
 
@@ -24848,9 +24492,9 @@ ballNextYGroundY:
 ballNextZDeadVar:
                 dc.w $0000              ; not much sense anyway, since z goes to zero (or close) during the calculations
 cardAnimStatesNoFlag:
-                dc.b $00,$01,$03,$03,$03 ; red card tables
+                dc.b 0,1,3,3,3          ; red card tables
 cardAnimStatesWithFlag:
-                dc.b $01,$02,$04,$04,$04
+                dc.b 1,2,4,4,4
 
 ; ===== TryBookingThePlayer =====
 ; prototype: unsigned __int16 __usercall TryBookingThePlayer@<d0>(Sprite *player@<a1>, TeamGeneralInfo *team@<a6>)
@@ -26005,7 +25649,7 @@ PlayerAttemptingJumpHeader:
                 lsr     $2C(a1)
 loc_113712:
                 neg.l   $36(a1)
-                addi.l  #kFixedOne_16p16,$36(a1)
+                addi.l  #(goalBase+$2292),$36(a1)
                 jsr     PlayKickSample
                 bsr.w   ResetBothTeamSpinTimers
                 rts
@@ -26236,9 +25880,9 @@ ApplyBallAfterTouch:
                 movea.l (a6),a0
                 tst.w   TEAMGENERALINFO_GOALKEEPERSAVEDCOMMENTTIMER(a0)
                 bmi.w   reset_spin_timer_out
-                cmpi.w  #$64,(gameStatePl).l ; 'd'
+                cmpi.w  #ST_GAME_IN_PROGRESS,(gameStatePl).l
                 beq.w   _113988_game_in_progress
-                cmpi.w  #3,(gameState).l
+                cmpi.w  #ST_KEEPER_HOLDS_BALL,(gameState).l
                 beq.w   reset_spin_timer_out
 _113988_game_in_progress:
                 move.w  TEAMGENERALINFO_SPINTIMER(a6),d0
@@ -28746,7 +28390,7 @@ ball_vert_motion_gate_top_team:
 check_ball_x_overlap_with_goalie:
                 move.w  SPRITE_IMAGEINDEX(a1),d0
                 bmi.w   finalize_control_and_speed
-                movea.l (g_spriteGraphicsPtr).l,a0
+                movea.l (spriteGraphicsPtr).l,a0
                 lsl.w   #2,d0
                 movea.l (a0,d0.w),a0
                 move.w  SPRITEGRAPHICS_PIXWIDTH(a0),d0
@@ -31635,758 +31279,770 @@ next_candidate_player:
                 dbf     d4,scan_players_facing_ball_loop
                 move.w  #10,d4
                 lea     bottomTeamData(pc),a3
-                movea.l bottomTeamData+TEAMGENERALINFO_SPRITESTABLE-bottomTeamData(a3),a2
+                movea.l 20(a3),a2
                 dbf     d3,scan_players_facing_ball_loop
                 rts
-; __int16[343]
-word_118374:
-                ; __int16[343]
-                dc.w 28672,16,6594,-16384,0,1542,-16383,28672
-                dc.w 518,-16382,-32768,774,-16381,-28672,774,-16380
-                dc.w -16384,518,-16379,-12288,1030,-16378,-8192,518
-                dc.w -16377,-4096,1542,-16376,8,1542,-16375,4104
-                dc.w 518,-16374,8200,1542,-16373,12296,1542,-16372
-                dc.w 16392,1542,-16371,20488,1542,-16370,24584,1542
-                dc.w -16369,28680,1542,-16368,-32760,1542,-16367,-28664
-                dc.w 1542,-16366,4112,1542,-16365,8208,1542,-16364
-                dc.w 12304,1542,-16363,16400,1542,-16362,20496,1542
-                dc.w -16361,24592,1542,-16360,28688,1542,-16359,-32752
-                dc.w 1542,-16358,-28656,518,-16357,-24560,1542,-16356
-                dc.w -20464,1542,-16355,-16368,1542,-16354,-12272,1542
-                dc.w -16353,-8176,1542,-16352,-4080,1542,-16351,24
-                dc.w 1542,-16350,4120,1542,-16349,8216,1542,-16348
-                dc.w 12312,1542,-16347,16408,1542,-16346,20504,1542
-                dc.w -16345,24600,1542,-16344,28696,1542,-16343,-32744
-                dc.w 1542,-16342,-28648,1542,-16341,-24552,1542,-16340
-                dc.w -3992,1542,-16339,-24576,1542,-16338,-16328,1542
-                dc.w -16337,48,1542,-16336,-4088,1542,-16335,-24568
-                dc.w 518,-16334,-20480,1542,-16333,20480,1542,-16332
-                dc.w -20472,774,-16331,-8144,1542,-16330,-24520,1542
-                dc.w -16329,-28616,1542,-16328,-4040,774,-16327,112
-                dc.w 2056,-16326,28784,520,-16325,-32656,1032,-16324
-                dc.w -28560,1032,-16323,-16272,776,-16322,-12176,1288
-                dc.w -16321,-8080,776,-16320,-3984,2056,-16319,120
-                dc.w 2056,-16318,4216,1288,-16317,8312,2056,-16316
-                dc.w 12408,2056,-16315,16504,2056,-16314,20600,2056
-                dc.w -16313,24696,2056,-16312,28792,2056,-16311,-32648
-                dc.w 2056,-16310,-28552,2056,-16309,4224,2056,-16308
-                dc.w 8320,2056,-16307,12416,2056,-16306,16512,2056
-                dc.w -16305,20608,2056,-16304,24704,2056,-16303,28800
-                dc.w 2056,-16302,-32640,2056,-16301,-28544,1288,-16300
-                dc.w -24448,2056,-16299,-20352,2056,-16298,-16256,2056
-                dc.w -16297,-12160,2056,-16296,-8064,1800,-16295,-3968
-                dc.w 2056,-16294,136,2056,-16293,4232,2056,-16292
-                dc.w 8328,2056,-16291,12424,2056,-16290,16520,1800
-                dc.w -16289,20616,2056,-16288,24712,2056,-16287,28808
-                dc.w 2056,-16286,-32632,1800,-16285,-28536,1800,-16284
-                dc.w -24440,2056,-16283,-3880,2056,-16282,-24464,2056
-                dc.w -16281,-16216,2056,-16280,160,2056,-16279,-3976
-                dc.w 2056,-16278,-24456,776,-16277,-20368,2056,-16276
-                dc.w 20592,2056,-16275,-20360,1032,-16274,-8032,2056
-                dc.w -16273,-24408,2056,-16272,-28504,2056,-1
-; __int16[5166]
-word_118622:
-                ; __int16[5166]
-                dc.w 28672,16,6820,-24463,0,221,4114,0
-                dc.w -24462,16,221,4114,0,-24461,32,221
-                dc.w 4114,0,-24460,48,221,4114,0,-24459
-                dc.w 64,221,4114,0,-24458,80,221,4114
-                dc.w 0,-24457,96,221,4114,0,-24456,112
-                dc.w 221,4114,0,-24455,96,189,4114,0
-                dc.w -24454,112,189,4114,0,-24453,128,189
-                dc.w 4114,0,-24452,144,189,4114,0,-24451
-                dc.w 160,189,4114,0,-24450,176,189,4114
-                dc.w 0,-24449,192,189,4114,0,-24448,208
-                dc.w 189,4114,0,-24447,144,221,4114,0
-                dc.w -24446,160,221,4114,0,-24445,176,221
-                dc.w 4114,0,-24444,192,221,4114,0,-24443
-                dc.w 208,221,4114,0,-24442,224,221,4114
-                dc.w 0,-24441,240,221,4114,0,-24440,256
-                dc.w 221,4114,0,-16247,136,4112,-16246,80
-                dc.w -22496,-16245,-20313,2056,-16244,-24409,2056,-28531
-                dc.w 80,6,-28530,80,6,-28529,80,6
-                dc.w -28528,80,6,-28527,80,6,-28526,80
-                dc.w 6,-28525,80,6,-28524,80,6,-28523
-                dc.w 80,6,-28522,80,6,-28521,80,6
-                dc.w -28520,80,6,-28519,80,6,-28518,80
-                dc.w 6,-28517,80,6,-28516,80,6,-28515
-                dc.w 80,6,-28514,80,6,-28513,80,6
-                dc.w -28512,80,6,-28511,80,6,-28510,80
-                dc.w 6,-28509,80,6,-28508,80,6,-28507
-                dc.w 80,6,-28506,80,6,-28505,80,6
-                dc.w -28504,80,6,-28503,80,6,-28502,80
-                dc.w 6,-28501,80,6,-28500,80,6,-16211
-                dc.w 37,3091,-16210,4133,3091,-16209,8229,3091
-                dc.w -16208,12325,3091,-16207,16421,3091,-16206,20517
-                dc.w 3091,-16205,24613,3091,-16204,28709,3091,-16203
-                dc.w -32731,3091,-16202,-28635,3091,-16201,56,3091
-                dc.w -16200,4152,3091,-16199,8248,3091,-16198,12344
-                dc.w 3091,-16197,16440,3091,-16196,20536,3091,-16195
-                dc.w 24632,3091,-16194,28728,3091,-16193,-32712,3091
-                dc.w -16192,-28616,3091,-28479,136,11,-28478,136
-                dc.w 11,-16189,8192,1540,-28476,120,7,-28475
-                dc.w 120,7,-28474,120,7,-28473,120,7
-                dc.w -28472,120,7,-28471,120,7,-28470,120
-                dc.w 7,-28469,120,7,-28468,120,7,-28467
-                dc.w 120,7,-28466,120,7,-28465,120,7
-                dc.w -28464,120,7,-28463,120,7,-28462,120
-                dc.w 7,-28461,120,7,-12076,195,17418,8709
-                dc.w -12075,206,17418,8709,-16170,12288,7947,-16169
-                dc.w 12312,9483,-16168,12300,10763,20697,0,120
-                dc.w 1546,20698,16,120,1546,20699,32,120
-                dc.w 1546,20700,48,120,1546,20701,64,120
-                dc.w 1546,20702,80,120,1546,20703,96,120
-                dc.w 1546,20704,112,120,1546,20705,128,120
-                dc.w 1546,20706,144,120,1546,-32768,16,6948
-                dc.w -24349,0,0,3087,1036,-24348,16,0
-                dc.w 3343,1292,-24347,32,0,2831,780,-24346
-                dc.w 48,0,3087,1036,-24345,64,0,2831
-                dc.w 780,-24344,80,0,3343,1292,-24343,96
-                dc.w 0,2319,524,-24342,112,0,2831,1036
-                dc.w -24341,128,0,2575,780,-24340,144,0
-                dc.w 2319,524,-24339,160,0,2319,780,-24338
-                dc.w 176,0,2831,780,-24337,0,16,2319
-                dc.w 524,-24336,16,16,2063,268,-24335,32
-                dc.w 16,2575,780,-24334,48,16,2319,524
-                dc.w -24333,64,16,2319,524,-24332,80,16
-                dc.w 2831,780,-24331,96,16,2575,780,-24330
-                dc.w 112,16,2063,268,-24329,128,16,2319
-                dc.w 524,-24328,144,16,2831,780,-24327,160
-                dc.w 16,2319,524,-24326,176,16,2319,524
-                dc.w -24325,144,64,3087,1036,-24324,160,64
-                dc.w 3087,1036,-24323,176,64,3087,1036,-24322
-                dc.w 144,80,3087,1036,-24321,160,80,3087
-                dc.w 1036,-24320,176,80,2831,1036,-12031,16416
-                dc.w 2834,784,-12030,20512,2835,785,-12029,24608
-                dc.w 2831,781,-12028,16440,2834,784,-12027,20536
-                dc.w 2835,785,-12026,24632,2830,780,-12025,16464
-                dc.w 2578,783,-12024,20560,2323,528,-12023,24656
-                dc.w 2063,524,-12022,16488,2322,271,-12021,20584
-                dc.w 2579,528,-12020,24680,2831,1036,-12019,16512
-                dc.w 2066,271,-12018,20608,2323,528,-12017,24704
-                dc.w 2831,1036,-12016,16536,2578,783,-12015,20632
-                dc.w 2323,528,-12014,24728,2063,268,-12013,16560
-                dc.w 2066,271,-12012,20656,2323,528,-12011,24752
-                dc.w 2831,1036,-12010,16584,2578,783,-12009,20680
-                dc.w 2323,528,-12008,24776,2063,268,-12007,-16384
-                dc.w 2573,1027,-12006,-12288,3087,1034,-12005,-8192
-                dc.w 3339,776,-12004,-4096,3339,2056,8477,256
-                dc.w 0,2829,775,8478,272,0,3085,1543
-                dc.w 8479,288,0,3594,1027,8480,304,0
-                dc.w 3340,1795,-11999,-16368,2575,1037,-11998,-12271
-                dc.w 2574,1024,-11997,-8177,3850,3333,-11996,-4080
-                dc.w 3850,5,8485,256,16,3596,2561,8486
-                dc.w 272,16,3597,513,8487,288,16,3597
-                dc.w 2825,8488,304,16,3596,265,-11991,28704
-                dc.w 3084,8,-11990,-32736,3340,8,-11989,-28640
-                dc.w 3084,2568,-11988,-24544,3340,2824,-11987,28728
-                dc.w 2830,780,-11986,-32711,2829,779,-11985,32
-                dc.w 4114,1037,-11984,56,4114,1037,-11983,80
-                dc.w 2579,1037,-11982,104,2835,13,-11981,128
-                dc.w 2835,13,-11980,152,3091,1037,-11979,176
-                dc.w 2835,13,-11978,200,3091,1037,-11977,4128
-                dc.w 3857,1037,-11976,4152,3857,1037,-11975,4176
-                dc.w 2834,1037,-11974,4200,2834,13,-11973,4224
-                dc.w 3346,13,-11972,4248,3602,1037,-11971,4272
-                dc.w 3346,13,-11970,4296,3602,1037,-11969,8224
-                dc.w 4114,781,-11968,8248,4114,781,-11967,8272
-                dc.w 3603,2062,-11966,8296,3859,14,-11965,8320
-                dc.w 4115,270,-11964,8344,4115,1806,-11963,8368
-                dc.w 4115,270,-11962,8392,4115,1806,-11961,8392
-                dc.w 3092,527,-3768,0,3087,1036,227,-3767
-                dc.w 4096,3343,1292,228,-3766,8192,2831,780
-                dc.w 229,-3765,12288,3087,1036,230,-3764,16384
-                dc.w 2831,780,231,-3763,20480,3343,1292,232
-                dc.w -3762,24576,2319,524,233,-3761,28672,2831
-                dc.w 1036,234,-3760,-32768,2575,780,235,-3759
-                dc.w -28672,2319,524,236,-3758,-24576,2319,780
-                dc.w 237,-3757,-20480,2831,780,238,-3756,16
-                dc.w 2319,524,239,-3755,4112,2063,268,240
-                dc.w -3754,8208,2575,780,241,-3753,12304,2319
-                dc.w 524,242,-3752,16400,2319,524,243,-3751
-                dc.w 20496,2831,780,244,-3750,24592,2575,780
-                dc.w 245,-3749,28688,2063,268,246,-3748,-32752
-                dc.w 2319,524,247,-3747,-28656,2831,780,248
-                dc.w -3746,-24560,2319,524,249,-3745,-20464,2319
-                dc.w 524,250,-3744,-28608,3087,1036,251,-3743
-                dc.w -24512,3087,1036,252,-3742,-20416,3087,1036
-                dc.w 253,-3741,-28592,3087,1036,254,-3740,-24496
-                dc.w 3087,1036,255,-3739,-20400,2831,1036,256
-                dc.w -7834,16416,2834,784,257,-7833,20512,2835
-                dc.w 785,258,-7832,24608,2831,781,259,-7831
-                dc.w 16440,2834,784,260,-7830,20536,2835,785
-                dc.w 261,-7829,24632,2830,780,262,-7828,16464
-                dc.w 2578,783,263,-7827,20560,2323,528,264
-                dc.w -7826,24656,2063,524,265,-7825,16488,2322
-                dc.w 271,266,-7824,20584,2579,528,267,-7823
-                dc.w 24680,2831,1036,268,-7822,16512,2066,271
-                dc.w 269,-7821,20608,2323,528,270,-7820,24704
-                dc.w 2831,1036,271,-7819,16536,2578,783,272
-                dc.w -7818,20632,2323,528,273,-7817,24728,2063
-                dc.w 268,274,-7816,16560,2066,271,275,-7815
-                dc.w 20656,2323,528,276,-7814,24752,2831,1036
-                dc.w 277,-7813,16584,2578,783,278,-7812,20680
-                dc.w 2323,528,279,-7811,24776,2063,268,280
-                dc.w -7810,-16384,2573,1027,281,-7809,-12288,3087
-                dc.w 1034,282,-7808,-8192,3339,776,283,-7807
-                dc.w -4096,3339,2056,284,12674,256,0,2829
-                dc.w 775,285,12675,272,0,3085,1543,286
-                dc.w 12676,288,0,3594,1027,287,12677,304
-                dc.w 0,3340,1795,288,-7802,-16368,2575,1037
-                dc.w 289,-7801,-12271,2574,1024,290,-7800,-8177
-                dc.w 3850,3333,291,-7799,-4080,3850,5,292
-                dc.w 12682,256,16,3596,2561,293,12683,272
-                dc.w 16,3597,513,294,12684,288,16,3597
-                dc.w 2825,295,12685,304,16,3596,265,296
-                dc.w -7794,28704,3084,8,297,-7793,-32736,3340
-                dc.w 8,298,-7792,-28640,3084,2568,299,-7791
-                dc.w -24544,3340,2824,300,-7790,28728,2830,780
-                dc.w 301,-7789,-32711,2829,779,302,-7788,32
-                dc.w 4114,1037,303,-7787,56,4114,1037,304
-                dc.w -7786,80,2579,1037,305,-7785,104,2835
-                dc.w 13,306,-7784,128,2835,13,307,-7783
-                dc.w 152,3091,1037,308,-7782,176,2835,13
-                dc.w 309,-7781,200,3091,1037,310,-7780,4128
-                dc.w 3857,1037,311,-7779,4152,3857,1037,312
-                dc.w -7778,4176,2834,1037,313,-7777,4200,2834
-                dc.w 13,314,-7776,4224,3346,13,315,-7775
-                dc.w 4248,3602,1037,316,-7774,4272,3346,13
-                dc.w 317,-7773,4296,3602,1037,318,-7772,8224
-                dc.w 4114,781,319,-7771,8248,4114,781,320
-                dc.w -7770,8272,3603,2062,321,-7769,8296,3859
-                dc.w 14,322,-7768,8320,4115,270,323,-7767
-                dc.w 8344,4115,1806,324,-7766,8368,4115,270
-                dc.w 325,-7765,8392,4115,1806,326,-7764,8392
-                dc.w 3092,527,327,-3667,0,3087,1036,227
-                dc.w -3666,4096,3343,1292,228,-3665,8192,2831
-                dc.w 780,229,-3664,12288,3087,1036,230,-3663
-                dc.w 16384,2831,780,231,-3662,20480,3343,1292
-                dc.w 232,-3661,24576,2319,524,233,-3660,28672
-                dc.w 2831,1036,234,-3659,-32768,2575,780,235
-                dc.w -3658,-28672,2319,524,236,-3657,-24576,2319
-                dc.w 780,237,-3656,-20480,2831,780,238,-3655
-                dc.w 16,2319,524,239,-3654,4112,2063,268
-                dc.w 240,-3653,8208,2575,780,241,-3652,12304
-                dc.w 2319,524,242,-3651,16400,2319,524,243
-                dc.w -3650,20496,2831,780,244,-3649,24592,2575
-                dc.w 780,245,-3648,28688,2063,268,246,-3647
-                dc.w -32752,2319,524,247,-3646,-28656,2831,780
-                dc.w 248,-3645,-24560,2319,524,249,-3644,-20464
-                dc.w 2319,524,250,-3643,-28608,3087,1036,251
-                dc.w -3642,-24512,3087,1036,252,-3641,-20416,3087
-                dc.w 1036,253,-3640,-28592,3087,1036,254,-3639
-                dc.w -24496,3087,1036,255,-3638,-20400,2831,1036
-                dc.w 256,-7733,16416,2834,784,257,-7732,20512
-                dc.w 2835,785,258,-7731,24608,2831,781,259
-                dc.w -7730,16440,2834,784,260,-7729,20536,2835
-                dc.w 785,261,-7728,24632,2830,780,262,-7727
-                dc.w 16464,2578,783,263,-7726,20560,2323,528
-                dc.w 264,-7725,24656,2063,524,265,-7724,16488
-                dc.w 2322,271,266,-7723,20584,2579,528,267
-                dc.w -7722,24680,2831,1036,268,-7721,16512,2066
-                dc.w 271,269,-7720,20608,2323,528,270,-7719
-                dc.w 24704,2831,1036,271,-7718,16536,2578,783
-                dc.w 272,-7717,20632,2323,528,273,-7716,24728
-                dc.w 2063,268,274,-7715,16560,2066,271,275
-                dc.w -7714,20656,2323,528,276,-7713,24752,2831
-                dc.w 1036,277,-7712,16584,2578,783,278,-7711
-                dc.w 20680,2323,528,279,-7710,24776,2063,268
-                dc.w 280,-7709,-16384,2573,1027,281,-7708,-12288
-                dc.w 3087,1034,282,-7707,-8192,3339,776,283
-                dc.w -7706,-4096,3339,2056,284,12775,256,0
-                dc.w 2829,775,285,12776,272,0,3085,1543
-                dc.w 286,12777,288,0,3594,1027,287,12778
-                dc.w 304,0,3340,1795,288,-7701,-16368,2575
-                dc.w 1037,289,-7700,-12271,2574,1024,290,-7699
-                dc.w -8177,3850,3333,291,-7698,-4080,3850,5
-                dc.w 292,12783,256,16,3596,2561,293,12784
-                dc.w 272,16,3597,513,294,12785,288,16
-                dc.w 3597,2825,295,12786,304,16,3596,265
-                dc.w 296,-7693,28704,3084,8,297,-7692,-32736
-                dc.w 3340,8,298,-7691,-28640,3084,2568,299
-                dc.w -7690,-24544,3340,2824,300,-7689,28728,2830
-                dc.w 780,301,-7688,-32711,2829,779,302,-7687
-                dc.w 32,4114,1037,303,-7686,56,4114,1037
-                dc.w 304,-7685,80,2579,1037,305,-7684,104
-                dc.w 2835,13,306,-7683,128,2835,13,307
-                dc.w -7682,152,3091,1037,308,-7681,176,2835
-                dc.w 13,309,-7680,200,3091,1037,310,-7679
-                dc.w 4128,3857,1037,311,-7678,4152,3857,1037
-                dc.w 312,-7677,4176,2834,1037,313,-7676,4200
-                dc.w 2834,13,314,-7675,4224,3346,13,315
-                dc.w -7674,4248,3602,1037,316,-7673,4272,3346
-                dc.w 13,317,-7672,4296,3602,1037,318,-7671
-                dc.w 8224,4114,781,319,-7670,8248,4114,781
-                dc.w 320,-7669,8272,3603,2062,321,-7668,8296
-                dc.w 3859,14,322,-7667,8320,4115,270,323
-                dc.w -7666,8344,4115,1806,324,-7665,8368,4115
-                dc.w 270,325,-7664,8392,4115,1806,326,-7663
-                dc.w 8392,3092,527,327,-32768,16,6952,-3566
-                dc.w 0,3087,1036,227,-3565,4096,3343,1292
-                dc.w 228,-3564,8192,2831,780,229,-3563,12288
-                dc.w 3087,1036,230,-3562,16384,2831,780,231
-                dc.w -3561,20480,3343,1292,232,-3560,24576,2319
-                dc.w 524,233,-3559,28672,2831,1036,234,-3558
-                dc.w -32768,2575,780,235,-3557,-28672,2319,524
-                dc.w 236,-3556,-24576,2319,780,237,-3555,-20480
-                dc.w 2831,780,238,-3554,16,2319,524,239
-                dc.w -3553,4112,2063,268,240,-3552,8208,2575
-                dc.w 780,241,-3551,12304,2319,524,242,-3550
-                dc.w 16400,2319,524,243,-3549,20496,2831,780
-                dc.w 244,-3548,24592,2575,780,245,-3547,28688
-                dc.w 2063,268,246,-3546,-32752,2319,524,247
-                dc.w -3545,-28656,2831,780,248,-3544,-24560,2319
-                dc.w 524,249,-3543,-20464,2319,524,250,-3542
-                dc.w -28608,3087,1036,251,-3541,-24512,3087,1036
-                dc.w 252,-3540,-20416,3087,1036,253,-3539,-28592
-                dc.w 3087,1036,254,-3538,-24496,3087,1036,255
-                dc.w -3537,-20400,2831,1036,256,-7632,16416,2834
-                dc.w 784,257,-7631,20512,2835,785,258,-7630
-                dc.w 24608,2831,781,259,-7629,16440,2834,784
-                dc.w 260,-7628,20536,2835,785,261,-7627,24632
-                dc.w 2830,780,262,-7626,16464,2578,783,263
-                dc.w -7625,20560,2323,528,264,-7624,24656,2063
-                dc.w 524,265,-7623,16488,2322,271,266,-7622
-                dc.w 20584,2579,528,267,-7621,24680,2831,1036
-                dc.w 268,-7620,16512,2066,271,269,-7619,20608
-                dc.w 2323,528,270,-7618,24704,2831,1036,271
-                dc.w -7617,16536,2578,783,272,-7616,20632,2323
-                dc.w 528,273,-7615,24728,2063,268,274,-7614
-                dc.w 16560,2066,271,275,-7613,20656,2323,528
-                dc.w 276,-7612,24752,2831,1036,277,-7611,16584
-                dc.w 2578,783,278,-7610,20680,2323,528,279
-                dc.w -7609,24776,2063,268,280,-7608,-16384,2573
-                dc.w 1027,281,-7607,-12288,3087,1034,282,-7606
-                dc.w -8192,3339,776,283,-7605,-4096,3339,2056
-                dc.w 284,12876,256,0,2829,775,285,12877
-                dc.w 272,0,3085,1543,286,12878,288,0
-                dc.w 3594,1027,287,12879,304,0,3340,1795
-                dc.w 288,-7600,-16368,2575,1037,289,-7599,-12271
-                dc.w 2574,1024,290,-7598,-8177,3850,3333,291
-                dc.w -7597,-4080,3850,5,292,12884,256,16
-                dc.w 3596,2561,293,12885,272,16,3597,513
-                dc.w 294,12886,288,16,3597,2825,295,12887
-                dc.w 304,16,3596,265,296,-7592,28704,3084
-                dc.w 8,297,-7591,-32736,3340,8,298,-7590
-                dc.w -28640,3084,2568,299,-7589,-24544,3340,2824
-                dc.w 300,-7588,28728,2830,780,301,-7587,-32711
-                dc.w 2829,779,302,-7586,32,4114,1037,303
-                dc.w -7585,56,4114,1037,304,-7584,80,2579
-                dc.w 1037,305,-7583,104,2835,13,306,-7582
-                dc.w 128,2835,13,307,-7581,152,3091,1037
-                dc.w 308,-7580,176,2835,13,309,-7579,200
-                dc.w 3091,1037,310,-7578,4128,3857,1037,311
-                dc.w -7577,4152,3857,1037,312,-7576,4176,2834
-                dc.w 1037,313,-7575,4200,2834,13,314,-7574
-                dc.w 4224,3346,13,315,-7573,4248,3602,1037
-                dc.w 316,-7572,4272,3346,13,317,-7571,4296
-                dc.w 3602,1037,318,-7570,8224,4114,781,319
-                dc.w -7569,8248,4114,781,320,-7568,8272,3603
-                dc.w 2062,321,-7567,8296,3859,14,322,-7566
-                dc.w 8320,4115,270,323,-7565,8344,4115,1806
-                dc.w 324,-7564,8368,4115,270,325,-7563,8392
-                dc.w 4115,1806,326,-7562,8392,3092,527,327
-                dc.w -3465,0,3087,1036,227,-3464,4096,3343
-                dc.w 1292,228,-3463,8192,2831,780,229,-3462
-                dc.w 12288,3087,1036,230,-3461,16384,2831,780
-                dc.w 231,-3460,20480,3343,1292,232,-3459,24576
-                dc.w 2319,524,233,-3458,28672,2831,1036,234
-                dc.w -3457,-32768,2575,780,235,-3456,-28672,2319
-                dc.w 524,236,-3455,-24576,2319,780,237,-3454
-                dc.w -20480,2831,780,238,-3453,16,2319,524
-                dc.w 239,-3452,4112,2063,268,240,-3451,8208
-                dc.w 2575,780,241,-3450,12304,2319,524,242
-                dc.w -3449,16400,2319,524,243,-3448,20496,2831
-                dc.w 780,244,-3447,24592,2575,780,245,-3446
-                dc.w 28688,2063,268,246,-3445,-32752,2319,524
-                dc.w 247,-3444,-28656,2831,780,248,-3443,-24560
-                dc.w 2319,524,249,-3442,-20464,2319,524,250
-                dc.w -3441,-28608,3087,1036,251,-3440,-24512,3087
-                dc.w 1036,252,-3439,-20416,3087,1036,253,-3438
-                dc.w -28592,3087,1036,254,-3437,-24496,3087,1036
-                dc.w 255,-3436,-20400,2831,1036,256,-7531,16416
-                dc.w 2834,784,257,-7530,20512,2835,785,258
-                dc.w -7529,24608,2831,781,259,-7528,16440,2834
-                dc.w 784,260,-7527,20536,2835,785,261,-7526
-                dc.w 24632,2830,780,262,-7525,16464,2578,783
-                dc.w 263,-7524,20560,2323,528,264,-7523,24656
-                dc.w 2063,524,265,-7522,16488,2322,271,266
-                dc.w -7521,20584,2579,528,267,-7520,24680,2831
-                dc.w 1036,268,-7519,16512,2066,271,269,-7518
-                dc.w 20608,2323,528,270,-7517,24704,2831,1036
-                dc.w 271,-7516,16536,2578,783,272,-7515,20632
-                dc.w 2323,528,273,-7514,24728,2063,268,274
-                dc.w -7513,16560,2066,271,275,-7512,20656,2323
-                dc.w 528,276,-7511,24752,2831,1036,277,-7510
-                dc.w 16584,2578,783,278,-7509,20680,2323,528
-                dc.w 279,-7508,24776,2063,268,280,-7507,-16384
-                dc.w 2573,1027,281,-7506,-12288,3087,1034,282
-                dc.w -7505,-8192,3339,776,283,-7504,-4096,3339
-                dc.w 2056,284,12977,256,0,2829,775,285
-                dc.w 12978,272,0,3085,1543,286,12979,288
-                dc.w 0,3594,1027,287,12980,304,0,3340
-                dc.w 1795,288,-7499,-16368,2575,1037,289,-7498
-                dc.w -12271,2574,1024,290,-7497,-8177,3850,3333
-                dc.w 291,-7496,-4080,3850,5,292,12985,256
-                dc.w 16,3596,2561,293,12986,272,16,3597
-                dc.w 513,294,12987,288,16,3597,2825,295
-                dc.w 12988,304,16,3596,265,296,-7491,28704
-                dc.w 3084,8,297,-7490,-32736,3340,8,298
-                dc.w -7489,-28640,3084,2568,299,-7488,-24544,3340
-                dc.w 2824,300,-7487,28728,2830,780,301,-7486
-                dc.w -32711,2829,779,302,-7485,32,4114,1037
-                dc.w 303,-7484,56,4114,1037,304,-7483,80
-                dc.w 2579,1037,305,-7482,104,2835,13,306
-                dc.w -7481,128,2835,13,307,-7480,152,3091
-                dc.w 1037,308,-7479,176,2835,13,309,-7478
-                dc.w 200,3091,1037,310,-7477,4128,3857,1037
-                dc.w 311,-7476,4152,3857,1037,312,-7475,4176
-                dc.w 2834,1037,313,-7474,4200,2834,13,314
-                dc.w -7473,4224,3346,13,315,-7472,4248,3602
-                dc.w 1037,316,-7471,4272,3346,13,317,-7470
-                dc.w 4296,3602,1037,318,-7469,8224,4114,781
-                dc.w 319,-7468,8248,4114,781,320,-7467,8272
-                dc.w 3603,2062,321,-7466,8296,3859,14,322
-                dc.w -7465,8320,4115,270,323,-7464,8344,4115
-                dc.w 1806,324,-7463,8368,4115,270,325,-7462
-                dc.w 8392,4115,1806,326,-7461,8392,3092,527
-                dc.w 327,-3364,0,3087,1036,227,-3363,4096
-                dc.w 3343,1292,228,-3362,8192,2831,780,229
-                dc.w -3361,12288,3087,1036,230,-3360,16384,2831
-                dc.w 780,231,-3359,20480,3343,1292,232,-3358
-                dc.w 24576,2319,524,233,-3357,28672,2831,1036
-                dc.w 234,-3356,-32768,2575,780,235,-3355,-28672
-                dc.w 2319,524,236,-3354,-24576,2319,780,237
-                dc.w -3353,-20480,2831,780,238,-3352,16,2319
-                dc.w 524,239,-3351,4112,2063,268,240,-3350
-                dc.w 8208,2575,780,241,-3349,12304,2319,524
-                dc.w 242,-3348,16400,2319,524,243,-3347,20496
-                dc.w 2831,780,244,-3346,24592,2575,780,245
-                dc.w -3345,28688,2063,268,246,-3344,-32752,2319
-                dc.w 524,247,-3343,-28656,2831,780,248,-3342
-                dc.w -24560,2319,524,249,-3341,-20464,2319,524
-                dc.w 250,-3340,-28608,3087,1036,251,-3339,-24512
-                dc.w 3087,1036,252,-3338,-20416,3087,1036,253
-                dc.w -3337,-28592,3087,1036,254,-3336,-24496,3087
-                dc.w 1036,255,-3335,-20400,2831,1036,256,-7430
-                dc.w 16416,2834,784,257,-7429,20512,2835,785
-                dc.w 258,-7428,24608,2831,781,259,-7427,16440
-                dc.w 2834,784,260,-7426,20536,2835,785,261
-                dc.w -7425,24632,2830,780,262,-7424,16464,2578
-                dc.w 783,263,-7423,20560,2323,528,264,-7422
-                dc.w 24656,2063,524,265,-7421,16488,2322,271
-                dc.w 266,-7420,20584,2579,528,267,-7419,24680
-                dc.w 2831,1036,268,-7418,16512,2066,271,269
-                dc.w -7417,20608,2323,528,270,-7416,24704,2831
-                dc.w 1036,271,-7415,16536,2578,783,272,-7414
-                dc.w 20632,2323,528,273,-7413,24728,2063,268
-                dc.w 274,-7412,16560,2066,271,275,-7411,20656
-                dc.w 2323,528,276,-7410,24752,2831,1036,277
-                dc.w -7409,16584,2578,783,278,-7408,20680,2323
-                dc.w 528,279,-7407,24776,2063,268,280,-7406
-                dc.w -16384,2573,1027,281,-7405,-12288,3087,1034
-                dc.w 282,-7404,-8192,3339,776,283,-7403,-4096
-                dc.w 3339,2056,284,13078,256,0,2829,775
-                dc.w 285,13079,272,0,3085,1543,286,13080
-                dc.w 288,0,3594,1027,287,13081,304,0
-                dc.w 3340,1795,288,-7398,-16368,2575,1037,289
-                dc.w -7397,-12271,2574,1024,290,-7396,-8177,3850
-                dc.w 3333,291,-7395,-4080,3850,5,292,13086
-                dc.w 256,16,3596,2561,293,13087,272,16
-                dc.w 3597,513,294,13088,288,16,3597,2825
-                dc.w 295,13089,304,16,3596,265,296,-7390
-                dc.w 28704,3084,8,297,-7389,-32736,3340,8
-                dc.w 298,-7388,-28640,3084,2568,299,-7387,-24544
-                dc.w 3340,2824,300,-7386,28728,2830,780,301
-                dc.w -7385,-32711,2829,779,302,-7384,32,4114
-                dc.w 1037,303,-7383,56,4114,1037,304,-7382
-                dc.w 80,2579,1037,305,-7381,104,2835,13
-                dc.w 306,-7380,128,2835,13,307,-7379,152
-                dc.w 3091,1037,308,-7378,176,2835,13,309
-                dc.w -7377,200,3091,1037,310,-7376,4128,3857
-                dc.w 1037,311,-7375,4152,3857,1037,312,-7374
-                dc.w 4176,2834,1037,313,-7373,4200,2834,13
-                dc.w 314,-7372,4224,3346,13,315,-7371,4248
-                dc.w 3602,1037,316,-7370,4272,3346,13,317
-                dc.w -7369,4296,3602,1037,318,-7368,8224,4114
-                dc.w 781,319,-7367,8248,4114,781,320,-7366
-                dc.w 8272,3603,2062,321,-7365,8296,3859,14
-                dc.w 322,-7364,8320,4115,270,323,-7363,8344
-                dc.w 4115,1806,324,-7362,8368,4115,270,325
-                dc.w -7361,8392,4115,1806,326,-7360,8392,3092
-                dc.w 527,327,28672,16,6801,-3263,0,3087
-                dc.w 1036,227,-3262,4096,3343,1292,228,-3261
-                dc.w 8192,2831,780,229,-3260,12288,3087,1036
-                dc.w 230,-3259,16384,2831,780,231,-3258,20480
-                dc.w 3343,1292,232,-3257,24576,2319,524,233
-                dc.w -3256,28672,2831,1036,234,-3255,-32768,2575
-                dc.w 780,235,-3254,-28672,2319,524,236,-3253
-                dc.w -24576,2319,780,237,-3252,-20480,2831,780
-                dc.w 238,-3251,16,2319,524,239,-3250,4112
-                dc.w 2063,268,240,-3249,8208,2575,780,241
-                dc.w -3248,12304,2319,524,242,-3247,16400,2319
-                dc.w 524,243,-3246,20496,2831,780,244,-3245
-                dc.w 24592,2575,780,245,-3244,28688,2063,268
-                dc.w 246,-3243,-32752,2319,524,247,-3242,-28656
-                dc.w 2831,780,248,-3241,-24560,2319,524,249
-                dc.w -3240,-20464,2319,524,250,-11431,80,4113
-                dc.w 1293,-11430,4173,4116,2576,-11429,8271,4114
-                dc.w 3086,-11428,12369,4112,3084,-11427,16469,4108
-                dc.w 3336,-11426,20566,4107,3335,-11425,24661,3595
-                dc.w 2056,-11424,112,4107,-505,-11423,4207,4108
-                dc.w 8,-11422,8299,4112,268,-11421,12393,4114
-                dc.w 270,-11420,16487,4116,272,-11419,20586,4113
-                dc.w 1037,-11418,24687,3339,519,-11417,128,4113
-                dc.w 1293,-11416,4221,4116,2576,-11415,8319,4114
-                dc.w 3086,-11414,12417,4112,3084,-11413,16517,4108
-                dc.w 3336,-11412,20614,4107,3335,-11411,24710,3594
-                dc.w 2056,-11410,160,4107,-505,-11409,4255,4108
-                dc.w 8,-11408,8347,4112,268,-11407,12441,4114
-                dc.w 270,-11406,16535,4116,272,-11405,20634,4113
-                dc.w 1037,-11404,24736,3338,519,-11403,32,3856
-                dc.w 1038,-11402,4128,4113,1039,-11401,8224,4115
-                dc.w 785,-11400,56,3856,1038,-11399,4152,4113
-                dc.w 1039,-11398,8248,4115,785,-3205,0,3087
-                dc.w 1036,227,-3204,4096,3343,1292,228,-3203
-                dc.w 8192,2831,780,229,-3202,12288,3087,1036
-                dc.w 230,-3201,16384,2831,780,231,-3200,20480
-                dc.w 3343,1292,232,-3199,24576,2319,524,233
-                dc.w -3198,28672,2831,1036,234,-3197,-32768,2575
-                dc.w 780,235,-3196,-28672,2319,524,236,-3195
-                dc.w -24576,2319,780,237,-3194,-20480,2831,780
-                dc.w 238,-3193,16,2319,524,239,-3192,4112
-                dc.w 2063,268,240,-3191,8208,2575,780,241
-                dc.w -3190,12304,2319,524,242,-3189,16400,2319
-                dc.w 524,243,-3188,20496,2831,780,244,-3187
-                dc.w 24592,2575,780,245,-3186,28688,2063,268
-                dc.w 246,-3185,-32752,2319,524,247,-3184,-28656
-                dc.w 2831,780,248,-3183,-24560,2319,524,249
-                dc.w -3182,-20464,2319,524,250,-7277,80,4113
-                dc.w 1293,857,-7276,4173,4116,2576,858,-7275
-                dc.w 8271,4114,3086,859,-7274,12369,4112,3084
-                dc.w 860,-7273,16469,4108,3336,861,-7272,20566
-                dc.w 4107,3335,862,-7271,24661,3595,2056,863
-                dc.w -7270,112,4107,-505,864,-7269,4207,4108
-                dc.w 8,865,-7268,8299,4112,268,866,-7267
-                dc.w 12393,4114,270,867,-7266,16487,4116,272
-                dc.w 868,-7265,20586,4113,1037,869,-7264,24687
-                dc.w 3339,519,870,-7263,128,4113,1293,871
-                dc.w -7262,4221,4116,2576,872,-7261,8319,4114
-                dc.w 3086,873,-7260,12417,4112,3084,874,-7259
-                dc.w 16517,4108,3336,875,-7258,20614,4107,3335
-                dc.w 876,-7257,24710,3594,2056,877,-7256,160
-                dc.w 4107,-505,878,-7255,4255,4108,8,879
-                dc.w -7254,8347,4112,268,880,-7253,12441,4114
-                dc.w 270,881,-7252,16535,4116,272,882,-7251
-                dc.w 20634,4113,1037,883,-7250,24736,3338,519
-                dc.w 884,-7249,32,3856,1038,885,-7248,4128
-                dc.w 4113,1039,886,-7247,8224,4115,785,887
-                dc.w -7246,56,3856,1038,888,-7245,4152,4113
-                dc.w 1039,889,-7244,8248,4115,785,890,-3147
-                dc.w 0,3087,1036,227,-3146,4096,3343,1292
-                dc.w 228,-3145,8192,2831,780,229,-3144,12288
-                dc.w 3087,1036,230,-3143,16384,2831,780,231
-                dc.w -3142,20480,3343,1292,232,-3141,24576,2319
-                dc.w 524,233,-3140,28672,2831,1036,234,-3139
-                dc.w -32768,2575,780,235,-3138,-28672,2319,524
-                dc.w 236,-3137,-24576,2319,780,237,-3136,-20480
-                dc.w 2831,780,238,-3135,16,2319,524,239
-                dc.w -3134,4112,2063,268,240,-3133,8208,2575
-                dc.w 780,241,-3132,12304,2319,524,242,-3131
-                dc.w 16400,2319,524,243,-3130,20496,2831,780
-                dc.w 244,-3129,24592,2575,780,245,-3128,28688
-                dc.w 2063,268,246,-3127,-32752,2319,524,247
-                dc.w -3126,-28656,2831,780,248,-3125,-24560,2319
-                dc.w 524,249,-3124,-20464,2319,524,250,-7219
-                dc.w 80,4113,1293,857,-7218,4173,4116,2576
-                dc.w 858,-7217,8271,4114,3086,859,-7216,12369
-                dc.w 4112,3084,860,-7215,16469,4108,3336,861
-                dc.w -7214,20566,4107,3335,862,-7213,24661,3595
-                dc.w 2056,863,-7212,112,4107,-505,864,-7211
-                dc.w 4207,4108,8,865,-7210,8299,4112,268
-                dc.w 866,-7209,12393,4114,270,867,-7208,16487
-                dc.w 4116,272,868,-7207,20586,4113,1037,869
-                dc.w -7206,24687,3339,519,870,-7205,128,4113
-                dc.w 1293,871,-7204,4221,4116,2576,872,-7203
-                dc.w 8319,4114,3086,873,-7202,12417,4112,3084
-                dc.w 874,-7201,16517,4108,3336,875,-7200,20614
-                dc.w 4107,3335,876,-7199,24710,3594,2056,877
-                dc.w -7198,160,4107,-505,878,-7197,4255,4108
-                dc.w 8,879,-7196,8347,4112,268,880,-7195
-                dc.w 12441,4114,270,881,-7194,16535,4116,272
-                dc.w 882,-7193,20634,4113,1037,883,-7192,24736
-                dc.w 3338,519,884,-7191,32,3856,1038,885
-                dc.w -7190,4128,4113,1039,886,-7189,8224,4115
-                dc.w 785,887,-7188,56,3856,1038,888,-7187
-                dc.w 4152,4113,1039,889,-7186,8248,4115,785
-                dc.w 890,-3089,0,3087,1036,227,-3088,4096
-                dc.w 3343,1292,228,-3087,8192,2831,780,229
-                dc.w -3086,12288,3087,1036,230,-3085,16384,2831
-                dc.w 780,231,-3084,20480,3343,1292,232,-3083
-                dc.w 24576,2319,524,233,-3082,28672,2831,1036
-                dc.w 234,-3081,-32768,2575,780,235,-3080,-28672
-                dc.w 2319,524,236,-3079,-24576,2319,780,237
-                dc.w -3078,-20480,2831,780,238,-3077,16,2319
-                dc.w 524,239,-3076,4112,2063,268,240,-3075
-                dc.w 8208,2575,780,241,-3074,12304,2319,524
-                dc.w 242,-3073,16400,2319,524,243,-3072,20496
-                dc.w 2831,780,244,-3071,24592,2575,780,245
-                dc.w -3070,28688,2063,268,246,-3069,-32752,2319
-                dc.w 524,247,-3068,-28656,2831,780,248,-3067
-                dc.w -24560,2319,524,249,-3066,-20464,2319,524
-                dc.w 250,-7161,80,4113,1293,857,-7160,4173
-                dc.w 4116,2576,858,-7159,8271,4114,3086,859
-                dc.w -7158,12369,4112,3084,860,-7157,16469,4108
-                dc.w 3336,861,-7156,20566,4107,3335,862,-7155
-                dc.w 24661,3595,2056,863,-7154,112,4107,-505
-                dc.w 864,-7153,4207,4108,8,865,-7152,8299
-                dc.w 4112,268,866,-7151,12393,4114,270,867
-                dc.w -7150,16487,4116,272,868,-7149,20586,4113
-                dc.w 1037,869,-7148,24687,3339,519,870,-7147
-                dc.w 128,4113,1293,871,-7146,4221,4116,2576
-                dc.w 872,-7145,8319,4114,3086,873,-7144,12417
-                dc.w 4112,3084,874,-7143,16517,4108,3336,875
-                dc.w -7142,20614,4107,3335,876,-7141,24710,3594
-                dc.w 2056,877,-7140,160,4107,-505,878,-7139
-                dc.w 4255,4108,8,879,-7138,8347,4112,268
-                dc.w 880,-7137,12441,4114,270,881,-7136,16535
-                dc.w 4116,272,882,-7135,20634,4113,1037,883
-                dc.w -7134,24736,3338,519,884,-7133,32,3856
-                dc.w 1038,885,-7132,4128,4113,1039,886,-7131
-                dc.w 8224,4115,785,887,-7130,56,3856,1038
-                dc.w 888,-7129,4152,4113,1039,889,-7128,8248
-                dc.w 4115,785,890,28672,16,6726,-23511,0
-                dc.w 48,1028,259,-23510,16,48,1028,259
-                dc.w -23509,32,48,1028,259,-23508,48,48
-                dc.w 1028,259,-23507,64,48,1028,259,-23506
-                dc.w 0,200,4108,1544,-23505,16,200,4108
-                dc.w 1544,-23504,32,200,4108,1544,-23503,48
-                dc.w 200,4108,1544,-23502,80,48,773,258
-                dc.w -23501,80,53,773,258,-23500,80,58
-                dc.w 773,258,-23499,80,63,773,258,-23498
-                dc.w 80,68,773,258,-23497,80,73,773
-                dc.w 258,-23496,80,78,773,258,-23495,80
-                dc.w 83,773,258,-23494,80,88,773,258
-                dc.w -23493,80,93,1285,514,-23492,80,98
-                dc.w 773,258,-23491,80,103,1285,514,-23490
-                dc.w 80,108,1285,514,-23489,80,113,1285
-                dc.w 514,-23488,80,118,1285,514,-23487,80
-                dc.w 123,1285,514,-23486,80,128,1285,514
-                dc.w -11197,64,18695,23,-11196,80,18716,27
-                dc.w -15291,0,4112,-15290,24656,4375,28672,16
-                dc.w 6250,-15289,20,8215,-15288,8212,8215,-15287
-                dc.w 16404,8215,-15286,24596,8215,-15285,-32748,8215
-                dc.w -15284,-24556,8215,-15283,-16364,8215,-15282,-8172
-                dc.w 8215,-15281,43,8215,-15280,8235,8215,-15279
-                dc.w 16427,8215,-15278,24619,8215,-15277,-32725,8215
-                dc.w -15276,-24533,8215,-15275,-16341,8215,-15274,-8149
-                dc.w 8215,-15273,66,8215,-15272,8258,8215,-15271
-                dc.w 16450,8215,-15270,24642,8215,-15269,-32702,8215
-                dc.w -15268,-24510,8215,-15267,-16318,8215,-15266,-8126
-                dc.w 8215,-15265,89,8215,-15264,8281,8215,-15263
-                dc.w 16473,8215,-15262,24665,8215,-15261,-32679,8215
-                dc.w -15260,-24487,8215,-15259,-16295,8215,-15258,-8103
-                dc.w 8215,-15257,112,8215,-15256,8304,8215,-15255
-                dc.w 16496,8215,-15254,24688,8215,-15253,-32656,8215
-                dc.w -15252,-24464,8215,-15251,-16272,8215,-15250,-8080
-                dc.w 8215,-15249,135,8215,-15248,8327,8215,-15247
-                dc.w 16519,8215,-15246,24711,8215,-15245,-32633,8215
-                dc.w -15244,-24441,8215,-15243,-16249,8215,-15242,-8057
-                dc.w 8215,-15241,158,8215,-15240,8350,8215,-15239
-                dc.w 16542,8215,-15238,24734,8215,-15237,-32610,8215
-                dc.w -15236,-24418,8215,-15235,-16226,8215,-15234,-8034
-                dc.w 8215,-15233,181,8215,-15232,8373,8215,-15231
-                dc.w 16565,8215,-15230,24757,8215,-15229,-32587,8215
-                dc.w -15228,-24395,8215,-15227,-16203,8215,-15226,-8011
-                dc.w 8215,28672,16,6839,-11129,-32720,3087,1036
-                dc.w -11128,-28624,3343,1292,-11127,-24528,2831,780
-                dc.w -11126,-20432,3087,1036,-11125,-16336,2831,780
-                dc.w -11124,-12240,3343,1292,-11123,-32688,2319,524
-                dc.w -11122,-28592,2320,525,-11121,-24496,3088,1293
-                dc.w -11120,-20400,2831,1036,-11119,-16304,2831,1036
-                dc.w 5266,272,120,2312,5267,272,48,4164
-                dc.w 5268,288,48,1348,5269,304,48,4164
-                dc.w 5270,272,168,8987,5271,272,200,9501
-                dc.w 5272,256,120,2056,9369,256,128,1286
-                dc.w 515,9370,256,135,1286,515,5275,304
-                dc.w 136,2056,5276,304,152,2056,5277,304
-                dc.w 144,2056,-11106,4096,2578,0,-11105,8192
-                dc.w 2066,0,-11104,12288,2066,0,9377,256
-                dc.w 0,2319,-2048,9378,272,0,2319,-2048
-                dc.w 9379,288,0,2319,-2048,9380,304,0
-                dc.w 2319,-2048,-7003,4120,2578,0,1182,-7002
-                dc.w 8216,2066,0,1183,-7001,12312,2066,0
-                dc.w 1184,13480,256,24,2319,-2048,1185,13481
-                dc.w 272,24,2319,-2048,1186,13482,288,24
-                dc.w 2319,-2048,1187,13483,304,24,2319,-2048
-                dc.w 1188,-11092,16384,2066,0,-11091,20480,2066
-                dc.w 0,-11090,24576,2066,0,-11089,28672,2066
-                dc.w 0,-11088,-32768,2066,0,-11087,-28672,2066
-                dc.w 0,-11086,-24576,2319,-2048,-11085,-20480,2319
-                dc.w -2048,-11084,-16384,2319,-2048,-11083,-12288,2319
-                dc.w -2048,-11082,-8192,2319,-2048,-11081,-4096,2319
-                dc.w -2048,-6984,16384,2066,0,1196,-6983,20480
-                dc.w 2066,0,1197,-6982,24576,2066,0,1198
-                dc.w -6981,28672,2066,0,1199,-6980,-32768,2066
-                dc.w 0,1200,-6979,-28672,2066,0,1201,-6978
-                dc.w -24576,2319,-2048,1202,-6977,-20480,2319,-2048
-                dc.w 1203,-6976,-16384,2319,-2048,1204,-6975,-12288
-                dc.w 2319,-2048,1205,-6974,-8192,2319,-2048,1206
-                dc.w -6973,-4096,2319,-2048,1207,-1
-; __int16[406]
-word_11AE7E:
-                ; __int16[406]
-                dc.w 28672,16,6561,4209,256,0,8200,4210
-                dc.w 256,9,8200,4211,256,18,8200,4212
-                dc.w 256,27,8200,4213,256,36,8200,4214
-                dc.w 256,45,8200,4215,256,54,8200,4216
-                dc.w 256,63,8200,4217,256,72,8200,4218
-                dc.w 256,81,8200,-12165,-20384,1285,516,-12164
-                dc.w -20480,1544,518,-12163,-16384,1544,518,-12162
-                dc.w -12288,1544,518,-12161,-20480,1544,518,-12160
-                dc.w -16384,1544,518,-12159,-12288,1544,518,-12158
-                dc.w -20480,1544,518,-12157,-16384,1544,518,-12156
-                dc.w -12288,1544,518,-12155,-20464,1544,518,-12154
-                dc.w -16368,1544,518,-12153,-12272,1544,518,-12152
-                dc.w -20448,1544,518,-12151,-16352,1544,518,-12150
-                dc.w -12256,1544,518,-12149,-20432,1544,518,-12148
-                dc.w -16336,1544,518,-12147,-12240,1544,518,-12146
-                dc.w -20416,1544,518,-12145,-16320,1544,518,-12144
-                dc.w -12224,1544,518,-16239,32,1800,-16238,40
-                dc.w 1800,-16237,48,3080,-16236,56,3080,-12139
-                dc.w -20400,2824,1285,-12138,-16304,2824,1285,-12137
-                dc.w -12208,2824,1285,-16232,136,3080,-16231,112
-                dc.w 2056,-16230,120,2056,-16229,128,2056,-16228
-                dc.w 64,3080,-16227,72,3080,-16226,80,3080
-                dc.w -16225,88,3080,-16224,96,3080,-16223,104
-                dc.w 3080,-12126,4128,518,5,-12125,4134,1030
-                dc.w 261,-12124,4140,1030,261,-12123,4146,1030
-                dc.w 261,-12122,4152,1030,261,-12121,4158,1030
-                dc.w 261,-12120,4164,1030,261,-12119,4170,1030
-                dc.w 261,-12118,4176,1030,261,-12117,4182,1542
-                dc.w 517,-12116,4188,1030,261,-12115,-8192,1802
-                dc.w 776,-12114,-4096,2313,263,-12113,-8176,2567
-                dc.w 2,-12112,-4080,2313,0,-12111,-8160,1802
-                dc.w 768,-12110,-4064,2313,1793,-12109,-8144,2567
-                dc.w 2051,-12108,-4048,2313,1799,-16203,20480,1799
-                dc.w -16202,20488,1799,-16201,8192,1548,-16200,12288
-                dc.w 1548,-16199,16,2313,-16198,16384,2056,-16197
-                dc.w 16392,2056,-16196,16400,2056,-16195,16408,2056
-                dc.w -16194,24576,11293,-16193,24608,7183,-16192,24624
-                dc.w 8463,-16191,24576,11293,-16190,24608,7183,-16189
-                dc.w 24624,8463,-16188,24576,11293,-16187,24608,7183
-                dc.w -16186,24624,8463,-16185,-28672,5648,-16184,-28656
-                dc.w 5648,-16183,-28640,5648,-16182,-28624,5648,-16181
-                dc.w 8272,4112,-16180,12368,4112,-16179,16464,4112
-                dc.w -16178,8296,2829,-16177,12392,2829,-16176,4208
-                dc.w 1800,-16175,4216,1800,-16174,-32664,2316,-16173
-                dc.w -32648,2316,-16172,-32632,2316,-16171,-32616,2316
-                dc.w -16170,-32664,2316,-16169,-28569,3340,-16168,-24473
-                dc.w 2060,-16167,-20377,2828,-16166,-16281,2316,-16165
-                dc.w -12185,3340,-16164,-8089,3340,-16163,-3993,2316
-                dc.w 4318,256,103,1804,4319,272,103,3340
-                dc.w 28672,16,6577,-16160,0,-32678,-16159,90
-                dc.w -31619,-16158,-20480,-32056,-1,-1
+; unsigned __int16[343]
+introMenuImageScript:
+                dc.w $7000
+                dc.l aGrafsCharsetRa    ; "grafs/charset.raw"
+                dc.w $C000,$0000,$0606,$C001,$7000,$0206,$C002,$8000
+                dc.w $0306,$C003,$9000,$0306,$C004,$C000,$0206,$C005
+                dc.w $D000,$0406,$C006,$E000,$0206,$C007,$F000,$0606
+                dc.w $C008,$0008,$0606,$C009,$1008,$0206,$C00A,$2008
+                dc.w $0606,$C00B,$3008,$0606,$C00C,$4008,$0606,$C00D
+                dc.w $5008,$0606,$C00E,$6008,$0606,$C00F,$7008,$0606
+                dc.w $C010,$8008,$0606,$C011,$9008,$0606,$C012,$1010
+                dc.w $0606,$C013,$2010,$0606,$C014,$3010,$0606,$C015
+                dc.w $4010,$0606,$C016,$5010,$0606,$C017,$6010,$0606
+                dc.w $C018,$7010,$0606,$C019,$8010,$0606,$C01A,$9010
+                dc.w $0206,$C01B,$A010,$0606,$C01C,$B010,$0606,$C01D
+                dc.w $C010,$0606,$C01E,$D010,$0606,$C01F,$E010,$0606
+                dc.w $C020,$F010,$0606,$C021,$0018,$0606,$C022,$1018
+                dc.w $0606,$C023,$2018,$0606,$C024,$3018,$0606,$C025
+                dc.w $4018,$0606,$C026,$5018,$0606,$C027,$6018,$0606
+                dc.w $C028,$7018,$0606,$C029,$8018,$0606,$C02A,$9018
+                dc.w $0606,$C02B,$A018,$0606,$C02C,$F068,$0606,$C02D
+                dc.w $A000,$0606,$C02E,$C038,$0606,$C02F,$0030,$0606
+                dc.w $C030,$F008,$0606,$C031,$A008,$0206,$C032,$B000
+                dc.w $0606,$C033,$5000,$0606,$C034,$B008,$0306,$C035
+                dc.w $E030,$0606,$C036,$A038,$0606,$C037,$9038,$0606
+                dc.w $C038,$F038,$0306,$C039,$0070,$0808,$C03A,$7070
+                dc.w $0208,$C03B,$8070,$0408,$C03C,$9070,$0408,$C03D
+                dc.w $C070,$0308,$C03E,$D070,$0508,$C03F,$E070,$0308
+                dc.w $C040,$F070,$0808,$C041,$0078,$0808,$C042,$1078
+                dc.w $0508,$C043,$2078,$0808,$C044,$3078,$0808,$C045
+                dc.w $4078,$0808,$C046,$5078,$0808,$C047,$6078,$0808
+                dc.w $C048,$7078,$0808,$C049,$8078,$0808,$C04A,$9078
+                dc.w $0808,$C04B,$1080,$0808,$C04C,$2080,$0808,$C04D
+                dc.w $3080,$0808,$C04E,$4080,$0808,$C04F,$5080,$0808
+                dc.w $C050,$6080,$0808,$C051,$7080,$0808,$C052,$8080
+                dc.w $0808,$C053,$9080,$0508,$C054,$A080,$0808,$C055
+                dc.w $B080,$0808,$C056,$C080,$0808,$C057,$D080,$0808
+                dc.w $C058,$E080,$0708,$C059,$F080,$0808,$C05A,$0088
+                dc.w $0808,$C05B,$1088,$0808,$C05C,$2088,$0808,$C05D
+                dc.w $3088,$0808,$C05E,$4088,$0708,$C05F,$5088,$0808
+                dc.w $C060,$6088,$0808,$C061,$7088,$0808,$C062,$8088
+                dc.w $0708,$C063,$9088,$0708,$C064,$A088,$0808,$C065
+                dc.w $F0D8,$0808,$C066,$A070,$0808,$C067,$C0A8,$0808
+                dc.w $C068,$00A0,$0808,$C069,$F078,$0808,$C06A,$A078
+                dc.w $0308,$C06B,$B070,$0808,$C06C,$5070,$0808,$C06D
+                dc.w $B078,$0408,$C06E,$E0A0,$0808,$C06F,$A0A8,$0808
+                dc.w $C070,$90A8,$0808,$FFFF
+; unsigned __int16[5166]
+menuColorAndTextScript:
+                dc.w $7000
+                dc.l aGrafsCjcgrafsR    ; "grafs/cjcgrafs.raw"
+                dc.w $A071,$0000,$00DD,$1012,$0000,$A072,$0010,$00DD
+                dc.w $1012,$0000,$A073,$0020,$00DD,$1012,$0000,$A074
+                dc.w $0030,$00DD,$1012,$0000,$A075,$0040,$00DD,$1012
+                dc.w $0000,$A076,$0050,$00DD,$1012,$0000,$A077,$0060
+                dc.w $00DD,$1012,$0000,$A078,$0070,$00DD,$1012,$0000
+                dc.w $A079,$0060,$00BD,$1012,$0000,$A07A,$0070,$00BD
+                dc.w $1012,$0000,$A07B,$0080,$00BD,$1012,$0000,$A07C
+                dc.w $0090,$00BD,$1012,$0000,$A07D,$00A0,$00BD,$1012
+                dc.w $0000,$A07E,$00B0,$00BD,$1012,$0000,$A07F,$00C0
+                dc.w $00BD,$1012,$0000,$A080,$00D0,$00BD,$1012,$0000
+                dc.w $A081,$0090,$00DD,$1012,$0000,$A082,$00A0,$00DD
+                dc.w $1012,$0000,$A083,$00B0,$00DD,$1012,$0000,$A084
+                dc.w $00C0,$00DD,$1012,$0000,$A085,$00D0,$00DD,$1012
+                dc.w $0000,$A086,$00E0,$00DD,$1012,$0000,$A087,$00F0
+                dc.w $00DD,$1012,$0000,$A088,$0100,$00DD,$1012,$0000
+                dc.w $C089,$0088,$1010,$C08A,$0050,$A820,$C08B,$B0A7
+                dc.w $0808,$C08C,$A0A7,$0808,$908D,$0050,$0006,$908E
+                dc.w $0050,$0006,$908F,$0050,$0006,$9090,$0050,$0006
+                dc.w $9091,$0050,$0006,$9092,$0050,$0006,$9093,$0050
+                dc.w $0006,$9094,$0050,$0006,$9095,$0050,$0006,$9096
+                dc.w $0050,$0006,$9097,$0050,$0006,$9098,$0050,$0006
+                dc.w $9099,$0050,$0006,$909A,$0050,$0006,$909B,$0050
+                dc.w $0006,$909C,$0050,$0006,$909D,$0050,$0006,$909E
+                dc.w $0050,$0006,$909F,$0050,$0006,$90A0,$0050,$0006
+                dc.w $90A1,$0050,$0006,$90A2,$0050,$0006,$90A3,$0050
+                dc.w $0006,$90A4,$0050,$0006,$90A5,$0050,$0006,$90A6
+                dc.w $0050,$0006,$90A7,$0050,$0006,$90A8,$0050,$0006
+                dc.w $90A9,$0050,$0006,$90AA,$0050,$0006,$90AB,$0050
+                dc.w $0006,$90AC,$0050,$0006,$C0AD,$0025,$0C13,$C0AE
+                dc.w $1025,$0C13,$C0AF,$2025,$0C13,$C0B0,$3025,$0C13
+                dc.w $C0B1,$4025,$0C13,$C0B2,$5025,$0C13,$C0B3,$6025
+                dc.w $0C13,$C0B4,$7025,$0C13,$C0B5,$8025,$0C13,$C0B6
+                dc.w $9025,$0C13,$C0B7,$0038,$0C13,$C0B8,$1038,$0C13
+                dc.w $C0B9,$2038,$0C13,$C0BA,$3038,$0C13,$C0BB,$4038
+                dc.w $0C13,$C0BC,$5038,$0C13,$C0BD,$6038,$0C13,$C0BE
+                dc.w $7038,$0C13,$C0BF,$8038,$0C13,$C0C0,$9038,$0C13
+                dc.w $90C1,$0088,$000B,$90C2,$0088,$000B,$C0C3,$2000
+                dc.w $0604,$90C4,$0078,$0007,$90C5,$0078,$0007,$90C6
+                dc.w $0078,$0007,$90C7,$0078,$0007,$90C8,$0078,$0007
+                dc.w $90C9,$0078,$0007,$90CA,$0078,$0007,$90CB,$0078
+                dc.w $0007,$90CC,$0078,$0007,$90CD,$0078,$0007,$90CE
+                dc.w $0078,$0007,$90CF,$0078,$0007,$90D0,$0078,$0007
+                dc.w $90D1,$0078,$0007,$90D2,$0078,$0007,$90D3,$0078
+                dc.w $0007,$D0D4,$00C3,$440A,$2205,$D0D5,$00CE,$440A
+                dc.w $2205,$C0D6,$3000,$1F0B,$C0D7,$3018,$250B,$C0D8
+                dc.w $300C,$2A0B,$50D9,$0000,$0078,$060A,$50DA,$0010
+                dc.w $0078,$060A,$50DB,$0020,$0078,$060A,$50DC,$0030
+                dc.w $0078,$060A,$50DD,$0040,$0078,$060A,$50DE,$0050
+                dc.w $0078,$060A,$50DF,$0060,$0078,$060A,$50E0,$0070
+                dc.w $0078,$060A,$50E1,$0080,$0078,$060A,$50E2,$0090
+                dc.w $0078,$060A,$8000
+                dc.l team1Filename
+                dc.w $A0E3,$0000,$0000,$0C0F,$040C,$A0E4,$0010,$0000
+                dc.w $0D0F,$050C,$A0E5,$0020,$0000,$0B0F,$030C,$A0E6
+                dc.w $0030,$0000,$0C0F,$040C,$A0E7,$0040,$0000,$0B0F
+                dc.w $030C,$A0E8,$0050,$0000,$0D0F,$050C,$A0E9,$0060
+                dc.w $0000,$090F,$020C,$A0EA,$0070,$0000,$0B0F,$040C
+                dc.w $A0EB,$0080,$0000,$0A0F,$030C,$A0EC,$0090,$0000
+                dc.w $090F,$020C,$A0ED,$00A0,$0000,$090F,$030C,$A0EE
+                dc.w $00B0,$0000,$0B0F,$030C,$A0EF,$0000,$0010,$090F
+                dc.w $020C,$A0F0,$0010,$0010,$080F,$010C,$A0F1,$0020
+                dc.w $0010,$0A0F,$030C,$A0F2,$0030,$0010,$090F,$020C
+                dc.w $A0F3,$0040,$0010,$090F,$020C,$A0F4,$0050,$0010
+                dc.w $0B0F,$030C,$A0F5,$0060,$0010,$0A0F,$030C,$A0F6
+                dc.w $0070,$0010,$080F,$010C,$A0F7,$0080,$0010,$090F
+                dc.w $020C,$A0F8,$0090,$0010,$0B0F,$030C,$A0F9,$00A0
+                dc.w $0010,$090F,$020C,$A0FA,$00B0,$0010,$090F,$020C
+                dc.w $A0FB,$0090,$0040,$0C0F,$040C,$A0FC,$00A0,$0040
+                dc.w $0C0F,$040C,$A0FD,$00B0,$0040,$0C0F,$040C,$A0FE
+                dc.w $0090,$0050,$0C0F,$040C,$A0FF,$00A0,$0050,$0C0F
+                dc.w $040C,$A100,$00B0,$0050,$0B0F,$040C,$D101,$4020
+                dc.w $0B12,$0310,$D102,$5020,$0B13,$0311,$D103,$6020
+                dc.w $0B0F,$030D,$D104,$4038,$0B12,$0310,$D105,$5038
+                dc.w $0B13,$0311,$D106,$6038,$0B0E,$030C,$D107,$4050
+                dc.w $0A12,$030F,$D108,$5050,$0913,$0210,$D109,$6050
+                dc.w $080F,$020C,$D10A,$4068,$0912,$010F,$D10B,$5068
+                dc.w $0A13,$0210,$D10C,$6068,$0B0F,$040C,$D10D,$4080
+                dc.w $0812,$010F,$D10E,$5080,$0913,$0210,$D10F,$6080
+                dc.w $0B0F,$040C,$D110,$4098,$0A12,$030F,$D111,$5098
+                dc.w $0913,$0210,$D112,$6098,$080F,$010C,$D113,$40B0
+                dc.w $0812,$010F,$D114,$50B0,$0913,$0210,$D115,$60B0
+                dc.w $0B0F,$040C,$D116,$40C8,$0A12,$030F,$D117,$50C8
+                dc.w $0913,$0210,$D118,$60C8,$080F,$010C,$D119,$C000
+                dc.w $0A0D,$0403,$D11A,$D000,$0C0F,$040A,$D11B,$E000
+                dc.w $0D0B,$0308,$D11C,$F000,$0D0B,$0808,$211D,$0100
+                dc.w $0000,$0B0D,$0307,$211E,$0110,$0000,$0C0D,$0607
+                dc.w $211F,$0120,$0000,$0E0A,$0403,$2120,$0130,$0000
+                dc.w $0D0C,$0703,$D121,$C010,$0A0F,$040D,$D122,$D011
+                dc.w $0A0E,$0400,$D123,$E00F,$0F0A,$0D05,$D124,$F010
+                dc.w $0F0A,$0005,$2125,$0100,$0010,$0E0C,$0A01,$2126
+                dc.w $0110,$0010,$0E0D,$0201,$2127,$0120,$0010,$0E0D
+                dc.w $0B09,$2128,$0130,$0010,$0E0C,$0109,$D129,$7020
+                dc.w $0C0C,$0008,$D12A,$8020,$0D0C,$0008,$D12B,$9020
+                dc.w $0C0C,$0A08,$D12C,$A020,$0D0C,$0B08,$D12D,$7038
+                dc.w $0B0E,$030C,$D12E,$8039,$0B0D,$030B,$D12F,$0020
+                dc.w $1012,$040D,$D130,$0038,$1012,$040D,$D131,$0050
+                dc.w $0A13,$040D,$D132,$0068,$0B13,$000D,$D133,$0080
+                dc.w $0B13,$000D,$D134,$0098,$0C13,$040D,$D135,$00B0
+                dc.w $0B13,$000D,$D136,$00C8,$0C13,$040D,$D137,$1020
+                dc.w $0F11,$040D,$D138,$1038,$0F11,$040D,$D139,$1050
+                dc.w $0B12,$040D,$D13A,$1068,$0B12,$000D,$D13B,$1080
+                dc.w $0D12,$000D,$D13C,$1098,$0E12,$040D,$D13D,$10B0
+                dc.w $0D12,$000D,$D13E,$10C8,$0E12,$040D,$D13F,$2020
+                dc.w $1012,$030D,$D140,$2038,$1012,$030D,$D141,$2050
+                dc.w $0E13,$080E,$D142,$2068,$0F13,$000E,$D143,$2080
+                dc.w $1013,$010E,$D144,$2098,$1013,$070E,$D145,$20B0
+                dc.w $1013,$010E,$D146,$20C8,$1013,$070E,$D147,$20C8
+                dc.w $0C14,$020F,$F148,$0000,$0C0F,$040C,$00E3,$F149
+                dc.w $1000,$0D0F,$050C,$00E4,$F14A,$2000,$0B0F,$030C
+                dc.w $00E5,$F14B,$3000,$0C0F,$040C,$00E6,$F14C,$4000
+                dc.w $0B0F,$030C,$00E7,$F14D,$5000,$0D0F,$050C,$00E8
+                dc.w $F14E,$6000,$090F,$020C,$00E9,$F14F,$7000,$0B0F
+                dc.w $040C,$00EA,$F150,$8000,$0A0F,$030C,$00EB,$F151
+                dc.w $9000,$090F,$020C,$00EC,$F152,$A000,$090F,$030C
+                dc.w $00ED,$F153,$B000,$0B0F,$030C,$00EE,$F154,$0010
+                dc.w $090F,$020C,$00EF,$F155,$1010,$080F,$010C,$00F0
+                dc.w $F156,$2010,$0A0F,$030C,$00F1,$F157,$3010,$090F
+                dc.w $020C,$00F2,$F158,$4010,$090F,$020C,$00F3,$F159
+                dc.w $5010,$0B0F,$030C,$00F4,$F15A,$6010,$0A0F,$030C
+                dc.w $00F5,$F15B,$7010,$080F,$010C,$00F6,$F15C,$8010
+                dc.w $090F,$020C,$00F7,$F15D,$9010,$0B0F,$030C,$00F8
+                dc.w $F15E,$A010,$090F,$020C,$00F9,$F15F,$B010,$090F
+                dc.w $020C,$00FA,$F160,$9040,$0C0F,$040C,$00FB,$F161
+                dc.w $A040,$0C0F,$040C,$00FC,$F162,$B040,$0C0F,$040C
+                dc.w $00FD,$F163,$9050,$0C0F,$040C,$00FE,$F164,$A050
+                dc.w $0C0F,$040C,$00FF,$F165,$B050,$0B0F,$040C,$0100
+                dc.w $E166,$4020,$0B12,$0310,$0101,$E167,$5020,$0B13
+                dc.w $0311,$0102,$E168,$6020,$0B0F,$030D,$0103,$E169
+                dc.w $4038,$0B12,$0310,$0104,$E16A,$5038,$0B13,$0311
+                dc.w $0105,$E16B,$6038,$0B0E,$030C,$0106,$E16C,$4050
+                dc.w $0A12,$030F,$0107,$E16D,$5050,$0913,$0210,$0108
+                dc.w $E16E,$6050,$080F,$020C,$0109,$E16F,$4068,$0912
+                dc.w $010F,$010A,$E170,$5068,$0A13,$0210,$010B,$E171
+                dc.w $6068,$0B0F,$040C,$010C,$E172,$4080,$0812,$010F
+                dc.w $010D,$E173,$5080,$0913,$0210,$010E,$E174,$6080
+                dc.w $0B0F,$040C,$010F,$E175,$4098,$0A12,$030F,$0110
+                dc.w $E176,$5098,$0913,$0210,$0111,$E177,$6098,$080F
+                dc.w $010C,$0112,$E178,$40B0,$0812,$010F,$0113,$E179
+                dc.w $50B0,$0913,$0210,$0114,$E17A,$60B0,$0B0F,$040C
+                dc.w $0115,$E17B,$40C8,$0A12,$030F,$0116,$E17C,$50C8
+                dc.w $0913,$0210,$0117,$E17D,$60C8,$080F,$010C,$0118
+                dc.w $E17E,$C000,$0A0D,$0403,$0119,$E17F,$D000,$0C0F
+                dc.w $040A,$011A,$E180,$E000,$0D0B,$0308,$011B,$E181
+                dc.w $F000,$0D0B,$0808,$011C,$3182,$0100,$0000,$0B0D
+                dc.w $0307,$011D,$3183,$0110,$0000,$0C0D,$0607,$011E
+                dc.w $3184,$0120,$0000,$0E0A,$0403,$011F,$3185,$0130
+                dc.w $0000,$0D0C,$0703,$0120,$E186,$C010,$0A0F,$040D
+                dc.w $0121,$E187,$D011,$0A0E,$0400,$0122,$E188,$E00F
+                dc.w $0F0A,$0D05,$0123,$E189,$F010,$0F0A,$0005,$0124
+                dc.w $318A,$0100,$0010,$0E0C,$0A01,$0125,$318B,$0110
+                dc.w $0010,$0E0D,$0201,$0126,$318C,$0120,$0010,$0E0D
+                dc.w $0B09,$0127,$318D,$0130,$0010,$0E0C,$0109,$0128
+                dc.w $E18E,$7020,$0C0C,$0008,$0129,$E18F,$8020,$0D0C
+                dc.w $0008,$012A,$E190,$9020,$0C0C,$0A08,$012B,$E191
+                dc.w $A020,$0D0C,$0B08,$012C,$E192,$7038,$0B0E,$030C
+                dc.w $012D,$E193,$8039,$0B0D,$030B,$012E,$E194,$0020
+                dc.w $1012,$040D,$012F,$E195,$0038,$1012,$040D,$0130
+                dc.w $E196,$0050,$0A13,$040D,$0131,$E197,$0068,$0B13
+                dc.w $000D,$0132,$E198,$0080,$0B13,$000D,$0133,$E199
+                dc.w $0098,$0C13,$040D,$0134,$E19A,$00B0,$0B13,$000D
+                dc.w $0135,$E19B,$00C8,$0C13,$040D,$0136,$E19C,$1020
+                dc.w $0F11,$040D,$0137,$E19D,$1038,$0F11,$040D,$0138
+                dc.w $E19E,$1050,$0B12,$040D,$0139,$E19F,$1068,$0B12
+                dc.w $000D,$013A,$E1A0,$1080,$0D12,$000D,$013B,$E1A1
+                dc.w $1098,$0E12,$040D,$013C,$E1A2,$10B0,$0D12,$000D
+                dc.w $013D,$E1A3,$10C8,$0E12,$040D,$013E,$E1A4,$2020
+                dc.w $1012,$030D,$013F,$E1A5,$2038,$1012,$030D,$0140
+                dc.w $E1A6,$2050,$0E13,$080E,$0141,$E1A7,$2068,$0F13
+                dc.w $000E,$0142,$E1A8,$2080,$1013,$010E,$0143,$E1A9
+                dc.w $2098,$1013,$070E,$0144,$E1AA,$20B0,$1013,$010E
+                dc.w $0145,$E1AB,$20C8,$1013,$070E,$0146,$E1AC,$20C8
+                dc.w $0C14,$020F,$0147,$F1AD,$0000,$0C0F,$040C,$00E3
+                dc.w $F1AE,$1000,$0D0F,$050C,$00E4,$F1AF,$2000,$0B0F
+                dc.w $030C,$00E5,$F1B0,$3000,$0C0F,$040C,$00E6,$F1B1
+                dc.w $4000,$0B0F,$030C,$00E7,$F1B2,$5000,$0D0F,$050C
+                dc.w $00E8,$F1B3,$6000,$090F,$020C,$00E9,$F1B4,$7000
+                dc.w $0B0F,$040C,$00EA,$F1B5,$8000,$0A0F,$030C,$00EB
+                dc.w $F1B6,$9000,$090F,$020C,$00EC,$F1B7,$A000,$090F
+                dc.w $030C,$00ED,$F1B8,$B000,$0B0F,$030C,$00EE,$F1B9
+                dc.w $0010,$090F,$020C,$00EF,$F1BA,$1010,$080F,$010C
+                dc.w $00F0,$F1BB,$2010,$0A0F,$030C,$00F1,$F1BC,$3010
+                dc.w $090F,$020C,$00F2,$F1BD,$4010,$090F,$020C,$00F3
+                dc.w $F1BE,$5010,$0B0F,$030C,$00F4,$F1BF,$6010,$0A0F
+                dc.w $030C,$00F5,$F1C0,$7010,$080F,$010C,$00F6,$F1C1
+                dc.w $8010,$090F,$020C,$00F7,$F1C2,$9010,$0B0F,$030C
+                dc.w $00F8,$F1C3,$A010,$090F,$020C,$00F9,$F1C4,$B010
+                dc.w $090F,$020C,$00FA,$F1C5,$9040,$0C0F,$040C,$00FB
+                dc.w $F1C6,$A040,$0C0F,$040C,$00FC,$F1C7,$B040,$0C0F
+                dc.w $040C,$00FD,$F1C8,$9050,$0C0F,$040C,$00FE,$F1C9
+                dc.w $A050,$0C0F,$040C,$00FF,$F1CA,$B050,$0B0F,$040C
+                dc.w $0100,$E1CB,$4020,$0B12,$0310,$0101,$E1CC,$5020
+                dc.w $0B13,$0311,$0102,$E1CD,$6020,$0B0F,$030D,$0103
+                dc.w $E1CE,$4038,$0B12,$0310,$0104,$E1CF,$5038,$0B13
+                dc.w $0311,$0105,$E1D0,$6038,$0B0E,$030C,$0106,$E1D1
+                dc.w $4050,$0A12,$030F,$0107,$E1D2,$5050,$0913,$0210
+                dc.w $0108,$E1D3,$6050,$080F,$020C,$0109,$E1D4,$4068
+                dc.w $0912,$010F,$010A,$E1D5,$5068,$0A13,$0210,$010B
+                dc.w $E1D6,$6068,$0B0F,$040C,$010C,$E1D7,$4080,$0812
+                dc.w $010F,$010D,$E1D8,$5080,$0913,$0210,$010E,$E1D9
+                dc.w $6080,$0B0F,$040C,$010F,$E1DA,$4098,$0A12,$030F
+                dc.w $0110,$E1DB,$5098,$0913,$0210,$0111,$E1DC,$6098
+                dc.w $080F,$010C,$0112,$E1DD,$40B0,$0812,$010F,$0113
+                dc.w $E1DE,$50B0,$0913,$0210,$0114,$E1DF,$60B0,$0B0F
+                dc.w $040C,$0115,$E1E0,$40C8,$0A12,$030F,$0116,$E1E1
+                dc.w $50C8,$0913,$0210,$0117,$E1E2,$60C8,$080F,$010C
+                dc.w $0118,$E1E3,$C000,$0A0D,$0403,$0119,$E1E4,$D000
+                dc.w $0C0F,$040A,$011A,$E1E5,$E000,$0D0B,$0308,$011B
+                dc.w $E1E6,$F000,$0D0B,$0808,$011C,$31E7,$0100,$0000
+                dc.w $0B0D,$0307,$011D,$31E8,$0110,$0000,$0C0D,$0607
+                dc.w $011E,$31E9,$0120,$0000,$0E0A,$0403,$011F,$31EA
+                dc.w $0130,$0000,$0D0C,$0703,$0120,$E1EB,$C010,$0A0F
+                dc.w $040D,$0121,$E1EC,$D011,$0A0E,$0400,$0122,$E1ED
+                dc.w $E00F,$0F0A,$0D05,$0123,$E1EE,$F010,$0F0A,$0005
+                dc.w $0124,$31EF,$0100,$0010,$0E0C,$0A01,$0125,$31F0
+                dc.w $0110,$0010,$0E0D,$0201,$0126,$31F1,$0120,$0010
+                dc.w $0E0D,$0B09,$0127,$31F2,$0130,$0010,$0E0C,$0109
+                dc.w $0128,$E1F3,$7020,$0C0C,$0008,$0129,$E1F4,$8020
+                dc.w $0D0C,$0008,$012A,$E1F5,$9020,$0C0C,$0A08,$012B
+                dc.w $E1F6,$A020,$0D0C,$0B08,$012C,$E1F7,$7038,$0B0E
+                dc.w $030C,$012D,$E1F8,$8039,$0B0D,$030B,$012E,$E1F9
+                dc.w $0020,$1012,$040D,$012F,$E1FA,$0038,$1012,$040D
+                dc.w $0130,$E1FB,$0050,$0A13,$040D,$0131,$E1FC,$0068
+                dc.w $0B13,$000D,$0132,$E1FD,$0080,$0B13,$000D,$0133
+                dc.w $E1FE,$0098,$0C13,$040D,$0134,$E1FF,$00B0,$0B13
+                dc.w $000D,$0135,$E200,$00C8,$0C13,$040D,$0136,$E201
+                dc.w $1020,$0F11,$040D,$0137,$E202,$1038,$0F11,$040D
+                dc.w $0138,$E203,$1050,$0B12,$040D,$0139,$E204,$1068
+                dc.w $0B12,$000D,$013A,$E205,$1080,$0D12,$000D,$013B
+                dc.w $E206,$1098,$0E12,$040D,$013C,$E207,$10B0,$0D12
+                dc.w $000D,$013D,$E208,$10C8,$0E12,$040D,$013E,$E209
+                dc.w $2020,$1012,$030D,$013F,$E20A,$2038,$1012,$030D
+                dc.w $0140,$E20B,$2050,$0E13,$080E,$0141,$E20C,$2068
+                dc.w $0F13,$000E,$0142,$E20D,$2080,$1013,$010E,$0143
+                dc.w $E20E,$2098,$1013,$070E,$0144,$E20F,$20B0,$1013
+                dc.w $010E,$0145,$E210,$20C8,$1013,$070E,$0146,$E211
+                dc.w $20C8,$0C14,$020F,$0147,$8000
+                dc.l team2Filename
+                dc.w $F212,$0000,$0C0F,$040C,$00E3,$F213,$1000,$0D0F
+                dc.w $050C,$00E4,$F214,$2000,$0B0F,$030C,$00E5,$F215
+                dc.w $3000,$0C0F,$040C,$00E6,$F216,$4000,$0B0F,$030C
+                dc.w $00E7,$F217,$5000,$0D0F,$050C,$00E8,$F218,$6000
+                dc.w $090F,$020C,$00E9,$F219,$7000,$0B0F,$040C,$00EA
+                dc.w $F21A,$8000,$0A0F,$030C,$00EB,$F21B,$9000,$090F
+                dc.w $020C,$00EC,$F21C,$A000,$090F,$030C,$00ED,$F21D
+                dc.w $B000,$0B0F,$030C,$00EE,$F21E,$0010,$090F,$020C
+                dc.w $00EF,$F21F,$1010,$080F,$010C,$00F0,$F220,$2010
+                dc.w $0A0F,$030C,$00F1,$F221,$3010,$090F,$020C,$00F2
+                dc.w $F222,$4010,$090F,$020C,$00F3,$F223,$5010,$0B0F
+                dc.w $030C,$00F4,$F224,$6010,$0A0F,$030C,$00F5,$F225
+                dc.w $7010,$080F,$010C,$00F6,$F226,$8010,$090F,$020C
+                dc.w $00F7,$F227,$9010,$0B0F,$030C,$00F8,$F228,$A010
+                dc.w $090F,$020C,$00F9,$F229,$B010,$090F,$020C,$00FA
+                dc.w $F22A,$9040,$0C0F,$040C,$00FB,$F22B,$A040,$0C0F
+                dc.w $040C,$00FC,$F22C,$B040,$0C0F,$040C,$00FD,$F22D
+                dc.w $9050,$0C0F,$040C,$00FE,$F22E,$A050,$0C0F,$040C
+                dc.w $00FF,$F22F,$B050,$0B0F,$040C,$0100,$E230,$4020
+                dc.w $0B12,$0310,$0101,$E231,$5020,$0B13,$0311,$0102
+                dc.w $E232,$6020,$0B0F,$030D,$0103,$E233,$4038,$0B12
+                dc.w $0310,$0104,$E234,$5038,$0B13,$0311,$0105,$E235
+                dc.w $6038,$0B0E,$030C,$0106,$E236,$4050,$0A12,$030F
+                dc.w $0107,$E237,$5050,$0913,$0210,$0108,$E238,$6050
+                dc.w $080F,$020C,$0109,$E239,$4068,$0912,$010F,$010A
+                dc.w $E23A,$5068,$0A13,$0210,$010B,$E23B,$6068,$0B0F
+                dc.w $040C,$010C,$E23C,$4080,$0812,$010F,$010D,$E23D
+                dc.w $5080,$0913,$0210,$010E,$E23E,$6080,$0B0F,$040C
+                dc.w $010F,$E23F,$4098,$0A12,$030F,$0110,$E240,$5098
+                dc.w $0913,$0210,$0111,$E241,$6098,$080F,$010C,$0112
+                dc.w $E242,$40B0,$0812,$010F,$0113,$E243,$50B0,$0913
+                dc.w $0210,$0114,$E244,$60B0,$0B0F,$040C,$0115,$E245
+                dc.w $40C8,$0A12,$030F,$0116,$E246,$50C8,$0913,$0210
+                dc.w $0117,$E247,$60C8,$080F,$010C,$0118,$E248,$C000
+                dc.w $0A0D,$0403,$0119,$E249,$D000,$0C0F,$040A,$011A
+                dc.w $E24A,$E000,$0D0B,$0308,$011B,$E24B,$F000,$0D0B
+                dc.w $0808,$011C,$324C,$0100,$0000,$0B0D,$0307,$011D
+                dc.w $324D,$0110,$0000,$0C0D,$0607,$011E,$324E,$0120
+                dc.w $0000,$0E0A,$0403,$011F,$324F,$0130,$0000,$0D0C
+                dc.w $0703,$0120,$E250,$C010,$0A0F,$040D,$0121,$E251
+                dc.w $D011,$0A0E,$0400,$0122,$E252,$E00F,$0F0A,$0D05
+                dc.w $0123,$E253,$F010,$0F0A,$0005,$0124,$3254,$0100
+                dc.w $0010,$0E0C,$0A01,$0125,$3255,$0110,$0010,$0E0D
+                dc.w $0201,$0126,$3256,$0120,$0010,$0E0D,$0B09,$0127
+                dc.w $3257,$0130,$0010,$0E0C,$0109,$0128,$E258,$7020
+                dc.w $0C0C,$0008,$0129,$E259,$8020,$0D0C,$0008,$012A
+                dc.w $E25A,$9020,$0C0C,$0A08,$012B,$E25B,$A020,$0D0C
+                dc.w $0B08,$012C,$E25C,$7038,$0B0E,$030C,$012D,$E25D
+                dc.w $8039,$0B0D,$030B,$012E,$E25E,$0020,$1012,$040D
+                dc.w $012F,$E25F,$0038,$1012,$040D,$0130,$E260,$0050
+                dc.w $0A13,$040D,$0131,$E261,$0068,$0B13,$000D,$0132
+                dc.w $E262,$0080,$0B13,$000D,$0133,$E263,$0098,$0C13
+                dc.w $040D,$0134,$E264,$00B0,$0B13,$000D,$0135,$E265
+                dc.w $00C8,$0C13,$040D,$0136,$E266,$1020,$0F11,$040D
+                dc.w $0137,$E267,$1038,$0F11,$040D,$0138,$E268,$1050
+                dc.w $0B12,$040D,$0139,$E269,$1068,$0B12,$000D,$013A
+                dc.w $E26A,$1080,$0D12,$000D,$013B,$E26B,$1098,$0E12
+                dc.w $040D,$013C,$E26C,$10B0,$0D12,$000D,$013D,$E26D
+                dc.w $10C8,$0E12,$040D,$013E,$E26E,$2020,$1012,$030D
+                dc.w $013F,$E26F,$2038,$1012,$030D,$0140,$E270,$2050
+                dc.w $0E13,$080E,$0141,$E271,$2068,$0F13,$000E,$0142
+                dc.w $E272,$2080,$1013,$010E,$0143,$E273,$2098,$1013
+                dc.w $070E,$0144,$E274,$20B0,$1013,$010E,$0145,$E275
+                dc.w $20C8,$1013,$070E,$0146,$E276,$20C8,$0C14,$020F
+                dc.w $0147,$F277,$0000,$0C0F,$040C,$00E3,$F278,$1000
+                dc.w $0D0F,$050C,$00E4,$F279,$2000,$0B0F,$030C,$00E5
+                dc.w $F27A,$3000,$0C0F,$040C,$00E6,$F27B,$4000,$0B0F
+                dc.w $030C,$00E7,$F27C,$5000,$0D0F,$050C,$00E8,$F27D
+                dc.w $6000,$090F,$020C,$00E9,$F27E,$7000,$0B0F,$040C
+                dc.w $00EA,$F27F,$8000,$0A0F,$030C,$00EB,$F280,$9000
+                dc.w $090F,$020C,$00EC,$F281,$A000,$090F,$030C,$00ED
+                dc.w $F282,$B000,$0B0F,$030C,$00EE,$F283,$0010,$090F
+                dc.w $020C,$00EF,$F284,$1010,$080F,$010C,$00F0,$F285
+                dc.w $2010,$0A0F,$030C,$00F1,$F286,$3010,$090F,$020C
+                dc.w $00F2,$F287,$4010,$090F,$020C,$00F3,$F288,$5010
+                dc.w $0B0F,$030C,$00F4,$F289,$6010,$0A0F,$030C,$00F5
+                dc.w $F28A,$7010,$080F,$010C,$00F6,$F28B,$8010,$090F
+                dc.w $020C,$00F7,$F28C,$9010,$0B0F,$030C,$00F8,$F28D
+                dc.w $A010,$090F,$020C,$00F9,$F28E,$B010,$090F,$020C
+                dc.w $00FA,$F28F,$9040,$0C0F,$040C,$00FB,$F290,$A040
+                dc.w $0C0F,$040C,$00FC,$F291,$B040,$0C0F,$040C,$00FD
+                dc.w $F292,$9050,$0C0F,$040C,$00FE,$F293,$A050,$0C0F
+                dc.w $040C,$00FF,$F294,$B050,$0B0F,$040C,$0100,$E295
+                dc.w $4020,$0B12,$0310,$0101,$E296,$5020,$0B13,$0311
+                dc.w $0102,$E297,$6020,$0B0F,$030D,$0103,$E298,$4038
+                dc.w $0B12,$0310,$0104,$E299,$5038,$0B13,$0311,$0105
+                dc.w $E29A,$6038,$0B0E,$030C,$0106,$E29B,$4050,$0A12
+                dc.w $030F,$0107,$E29C,$5050,$0913,$0210,$0108,$E29D
+                dc.w $6050,$080F,$020C,$0109,$E29E,$4068,$0912,$010F
+                dc.w $010A,$E29F,$5068,$0A13,$0210,$010B,$E2A0,$6068
+                dc.w $0B0F,$040C,$010C,$E2A1,$4080,$0812,$010F,$010D
+                dc.w $E2A2,$5080,$0913,$0210,$010E,$E2A3,$6080,$0B0F
+                dc.w $040C,$010F,$E2A4,$4098,$0A12,$030F,$0110,$E2A5
+                dc.w $5098,$0913,$0210,$0111,$E2A6,$6098,$080F,$010C
+                dc.w $0112,$E2A7,$40B0,$0812,$010F,$0113,$E2A8,$50B0
+                dc.w $0913,$0210,$0114,$E2A9,$60B0,$0B0F,$040C,$0115
+                dc.w $E2AA,$40C8,$0A12,$030F,$0116,$E2AB,$50C8,$0913
+                dc.w $0210,$0117,$E2AC,$60C8,$080F,$010C,$0118,$E2AD
+                dc.w $C000,$0A0D,$0403,$0119,$E2AE,$D000,$0C0F,$040A
+                dc.w $011A,$E2AF,$E000,$0D0B,$0308,$011B,$E2B0,$F000
+                dc.w $0D0B,$0808,$011C,$32B1,$0100,$0000,$0B0D,$0307
+                dc.w $011D,$32B2,$0110,$0000,$0C0D,$0607,$011E,$32B3
+                dc.w $0120,$0000,$0E0A,$0403,$011F,$32B4,$0130,$0000
+                dc.w $0D0C,$0703,$0120,$E2B5,$C010,$0A0F,$040D,$0121
+                dc.w $E2B6,$D011,$0A0E,$0400,$0122,$E2B7,$E00F,$0F0A
+                dc.w $0D05,$0123,$E2B8,$F010,$0F0A,$0005,$0124,$32B9
+                dc.w $0100,$0010,$0E0C,$0A01,$0125,$32BA,$0110,$0010
+                dc.w $0E0D,$0201,$0126,$32BB,$0120,$0010,$0E0D,$0B09
+                dc.w $0127,$32BC,$0130,$0010,$0E0C,$0109,$0128,$E2BD
+                dc.w $7020,$0C0C,$0008,$0129,$E2BE,$8020,$0D0C,$0008
+                dc.w $012A,$E2BF,$9020,$0C0C,$0A08,$012B,$E2C0,$A020
+                dc.w $0D0C,$0B08,$012C,$E2C1,$7038,$0B0E,$030C,$012D
+                dc.w $E2C2,$8039,$0B0D,$030B,$012E,$E2C3,$0020,$1012
+                dc.w $040D,$012F,$E2C4,$0038,$1012,$040D,$0130,$E2C5
+                dc.w $0050,$0A13,$040D,$0131,$E2C6,$0068,$0B13,$000D
+                dc.w $0132,$E2C7,$0080,$0B13,$000D,$0133,$E2C8,$0098
+                dc.w $0C13,$040D,$0134,$E2C9,$00B0,$0B13,$000D,$0135
+                dc.w $E2CA,$00C8,$0C13,$040D,$0136,$E2CB,$1020,$0F11
+                dc.w $040D,$0137,$E2CC,$1038,$0F11,$040D,$0138,$E2CD
+                dc.w $1050,$0B12,$040D,$0139,$E2CE,$1068,$0B12,$000D
+                dc.w $013A,$E2CF,$1080,$0D12,$000D,$013B,$E2D0,$1098
+                dc.w $0E12,$040D,$013C,$E2D1,$10B0,$0D12,$000D,$013D
+                dc.w $E2D2,$10C8,$0E12,$040D,$013E,$E2D3,$2020,$1012
+                dc.w $030D,$013F,$E2D4,$2038,$1012,$030D,$0140,$E2D5
+                dc.w $2050,$0E13,$080E,$0141,$E2D6,$2068,$0F13,$000E
+                dc.w $0142,$E2D7,$2080,$1013,$010E,$0143,$E2D8,$2098
+                dc.w $1013,$070E,$0144,$E2D9,$20B0,$1013,$010E,$0145
+                dc.w $E2DA,$20C8,$1013,$070E,$0146,$E2DB,$20C8,$0C14
+                dc.w $020F,$0147,$F2DC,$0000,$0C0F,$040C,$00E3,$F2DD
+                dc.w $1000,$0D0F,$050C,$00E4,$F2DE,$2000,$0B0F,$030C
+                dc.w $00E5,$F2DF,$3000,$0C0F,$040C,$00E6,$F2E0,$4000
+                dc.w $0B0F,$030C,$00E7,$F2E1,$5000,$0D0F,$050C,$00E8
+                dc.w $F2E2,$6000,$090F,$020C,$00E9,$F2E3,$7000,$0B0F
+                dc.w $040C,$00EA,$F2E4,$8000,$0A0F,$030C,$00EB,$F2E5
+                dc.w $9000,$090F,$020C,$00EC,$F2E6,$A000,$090F,$030C
+                dc.w $00ED,$F2E7,$B000,$0B0F,$030C,$00EE,$F2E8,$0010
+                dc.w $090F,$020C,$00EF,$F2E9,$1010,$080F,$010C,$00F0
+                dc.w $F2EA,$2010,$0A0F,$030C,$00F1,$F2EB,$3010,$090F
+                dc.w $020C,$00F2,$F2EC,$4010,$090F,$020C,$00F3,$F2ED
+                dc.w $5010,$0B0F,$030C,$00F4,$F2EE,$6010,$0A0F,$030C
+                dc.w $00F5,$F2EF,$7010,$080F,$010C,$00F6,$F2F0,$8010
+                dc.w $090F,$020C,$00F7,$F2F1,$9010,$0B0F,$030C,$00F8
+                dc.w $F2F2,$A010,$090F,$020C,$00F9,$F2F3,$B010,$090F
+                dc.w $020C,$00FA,$F2F4,$9040,$0C0F,$040C,$00FB,$F2F5
+                dc.w $A040,$0C0F,$040C,$00FC,$F2F6,$B040,$0C0F,$040C
+                dc.w $00FD,$F2F7,$9050,$0C0F,$040C,$00FE,$F2F8,$A050
+                dc.w $0C0F,$040C,$00FF,$F2F9,$B050,$0B0F,$040C,$0100
+                dc.w $E2FA,$4020,$0B12,$0310,$0101,$E2FB,$5020,$0B13
+                dc.w $0311,$0102,$E2FC,$6020,$0B0F,$030D,$0103,$E2FD
+                dc.w $4038,$0B12,$0310,$0104,$E2FE,$5038,$0B13,$0311
+                dc.w $0105,$E2FF,$6038,$0B0E,$030C,$0106,$E300,$4050
+                dc.w $0A12,$030F,$0107,$E301,$5050,$0913,$0210,$0108
+                dc.w $E302,$6050,$080F,$020C,$0109,$E303,$4068,$0912
+                dc.w $010F,$010A,$E304,$5068,$0A13,$0210,$010B,$E305
+                dc.w $6068,$0B0F,$040C,$010C,$E306,$4080,$0812,$010F
+                dc.w $010D,$E307,$5080,$0913,$0210,$010E,$E308,$6080
+                dc.w $0B0F,$040C,$010F,$E309,$4098,$0A12,$030F,$0110
+                dc.w $E30A,$5098,$0913,$0210,$0111,$E30B,$6098,$080F
+                dc.w $010C,$0112,$E30C,$40B0,$0812,$010F,$0113,$E30D
+                dc.w $50B0,$0913,$0210,$0114,$E30E,$60B0,$0B0F,$040C
+                dc.w $0115,$E30F,$40C8,$0A12,$030F,$0116,$E310,$50C8
+                dc.w $0913,$0210,$0117,$E311,$60C8,$080F,$010C,$0118
+                dc.w $E312,$C000,$0A0D,$0403,$0119,$E313,$D000,$0C0F
+                dc.w $040A,$011A,$E314,$E000,$0D0B,$0308,$011B,$E315
+                dc.w $F000,$0D0B,$0808,$011C,$3316,$0100,$0000,$0B0D
+                dc.w $0307,$011D,$3317,$0110,$0000,$0C0D,$0607,$011E
+                dc.w $3318,$0120,$0000,$0E0A,$0403,$011F,$3319,$0130
+                dc.w $0000,$0D0C,$0703,$0120,$E31A,$C010,$0A0F,$040D
+                dc.w $0121,$E31B,$D011,$0A0E,$0400,$0122,$E31C,$E00F
+                dc.w $0F0A,$0D05,$0123,$E31D,$F010,$0F0A,$0005,$0124
+                dc.w $331E,$0100,$0010,$0E0C,$0A01,$0125,$331F,$0110
+                dc.w $0010,$0E0D,$0201,$0126,$3320,$0120,$0010,$0E0D
+                dc.w $0B09,$0127,$3321,$0130,$0010,$0E0C,$0109,$0128
+                dc.w $E322,$7020,$0C0C,$0008,$0129,$E323,$8020,$0D0C
+                dc.w $0008,$012A,$E324,$9020,$0C0C,$0A08,$012B,$E325
+                dc.w $A020,$0D0C,$0B08,$012C,$E326,$7038,$0B0E,$030C
+                dc.w $012D,$E327,$8039,$0B0D,$030B,$012E,$E328,$0020
+                dc.w $1012,$040D,$012F,$E329,$0038,$1012,$040D,$0130
+                dc.w $E32A,$0050,$0A13,$040D,$0131,$E32B,$0068,$0B13
+                dc.w $000D,$0132,$E32C,$0080,$0B13,$000D,$0133,$E32D
+                dc.w $0098,$0C13,$040D,$0134,$E32E,$00B0,$0B13,$000D
+                dc.w $0135,$E32F,$00C8,$0C13,$040D,$0136,$E330,$1020
+                dc.w $0F11,$040D,$0137,$E331,$1038,$0F11,$040D,$0138
+                dc.w $E332,$1050,$0B12,$040D,$0139,$E333,$1068,$0B12
+                dc.w $000D,$013A,$E334,$1080,$0D12,$000D,$013B,$E335
+                dc.w $1098,$0E12,$040D,$013C,$E336,$10B0,$0D12,$000D
+                dc.w $013D,$E337,$10C8,$0E12,$040D,$013E,$E338,$2020
+                dc.w $1012,$030D,$013F,$E339,$2038,$1012,$030D,$0140
+                dc.w $E33A,$2050,$0E13,$080E,$0141,$E33B,$2068,$0F13
+                dc.w $000E,$0142,$E33C,$2080,$1013,$010E,$0143,$E33D
+                dc.w $2098,$1013,$070E,$0144,$E33E,$20B0,$1013,$010E
+                dc.w $0145,$E33F,$20C8,$1013,$070E,$0146,$E340,$20C8
+                dc.w $0C14,$020F,$0147,$7000
+                dc.l aGrafsCjcteamgR    ; "grafs/cjcteamg.raw"
+                dc.w $F341,$0000,$0C0F,$040C,$00E3,$F342,$1000,$0D0F
+                dc.w $050C,$00E4,$F343,$2000,$0B0F,$030C,$00E5,$F344
+                dc.w $3000,$0C0F,$040C,$00E6,$F345,$4000,$0B0F,$030C
+                dc.w $00E7,$F346,$5000,$0D0F,$050C,$00E8,$F347,$6000
+                dc.w $090F,$020C,$00E9,$F348,$7000,$0B0F,$040C,$00EA
+                dc.w $F349,$8000,$0A0F,$030C,$00EB,$F34A,$9000,$090F
+                dc.w $020C,$00EC,$F34B,$A000,$090F,$030C,$00ED,$F34C
+                dc.w $B000,$0B0F,$030C,$00EE,$F34D,$0010,$090F,$020C
+                dc.w $00EF,$F34E,$1010,$080F,$010C,$00F0,$F34F,$2010
+                dc.w $0A0F,$030C,$00F1,$F350,$3010,$090F,$020C,$00F2
+                dc.w $F351,$4010,$090F,$020C,$00F3,$F352,$5010,$0B0F
+                dc.w $030C,$00F4,$F353,$6010,$0A0F,$030C,$00F5,$F354
+                dc.w $7010,$080F,$010C,$00F6,$F355,$8010,$090F,$020C
+                dc.w $00F7,$F356,$9010,$0B0F,$030C,$00F8,$F357,$A010
+                dc.w $090F,$020C,$00F9,$F358,$B010,$090F,$020C,$00FA
+                dc.w $D359,$0050,$1011,$050D,$D35A,$104D,$1014,$0A10
+                dc.w $D35B,$204F,$1012,$0C0E,$D35C,$3051,$1010,$0C0C
+                dc.w $D35D,$4055,$100C,$0D08,$D35E,$5056,$100B,$0D07
+                dc.w $D35F,$6055,$0E0B,$0808,$D360,$0070,$100B,$FE07
+                dc.w $D361,$106F,$100C,$0008,$D362,$206B,$1010,$010C
+                dc.w $D363,$3069,$1012,$010E,$D364,$4067,$1014,$0110
+                dc.w $D365,$506A,$1011,$040D,$D366,$606F,$0D0B,$0207
+                dc.w $D367,$0080,$1011,$050D,$D368,$107D,$1014,$0A10
+                dc.w $D369,$207F,$1012,$0C0E,$D36A,$3081,$1010,$0C0C
+                dc.w $D36B,$4085,$100C,$0D08,$D36C,$5086,$100B,$0D07
+                dc.w $D36D,$6086,$0E0A,$0808,$D36E,$00A0,$100B,$FE07
+                dc.w $D36F,$109F,$100C,$0008,$D370,$209B,$1010,$010C
+                dc.w $D371,$3099,$1012,$010E,$D372,$4097,$1014,$0110
+                dc.w $D373,$509A,$1011,$040D,$D374,$60A0,$0D0A,$0207
+                dc.w $D375,$0020,$0F10,$040E,$D376,$1020,$1011,$040F
+                dc.w $D377,$2020,$1013,$0311,$D378,$0038,$0F10,$040E
+                dc.w $D379,$1038,$1011,$040F,$D37A,$2038,$1013,$0311
+                dc.w $F37B,$0000,$0C0F,$040C,$00E3,$F37C,$1000,$0D0F
+                dc.w $050C,$00E4,$F37D,$2000,$0B0F,$030C,$00E5,$F37E
+                dc.w $3000,$0C0F,$040C,$00E6,$F37F,$4000,$0B0F,$030C
+                dc.w $00E7,$F380,$5000,$0D0F,$050C,$00E8,$F381,$6000
+                dc.w $090F,$020C,$00E9,$F382,$7000,$0B0F,$040C,$00EA
+                dc.w $F383,$8000,$0A0F,$030C,$00EB,$F384,$9000,$090F
+                dc.w $020C,$00EC,$F385,$A000,$090F,$030C,$00ED,$F386
+                dc.w $B000,$0B0F,$030C,$00EE,$F387,$0010,$090F,$020C
+                dc.w $00EF,$F388,$1010,$080F,$010C,$00F0,$F389,$2010
+                dc.w $0A0F,$030C,$00F1,$F38A,$3010,$090F,$020C,$00F2
+                dc.w $F38B,$4010,$090F,$020C,$00F3,$F38C,$5010,$0B0F
+                dc.w $030C,$00F4,$F38D,$6010,$0A0F,$030C,$00F5,$F38E
+                dc.w $7010,$080F,$010C,$00F6,$F38F,$8010,$090F,$020C
+                dc.w $00F7,$F390,$9010,$0B0F,$030C,$00F8,$F391,$A010
+                dc.w $090F,$020C,$00F9,$F392,$B010,$090F,$020C,$00FA
+                dc.w $E393,$0050,$1011,$050D,$0359,$E394,$104D,$1014
+                dc.w $0A10,$035A,$E395,$204F,$1012,$0C0E,$035B,$E396
+                dc.w $3051,$1010,$0C0C,$035C,$E397,$4055,$100C,$0D08
+                dc.w $035D,$E398,$5056,$100B,$0D07,$035E,$E399,$6055
+                dc.w $0E0B,$0808,$035F,$E39A,$0070,$100B,$FE07,$0360
+                dc.w $E39B,$106F,$100C,$0008,$0361,$E39C,$206B,$1010
+                dc.w $010C,$0362,$E39D,$3069,$1012,$010E,$0363,$E39E
+                dc.w $4067,$1014,$0110,$0364,$E39F,$506A,$1011,$040D
+                dc.w $0365,$E3A0,$606F,$0D0B,$0207,$0366,$E3A1,$0080
+                dc.w $1011,$050D,$0367,$E3A2,$107D,$1014,$0A10,$0368
+                dc.w $E3A3,$207F,$1012,$0C0E,$0369,$E3A4,$3081,$1010
+                dc.w $0C0C,$036A,$E3A5,$4085,$100C,$0D08,$036B,$E3A6
+                dc.w $5086,$100B,$0D07,$036C,$E3A7,$6086,$0E0A,$0808
+                dc.w $036D,$E3A8,$00A0,$100B,$FE07,$036E,$E3A9,$109F
+                dc.w $100C,$0008,$036F,$E3AA,$209B,$1010,$010C,$0370
+                dc.w $E3AB,$3099,$1012,$010E,$0371,$E3AC,$4097,$1014
+                dc.w $0110,$0372,$E3AD,$509A,$1011,$040D,$0373,$E3AE
+                dc.w $60A0,$0D0A,$0207,$0374,$E3AF,$0020,$0F10,$040E
+                dc.w $0375,$E3B0,$1020,$1011,$040F,$0376,$E3B1,$2020
+                dc.w $1013,$0311,$0377,$E3B2,$0038,$0F10,$040E,$0378
+                dc.w $E3B3,$1038,$1011,$040F,$0379,$E3B4,$2038,$1013
+                dc.w $0311,$037A,$F3B5,$0000,$0C0F,$040C,$00E3,$F3B6
+                dc.w $1000,$0D0F,$050C,$00E4,$F3B7,$2000,$0B0F,$030C
+                dc.w $00E5,$F3B8,$3000,$0C0F,$040C,$00E6,$F3B9,$4000
+                dc.w $0B0F,$030C,$00E7,$F3BA,$5000,$0D0F,$050C,$00E8
+                dc.w $F3BB,$6000,$090F,$020C,$00E9,$F3BC,$7000,$0B0F
+                dc.w $040C,$00EA,$F3BD,$8000,$0A0F,$030C,$00EB,$F3BE
+                dc.w $9000,$090F,$020C,$00EC,$F3BF,$A000,$090F,$030C
+                dc.w $00ED,$F3C0,$B000,$0B0F,$030C,$00EE,$F3C1,$0010
+                dc.w $090F,$020C,$00EF,$F3C2,$1010,$080F,$010C,$00F0
+                dc.w $F3C3,$2010,$0A0F,$030C,$00F1,$F3C4,$3010,$090F
+                dc.w $020C,$00F2,$F3C5,$4010,$090F,$020C,$00F3,$F3C6
+                dc.w $5010,$0B0F,$030C,$00F4,$F3C7,$6010,$0A0F,$030C
+                dc.w $00F5,$F3C8,$7010,$080F,$010C,$00F6,$F3C9,$8010
+                dc.w $090F,$020C,$00F7,$F3CA,$9010,$0B0F,$030C,$00F8
+                dc.w $F3CB,$A010,$090F,$020C,$00F9,$F3CC,$B010,$090F
+                dc.w $020C,$00FA,$E3CD,$0050,$1011,$050D,$0359,$E3CE
+                dc.w $104D,$1014,$0A10,$035A,$E3CF,$204F,$1012,$0C0E
+                dc.w $035B,$E3D0,$3051,$1010,$0C0C,$035C,$E3D1,$4055
+                dc.w $100C,$0D08,$035D,$E3D2,$5056,$100B,$0D07,$035E
+                dc.w $E3D3,$6055,$0E0B,$0808,$035F,$E3D4,$0070,$100B
+                dc.w $FE07,$0360,$E3D5,$106F,$100C,$0008,$0361,$E3D6
+                dc.w $206B,$1010,$010C,$0362,$E3D7,$3069,$1012,$010E
+                dc.w $0363,$E3D8,$4067,$1014,$0110,$0364,$E3D9,$506A
+                dc.w $1011,$040D,$0365,$E3DA,$606F,$0D0B,$0207,$0366
+                dc.w $E3DB,$0080,$1011,$050D,$0367,$E3DC,$107D,$1014
+                dc.w $0A10,$0368,$E3DD,$207F,$1012,$0C0E,$0369,$E3DE
+                dc.w $3081,$1010,$0C0C,$036A,$E3DF,$4085,$100C,$0D08
+                dc.w $036B,$E3E0,$5086,$100B,$0D07,$036C,$E3E1,$6086
+                dc.w $0E0A,$0808,$036D,$E3E2,$00A0,$100B,$FE07,$036E
+                dc.w $E3E3,$109F,$100C,$0008,$036F,$E3E4,$209B,$1010
+                dc.w $010C,$0370,$E3E5,$3099,$1012,$010E,$0371,$E3E6
+                dc.w $4097,$1014,$0110,$0372,$E3E7,$509A,$1011,$040D
+                dc.w $0373,$E3E8,$60A0,$0D0A,$0207,$0374,$E3E9,$0020
+                dc.w $0F10,$040E,$0375,$E3EA,$1020,$1011,$040F,$0376
+                dc.w $E3EB,$2020,$1013,$0311,$0377,$E3EC,$0038,$0F10
+                dc.w $040E,$0378,$E3ED,$1038,$1011,$040F,$0379,$E3EE
+                dc.w $2038,$1013,$0311,$037A,$F3EF,$0000,$0C0F,$040C
+                dc.w $00E3,$F3F0,$1000,$0D0F,$050C,$00E4,$F3F1,$2000
+                dc.w $0B0F,$030C,$00E5,$F3F2,$3000,$0C0F,$040C,$00E6
+                dc.w $F3F3,$4000,$0B0F,$030C,$00E7,$F3F4,$5000,$0D0F
+                dc.w $050C,$00E8,$F3F5,$6000,$090F,$020C,$00E9,$F3F6
+                dc.w $7000,$0B0F,$040C,$00EA,$F3F7,$8000,$0A0F,$030C
+                dc.w $00EB,$F3F8,$9000,$090F,$020C,$00EC,$F3F9,$A000
+                dc.w $090F,$030C,$00ED,$F3FA,$B000,$0B0F,$030C,$00EE
+                dc.w $F3FB,$0010,$090F,$020C,$00EF,$F3FC,$1010,$080F
+                dc.w $010C,$00F0,$F3FD,$2010,$0A0F,$030C,$00F1,$F3FE
+                dc.w $3010,$090F,$020C,$00F2,$F3FF,$4010,$090F,$020C
+                dc.w $00F3,$F400,$5010,$0B0F,$030C,$00F4,$F401,$6010
+                dc.w $0A0F,$030C,$00F5,$F402,$7010,$080F,$010C,$00F6
+                dc.w $F403,$8010,$090F,$020C,$00F7,$F404,$9010,$0B0F
+                dc.w $030C,$00F8,$F405,$A010,$090F,$020C,$00F9,$F406
+                dc.w $B010,$090F,$020C,$00FA,$E407,$0050,$1011,$050D
+                dc.w $0359,$E408,$104D,$1014,$0A10,$035A,$E409,$204F
+                dc.w $1012,$0C0E,$035B,$E40A,$3051,$1010,$0C0C,$035C
+                dc.w $E40B,$4055,$100C,$0D08,$035D,$E40C,$5056,$100B
+                dc.w $0D07,$035E,$E40D,$6055,$0E0B,$0808,$035F,$E40E
+                dc.w $0070,$100B,$FE07,$0360,$E40F,$106F,$100C,$0008
+                dc.w $0361,$E410,$206B,$1010,$010C,$0362,$E411,$3069
+                dc.w $1012,$010E,$0363,$E412,$4067,$1014,$0110,$0364
+                dc.w $E413,$506A,$1011,$040D,$0365,$E414,$606F,$0D0B
+                dc.w $0207,$0366,$E415,$0080,$1011,$050D,$0367,$E416
+                dc.w $107D,$1014,$0A10,$0368,$E417,$207F,$1012,$0C0E
+                dc.w $0369,$E418,$3081,$1010,$0C0C,$036A,$E419,$4085
+                dc.w $100C,$0D08,$036B,$E41A,$5086,$100B,$0D07,$036C
+                dc.w $E41B,$6086,$0E0A,$0808,$036D,$E41C,$00A0,$100B
+                dc.w $FE07,$036E,$E41D,$109F,$100C,$0008,$036F,$E41E
+                dc.w $209B,$1010,$010C,$0370,$E41F,$3099,$1012,$010E
+                dc.w $0371,$E420,$4097,$1014,$0110,$0372,$E421,$509A
+                dc.w $1011,$040D,$0373,$E422,$60A0,$0D0A,$0207,$0374
+                dc.w $E423,$0020,$0F10,$040E,$0375,$E424,$1020,$1011
+                dc.w $040F,$0376,$E425,$2020,$1013,$0311,$0377,$E426
+                dc.w $0038,$0F10,$040E,$0378,$E427,$1038,$1011,$040F
+                dc.w $0379,$E428,$2038,$1013,$0311,$037A,$7000
+                dc.l aGrafsCjcbitsRa    ; "grafs/cjcbits.raw"
+                dc.w $A429,$0000,$0030,$0404,$0103,$A42A,$0010,$0030
+                dc.w $0404,$0103,$A42B,$0020,$0030,$0404,$0103,$A42C
+                dc.w $0030,$0030,$0404,$0103,$A42D,$0040,$0030,$0404
+                dc.w $0103,$A42E,$0000,$00C8,$100C,$0608,$A42F,$0010
+                dc.w $00C8,$100C,$0608,$A430,$0020,$00C8,$100C,$0608
+                dc.w $A431,$0030,$00C8,$100C,$0608,$A432,$0050,$0030
+                dc.w $0305,$0102,$A433,$0050,$0035,$0305,$0102,$A434
+                dc.w $0050,$003A,$0305,$0102,$A435,$0050,$003F,$0305
+                dc.w $0102,$A436,$0050,$0044,$0305,$0102,$A437,$0050
+                dc.w $0049,$0305,$0102,$A438,$0050,$004E,$0305,$0102
+                dc.w $A439,$0050,$0053,$0305,$0102,$A43A,$0050,$0058
+                dc.w $0305,$0102,$A43B,$0050,$005D,$0505,$0202,$A43C
+                dc.w $0050,$0062,$0305,$0102,$A43D,$0050,$0067,$0505
+                dc.w $0202,$A43E,$0050,$006C,$0505,$0202,$A43F,$0050
+                dc.w $0071,$0505,$0202,$A440,$0050,$0076,$0505,$0202
+                dc.w $A441,$0050,$007B,$0505,$0202,$A442,$0050,$0080
+                dc.w $0505,$0202,$D443,$0040,$4907,$0017,$D444,$0050
+                dc.w $491C,$001B,$C445,$0000,$1010,$C446,$6050,$1117
+                dc.w $7000
+                dc.l aGrafsSoccerSRa    ; "grafs/soccer_s.raw"
+                dc.w $C447,$0014,$2017,$C448,$2014,$2017,$C449,$4014
+                dc.w $2017,$C44A,$6014,$2017,$C44B,$8014,$2017,$C44C
+                dc.w $A014,$2017,$C44D,$C014,$2017,$C44E,$E014,$2017
+                dc.w $C44F,$002B,$2017,$C450,$202B,$2017,$C451,$402B
+                dc.w $2017,$C452,$602B,$2017,$C453,$802B,$2017,$C454
+                dc.w $A02B,$2017,$C455,$C02B,$2017,$C456,$E02B,$2017
+                dc.w $C457,$0042,$2017,$C458,$2042,$2017,$C459,$4042
+                dc.w $2017,$C45A,$6042,$2017,$C45B,$8042,$2017,$C45C
+                dc.w $A042,$2017,$C45D,$C042,$2017,$C45E,$E042,$2017
+                dc.w $C45F,$0059,$2017,$C460,$2059,$2017,$C461,$4059
+                dc.w $2017,$C462,$6059,$2017,$C463,$8059,$2017,$C464
+                dc.w $A059,$2017,$C465,$C059,$2017,$C466,$E059,$2017
+                dc.w $C467,$0070,$2017,$C468,$2070,$2017,$C469,$4070
+                dc.w $2017,$C46A,$6070,$2017,$C46B,$8070,$2017,$C46C
+                dc.w $A070,$2017,$C46D,$C070,$2017,$C46E,$E070,$2017
+                dc.w $C46F,$0087,$2017,$C470,$2087,$2017,$C471,$4087
+                dc.w $2017,$C472,$6087,$2017,$C473,$8087,$2017,$C474
+                dc.w $A087,$2017,$C475,$C087,$2017,$C476,$E087,$2017
+                dc.w $C477,$009E,$2017,$C478,$209E,$2017,$C479,$409E
+                dc.w $2017,$C47A,$609E,$2017,$C47B,$809E,$2017,$C47C
+                dc.w $A09E,$2017,$C47D,$C09E,$2017,$C47E,$E09E,$2017
+                dc.w $C47F,$00B5,$2017,$C480,$20B5,$2017,$C481,$40B5
+                dc.w $2017,$C482,$60B5,$2017,$C483,$80B5,$2017,$C484
+                dc.w $A0B5,$2017,$C485,$C0B5,$2017,$C486,$E0B5,$2017
+                dc.w $7000
+                dc.l aGrafsCjcbenchR    ; "grafs/cjcbench.raw"
+                dc.w $D487,$8030,$0C0F,$040C,$D488,$9030,$0D0F,$050C
+                dc.w $D489,$A030,$0B0F,$030C,$D48A,$B030,$0C0F,$040C
+                dc.w $D48B,$C030,$0B0F,$030C,$D48C,$D030,$0D0F,$050C
+                dc.w $D48D,$8050,$090F,$020C,$D48E,$9050,$0910,$020D
+                dc.w $D48F,$A050,$0C10,$050D,$D490,$B050,$0B0F,$040C
+                dc.w $D491,$C050,$0B0F,$040C,$1492,$0110,$0078,$0908
+                dc.w $1493,$0110,$0030,$1044,$1494,$0120,$0030,$0544
+                dc.w $1495,$0130,$0030,$1044,$1496,$0110,$00A8,$231B
+                dc.w $1497,$0110,$00C8,$251D,$1498,$0100,$0078,$0808
+                dc.w $2499,$0100,$0080,$0506,$0203,$249A,$0100,$0087
+                dc.w $0506,$0203,$149B,$0130,$0088,$0808,$149C,$0130
+                dc.w $0098,$0808,$149D,$0130,$0090,$0808,$D49E,$1000
+                dc.w $0A12,$0000,$D49F,$2000,$0812,$0000,$D4A0,$3000
+                dc.w $0812,$0000,$24A1,$0100,$0000,$090F,$F800,$24A2
+                dc.w $0110,$0000,$090F,$F800,$24A3,$0120,$0000,$090F
+                dc.w $F800,$24A4,$0130,$0000,$090F,$F800,$E4A5,$1018
+                dc.w $0A12,$0000,$049E,$E4A6,$2018,$0812,$0000,$049F
+                dc.w $E4A7,$3018,$0812,$0000,$04A0,$34A8,$0100,$0018
+                dc.w $090F,$F800,$04A1,$34A9,$0110,$0018,$090F,$F800
+                dc.w $04A2,$34AA,$0120,$0018,$090F,$F800,$04A3,$34AB
+                dc.w $0130,$0018,$090F,$F800,$04A4,$D4AC,$4000,$0812
+                dc.w $0000,$D4AD,$5000,$0812,$0000,$D4AE,$6000,$0812
+                dc.w $0000,$D4AF,$7000,$0812,$0000,$D4B0,$8000,$0812
+                dc.w $0000,$D4B1,$9000,$0812,$0000,$D4B2,$A000,$090F
+                dc.w $F800,$D4B3,$B000,$090F,$F800,$D4B4,$C000,$090F
+                dc.w $F800,$D4B5,$D000,$090F,$F800,$D4B6,$E000,$090F
+                dc.w $F800,$D4B7,$F000,$090F,$F800,$E4B8,$4000,$0812
+                dc.w $0000,$04AC,$E4B9,$5000,$0812,$0000,$04AD,$E4BA
+                dc.w $6000,$0812,$0000,$04AE,$E4BB,$7000,$0812,$0000
+                dc.w $04AF,$E4BC,$8000,$0812,$0000,$04B0,$E4BD,$9000
+                dc.w $0812,$0000,$04B1,$E4BE,$A000,$090F,$F800,$04B2
+                dc.w $E4BF,$B000,$090F,$F800,$04B3,$E4C0,$C000,$090F
+                dc.w $F800,$04B4,$E4C1,$D000,$090F,$F800,$04B5,$E4C2
+                dc.w $E000,$090F,$F800,$04B6,$E4C3,$F000,$090F,$F800
+                dc.w $04B7,$FFFF
+; unsigned __int16[406]
+menuBGImageCmdStream:
+                dc.w $7000
+                dc.l aGrafsMenusRaw     ; "grafs/menus.raw"
+                dc.w $1071,$0100,$0000,$2008,$1072,$0100,$0009,$2008
+                dc.w $1073,$0100,$0012,$2008,$1074,$0100,$001B,$2008
+                dc.w $1075,$0100,$0024,$2008,$1076,$0100,$002D,$2008
+                dc.w $1077,$0100,$0036,$2008,$1078,$0100,$003F,$2008
+                dc.w $1079,$0100,$0048,$2008,$107A,$0100,$0051,$2008
+                dc.w $D07B,$B060,$0505,$0204,$D07C,$B000,$0608,$0206
+                dc.w $D07D,$C000,$0608,$0206,$D07E,$D000,$0608,$0206
+                dc.w $D07F,$B000,$0608,$0206,$D080,$C000,$0608,$0206
+                dc.w $D081,$D000,$0608,$0206,$D082,$B000,$0608,$0206
+                dc.w $D083,$C000,$0608,$0206,$D084,$D000,$0608,$0206
+                dc.w $D085,$B010,$0608,$0206,$D086,$C010,$0608,$0206
+                dc.w $D087,$D010,$0608,$0206,$D088,$B020,$0608,$0206
+                dc.w $D089,$C020,$0608,$0206,$D08A,$D020,$0608,$0206
+                dc.w $D08B,$B030,$0608,$0206,$D08C,$C030,$0608,$0206
+                dc.w $D08D,$D030,$0608,$0206,$D08E,$B040,$0608,$0206
+                dc.w $D08F,$C040,$0608,$0206,$D090,$D040,$0608,$0206
+                dc.w $C091,$0020,$0708,$C092,$0028,$0708,$C093,$0030
+                dc.w $0C08,$C094,$0038,$0C08,$D095,$B050,$0B08,$0505
+                dc.w $D096,$C050,$0B08,$0505,$D097,$D050,$0B08,$0505
+                dc.w $C098,$0088,$0C08,$C099,$0070,$0808,$C09A,$0078
+                dc.w $0808,$C09B,$0080,$0808,$C09C,$0040,$0C08,$C09D
+                dc.w $0048,$0C08,$C09E,$0050,$0C08,$C09F,$0058,$0C08
+                dc.w $C0A0,$0060,$0C08,$C0A1,$0068,$0C08,$D0A2,$1020
+                dc.w $0206,$0005,$D0A3,$1026,$0406,$0105,$D0A4,$102C
+                dc.w $0406,$0105,$D0A5,$1032,$0406,$0105,$D0A6,$1038
+                dc.w $0406,$0105,$D0A7,$103E,$0406,$0105,$D0A8,$1044
+                dc.w $0406,$0105,$D0A9,$104A,$0406,$0105,$D0AA,$1050
+                dc.w $0406,$0105,$D0AB,$1056,$0606,$0205,$D0AC,$105C
+                dc.w $0406,$0105,$D0AD,$E000,$070A,$0308,$D0AE,$F000
+                dc.w $0909,$0107,$D0AF,$E010,$0A07,$0002,$D0B0,$F010
+                dc.w $0909,$0000,$D0B1,$E020,$070A,$0300,$D0B2,$F020
+                dc.w $0909,$0701,$D0B3,$E030,$0A07,$0803,$D0B4,$F030
+                dc.w $0909,$0707,$C0B5,$5000,$0707,$C0B6,$5008,$0707
+                dc.w $C0B7,$2000,$060C,$C0B8,$3000,$060C,$C0B9,$0010
+                dc.w $0909,$C0BA,$4000,$0808,$C0BB,$4008,$0808,$C0BC
+                dc.w $4010,$0808,$C0BD,$4018,$0808,$C0BE,$6000,$2C1D
+                dc.w $C0BF,$6020,$1C0F,$C0C0,$6030,$210F,$C0C1,$6000
+                dc.w $2C1D,$C0C2,$6020,$1C0F,$C0C3,$6030,$210F,$C0C4
+                dc.w $6000,$2C1D,$C0C5,$6020,$1C0F,$C0C6,$6030,$210F
+                dc.w $C0C7,$9000,$1610,$C0C8,$9010,$1610,$C0C9,$9020
+                dc.w $1610,$C0CA,$9030,$1610,$C0CB,$2050,$1010,$C0CC
+                dc.w $3050,$1010,$C0CD,$4050,$1010,$C0CE,$2068,$0B0D
+                dc.w $C0CF,$3068,$0B0D,$C0D0,$1070,$0708,$C0D1,$1078
+                dc.w $0708,$C0D2,$8068,$090C,$C0D3,$8078,$090C,$C0D4
+                dc.w $8088,$090C,$C0D5,$8098,$090C,$C0D6,$8068,$090C
+                dc.w $C0D7,$9067,$0D0C,$C0D8,$A067,$080C,$C0D9,$B067
+                dc.w $0B0C,$C0DA,$C067,$090C,$C0DB,$D067,$0D0C,$C0DC
+                dc.w $E067,$0D0C,$C0DD,$F067,$090C,$10DE,$0100,$0067
+                dc.w $070C,$10DF,$0110,$0067,$0D0C,$7000
+                dc.l aGrafsMenus2Raw    ; "grafs/menus2.raw"
+                dc.w $C0E0,$0000,$805A,$C0E1,$005A,$847D,$C0E2,$B000
+                dc.w $82C8,$FFFF,$FFFF
 ; __int16[12]
 jumpHeaderTeam1UpFrames:
                 ; __int16[12]
@@ -33484,9 +33140,9 @@ word_11BE84:
                 ; __int16[13]
                 dc.w -5,999,-7,998,-3,997,996,-2
                 dc.w 995,-50,994,952,-101
-; unsigned __int16[6]
+; __int16[6]
 word_11BE9E:
-                ; unsigned __int16[6]
+                ; __int16[6]
                 dc.w -4,1002,-2,1001,949,-101
 ; __int16[6]
 word_11BEAA:
@@ -33504,9 +33160,9 @@ word_11BEC2:
 word_11BECE:
                 ; __int16[5]
                 dc.w 1161,1159,1160,1159,-999
-; unsigned __int16[5]
+; __int16[5]
 word_11BED8:
-                ; unsigned __int16[5]
+                ; __int16[5]
                 dc.w 1164,1162,1163,1162,-999
 ; __int16[2]
 word_11BEE2:
@@ -35074,9 +34730,9 @@ ballStaticFrameIndices:
                 ; __int16[3]
                 dc.w 1068,1068,-1
 padding_27:
-                dc.w 227,228,229,230,231,232,233,234
-                dc.w 235,236,237,238,530,531,532,533
-                dc.w 534,535,536,537,538,539,540,541
+                dc.w $00E3,$00E4,$00E5,$00E6,$00E7,$00E8,$00E9,$00EA
+                dc.w $00EB,$00EC,$00ED,$00EE,$0212,$0213,$0214,$0215
+                dc.w $0216,$0217,$0218,$0219,$021A,$021B,$021C,$021D
 ; Sprite
 big_S_Sprite:
                 ; Sprite
@@ -41492,7 +41148,7 @@ topLeavingPitchPositions:
                 ; Position[11]
                 ; element[0]
                 ; POSITION
-                dc.w -50                ; x
+                dc.w $FFCE              ; x
                 dc.w $0179              ; y
                 ; element[1]
                 ; POSITION
@@ -42076,7 +41732,7 @@ UnpackMenu:
                 clr.w   d2
                 move.l  a1,d0
                 addi.l  #MENU_SIZE+MENU_INITFUNC,d0
-                cmpi.l  #byte_417C,d0
+                cmpi.l  #diyLeagueScratchBuffer,d0
                 bhi.w   loc_120038
                 clr.w   (menuX).l
                 clr.w   (menuY).l
@@ -42197,13 +41853,13 @@ loc_11FE24:
                 move.l  #'ENUT',4(a1)
                 move.l  #$45585400,8(a1)
                 adda.l  #$46,a1         ; 'F'
-                cmpa.l  #$417C,a1
+                cmpa.l  #diyLeagueScratchBuffer,a1
                 bhi.w   loc_120054
 loc_11FE60:
                 adda.l  #$38,a0         ; '8'
                 dbf     d0,loc_11FE24
                 move.l  a1,MENU_MENUENDPTR(a6)
-                move.l  #byte_417C,d0
+                move.l  #diyLeagueScratchBuffer,d0
                 sub.l   a1,d0
                 move.l  d0,(dword_9978C).l
                 suba.l  #g_currentMenu,a1
@@ -42223,7 +41879,7 @@ loc_11FEAA:
                 adda.l  #56,a1
                 move.l  a1,d0
                 addi.l  #56,d0
-                cmpi.l  #byte_417C,d0
+                cmpi.l  #diyLeagueScratchBuffer,d0
                 bhi.w   loc_120046
                 addq.w  #1,d7
                 bra.w   loc_11FCCA
@@ -42393,7 +42049,7 @@ menuTypesJumpTable:
 ; Refreshes keyboard/joypad variables.
 MenuProc:
                 jsr     ReadTimerDelta
-                cmpi.l  #$12345678,(dword_C6AC).l
+                cmpi.l  #$12345678,(magicValue).l
                 beq.s   stack_ok_continue
                 move.w  #$9999,(panicReasonCode).l
                 bra.s   fatal_stack_overflow
@@ -42406,10 +42062,10 @@ stack_ok_continue:
                 move.l  (g_irqCookieObfuscated).l,d0
                 eori.l  #$CFD1F8B3,d0
                 cmpi.l  #$1754,d0
-                bne.w   byte_1218B6
+                bne.w   kMenuIrqCookieFailTrap
                 tst.w   (menuStatus).l
                 bne.s   loc_12017C
-                lea     (g_currentMenu).w,a6
+                lea     (g_currentMenu).l,a6
                 bsr.w   DrawSelectedMenuItemFrame
                 jsr     WaitForVSync
 loc_12017C:
@@ -42425,7 +42081,7 @@ loc_12018E:
 loc_1201A2:
                 bsr.w   UpdateBlinkingMenuText
                 bsr.w   MenuCheckControls
-                lea     (g_currentMenu).w,a6
+                lea     (g_currentMenu).l,a6
                 movea.l MENU_SELECTEDENTRY(a6),a5
                 clr.w   (controlMask).l
                 movea.l $2A(a5),a0
@@ -42527,10 +42183,10 @@ UpdateBlinkingMenuText:
                 move.w  #1,d6
 blink_pass_loop:
                 clr.w   d5
-                lea     (g_currentMenu).w,a6
+                lea     (g_currentMenu).l,a6
                 move.w  MENU_NUMENTRIES(a6),d7
                 subq.w  #1,d7
-                lea     (g_menuEntries).w,a5
+                lea     (g_menuEntries).l,a5
 scan_entries_loop:
                 cmpi.w  #NO_FOREGROUND,MENUENTRY_CONTENT(a5)
                 beq.s   _12034C_next_entry
@@ -42570,7 +42226,7 @@ _12034C_next_entry:
 update_blink_return:
                 rts
 nextEntryDirectionOffsets:
-                dc.w 2,1,3,0
+                dc.w $0002,$0001,$0003,$0000
 
 ; ===== InitMainMenuStuff =====
 ; prototype: void __usercall InitMainMenuStuff()
@@ -42746,7 +42402,7 @@ loc_1205AE:
 ; prototype: void __usercall FrontEndPreLoopSetup()
 FrontEndPreLoopSetup:
                 jsr     InitMenuMusic
-                bsr.w   sub_120668
+                bsr.w   PrepareMenuBackground
                 bsr.w   InitMainMenuStuff
                 tst.w   (g_menuMusic).l
                 beq.s   loc_120648
@@ -42759,16 +42415,16 @@ loc_120648:
 ; prototype: void __usercall PrepareMenuForFadeIn()
 PrepareMenuForFadeIn:
                 bsr.w   DoubleBufferSwapSequence
-                bsr.w   sub_120668
+                bsr.w   PrepareMenuBackground
                 bsr.w   DrawMenu
                 move.w  #1,(menuFade).l
                 rts
 
-; ===== sub_120668 =====
-; prototype: void __usercall sub_120668()
-sub_120668:
-                lea     word_11AE7E(pc),a0
-                movea.l (dword_67644).l,a3
+; ===== PrepareMenuBackground =====
+; prototype: void __usercall PrepareMenuBackground()
+PrepareMenuBackground:
+                lea     menuBGImageCmdStream(pc),a0
+                movea.l (menuImageStreamBaseEnd).l,a3
                 movem.l a5-a6,-(sp)
                 jsr     ProcessImageCommandStream
                 movem.l (sp)+,a5-a6
@@ -42778,7 +42434,7 @@ sub_120668:
 ; ===== LoadOverlayToFrontbuffer =====
 ; prototype: void __usercall LoadOverlayToFrontbuffer(const char *path@<a0>)
 LoadOverlayToFrontbuffer:
-                lea     (frontbufferPlaneOffset).l,a1
+                lea     (frontbufferMaskBuffer).l,a1
                 jmp     LoadFile
 
 ; ===== FrontEndMainLoop =====
@@ -43116,7 +42772,7 @@ DrawMenuItemBackground:
                 move.w  d3,d2           ; y
                 move.w  d4,d3           ; width
                 move.w  d5,d4           ; height
-                movea.l (g_frontbufferBase).l,a0
+                movea.l (frontbufferBasePtr).l,a0
                 jmp     FillRectangle
 
 ; ===== DrawMenuItemBackgroundMasked =====
@@ -43126,8 +42782,8 @@ DrawMenuItemBackgroundMasked:
                 move.w  d2,d1
                 move.w  d3,d2
                 move.w  d4,d3
-                lea     (frontbufferPlaneOffset).l,a0
-                movea.l (g_frontbufferBase).l,a1
+                lea     (frontbufferMaskBuffer).l,a0
+                movea.l (frontbufferBasePtr).l,a1
                 jmp     RectRowMaskedApplyScreenOffset
 
 ; ===== BlitMaskedRectAltToFront =====
@@ -43137,8 +42793,8 @@ BlitMaskedRectAltToFront:
                 move.w  d2,d1
                 move.w  d3,d2
                 move.w  d4,d3
-                movea.l (g_frontbufferBaseAlt).l,a0
-                movea.l (g_frontbufferBase).l,a1
+                movea.l (frontbufferBaseAltPtr).l,a0
+                movea.l (frontbufferBasePtr).l,a1
                 jmp     RectRowMaskedApplyScreenOffset
 
 ; ===== CopyWholeSprite =====
@@ -43168,8 +42824,8 @@ _120B88_wait_blitter_idle_pre_copy:
                 move.w  #$9F0,$40(a6)
                 clr.w   $64(a6)
                 clr.w   $66(a6)
-                move.l  #frontbufferPlaneOffset,$50(a6)
-                move.l  (g_frontbufferBase).l,$54(a6)
+                move.l  #frontbufferMaskBuffer,$50(a6)
+                move.l  (frontbufferBasePtr).l,$54(a6)
                 move.w  #$1116,$58(a6)
                 move.w  #$8400,(DMACON).l
                 btst    #6,(DMACONR).l
@@ -43220,7 +42876,7 @@ loc_120C34:
 ; Sets current entry in the current menu.
 SetCurrentEntry:
                 bsr.w   CalcMenuEntryAddress
-                lea     (g_currentMenu).w,a1
+                lea     (g_currentMenu).l,a1
                 move.l  a0,MENU_SELECTEDENTRY(a1)
                 rts
 
@@ -43237,18 +42893,18 @@ SetCurrentEntry:
 ;      eax, ebx, edx, D0, A0
 ;      [ebp safe]
 CalcMenuEntryAddress:
-                lea     (g_currentMenu).w,a0
+                lea     (g_currentMenu).l,a0
                 adda.l  #MENU_SIZE+MENU_INITFUNC,a0
                 mulu.w  #MENUENTRY_SIZE+MENUENTRY_ALREADYDRAWN,d0
                 adda.l  d0,a0
                 rts
-                adda.l  #$38,a0         ; '8'
+                adda.l  #MENUENTRY_SIZE,a0
                 rts
-                suba.l  #$38,a0         ; '8'
+                suba.l  #MENUENTRY_SIZE+MENUENTRY_ALREADYDRAWN,a0
                 rts
 
 ; ===== GetStringLength =====
-; prototype: char GetStringLength()
+; prototype: unsigned __int8 __usercall GetStringLength@<d0>()
 GetStringLength:
                 clr.w   d0
 loc_120C70:
@@ -43272,13 +42928,13 @@ loc_120C86:
 locret_120C8E:
                 rts
 
-; ===== sub_120C90 =====
-; prototype: void __usercall sub_120C90()
-sub_120C90:
+; ===== StringEquals =====
+; prototype: void __usercall StringEquals(const char *s1@<a0>, const char *s2@<a1>)
+StringEquals:
                 move.b  (a0)+,d0
                 beq.s   loc_120C9A
                 cmp.b   (a1)+,d0
-                beq.s   sub_120C90
+                beq.s   StringEquals
                 rts
 loc_120C9A:
                 tst.b   (a1)
@@ -43454,7 +43110,7 @@ loc_120DE8:
                 movem.l (sp)+,a0
                 tst.w   (shortFire).l
                 bne.w   commit_input_text_to_menu_entry
-                bsr.w   sub_120F02
+                bsr.w   InputTextFilterKey
                 tst.w   d1
                 beq.s   input_text_insert_cursor
                 cmpi.w  #13,d1          ; enter
@@ -43479,7 +43135,7 @@ input_text_insert_cursor:
                 movem.l d7-a0/a6,-(sp)
                 bsr.w   CallDrawMenuItem
                 movem.l (sp)+,d7-a0/a6
-                bsr.w   sub_120EF2
+                bsr.w   InputTextDeleteCharAtCursor
                 bra.s   loc_120DE8
 commit_input_text_to_menu_entry:
                 lea     (inMenuKeyboardBuffer).l,a0
@@ -43546,12 +43202,12 @@ input_text_delete_char_to_the_left:
                 beq.w   input_text_insert_cursor
                 subq.l  #1,a0
 input_text_space:
-                bsr.w   sub_120EF2
+                bsr.w   InputTextDeleteCharAtCursor
                 bra.w   input_text_insert_cursor
 
-; ===== sub_120EF2 =====
-; prototype: void __usercall sub_120EF2(char *pos@<a0>)
-sub_120EF2:
+; ===== InputTextDeleteCharAtCursor =====
+; prototype: void __usercall InputTextDeleteCharAtCursor(char *pos@<a0>)
+InputTextDeleteCharAtCursor:
                 tst.b   (a0)
                 beq.s   locret_120F00
                 movea.l a0,a1
@@ -43562,26 +43218,26 @@ loc_120EF8:
 locret_120F00:
                 rts
 
-; ===== sub_120F02 =====
-; prototype: unsigned __int16 __usercall sub_120F02@<d1>()
-sub_120F02:
+; ===== InputTextFilterKey =====
+; prototype: unsigned __int16 __usercall InputTextFilterKey@<d1>()
+InputTextFilterKey:
                 move.w  (currentKey).l,d1
-                cmpi.w  #$41,d1         ; 'A'
+                cmpi.w  #'A',d1
                 bcs.s   loc_120F14
-                cmpi.w  #$5A,d1         ; 'Z'
+                cmpi.w  #'Z',d1
                 bls.s   loc_120F44
 loc_120F14:
-                cmpi.w  #$30,d1         ; '0'
+                cmpi.w  #'0',d1
                 bcs.s   loc_120F20
-                cmpi.w  #$39,d1         ; '9'
+                cmpi.w  #'9',d1
                 bls.s   loc_120F44
 loc_120F20:
-                lea     (byte_120F4C).l,a1
+                lea     (inputAllowedControlKeys).l,a1
                 tst.w   (g_allowExtraCharsFlag).l
                 beq.s   loc_120F3A
-                cmpi.b  #$2E,d1         ; '.'
+                cmpi.b  #'.',d1
                 beq.s   loc_120F48
-                cmpi.b  #$2F,d1         ; '/'
+                cmpi.b  #'/',d1
                 beq.s   loc_120F48
 loc_120F3A:
                 cmpi.b  #$FF,(a1)
@@ -43594,8 +43250,9 @@ loc_120F44:
 loc_120F48:
                 clr.w   d1
                 rts
-byte_120F4C:
-                dc.b $0D,$12,$13,$1B,$7F,$7E,$20,$2D,$2F,$2E,$FF,$00
+inputAllowedControlKeys:
+                dc.b $0D,$12,$13,$1B,$7F,$7E,$20,$2D,$2F,$2E,$FF,$00 ; enter, left shift, right shift, escape,
+                                        ; backspace, 'special'(?), space, '-', '/', '.', terminator
 loc_120F58:
                 move.w  #$1197,(panicReasonCode).l
                 jsr     PanicHaltLoop
@@ -43603,16 +43260,16 @@ g_allowExtraCharsFlag:
                 dc.w $0000              ; if true, allows '.' when typing in... at least in theory
 padding_28:
                 dc.b "S@"
-loc_120F6A:
+menu_mark_entries_active_loop:
                 move.w  #1,4(a5)
                 lea     $38(a5),a5
-                dbf     d0,loc_120F6A
+                dbf     d0,menu_mark_entries_active_loop
                 rts
                 subq.w  #1,d0
-loc_120F7C:
+menu_clear_entries_active_loop:
                 clr.w   4(a5)
                 lea     $38(a5),a5
-                dbf     d0,loc_120F7C
+                dbf     d0,menu_clear_entries_active_loop
                 rts
 
 ; ===== DrawMenuItemsWaitForVSync =====
@@ -43657,9 +43314,9 @@ draw_items_list_loop:
 draw_menu_items_from_list_return:
                 rts
 
-; ===== sub_120FEC =====
-; prototype: void __usercall sub_120FEC(struct MenuEntry *entry@<a5>)
-sub_120FEC:
+; ===== CallDrawMultipleItemsRect =====
+; prototype: void __usercall CallDrawMultipleItemsRect(struct MenuEntry *entry@<a5>)
+CallDrawMultipleItemsRect:
                 movem.l a5,-(sp)
                 bsr.w   DrawMultipleItems
                 movem.l (sp)+,a5
@@ -43892,7 +43549,7 @@ fg_sprite_2_start:
                 move.w  MENUENTRY_FG+ENTRYTYPE2UNION_SPRITE2(a5),d3
 fg_sprite_draw_core:
                 move.w  d3,d0
-                movea.l (g_spriteGraphicsPtr).l,a0
+                movea.l (spriteGraphicsPtr).l,a0
                 lsl.w   #2,d0
                 movea.l (a0,d0.w),a0
                 move.w  MENUENTRY_DWWIDTH(a5),d1
@@ -44101,7 +43758,7 @@ DrawMenu:
                 clr.w   (menuTextBlinkCounter).l
                 jsr BlitterCopyPanelToScreen2(pc)
                 jsr     DrawMenuPanelBackground
-                lea     (g_currentMenu).w,a6
+                lea     (g_currentMenu).l,a6
                 lea     MENU_SIZE+MENU_INITFUNC(a6),a5
                 move.w  MENU_NUMENTRIES(a6),d7
                 subq.w  #1,d7
@@ -44109,7 +43766,7 @@ init_entry_flags_loop:
                 clr.w   (a5)
                 adda.l  #MENUENTRY_SIZE+MENUENTRY_ALREADYDRAWN,a5
                 dbf     d7,init_entry_flags_loop
-                lea     (g_currentMenu).w,a6
+                lea     (g_currentMenu).l,a6
                 movea.l MENU_ONDRAW(a6),a0
                 cmpa.l  #0,a0
                 beq.s   begin_draw_entries
@@ -44142,7 +43799,7 @@ padding_29:
 ; After showing this menu, returns to previous menu.
 ShowMenu:
                 clr.w   (menuStatus).l
-                lea     (g_currentMenu).w,a0
+                lea     (g_currentMenu).l,a0
                 move.l  MENU_SELECTEDENTRY(a0),-(sp)
                 move.l  g_currentMenuPtr(pc),-(sp)
                 clr.w   (g_exitMenu).l
@@ -44170,11 +43827,11 @@ RestorePreviousMenu:
                 move.l  a6,(g_currentMenuPtr).l
                 movea.l a6,a0
 loc_1215BC:
-                lea     (g_currentMenu).w,a1
+                lea     (g_currentMenu).l,a1
                 movem.l d0/a5,-(sp)
                 bsr.w   UnpackMenu
                 movem.l (sp)+,d0/a5
-                lea     (g_currentMenu).w,a6
+                lea     (g_currentMenu).l,a6
                 move.l  a5,MENU_SELECTEDENTRY(a6)
                 movea.l 4(a6),a0
                 cmpa.l  #0,a0
@@ -44198,13 +43855,13 @@ SetExitMenuFlag:
 ActivateMenu:
                 move.l  a6,(g_currentMenuPtr).l
                 movea.l a6,a0
-                lea     (g_currentMenu).w,a1
+                lea     (g_currentMenu).l,a1
                 movem.l d0,-(sp)
                 bsr.w   UnpackMenu
                 movem.l (sp)+,d0
-                lea     (g_currentMenu).w,a6
+                lea     (g_currentMenu).l,a6
                 move.l  MENU_SELECTEDENTRY(a6),d0 ; currently selected menu entry
-                cmpi.l  #65535,d0
+                cmpi.l  #$FFFF,d0
                 bhi.s   resolve_selected_entry_ptr
                 bsr.w   CalcMenuEntryAddress
                 move.l  a0,MENU_SELECTEDENTRY(a6)
@@ -44244,12 +43901,12 @@ menuX:
 menuY:
                 dc.w $0000
 kTeamColorsTable:
-                dc.b $00,$01,$00,$02,$00,$03,$00,$06,$00,$0A,$00,$0B,$00,$0C,$00,$0D
-                dc.b $00,$0E,$00,$0F
+                dc.b 0,1,0,2,0,3,0,6,0,10,0,11,0,12,0,13
+                dc.b 0,14,0,15
 
-; ===== sub_121684 =====
-; prototype: __int16 __usercall sub_121684@<d0>(void *team@<a0>, void *info@<a1>)
-sub_121684:
+; ===== CalcTeamPriceRankPercentOffset =====
+; prototype: __int16 __usercall CalcTeamPriceRankPercentOffset@<d0>(void *team@<a0>, void *info@<a1>)
+CalcTeamPriceRankPercentOffset:
                 cmpi.w  #0,(a0)
                 bne.s   loc_1216EE
                 cmpi.b  #1,4(a1)
@@ -44387,18 +44044,19 @@ loc_1217D8:
                 moveq   #4,d6
                 rts
 
-; ===== sub_1217E6 =====
-; prototype: void __usercall sub_1217E6(TeamFile *teamFile@<a0>)
+; ===== CalcTeamViewOffset =====
+; prototype: void __usercall CalcTeamViewOffset(TeamFile *teamFile@<a0>)
 ; in:
 ;     A0 -> team (file)
 ; out:
-;     D1 -
-;     D2 -
+;     D1 - offsetX (-12, +12)
+;     D2 - offsetY (-12, +12)
+;     D3 - noiseIndex
 ;     
 ; Might be returning some x, y offsets.. but for what
 ; dos: cseg_2C88E
-sub_1217E6:
-                move.b  3(a0),d0
+CalcTeamViewOffset:
+                move.b  TEAMFILE_GLOBALTEAMNUMBER+1(a0),d0
                 move.w  (currentSeasonShowing).l,d1
                 eor.b   d1,d0
                 move.b  (newRandomSeedCopy).l,d1
@@ -44408,9 +44066,9 @@ sub_1217E6:
                 move.b  (a1,d0.w),d0
                 move.b  d0,d3
                 andi.w  #$FF,d3
-                add.b   (byte_16EBD8).l,d0
+                add.b   (viewRandomPhase).l,d0
                 andi.w  #$FF,d0
-                lea     (byte_1218EE).l,a1
+                lea     (kTeamViewOffsetBaseLUT).l,a1
                 move.b  (a1,d0.w),d1
                 ext.w   d1
                 move.w  d0,d2
@@ -44422,16 +44080,16 @@ sub_1217E6:
                 add.w   d1,d1
                 move.w  d2,d0
                 add.w   d2,d2
-                cmpi.b  #1,4(a0)
+                cmpi.b  #1,TEAMFILE_TEAMCONTROLS(a0)
                 bne.s   loc_121874
                 move.b  (seasonPlaying).l,d0
                 swap    d0
-                move.b  (byte_16EBD8).l,d0
+                move.b  (viewRandomPhase).l,d0
                 lsl.w   #2,d0
                 lsr.w   #6,d0
                 add.w   d0,d3
                 andi.w  #$3F,d3         ; '?'
-                lea     (byte_1218AE).l,a1
+                lea     (kUserTeamOffsetBiasLUT).l,a1
                 move.b  (a1,d3.w),d0
                 ext.w   d0
                 add.w   d0,d1
@@ -44465,30 +44123,30 @@ loc_1218A2:
                 move.w  #$C,d2
 locret_1218AC:
                 rts
-byte_1218AE:
-                dc.b $FD,$00,$01,$FF,$FE,$FE,$FD,$FE
-byte_1218B6:
-                dc.b $FF,$00,$00,$02,$03,$03,$02,$01,$FF,$FD,$FE,$FE,$00,$01,$02,$03
-                dc.b $03,$02,$01,$01,$00,$FE,$FF,$01,$02,$03,$01,$00,$FF,$FD,$FE,$FF
-                dc.b $00,$FE,$FD,$FF,$00,$02,$01,$02,$02,$01,$FF,$00,$FE,$FF,$00,$FF
-                dc.b $FE,$00,$02,$02,$02,$00,$FF,$FE
-byte_1218EE:
-                dc.b $00,$00,$01,$02,$01,$01,$03,$01,$00,$01,$05,$03,$01,$02,$04,$00
-                dc.b $FF,$FA,$FE,$00,$01,$06,$02,$05,$FF,$FD,$FF,$02,$04,$01,$00,$00
-                dc.b $03,$05,$FC,$00,$01,$FD,$04,$06,$03,$FF,$00,$FD,$02,$00,$03,$FC
-                dc.b $02,$03,$00,$FE,$FE,$FF,$FE,$FE,$00,$01,$01,$00,$FD,$04,$FE,$00
-                dc.b $FF,$FB,$FD,$FE,$FC,$FF,$00,$FF,$02,$03,$00,$00,$FF,$FE,$FF,$00
-                dc.b $02,$04,$01,$00,$FE,$FC,$FF,$FB,$FD,$FB,$04,$FF,$FE,$FC,$01,$02
-                dc.b $01,$00,$FF,$FF,$00,$03,$FE,$00,$FF,$03,$FC,$FA,$FD,$01,$00,$01
-                dc.b $FE,$FD,$FF,$FE,$FF,$FD,$00,$00,$00,$02,$01,$02,$02,$02,$00,$00
-                dc.b $00,$00,$01,$02,$01,$00,$01,$01,$00,$FD,$04,$FE,$01,$02,$04,$FD
-                dc.b $FB,$04,$FF,$FE,$FE,$FE,$FC,$FF,$00,$FF,$FB,$FD,$FF,$FE,$FC,$00
-                dc.b $FF,$02,$03,$00,$02,$01,$02,$01,$01,$02,$02,$00,$01,$FE,$FD,$00
-                dc.b $01,$06,$02,$03,$05,$FC,$00,$FD,$02,$00,$03,$FC,$02,$05,$00,$00
-                dc.b $00,$FF,$FA,$FE,$FF,$FD,$FF,$02,$04,$01,$00,$01,$FD,$04,$06,$03
-                dc.b $FF,$03,$00,$FE,$00,$01,$05,$03,$FE,$00,$01,$03,$01,$00,$FF,$FE
-                dc.b $FF,$00,$02,$04,$01,$00,$FE,$FC,$FF,$FB,$FF,$FE,$FF,$00,$FF,$03
-                dc.b $FC,$FA,$FD,$01,$00,$FF,$FF,$FD,$00,$03,$FE,$00,$00,$02,$00,$00
+kUserTeamOffsetBiasLUT:
+                dc.b -3,0,1,-1,-2,-2,-3,-2
+kMenuIrqCookieFailTrap:
+                dc.b -1,0,0,2,3,3,2,1,-1,-3,-2,-2,0,1,2,3
+                dc.b 3,2,1,1,0,-2,-1,1,2,3,1,0,-1,-3,-2,-1
+                dc.b 0,-2,-3,-1,0,2,1,2,2,1,-1,0,-2,-1,0,-1
+                dc.b -2,0,2,2,2,0,-1,-2
+kTeamViewOffsetBaseLUT:
+                dc.b 0,0,1,2,1,1,3,1,0,1,5,3,1,2,4,0
+                dc.b -1,-6,-2,0,1,6,2,5,-1,-3,-1,2,4,1,0,0
+                dc.b 3,5,-4,0,1,-3,4,6,3,-1,0,-3,2,0,3,-4
+                dc.b 2,3,0,-2,-2,-1,-2,-2,0,1,1,0,-3,4,-2,0
+                dc.b -1,-5,-3,-2,-4,-1,0,-1,2,3,0,0,-1,-2,-1,0
+                dc.b 2,4,1,0,-2,-4,-1,-5,-3,-5,4,-1,-2,-4,1,2
+                dc.b 1,0,-1,-1,0,3,-2,0,-1,3,-4,-6,-3,1,0,1
+                dc.b -2,-3,-1,-2,-1,-3,0,0,0,2,1,2,2,2,0,0
+                dc.b 0,0,1,2,1,0,1,1,0,-3,4,-2,1,2,4,-3
+                dc.b -5,4,-1,-2,-2,-2,-4,-1,0,-1,-5,-3,-1,-2,-4,0
+                dc.b -1,2,3,0,2,1,2,1,1,2,2,0,1,-2,-3,0
+                dc.b 1,6,2,3,5,-4,0,-3,2,0,3,-4,2,5,0,0
+                dc.b 0,-1,-6,-2,-1,-3,-1,2,4,1,0,1,-3,4,6,3
+                dc.b -1,3,0,-2,0,1,5,3,-2,0,1,3,1,0,-1,-2
+                dc.b -1,0,2,4,1,0,-2,-4,-1,-5,-1,-2,-1,0,-1,3
+                dc.b -4,-6,-3,1,0,-1,-1,-3,0,3,-2,0,0,2,0,0
 
 ; ===== CalculateViewResult =====
 ; prototype: void __usercall CalculateViewResult(void *ctx@<a0>, unsigned __int16 arg0@<d0>, unsigned __int16 team1Goals@<d1>, unsigned __int16 team2Goals@<d2>, unsigned __int16 arg3@<d3>, void *p1@<a1>, void *p2@<a2>)
@@ -44575,7 +44233,7 @@ loc_121B32:
                 move.w  d7,(word_122ADA).l
 loc_121B54:
                 movea.l (dword_122AD0).l,a0
-                bsr.w   sub_1217E6
+                bsr.w   CalcTeamViewOffset
                 move.w  d1,(word_122AE2).l
                 move.w  d2,(word_122AE6).l
                 cmpi.l  #careerTeam,(dword_122AD0).l
@@ -44583,7 +44241,7 @@ loc_121B54:
                 move.w  d1,(word_122B9A).l
 loc_121B7C:
                 movea.l (dword_122AD4).l,a0
-                bsr.w   sub_1217E6
+                bsr.w   CalcTeamViewOffset
                 move.w  d1,(word_122AE4).l
                 move.w  d2,(word_122AE8).l
                 cmpi.l  #careerTeam,(dword_122AD4).l
@@ -44705,7 +44363,7 @@ loc_121CBC:
 ; prototype: unsigned __int16 __usercall sub_121CFA@<d7>(unsigned __int16 value@<d7>)
 sub_121CFA:
                 movea.l (dword_122AC2).l,a0
-                bsr.w   sub_121684
+                bsr.w   CalcTeamPriceRankPercentOffset
                 addi.w  #$64,d0         ; 'd'
                 mulu.w  d0,d7
                 divu.w  #$64,d7         ; 'd'
@@ -44730,12 +44388,12 @@ byte_121D20:
 byte_121DA0:
                 dc.b $0A,$0B,$0C,$0D,$0E,$0F
 off_121DA6:
-                dc.l 1187374,1187374,1187382,1187382,1187390,1187390,1187390,1187398
-                dc.l 1187398,1187398,1187406,1187406,1187406,1187406,1187406,1187406
-                dc.l 1187406,1187406
+                dc.l byte_121E2E,byte_121E2E,byte_121E36,byte_121E36,byte_121E3E,byte_121E3E,byte_121E3E,byte_121E46
+                dc.l byte_121E46,byte_121E46,byte_121E4E,byte_121E4E,byte_121E4E,byte_121E4E,byte_121E4E,byte_121E4E
+                dc.l byte_121E4E,byte_121E4E
 off_121DEE:
-                dc.l 1187379,1187379,1187387,1187387,1187395,1187395,1187395,1187403
-                dc.l 1187403,1187403,1187411,1187411,1187411,1187411,1187411,1187411
+                dc.l byte_121E33,byte_121E33,byte_121E3B,byte_121E3B,byte_121E43,byte_121E43,byte_121E43,byte_121E4B
+                dc.l byte_121E4B,byte_121E4B,byte_121E53,byte_121E53,byte_121E53,byte_121E53,byte_121E53,byte_121E53
 byte_121E2E:
                 dc.b $76,$64,$1E,$07,$01
 byte_121E33:
@@ -44967,9 +44625,9 @@ loc_122156:
 locret_12215C:
                 rts
 off_12215E:
-                dc.l 1188262,1188274,1188286,1188298,1188310,1188322,1188334,1188346
-                dc.l 1188358,1188370,1188382,1188394,1188262,1188262,1188262,1188262
-                dc.l 1188262,1188262
+                dc.l byte_1221A6,byte_1221B2,byte_1221BE,byte_1221CA,byte_1221D6,byte_1221E2,byte_1221EE,byte_1221FA
+                dc.l byte_122206,byte_122212,byte_12221E,byte_12222A,byte_1221A6,byte_1221A6,byte_1221A6,byte_1221A6
+                dc.l byte_1221A6,byte_1221A6
 byte_1221A6:
                 dc.b $2D,$28,$08,$0F,$05,$08,$02,$01,$01,$02,$7C,$04
 byte_1221B2:
@@ -45723,9 +45381,9 @@ byte_122B5A:
 word_122B9A:
                 dc.w $0000
 playersPositionsByTactics:
-                dc.l 52564,52575,52586,52597,52608,52619,52630,52641
-                dc.l 52652,52663,52674,52685,52696,52707,52718,52729
-                dc.l 52740,52751
+                dc.l tact_4_4_2_Positions,tact_5_4_1_Positions,tact_4_5_1_Positions,tact_5_3_2_Positions,tact_3_5_2_Positions,tact_4_3_3_Positions,tact_4_2_4_Positions,tact_3_4_3_Positions
+                dc.l tactSweepPositions,tact_5_2_3_Positions,tactAttackPositions,tactDefendPositions,USER_A_Positions,USER_B_Positions,USER_C_Positions,USER_D_Positions
+                dc.l USER_E_Positions,USER_F_Positions
 
 ; ===== sub_122BE4 =====
 ; prototype: unsigned __int16 __usercall sub_122BE4@<d0>(TeamFile *team@<a0>, unsigned __int16 playerIndex@<d7>)
@@ -45914,95 +45572,96 @@ skillsPerQuadrant:
                 dc.b $01,$01,$01,$01,$01,$01,$01,$01,$01,$02,$01,$01,$01,$02,$03,$02
                 dc.b $01,$02,$03,$04,$03,$02,$03,$04,$04,$04,$03,$03,$04,$04,$04,$03
                 dc.b $03,$04,$04,$04,$03
-padding_30:
-                dc.b $33,$33,$01,$00,$FF,$00,$01,$00,$FF,$00,$01,$00,$FF,$00,$01,$00
-                dc.b $FF,$00,$01,$00,$FF,$00,$01,$00,$FF,$00,$01,$00,$FF,$00,$01,$00
-                dc.b $FF,$00,$01,$00,$FF,$44,$44
+                dc.b $33,$33
+byte_122E85:
+                dc.b $01,$00,$FF,$00,$01,$00,$FF,$00,$01,$00,$FF,$00,$01,$00,$FF,$00
+                dc.b $01,$00,$FF,$00,$01,$00,$FF,$00,$01,$00,$FF,$00,$01,$00,$FF,$00
+                dc.b $01,$00,$FF,$44,$44
 ; unsigned __int8[1226]
 quadrantDistanceFactor:
-                dc.b $20,$18,$10,$08,$02,$18,$18,$10,$08,$02,$10,$10,$10,$08,$02,$08
-                dc.b $08,$08,$08,$02,$02,$02,$02,$02,$02,$01,$01,$01,$01,$01,$00,$00
-                dc.b $00,$00,$00,$18,$20,$18,$10,$08,$18,$18,$18,$10,$08,$10,$10,$10
-                dc.b $10,$08,$08,$08,$08,$08,$08,$02,$02,$02,$02,$02,$01,$01,$01,$01
-                dc.b $01,$00,$00,$00,$00,$00,$10,$18,$20,$18,$10,$10,$18,$18,$18,$10
-                dc.b $10,$10,$10,$10,$10,$08,$08,$08,$08,$08,$02,$02,$02,$02,$02,$01
-                dc.b $01,$01,$01,$01,$00,$00,$00,$00,$00,$08,$10,$18,$20,$18,$08,$10
-                dc.b $18,$18,$18,$08,$10,$10,$10,$10,$08,$08,$08,$08,$08,$02,$02,$02
-                dc.b $02,$02,$01,$01,$01,$01,$01,$00,$00,$00,$00,$00,$02,$08,$10,$18
-                dc.b $20,$02,$08,$10,$18,$18,$02,$08,$10,$10,$10,$02,$08,$08,$08,$08
-                dc.b $02,$02,$02,$02,$02,$01,$01,$01,$01,$01,$00,$00,$00,$00,$00,$18
-                dc.b $18,$10,$08,$02,$20,$18,$10,$08,$02,$18,$18,$10,$08,$02,$10,$10
-                dc.b $10,$08,$02,$08,$08,$08,$08,$02,$02,$02,$02,$02,$02,$01,$01,$01
-                dc.b $01,$01,$18,$18,$18,$10,$08,$18,$20,$18,$10,$08,$18,$18,$18,$10
-                dc.b $08,$10,$10,$10,$10,$08,$08,$08,$08,$08,$08,$02,$02,$02,$02,$02
-                dc.b $01,$01,$01,$01,$01,$10,$18,$18,$18,$10,$10,$18,$20,$18,$10,$10
-                dc.b $18,$18,$18,$10,$10,$10,$10,$10,$10,$08,$08,$08,$08,$08,$02,$02
-                dc.b $02,$02,$02,$01,$01,$01,$01,$01,$08,$10,$18,$18,$18,$08,$10,$18
-                dc.b $20,$18,$08,$10,$18,$18,$18,$08,$10,$10,$10,$10,$08,$08,$08,$08
-                dc.b $08,$02,$02,$02,$02,$02,$01,$01,$01,$01,$01,$02,$08,$10,$18,$18
-                dc.b $02,$08,$10,$18,$20,$02,$08,$10,$18,$18,$02,$08,$10,$10,$10,$02
-                dc.b $08,$08,$08,$08,$02,$02,$02,$02,$02,$01,$01,$01,$01,$01,$10,$10
-                dc.b $10,$08,$02,$18,$18,$10,$08,$02,$20,$18,$10,$08,$02,$18,$18,$10
-                dc.b $08,$02,$10,$10,$10,$08,$02,$08,$08,$08,$08,$02,$02,$02,$02,$02
-                dc.b $02,$10,$10,$10,$10,$08,$18,$18,$18,$10,$08,$18,$20,$18,$10,$08
-                dc.b $18,$18,$18,$10,$08,$10,$10,$10,$10,$08,$08,$08,$08,$08,$08,$02
-                dc.b $02,$02,$02,$02,$10,$10,$10,$10,$10,$10,$18,$18,$18,$10,$10,$18
-                dc.b $20,$18,$10,$10,$18,$18,$18,$10,$10,$10,$10,$10,$10,$08,$08,$08
-                dc.b $08,$08,$02,$02,$02,$02,$02,$08,$10,$10,$10,$10,$08,$10,$18,$18
-                dc.b $18,$08,$10,$18,$20,$18,$08,$10,$18,$18,$18,$08,$10,$10,$10,$10
-                dc.b $08,$08,$08,$08,$08,$02,$02,$02,$02,$02,$02,$08,$10,$10,$10,$02
-                dc.b $08,$10,$18,$18,$02,$08,$10,$18,$20,$02,$08,$10,$18,$18,$02,$08
-                dc.b $10,$10,$10,$02,$08,$08,$08,$08,$02,$02,$02,$02,$02,$08,$08,$08
-                dc.b $08,$02,$10,$10,$10,$08,$02,$18,$18,$10,$08,$02,$20,$18,$10,$08
-                dc.b $02,$18,$18,$10,$08,$02,$10,$10,$10,$08,$02,$08,$08,$08,$08,$02
-                dc.b $08,$08,$08,$08,$08,$10,$10,$10,$10,$08,$18,$18,$18,$10,$08,$18
-                dc.b $20,$18,$10,$08,$18,$18,$18,$10,$08,$10,$10,$10,$10,$08,$08,$08
-                dc.b $08,$08,$08,$08,$08,$08,$08,$08,$10,$10,$10,$10,$10,$10,$18,$18
-                dc.b $18,$10,$10,$18,$20,$18,$10,$10,$18,$18,$18,$10,$10,$10,$10,$10
-                dc.b $10,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$10,$10,$10,$10
-                dc.b $08,$10,$18,$18,$18,$08,$10,$18,$20,$18,$08,$10,$18,$18,$18,$08
-                dc.b $10,$10,$10,$10,$08,$08,$08,$08,$08,$02,$08,$08,$08,$08,$02,$08
-                dc.b $10,$10,$10,$02,$08,$10,$18,$18,$02,$08,$10,$18,$20,$02,$08,$10
-                dc.b $18,$18,$02,$08,$10,$10,$10,$02,$08,$08,$08,$08,$02,$02,$02,$02
-                dc.b $02,$08,$08,$08,$08,$02,$10,$10,$10,$08,$02,$18,$18,$10,$08,$02
-                dc.b $20,$18,$10,$08,$02,$18,$18,$10,$08,$02,$10,$10,$10,$08,$02,$02
-                dc.b $02,$02,$02,$02,$08,$08,$08,$08,$08,$10,$10,$10,$10,$08,$18,$18
-                dc.b $18,$10,$08,$18,$20,$18,$10,$08,$18,$18,$18,$10,$08,$10,$10,$10
-                dc.b $10,$08,$02,$02,$02,$02,$02,$08,$08,$08,$08,$08,$10,$10,$10,$10
-                dc.b $10,$10,$18,$18,$18,$10,$10,$18,$20,$18,$10,$10,$18,$18,$18,$10
-                dc.b $10,$10,$10,$10,$10,$02,$02,$02,$02,$02,$08,$08,$08,$08,$08,$08
-                dc.b $10,$10,$10,$10,$08,$10,$18,$18,$18,$08,$10,$18,$20,$18,$08,$10
-                dc.b $18,$18,$18,$08,$10,$10,$10,$10,$02,$02,$02,$02,$02,$02,$08,$08
-                dc.b $08,$08,$02,$08,$10,$10,$10,$02,$08,$10,$18,$18,$02,$08,$10,$18
-                dc.b $20,$02,$08,$10,$18,$18,$02,$08,$10,$10,$10,$01,$01,$01,$01,$01
-                dc.b $02,$02,$02,$02,$02,$08,$08,$08,$08,$02,$10,$10,$10,$08,$02,$18
-                dc.b $18,$10,$08,$02,$20,$18,$10,$08,$02,$18,$18,$10,$08,$02,$01,$01
-                dc.b $01,$01,$01,$02,$02,$02,$02,$02,$08,$08,$08,$08,$08,$10,$10,$10
-                dc.b $10,$08,$18,$18,$18,$10,$08,$18,$20,$18,$10,$08,$18,$18,$18,$10
-                dc.b $08,$01,$01,$01,$01,$01,$02,$02,$02,$02,$02,$08,$08,$08,$08,$08
-                dc.b $10,$10,$10,$10,$10,$10,$18,$18,$18,$10,$10,$18,$20,$18,$10,$10
-                dc.b $18,$18,$18,$10,$01,$01,$01,$01,$01,$02,$02,$02,$02,$02,$08,$08
-                dc.b $08,$08,$08,$08,$10,$10,$10,$10,$08,$10,$18,$18,$18,$08,$10,$18
-                dc.b $20,$18,$08,$10,$18,$18,$18,$01,$01,$01,$01,$01,$02,$02,$02,$02
-                dc.b $02,$02,$08,$08,$08,$08,$02,$08,$10,$10,$10,$02,$08,$10,$18,$18
-                dc.b $02,$08,$10,$18,$20,$02,$08,$10,$18,$18,$00,$00,$00,$00,$00,$01
-                dc.b $01,$01,$01,$01,$02,$02,$02,$02,$02,$08,$08,$08,$08,$02,$10,$10
-                dc.b $10,$08,$02,$18,$18,$10,$08,$02,$20,$18,$10,$08,$02,$00,$00,$00
-                dc.b $00,$00,$01,$01,$01,$01,$01,$02,$02,$02,$02,$02,$08,$08,$08,$08
-                dc.b $08,$10,$10,$10,$10,$08,$18,$18,$18,$10,$08,$18,$20,$18,$10,$08
-                dc.b $00,$00,$00,$00,$00,$01,$01,$01,$01,$01,$02,$02,$02,$02,$02,$08
-                dc.b $08,$08,$08,$08,$10,$10,$10,$10,$10,$10,$18,$18,$18,$10,$10,$18
-                dc.b $20,$18,$10,$00,$00,$00,$00,$00,$01,$01,$01,$01,$01,$02,$02,$02
-                dc.b $02,$02,$08,$08,$08,$08,$08,$08,$10,$10,$10,$10,$08,$10,$18,$18
-                dc.b $18,$08,$10,$18,$20,$18,$00,$00,$00,$00,$00,$01,$01,$01,$01,$01
-                dc.b $02,$02,$02,$02,$02,$02,$08,$08,$08,$08,$02,$08,$10,$10,$10,$02
-                dc.b $08,$10,$18,$18,$02,$08,$10,$18,$20,$00
+                dc.b 32,24,16,8,2,24,24,16,8,2,16,16,16,8,2,8
+                dc.b 8,8,8,2,2,2,2,2,2,1,1,1,1,1,0,0
+                dc.b 0,0,0,24,32,24,16,8,24,24,24,16,8,16,16,16
+                dc.b 16,8,8,8,8,8,8,2,2,2,2,2,1,1,1,1
+                dc.b 1,0,0,0,0,0,16,24,32,24,16,16,24,24,24,16
+                dc.b 16,16,16,16,16,8,8,8,8,8,2,2,2,2,2,1
+                dc.b 1,1,1,1,0,0,0,0,0,8,16,24,32,24,8,16
+                dc.b 24,24,24,8,16,16,16,16,8,8,8,8,8,2,2,2
+                dc.b 2,2,1,1,1,1,1,0,0,0,0,0,2,8,16,24
+                dc.b 32,2,8,16,24,24,2,8,16,16,16,2,8,8,8,8
+                dc.b 2,2,2,2,2,1,1,1,1,1,0,0,0,0,0,24
+                dc.b 24,16,8,2,32,24,16,8,2,24,24,16,8,2,16,16
+                dc.b 16,8,2,8,8,8,8,2,2,2,2,2,2,1,1,1
+                dc.b 1,1,24,24,24,16,8,24,32,24,16,8,24,24,24,16
+                dc.b 8,16,16,16,16,8,8,8,8,8,8,2,2,2,2,2
+                dc.b 1,1,1,1,1,16,24,24,24,16,16,24,32,24,16,16
+                dc.b 24,24,24,16,16,16,16,16,16,8,8,8,8,8,2,2
+                dc.b 2,2,2,1,1,1,1,1,8,16,24,24,24,8,16,24
+                dc.b 32,24,8,16,24,24,24,8,16,16,16,16,8,8,8,8
+                dc.b 8,2,2,2,2,2,1,1,1,1,1,2,8,16,24,24
+                dc.b 2,8,16,24,32,2,8,16,24,24,2,8,16,16,16,2
+                dc.b 8,8,8,8,2,2,2,2,2,1,1,1,1,1,16,16
+                dc.b 16,8,2,24,24,16,8,2,32,24,16,8,2,24,24,16
+                dc.b 8,2,16,16,16,8,2,8,8,8,8,2,2,2,2,2
+                dc.b 2,16,16,16,16,8,24,24,24,16,8,24,32,24,16,8
+                dc.b 24,24,24,16,8,16,16,16,16,8,8,8,8,8,8,2
+                dc.b 2,2,2,2,16,16,16,16,16,16,24,24,24,16,16,24
+                dc.b 32,24,16,16,24,24,24,16,16,16,16,16,16,8,8,8
+                dc.b 8,8,2,2,2,2,2,8,16,16,16,16,8,16,24,24
+                dc.b 24,8,16,24,32,24,8,16,24,24,24,8,16,16,16,16
+                dc.b 8,8,8,8,8,2,2,2,2,2,2,8,16,16,16,2
+                dc.b 8,16,24,24,2,8,16,24,32,2,8,16,24,24,2,8
+                dc.b 16,16,16,2,8,8,8,8,2,2,2,2,2,8,8,8
+                dc.b 8,2,16,16,16,8,2,24,24,16,8,2,32,24,16,8
+                dc.b 2,24,24,16,8,2,16,16,16,8,2,8,8,8,8,2
+                dc.b 8,8,8,8,8,16,16,16,16,8,24,24,24,16,8,24
+                dc.b 32,24,16,8,24,24,24,16,8,16,16,16,16,8,8,8
+                dc.b 8,8,8,8,8,8,8,8,16,16,16,16,16,16,24,24
+                dc.b 24,16,16,24,32,24,16,16,24,24,24,16,16,16,16,16
+                dc.b 16,8,8,8,8,8,8,8,8,8,8,8,16,16,16,16
+                dc.b 8,16,24,24,24,8,16,24,32,24,8,16,24,24,24,8
+                dc.b 16,16,16,16,8,8,8,8,8,2,8,8,8,8,2,8
+                dc.b 16,16,16,2,8,16,24,24,2,8,16,24,32,2,8,16
+                dc.b 24,24,2,8,16,16,16,2,8,8,8,8,2,2,2,2
+                dc.b 2,8,8,8,8,2,16,16,16,8,2,24,24,16,8,2
+                dc.b 32,24,16,8,2,24,24,16,8,2,16,16,16,8,2,2
+                dc.b 2,2,2,2,8,8,8,8,8,16,16,16,16,8,24,24
+                dc.b 24,16,8,24,32,24,16,8,24,24,24,16,8,16,16,16
+                dc.b 16,8,2,2,2,2,2,8,8,8,8,8,16,16,16,16
+                dc.b 16,16,24,24,24,16,16,24,32,24,16,16,24,24,24,16
+                dc.b 16,16,16,16,16,2,2,2,2,2,8,8,8,8,8,8
+                dc.b 16,16,16,16,8,16,24,24,24,8,16,24,32,24,8,16
+                dc.b 24,24,24,8,16,16,16,16,2,2,2,2,2,2,8,8
+                dc.b 8,8,2,8,16,16,16,2,8,16,24,24,2,8,16,24
+                dc.b 32,2,8,16,24,24,2,8,16,16,16,1,1,1,1,1
+                dc.b 2,2,2,2,2,8,8,8,8,2,16,16,16,8,2,24
+                dc.b 24,16,8,2,32,24,16,8,2,24,24,16,8,2,1,1
+                dc.b 1,1,1,2,2,2,2,2,8,8,8,8,8,16,16,16
+                dc.b 16,8,24,24,24,16,8,24,32,24,16,8,24,24,24,16
+                dc.b 8,1,1,1,1,1,2,2,2,2,2,8,8,8,8,8
+                dc.b 16,16,16,16,16,16,24,24,24,16,16,24,32,24,16,16
+                dc.b 24,24,24,16,1,1,1,1,1,2,2,2,2,2,8,8
+                dc.b 8,8,8,8,16,16,16,16,8,16,24,24,24,8,16,24
+                dc.b 32,24,8,16,24,24,24,1,1,1,1,1,2,2,2,2
+                dc.b 2,2,8,8,8,8,2,8,16,16,16,2,8,16,24,24
+                dc.b 2,8,16,24,32,2,8,16,24,24,0,0,0,0,0,1
+                dc.b 1,1,1,1,2,2,2,2,2,8,8,8,8,2,16,16
+                dc.b 16,8,2,24,24,16,8,2,32,24,16,8,2,0,0,0
+                dc.b 0,0,1,1,1,1,1,2,2,2,2,2,8,8,8,8
+                dc.b 8,16,16,16,16,8,24,24,24,16,8,24,32,24,16,8
+                dc.b 0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,8
+                dc.b 8,8,8,8,16,16,16,16,16,16,24,24,24,16,16,24
+                dc.b 32,24,16,0,0,0,0,0,1,1,1,1,1,2,2,2
+                dc.b 2,2,8,8,8,8,8,8,16,16,16,16,8,16,24,24
+                dc.b 24,8,16,24,32,24,0,0,0,0,0,1,1,1,1,1
+                dc.b 2,2,2,2,2,2,8,8,8,8,2,8,16,16,16,2
+                dc.b 8,16,24,24,2,8,16,24,32,0
 priceSkillPonders:
-                dc.l 20512,147472,212992,147472,20512,16789552,16855072,147472
-                dc.l 16855072,16789552,33562672,33632272,16855040,33632272,33562672,33620272
-                dc.l 33632256,50401280,33632256,33620272,33559088,50332192,68157952,50332192
-                dc.l 33559088,50332224,35717664,52626194,35717664,50332224,50332464,35652129
-                dc.l 19005732,35652129,50332464
+                dc.l $00005020,$00024010,$00034000,$00024010,$00005020,$01003030,$01013020,$00024010
+                dc.l $01013020,$01003030,$02002030,$02013010,$01013000,$02013010,$02002030,$02010130
+                dc.l $02013000,$03011000,$02013000,$02010130,$02001230,$03000220,$04100200,$03000220
+                dc.l $02001230,$03000240,$02210220,$03230312,$02210220,$03000240,$03000330,$02200221
+                dc.l $01220124,$02200221,$03000330
 ; __int8[240]
 quadrantCoordinatesToBallQuadrant:
                 dc.b 0,0,0,5,5,10,10,15,15,20,20,25,25,30,30,30
@@ -46628,7 +46287,7 @@ plPricesIncreaseTable:
                 dc.b $0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A
                 dc.b $0A,$0A
 padding_31:
-                dc.b $00,$12,$2E,$85
+                dc.l byte_122E85
 plPositions:
                 dc.l 0
 totalSkillsFactorSum:
@@ -47703,7 +47362,7 @@ loc_12551E:
                 move.w  (selTeamNumber).l,d0
                 jsr     FindTeamInDIY
                 move.w  d1,d7
-                move.b  (byte_16EBD8).l,d0
+                move.b  (viewRandomPhase).l,d0
                 sub.b   (byte_169255).l,d0
                 ext.w   d0
                 lsl.w   #2,d0
@@ -48885,7 +48544,7 @@ locret_1265A8:
 loc_1265AA:
                 move.b  $6C(a0),d2
                 bsr.w   GetPlayerRandomNum
-                add.b   (byte_16EBD8).l,d0
+                add.b   (viewRandomPhase).l,d0
                 andi.w  #$FF,d0
                 lea     (byte_1265EE).l,a0
                 move.b  (a0,d0.w),d0
@@ -48979,8 +48638,8 @@ sub_126766:
                 clr.w   d0
                 cmpi.w  #1,(diyLeaguePlayEachTeam).l
                 seq     d0
-                lea     ($2DEF0).l,a0
-                move.w  diyLeagueMinSubstitutes-DIY_competitionStart(a0),d1
+                lea     (DIY_competitionStart).l,a0
+                move.w  $64(a0),d1
                 move.w  $66(a0),d2
                 move.w  $2C(a0),d3
                 movem.l a1-a2,-(sp)
@@ -49037,8 +48696,8 @@ locret_12681C:
 ; ===== sub_12681E =====
 ; prototype: void __usercall sub_12681E(void *team1@<a1>, void *team2@<a2>)
 sub_12681E:
-                lea     ($2DEF0).l,a6
-                move.w  word_2DF48-DIY_competitionStart(a6),d0
+                lea     (DIY_competitionStart).l,a6
+                move.w  $58(a6),d0
                 lsl.w   #1,d0
                 lea     (a6,d0.w),a5
                 clr.w   d7
@@ -49050,8 +48709,8 @@ sub_12681E:
                 bne.s   loc_126876
                 bclr    #5,d7
                 clr.w   d0
-                lea     ($2DEF0).l,a0
-                move.w  diyMinSubstitutes-DIY_competitionStart(a0),d1
+                lea     (DIY_competitionStart).l,a0
+                move.w  $60(a0),d1
                 move.w  $62(a0),d2
                 move.w  $2C(a0),d3
                 movem.l d5-d7/a1-a2/a5-a6,-(sp)
@@ -49063,8 +48722,8 @@ sub_12681E:
 loc_126876:
                 bset    #5,d7
                 clr.w   d0
-                lea     ($2DEF0).l,a0
-                move.w  diyMinSubstitutes-DIY_competitionStart(a0),d1
+                lea     (DIY_competitionStart).l,a0
+                move.w  $60(a0),d1
                 move.w  $62(a0),d2
                 move.w  $2C(a0),d3
                 movem.l d5-d7/a1-a2/a5-a6,-(sp)
@@ -49132,8 +48791,8 @@ loc_126930:
                 clr.w   d0
                 tst.w   $14C(a6)
                 seq     d0
-                lea     ($2DEF0).l,a0
-                move.w  diyMinSubstitutes-DIY_competitionStart(a0),d1
+                lea     (DIY_competitionStart).l,a0
+                move.w  $60(a0),d1
                 move.w  $62(a0),d2
                 move.w  $2C(a0),d3
                 movem.l d5-d7/a1-a2/a5-a6,-(sp)
@@ -49463,13 +49122,13 @@ GetPlayerPricePercentageChange:
                 beq.s   loc_126CDA
                 movea.l a2,a0
                 movem.l d0/d2-d7/a0-a6,-(sp) ; teamFile
-                bsr.w   sub_1217E6
+                bsr.w   CalcTeamViewOffset
                 movem.l (sp)+,d0/d2-d7/a0-a6
                 add.w   d0,d4
                 lea     (DIY_competitionStart).l,a0
                 movea.l a2,a1
                 movem.l d1-d7/a0-a6,-(sp)
-                bsr.w   sub_121684
+                bsr.w   CalcTeamPriceRankPercentOffset
                 movem.l (sp)+,d1-d7/a0-a6
                 add.w   d0,d4
 loc_126CDA:
@@ -49828,8 +49487,8 @@ AreShortsAndStripeColorsConflicting:
                 btst    d4,d0
                 rts
 conflictingBasicTeamColorsTable:
-                dc.w 417,2,356,536,88,165,84,161 ; index with 1st color then if 2nd color bit is set -> conflict
-                dc.w 261,520
+                dc.w $01A1,$0002,$0164,$0218,$0058,$00A5,$0054,$00A1 ; index with 1st color then if 2nd color bit is set -> conflict
+                dc.w $0105,$0208
                                         ;        gray white black orange red blue brown l.blue green yellow
                                         ; gray     x                           x           x     x
                                         ; white         x
@@ -49842,8 +49501,8 @@ conflictingBasicTeamColorsTable:
                                         ; green    x          x                                  x
                                         ; yellow                    x                                   x
 conflictingShortsTeamColorsTable:
-                dc.w 419,643,356,536,88,229,116,163 ; gray white black orange red blue brown l.blue green yellow
-                dc.w 261,522
+                dc.w $01A3,$0283,$0164,$0218,$0058,$00E5,$0074,$00A3 ; gray white black orange red blue brown l.blue green yellow
+                dc.w $0105,$020A
                                         ; gray     x    x                      x           x     x
                                         ; white    x    x                                  x            x
                                         ; black               x                x    x            x
@@ -51069,8 +50728,8 @@ sub_127E0A:
 loc_127E46:
                 move.w  #1,(isCareer).l
 loc_127E4E:
-                lea     ($2DEF0).l,a6
-                move.w  word_2DF48-DIY_competitionStart(a6),d0
+                lea     (DIY_competitionStart).l,a6
+                move.w  $58(a6),d0
                 lsl.w   #1,d0
                 lea     (a6,d0.w),a5
                 movem.l d7/a1-a2,-(sp)
@@ -51081,8 +50740,8 @@ loc_127E4E:
                 lea     (gameRound).l,a1
                 tst.w   $48(a2)
                 beq.s   loc_127EA6
-                lea     ($2DAD0).l,a0
-                move.w  word_2DB24-diyFileBufferCopy(a0),d0
+                lea     (diyFileBufferCopy).l,a0
+                move.w  $54(a0),d0
                 clr.w   d1
                 move.w  $52(a0),d2
                 move.w  $52(a2),d3
@@ -51307,8 +50966,8 @@ loc_1281D0:
                 jsr StringCopy(pc)
 loc_128214:
                 movem.l (sp)+,d7/a1-a2
-                lea     ($2DEF0).l,a6
-                move.w  diyPitchTypeOrSeason_2-DIY_competitionStart(a6),(gamePitchTypeOrSeason).l
+                lea     (DIY_competitionStart).l,a6
+                move.w  $34(a6),(gamePitchTypeOrSeason).l
                 move.b  $2F(a6),d0
                 cmpi.b  #$60,d0         ; '`'
                 bcs.s   loc_128234
@@ -51499,14 +51158,14 @@ loc_1284F0:
                 movem.l (sp)+,d1-d2
                 rts
 
-; ===== sub_1284FE =====
-; prototype: void __usercall sub_1284FE()
-sub_1284FE:
-                lea     (g_currentMenu).w,a0
+; ===== ShowMatchSequence =====
+; prototype: void __usercall ShowMatchSequence()
+ShowMatchSequence:
+                lea     (g_currentMenu).l,a0
                 move.l  MENU_SELECTEDENTRY(a0),-(sp)
                 move.l  (g_currentMenuPtr).l,-(sp)
                 movem.l d0-d7/a0-a6,-(sp)
-                jsr     sub_10E89A
+                jsr     ViewMatchSequence
                 movem.l (sp)+,d0-d7/a0-a6
                 move.w  #1,(menuStatus).l
                 clr.w   (g_exitMenu).l
@@ -51518,7 +51177,7 @@ sub_1284FE:
 ; ===== ViewHighlightsSaveCurrentMenu =====
 ; prototype: void __usercall ViewHighlightsSaveCurrentMenu()
 ViewHighlightsSaveCurrentMenu:
-                lea     (g_currentMenu).w,a0
+                lea     (g_currentMenu).l,a0
                 move.l  MENU_SELECTEDENTRY(a0),-(sp)
                 move.l  (g_currentMenuPtr).l,-(sp)
                 movem.l d0-d7/a0-a6,-(sp)
@@ -51695,7 +51354,7 @@ loc_128778:
                 clr.w   (gameLengthInGame).l
 loc_1287B0:
                 movem.l d0-d7/a0-a6,-(sp)
-                bsr.w   sub_1284FE
+                bsr.w   ShowMatchSequence
                 movem.l (sp)+,d0-d7/a0-a6
                 tst.w   (gameCanceled).l
                 bne.w   loc_12889A
@@ -52505,8 +52164,8 @@ loc_129108:
 ; ===== sub_12911C =====
 ; prototype: void __usercall sub_12911C()
 sub_12911C:
-                lea     ($2DAD0).l,a2
-                tst.w   word_2DB28-diyFileBufferCopy(a2)
+                lea     (diyFileBufferCopy).l,a2
+                tst.w   $58(a2)
                 bne.w   locret_1291AA
                 move.w  $54(a2),d0
                 addq.w  #1,d0
@@ -52671,7 +52330,7 @@ sub_12936A:
 loc_129386:
                 cmp.b   (europeanChampionships).l,d0
                 beq.s   loc_129396
-                cmp.b   (european_championships2).l,d0
+                cmp.b   (europeanChampionships2).l,d0
                 bne.s   loc_1293A6
 loc_129396:
                 movem.l a2-a5,-(sp)
@@ -52758,10 +52417,10 @@ loc_129470:
                 dbf     d2,loc_129454
                 rts
 byte_129476:
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+                dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+                dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+                dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+                dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 
 ; ===== sub_1294B6 =====
 ; prototype: void __usercall sub_1294B6()
@@ -52776,7 +52435,7 @@ sub_1294B6:
 loc_1294D2:
                 cmp.b   (europeanChampionships).l,d0
                 beq.s   loc_1294E2
-                cmp.b   (european_championships2).l,d0
+                cmp.b   (europeanChampionships2).l,d0
                 bne.s   loc_1294F2
 loc_1294E2:
                 movem.l a2-a5,-(sp)
@@ -53144,7 +52803,7 @@ loc_1298C0:
 loc_1298D0:
                 lea     $5A(a2),a0
                 lea     byte_129476(pc),a1
-                lea     (byte_129960).l,a2
+                lea     (sub_129960).l,a2
                 move.w  #3,d1
                 move.b  (a2)+,d0
                 andi.w  #$FF,d0
@@ -53165,9 +52824,13 @@ byte_12990C:
                 dc.b $03,$3A,$00,$02,$01,$03,$3C,$03,$00,$01,$02,$FF
 byte_129958:
                 dc.b $06,$01,$05,$04,$02,$03,$07,$00
-byte_129960:
-                dc.b $02,$01,$03,$00,$33,$FC,$77,$00,$00,$00,$D6,$56,$4E,$B9,$00,$10
-                dc.b $24,$64
+
+; ===== sub_129960 =====
+; prototype: void sub_129960(...)
+sub_129960:
+                andi.b  #0,d1
+                move.w  #$7700,(panicReasonCode).l
+                jsr     PanicHaltLoop
 
 ; ===== sub_129972 =====
 ; prototype: void __usercall sub_129972(void *diy@<a2>, void *slot@<a3>, void *comp@<a5>)
@@ -53411,9 +53074,9 @@ loc_129C38:
                 dbf     d0,loc_129C38
                 rts
 word_129C42:
-                dc.w 5,24,6,4,16,0,16,8
-                dc.w 0,8,4,0,4,2,0,2
-                dc.w 1,1,1,1
+                dc.w $0005,$0018,$0006,$0004,$0010,$0000,$0010,$0008
+                dc.w $0000,$0008,$0004,$0000,$0004,$0002,$0000,$0002
+                dc.w $0001,$0001,$0001,$0001
 
 ; ===== sub_129C6A =====
 ; prototype: void __usercall sub_129C6A()
@@ -53423,8 +53086,8 @@ sub_129C6A:
                 clr.w   (word_2DB28).l
                 clr.w   (word_2DB24).l
                 clr.w   (word_2DEF2).l
-                lea     ($2DAD0).l,a0
-                move.w  word_2DB22-diyFileBufferCopy(a0),d1
+                lea     (diyFileBufferCopy).l,a0
+                move.w  $52(a0),d1
                 subq.w  #1,d1
 loc_129C94:
                 tst.w   $15E(a0)
@@ -53582,8 +53245,8 @@ loc_129E86:
 ; prototype: void __usercall sub_129E90()
 sub_129E90:
                 bsr.w   sub_12A038
-                lea     ($2DEF0).l,a2
-                move.w  diyLeagueNumTeams-DIY_competitionStart(a2),d0
+                lea     (DIY_competitionStart).l,a2
+                move.w  $32(a2),d0
                 lsr.w   #1,d0
                 move.w  d0,$50(a2)
                 move.w  d0,$52(a2)
@@ -53620,7 +53283,7 @@ loc_129F0C:
                 move.b  d1,(a0)+
                 dbf     d0,loc_129F0C
                 move.b  $38(a2),$2F(a2)
-                move.b  $2F(a2),(byte_16EBD8).l
+                move.b  $2F(a2),(viewRandomPhase).l
                 bsr.w   sub_12ECF8
                 move.w  (diyLeagueNumTeams).l,d0
                 lea     (word_2E13E).l,a0
@@ -53634,8 +53297,8 @@ loc_129F0C:
 sub_129F42:
                 move.w  (currentTick).l,(randomSeed).l
                 move.b  (currentTick+1).l,(newRandomSeedCopy).l
-                lea     ($2DEF0).l,a2
-                clr.w   word_2DF34-DIY_competitionStart(a2)
+                lea     (DIY_competitionStart).l,a2
+                clr.w   $44(a2)
                 clr.w   $46(a2)
                 move.w  #$FFFF,$3A(a2)
                 move.w  #0,$4A(a2)
@@ -53674,11 +53337,11 @@ loc_129FCC:
 loc_129FE0:
                 move.b  d1,(a0)+
                 dbf     d0,loc_129FE0
-                lea     ($2DEF0).l,a2
-                move.b  diyLeagueStartMonth-DIY_competitionStart(a2),byte_2DF1F-DIY_competitionStart(a2)
-                move.b  $2F(a2),(byte_16EBD8).l
-                lea     ($2DEF0).l,a2
-                clr.w   word_2DF3C-DIY_competitionStart(a2)
+                lea     (DIY_competitionStart).l,a2
+                move.b  $38(a2),$2F(a2)
+                move.b  $2F(a2),(viewRandomPhase).l
+                lea     (DIY_competitionStart).l,a2
+                clr.w   $4C(a2)
                 lea     $2CE(a2),a1
                 lea     $24E(a2),a3
                 move.w  $32(a2),d2
@@ -53700,7 +53363,7 @@ loc_12A02E:
 ; ===== sub_12A038 =====
 ; prototype: void __usercall sub_12A038()
 sub_12A038:
-                lea     ($2DEF0).l,a2
+                lea     (DIY_competitionStart).l,a2
                 lea     word_2E1BE-DIY_competitionStart(a2),a3
                 lea     $24E(a2),a6
                 move.w  $32(a2),d7
@@ -53718,7 +53381,7 @@ loc_12A04C:
                 suba.l  #selTeamsPtr,a0
                 move.l  a0,$344(a1)
                 dbf     d7,loc_12A04C
-                lea     ($2DEF0).l,a2
+                lea     (DIY_competitionStart).l,a2
                 clr.w   word_2DF3C-DIY_competitionStart(a2)
                 lea     $2CE(a2),a1
                 lea     $24E(a2),a3
@@ -53740,7 +53403,7 @@ loc_12A0A6:
 ; ===== sub_12A0AC =====
 ; prototype: void __usercall sub_12A0AC()
 sub_12A0AC:
-                lea     ($2DEF0).l,a1
+                lea     (DIY_competitionStart).l,a1
                 lea     word_2E1FE-DIY_competitionStart(a1),a0
                 clr.w   d0
                 move.w  $50(a1),d1
@@ -53839,8 +53502,8 @@ loc_12A1D0:
                 bra.w   loc_12A24E
 loc_12A1E8:
                 bsr.w   sub_12A270
-                lea     ($2DEF0).l,a0
-                tst.w   word_2E220-DIY_competitionStart(a0)
+                lea     (DIY_competitionStart).l,a0
+                tst.w   $330(a0)
                 bne.s   loc_12A204
                 cmpi.w  #2,$14C(a0)
                 beq.s   loc_12A204
@@ -53883,8 +53546,8 @@ locret_12A26E:
 ; ===== sub_12A270 =====
 ; prototype: void __usercall sub_12A270()
 sub_12A270:
-                lea     ($2DEF0).l,a0
-                lea     word_2E1BE-DIY_competitionStart(a0),a3
+                lea     (DIY_competitionStart).l,a0
+                lea     $2CE(a0),a3
                 lea     $8A(a0),a2
                 lea     $CA(a0),a1
                 clr.w   d1
@@ -53942,8 +53605,8 @@ loc_12A31E:
 ; ===== sub_12A32A =====
 ; prototype: void __usercall sub_12A32A()
 sub_12A32A:
-                lea     ($2DEF0).l,a0
-                clr.w   word_2E21E-DIY_competitionStart(a0)
+                lea     (DIY_competitionStart).l,a0
+                clr.w   $32E(a0)
                 lea     $8A(a0),a1
                 move.w  $52(a0),d0
                 subq.w  #1,d0
@@ -53955,8 +53618,8 @@ loc_12A348:
                 dbf     d0,loc_12A33E
                 tst.w   $32E(a0)
                 rts
-                lea     ($2DEF0).l,a0
-                lea     word_2E1BE-DIY_competitionStart(a0),a1
+                lea     (DIY_competitionStart).l,a0
+                lea     $2CE(a0),a1
                 move.w  $52(a0),d1
                 lsl.w   #1,d1
                 subq.w  #1,d1
@@ -53980,16 +53643,16 @@ loc_12A388:
 ; prototype: void __usercall sub_12A38C()
 sub_12A38C:
                 bsr.w   sub_12A416
-                lea     ($2DEF0).l,a0
-                lea     word_2E1BE-DIY_competitionStart(a0),a3
+                lea     (DIY_competitionStart).l,a0
+                lea     $2CE(a0),a3
                 lea     (byte_12A3D6).l,a4
                 move.w  $50(a0),d0
                 subq.w  #1,d0
 loc_12A3A6:
                 move.b  (a3)+,(a4)+
                 dbf     d0,loc_12A3A6
-                lea     ($2DEF0).l,a0
-                lea     word_2E1BE-DIY_competitionStart(a0),a2
+                lea     (DIY_competitionStart).l,a0
+                lea     $2CE(a0),a2
                 lea     (byte_12A3D6).l,a3
                 lea     $30E(a0),a5
                 move.w  $50(a0),d1
@@ -54046,14 +53709,14 @@ byte_12A466:
 ; ===== sub_12A4A6 =====
 ; prototype: void __usercall sub_12A4A6()
 sub_12A4A6:
-                lea     ($2DEF0).l,a6
-                lea     word_2E13E-DIY_competitionStart(a6),a5
+                lea     (DIY_competitionStart).l,a6
+                lea     $24E(a6),a5
                 lea     $2CE(a6),a3
                 lea     $8A(a6),a2
                 tst.w   $48(a6)
                 beq.s   loc_12A4F8
-                lea     ($2DAD0).l,a0
-                move.w  word_2DB24-diyFileBufferCopy(a0),d0
+                lea     (diyFileBufferCopy).l,a0
+                move.w  $54(a0),d0
                 mulu.w  #$76,d0         ; 'v'
                 adda.l  d0,a0
                 tst.w   $15C(a0)
@@ -54106,7 +53769,7 @@ locret_12A53E:
 ; ===== sub_12A540 =====
 ; prototype: void __usercall sub_12A540()
 sub_12A540:
-                lea     ($2DEF0).l,a2
+                lea     (DIY_competitionStart).l,a2
                 lea     word_2E1BE-DIY_competitionStart(a2),a0
                 move.w  $50(a2),d7
                 lsl.w   #1,d7
@@ -54278,7 +53941,7 @@ loc_12A71E:
                 cmp.w   $334(a3),d0
                 beq.s   loc_12A75C
                 move.b  (a0,d0.w),$2F(a3)
-                move.b  $2F(a3),(byte_16EBD8).l
+                move.b  $2F(a3),(viewRandomPhase).l
 loc_12A75C:
                 tst.w   (word_16EBE2).l
                 bne.s   loc_12A788
@@ -54409,7 +54072,7 @@ loc_12A8C0:
 ; ===== sub_12A8C8 =====
 ; prototype: void __usercall sub_12A8C8()
 sub_12A8C8:
-                lea     ($2DEF0).l,a2
+                lea     (DIY_competitionStart).l,a2
                 lea     word_2DFDE-DIY_competitionStart(a2),a0
                 lea     $6E(a2),a1
                 move.w  $32(a2),d7
@@ -54494,8 +54157,8 @@ loc_12A9F6:
 ; prototype: void __usercall sub_12AA06()
 sub_12AA06:
                 jsr     sub_12ABB8
-                lea     ($2DEF0).l,a2
-                move.w  diyLeagueNumTeams-DIY_competitionStart(a2),d0
+                lea     (DIY_competitionStart).l,a2
+                move.w  $32(a2),d0
                 ext.l   d0
                 divu.w  $50(a2),d0
                 move.w  d0,$52(a2)
@@ -54523,7 +54186,7 @@ sub_12AA06:
                 clr.w   $1BE(a2)
                 move.w  #1,2(a2)
                 move.b  $38(a2),$2F(a2)
-                move.b  $2F(a2),(byte_16EBD8).l
+                move.b  $2F(a2),(viewRandomPhase).l
                 bsr.w   sub_12ECB0
                 move.w  (diyLeagueNumTeams).l,d0
                 lea     (word_2E01E).l,a0
@@ -54537,8 +54200,8 @@ sub_12AA06:
 sub_12AAAA:
                 move.w  (currentTick).l,(randomSeed).l
                 move.b  (currentTick+1).l,(newRandomSeedCopy).l
-                lea     ($2DEF0).l,a2
-                clr.w   word_2DF34-DIY_competitionStart(a2)
+                lea     (DIY_competitionStart).l,a2
+                clr.w   $44(a2)
                 clr.w   $46(a2)
                 move.w  #$FFFF,$3A(a2)
                 clr.w   $1BE(a2)
@@ -54571,14 +54234,14 @@ loc_12AB34:
                 addq.b  #1,d1
                 addi.w  #$12,d2
                 dbf     d0,loc_12AB34
-                lea     ($2DEF0).l,a2
-                move.b  diyLeagueStartMonth-DIY_competitionStart(a2),byte_2DF1F-DIY_competitionStart(a2)
-                move.b  $2F(a2),(byte_16EBD8).l
+                lea     (DIY_competitionStart).l,a2
+                move.b  $38(a2),$2F(a2)
+                move.b  $2F(a2),(viewRandomPhase).l
                 bsr.w   sub_12A8C8
                 rts
 loc_12AB5C:
-                lea     ($2DEF0).l,a2
-                move.b  diyLeagueStartMonth-DIY_competitionStart(a2),byte_2DF1F-DIY_competitionStart(a2)
+                lea     (DIY_competitionStart).l,a2
+                move.b  $38(a2),$2F(a2)
                 clr.w   $1BE(a2)
                 clr.w   $5C(a2)
                 clr.w   $1CC(a2)
@@ -54603,8 +54266,8 @@ loc_12AB90:
 ; ===== sub_12ABB8 =====
 ; prototype: void __usercall sub_12ABB8()
 sub_12ABB8:
-                lea     ($2DEF0).l,a2
-                lea     word_2DFDE-DIY_competitionStart(a2),a3
+                lea     (DIY_competitionStart).l,a2
+                lea     $EE(a2),a3
                 lea     $12E(a2),a6
                 move.w  $32(a2),d7
                 subq.w  #1,d7
@@ -54693,8 +54356,8 @@ loc_12AC74:
 ; ===== sub_12AC82 =====
 ; prototype: void __usercall sub_12AC82()
 sub_12AC82:
-                lea     ($2DEF0).l,a0
-                move.w  word_2DF4C-DIY_competitionStart(a0),d5
+                lea     (DIY_competitionStart).l,a0
+                move.w  $5C(a0),d5
                 mulu.w  $52(a0),d5
                 lea     $EE(a0),a5
                 lea     (a5,d5.w),a5
@@ -54702,7 +54365,7 @@ sub_12AC82:
                 move.b  $2E(a0),d0
                 cmp.b   (europeanChampionships).l,d0
                 beq.s   loc_12ACC4
-                cmp.b   (european_championships2).l,d0
+                cmp.b   (europeanChampionships2).l,d0
                 beq.s   loc_12ACC4
                 lea     (off_153358).l,a3
                 move.w  $52(a0),d0
@@ -54762,7 +54425,7 @@ loc_12AD26:
                 move.w  $1C2(a0),d0
                 lea     $1CE(a0),a1
                 move.b  (a1,d0.w),$2F(a0)
-                move.b  $2F(a0),(byte_16EBD8).l
+                move.b  $2F(a0),(viewRandomPhase).l
 loc_12AD6E:
                 subq.w  #1,$6C(a0)
                 bne.s   locret_12AD84
@@ -54912,8 +54575,8 @@ loc_12AF26:
                 bne.w   loc_12AFEA
                 movem.l d0-d7/a0-a6,-(sp)
                 bsr.w   sub_12B00C
-                lea     ($2DEF0).l,a5
-                lea     word_2E01E-DIY_competitionStart(a5),a2
+                lea     (DIY_competitionStart).l,a5
+                lea     $12E(a5),a2
                 lea     $1AE(a5),a3
                 tst.w   $48(a5)
                 beq.s   loc_12AF6C
@@ -54984,8 +54647,8 @@ locret_12B00A:
 ; ===== sub_12B00C =====
 ; prototype: void __usercall sub_12B00C()
 sub_12B00C:
-                lea     ($2DEF0).l,a4
-                move.w  word_2DF40-DIY_competitionStart(a4),d7
+                lea     (DIY_competitionStart).l,a4
+                move.w  $50(a4),d7
                 subq.w  #1,d7
                 move.w  $52(a4),d5
                 lsl.w   #1,d5
@@ -55113,10 +54776,10 @@ word_12B144:
 word_12B146:
                 dc.w $0000
 word_12B148:
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000
 word_12B15A:
-                dc.w 0,0,0
+                dc.w $0000,$0000,$0000
 word_12B160:
                 dc.w $0000
 byte_12B162:
@@ -55197,8 +54860,8 @@ locret_12B234:
 sub_12B236:
                 lea     (word_494C).l,a1
                 lea     word_12B148(pc),a3
-                lea     ($2DEF0).l,a2
-                lea     word_2DF5E-DIY_competitionStart(a2),a4
+                lea     (DIY_competitionStart).l,a2
+                lea     $6E(a2),a4
                 move.w  #9,d2
                 cmp.w   $32(a2),d2
                 bls.s   loc_12B258
@@ -55229,8 +54892,8 @@ sub_12B282:
                 movem.l (sp)+,d0-d7/a0-a6
                 lea     (word_6158).l,a1
                 lea     word_12B15A(pc),a3
-                lea     ($2DEF0).l,a2
-                lea     word_2E1BE-DIY_competitionStart(a2),a4
+                lea     (DIY_competitionStart).l,a2
+                lea     $2CE(a2),a4
                 move.w  #2,d2
 loc_12B2A6:
                 move.b  (a4)+,d0
@@ -55253,8 +54916,8 @@ sub_12B2CA:
                 movem.l d0-d7/a0-a6,-(sp)
                 jsr sub_12A416(pc)
                 movem.l (sp)+,d0-d7/a0-a6
-                lea     ($2DEF0).l,a2
-                move.b  word_2E1BE-DIY_competitionStart(a2),d0
+                lea     (DIY_competitionStart).l,a2
+                move.b  $2CE(a2),d0
                 ext.w   d0
                 lsl.w   #1,d0
                 lea     $24E(a2),a0
@@ -55331,8 +54994,8 @@ locret_12B3B4:
 sub_12B3B6:
                 btst    #0,(someTeamFlags).l
                 beq.w   locret_12B432
-                lea     ($168C9A).l,a5
-                move.b  europeanChampionships2Copy+7-europeanChampionships2Copy(a5),d0
+                lea     (europeanChampionships2Copy).l,a5
+                move.b  7(a5),d0
                 andi.w  #$FF,d0
                 lea     7(a5,d0.w),a5
                 move.w  (word_164B4E).l,(a5)+
@@ -55386,8 +55049,8 @@ sub_12B478:
                 movem.l d0-d7/a0-a6,-(sp)
                 jsr sub_12B00C(pc)
                 movem.l (sp)+,d0-d7/a0-a6
-                lea     ($2DEF0).l,a1
-                lea     word_2DF5E-DIY_competitionStart(a1),a0
+                lea     (DIY_competitionStart).l,a1
+                lea     $6E(a1),a0
                 lea     $12E(a1),a1
                 move.w  d7,d1
                 subq.w  #1,d1
@@ -55409,8 +55072,8 @@ sub_12B4AA:
 loc_12B4C0:
                 btst    #6,(someTeamFlags).l
                 beq.w   locret_12B57E
-                lea     ($168F14).l,a5
-                move.b  worldCup2Copy+7-worldCup2Copy(a5),d0
+                lea     (worldCup2Copy).l,a5
+                move.b  7(a5),d0
                 andi.w  #$FF,d0
                 lea     7(a5,d0.w),a5
                 move.w  (word_164B4A).l,(a5)+
@@ -55499,8 +55162,8 @@ sub_12B60C:
                 movem.l (sp)+,d0-d7/a0-a6
                 move.w  d7,d1
                 subq.w  #1,d1
-                lea     ($2DEF0).l,a1
-                lea     word_2DF5E-DIY_competitionStart(a1),a0
+                lea     (DIY_competitionStart).l,a1
+                lea     $6E(a1),a0
                 lea     $12E(a1),a1
 loc_12B62A:
                 move.w  (a0)+,d0
@@ -55523,8 +55186,8 @@ sub_12B64C:
                 movem.l (sp)+,d0-d7/a0-a6
                 move.w  d7,d1
                 subq.w  #1,d1
-                lea     ($2DAD0).l,a1
-                lea     word_2DB2A-diyFileBufferCopy(a1),a0
+                lea     (diyFileBufferCopy).l,a1
+                lea     $5A(a1),a0
                 lea     $9A(a1),a1
 loc_12B66A:
                 move.b  (a0)+,d0
@@ -55537,8 +55200,8 @@ loc_12B66A:
 ; ===== sub_12B67A =====
 ; prototype: void __usercall sub_12B67A()
 sub_12B67A:
-                lea     ($2DAD0).l,a2
-                move.w  word_2DB24-diyFileBufferCopy(a2),d0
+                lea     (diyFileBufferCopy).l,a2
+                move.w  $54(a2),d0
                 mulu.w  #$76,d0         ; 'v'
                 lea     (a2,d0.w),a3
                 lea     (DIY_competitionStart).l,a4
@@ -55586,8 +55249,8 @@ sub_12B70E:
                 movem.l d0-d7/a0-a6,-(sp)
                 jsr sub_12A416(pc)
                 movem.l (sp)+,d0-d7/a0-a6
-                lea     ($2DEF0).l,a2
-                move.b  word_2E1BE-DIY_competitionStart(a2),d0
+                lea     (DIY_competitionStart).l,a2
+                move.b  $2CE(a2),d0
                 ext.w   d0
                 lsl.w   #1,d0
                 lea     $24E(a2),a0
@@ -55630,8 +55293,8 @@ sub_12B794:
                 movem.l d0-d7/a0-a6,-(sp)
                 jsr sub_12A416(pc)
                 movem.l (sp)+,d0-d7/a0-a6
-                lea     ($2DEF0).l,a2
-                move.b  word_2E1BE-DIY_competitionStart(a2),d0
+                lea     (DIY_competitionStart).l,a2
+                move.b  $2CE(a2),d0
                 ext.w   d0
                 lsl.w   #1,d0
                 lea     $24E(a2),a0
@@ -55674,8 +55337,8 @@ sub_12B81A:
                 movem.l d0-d7/a0-a6,-(sp)
                 jsr sub_12A416(pc)
                 movem.l (sp)+,d0-d7/a0-a6
-                lea     ($2DEF0).l,a2
-                move.b  word_2E1BE-DIY_competitionStart(a2),d0
+                lea     (DIY_competitionStart).l,a2
+                move.b  $2CE(a2),d0
                 ext.w   d0
                 lsl.w   #1,d0
                 lea     $24E(a2),a0
@@ -55704,14 +55367,14 @@ sub_12B858:
                 bhi.s   loc_12B892
                 move.b  #1,(isNationalSelector).l
 loc_12B892:
-                lea     ($168B24).l,a0
-                move.b  euroCupCopy+7-euroCupCopy(a0),d0
+                lea     (euroCupCopy).l,a0
+                move.b  7(a0),d0
                 andi.w  #$FF,d0
                 lea     7(a0,d0.w),a0
                 move.l  a0,(dword_12B1BC).l
                 move.l  a0,(dword_12B1C8).l
                 clr.w   (word_12B1B6).l
-                lea     (byte_15123C).l,a0
+                lea     (off_15123C).l,a0
                 lea     byte_12B162(pc),a1
                 move.b  (selTeamNumber).l,d0
                 andi.w  #$FF,d0
@@ -55726,14 +55389,14 @@ loc_12B892:
                 move.w  #1,d0
 loc_12B8EA:
                 bsr.w   sub_12BFCE
-                lea     ($168B72).l,a0
-                move.b  cupWinnersCupCopy+7-cupWinnersCupCopy(a0),d0
+                lea     (cupWinnersCupCopy).l,a0
+                move.b  7(a0),d0
                 andi.w  #$FF,d0
                 lea     7(a0,d0.w),a0
                 move.l  a0,(dword_12B1C0).l
                 move.l  a0,(dword_12B1CC).l
                 clr.w   (word_12B1B8).l
-                lea     (byte_15128C).l,a0
+                lea     (off_15128C).l,a0
                 lea     byte_12B173(pc),a1
                 move.b  (selTeamNumber).l,d0
                 andi.w  #$FF,d0
@@ -55748,14 +55411,14 @@ loc_12B8EA:
                 move.w  #1,d0
 loc_12B946:
                 bsr.w   sub_12BFCE
-                lea     ($168BCE).l,a0
-                move.b  uefaCupCopy+7-uefaCupCopy(a0),d0
+                lea     (uefaCupCopy).l,a0
+                move.b  7(a0),d0
                 andi.w  #$FF,d0
                 lea     7(a0,d0.w),a0
                 move.l  a0,(dword_12B1C4).l
                 move.l  a0,(dword_12B1D0).l
                 clr.w   (word_12B1BA).l
-                movea.l (byte_1512DC).l,a0
+                movea.l (off_1512DC).l,a0
                 clr.w   d0
                 tst.w   (isNationalSelector).l
                 bne.s   loc_12B992
@@ -55768,7 +55431,7 @@ loc_12B984:
                 addq.w  #1,d0
                 bra.s   loc_12B984
 loc_12B992:
-                lea     (byte_1512DC).l,a0
+                lea     (off_1512DC).l,a0
                 lea     byte_12B194(pc),a1
                 bsr.w   sub_12BFCE
                 move.w  (sp)+,(isNationalSelector).l
@@ -55812,7 +55475,7 @@ sub_12B9F2:
                 bne.s   locret_12BA1C
                 lea     ($5EAC).l,a5
 loc_12BA02:
-                lea     word_6158-word_5EAC(a5),a5
+                lea     $2AC(a5),a5
                 move.w  (a5),d0
                 cmp.w   word_12B148(pc),d0
                 beq.s   loc_12BA02
@@ -56204,8 +55867,8 @@ loc_12BE42:
 ; ===== sub_12BE50 =====
 ; prototype: void __usercall sub_12BE50(void *dst@<a3>)
 sub_12BE50:
-                lea     ($2DEF0).l,a2
-                move.w  word_2DF46-DIY_competitionStart(a2),d0
+                lea     (DIY_competitionStart).l,a2
+                move.w  $56(a2),d0
                 add.w   $5A(a2),d0
                 beq.s   locret_12BE6C
                 lea     $1AE(a2),a0
@@ -56294,9 +55957,9 @@ sub_12BF5C:
                 movem.l d0-d7/a0-a6,-(sp)
                 jsr sub_12A416(pc)
                 movem.l (sp)+,d0-d7/a0-a6
-                lea     (byte_417C).l,a3
-                lea     ($2DEF0).l,a1
-                move.w  diyLeagueNumTeams-DIY_competitionStart(a1),d2
+                lea     (diyLeagueScratchBuffer).l,a3
+                lea     (DIY_competitionStart).l,a1
+                move.w  $32(a1),d2
                 subq.w  #1,d2
                 lea     $2CE(a1),a1
 loc_12BF7E:
@@ -56377,7 +56040,7 @@ sub_12C032:
                 lea     (DIY_competitionStart).l,a3
                 cmpi.w  #0,(a3)
                 bne.w   locret_12C0C0
-                lea     (byte_417C).l,a2
+                lea     (diyLeagueScratchBuffer).l,a2
                 move.w  $54(a3),d1
                 beq.s   loc_12C07E
                 subq.w  #1,d1
@@ -56422,7 +56085,7 @@ locret_12C0C0:
 sub_12C0C2:
                 move.w  #$7CF,d0
                 lea     (someLeaguesTable).l,a0
-                lea     (byte_417C).l,a1
+                lea     (diyLeagueScratchBuffer).l,a1
 loc_12C0D2:
                 move.b  (a0)+,(a1)+
                 dbf     d0,loc_12C0D2
@@ -56433,7 +56096,7 @@ loc_12C0D2:
 sub_12C0DA:
                 move.w  #$7CF,d0
                 lea     (someLeaguesTable).l,a0
-                lea     (byte_417C).l,a1
+                lea     (diyLeagueScratchBuffer).l,a1
 loc_12C0EA:
                 move.b  (a1)+,(a0)+
                 dbf     d0,loc_12C0EA
@@ -56445,7 +56108,7 @@ sub_12C0F2:
                 movem.l d0-d7/a0-a6,-(sp)
                 clr.w   d1
                 move.w  #$7CF,d0
-                lea     (byte_417C).l,a0
+                lea     (diyLeagueScratchBuffer).l,a0
 loc_12C102:
                 add.b   (a0)+,d1
                 dbf     d0,loc_12C102
@@ -56456,10 +56119,10 @@ loc_12C102:
 loc_12C11A:
                 tst.w   (teamsLoaded).l
                 beq.s   loc_12C158
-                lea     ($4A120).l,a6
-                lea     teamFileBuffer+2-teamFileBuffer(a6),a5
+                lea     (teamFileBuffer).l,a6
+                lea     2(a6),a5
                 move.w  2(a5),d0
-                lea     (byte_417C).l,a0
+                lea     (diyLeagueScratchBuffer).l,a0
                 lea     (a0,d0.w),a0
                 move.w  (a6),d0
                 subq.w  #1,d0
@@ -56517,17 +56180,17 @@ loc_12C1E6:
                 move.w  #$3775,(panicReasonCode).l
                 jsr     PanicHaltLoop
 off_12C1F4:
-                dc.l 1477674,-2,1477746,-1,0
+                dc.l invitationTournamentCopy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 off_12C208:
-                dc.l 1478392,-2,1477746,-1,0
+                dc.l oceaniaCupCopy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 off_12C21C:
-                dc.l 1478420,-2,1477746,-1,0
+                dc.l worldCup2Copy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 off_12C230:
-                dc.l 1478420,-2,1477674,1477746,-1
+                dc.l worldCup2Copy,$FFFFFFFE,invitationTournamentCopy,friendlyCopy,$FFFFFFFF
 dword_12C244:
-                dc.l 0,-2,1478392,-1,0
+                dc.l NULL,$FFFFFFFE,oceaniaCupCopy,$FFFFFFFF,NULL
 off_12C258:
-                dc.l 1478392,-2,1477746,-1,0
+                dc.l oceaniaCupCopy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 
 ; ===== sub_12C26C =====
 ; prototype: void __usercall sub_12C26C()
@@ -56571,17 +56234,17 @@ loc_12C2F4:
                 move.w  #$3775,(panicReasonCode).l
                 jsr     PanicHaltLoop
 off_12C302:
-                dc.l 1477674,-2,1477746,-1,0
+                dc.l invitationTournamentCopy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 off_12C316:
-                dc.l 1478298,-2,1477746,-1,0
+                dc.l northAmericanCupCopy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 off_12C32A:
-                dc.l 1478420,-2,1477746,-1,0
+                dc.l worldCup2Copy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 off_12C33E:
-                dc.l 1478420,-2,1477674,1477746,-1
+                dc.l worldCup2Copy,$FFFFFFFE,invitationTournamentCopy,friendlyCopy,$FFFFFFFF
 dword_12C352:
-                dc.l 0,-2,1478298,-1,0
+                dc.l NULL,$FFFFFFFE,northAmericanCupCopy,$FFFFFFFF,NULL
 off_12C366:
-                dc.l 1478298,-2,1477746,-1,0
+                dc.l northAmericanCupCopy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 
 ; ===== sub_12C37A =====
 ; prototype: void __usercall sub_12C37A()
@@ -56625,17 +56288,17 @@ loc_12C402:
                 move.w  #$3775,(panicReasonCode).l
                 jsr     PanicHaltLoop
 off_12C410:
-                dc.l 1477674,-2,1477746,-1,0
+                dc.l invitationTournamentCopy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 off_12C424:
-                dc.l 1478344,-2,1477746,-1,0
+                dc.l asianCupCopy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 off_12C438:
-                dc.l 1478420,-2,1477746,-1,0
+                dc.l worldCup2Copy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 off_12C44C:
-                dc.l 1478420,-2,1477674,1477746,-1
+                dc.l worldCup2Copy,$FFFFFFFE,invitationTournamentCopy,friendlyCopy,$FFFFFFFF
 dword_12C460:
-                dc.l 0,-2,1478344,-1,0
+                dc.l NULL,$FFFFFFFE,asianCupCopy,$FFFFFFFF,NULL
 off_12C474:
-                dc.l 1478344,-2,1477746,-1,0
+                dc.l asianCupCopy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 
 ; ===== sub_12C488 =====
 ; prototype: void __usercall sub_12C488()
@@ -56679,17 +56342,17 @@ loc_12C510:
                 move.w  #$3775,(panicReasonCode).l
                 jsr     PanicHaltLoop
 off_12C51E:
-                dc.l 1477674,-2,1477746,-1,0
+                dc.l invitationTournamentCopy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 off_12C532:
-                dc.l 1478250,-2,1477746,-1,0
+                dc.l africanNationsCupCopy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 off_12C546:
-                dc.l 1478420,-2,1477746,-1,0
+                dc.l worldCup2Copy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 off_12C55A:
-                dc.l 1478420,-2,1477674,1477746,-1
+                dc.l worldCup2Copy,$FFFFFFFE,invitationTournamentCopy,friendlyCopy,$FFFFFFFF
 dword_12C56E:
-                dc.l 0,-2,1478250,-1,0
+                dc.l NULL,$FFFFFFFE,africanNationsCupCopy,$FFFFFFFF,NULL
 off_12C582:
-                dc.l 1478250,-2,1477746,-1,0
+                dc.l africanNationsCupCopy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 
 ; ===== sub_12C596 =====
 ; prototype: void __usercall sub_12C596()
@@ -56733,17 +56396,17 @@ loc_12C61E:
                 move.w  #$3775,(panicReasonCode).l
                 jsr     PanicHaltLoop
 off_12C62C:
-                dc.l 1477674,-2,1477746,-1,0
+                dc.l invitationTournamentCopy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 off_12C640:
-                dc.l 1478180,-2,1477746,-1,0
+                dc.l copaAmericaCopy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 off_12C654:
-                dc.l 1478420,-2,1477746,-1,0
+                dc.l worldCup2Copy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 off_12C668:
-                dc.l 1478420,-2,1477674,1477746,-1
+                dc.l worldCup2Copy,$FFFFFFFE,invitationTournamentCopy,friendlyCopy,$FFFFFFFF
 dword_12C67C:
-                dc.l 0,-2,1478180,-1,0
+                dc.l NULL,$FFFFFFFE,copaAmericaCopy,$FFFFFFFF,NULL
 off_12C690:
-                dc.l 1478180,-2,1477746,-1,0
+                dc.l copaAmericaCopy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 
 ; ===== sub_12C6A4 =====
 ; prototype: void __usercall sub_12C6A4(const unsigned __int16 *teamList@<a6>)
@@ -56846,23 +56509,23 @@ loc_12C7F4:
                 move.w  #$3775,(panicReasonCode).l
                 jsr     PanicHaltLoop
 off_12C802:
-                dc.l 1477864,1477904,1477944,1477984,1478024,1478064,1478104,1478144
+                dc.l e_c_qualifying_group_1_copy,e_c_qualifying_group_2_copy,e_c_qualifying_group_3_copy,e_c_qualifying_group_4_copy,e_c_qualifying_group_5_copy,e_c_qualifying_group_6_copy,e_c_qualifying_group_7_copy,e_c_qualifying_group_8_copy
 dword_12C822:
-                dc.l 0,-2,1477746,-1,0
+                dc.l NULL,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 off_12C836:
-                dc.l 1477674,-2,1477746,-1,0
+                dc.l invitationTournamentCopy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 off_12C84A:
-                dc.l 1477786,-2,1477746,-1,0
+                dc.l europeanChampionships2Copy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 off_12C85E:
-                dc.l 1477786,-2,1477674,1477746,-1
+                dc.l europeanChampionships2Copy,$FFFFFFFE,invitationTournamentCopy,friendlyCopy,$FFFFFFFF
 off_12C872:
-                dc.l 1478420,-2,1477746,-1,0
+                dc.l worldCup2Copy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 off_12C886:
-                dc.l 1478420,-2,1477674,1477746,-1
+                dc.l worldCup2Copy,$FFFFFFFE,invitationTournamentCopy,friendlyCopy,$FFFFFFFF
 dword_12C89A:
-                dc.l 0,-2,1477746,-1,0
+                dc.l NULL,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 off_12C8AE:
-                dc.l 1477674,-2,1477746,-1,0
+                dc.l invitationTournamentCopy,$FFFFFFFE,friendlyCopy,$FFFFFFFF,NULL
 
 ; ===== sub_12C8C2 =====
 ; prototype: void __usercall sub_12C8C2()
@@ -57040,7 +56703,7 @@ loc_12CAE8:
                 dbf     d1,loc_12CACE
                 rts
 off_12CAF0:
-                dc.l 1478532,1478572,1478612,1478652,1478692,1478732,1478772,1478812
+                dc.l world_cup_qualifying_group_1_copy,world_cup_qualifying_group_2_copy,world_cup_qualifying_group_3_copy,world_cup_qualifying_group_4_copy,world_cup_qualifying_group_5_copy,world_cup_qualifying_group_6_copy,world_cup_qualifying_group_7_copy,world_cup_qualifying_group_8_copy
 
 ; ===== sub_12CB10 =====
 ; prototype: void __usercall sub_12CB10()
@@ -57093,8 +56756,8 @@ sub_12CB8A:
                 move.w  d0,d7
                 mulu.w  #$7D,d7         ; '}'
                 divu.w  #$64,d7         ; 'd'
-                lea     ($168C72).l,a1
-                move.b  friendlyCopy+$D-friendlyCopy(a1),d4
+                lea     (friendlyCopy).l,a1
+                move.b  $D(a1),d4
                 ext.w   d4
                 move.b  7(a1),d0
                 andi.w  #$FF,d0
@@ -57122,8 +56785,8 @@ sub_12CBDE:
                 move.w  d0,d7
                 mulu.w  #$7D,d7         ; '}'
                 divu.w  #$64,d7         ; 'd'
-                lea     ($168C2A).l,a1
-                move.b  invitationTournamentCopy+$D-invitationTournamentCopy(a1),d4
+                lea     (invitationTournamentCopy).l,a1
+                move.b  $D(a1),d4
                 ext.w   d4
                 move.b  7(a1),d0
                 andi.w  #$FF,d0
@@ -57154,8 +56817,8 @@ sub_12CC32:
                 move.w  d0,d3
                 clr.w   d6
                 move.w  #$31,d7         ; '1'
-                lea     ($168C4E).l,a1
-                move.b  tourCopy+5-tourCopy(a1),d0
+                lea     (tourCopy).l,a1
+                move.b  5(a1),d0
                 ext.w   d0
                 lea     5(a1,d0.w),a0
                 move.l  a2,(a0)
@@ -57256,8 +56919,8 @@ sub_12CD52:
                 beq.w   locret_12CE52
                 movea.l (dword_166B2A).l,a6
                 lea     (word_12CE70).l,a5
-                lea     ($167B0C).l,a4
-                move.w  word_167B3E-word_167B0C(a4),d7
+                lea     (word_167B0C).l,a4
+                move.w  $32(a4),d7
                 subq.w  #1,d7
 loc_12CD78:
                 movea.l (a6)+,a0
@@ -57322,7 +56985,7 @@ sub_12CE54:
                 move.w  #$3004,(panicReasonCode).l
                 jsr     PanicHaltLoop
 word_12CE70:
-                dc.w 0,0,0,0
+                dc.w $0000,$0000,$0000,$0000
 
 ; ===== sub_12CE78 =====
 ; prototype: void __usercall sub_12CE78(unsigned __int8 key@<d0>, unsigned __int16 insertionBytes@<d5>)
@@ -57662,8 +57325,8 @@ sub_12D260:
 ; ===== sub_12D274 =====
 ; prototype: void __usercall sub_12D274()
 sub_12D274:
-                lea     ($2DEF0).l,a6
-                tst.w   diyMinSubstitutes-DIY_competitionStart(a6)
+                lea     (DIY_competitionStart).l,a6
+                tst.w   $60(a6)
                 beq.w   locret_12D368
                 lea     (byte_169254).l,a4
                 move.w  (word_169250).l,d7
@@ -57733,8 +57396,8 @@ locret_12D368:
 loc_12D36A:
                 clr.w   d7
 loc_12D36C:
-                lea     ($2DEF0).l,a2
-                tst.w   word_2DF46-DIY_competitionStart(a2)
+                lea     (DIY_competitionStart).l,a2
+                tst.w   $56(a2)
                 bne.w   locret_12D494
                 cmpi.w  #1,$14A(a2)
                 beq.w   locret_12D494
@@ -57840,8 +57503,8 @@ sub_12D496:
                 move.w  (a0),d0
                 rts
 loc_12D4B0:
-                lea     ($2DAD0).l,a0
-                tst.w   word_2DB28-diyFileBufferCopy(a0)
+                lea     (diyFileBufferCopy).l,a0
+                tst.w   $58(a0)
                 bne.w   locret_12D4D8
                 move.w  $54(a0),d0
                 mulu.w  #$76,d0         ; 'v'
@@ -58413,7 +58076,7 @@ loc_12DB54:
 loc_12DB58:
                 bsr.w   sub_12DA94
                 bsr.w   sub_12DE32
-                move.b  1(a0),(byte_16EBD8).l
+                move.b  1(a0),(viewRandomPhase).l
                 rts
 loc_12DB6A:
                 move.w  #$8340,(panicReasonCode).l
@@ -58452,7 +58115,7 @@ loc_12DBC4:
 loc_12DBC8:
                 bsr.w   sub_12DA94
                 bsr.w   sub_12DE32
-                move.b  1(a0),(byte_16EBD8).l
+                move.b  1(a0),(viewRandomPhase).l
                 rts
 loc_12DBDA:
                 move.w  #$8341,(panicReasonCode).l
@@ -58465,7 +58128,7 @@ sub_12DBE8:
                 movem.l d2,-(sp)
                 bsr.w   sub_12DE32
                 movem.l (sp)+,d2
-                move.b  1(a0),(byte_16EBD8).l
+                move.b  1(a0),(viewRandomPhase).l
                 move.b  (a0),d0
                 ext.w   d0
                 lsl.w   #2,d0
@@ -58742,8 +58405,8 @@ locret_12DF44:
 ; ===== sub_12DF46 =====
 ; prototype: void __usercall sub_12DF46()
 sub_12DF46:
-                lea     ($2DAD0).l,a0
-                move.w  word_2DB24-diyFileBufferCopy(a0),d0
+                lea     (diyFileBufferCopy).l,a0
+                move.w  $54(a0),d0
                 mulu.w  #$76,d0         ; 'v'
                 adda.l  d0,a0
                 tst.w   $15E(a0)
@@ -58753,8 +58416,8 @@ sub_12DF46:
 ; ===== sub_12DF5E =====
 ; prototype: void __usercall sub_12DF5E()
 sub_12DF5E:
-                lea     ($2DEF0).l,a0
-                tst.w   word_2E0B0-DIY_competitionStart(a0)
+                lea     (DIY_competitionStart).l,a0
+                tst.w   $1C0(a0)
                 beq.s   loc_12DF72
                 tst.w   (word_169252).l
                 bne.s   locret_12DF82
@@ -58770,8 +58433,8 @@ locret_12DF82:
 ; ===== sub_12DF84 =====
 ; prototype: void __usercall sub_12DF84()
 sub_12DF84:
-                lea     ($2DEF0).l,a0
-                tst.w   word_2DF44-DIY_competitionStart(a0)
+                lea     (DIY_competitionStart).l,a0
+                tst.w   $54(a0)
                 beq.s   loc_12DF98
                 tst.w   (word_169252).l
                 bne.s   loc_12DFA0
@@ -58786,8 +58449,8 @@ loc_12DFA0:
 ; ===== sub_12DFA6 =====
 ; prototype: void __usercall sub_12DFA6()
 sub_12DFA6:
-                lea     ($2DAD0).l,a0
-                move.w  word_2DB24-diyFileBufferCopy(a0),d0
+                lea     (diyFileBufferCopy).l,a0
+                move.w  $54(a0),d0
                 mulu.w  #$76,d0         ; 'v'
                 adda.l  d0,a0
                 tst.w   $15E(a0)
@@ -59177,7 +58840,7 @@ loc_12E6CC:
                 move.w  d0,(word_164B58).l
                 clr.w   (seasonFinished).l
                 clr.w   (careerFinished).l
-                move.b  (byte_169255).l,(byte_16EBD8).l
+                move.b  (byte_169255).l,(viewRandomPhase).l
                 lea     (byte_169254).l,a0
                 move.w  (word_169250).l,d1
                 subq.w  #1,d1
@@ -59299,7 +58962,7 @@ loc_12E88E:
                 move.w  d0,(lastNationalityCall).l
                 rts
 off_12E896:
-                dc.l 1378476,1378496,1378496,1378496,1378496,1378496
+                dc.l byte_1508AC,byte_1508C0,byte_1508C0,byte_1508C0,byte_1508C0,byte_1508C0
 
 ; ===== InitNewSeason =====
 ; prototype: void __usercall InitNewSeason(void *src@<a0>, unsigned __int16 arg@<d1>)
@@ -59373,16 +59036,16 @@ loc_12E9B8:
                 bne.s   loc_12E9D0
                 move.w  #1,(careerFinished).l
 loc_12E9D0:
-                move.b  (byte_169255).l,(byte_16EBD8).l
+                move.b  (byte_169255).l,(viewRandomPhase).l
                 jsr InitTeams(pc)
                 rts
 
 ; ===== sub_12E9E0 =====
 ; prototype: void __usercall sub_12E9E0(void *comp@<a0>, unsigned __int16 sel@<d0>)
 sub_12E9E0:
-                lea     ($14F1C8).l,a2
+                lea     ((off_14F1C6+2)).l,a2
 loc_12E9E6:
-                lea     careerContests-(off_14F1C6+2)(a2),a2
+                lea     6(a2),a2
                 movea.l (a2)+,a1
                 cmpa.l  #$FFFFFFFF,a1
                 beq.s   loc_12E9FA
@@ -59466,7 +59129,7 @@ sub_12EAD2:
 loc_12EAF2:
                 clr.w   (teamsLoaded).l
                 jsr     SaveRand2State
-                move.w  (byte_16EBD8).l,-(sp)
+                move.w  (viewRandomPhase).l,-(sp)
                 move.w  d0,d1
                 move.b  (a0),d0
                 lsl.w   #8,d0
@@ -59487,7 +59150,7 @@ loc_12EAF2:
                 jsr InitTeams(pc)
                 movem.l (sp)+,a0
                 bsr.w   sub_12D6A6
-                move.w  (sp)+,(byte_16EBD8).l
+                move.w  (sp)+,(viewRandomPhase).l
                 jsr     RestoreRand2State
                 clr.w   (word_16EBE2).l
                 rts
@@ -59513,7 +59176,7 @@ loc_12EB88:
 loc_12EBA8:
                 clr.w   (teamsLoaded).l
                 jsr     SaveRand2State
-                move.w  (byte_16EBD8).l,-(sp)
+                move.w  (viewRandomPhase).l,-(sp)
                 move.b  (a0),d0
                 lsl.w   #8,d0
                 move.b  (seasonPlaying).l,d0
@@ -59532,7 +59195,7 @@ loc_12EBA8:
                 jsr InitTeams(pc)
                 movem.l (sp)+,a0
                 bsr.w   sub_12D7C4
-                move.w  (sp)+,(byte_16EBD8).l
+                move.w  (sp)+,(viewRandomPhase).l
                 jsr     RestoreRand2State
                 clr.w   (word_16EBE2).l
                 rts
@@ -59549,7 +59212,7 @@ sub_12EC1C:
 loc_12EC3C:
                 clr.w   (teamsLoaded).l
                 jsr     SaveRand2State
-                move.w  (byte_16EBD8).l,-(sp)
+                move.w  (viewRandomPhase).l,-(sp)
                 move.b  (a0),d0
                 lsl.w   #8,d0
                 move.b  (seasonPlaying).l,d0
@@ -59568,7 +59231,7 @@ loc_12EC3C:
                 jsr InitTeams(pc)
                 movem.l (sp)+,a0
                 jsr sub_12D90E(pc)
-                move.w  (sp)+,(byte_16EBD8).l
+                move.w  (sp)+,(viewRandomPhase).l
                 jsr     RestoreRand2State
                 clr.w   (word_16EBE2).l
                 rts
@@ -59576,8 +59239,8 @@ loc_12EC3C:
 ; ===== sub_12ECB0 =====
 ; prototype: void __usercall sub_12ECB0()
 sub_12ECB0:
-                lea     ($2DEF0).l,a0
-                move.w  word_2E0B4-DIY_competitionStart(a0),d0
+                lea     (DIY_competitionStart).l,a0
+                move.w  $1C4(a0),d0
                 move.b  $38(a0),d1
                 move.b  $39(a0),d2
                 lea     $1CE(a0),a0
@@ -59610,8 +59273,8 @@ loc_12ECE6:
 ; ===== sub_12ECF8 =====
 ; prototype: void __usercall sub_12ECF8()
 sub_12ECF8:
-                lea     ($2DEF0).l,a0
-                lea     diyLeagueMaxSubstitutes-DIY_competitionStart(a0),a1
+                lea     (DIY_competitionStart).l,a0
+                lea     $66(a0),a1
                 lea     $7E(a0),a2
                 clr.w   d0
                 move.w  $5A(a0),d2
@@ -60010,8 +59673,8 @@ loc_12F136:
                 dbf     d6,loc_12F120
                 move.w  d3,d2
                 rts
-                lea     ($16E084).l,a6
-                move.w  numDiyTeams-competitionFileBuffer(a6),d6
+                lea     (competitionFileBuffer).l,a6
+                move.w  $32(a6),d6
                 lea     $12E(a6),a5
                 lea     $EE(a6),a4
                 cmpi.w  #0,(a6)
@@ -60037,8 +59700,8 @@ loc_12F16C:
 ; ===== sub_12F188 =====
 ; prototype: void __usercall sub_12F188()
 sub_12F188:
-                lea     ($16E084).l,a6
-                move.w  numDiyTeams-competitionFileBuffer(a6),d6
+                lea     (competitionFileBuffer).l,a6
+                move.w  $32(a6),d6
                 lea     $12E(a6),a5
                 lea     $EE(a6),a4
                 cmpi.w  #0,(a6)
@@ -60856,7 +60519,7 @@ animPatternsRandomTable:
                 dc.b $20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$2A,$2B,$2C,$2D,$2E,$2F
                 dc.b $30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$3A,$3B,$3C,$3D,$3E,$00
 animatedPatterns:
-                dc.w 0,0,0,0,0,0,0,0
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
 patternsGoalCounter:
                 dc.w $0000
 showFansCounter:
@@ -60934,7 +60597,7 @@ DrawPatternFromIndex:
                 swap    d1
                 lsl.w   #4,d1
                 lsl.w   #4,d2
-                movea.l (g_spriteGraphicsPtr).l,a0
+                movea.l (spriteGraphicsPtr).l,a0
                 move.w  #$89,d0
                 lsl.w   #2,d0
                 movea.l (a0,d0.w),a0
@@ -60955,10 +60618,10 @@ DrawPatternFromIndex:
                 movem.l d0-d3,-(sp)
                 jsr     DrawSprite16Pixels
                 movem.l (sp)+,d0-d3
-                move.l  (g_frontbufferBase).l,-(sp)
-                move.l  #frontbufferPlaneOffset,(g_frontbufferBase).l
+                move.l  (frontbufferBasePtr).l,-(sp)
+                move.l  #frontbufferMaskBuffer,(frontbufferBasePtr).l
                 jsr     DrawSprite16Pixels
-                move.l  (sp)+,(g_frontbufferBase).l
+                move.l  (sp)+,(frontbufferBasePtr).l
 locret_12FC4E:
                 rts
 
@@ -61372,7 +61035,7 @@ loc_1301DC:
                 move.w  #$2323,(panicReasonCode).l
                 jsr     PanicHaltLoop
 off_1301EA:
-                dc.l 1245706,1245715,1245724,1245733,1245742,1245751,1245760,1245769
+                dc.l byte_13020A,byte_130213,byte_13021C,byte_130225,byte_13022E,byte_130237,byte_130240,byte_130249
 byte_13020A:
                 dc.b $00,$03,$06,$07,$01,$02,$04,$05,$FF
 byte_130213:
@@ -62488,7 +62151,7 @@ chooseTeamsFriendlyMenu:
 ChooseTeamsFriendlyInitFinish:
                 tst.w   (topOfStackMark).l
                 bpl.s   loc_130A82
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C40)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C40)).l,a0
                 move.l  #aAbort,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "ABORT" ...
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
@@ -62497,7 +62160,7 @@ ChooseTeamsFriendlyInitFinish:
 loc_130A82:
                 tst.w   (selectTeamsNoLimit).l
                 beq.s   loc_130AB2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,MENUENTRY_ISINVISIBLE+$38(a0)
                 move.w  #1,MENUENTRY_ISINVISIBLE+$70(a0)
@@ -62633,7 +62296,7 @@ loc_130C62:
                 lea     (teamNumbersIndices_).l,a4
                 lea     (teamPointers_).l,a5
                 lea     (teamsTable).l,a3
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a2
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a2
                 clr.w   d6
                 clr.w   d5
 loc_130C7C:
@@ -62821,7 +62484,7 @@ locret_130EE6:
 ; ===== ChooseTeamsSetHeader =====
 ; prototype: void __usercall ChooseTeamsSetHeader()
 ChooseTeamsSetHeader:
-                lea     (g_menuEntries).w,a2
+                lea     (g_menuEntries).l,a2
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a2),a1
                 movea.l (chooseTeamsHeader1stPart).l,a0
                 cmpa.l  #0,a0
@@ -62872,16 +62535,16 @@ word_130F86:
 CheckNumTeamsAllowed:
                 tst.w   (selectTeamsNoLimit).l
                 beq.s   loc_130FB8
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C78)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C78)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$CB0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$CB0)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C08)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C08)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 rts
 loc_130FB8:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C78)).w,a5
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$CB0)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C78)).l,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$CB0)).l,a4
                 move.w  (g_numSelectedTeams).l,d0
                 cmp.w   (numNeededTeams).l,d0
                 beq.s   loc_130FDA
@@ -62894,13 +62557,13 @@ loc_130FDA:
                 move.w  #2,34(a5)
                 move.l  (playWhatStr).l,38(a5)
 loc_130FF2:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C08)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C08)).l,a5
                 clr.w   MENUENTRY_ISINVISIBLE(a5)
                 tst.w   (g_numSelectedTeams).l
                 bne.s   loc_131008
                 move.w  #1,4(a5)
 loc_131008:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$CB0)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$CB0)).l,a5
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a1
                 move.w  (g_numSelectedTeams).l,d0
                 sub.w   (numNeededTeams).l,d0
@@ -62929,11 +62592,11 @@ loc_131056:
 ; ===== sub_13105E =====
 ; prototype: void __usercall sub_13105E()
 sub_13105E:
-                lea     ($282E).w,a0
+                lea     (g_menuEntries).l,a0
                 move.w  MENUENTRY_Y(a0),d0
                 add.w   $1A(a0),d0
                 move.w  d0,(word_13112C).l
-                lea     ($346E).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C40)).l,a0
                 move.w  MENUENTRY_Y(a0),(word_13112E).l
                 move.w  (viewTeamsColumn1_).l,d0
                 cmp.w   (viewTeamsColumn2_).l,d0
@@ -62948,7 +62611,7 @@ loc_13109E:
                 move.w  (word_13112E).l,d1
                 sub.w   (word_13112C).l,d1
                 sub.w   d0,d1
-                lea     ($2866).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 sub.w   MENUENTRY_DWHEIGHT(a0),d1
                 ext.l   d1
                 divu.w  #3,d1
@@ -62966,10 +62629,10 @@ loc_13109E:
                 lea     $38(a0),a0
                 move.w  d2,$16(a0)
                 lea     $38(a0),a0
-                lea     ($2866).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 add.w   MENUENTRY_DWHEIGHT(a0),d2
                 add.w   d2,d1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.w  #2,d2
 loc_131108:
                 move.w  d1,d0
@@ -64076,7 +63739,7 @@ loc_13172E:
                 tst.w   d3
                 bne.s   loc_1316EE
 loc_131736:
-                lea     (g_menuEntries).w,a2
+                lea     (g_menuEntries).l,a2
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a2),a1
                 movea.l (chooseTeamsHeader1stPart).l,a0
                 cmpa.l  #0,a0
@@ -64132,7 +63795,7 @@ loc_13180A:
                 beq.s   loc_131828
                 cmpi.l  #copaAmerica,(selectedContest).l
                 bne.s   loc_131828
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1030).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1030).l
 loc_131828:
                 bsr.w   SetChooseChangeTeamsEntries
                 bsr.w   SetTeamEntriesStringsAndColors
@@ -64153,7 +63816,7 @@ loc_131850:
 SetTeamEntriesStringsAndColors:
                 lea     (teamNumbersIndices).l,a3
                 lea     (teamPointers).l,a4
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a2
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a2
                 clr.w   d6
 loc_13186C:
                 move.w  #1,MENUENTRY_ISINVISIBLE(a2)
@@ -64311,12 +63974,12 @@ sub_131A38:
                 movea.l (sp)+,a5
                 rts
 off_131A4E:
-                dc.l 5046348,4915199
+                dc.l $004D004C,$004AFFFF
 
 ; ===== SetChooseChangeTeamsEntries =====
 ; prototype: void __usercall SetChooseChangeTeamsEntries()
 SetChooseChangeTeamsEntries:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1030)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1030)).l,a0
                 lea     (aChooseTeams).l,a1 ; "CHOOSE TEAMS"
                 move.w  (numSelectedTeamsCopy).l,d0
                 cmp.w   (numNeededTeams).l,d0
@@ -64324,8 +63987,8 @@ SetChooseChangeTeamsEntries:
                 lea     (aChangeTeams).l,a1 ; "CHANGE TEAMS"
 loc_131A74:
                 move.l  a1,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$10A0)).w,a5
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$10D8)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$10A0)).l,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$10D8)).l,a4
                 move.w  (numSelectedTeamsCopy).l,d0
                 cmp.w   (numNeededTeams).l,d0
                 beq.s   loc_131A9A
@@ -64338,7 +64001,7 @@ loc_131A9A:
                 move.w  #ENTRY_STRING,MENUENTRY_CONTENT(a5)
                 move.l  (playWhatStr).l,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5)
 loc_131AB2:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$10D8)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$10D8)).l,a5
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a1
                 move.w  (numSelectedTeamsCopy).l,d0
                 sub.w   (numNeededTeams).l,d0
@@ -64378,13 +64041,13 @@ loc_131B1C:
                 bhi.s   loc_131B2A
                 move.w  (viewTeamsColumn3).l,d1
 loc_131B2A:
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.w  MENUENTRY_Y(a0),d0
                 add.w   MENUENTRY_DWHEIGHT(a0),d0
                 move.w  d0,(viewTeamsStartY).l
-                lea     ($3896).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1068)).l,a0
                 move.w  MENUENTRY_Y(a0),(viewTeamsAbortY).l
-                lea     ($289E).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 move.w  MENUENTRY_DWHEIGHT(a0),d7
                 move.w  #$A,d4
 loc_131B54:
@@ -64416,10 +64079,10 @@ loc_131B72:
                 lea     $38(a0),a0
                 move.w  d2,$16(a0)
                 lea     $38(a0),a0
-                lea     ($289E).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 add.w   MENUENTRY_DWHEIGHT(a0),d2
                 add.w   d2,d1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a0
                 move.w  #2,d2
 loc_131BC4:
                 move.w  d1,d0
@@ -64923,13 +64586,13 @@ DesignDIYLeagueFinish:
                 beq.s   loc_132052
                 clr.w   (diyPitchTypeOrSeason_2).l
                 move.w  (g_pitchType).l,(diyLeaguePitchType).l
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
@@ -64942,21 +64605,21 @@ loc_132052:
                 bne.s   loc_132090
                 tst.w   (diyLeagueSelectTeams).l
                 bne.s   loc_13207C
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$460).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$498).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$508).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$460).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$498).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$508).l
                 rts
 loc_13207C:
                 bsr.w   DIYLeagueOKSelected
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$498).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$498).l
                 move.w  #20,d0
                 jmp     SetCurrentEntry
 loc_132090:
                 bsr.w   sub_1320B4
                 bsr.w   DIYLeagueOKSelected
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$460).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$498).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$508).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$460).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$498).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$508).l
                 move.w  #$16,d0
                 jmp     SetCurrentEntry
 
@@ -64965,7 +64628,7 @@ loc_132090:
 ; DOS: cseg_47981
 sub_1320B4:
                 lea     (DIY_competitionStart).l,a6
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.b  $12E(a6),d0
                 cmpi.b  #80,d0
@@ -64988,14 +64651,14 @@ loc_1320EA:
                 lea     (aTeamsPromoted0).l,a0 ; "TEAMS PROMOTED  %0"
 loc_132104:
                 jsr     PrintFormatted
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$3F0).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$3F0).l
                 bra.s   loc_13211E
 loc_132110:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).l,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).l,a1
                 move.w  22(a0),MENUENTRY_Y(a1)
 loc_13211E:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aTeamsRelegated_0).l,a0 ; "TEAMS RELEGATED  %0   TEAMS IN PLAYOFFS"...
                 move.w  88(a6),d0
@@ -65006,7 +64669,7 @@ loc_13211E:
                 lea     (aTeamsRelegated).l,a0 ; "TEAMS RELEGATED  %0"
 loc_132140:
                 jsr     PrintFormatted
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$428).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$428).l
 locret_13214A:
                 rts
 
@@ -65029,11 +64692,11 @@ loc_13217C:
                 andi.l  #$FF,d0
                 divu.w  #8,d0
                 move.w  d0,(diyLeagueEndingMonth).l
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a0
                 move.w  (diyLeagueNumTeams).l,MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).l,a5
                 bsr.w   SetPlayEachTeamString
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).l,a0
                 move.w  (diyPointsForAWin).l,MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a0)
                 bsr.w   ConvertMinMaxSubstitutesNumbers
                 rts
@@ -65041,7 +64704,7 @@ loc_13217C:
 ; ===== DIYLeagueOKSelected =====
 ; prototype: void __usercall DIYLeagueOKSelected()
 DIYLeagueOKSelected:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  #$10,d1
 loc_1321BA:
                 cmpi.w  #2,$1C(a0)
@@ -65057,9 +64720,9 @@ loc_1321BA:
 loc_1321E2:
                 lea     $38(a0),a0
                 dbf     d1,loc_1321BA
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$70).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$38).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$70).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$38).l
                 rts
 
 ; ===== DesignDIYLeagueOK =====
@@ -65120,15 +64783,15 @@ loc_1322B2:
 loc_1322BA:
                 tst.w   (diyPitchTypeOrSeason_1).l
                 bne.s   loc_1322DE
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,MENUENTRY_ISINVISIBLE+$38(a0)
                 move.w  #1,MENUENTRY_ISINVISIBLE+$70(a0)
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).l
                 rts
 loc_1322DE:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   MENUENTRY_ISINVISIBLE+$38(a0)
                 clr.w   MENUENTRY_ISINVISIBLE+$70(a0)
@@ -65139,7 +64802,7 @@ loc_1322DE:
 DIYLeagueChangePitchTypeOrSeason:
                 eori.w  #1,(diyPitchTypeOrSeason_2).l
                 bsr.s   DIYSetMonthsOrPitchTypeEntries
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a5
                 move.w  #5,d0
                 jsr     CallDrawMultipleItems
                 rts
@@ -65228,11 +64891,11 @@ DesignDIYLeagueChangeNumPointsForWin:
 ; ===== ConvertMinMaxSubstitutesNumbers =====
 ; prototype: void __usercall ConvertMinMaxSubstitutesNumbers()
 ConvertMinMaxSubstitutesNumbers:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  (diyLeagueMinSubstitutes).l,d0
                 jsr     Int2Ascii
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  (diyLeagueMaxSubstitutes).l,d0
                 jsr     Int2Ascii
@@ -65268,14 +64931,14 @@ loc_132478:
 loc_13248A:
                 bsr.w   ConvertMinMaxSubstitutesNumbers
                 jsr     CallDrawMenuItem
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).l,a5
                 jsr     CallDrawMenuItem
                 rts
 
 ; ===== SetNumberOfTeamsToSelect =====
 ; prototype: void __usercall SetNumberOfTeamsToSelect()
 SetNumberOfTeamsToSelect:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$508)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$508)).l,a5
                 movea.l MENUENTRY_FG(a5),a1
                 move.w  (diyLeagueNumTeams).l,d0
                 lea     (aSelect0Teams).l,a0 ; "SELECT %0 TEAMS"
@@ -65862,8 +65525,8 @@ loc_1328E4:
                 clr.w   (word_133312).l
                 move.w  #42,d0
                 jsr     SetCurrentEntry
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).l
 loc_132910:
                 bra.w   *+4
 
@@ -65872,7 +65535,7 @@ loc_132910:
 DIYLeagueTournamentOnRestore:
                 cmpi.w  #1,(word_2DF40).l
                 bne.s   loc_132932
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_0,d0
@@ -65887,7 +65550,7 @@ loc_132942:
                 bsr.w   DIYSetTeamNamesAndResults
                 bra.s   loc_13297A
 loc_132948:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 lea     56(a0),a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
@@ -65899,7 +65562,7 @@ loc_132948:
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
 loc_13297A:
                 lea     (DIY_competitionStart).l,a2
-                lea     (g_menuEntries).w,a1
+                lea     (g_menuEntries).l,a1
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1),a1
                 lea     4(a2),a0
                 jsr     StringCopy
@@ -65915,7 +65578,7 @@ loc_13297A:
                 jsr     StringCopy
 loc_1329BA:
                 lea     (DIY_competitionStart).l,a6
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).l,a0
                 move.w  #7,d0
 loc_1329C8:
                 move.w  #1,4(a0)
@@ -65925,49 +65588,49 @@ loc_1329C8:
                 move.w  #7,(word_13330C).l
                 cmpi.w  #$16,$52(a6)
                 bls.w   loc_132A6A
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.w  #9,MENUENTRY_DWHEIGHT(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  #7,d0
 loc_132A02:
                 addq.w  #5,$16(a0)
                 subq.w  #5,$1A(a0)
                 lea     $38(a0),a0
                 dbf     d0,loc_132A02
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a0
                 addq.w  #5,MENUENTRY_Y(a0)
                 subq.w  #5,$1A(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a0
                 addq.w  #5,MENUENTRY_Y(a0)
                 subq.w  #5,$1A(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a0
                 move.w  #4,d0
 loc_132A32:
                 addq.w  #6,$16(a0)
                 lea     $38(a0),a0
                 dbf     d0,loc_132A32
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).l,a0
                 move.w  #6,d0
 loc_132A46:
                 move.w  #7,$1A(a0)
                 lea     $38(a0),a0
                 dbf     d0,loc_132A46
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).l,a0
                 move.w  #7,d0
 loc_132A5C:
                 move.w  #7,$1A(a0)
                 lea     $38(a0),a0
                 dbf     d0,loc_132A5C
 loc_132A6A:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a0
                 move.w  MENUENTRY_Y(a0),d1
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.w  MENUENTRY_Y(a0),d2
                 add.w   $1A(a0),d2
                 sub.w   d2,d1
                 move.w  $52(a6),d3
                 mulu.w  (word_13330C).l,d3
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).l,a0
                 add.w   MENUENTRY_DWHEIGHT(a0),d3
                 addq.w  #1,d3
                 move.w  d1,d0
@@ -65986,7 +65649,7 @@ loc_132AA4:
                 move.w  (numDiyResults).l,d0
                 addq.w  #1,d0
                 divu.w  d0,d5
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).l,a0
                 move.w  (numDiyResults).l,d0
                 subq.w  #1,d0
 loc_132ACE:
@@ -65999,18 +65662,18 @@ loc_132ACE:
                 move.w  80(a6),d0
                 cmp.w   (numDiyResults).l,d0
                 bne.s   loc_132AFA
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$8C0).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$8F8).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$8C0).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$8F8).l
 loc_132AFA:
                 tst.w   (word_2DF58).l
                 beq.w   loc_132B74
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a0
                 move.w  #4,d0
 loc_132B0C:
                 subi.w  #80,MENUENTRY_Y(a0)
                 lea     56(a0),a0
                 dbf     d0,loc_132B0C
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,MENUENTRY_ISINVISIBLE+$38(a0)
                 move.w  #1,MENUENTRY_ISINVISIBLE+$70(a0)
@@ -66020,10 +65683,10 @@ loc_132B0C:
                 move.w  #1,MENUENTRY_ISINVISIBLE+$150(a0)
                 move.w  #1,MENUENTRY_ISINVISIBLE+$188(a0)
                 move.w  #1,MENUENTRY_ISINVISIBLE+$1C0(a0)
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 addi.w  #25,MENUENTRY_DWWIDTH(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 addi.w  #25,MENUENTRY_X(a0)
                 addi.w  #25,MENUENTRY_DWWIDTH(a0)
 loc_132B74:
@@ -66045,8 +65708,8 @@ DIYLeagueTournamentStats:
 ; ===== DIYLeagueTournamentExit =====
 ; prototype: void __usercall DIYLeagueTournamentExit()
 DIYLeagueTournamentExit:
-                lea     ($2DEF0).l,a0
-                tst.w   word_2DF38-DIY_competitionStart(a0)
+                lea     (DIY_competitionStart).l,a0
+                tst.w   $48(a0)
                 beq.s   loc_132BC4
                 cmpi.w  #2,$48(a0)
                 bne.s   loc_132BB2
@@ -66151,7 +65814,7 @@ DIYLeagueTournamentMatchCommon:
                 move.w  d2,(diyRightTeamResult).l
                 tst.w   (word_2DF58).l
                 beq.s   loc_132CC4
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a0
                 move.w  #$97,MENUENTRY_X(a0)
                 bra.s   loc_132CE6
 loc_132CC4:
@@ -66185,7 +65848,7 @@ DIYSetTeamNamesAndResults:
                 movea.l (diyRightTeamPtr).l,a2
                 move.w  (diyLeftTeamResult).l,d1
                 move.w  (diyRightTeamResult).l,d2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a3
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a3
                 clr.w   MENUENTRY_ISINVISIBLE(a3)
                 move.l  #aMinus,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a3) ; "-" ...
                 lea     $38(a3),a3
@@ -66207,8 +65870,8 @@ DIYSetTeamNamesAndResults:
 ; ===== DIYLeagueTournamentNextMatch =====
 ; prototype: void __usercall DIYLeagueTournamentNextMatch()
 DIYLeagueTournamentNextMatch:
-                lea     ($2DEF0).l,a0
-                tst.w   diyMinSubstitutes-DIY_competitionStart(a0)
+                lea     (DIY_competitionStart).l,a0
+                tst.w   $60(a0)
                 bne.s   loc_132D8A
                 move.w  #2,2(a0)
                 jmp     SetExitMenuFlag
@@ -66226,10 +65889,10 @@ loc_132D8A:
 ; prototype: void __usercall sub_132DA8()
 sub_132DA8:
                 bsr.w   sub_132DCC
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a5
                 move.l  #aPlayMatch,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5) ; "PLAY MATCH" ...
                 jsr     CallDrawMenuItem
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a5
                 move.w  #5,d0
                 jmp     CallDrawMultipleItems
 
@@ -66237,7 +65900,7 @@ sub_132DA8:
 ; prototype: void __usercall sub_132DCC()
 sub_132DCC:
                 jsr     sub_12AC82
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 move.l  #aV,$26(a0)     ; "V"
                 lea     $38(a0),a0
@@ -66257,7 +65920,7 @@ sub_132DCC:
                 rts
 loc_132E24:
                 bsr.w   sub_132E36
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a5
                 move.w  #8,d0
                 jmp     CallDrawMultipleItems
 
@@ -66266,7 +65929,7 @@ loc_132E24:
 sub_132E36:
                 tst.w   (word_133314).l
                 beq.s   loc_132E74
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
@@ -66277,7 +65940,7 @@ sub_132E36:
                 move.w  #1,$18C(a0)
                 rts
 loc_132E74:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 lea     (DIY_competitionStart).l,a1
                 tst.w   (word_13331A).l
                 beq.s   loc_132ED6
@@ -66285,13 +65948,13 @@ loc_132E74:
                 bne.s   loc_132E96
                 move.w  #1,(fireResetFlag).l
 loc_132E96:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
@@ -66310,13 +65973,13 @@ loc_132EE8:
 loc_132EFA:
                 move.l  #aNextMatch,$26(a0) ; "NEXT MATCH"
 loc_132F02:
-                lea     ($2866).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
@@ -66329,39 +65992,39 @@ loc_132F4E:
                 move.w  #1,d0
                 jmp     SetCurrentEntry
 loc_132F58:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 jsr     sub_12AD86
                 tst.w   d0
                 beq.w   loc_132FAC
                 cmpi.w  #1,d0
                 beq.w   loc_132FAC
-                lea     ($28D6).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   $3C(a0)
                 clr.w   $74(a0)
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 move.w  (diySelectedButtonOrd).l,d0
                 bra.w   loc_133000
 loc_132FAC:
-                lea     ($297E).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   $3C(a0)
                 clr.w   $74(a0)
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 tst.w   (word_16EBE2).l
                 beq.s   loc_132FFA
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a1
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a1
                 move.w  $14(a0),MENUENTRY_X(a1)
                 move.w  #$CA,$18(a1)
 loc_132FFA:
@@ -66384,7 +66047,7 @@ DIYLeagueTournament16BeforeDraw:
                 move.l  (a0,d0.w),$26(a5)
 loc_133032:
                 move.w  $16(a5),d2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).l,a0
                 move.w  #6,d0
 loc_13303E:
                 clr.w   4(a0)
@@ -66395,18 +66058,18 @@ loc_133050:
                 move.w  d2,$16(a0)
                 lea     $38(a0),a0
                 dbf     d0,loc_13303E
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).l,a5
                 move.w  #7,d0
                 movem.l d2/d7/a6,-(sp)
                 jsr     DrawMultipleItems
                 movem.l (sp)+,d2/d7/a6
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).l,a0
                 add.w   MENUENTRY_DWHEIGHT(a0),d2
                 addq.w  #1,d2
                 move.w  (word_13330A).l,d4
                 mulu.w  $52(a6),d7
                 lsl.w   #1,d7
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).l,a5
                 move.w  #1,d5
 loc_133090:
                 move.w  $6E(a6,d7.w),d0
@@ -66517,7 +66180,7 @@ loc_133178:
                 move.w  d4,MENUENTRY_DWHEIGHT(a5)
                 move.w  d3,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a5)
                 move.w  $2C4(a4),MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a5)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).l,a5
                 move.w  #9,d0
                 movem.l d2/d4-d5/d7/a5-a6,-(sp)
                 jsr     DrawMultipleItems
@@ -66529,7 +66192,7 @@ loc_133178:
                 bls.w   loc_133090
                 rts
 off_13323C:
-                dc.l 1402216,1402224,1402232,1402240,1402248,1402256,1402264,1402272
+                dc.l aGroupA,aGroupB,aGroupC,aGroupD,aGroupE,aGroupF,aGroupG,aGroupH
 
 ; ===== DIYLeagueTournamentScrollUp =====
 ; prototype: void __usercall DIYLeagueTournamentScrollUp()
@@ -66630,7 +66293,7 @@ diyLeftTeamResult:
 diyRightTeamResult:
                 dc.w $0000
 padding_39:
-                dc.b $00,$00
+                dc.b 0,0
 
 ; ===== ShowDesignDIYCupMenu =====
 ; prototype: void __usercall ShowDesignDIYCupMenu()
@@ -67625,13 +67288,13 @@ DesignDIYCupReinit:
                 beq.s   loc_133B50
                 clr.w   (diyPitchTypeOrSeason_2).l
                 move.w  (g_pitchType).l,(diyLeaguePitchType).l
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 move.w  #1,6(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
@@ -67644,20 +67307,20 @@ loc_133B50:
                 bne.s   loc_133B8E
                 tst.w   (diyCupSelectTeams).l
                 bne.s   loc_133B7A
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A80).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$AB8).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$B28).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A80).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$AB8).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$B28).l
                 rts
 loc_133B7A:
                 bsr.w   sub_133C24
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$AB8).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$AB8).l
                 move.w  #$30,d0         ; '0'
                 jmp     SetCurrentEntry
 loc_133B8E:
                 bsr.w   sub_133C24
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A80).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$AB8).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$B28).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A80).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$AB8).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$B28).l
                 move.w  (word_2DF48).l,d0
                 mulu.w  #5,d0
                 addi.w  #$12,d0
@@ -67700,7 +67363,7 @@ loc_133C0E:
 ; prototype: void __usercall sub_133C24()
 ; dos: cseg_44FE8
 sub_133C24:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 move.w  #$2D,d1         ; '-'
 loc_133C2C:
                 cmpi.w  #2,$1C(a0)
@@ -67716,9 +67379,9 @@ loc_133C2C:
 loc_133C54:
                 lea     $38(a0),a0
                 dbf     d1,loc_133C2C
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$70).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$38).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$70).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$38).l
                 rts
 
 ; ===== DesignDIYCupOK =====
@@ -67780,14 +67443,14 @@ loc_133D2E:
 loc_133D36:
                 tst.w   (word_13407E).l
                 bne.s   loc_133D5A
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).l
                 rts
 loc_133D5A:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).l
                 lea     ($2946).w,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   $3C(a0)
@@ -67799,7 +67462,7 @@ loc_133D5A:
 DesignDIYCupOnSelect3:
                 eori.w  #1,(diyPitchTypeOrSeason_2).l
                 bsr.s   sub_133D06
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a5
                 move.w  #5,d0
                 jsr     CallDrawMultipleItems
                 rts
@@ -67877,11 +67540,11 @@ loc_133E42:
 ; ===== sub_133E5A =====
 ; prototype: void __usercall sub_133E5A()
 sub_133E5A:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  (diyMinSubstitutes).l,d0
                 jsr     Int2Ascii
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  (diyPointsForAWin).l,d0
                 jsr     Int2Ascii
@@ -67917,7 +67580,7 @@ loc_133EC8:
 loc_133EDA:
                 bsr.w   sub_133E5A
                 jsr     CallDrawMenuItem
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a5
                 jsr     CallDrawMenuItem
                 rts
 
@@ -67928,7 +67591,7 @@ DesignDIYCupOnSelect20:
                 eori.w  #3,$66(a0,d1.w)
                 bsr.w   DesignDIYCupOnDraw
                 jsr     CallDrawMenuItem
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a5
                 move.w  #2,d0
                 jmp     CallDrawMultipleItems
 
@@ -67971,7 +67634,7 @@ sub_133F4E:
 ; ===== sub_133F68 =====
 ; prototype: void __usercall sub_133F68()
 sub_133F68:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$B28)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$B28)).l,a5
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a1
                 move.w  (diyLeagueNumTeams).l,d0
                 lea     (aSelect0Teams).l,a0 ; "SELECT %0 TEAMS"
@@ -67982,15 +67645,15 @@ sub_133F68:
 ; prototype: void __usercall DesignDIYCupOnDraw()
 DesignDIYCupOnDraw:
                 lea     (DIY_competitionStart).l,a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a4
                 clr.w   MENUENTRY_ISINVISIBLE(a4)
                 movea.l $26(a4),a0
                 movea.l (a0),a0
                 move.w  $5E(a2),(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a4
                 clr.w   MENUENTRY_ISINVISIBLE(a4)
                 move.w  $5A(a2),$26(a4)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).l,a4
                 clr.w   d7
                 move.w  $32(a2),d6
                 clr.w   d5
@@ -68048,7 +67711,7 @@ loc_134066:
                 bne.w   loc_133FB6
                 tst.w   d5
                 bne.s   locret_13407C
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).l
 locret_13407C:
                 rts
 word_13407E:
@@ -68746,8 +68409,8 @@ loc_13450C:
                 clr.w   (word_1350B0).l
                 move.w  #$42,d0         ; 'B'
                 jsr     SetCurrentEntry
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).l
 loc_13453E:
                 bra.w   *+4
 
@@ -68791,26 +68454,26 @@ sub_13458A:
 loc_13459A:
                 cmpi.w  #6,d0
                 bhi.s   loc_1345AE
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$380).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$3B8).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$380).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$3B8).l
                 rts
 loc_1345AE:
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$380).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$3B8).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$380).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$3B8).l
                 rts
 
 ; ===== sub_1345B8 =====
 ; prototype: void __usercall sub_1345B8()
 sub_1345B8:
                 lea     (DIY_competitionStart).l,a2
-                lea     ($282E).w,a1
-                movea.l g_menuEntries+MENUENTRY_FG-g_menuEntries(a1),a1
+                lea     (g_menuEntries).l,a1
+                movea.l MENUENTRY_FG(a1),a1
                 lea     4(a2),a0
                 jsr     StringCopy
                 move.b  #$20,(a1)+      ; ' '
                 tst.w   $48(a2)
                 beq.s   loc_134602
-                lea     ($2DAD0).l,a0
+                lea     (diyFileBufferCopy).l,a0
                 move.w  word_2DB24-diyFileBufferCopy(a0),d0
                 clr.w   d1
                 move.w  $52(a0),d2
@@ -69002,9 +68665,9 @@ loc_13481A:
 ; prototype: void __usercall sub_134836()
 sub_134836:
                 bsr.w   sub_134852
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a5
                 jsr     CallDrawMenuItem
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a5
                 move.w  #5,d0
                 jmp     CallDrawMultipleItems
 
@@ -69012,7 +68675,7 @@ sub_134836:
 ; prototype: void __usercall sub_134852()
 sub_134852:
                 jsr     sub_12A572
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 move.l  #aV,$26(a0)     ; "V"
                 lea     $38(a0),a0
@@ -69096,7 +68759,7 @@ locret_13494E:
 ; ===== sub_134950 =====
 ; prototype: void __usercall sub_134950()
 sub_134950:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 lea     $38(a0),a0
                 move.w  #1,4(a0)
@@ -69114,7 +68777,7 @@ sub_134984:
                 tst.w   (word_1350C0).l
                 bne.w   loc_134B46
                 lea     (DIY_competitionStart).l,a4
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a3
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).l,a3
                 move.w  $52(a4),d7
                 lea     $8A(a4),a5
                 lea     $2CE(a4),a6
@@ -69226,7 +68889,7 @@ loc_134B3A:
                 rts
 loc_134B46:
                 lea     (DIY_competitionStart).l,a4
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a3
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).l,a3
                 move.w  $52(a4),d7
                 lsr.w   #1,d7
                 lea     $2CE(a4),a2
@@ -69324,7 +68987,7 @@ loc_134C72:
                 rts
 loc_134C96:
                 bsr.w   sub_134CA8
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a5
                 move.w  #8,d0
                 jmp     CallDrawMultipleItems
 
@@ -69333,7 +68996,7 @@ loc_134C96:
 sub_134CA8:
                 tst.w   (word_1350B2).l
                 beq.s   loc_134CE6
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
@@ -69344,7 +69007,7 @@ sub_134CA8:
                 move.w  #1,$18C(a0)
                 rts
 loc_134CE6:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 lea     (DIY_competitionStart).l,a1
                 cmpi.w  #6,word_2DF3A-DIY_competitionStart(a1)
                 bne.s   loc_134D4C
@@ -69352,13 +69015,13 @@ loc_134CE6:
                 bne.s   loc_134D08
                 move.w  #1,(fireResetFlag).l
 loc_134D08:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
@@ -69402,13 +69065,13 @@ loc_134DD2:
                 move.w  #1,(fireResetFlag).l
                 move.l  #aNextRoundDraw,$26(a0) ; "NEXT ROUND DRAW"
 loc_134DE2:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
@@ -69416,40 +69079,40 @@ loc_134DE2:
                 jsr     SetCurrentEntry
                 bra.w   loc_134ED8
 loc_134E24:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 jsr     sub_12A59E
                 tst.w   d0
                 beq.w   loc_134E78
                 cmpi.w  #1,d0
                 beq.w   loc_134E78
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   $3C(a0)
                 clr.w   $74(a0)
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 move.w  (diySelectedButtonOrd).l,d0
                 bra.w   loc_134ED2
 loc_134E78:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   $3C(a0)
                 clr.w   $74(a0)
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
                 tst.w   (word_16EBE2).l
                 beq.s   loc_134ECC
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a1
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a1
                 move.w  $14(a0),MENUENTRY_X(a1)
                 move.w  #$CA,$18(a1)
 loc_134ECC:
@@ -69517,8 +69180,8 @@ DIYCupOnSelectCommon:
                 move.w  d1,(word_1350CA).l
                 move.w  d2,(word_1350CC).l
                 move.w  #$FFFF,(word_1350B0).l
-                lea     ($2DEF0).l,a0
-                tst.w   word_2DF44-DIY_competitionStart(a0)
+                lea     (DIY_competitionStart).l,a0
+                tst.w   $54(a0)
                 beq.w   loc_135028
                 tst.w   $48(a0)
                 beq.s   loc_134F90
@@ -69991,8 +69654,8 @@ ExitOptions:
                 addq.w  #1,(showPrereleaseCounter).l
                 cmpi.w  #15,(showPrereleaseCounter).l
                 bne.w   locret_1353F8
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$310).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).w,a5
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$310).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).l,a5
                 jsr     CallDrawMenuItem
                 rts
 loc_1353F2:
@@ -71691,13 +71354,13 @@ DesignDIYTournamentReinit:
                 beq.s   loc_1360D4
                 clr.w   (diyPitchTypeOrSeason).l
                 move.w  (g_pitchType).l,(diyPitchType).l
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 move.w  #1,6(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
@@ -71710,22 +71373,22 @@ loc_1360D4:
                 bne.s   loc_13611C
                 tst.w   (diyTournamentSelectTeams).l
                 bne.s   loc_136108
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1378).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$13B0).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1420).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$13E8)).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1378).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$13B0).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1420).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$13E8)).l,a0
                 addi.w  #$20,MENUENTRY_X(a0) ; ' '
                 rts
 loc_136108:
                 bsr.w   sub_1361C4
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$13B0).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$13B0).l
                 move.w  #$59,d0         ; 'Y'
                 jmp     SetCurrentEntry
 loc_13611C:
                 bsr.w   sub_1361C4
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1378).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$13B0).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1420).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1378).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$13B0).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1420).l
                 move.w  (word_2DB24).l,d0
                 mulu.w  #$C,d0
                 addi.w  #$11,d0
@@ -71772,7 +71435,7 @@ loc_1361AE:
 ; ===== sub_1361C4 =====
 ; prototype: void __usercall sub_1361C4()
 sub_1361C4:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 move.w  #$56,d1         ; 'V'
 loc_1361CC:
                 cmpi.w  #2,$1C(a0)
@@ -71788,9 +71451,9 @@ loc_1361CC:
 loc_1361F4:
                 lea     $38(a0),a0
                 dbf     d1,loc_1361CC
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$70).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$38).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$70).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$38).l
                 rts
 
 ; ===== DesignDIYTournamentOK =====
@@ -71855,15 +71518,15 @@ loc_1362DA:
 loc_1362E2:
                 tst.w   (word_136D12).l
                 bne.s   loc_136306
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).l
                 rts
 loc_136306:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   $3C(a0)
                 clr.w   $74(a0)
@@ -71874,7 +71537,7 @@ loc_136306:
 DesignDIYTournamentOnSelect3:
                 eori.w  #1,(diyPitchTypeOrSeason).l
                 bsr.s   sub_1362B2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a5
                 move.w  #5,d0
                 jsr     CallDrawMultipleItems
                 rts
@@ -71936,11 +71599,11 @@ loc_1363CA:
 ; ===== sub_1363D4 =====
 ; prototype: void __usercall sub_1363D4()
 sub_1363D4:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  (word_2DB1C).l,d0
                 jsr     Int2Ascii
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  (word_2DB1E).l,d0
                 jsr     Int2Ascii
@@ -71976,7 +71639,7 @@ loc_136442:
 loc_136454:
                 bsr.w   sub_1363D4
                 jsr     CallDrawMenuItem
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a5
                 jsr     CallDrawMenuItem
                 rts
 
@@ -71999,7 +71662,7 @@ DesignDIYTournamentOnSelect23:
                 movea.l a3,a0
                 move.w  #1,d1
                 bsr.w   sub_136B5C
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a5
                 move.w  #2,d0
                 jmp     CallDrawMultipleItems
 
@@ -72065,7 +71728,7 @@ sub_13651C:
 ; ===== sub_136542 =====
 ; prototype: void __usercall sub_136542()
 sub_136542:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1420)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1420)).l,a5
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a1
                 move.w  (word_2DB02).l,d0
                 lea     (aSelect0Teams).l,a0 ; "SELECT %0 TEAMS"
@@ -72086,7 +71749,7 @@ loc_13656A:
 loc_136578:
                 adda.l  #$76,a2         ; 'v'
                 dbf     d0,loc_13656A
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a4
                 move.w  #1,MENUENTRY_ISINVISIBLE(a4)
                 lea     -$38(a4),a4
                 move.w  #1,4(a4)
@@ -72098,7 +71761,7 @@ loc_136598:
                 lea     -$38(a4),a4
                 clr.w   4(a4)
 loc_1365AE:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).l,a4
                 lea     (diyFileBufferCopy).l,a2
                 clr.w   d7
 loc_1365BA:
@@ -72435,7 +72098,7 @@ loc_136A6E:
                 addq.w  #1,d1
 loc_136A9A:
                 bsr.w   sub_136B5C
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a5
                 move.w  #2,d0
                 jmp     CallDrawMultipleItems
 locret_136AAC:
@@ -72483,7 +72146,7 @@ loc_136B08:
                 movea.l a3,a0
                 move.w  #1,d1
                 bsr.w   sub_136B5C
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a5
                 move.w  #2,d0
                 jmp     CallDrawMultipleItems
 
@@ -72537,7 +72200,7 @@ DesignDIYTournamentOnSelect20:
                 movea.l a3,a0
                 move.w  #1,d1
                 bsr.w   sub_136B5C
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a5
                 move.w  #2,d0
                 jmp     CallDrawMultipleItems
 
@@ -72800,11 +72463,11 @@ diySelected:
                                         ; 2  - tournament
                                         ; -1 - leave DIY menu
 padding_40:
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00
+                dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+                dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+                dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+                dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+                dc.b 0,0,0,0,0,0
 
 ; ===== Friendly =====
 ; prototype: void __usercall Friendly()
@@ -73056,13 +72719,13 @@ FriendlyMenuReinit:
                 beq.s   loc_1370BE
                 clr.w   (pitchTypeOrSeason).l
                 move.w  (g_pitchType).l,(friendlyPitchType).l
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
@@ -73072,24 +72735,24 @@ loc_1370BE:
                 bsr.w   DrawNumbersOfSubstitutes
                 tst.w   (friendlyOk).l
                 bne.s   loc_1370DC
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).l
                 rts
 loc_1370DC:
                 bsr.w   DisableEntries
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).l
                 move.w  #7,d0
                 jmp     SetCurrentEntry
 
 ; ===== DrawNumbersOfSubstitutes =====
 ; prototype: void __usercall DrawNumbersOfSubstitutes()
 DrawNumbersOfSubstitutes:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  (minSubstitutes).l,d0
                 jsr     Int2Ascii
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  (maxSubstitutes).l,d0
                 jsr     Int2Ascii
@@ -73099,7 +72762,7 @@ DrawNumbersOfSubstitutes:
 ; ===== DisableEntries =====
 ; prototype: void __usercall DisableEntries()
 DisableEntries:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  #5,d1
 loc_137126:
                 cmpi.w  #ENTRY_FRAME_AND_BACK_COLOR,MENUENTRY_BACKGROUND(a0)
@@ -73148,7 +72811,7 @@ ChooseTeamsMenu:
 PitchTypeOrSeasonProc:
                 eori.w  #1,(pitchTypeOrSeason).l
                 bsr.w   SetFriendlyPitchOrSeason
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a5
                 move.w  #2,d0
                 jmp     CallDrawMultipleItems
 
@@ -73160,7 +72823,7 @@ SetFriendlyPitchOrSeason:
                 beq.s   loc_1371DA
                 lea     friendly_season_table(pc),a0
 loc_1371DA:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a1
                 move.l  a0,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1)
                 rts
 
@@ -73212,7 +72875,7 @@ loc_137268:
 loc_13727A:
                 bsr.w   DrawNumbersOfSubstitutes
                 jsr     CallDrawMenuItem
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a5
                 jsr     CallDrawMenuItem
                 rts
 
@@ -73220,7 +72883,7 @@ loc_13727A:
 ; prototype: void __usercall SetSelectTwoTeamsText()
 ; [friendly menu procedure]
 SetSelectTwoTeamsText:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a5
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a1
                 move.w  #2,d0
                 lea     (aSelect0Teams).l,a0 ; "SELECT %0 TEAMS"
@@ -73304,7 +72967,7 @@ loc_13731C:
                 bra.s   loc_137376
 loc_137340:
                 lea     (aEditCustomTeam).l,a0 ; "EDIT CUSTOM TEAMS"
-                jsr     sub_151912
+                jsr     Asset_PromptInsertSaveDiskDf0
                 bne.s   loc_13731C
                 lea     (aCustomsEdt).l,a0 ; "CUSTOMS.EDT"
                 lea     (teamFileBuffer).l,a1
@@ -74294,33 +73957,45 @@ editTeamsMenu:
                 dc.w $00BD
                 dc.w $0000              ; -= end entry 60 =-
                 dc.w -999               ; -= end menu =-
+; Sprites[2]
 editTeamsPrimaryShirts:
-                dc.w 190,193
+                ; Sprites[2]
+                dc.w SPR_BIG_SHIRT,SPR_EDIT_TEAMS_PRIMARY_SHIRT
 editTeamsPrimaryShirtColTable:
                 dc.b $00,$00,$00,$01,$00,$00,$00,$03,$00,$04,$00,$05,$00,$06,$00,$07
                 dc.b $00,$08,$00,$09,$00,$00,$00,$00,$00,$0C,$00,$0D,$00,$00,$00,$0F
+; Sprites[2]
 editTeamsShorts:
-                dc.w 191,194
+                ; Sprites[2]
+                dc.w SPR_BIG_SHORTS,SPR_EDIT_TEAMS_SHORTS
 editTeamsShortsColTable:
                 dc.b $00,$00,$00,$01,$00,$02,$00,$03,$00,$04,$00,$05,$00,$06,$00,$07
                 dc.b $00,$08,$00,$09,$00,$0A,$00,$00,$00,$0C,$00,$0D,$00,$0E,$00,$0F
+; Sprites[2]
 editTeamsSocks:
-                dc.w 192,195
+                ; Sprites[2]
+                dc.w SPR_BIG_SOCKS,SPR_EDIT_TEAMS_SOCKS
 editTeamsSocksColTable:
                 dc.b $00,$00,$00,$01,$00,$02,$00,$03,$00,$04,$00,$05,$00,$06,$00,$07
                 dc.b $00,$08,$00,$09,$00,$0A,$00,$00,$00,$0C,$00,$0D,$00,$0E,$00,$0F
+; Sprites[2]
 editTeamsSecondaryShirt:
-                dc.w 190,196
+                ; Sprites[2]
+                dc.w SPR_BIG_SHIRT,SPR_EDIT_TEAMS_SECONDARY_SHIRT
 editTeamsSecondaryShirtColTable:
                 dc.b $00,$00,$00,$01,$00,$00,$00,$03,$00,$04,$00,$05,$00,$06,$00,$07
                 dc.b $00,$08,$00,$09,$00,$00,$00,$00,$00,$0C,$00,$0D,$00,$00,$00,$0F
+; Sprites[2]
 editTeamsSecondaryShorts:
-                dc.w 191,197
+                ; Sprites[2]
+                dc.w SPR_BIG_SHORTS,SPR_EDIT_TEAMS_SHORTS_SECONDARY
 editTeamsSecondaryShortsColTable:
                 dc.b $00,$00,$00,$01,$00,$02,$00,$03,$00,$04,$00,$05,$00,$06,$00,$07
                 dc.b $00,$08,$00,$09,$00,$0A,$00,$00,$00,$0C,$00,$0D,$00,$0E,$00,$0F
+; Sprites[2]
 editTeamsSecondarySocks:
-                dc.w 192,198
+                ; Sprites[2]
+                dc.w SPR_BIG_SOCKS,SPR_EDIT_TEAMS_SECONDARY_SOCKS
 editTeamsSecondarySocksColTable:
                 dc.b $00,$00,$00,$01,$00,$02,$00,$03,$00,$04,$00,$05,$00,$06,$00,$07
                 dc.b $00,$08,$00,$09,$00,$0A,$00,$00,$00,$0C,$00,$0D,$00,$0E,$00,$0F
@@ -74499,7 +74174,7 @@ loc_137D30:
 loc_137D34:
                 bsr.w   PrimaryKitColorConversion
                 bsr.w   nullsub_16
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a5
                 move.w  #1,d0
                 jmp     CallDrawMultipleItems
 locret_137D4A:
@@ -74557,7 +74232,7 @@ loc_137DD0:
 loc_137DD4:
                 bsr.w   SecondaryKitColorConversion
                 bsr.w   nullsub_16
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a5
                 move.w  #1,d0
                 jmp     CallDrawMultipleItems
 locret_137DEA:
@@ -74592,7 +74267,7 @@ loc_137E36:
                 move.b  d0,TEAMFILE_PRSHORTSCOLOR(a6)
                 bsr.w   PrimaryKitColorConversion
                 bsr.w   nullsub_16
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a5
                 move.w  #1,d0
                 jmp     CallDrawMultipleItems
 locret_137E50:
@@ -74627,7 +74302,7 @@ loc_137E9C:
                 move.b  d0,TEAMFILE_SECSHORTSCOLOR(a6)
                 bsr.w   SecondaryKitColorConversion
                 bsr.w   nullsub_16
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a5
                 move.w  #1,d0
                 jmp     CallDrawMultipleItems
 locret_137EB6:
@@ -74661,7 +74336,7 @@ loc_137EF8:
 loc_137F02:
                 move.b  d0,TEAMFILE_PRSOCKSCOLOR(a6)
                 bsr.w   PrimaryKitColorConversion
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a5
                 move.w  #1,d0
                 jmp     CallDrawMultipleItems
 locret_137F18:
@@ -74695,7 +74370,7 @@ loc_137F5A:
 loc_137F64:
                 move.b  d0,TEAMFILE_SECSOCKSCOLOR(a6)
                 bsr.w   SecondaryKitColorConversion
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a5
                 move.w  #1,d0
                 jmp     CallDrawMultipleItems
 locret_137F7A:
@@ -74711,10 +74386,10 @@ EditTeamsSelectPrimaryShirtType:
                 bsr.w   MarkFirstKitShirt
                 bsr.w   PrimaryKitColorConversion
                 bsr.w   nullsub_16
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).l,a5
                 move.w  #4,d0
                 jsr     CallDrawMultipleItems
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a5
                 move.w  #1,d0
                 jmp     CallDrawMultipleItems
 
@@ -74728,10 +74403,10 @@ EditTeamsSelectSecondaryShirtType:
                 bsr.w   MarkSecondKitShirt
                 bsr.w   SecondaryKitColorConversion
                 bsr.w   nullsub_16
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).l,a5
                 move.w  #4,d0
                 jsr     CallDrawMultipleItems
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a5
                 move.w  #1,d0
                 jmp     CallDrawMultipleItems
 
@@ -74785,24 +74460,24 @@ loc_138032:
 ; Also do some kind of color conversion.
 ; Reads all from edit teams selected team.
 InitEditTeamsMenu:
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$460).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$460).l
                 tst.w   (teamIsImported).l
                 beq.s   loc_138060
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$460).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$460).l
 loc_138060:
                 lea     (selTeamsPtr).l,a6
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 lea     5(a6),a2
                 move.l  a2,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 lea     36(a6),a2
                 move.l  a2,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 bsr.w   PrimaryKitColorConversion
                 bsr.w   SecondaryKitColorConversion
                 bsr.w   MarkFirstKitShirt
                 bsr.w   MarkSecondKitShirt
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$508)).w,a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$508)).l,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).l,a1
                 move.w  #$F,d7
 loc_13809A:
                 move.b  PLAYERFILE_POSITIONANDFACE+$4C(a6),d0
@@ -74828,7 +74503,7 @@ EditTeamsPlayersBeforeDraw:
                 adda.l  d0,a6
                 move.b  TEAMFILE_PLAYERS+PLAYERFILE_POSITIONANDFACE(a6),d6
                 move.w  MENUENTRY_Y(a5),d7
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C08)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C08)).l,a0
                 clr.w   d0
                 move.b  78(a6),d0
                 move.w  d0,MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a0)
@@ -74853,7 +74528,7 @@ EditTeamsPlayersBeforeDraw:
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  d7,MENUENTRY_Y(a0)
                 lea     56(a0),a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C08)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C08)).l,a5
                 move.w  #6,d0
                 jmp     DrawMultipleItems
 
@@ -74959,7 +74634,7 @@ loc_138240:
 ; to selected team settings, for the first (upper) kit.
 MarkFirstKitShirt:
                 lea     (selTeamsPtr).l,a6
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).l,a0
                 move.b  TEAMFILE_PRSHIRTTYPE(a6),d0
                 move.w  #3,d1
 loc_138290:
@@ -74979,7 +74654,7 @@ loc_1382A0:
 ; to selected team settings, for the second (lower) kit.
 MarkSecondKitShirt:
                 lea     (selTeamsPtr).l,a6
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).l,a0
                 move.b  TEAMFILE_SECSHIRTTPE(a6),d0
                 move.w  #3,d1
 loc_1382BC:
@@ -75798,9 +75473,9 @@ competitionTopGoalScorersMenu:
 ; ===== CompetitionTopGoalScorersInit =====
 ; prototype: void __usercall CompetitionTopGoalScorersInit()
 CompetitionTopGoalScorersInit:
-                lea     (g_menuEntries).w,a5
+                lea     (g_menuEntries).l,a5
                 move.l  (diyStatsName).l,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a5
                 lea     (highestScorersTable).l,a2
                 move.b  byte_996E6-highestScorersTable(a2),d6
                 lea     (a2),a2
@@ -76102,30 +75777,30 @@ topGoalScorersMenu:
 TopGoalScorersInit:
                 tst.l   (dword_166B1C).l
                 bne.w   loc_138B90
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$508)).w,a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).w,a1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$578)).w,a2
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$508)).l,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).l,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$578)).l,a2
                 move.w  $14(a1),$14(a0)
                 move.w  $14(a2),$14(a1)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a2
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a2
                 move.w  $14(a1),$14(a0)
                 move.w  $14(a2),$14(a1)
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 move.l  #aCup_10,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "\x04C\x00U\x00P\x00 " ...
 loc_138B90:
                 tst.l   (dword_166B18).l
                 bne.w   locret_138BC2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$508)).w,a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$508)).l,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).l,a1
                 move.w  MENUENTRY_X(a1),$14(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a1
                 move.w  MENUENTRY_X(a1),$14(a0)
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$70).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$38).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$70).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$38).l
 locret_138BC2:
                 rts
 
@@ -76136,7 +75811,7 @@ TopGoalScorersBeforeDrawCommon:
                 subq.w  #6,d4
                 lsl.w   #1,d4
                 move.w  $16(a5),d7
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).l,a4
                 lea     (highestScorersTable).l,a2
                 move.b  byte_996E6-highestScorersTable(a2),d6
                 lea     (a2),a2
@@ -76205,7 +75880,7 @@ loc_138CD0:
                 move.w  d7,$16(a4)
                 clr.w   4(a4)
                 lea     $38(a4),a4
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).l,a5
                 move.w  #6,d0
                 jmp     DrawMultipleItems
 loc_138CF6:
@@ -76253,7 +75928,7 @@ FormTopSkillsString:
                 beq.w   loc_138E10
                 subq.w  #1,d0
                 lsl.w   #2,d0
-                lea     (off_138E18).l,a2 ; "TSPVHCFSTPVHCFTSPVHCFSTPVHCFTHPSVCFHTPS"...
+                lea     (off_138E18).l,a2
                 lea     (off_138E50).l,a3
                 move.b  PLAYERFILE_PRICE+$4C(a6),d1
                 move.b  PLAYERFILE_PLAYERNAME+$4C(a6),d2
@@ -76262,7 +75937,7 @@ FormTopSkillsString:
                 eor.b   d2,d1
                 btst    #0,d1
                 beq.s   loc_138DA4
-                lea     (off_138E34).l,a2 ; "STPVHCFTSPVHCFSTPVHCFTHPSVCFHTPSVCFCSPT"...
+                lea     (off_138E34).l,a2
                 lea     (off_138E6C).l,a3
 loc_138DA4:
                 movea.l (a2,d0.w),a2
@@ -76318,25 +75993,13 @@ loc_138E10:
                 movem.l (sp)+,d0-d7/a0-a6
                 rts
 off_138E18:
-                dc.l aTspvhcfstpvhcf    ; "TSPVHCFSTPVHCFTSPVHCFSTPVHCFTHPSVCFHTPSVCFCSPTHFVSCPTHFVCSPTHFVSCPTHFVPTCHVSFTPCHVSFHFSVCPTFHSVCPTEUROPEAN CHAMPIONSHIP QUALIFIE"
-                dc.l $00153FC5          ; raw
-                dc.l $00153FD3          ; raw
-                dc.l $00153FE1          ; raw
-                dc.l $00153FEF          ; raw
-                dc.l $00153FFD          ; raw
-                dc.l $0015400B          ; raw
+                dc.l aTspvhcfstpvhcf,aTspvhcfstpvhcf+$E,aTspvhcfstpvhcf+$1C,aTspvhcfstpvhcf+$2A,aTspvhcfstpvhcf+$38,aTspvhcfstpvhcf+$46,aTspvhcfstpvhcf+$54
 off_138E34:
-                dc.l $00153FBE          ; raw
-                dc.l $00153FCC          ; raw
-                dc.l $00153FDA          ; raw
-                dc.l $00153FE8          ; raw
-                dc.l $00153FF6          ; raw
-                dc.l $00154004          ; raw
-                dc.l $00154012          ; raw
+                dc.l aTspvhcfstpvhcf+$7,aTspvhcfstpvhcf+$15,aTspvhcfstpvhcf+$23,aTspvhcfstpvhcf+$31,aTspvhcfstpvhcf+$3F,aTspvhcfstpvhcf+$4D,aTspvhcfstpvhcf+$5B
 off_138E50:
-                dc.l 1281672,1281686,1281700,1281714,1281728,1281742,1281756
+                dc.l byte_138E88,byte_138E96,byte_138EA4,byte_138EB2,byte_138EC0,byte_138ECE,byte_138EDC
 off_138E6C:
-                dc.l 1281679,1281693,1281707,1281721,1281735,1281749,1281763
+                dc.l byte_138E8F,byte_138E9D,byte_138EAB,byte_138EB9,byte_138EC7,byte_138ED5,byte_138EE3
 byte_138E88:
                 dc.b $10,$18,$04,$08,$0C,$14,$1C
 byte_138E8F:
@@ -76364,40 +76027,68 @@ byte_138ED5:
 byte_138EDC:
                 dc.b $0C,$1C,$18,$08,$14,$04,$10
 byte_138EE3:
-                dc.b $1C,$0C,$18,$08,$14,$04,$10,$43,$F9,$00,$13,$90,$B4,$42,$19,$42
-                dc.b $19,$42,$19,$42,$19,$42,$19,$42,$19,$42,$19,$42,$19,$42,$19,$42
-                dc.b $19,$42,$19,$41,$F9,$00,$16,$4F,$86,$2C,$48,$3A,$10,$43,$F9,$00
-                dc.b $16,$4F,$66,$3E,$39,$00,$16,$54,$92,$B1,$FC,$00,$16,$4F,$86,$67
-                dc.b $08,$43,$E8,$00,$3C,$3E,$3C,$00,$10,$10,$28,$00,$18,$48,$80,$E5
-                dc.b $48,$4D,$F9,$00,$12,$46,$48,$2C,$76,$00,$00,$10,$2E,$01,$71,$48
-                dc.b $80,$E5,$48,$4D,$F9,$00,$13,$90,$C0,$2C,$76,$00,$00,$42,$46,$61
-                dc.b $00,$00,$5E,$6B,$1A,$41,$F9,$00,$13,$90,$B4,$11,$BC,$00,$01,$60
-                dc.b $00,$10,$31,$40,$00,$13,$B1,$60,$00,$40,$00,$13,$80,$60,$00,$52
-                dc.b $46,$0C,$46,$00,$0B,$65,$D8,$42,$46,$41,$F9,$00,$13,$90,$B4,$4A
-                dc.b $30,$60,$00,$66,$20,$61,$00,$00,$62,$6B,$1A,$41,$F9,$00,$13,$90
-                dc.b $B4,$00,$30,$00,$08,$60,$00,$10,$31,$40,$00,$13,$B1,$60,$00,$40
-                dc.b $00,$13,$80,$60,$00,$52,$46,$0C,$46,$00,$0B,$65,$CC,$4E,$75,$16
-                dc.b $3C,$00,$FF,$38,$3C,$FF,$FF,$34,$06,$30,$05,$32,$02,$4E,$B9,$00
-                dc.b $14,$67,$D8,$10,$28,$00,$66,$02,$40,$00,$E0,$EA,$48,$B0,$36,$60
-                dc.b $00,$66,$0C,$B6,$28,$00,$6C,$6C,$06,$16,$28,$00,$6C,$38,$02,$52
-                dc.b $42,$B4,$47,$65,$D4,$4A,$44,$4E,$75,$10,$36,$60,$00,$48,$80,$E5
-                dc.b $48,$45,$F9,$00,$13,$90,$4C,$24,$72,$00,$00,$16,$3C,$00,$FF,$38
-                dc.b $3C,$FF,$FF,$34,$06,$41,$F9,$00,$13,$90,$B4,$4A,$30,$20,$00,$66
-                dc.b $24,$30,$05,$32,$02,$4E,$B9,$00,$14,$67,$D8,$10,$28,$00,$66,$02
-                dc.b $40,$00,$E0,$EA,$48,$B0,$12,$66,$0C,$B6,$28,$00,$6C,$6C,$06,$16
-                dc.b $28,$00,$6C,$38,$02,$52,$42,$B4,$47,$65,$CA,$4A,$44,$6A,$06,$52
-                dc.b $8A,$4A,$12,$6A,$B6,$4A,$44,$4E,$75,$00,$13,$90,$6C,$00,$13,$90
-                dc.b $75,$00,$13,$90,$7E,$00,$13,$90,$87,$00,$13,$90,$90,$00,$13,$90
-                dc.b $99,$00,$13,$90,$A2,$00,$13,$90,$AB,$00,$03,$06,$07,$01,$02,$04
-                dc.b $05,$FF,$01,$03,$02,$04,$06,$05,$07,$00,$FF,$02,$03,$01,$05,$06
-                dc.b $04,$07,$00,$FF,$03,$01,$02,$06,$04,$05,$07,$00,$FF,$04,$06,$05
-                dc.b $03,$01,$02,$07,$00,$FF,$05,$06,$04,$03,$02,$01,$07,$00,$FF,$06
-                dc.b $04,$05,$03,$01,$02,$07,$00,$FF,$07,$06,$04,$05,$03,$01,$02,$00
-                dc.b $FF,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $1C,$0C,$18,$08,$14,$04,$10,$43,$F9
+                dc.l byte_1390B4
+                dc.b $42,$19,$42,$19,$42,$19,$42,$19,$42,$19,$42,$19,$42,$19,$42,$19
+                dc.b $42,$19,$42,$19,$42,$19,$41,$F9
+                dc.l careerTeam
+                dc.b $2C,$48,$3A,$10,$43,$F9
+                dc.l currentMatchPlayers
+                dc.b ">9"
+                dc.l careerNumPlayers
+                dc.b $B1,$FC
+                dc.l careerTeam
+                dc.b $67,$08,$43,$E8,$00,$3C,$3E,$3C,$00,$10,$10,$28,$00,$18,$48,$80
+                dc.b $E5,$48,$4D,$F9
+                dc.l g_tacticsTable
+                dc.b ",v",0,$00,$10,$2E,$01,$71,$48,$80,$E5,$48,$4D,$F9
+                dc.l off_1390C0
+                dc.b ",v",0,$00,$42,$46,$61,$00,$00,$5E,$6B,$1A,$41,$F9
+                dc.l byte_1390B4
+                dc.b $11,$BC,$00,$01,$60,$00,$10,$31,$40,$00,$13,$B1,$60,$00,$40,$00
+                dc.b $13,$80,$60,$00,$52,$46,$0C,$46,$00,$0B,$65,$D8,$42,$46,$41,$F9
+                dc.l byte_1390B4
+                dc.b "J0`",0,$66,$20,$61,$00,$00,$62,$6B,$1A,$41,$F9
+                dc.l byte_1390B4
+                dc.b $00,$30,$00,$08,$60,$00,$10,$31,$40,$00,$13,$B1,$60,$00,$40,$00
+                dc.b $13,$80,$60,$00,$52,$46,$0C,$46,$00,$0B,$65,$CC,$4E,$75,$16,$3C
+                dc.b $00,$FF,$38,$3C,$FF,$FF,$34,$06,$30,$05,$32,$02,$4E,$B9
+                dc.l GetPlayerAtIndex
+                dc.b $10,$28,$00,$66,$02,$40,$00,$E0,$EA,$48,$B0,$36,$60,$00,$66,$0C
+                dc.b $B6,$28,$00,$6C,$6C,$06,$16,$28,$00,$6C,$38,$02,$52,$42,$B4,$47
+                dc.b $65,$D4,$4A,$44,$4E,$75,$10,$36,$60,$00,$48,$80,$E5,$48,$45,$F9
+                dc.l off_13904C
+                dc.b "$r",0,$00,$16,$3C,$00,$FF,$38,$3C,$FF,$FF,$34,$06,$41,$F9
+                dc.l byte_1390B4
+                dc.b "J0 ",0,$66,$24,$30,$05,$32,$02,$4E,$B9
+                dc.l GetPlayerAtIndex
+                dc.b $10,$28,$00,$66,$02,$40,$00,$E0,$EA,$48,$B0,$12,$66,$0C,$B6,$28
+                dc.b $00,$6C,$6C,$06,$16,$28,$00,$6C,$38,$02,$52,$42,$B4,$47,$65,$CA
+                dc.b $4A,$44,$6A,$06,$52,$8A,$4A,$12,$6A,$B6,$4A,$44,$4E,$75
+off_13904C:
+                dc.l byte_13906C,byte_139075,byte_13907E,byte_139087,byte_139090,byte_139099,byte_1390A2,byte_1390AB
+byte_13906C:
+                dc.b $00,$03,$06,$07,$01,$02,$04,$05,$FF
+byte_139075:
+                dc.b $01,$03,$02,$04,$06,$05,$07,$00,$FF
+byte_13907E:
+                dc.b $02,$03,$01,$05,$06,$04,$07,$00,$FF
+byte_139087:
+                dc.b $03,$01,$02,$06,$04,$05,$07,$00,$FF
+byte_139090:
+                dc.b $04,$06,$05,$03,$01,$02,$07,$00,$FF
+byte_139099:
+                dc.b $05,$06,$04,$03,$02,$01,$07,$00,$FF
+byte_1390A2:
+                dc.b $06,$04,$05,$03,$01,$02,$07,$00,$FF
+byte_1390AB:
+                dc.b $07,$06,$04,$05,$03,$01,$02,$00,$FF
+byte_1390B4:
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 off_1390C0:
-                dc.l 1282312,1282323,1282334,1282345,1282356,1282367,1282378,1282389
-                dc.l 1282400,1282411,1282422,1282433,1282312,1282312,1282312,1282312
-                dc.l 1282312,1282312
+                dc.l byte_139108,byte_139113,byte_13911E,byte_139129,byte_139134,byte_13913F,byte_13914A,byte_139155
+                dc.l byte_139160,byte_13916B,byte_139176,byte_139181,byte_139108,byte_139108,byte_139108,byte_139108
+                dc.l byte_139108,byte_139108
 byte_139108:
                 dc.b $00,$01,$03,$03,$02,$04,$06,$06,$05,$07,$07
 byte_139113:
@@ -77103,18 +76794,18 @@ loc_139632:
                 or.l    (dword_166B18).l,d0
                 or.l    (dword_166B1C).l,d0
                 bne.w   loc_139698
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$CE8)).w,a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$D20)).w,a1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$D58)).w,a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$D90)).w,a3
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$CE8)).l,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$D20)).l,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$D58)).l,a2
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$D90)).l,a3
                 addi.w  #$14,$14(a0)
                 addi.w  #$14,$14(a1)
                 addi.w  #$14,$14(a2)
                 addi.w  #$14,$14(a3)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).w,a1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).w,a3
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).l,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).l,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).l,a2
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).l,a3
                 addi.w  #$14,$14(a0)
                 addi.w  #$14,$14(a1)
                 addi.w  #$14,$14(a2)
@@ -77122,35 +76813,35 @@ loc_139632:
 loc_139698:
                 tst.l   (dword_166B20).l
                 bne.w   loc_1396DE
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$CE8)).w,a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$D20)).w,a1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$D58)).w,a2
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$CE8)).l,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$D20)).l,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$D58)).l,a2
                 addi.w  #$14,$14(a0)
                 addi.w  #$14,$14(a1)
                 addi.w  #$14,$14(a2)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).w,a1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a2
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).l,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).l,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).l,a2
                 addi.w  #$14,$14(a0)
                 addi.w  #$14,$14(a1)
                 addi.w  #$14,$14(a2)
 loc_1396DE:
                 tst.l   (dword_166B1C).l
                 bne.w   loc_139710
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$CE8)).w,a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$D20)).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$CE8)).l,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$D20)).l,a1
                 addi.w  #$14,$14(a0)
                 addi.w  #$14,$14(a1)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).l,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).l,a1
                 addi.w  #$14,$14(a0)
                 addi.w  #$14,$14(a1)
 loc_139710:
                 tst.l   (dword_166B18).l
                 bne.w   loc_13972E
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$CE8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$CE8)).l,a0
                 addi.w  #$14,$14(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).l,a0
                 addi.w  #$14,$14(a0)
 loc_13972E:
                 tst.w   (teamSkillDiffAfterChange).l
@@ -77162,47 +76853,47 @@ loc_13972E:
                 tst.w   (isNationalSquad).l
                 beq.w   loc_13975E
                 addq.w  #8,d1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).l,a0
                 subq.w  #8,$14(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$CE8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$CE8)).l,a0
 loc_13975E:
                 sub.w   d1,$14(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$D20)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$D20)).l,a0
                 sub.w   d1,$14(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$D58)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$D58)).l,a0
                 sub.w   d1,$14(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$D90)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$D90)).l,a0
                 sub.w   d1,$14(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$DC8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$DC8)).l,a0
                 sub.w   d1,$14(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).l,a0
                 sub.w   d1,$14(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).l,a0
                 sub.w   d1,$14(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).l,a0
                 sub.w   d1,$14(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).l,a0
                 sub.w   d1,$14(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$4D0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$4D0)).l,a0
                 sub.w   d1,$14(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).l,a0
                 sub.w   d1,$14(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$578)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$578)).l,a0
                 sub.w   d1,$14(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$5B0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$5B0)).l,a0
                 sub.w   d1,$14(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$5E8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$5E8)).l,a0
                 sub.w   d1,$14(a0)
 loc_1397CA:
                 tst.w   (teamSkillDiffAfterChange).l
                 bmi.s   loc_1397FC
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).l,a0
                 subi.w  #$32,$14(a0)    ; '2'
                 subi.w  #$A,$16(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$578)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$578)).l,a0
                 subi.w  #$32,$14(a0)    ; '2'
                 subi.w  #$A,$16(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a0
                 subi.w  #$1F,$14(a0)
 loc_1397FC:
                 bra.w   *+4
@@ -77217,13 +76908,13 @@ SquadFinish:
                 bcs.s   loc_139842
                 cmpi.b  #$55,(a1)       ; 'U'
                 bhi.s   loc_139842
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a0
                 subi.w  #$D,$14(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C08)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C08)).l,a0
                 subi.w  #$D,$14(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).l,a0
                 subi.w  #$D,$14(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$578)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$578)).l,a0
                 subi.w  #$D,$14(a0)
 loc_139842:
                 jsr     CheckIsTeamNational
@@ -77245,17 +76936,17 @@ loc_139876:
                 clr.l   (dword_13A6F4).l
                 move.w  #$FFFF,(word_13A6F0).l
                 movea.l (dword_13A6EA).l,a6
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$9A0).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$9D8).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$9A0).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$9D8).l
                 move.w  (word_13A6E8).l,d1
                 subi.w  #$10,d1
                 beq.s   loc_1398B6
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$9A0).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$9A0).l
                 cmpi.w  #1,d1
                 beq.s   loc_1398B6
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$9D8).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$9D8).l
 loc_1398B6:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).l,a0
                 move.b  (selTeamNumber).l,d0
                 andi.w  #$FF,d0
                 lsl.w   #2,d0
@@ -77270,34 +76961,34 @@ loc_1398B6:
                 beq.w   loc_139940
                 movea.l (dword_166B14).l,a1
                 bsr.w   sub_13A90A
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$4D0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$4D0)).l,a0
                 movea.l (dword_166B18).l,a1
                 cmpa.l  #0,a1
                 beq.s   loc_13993C
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).l,a0
                 move.l  a2,$26(a0)
                 bsr.w   sub_13A90A
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).l,a0
                 movea.l (dword_166B1C).l,a1
                 cmpa.l  #0,a1
                 beq.s   loc_13993C
                 move.l  a2,$26(a0)
                 bsr.w   sub_13A90A
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).l,a0
                 move.l  a2,$26(a0)
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$460).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$460).l
                 bra.s   loc_139940
 loc_13993C:
                 move.l  a2,$26(a0)
 loc_139940:
                 clr.w   (word_13A6E0).l
                 bsr.w   sub_139AE4
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).l
                 tst.w   (teamSkillDiffAfterChange).l
                 bpl.s   loc_13995C
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).l
 loc_13995C:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a0
                 move.l  #aGoals,$26(a0) ; "GOALS"
                 tst.w   (isNationalSquad).l
                 beq.s   loc_139978
@@ -77306,15 +76997,15 @@ loc_139978:
                 movea.l (dword_13A6EA).l,a6
                 cmpi.b  #1,4(a6)
                 bne.s   loc_1399B0
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$230).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$230).l
                 move.w  #$A,d0
                 jsr     SetCurrentEntry
                 cmpi.b  #$50,(a6)       ; 'P'
                 bcs.s   loc_1399B0
                 cmpi.b  #$55,(a6)       ; 'U'
                 bhi.s   loc_1399B0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a0
                 move.w  #$DF,$14(a0)
 loc_1399B0:
                 bsr.w   sub_139A4C
@@ -77371,7 +77062,7 @@ word_139A3C:
 ; ===== Squad45AfterDraw =====
 ; prototype: void __usercall Squad45AfterDraw()
 Squad45AfterDraw:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$9A0)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$9A0)).l,a5
                 jmp     DrawMenuItem
 
 ; ===== sub_139A4C =====
@@ -77411,7 +77102,7 @@ loc_139A88:
                 add.w   d0,d6
                 lea     $26(a0),a0
                 dbf     d7,loc_139A88
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aGoals).l,a0   ; "GOALS"
                 jsr     StringCopy
@@ -77431,27 +77122,27 @@ locret_139AE2:
 sub_139AE4:
                 bsr.w   UpdateBigCheckMark
                 movea.l (dword_13A6EA).l,a6
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #ORANGE_TO_BROWN_12,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 cmpi.b  #1,4(a6)
                 beq.s   loc_139B3A
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #BLUE_TO_PURPLE_11,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 cmpi.b  #2,4(a6)
                 beq.s   loc_139B3A
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #BRIGHT_BLUE_TO_BLUE_13,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_139B3A:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.b  (a6),d0
                 andi.w  #$FF,d0
@@ -77463,17 +77154,17 @@ loc_139B3A:
                 jsr     StringCopy
                 move.b  #$29,(a1)+      ; ')'
                 clr.b   (a1)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$578)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$578)).l,a0
                 move.b  $16(a6),d0
                 andi.w  #$FF,d0
                 move.w  d0,$26(a0)
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$348).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2D8).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$348).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2D8).l
                 tst.w   (word_13A6E0).l
                 bne.s   loc_139B90
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$2D8).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$2D8).l
 loc_139B90:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$310).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$310).l
                 movea.l (dword_13A6EA).l,a0
                 cmpi.b  #$50,(a0)       ; 'P'
                 bcs.s   loc_139BA8
@@ -77482,28 +77173,28 @@ loc_139B90:
 loc_139BA8:
                 tst.w   (word_13A6E0).l
                 bne.s   loc_139BB4
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$310).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$310).l
 loc_139BB4:
                 tst.w   (word_13A6E0).l
                 beq.w   loc_139D2E
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
                 move.w  (selTeamNumber).l,d0
                 cmpi.w  #$FFFF,d0
                 beq.s   loc_139BEA
                 cmp.w   (a6),d0
                 bne.s   loc_139BEA
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$5B0).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$5E8).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$5E8)).w,a0
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$5B0).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$5E8).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$5E8)).l,a0
                 move.w  (word_165496).l,$26(a0)
                 bra.s   loc_139BF6
 loc_139BEA:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$5B0).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$5E8).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$5B0).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$5E8).l
 loc_139BF6:
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$540).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$578).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a0
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$540).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$578).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   $3C(a0)
                 clr.w   $74(a0)
@@ -77511,11 +77202,11 @@ loc_139BF6:
                 clr.w   $E4(a0)
                 clr.w   $11C(a0)
                 clr.w   $154(a0)
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).l
                 tst.w   (isNationalSquad).l
                 beq.s   loc_139C7C
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
@@ -77523,35 +77214,35 @@ loc_139BF6:
                 move.w  #1,$E4(a0)
                 move.w  #1,$11C(a0)
                 move.w  #1,$154(a0)
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$5B0).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$5E8).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$540).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$578).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$5B0).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$5E8).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$540).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$578).l
                 bra.w   loc_139EDE
 loc_139C7C:
                 move.l  (dword_166B20).l,d0
                 or.l    (dword_166B18).l,d0
                 or.l    (dword_166B1C).l,d0
                 bne.s   loc_139CAC
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$3F0).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$3B8).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$428).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$498).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$3F0).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$3B8).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$428).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$498).l
                 bra.w   loc_139EDE
 loc_139CAC:
                 tst.l   (dword_166B20).l
                 bne.w   loc_139CBC
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$498).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$498).l
 loc_139CBC:
                 tst.l   (dword_166B18).l
                 bne.w   loc_139CD6
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$3B8).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$428).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$3B8).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$428).l
                 bra.w   loc_139EDE
 loc_139CD6:
                 tst.l   (dword_166B1C).l
                 bne.w   loc_139CEA
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$3B8).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$3B8).l
                 bra.w   loc_139EDE
 loc_139CEA:
                 tst.w   (isNationalSelector).l
@@ -77560,68 +77251,68 @@ loc_139CEA:
                 beq.s   loc_139D24
                 tst.l   (dword_166B1C).l
                 beq.s   loc_139D24
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$3B8).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$460).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).w,a1
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$3B8).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$460).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).l,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).l,a1
                 move.w  $14(a0),MENUENTRY_X(a1)
                 addi.w  #$B,$14(a1)
                 bra.w   loc_139EDE
 loc_139D24:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$428).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$428).l
                 bra.w   loc_139EDE
 loc_139D2E:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
                 cmpi.w  #4,(g_gameType).l
                 bne.s   loc_139D58
                 cmpi.l  #careerTeam,(dword_13A6EA).l
                 bne.s   loc_139D58
                 tst.w   (isNationalSelector).l
                 bne.s   loc_139D58
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
                 bra.s   loc_139DA8
 loc_139D58:
                 tst.w   (teamSkillDiffAfterChange).l
                 bpl.s   loc_139DA8
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a0
                 move.w  #$EE,MENUENTRY_X(a0)
                 move.w  #$3C,$18(a0)    ; '<'
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a0
                 move.w  #$EE,MENUENTRY_X(a0)
                 move.w  #$3C,$18(a0)    ; '<'
                 tst.w   (isNationalSquad).l
                 beq.s   loc_139DA8
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a0
                 subi.w  #$E,MENUENTRY_X(a0)
                 move.w  #$E5,$16(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a0
                 subi.w  #$E,MENUENTRY_X(a0)
                 move.w  #$F5,$16(a0)
 loc_139DA8:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #YELLOW_GREEN_BLACK_14,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 clr.w   MENUENTRY_ISDISABLED(a0)
                 movea.l (dword_13A6EA).l,a0
                 btst    #0,$17(a0)
                 beq.s   loc_139DF0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
 loc_139DF0:
                 tst.w   (teamSkillDiffAfterChange).l
                 bmi.s   loc_139E44
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.w  #$EE,MENUENTRY_X(a0)
                 move.w  #$3C,$18(a0)    ; '<'
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a0
                 move.w  #$EE,MENUENTRY_X(a0)
                 move.w  #$3C,$18(a0)    ; '<'
                 move.w  #$DD,$16(a0)
@@ -77632,12 +77323,12 @@ loc_139DF0:
                 bcs.s   loc_139E44
                 cmpi.b  #$55,(a0)       ; 'U'
                 bhi.s   loc_139E44
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a0
                 subi.w  #$E,MENUENTRY_X(a0)
 loc_139E44:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$5B0).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$5E8).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$5B0).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$5E8).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
@@ -77645,16 +77336,16 @@ loc_139E44:
                 move.w  #1,$E4(a0)
                 move.w  #1,$11C(a0)
                 move.w  #1,$154(a0)
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).l
                 tst.w   (teamSkillDiffAfterChange).l
                 bpl.s   loc_139ED6
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$540).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$578).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$540).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$578).l
                 tst.w   (isNationalSquad).l
                 beq.s   loc_139ED4
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$540).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$578).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$540).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$578).l
                 lea     ($2BAE).w,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   $3C(a0)
@@ -77663,13 +77354,13 @@ loc_139E44:
                 clr.w   $E4(a0)
                 clr.w   $11C(a0)
                 clr.w   $154(a0)
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2D8).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2D8).l
                 bra.w   loc_139C7C
 loc_139ED4:
                 bra.s   loc_139EDE
 loc_139ED6:
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$540).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$578).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$540).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$578).l
 loc_139EDE:
                 tst.w   (word_13A6E0).l
                 bne.w   loc_139F20
@@ -77681,18 +77372,18 @@ loc_139EDE:
                 move.w  (a0),d0
                 cmp.w   (selTeamNumber).l,d0
                 bne.s   loc_139F20
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$2A0).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$2A0).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 jsr     GetBankBalance
                 bra.s   loc_139F26
 loc_139F20:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2A0).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2A0).l
 loc_139F26:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 lea     5(a6),a2
                 move.l  a2,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 lea     $24(a6),a2
                 move.l  a2,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 rts
@@ -77700,7 +77391,7 @@ loc_139F26:
 ; ===== SquadCommon =====
 ; prototype: void __usercall SquadCommon()
 SquadCommon:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$620)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$620)).l,a0
                 move.w  2(a5),d6
                 sub.w   2(a0),d6
                 move.w  d6,d1
@@ -77928,7 +77619,7 @@ loc_13A25A:
                 move.w  d4,(word_13A6E6).l
                 move.l  a6,(dword_13A6E2).l
                 move.w  $16(a5),d7
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A10)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A10)).l,a0
                 move.w  d7,$16(a0)
                 move.w  (word_13A6DE).l,d0
                 jsr     sub_13A748
@@ -78175,17 +77866,17 @@ loc_13A5C6:
                 move.w  d7,$16(a0)
                 lea     $38(a0),a0
 loc_13A5F8:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A10)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A10)).l,a5
                 move.w  #$12,d0
                 jmp     DrawMultipleItems
 
 ; ===== sub_13A606 =====
 ; prototype: void __usercall sub_13A606()
 sub_13A606:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$620)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$620)).l,a5
                 move.w  #$B,d0
                 jsr     CallDrawMultipleItems
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a5
                 jsr     CallDrawMenuItem
                 rts
 
@@ -78223,7 +77914,7 @@ loc_13A668:
 ; ===== UpdateBigCheckMark =====
 ; prototype: void __usercall UpdateBigCheckMark()
 UpdateBigCheckMark:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 tst.w   (teamSkillDiffAfterChange).l
                 bpl.s   locret_13A6BC
@@ -78546,7 +78237,7 @@ sub_13A9EA:
                 lea     (DIY_competitionStart).l,a0
                 cmpi.w  #DIY_CUP,(a0)
                 beq.s   loc_13AA36
-                move.w  44(a0),(DIY_COMPETITION_FIELD_39+$13AB3E).l
+                move.w  44(a0),(word_13AB78).l
                 move.w  50(a0),(diyNumberOfTeams).l
                 tst.w   72(a0)
                 beq.s   loc_13AA14
@@ -78864,7 +78555,7 @@ loc_13ACAC:
 ; ===== CareerOverFinish =====
 ; prototype: __int16 __usercall CareerOverFinish@<d0>()
 CareerOverFinish:
-                lea     (g_menuEntries).w,a1
+                lea     (g_menuEntries).l,a1
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1),a1
                 lea     (managerNameBuffer).l,a0
                 jsr     GetStringLength
@@ -78889,10 +78580,10 @@ loc_13ACF6:
                 move.w  (selTeamNumber).l,d0
                 jsr     VerifyTeamLoaded
                 lea     5(a0),a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a1
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1),a1
                 jsr     StringCopy
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a1
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1),a1
                 move.b  (seasonPlaying).l,d0
                 andi.w  #$FF,d0
@@ -78907,10 +78598,10 @@ loc_13AD40:
                 bsr.w   CareerOverUpdateJobOffersEntry
                 cmpi.w  #19,(currentSeasonShowing).l
                 bne.s   loc_13AD74
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.l  #aRetire,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "RETIRE" ...
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).l
                 rts
 loc_13AD74:
                 cmpi.w  #$FFFF,(teamNoOfferAccepted).l
@@ -78921,30 +78612,30 @@ loc_13AD74:
                 bne.s   loc_13ADE0
                 tst.w   (numJobOffers).l
                 bne.s   loc_13ADE0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).l
 loc_13ADE0:
                 tst.w   (youreSacked).l
                 beq.s   locret_13AE10
                 cmpi.w  #$FFFF,(teamNoOfferAccepted).l
                 bne.s   locret_13AE10
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
@@ -78957,15 +78648,15 @@ locret_13AE10:
 CareerOverUpdateJobOffersEntry:
                 cmpi.w  #19,(currentSeasonShowing).l
                 bne.s   loc_13AE24
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).l
                 rts
 loc_13AE24:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #YELLOW_GREEN_BLACK_14,d0 ; yellow-green-black
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 clr.w   MENUENTRY_ISDISABLED(a0)
                 move.w  MENUENTRY_STRINGFLAGS(a0),d1
                 bclr    #$D,d1
@@ -78986,7 +78677,7 @@ loc_13AE6C:
 loc_13AE76:
                 move.l  #aNoJobOffers,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "NO JOB OFFERS" ...
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
@@ -79028,7 +78719,7 @@ loc_13AF06:
                 lea     (gotJobOfferMenu).l,a6
                 jsr     ShowMenu
 loc_13AF12:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 tst.w   MENUENTRY_ISDISABLED(a0)
                 beq.s   locret_13AF26
                 move.w  #8,d0
@@ -79054,7 +78745,7 @@ loc_13AF48:
 ; prototype: __int16 __usercall SaveCareer@<d0>()
 SaveCareer:
                 lea     (aSaveCareer).l,a0 ; "SAVE CAREER"
-                jsr     sub_151912
+                jsr     Asset_PromptInsertSaveDiskDf0
                 bne.w   locret_13AFC0
                 lea     (competitionFilename).l,a0
                 move.l  #'.CAR',d0
@@ -79327,7 +79018,7 @@ loc_13B1C8:
 ; prototype: void __usercall SetNationalityField()
 ; Set nationality field when starting career.
 SetNationalityField:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.b  (plNationality).l,d0
                 cmpi.b  #$FF,d0
@@ -79382,14 +79073,14 @@ loc_13B260:
 ; ===== SetPlayerCoachFieldColor =====
 ; prototype: void __usercall SetPlayerCoachFieldColor()
 SetPlayerCoachFieldColor:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #BRIGHT_BLUE_TO_BLUE_13,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 tst.w   (coachOrPlayer).l
                 beq.s   locret_13B2AE
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #BLUE_TO_PURPLE_11,d0
@@ -79624,25 +79315,25 @@ loc_13B48A:
 ; ===== ViewCompetitionsOnReturn =====
 ; prototype: void ViewCompetitionsOnReturn(...)
 ViewCompetitionsOnReturn:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.l  #diyPresetNameOfCompetition,$26(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 move.l  #byte_166B78,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.l  #byte_1676CC,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.l  #byte_167F54,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 cmpi.l  #tourCopy,(dword_166B14).l
                 beq.s   loc_13B4DC
                 cmpi.l  #friendlyCopy,(dword_166B14).l
                 bne.s   loc_13B50E
 loc_13B4DC:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$38).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a3
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a4
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$38).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a2
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a3
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a4
                 move.w  $16(a3),$16(a4)
                 move.w  $16(a2),$16(a3)
                 move.w  $16(a1),$16(a2)
@@ -79651,11 +79342,11 @@ loc_13B50E:
                 tst.l   (dword_166B18).l
                 bne.s   loc_13B540
 loc_13B516:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a3
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a2
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a3
                 move.w  $16(a2),$16(a3)
                 move.w  $16(a1),$16(a2)
                 move.w  $16(a0),$16(a1)
@@ -79669,10 +79360,10 @@ loc_13B558:
                 tst.l   (dword_166B1C).l
                 bne.w   loc_13B582
 loc_13B562:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a2
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a2
                 move.w  $16(a1),$16(a2)
                 move.w  $16(a0),$16(a1)
                 bra.s   loc_13B59A
@@ -79684,9 +79375,9 @@ loc_13B582:
 loc_13B59A:
                 tst.l   (dword_166B20).l
                 bne.w   loc_13B5B8
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a1
                 move.w  $16(a0),$16(a1)
 loc_13B5B8:
                 tst.w   (isNationalSelector).l
@@ -79694,11 +79385,11 @@ loc_13B5B8:
                 tst.w   (word_16924C).l
                 bne.s   loc_13B5CE
 loc_13B5C8:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).l
 loc_13B5CE:
                 cmpi.w  #4,(g_gameType).l
                 beq.s   locret_13B5DE
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
 locret_13B5DE:
                 rts
 
@@ -80308,27 +79999,27 @@ ContestMenuOnReturn:
                 beq.w   loc_13BA90
                 rts
 loc_13BA34:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$2D8).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$268).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$310).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$348).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$2D8).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$268).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$310).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$348).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 subq.w  #1,MENUENTRY_DWHEIGHT(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a0
                 subq.w  #1,MENUENTRY_DWHEIGHT(a0)
                 cmpi.w  #1,(seasonNumberOfSquads).l
                 beq.s   loc_13BA78
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a0
                 move.l  #aSquads,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "SQUADS" ...
 loc_13BA78:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2A0).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2A0).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).l
 loc_13BA90:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).l,a0
                 move.w  MENUENTRY_Y(a0),(gameListY).l
                 addq.w  #2,(gameListY).l
                 move.w  MENUENTRY_DWHEIGHT(a0),(contestEntryHeight).l
@@ -80501,7 +80192,7 @@ loc_13BCE4:
                 lea     (gotJobOfferMenu).l,a6
                 jsr     ShowMenu
 loc_13BCF0:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 tst.w   MENUENTRY_ISDISABLED(a0)
                 beq.s   locret_13BD04
                 move.w  #7,d0
@@ -80572,9 +80263,9 @@ jmp_SetExitMenuFlag:
 ContestMenuScrollUp:
                 bsr.w   ScrollUpInGameList
                 bsr.w   sub_13C1FA
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).l,a5
                 move.w  #15,d0
-                jsr     sub_120FEC
+                jsr     CallDrawMultipleItemsRect
                 rts
 
 ; ===== ScrollUpInGameList =====
@@ -80604,9 +80295,9 @@ locret_13BE14:
 ContestMenuScrollDown:
                 bsr.w   ScrollDownInGameList
                 bsr.w   sub_13C1FA
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).l,a5
                 move.w  #15,d0
-                jsr     sub_120FEC
+                jsr     CallDrawMultipleItemsRect
                 rts
 
 ; ===== ScrollDownInGameList =====
@@ -80719,12 +80410,12 @@ locret_13BF8A:
 CheckJobOffers:
                 cmpi.w  #GAME_TYPE_CAREER,(g_gameType).l
                 bne.s   locret_13BFDE
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #BLUE_TO_PURPLE_11,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 clr.w   MENUENTRY_ISDISABLED(a0)
                 move.w  MENUENTRY_STRINGFLAGS(a0),d1
                 bclr    #$D,d1
@@ -80747,7 +80438,7 @@ loc_13BFE0:
 loc_13BFEA:
                 move.l  #aNoJobOffers,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "NO JOB OFFERS" ...
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addq.w  #PINK_TO_BROWN_7,d0
@@ -80773,7 +80464,7 @@ locret_13C032:
 ; ===== ContestSetButtons =====
 ; prototype: void __usercall ContestSetButtons()
 ContestSetButtons:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.l  #aPlayMatch,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "PLAY MATCH" ...
                 move.w  MENUENTRY_STRINGFLAGS(a0),d0
                 bclr    #$D,d0
@@ -80782,15 +80473,15 @@ ContestSetButtons:
                 beq.w   loc_13C0DC
                 tst.w   (seasonFinished).l
                 bne.w   loc_13C0B0
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$230).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$230).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addq.w  #ORANGE_TO_BROWN_4,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 tst.w   (careerFinished).l
                 bne.s   loc_13C0A2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 tst.w   (isNationalSelector).l
                 bne.s   locret_13C0A0
                 tst.w   (word_16E082).l
@@ -80801,31 +80492,31 @@ ContestSetButtons:
 locret_13C0A0:
                 rts
 loc_13C0A2:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.l  #aFinishSeason,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "FINISH SEASON" ...
                 rts
 loc_13C0B0:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.l  #aFinishSeason,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "FINISH SEASON" ...
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
                 rts
 loc_13C0DC:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addq.w  #ORANGE_TO_BROWN_4,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a0
                 clr.w   MENUENTRY_ISDISABLED(a0)
                 tst.w   (seasonNumberOfSquads).l
                 bne.s   loc_13C118
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.l  #aNextMatch,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "NEXT MATCH" ...
                 bsr.w   SeasonLowerButtons
                 tst.w   (seasonFinished).l
@@ -80840,7 +80531,7 @@ loc_13C118:
 loc_13C12C:
                 bsr.w   SeasonLowerButtons
 loc_13C130:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.l  #aFinishSeason,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "FINISH SEASON" ...
                 rts
 
@@ -80849,13 +80540,13 @@ loc_13C130:
 ; Set "view competitions" and lower "next match" buttons
 ; lower in line with "exit" and make upper "next match" invisible
 SeasonLowerButtons:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).l,a0
                 move.w  MENUENTRY_Y(a1),MENUENTRY_Y(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).l,a0
                 move.w  MENUENTRY_Y(a1),MENUENTRY_Y(a0)
                 addi.w  #13,MENUENTRY_Y(a0)
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2D8).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2D8).l
                 rts
 
 ; ===== CheckTransfers =====
@@ -80872,14 +80563,14 @@ loc_13C180:
                 tst.w   (word_16E082).l
                 bne.s   loc_13C1CA
 loc_13C188:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addq.w  #BLUE_TO_BLACK_8,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 clr.w   MENUENTRY_ISDISABLED(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 tst.w   (timeToNegotiate).l
                 beq.s   loc_13C1E8
                 movem.l a0,-(sp)
@@ -80892,15 +80583,15 @@ loc_13C188:
 locret_13C1C8:
                 rts
 loc_13C1CA:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.w  MENUENTRY_BG(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
 loc_13C1E8:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.w  MENUENTRY_STRINGFLAGS(a0),d0
                 bclr    #$D,d0
                 move.w  d0,MENUENTRY_STRINGFLAGS(a0)
@@ -80950,18 +80641,18 @@ loc_13C25E:
 PrintNameAndSeason:
                 cmpi.w  #GAME_TYPE_CAREER,(g_gameType).l
                 beq.s   loc_13C28A
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,60(a0)
                 move.w  #1,116(a0)
                 rts
 loc_13C28A:
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   60(a0)
                 clr.w   116(a0)
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
-                lea     (g_menuEntries).w,a1
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).l
+                lea     (g_menuEntries).l,a1
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1),a1
                 lea     (managerNameBuffer).l,a0
                 jsr     GetStringLength
@@ -80986,10 +80677,10 @@ loc_13C2E6:
                 move.w  (selTeamNumber).l,d0
                 jsr     VerifyTeamLoaded
                 lea     5(a0),a0
-                lea     ($2866).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a1
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1),a1
                 jsr     StringCopy
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a1
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1),a1
                 move.b  (seasonPlaying).l,d0
                 andi.w  #$FF,d0
@@ -81024,7 +80715,7 @@ SetNationalSelectorButtons:
                 bne.w   locret_13C492
                 tst.w   (isNationalSelector).l
                 beq.w   locret_13C492
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.l  #aSquadSelected,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "SQUAD SELECTED" ...
                 movem.l a0,-(sp)
                 jsr     sub_125B56
@@ -81035,60 +80726,60 @@ SetNationalSelectorButtons:
                 beq.s   loc_13C3AA
                 move.l  #aSelectSquad,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "SELECT SQUAD" ...
 loc_13C3AA:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addq.w  #ORANGE_TO_BROWN_4,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).l,a0
                 clr.w   MENUENTRY_ISDISABLED(a0)
                 jsr     sub_125B56
                 beq.s   loc_13C3EA
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).l,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
 loc_13C3EA:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
                 cmpi.w  #$14,(careerNumPlayers).l
                 beq.w   locret_13C492
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).l,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
 locret_13C492:
                 rts
@@ -81096,7 +80787,7 @@ locret_13C492:
 ; ===== CareerGameListCommon =====
 ; prototype: void __usercall CareerGameListCommon(struct MenuEntry *item@<a5>)
 CareerGameListCommon:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).l,a0
                 move.w  MENUENTRY_ORDINAL(a5),d0
                 sub.w   MENUENTRY_ORDINAL(a0),d0
                 bne.s   loc_13C4B2
@@ -81114,7 +80805,7 @@ loc_13C4B2:
                 cmpa.l  #0,a6
                 beq.w   loc_13CA7C
                 movea.l 4(a3,d0.w),a4
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).l,a5
                 move.w  #1,MENUENTRY_ISINVISIBLE(a5)
                 lea     $38(a5),a5
                 move.l  #aError,(careerGameTopTeamName).l ; "ERROR" ...
@@ -81374,7 +81065,7 @@ loc_13C844:
 loc_13C866:
                 addq.w  #8,d4
 loc_13C868:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).l,a0
                 move.w  #9,d1
 loc_13C870:
                 move.w  $24(a0),d0
@@ -81509,13 +81200,13 @@ loc_13CA34:
                 add.w   d4,(columnMarker).l
                 cmpa.l  a6,a4
                 bne.s   loc_13CA4C
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).l,a5
                 move.w  #$B,d0
                 jmp     DrawMultipleItems
 loc_13CA4C:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).l,a5
                 jsr     DrawMenuItem
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$7E0)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$7E0)).l,a5
                 move.w  #8,d0
                 jmp     DrawMultipleItems
 loc_13CA64:
@@ -81528,7 +81219,7 @@ loc_13CA68:
                 bra.s   loc_13CA1A
 loc_13CA7C:
                 move.w  #1,(cglmVar3).l
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).l,a5
                 move.w  #$A,d0
 loc_13CA8C:
                 move.w  d2,$16(a5)
@@ -81771,13 +81462,13 @@ managementRecordMenu:
 ; prototype: void __usercall ManagementRecordInit()
 ManagementRecordInit:
                 move.w  (currentSeasonShowing).l,(currentSeasonNumber).l
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aManagementReco).l,a0 ; "MANAGEMENT RECORD OF %a %b"
                 lea     (managerNameBuffer).l,a2
                 lea     (managerSurnameBuffer).l,a3
                 jsr     PrintFormatted
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).l,a4
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a4),a1
                 lea     (aDash).l,a0    ; "-"
                 move.w  (gamesPlayed).l,d0
@@ -81828,7 +81519,7 @@ FillManagementRecordInfo:
                 bsr.w   SetTrophySprites
                 move.w  (currentSeasonNumber).l,d6
                 move.w  #55,d5
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a4
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a4),a1
                 move.w  (currentSeasonNumber).l,d0
                 addq.w  #1,d0
@@ -81850,13 +81541,13 @@ loc_13CD88:
                 jsr     PrintFormatted
                 move.w  d5,MENUENTRY_Y(a4)
                 addi.w  #$F,d5
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a4
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a4),a1
                 lea     2(a6),a0
                 jsr     StringCopy
                 move.w  d5,MENUENTRY_Y(a4)
                 addi.w  #$A,d5
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a4
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a4),a1
                 move.b  (a6),d0
                 cmpi.b  #CN_EUROPE,d0
@@ -81893,10 +81584,10 @@ loc_13CDE2:
                 clr.b   d7
                 bsr.w   RenderCompLine
                 addq.w  #8,d5
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a4
                 move.w  d5,MENUENTRY_Y(a4)
                 addi.w  #9,d5
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a4
                 movea.l MENUENTRY_FG(a4),a1
                 tst.b   SEASONINFORMATIONS_BESTSCORERNAME(a6)
                 bne.s   loc_13CE5A
@@ -81923,17 +81614,17 @@ loc_13CE8A:
 loc_13CE90:
                 move.w  (sp)+,d5
                 move.w  d5,MENUENTRY_Y(a4)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a5
                 move.w  #2,d0
                 movem.l d5-d7/a6,-(sp)
                 jsr     DrawMultipleItems
                 movem.l (sp)+,d5-d7/a6
                 addi.w  #13,d5
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).l
                 tst.b   SEASONINFORMATIONS_MANAGERSTATUS(a6)
                 beq.s   loc_13CF22
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a4
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a4
                 move.w  d5,MENUENTRY_Y(a4)
                 move.w  #10,d0
                 tst.b   SEASONINFORMATIONS_MANAGERSTATUS(a6)
@@ -81952,14 +81643,14 @@ loc_13CEF2:
                 move.w  MENUENTRY_STRINGFLAGS(a4),d1
                 bset    #13,d1
                 move.w  d1,MENUENTRY_STRINGFLAGS(a4)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a5
                 move.w  #1,d0
                 movem.l d5-d7/a6,-(sp)
                 jsr     DrawMultipleItems
                 movem.l (sp)+,d5-d7/a6
 loc_13CF22:
                 addi.w  #13,d5
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).l,a4
                 move.l  #aSeasonSTopScor,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a4) ; "SEASON'S TOP SCORER" ...
                 tst.b   SEASONINFORMATIONS_BESTSCORERNAME(a6)
                 beq.w   loc_13CF48
@@ -81969,7 +81660,7 @@ loc_13CF22:
 loc_13CF48:
                 move.w  d5,MENUENTRY_Y(a4)
                 addi.w  #10,d5
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a4
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a4),a1
                 tst.w   SEASONINFORMATIONS_BESTSCORERNUMGOALS(a6)
                 beq.s   loc_13CF64
@@ -81986,26 +81677,26 @@ loc_13CF72:
                 jsr     PrintFormatted
 loc_13CF86:
                 move.w  d5,MENUENTRY_Y(a4)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).l,a5
                 move.w  #2,d0
                 movem.l d5-d7/a6,-(sp)
                 jsr     DrawMultipleItems
                 movem.l (sp)+,d5-d7/a6
                 addq.w  #8,d5
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$310).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$310).l
                 tst.b   SEASONINFORMATIONS_BESTSCORERNAME(a6)
                 beq.w   loc_13CFF4
                 tst.b   $3F(a6)
                 beq.s   loc_13CFF4
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$310).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).w,a4
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$310).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).l,a4
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a4),a1
                 lea     $3F(a6),a2
                 lea     (aA0).l,a0      ; "%a  %0"
                 move.w  MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a6),d0
                 jsr     PrintFormatted
                 move.w  d5,$16(a4)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).l,a5
                 move.w  #1,d0
                 movem.l d5-d7/a6,-(sp)
                 jsr     DrawMultipleItems
@@ -82016,13 +81707,13 @@ loc_13CFF4:
                 move.w  #36,d5
                 tst.w   SEASONINFORMATIONS_TROPHYFLAGS(a6)
                 beq.s   locret_13D020
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).l,a4
                 move.w  d5,MENUENTRY_Y(a4)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).l,a4
                 move.w  d5,MENUENTRY_Y(a4)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).l,a4
                 move.w  d5,MENUENTRY_Y(a4)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).l,a4
                 move.w  d5,MENUENTRY_Y(a4)
 locret_13D020:
                 rts
@@ -82040,7 +81731,7 @@ RenderCompLine:
                 movea.l a0,a2
                 cmpa.l  #0,a0
                 beq.w   locret_13D242
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a4
                 move.w  d5,MENUENTRY_Y(a4)
                 cmpa.l  #aFriendly,a0   ; "FRIENDLY"
                 bne.s   loc_13D044
@@ -82049,7 +81740,7 @@ loc_13D044:
                 movea.l $26(a4),a1
                 jsr     StringCopy
                 ext.w   d4
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a4
                 move.w  d5,MENUENTRY_Y(a4)
                 move.w  $24(a4),d0
                 andi.w  #$FFF0,d0
@@ -82153,7 +81844,7 @@ loc_13D198:
 loc_13D1A2:
                 movea.l $26(a4),a1
                 jsr     PrintFormatted
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a5
                 move.w  #2,d0
                 movem.l d5-d7/a6,-(sp)
                 jsr     DrawMultipleItems
@@ -82161,7 +81852,7 @@ loc_13D1A2:
                 addi.w  #$A,d5
                 tst.b   d7
                 beq.w   locret_13D242
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a4
                 move.w  d5,MENUENTRY_Y(a4)
                 movea.l $26(a4),a1
                 clr.b   (a1)
@@ -82185,7 +81876,7 @@ loc_13D214:
                 andi.w  #$FFF0,d1
                 or.w    d0,d1
                 move.w  d1,$24(a4)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a5
                 move.w  #2,d0
                 movem.l d5-d7/a6,-(sp)
                 jsr     DrawMultipleItems
@@ -82201,13 +81892,13 @@ locret_13D242:
 ; out:
 ;      A0 -> first unknown string (management record for ...)
 SetTrophySprites:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,MENUENTRY_ISINVISIBLE+$38(a0)
                 move.w  #1,MENUENTRY_ISINVISIBLE+$70(a0)
                 move.w  #1,MENUENTRY_ISINVISIBLE+$A8(a0)
                 move.w  #176,d0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).l,a0
                 move.w  d0,MENUENTRY_X(a0)
                 addi.w  #20,d0
                 lea     56(a0),a0
@@ -82220,7 +81911,7 @@ SetTrophySprites:
                 move.w  d0,MENUENTRY_X(a0)
                 addi.w  #20,d0
                 lea     56(a0),a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).l,a1
                 move.w  20(a6),d7
                 beq.s   locret_13D2B4
                 clr.w   d6
@@ -82247,7 +81938,7 @@ SetTrophySprite:
                 move.w  (a2,d0.w),38(a1)
                 clr.w   MENUENTRY_ISINVISIBLE(a1)
                 lea     56(a1),a1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).l,a0
                 subi.w  #10,MENUENTRY_X(a0)
                 lea     56(a0),a0
                 subi.w  #10,MENUENTRY_X(a0)
@@ -82258,8 +81949,8 @@ SetTrophySprite:
                 lea     56(a0),a0
                 rts
 trophySprites:
-                dc.w 222,223,219,221,220,215,216,217
-                dc.w 218,216
+                dc.w $00DE,$00DF,$00DB,$00DD,$00DC,$00D7,$00D8,$00D9
+                dc.w $00DA,$00D8
 currentSeasonNumber:
                 dc.w $0000              ; when showing management record menu
 
@@ -83539,7 +83230,7 @@ selectTeamsForTacticsMenu:
 ; ===== SelTeamForTacticsInit =====
 ; prototype: void __usercall SelTeamForTacticsInit()
 SelTeamForTacticsInit:
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.l  (chooseTeamMenuName).l,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 cmpi.w  #66,(numTeamsCountryBuffer).l
                 bcs.s   loc_13DCC0
@@ -83582,7 +83273,7 @@ loc_13DD3A:
 loc_13DD42:
                 lea     (b_index_countries).l,a1
                 lea     (dwArrayCountries).l,a3
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a2
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a2
                 clr.w   d6
 loc_13DD54:
                 move.w  #1,4(a2)
@@ -83668,21 +83359,21 @@ loc_13DE2E:
                 bls.s   loc_13DE50
                 cmpi.w  #20,d1
                 bls.s   loc_13DE46
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$EA8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$EA8)).l,a0
                 addq.w  #7,MENUENTRY_Y(a0)
                 subq.w  #7,MENUENTRY_DWHEIGHT(a0)
 loc_13DE46:
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
 loc_13DE50:
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.w  MENUENTRY_Y(a0),d0
                 tst.w   4(a0)
                 bne.s   loc_13DE62
                 add.w   $1A(a0),d0
 loc_13DE62:
                 move.w  d0,(word_13DED6).l
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$EA8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$EA8)).l,a0
                 move.w  MENUENTRY_Y(a0),(word_13DED8).l
                 cmpi.w  #64,(numTeamsCountryBuffer).l
                 bne.s   loc_13DE88
@@ -83696,7 +83387,7 @@ loc_13DE88:
                 sub.w   d0,d1
                 lsr.w   #1,d1
                 add.w   (word_13DED6).l,d1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  #2,d2
 loc_13DEAC:
                 move.w  d1,d0
@@ -83741,14 +83432,14 @@ b_index_countries:
 SelectTeamsFinalMenu:
                 clr.w   (leagueNumber).l
                 lea     (customsLeague).l,a0
-                move.b  #3,byte_14FB39-customsLeague(a0)
+                move.b  #3,9(a0)
                 move.b  #20,$D(a0)
                 cmpi.w  #EDITED_CUSTOM_TEAMS,(teamsType).l
                 bne.s   loc_13DF8E
                 movem.w d0,-(sp)
                 lea     (aEditedCustomTe_0).l,a0 ; "EDITED CUSTOM TEAMS"
                 movem.l d6,-(sp)
-                jsr     sub_151912
+                jsr     Asset_PromptInsertSaveDiskDf0
                 movem.l (sp)+,d6
                 movem.w (sp)+,d0
                 bne.w   loc_13E7A6
@@ -83760,11 +83451,11 @@ SelectTeamsFinalMenu:
                 cmpi.w  #$30,(teamFileBuffer).l ; '0'
                 bne.s   loc_13DF8E
                 lea     (customsLeague).l,a0
-                move.b  #1,byte_14FB39-customsLeague(a0)
+                move.b  #1,9(a0)
                 move.b  #$30,$D(a0)     ; '0'
 loc_13DF8E:
                 lea     (customsLeague).l,a0
-                move.b  #1,byte_14FB39-customsLeague(a0)
+                move.b  #1,9(a0)
                 move.b  #$30,$D(a0)     ; '0'
                 clr.w   (exitSelectTeams).l
                 clr.w   (isCountryNumber).l
@@ -85712,7 +85403,7 @@ SelectTeamsInit:
                 bsr.w   SelectTeamsReinit
                 tst.w   (stayInSelectTeams).l
                 beq.s   loc_13F15A
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a5
                 bra.w   SelectLeaguesCommon
 loc_13F15A:
                 tst.w   (exitFlag).l
@@ -85734,27 +85425,27 @@ SelectTeamsReinit:
                 beq.s   loc_13F18E
                 move.w  #15,d1
 loc_13F18E:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1308)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1308)).l,a0
                 add.w   d1,MENUENTRY_Y(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1340)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1340)).l,a0
                 add.w   d1,MENUENTRY_Y(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1378)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1378)).l,a0
                 add.w   d1,MENUENTRY_Y(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$13B0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$13B0)).l,a0
                 add.w   d1,MENUENTRY_Y(a0)
 loc_13F1AE:
                 move.w  (numLeaguesInCountry).l,d0
                 move.w  (numSelectedTeams).l,d0
                 cmp.w   (topOfStackMark).l,d0
                 bne.s   loc_13F1DE
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1340)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1340)).l,a0
                 move.l  #aAbort,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "ABORT" ...
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #RED_10,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_13F1DE:
-                lea     (g_menuEntries).w,a2
+                lea     (g_menuEntries).l,a2
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a2),a1
                 movea.l (chooseTeamsHeader1stPart).l,a0
                 cmpa.l  #0,a0
@@ -85853,9 +85544,9 @@ SetLeagueNames:
                 tst.w   (numLeaguesInCountry).l
                 beq.s   locret_13F3A2
                 lea     (teamNames).l,a1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 tst.w   (chooseTeamsNumTeams).l
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a0
                 move.w  (numLeaguesInCountry).l,d7
                 subq.w  #1,d7
 loc_13F382:
@@ -85876,7 +85567,7 @@ locret_13F3A2:
 ; Also make non showing team entries invisible.
 SetCountryNames:
                 lea     (countryNames).l,a1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).w,a2
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).l,a2
                 move.w  (startingTeamIndex).l,d6
 loc_13F3B4:
                 move.w  #1,MENUENTRY_ISINVISIBLE(a2)
@@ -86041,11 +85732,11 @@ loc_13F5E8:
 loc_13F5F6:
                 move.w  (numLeaguesInCountry).l,d0
                 add.w   d0,d1
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.w  MENUENTRY_Y(a0),d0
                 add.w   MENUENTRY_DWHEIGHT(a0),d0
                 move.w  d0,(headerYPlusHeight).l
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1340)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1340)).l,a0
                 move.w  MENUENTRY_Y(a0),(exitY).l
                 move.w  d1,d0
                 mulu.w  #9,d0
@@ -86057,7 +85748,7 @@ loc_13F5F6:
                 tst.w   (numLeaguesInCountry).l
                 beq.s   loc_13F68C
                 tst.w   (chooseTeamsNumTeams).l
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a0
                 move.w  (numLeaguesInCountry).l,d2
                 subq.w  #1,d2
 loc_13F652:
@@ -86066,7 +85757,7 @@ loc_13F652:
                 lea     56(a0),a0
                 dbf     d2,loc_13F652
                 bra.s   loc_13F68C
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  (numLeaguesInCountry).l,d2
                 addq.w  #1,d2
                 lsr.w   #1,d2
@@ -86080,7 +85771,7 @@ loc_13F674:
                 dbf     d2,loc_13F674
 loc_13F68C:
                 addq.w  #2,d1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).l,a0
                 move.w  #2,d2
 loc_13F696:
                 move.w  d1,d0
@@ -86101,16 +85792,16 @@ loc_13F69C:
 CheckNumberOfTeams:
                 tst.w   (selectTeamsNoLimit).l
                 beq.s   loc_13F6DA
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1378)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1378)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$13B0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$13B0)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1308)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1308)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 rts
 loc_13F6DA:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1378)).w,a5
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$13B0)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1378)).l,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$13B0)).l,a4
                 move.w  (g_numSelectedTeams).l,d0
                 cmp.w   (numNeededTeams).l,d0
                 beq.s   loc_13F6FC
@@ -86123,13 +85814,13 @@ loc_13F6FC:
                 move.w  #2,MENUENTRY_CONTENT(a5)
                 move.l  (playWhatStr).l,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5)
 loc_13F714:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1308)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1308)).l,a5
                 clr.w   MENUENTRY_ISINVISIBLE(a5)
                 tst.w   (g_numSelectedTeams).l
                 bne.s   loc_13F72A
                 move.w  #1,MENUENTRY_ISINVISIBLE(a5)
 loc_13F72A:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$13B0)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$13B0)).l,a5
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a1
                 move.w  (g_numSelectedTeams).l,d0
                 sub.w   (numNeededTeams).l,d0
@@ -86175,18 +85866,18 @@ gameTypeStr:
 curCountryStr:
                 dc.l 0                  ; gets set by GetCountryName
 teamNames:
-                dc.l 0,0,0,0,0,0,0,0    ; pointers to remaining team names set when
-                dc.l 0,0
+                dc.l $00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000 ; pointers to remaining team names set when
+                dc.l $00000000,$00000000
                                         ; getting teams from menu
 countryNames:
-                dc.l 0,0,0,0,0,0,0,0    ; when selecting country from continent in choose teams menu
-                dc.l 0,0,0,0,0,0,0,0
-                dc.l 0,0,0,0,0,0,0,0
-                dc.l 0,0,0,0,0,0,0,0
-                dc.l 0,0,0,0,0,0,0,0
-                dc.l 0,0,0,0,0,0,0,0
-                dc.l 0,0,0,0,0,0,0,0
-                dc.l 0,0,0,0,0,0,0,0
+                dc.l $00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000 ; when selecting country from continent in choose teams menu
+                dc.l $00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000
+                dc.l $00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000
+                dc.l $00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000
+                dc.l $00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000
+                dc.l $00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000
+                dc.l $00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000
+                dc.l $00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000
 numLeaguesInCountry:
                 dc.w $0000              ; number of leagues in currently selected country (0 for continents)
 chooseTeamsNumTeams:
@@ -86215,14 +85906,14 @@ countryStackPtr:
 countriesStack:
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 selectedTeamsStack:
-                dc.w 0,0,0,0,0,0,0,0    ; enables returning through menus when selecting teams
-                dc.w 0,0
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000 ; enables returning through menus when selecting teams
+                dc.w $0000,$0000
 leaguesPtrTable:
-                dc.l 0,0,0,0,0,0,0,0
-                dc.l 0,0
+                dc.l $00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000,$00000000
+                dc.l $00000000,$00000000
 leagueNumbersTable:
-                dc.w 0,0,0,0,0,0,0,0
-                dc.w 0,0
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000
 isContestContinentalCup:
                 dc.w $0000
 isCountryNumber:
@@ -86401,21 +86092,21 @@ chooseTeamsMenu:
 ; This single category can only be club or national teams. And finally sets up the custom menu
 ; title: first part, if given, if not "CHOOSE TEAMS FOR" + game type string (if given).
 ChooseTeamsInit:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  MENUENTRY_Y(a0),d7
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 sub.w   MENUENTRY_Y(a0),d7
                 lsr.w   #1,d7
                 move.w  #4,d6
                 tst.w   (showClubTeams).l
                 bne.s   loc_13FA72
                 subq.w  #1,d6
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 sub.w   d7,MENUENTRY_Y(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 sub.w   d7,MENUENTRY_Y(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 sub.w   d7,MENUENTRY_Y(a0)
                 move.w  #1,d0
                 jsr     SetCurrentEntry
@@ -86423,12 +86114,12 @@ loc_13FA72:
                 tst.w   (showNationalTeams).l
                 bne.s   loc_13FAAC
                 subq.w  #1,d6
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$38).w
-                lea     (g_menuEntries).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$38).l
+                lea     (g_menuEntries).l,a0
                 add.w   d7,MENUENTRY_Y(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 sub.w   d7,MENUENTRY_Y(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 sub.w   d7,MENUENTRY_Y(a0)
                 tst.w   (showClubTeams).l
                 bne.s   loc_13FAAC
@@ -86438,12 +86129,12 @@ loc_13FAAC:
                 tst.w   (showOrigCustomTeams).l
                 bne.s   loc_13FADA
                 subq.w  #2,d6
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$70).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
-                lea     (g_menuEntries).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$70).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).l
+                lea     (g_menuEntries).l,a0
                 add.w   d7,MENUENTRY_Y(a0)
                 add.w   d7,$16(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 add.w   d7,MENUENTRY_Y(a0)
                 add.w   d7,$16(a0)
 loc_13FADA:
@@ -86453,7 +86144,7 @@ loc_13FADA:
                 bne.w   ClubTeams
                 bra.w   NationalTeams
 loc_13FAEE:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 movea.l chooseTeamsHeader1stPart(pc),a0
                 cmpa.l  #0,a0
@@ -87389,22 +87080,22 @@ loc_140214:
 ; ===== SelectFilesOnReturn =====
 ; prototype: void __usercall SelectFilesOnReturn()
 SelectFilesOnReturn:
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.l  (menuTitle).l,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 tst.w   (savingFile).l
                 beq.s   loc_140266
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A80)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A80)).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 clr.b   (a1)
                 lea     (inputSaveFilename).l,a0
                 move.b  #46,d0
                 jsr     StringCopyUntilChar
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A48)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A48)).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 tst.b   (inputSaveFilename).l
                 beq.s   loc_140264
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$AB8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$AB8)).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 bra.s   loc_140270
 loc_140264:
@@ -87441,7 +87132,7 @@ loc_1402D6:
                 bra.w   *+4
 loc_1402DE:
                 lea     (foundFilesPtrTable).l,a1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a2
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a2
                 clr.w   d6
 loc_1402EA:
                 move.w  #1,MENUENTRY_ISINVISIBLE(a2)
@@ -87515,7 +87206,7 @@ loc_14039C:
                 lea     (extensionsBuffer).l,a0
                 move.l  (a0,d0.w),d1
                 movea.l a5,a1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A10)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A10)).l,a5
                 lea     (aDiy).l,a0     ; "DIY"
                 cmpi.l  #'.DIY',d1
                 beq.s   loc_1403FA
@@ -87579,12 +87270,12 @@ loc_140478:
                 bne.w   AddExtension
                 bra.s   loc_140478
 loc_140486:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A80)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A80)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (inputSaveFilename).l,a0
                 move.b  #46,d0
                 jsr     StringCopyUntilChar
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A80)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A80)).l,a5
                 jsr     CallDrawMenuItem
 locret_1404A8:
                 rts
@@ -87621,17 +87312,17 @@ loc_1404F4:
                 bhi.s   loc_140502
                 move.w  (selFilesColumn3NumItems).l,d1
 loc_140502:
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.w  MENUENTRY_Y(a0),d0
                 tst.w   MENUENTRY_ISINVISIBLE(a0)
                 bne.s   loc_140514
                 add.w   MENUENTRY_DWHEIGHT(a0),d0
 loc_140514:
                 move.w  d0,(selFilesColumnStartY).l
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A80)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A80)).l,a0
                 tst.w   (savingFile).l
                 bne.s   loc_14052A
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$AF0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$AF0)).l,a0
 loc_14052A:
                 move.w  MENUENTRY_Y(a0),(selFilesColumnEndY).l
                 move.w  d1,d0
@@ -87641,7 +87332,7 @@ loc_14052A:
                 sub.w   d0,d1
                 lsr.w   #1,d1
                 add.w   (selFilesColumnStartY).l,d1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  #2,d2
 loc_140556:
                 move.w  d1,d0
@@ -87821,35 +87512,35 @@ FormatSaveDiskMenu:
                 lea     (aAbort).l,a3   ; "ABORT"
                 move.w  #1,d0
                 jsr     DoContinueAbortMenu
-                bne.s   locret_140864
-                move.w  #$10,d7
-                jsr     AssetSysDispatch
-                beq.s   loc_14081A
+                bne.s   format_save_return
+                move.w  #ASSET_OP_WAIT_FOR_SAVE_DISK,d7
+                jsr     AssetSys_Dispatch
+                beq.s   disk_ready
                 cmpi.w  #$1D,d0
                 beq.s   FormatSaveDiskMenu
-                bra.s   loc_140866
-loc_14081A:
+                bra.s   show_fs_error_and_return
+disk_ready:
                 jsr     StopMusic
                 lea     (aSwosu).l,a0   ; "SWOSU"
-                move.w  #$A,d7
-                jsr     AssetSysDispatch
+                move.w  #ASSET_OP_OPEN_SAVE_VOLUME,d7
+                jsr     AssetSys_Dispatch
                 tst.w   (g_menuMusic).l
-                beq.s   loc_140846
+                beq.s   play_menu_music_if_any
                 movem.l d0,-(sp)
                 jsr     TryPlayMusic
                 movem.l (sp)+,d0
-loc_140846:
+play_menu_music_if_any:
                 tst.w   d0
-                bne.s   loc_140866
+                bne.s   show_fs_error_and_return
                 lea     (aSwos4Dku).l,a0 ; "swos4.dku"
                 lea     (word_140872).l,a1
                 moveq   #2,d1
-                move.w  #4,d7
-                jsr     AssetSysDispatch
-                bne.s   loc_140866
-locret_140864:
+                move.w  #ASSET_OP_RESOLVE_ASSET_LIST,d7
+                jsr     AssetSys_Dispatch
+                bne.s   show_fs_error_and_return
+format_save_return:
                 rts
-loc_140866:
+show_fs_error_and_return:
                 jsr ShowFsErrorByCode(pc)
                 rts
 aSwosu:
@@ -87861,16 +87552,16 @@ word_140872:
 ; prototype: void __usercall DeleteFileMenu()
 DeleteFileMenu:
                 lea     (aDeleteFile).l,a0 ; "DELETE FILE"
-                jsr     sub_151912
-                bne.w   locret_1408A0
+                jsr     Asset_PromptInsertSaveDiskDf0
+                bne.w   delete_file_return
                 lea     (aDeleteFile).l,a1 ; "DELETE FILE"
                 jsr GetFilenameAndExtension(pc)
-                bne.s   locret_1408A0
-                move.w  #6,d7
-                jsr     AssetSysDispatch
-                beq.s   locret_1408A0
+                bne.s   delete_file_return
+                move.w  #ASSET_OP_DELETE_FILE,d7
+                jsr     AssetSys_Dispatch
+                beq.s   delete_file_return
                 jsr ShowFsErrorByCode(pc)
-locret_1408A0:
+delete_file_return:
                 rts
 
 ; ===== ExitDisk =====
@@ -87950,13 +87641,13 @@ continueMenu:
 ; prototype: void __usercall ContinueInit()
 ContinueInit:
                 movea.l (errorText).l,a1
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.l  a1,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 tst.w   (errorPromptsEnabled).l
                 bne.s   locret_14098C
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.w  #7,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0) ; gray
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$38).w ; hide continue button
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$38).l ; hide continue button
                 jsr     DrawMenu
                 jmp     SetExitMenuFlag
 locret_14098C:
@@ -88034,7 +87725,7 @@ ContinueAbortInit:
                 movea.l (promptHeader).l,a0
                 cmpa.l  #0,a0
                 bne.s   loc_140A1E
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE).l
                 bra.s   loc_140A4E
 loc_140A1E:
                 lea     (smallCharsTable).l,a1
@@ -88044,25 +87735,25 @@ loc_140A1E:
                 bhi.s   loc_140A38
                 move.w  #120,d7
 loc_140A38:
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.w  d7,MENUENTRY_DWWIDTH(a0)
                 lsr.w   #1,d7
                 sub.w   d7,MENUENTRY_X(a0)
                 move.l  (promptHeader).l,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
 loc_140A4E:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.l  (whatIsChanging).l,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 move.l  (continueText).l,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.l  (abortText).l,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 bne.s   loc_140A7C
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).l
                 rts
 loc_140A7C:
                 cmpi.l  #aAbort,(abortText).l ; "ABORT" ...
                 bne.s   loc_140A9C
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #RED_10,d0
@@ -88377,10 +88068,10 @@ CommonMenuExit:
                 beq.s   loc_140D10
                 cmpi.w  #GAME_TYPE_CAREER,d0
                 beq.s   loc_140D1A
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2A0).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$268).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2A0).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$268).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a0
                 move.w  MENUENTRY_Y(a1),MENUENTRY_Y(a0)
                 rts
 loc_140CE8:
@@ -88407,14 +88098,14 @@ loc_140D24:
 loc_140D2C:
                 lea     (aReplayA).l,a0 ; "REPLAY %a"
 loc_140D32:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a1
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1),a1
                 jsr     PrintFormatted
                 lea     (aSaveA).l,a0   ; "SAVE %a"
                 lea     (saveFileTitle).l,a1
                 jsr     PrintFormatted
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$2A0).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$268).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$2A0).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$268).l
                 rts
 
 ; ===== FriendlyMenu =====
@@ -88752,7 +88443,7 @@ locret_141228:
 ; prototype: void __usercall SaveContest()
 SaveContest:
                 lea     (saveFileTitle).l,a0
-                jsr     sub_151912
+                jsr     Asset_PromptInsertSaveDiskDf0
                 bne.w   loc_141388
                 move.w  (g_gameType).l,d0
                 cmpi.w  #GAME_TYPE_DIY_COMPETITION,d0
@@ -88836,7 +88527,7 @@ LoadOldCompetitionMenu:
                 jsr     CheckContinueAbortPrompt
                 bne.w   loc_141410
                 lea     (aLoadOldCompeti).l,a0 ; "LOAD OLD COMPETITION"
-                jsr     sub_151912
+                jsr     Asset_PromptInsertSaveDiskDf0
                 bne.w   loc_141410
                 lea     (aLoadOldCompeti).l,a1 ; "LOAD OLD COMPETITION"
                 jsr GetFilenameAndExtension(pc)
@@ -89036,7 +88727,7 @@ AddCareerPoolPlayer:
                 mulu.w  #42,d7
                 lea     (careerForeignMarketPlayers).l,a6
                 lea     (a6,d7.w),a6
-                move.b  (byte_16EBD8).l,3(a6)
+                move.b  (viewRandomPhase).l,3(a6)
                 move.w  d0,(a6)
                 move.b  d1,2(a6)
                 lea     4(a6),a1
@@ -90420,9 +90111,9 @@ loc_14289C:
                 move.w  d2,d3
                 bsr.s   sub_142868
                 clr.w   d1
-                lea     ($164C34).l,a0
+                lea     (byte_164C34).l,a0
 loc_1428A8:
-                tst.b   byte_164C37-byte_164C34(a0)
+                tst.b   3(a0)
                 bmi.s   loc_1428B4
                 cmpi.w  #1,d3
                 beq.s   loc_1428CA
@@ -90452,9 +90143,9 @@ loc_1428EC:
                 tst.w   (numOffers).l
                 beq.s   loc_142920
                 clr.w   d2
-                lea     ($164C34).l,a0
+                lea     (byte_164C34).l,a0
 loc_1428FC:
-                tst.b   byte_164C39-byte_164C34(a0)
+                tst.b   5(a0)
                 bmi.s   loc_142912
                 tst.b   3(a0)
                 bpl.s   loc_142912
@@ -90506,9 +90197,9 @@ CheckForTransferOffers:
                 move.w  (numOffers).l,d0
                 beq.s   loc_1429A6
                 subq.w  #1,d0
-                lea     ($164C34).l,a0
+                lea     (byte_164C34).l,a0
 loc_142998:
-                tst.b   byte_164C41-byte_164C34(a0)
+                tst.b   $D(a0)
                 beq.s   loc_1429AC
                 lea     $E(a0),a0
                 dbf     d0,loc_142998
@@ -91182,7 +90873,7 @@ locret_142FD4:
 ; ===== OffersCommon =====
 ; prototype: void __usercall OffersCommon(MenuEntry *entry@<a5>)
 OffersCommon:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 move.w  MENUENTRY_ORDINAL(a5),d7
                 sub.w   MENUENTRY_ORDINAL(a0),d7
 loc_142FE2:
@@ -91281,21 +90972,21 @@ j_SetExitMenuFlag_11:
 ; ===== OffersAfterDrawCommon =====
 ; prototype: void __usercall OffersAfterDrawCommon(MenuEntry *entry@<a5>)
 OffersAfterDrawCommon:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 move.w  2(a5),d7
                 sub.w   2(a0),d7
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.w  $16(a5),MENUENTRY_Y(a0)
                 move.w  #1,4(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a0
                 move.w  $16(a5),MENUENTRY_Y(a0)
                 addq.w  #2,$16(a0)
                 move.w  #1,4(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a0
                 move.w  $16(a5),MENUENTRY_Y(a0)
                 addi.w  #$B,$16(a0)
                 move.w  #1,4(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a0
                 move.w  $16(a5),MENUENTRY_Y(a0)
                 addq.w  #7,$16(a0)
                 move.w  #1,4(a0)
@@ -91309,16 +91000,16 @@ OffersAfterDrawCommon:
                 mulu.w  #$E,d0
                 lea     (a6,d0.w),a6
                 clr.w   6(a5)
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$230).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$188).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$230).l
                 clr.w   d1
                 tst.b   $D(a6)
                 beq.s   loc_1431E6
                 move.w  #6,d1
 loc_1431E6:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.w  MENUENTRY_STRINGFLAGS(a0),d0
                 andi.w  #$FFF0,d0
                 or.w    d1,d0
@@ -91339,7 +91030,7 @@ loc_1431E6:
                 or.w    d1,d0
                 move.w  d0,$24(a0)
                 lea     $38(a0),a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.w  $16(a5),MENUENTRY_Y(a0)
                 move.l  #aAOfferForB,(dword_14350A).l ; "%a OFFER FOR %b" ...
                 move.l  #aAOfferForBAndC,(dword_14350E).l ; "%a OFFER FOR %b AND %c" ...
@@ -91428,18 +91119,18 @@ loc_14342C:
                 movem.l (sp)+,a0
                 cmpi.w  #$2F,d0         ; '/'
                 bhi.s   loc_143478
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a1
                 addq.w  #5,MENUENTRY_Y(a1)
                 movea.l $26(a1),a1
                 jsr     StringCopy
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a0
                 clr.b   (a0)
                 bra.w   loc_1434FA
 loc_143478:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a6
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a0
                 cmpa.l  (dword_14350E).l,a1
                 beq.s   loc_1434B0
@@ -91472,7 +91163,7 @@ loc_1434D8:
                 jsr     PrintFormatted
                 movem.l (sp)+,d0-d7/a0-a6
 loc_1434FA:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a5
                 move.w  #4,d0
                 jmp     DrawMultipleItems
                 rts
@@ -91765,10 +91456,10 @@ playerTransferMenu:
                 dc.w $0000              ; -= end entry 28 =-
                 dc.w -999               ; -= end menu =-
 sellExchangeStrings:
-                dc.l 1397349,1397381,1397417,1397448
+                dc.l aWeHereAtAAreHa,aWeHereAtAAreHa_0,aSorryAAreUnwil,aSorryAAreUnwil_0
 off_143738:
-                dc.l 0,0,1397505,1397536,1397537,1397571,1397572,1397609
-                dc.l 1397636,1397673,1397702,1397742
+                dc.l NULL,NULL,aAsThisPlayerIs,aAsThesePlayers,$00155321,aAndWeWillAccep,$00155344,aThisPlayerFrom
+                dc.l aAndWeWillAccep_0,aThesePlayersFr,aButWeWouldBeHa,aFavourableOffe
 
 ; ===== TransferPlayerInit =====
 ; prototype: void __usercall TransferPlayerInit(MenuEntry *entry@<a5>)
@@ -91777,22 +91468,22 @@ TransferPlayerInit:
                 bcs.s   loc_14378E
                 cmpi.w  #4,(teamWillingToSellOrExchange).l
                 bhi.s   loc_14378E
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a0
                 subi.w  #$3C,MENUENTRY_X(a0) ; '<'
                 bra.s   loc_1437B0
 loc_14378E:
                 tst.w   (teamWillingToSellOrExchange).l
                 bne.s   loc_1437B0
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$268).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$2A0).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$268).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$2A0).l
                 move.w  #$C,d0
                 jsr     SetCurrentEntry
 loc_1437B0:
                 lea     (managerSexBuffer).l,a2
                 lea     (managerSurnameBuffer).l,a3
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aDearAB).l,a0  ; "DEAR %a %b"
                 jsr     PrintFormatted
@@ -91808,14 +91499,14 @@ loc_1437E8:
                 move.w  teamOffering(pc),d0
                 bsr.w   GetTeamPointer
                 lea     5(a0),a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 movea.l (a4),a0
                 jsr     PrintFormatted
                 move.w  (selTeamNumber).l,d0
                 bsr.w   GetTeamPointer
                 lea     5(a0),a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aInADealWithAFo).l,a0 ; "IN A DEAL WITH %a FOR"
                 jsr     PrintFormatted
@@ -91825,13 +91516,13 @@ loc_1437E8:
                 lea     (fundsBuffer).l,a1
                 mulu.w  #$3E8,d0
                 jsr     Int2Pounds
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 movea.l $26(a0),a1
                 lea     (fundsBuffer).l,a2
                 lea     (aUnlessTheOffer).l,a0 ; "UNLESS THE OFFER IS RAISED BY %a"
                 jsr     PrintFormatted
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 movea.l $26(a0),a1
                 lea     (fundsBuffer).l,a2
@@ -91844,7 +91535,7 @@ loc_14387E:
                 lea     (a4,d0.w),a4
                 tst.l   (a4)
                 beq.s   loc_1438A0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 movea.l $26(a0),a1
                 movea.l (a4),a0
@@ -91852,31 +91543,31 @@ loc_14387E:
 loc_1438A0:
                 tst.l   4(a4)
                 beq.s   loc_1438BC
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 movea.l $26(a0),a1
                 movea.l 4(a4),a0
                 jsr     StringCopy
 loc_1438BC:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  offerAmount(pc),d0
                 mulu.w  #$3E8,d0
                 jsr     Int2Pounds
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
                 tst.w   (numExtraPlayersWanted).l
                 bmi.s   loc_1438E4
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
 loc_1438E4:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).l
                 tst.w   (word_141538).l
                 bmi.s   loc_1438F6
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$188).l
 loc_1438F6:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).l
                 tst.w   (word_14153A).l
                 bmi.s   locret_143908
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).l
 locret_143908:
                 rts
 
@@ -91901,7 +91592,7 @@ TransferPlayerOnSelect12:
 ; ===== TransferPlayerAfterDrawCommon =====
 ; prototype: void __usercall TransferPlayerAfterDrawCommon(MenuEntry *entry@<a5>)
 TransferPlayerAfterDrawCommon:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a0
                 move.w  2(a5),d7
                 sub.w   2(a0),d7
                 move.w  teamOffering(pc),d0
@@ -91919,11 +91610,11 @@ loc_14394E:
 loc_143966:
                 move.w  $16(a5),d7
                 movea.l #0,a4
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).l,a0
                 move.w  #$D,d5
                 move.w  #$FFFF,d6
                 bsr.w   sub_145B02
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).l,a5
                 move.w  #$C,d0
                 jmp     DrawMultipleItems
 teamWillingToSellOrExchange:
@@ -92239,21 +91930,21 @@ thirdPartyOfferMenu:
 ; ===== ThirdPartyOfferMenuInit =====
 ; prototype: void __usercall ThirdPartyOfferMenuInit(MenuEntry *entry@<a5>)
 ThirdPartyOfferMenuInit:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  offerAmount(pc),d0
                 mulu.w  #1000,d0
                 jsr     Int2Pounds
                 lea     (managerSexBuffer).l,a2
                 lea     (managerSurnameBuffer).l,a3
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aDearAB).l,a0  ; "DEAR %a %b"
                 jsr     PrintFormatted
                 move.w  teamOffering(pc),d0
                 bsr.w   GetTeamPointer
                 lea     TEAMFILE_TEAMNAME(a0),a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 tst.w   (offerStatus).l
                 bne.s   loc_143C14
@@ -92280,59 +91971,59 @@ loc_143C66:
                 movem.l a2,-(sp)
                 jsr     PrintFormatted
                 movem.l (sp)+,a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 movea.l a3,a0
                 jsr     PrintFormatted
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 subq.w  #8,MENUENTRY_Y(a0)
 loc_143C90:
                 move.w  (selTeamNumber).l,d0
                 bsr.w   GetTeamPointer
                 lea     TEAMFILE_TEAMNAME(a0),a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aFromAInExchang).l,a0 ; "FROM %a IN EXCHANGE FOR"
                 jsr     PrintFormatted
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).l
                 tst.w   (numExtraPlayersWanted).l
                 bmi.s   loc_143CC4
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$118).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$118).l
 loc_143CC4:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
                 tst.w   (word_141538).l
                 bmi.s   loc_143CD6
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
 loc_143CD6:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).l
                 tst.w   (word_14153A).l
                 bmi.s   loc_143CE8
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$188).l
 loc_143CE8:
                 tst.w   (offerStatus).l
                 bpl.w   loc_143D42
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$3B8).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$3F0).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2A0).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$268).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2D8).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$310).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$3B8).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$3F0).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2A0).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$268).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2D8).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$310).l
                 move.w  #$E,d0
                 jsr     SetCurrentEntry
 loc_143D42:
                 cmpi.w  #3,(offerStatus).l
                 bne.s   locret_143D6C
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$268).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$268).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a0
                 addi.w  #$32,MENUENTRY_DWWIDTH(a0) ; '2'
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).l,a0
                 subi.w  #$33,MENUENTRY_X(a0) ; '3'
                 addi.w  #$33,MENUENTRY_DWWIDTH(a0) ; '3'
 locret_143D6C:
@@ -92392,7 +92083,7 @@ ThirdPartyOfferMenuExit:
 ; ===== ThirdPartyOfferMenuAfterDrawCommon =====
 ; prototype: void __usercall ThirdPartyOfferMenuAfterDrawCommon(MenuEntry *entry@<a5>)
 ThirdPartyOfferMenuAfterDrawCommon:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).l,a0
                 move.w  2(a5),d7
                 sub.w   2(a0),d7
                 move.w  (selTeamNumber).l,d0
@@ -92410,11 +92101,11 @@ loc_143E06:
 loc_143E1E:
                 move.w  $16(a5),d7
                 movea.l #0,a4
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).l,a0
                 move.w  #$D,d5
                 move.w  #$FFFF,d6
                 bsr.w   sub_145B02
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).l,a5
                 move.w  #$C,d0
                 jmp     DrawMultipleItems
 offerStatus:
@@ -92727,20 +92418,20 @@ playerOffersMenu:
 ; prototype: void __usercall PlayerOffersInit(MenuEntry *entry@<a5>)
 PlayerOffersInit:
                 bsr.w   sub_14441E
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 jsr     GetBankBalance
                 move.w  (selTeamNumber).l,d0
                 bsr.w   GetTeamPointer
                 lea     5(a0),a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aWeHereAtAWishT).l,a0 ; "WE HERE AT %a WISH TO BUY"
                 jsr     PrintFormatted
                 move.w  teamOffering(pc),d0
                 bsr.w   GetTeamPointer
                 lea     5(a0),a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aFromAInExchang).l,a0 ; "FROM %a IN EXCHANGE FOR"
                 jsr     PrintFormatted
@@ -92750,14 +92441,14 @@ PlayerOffersInit:
 ; ===== sub_1440B2 =====
 ; prototype: void __usercall sub_1440B2()
 sub_1440B2:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a0
                 move.l  #aPlus,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "+" ...
                 tst.w   (numExtraPlayersWanted).l
                 bmi.s   loc_1440CE
                 move.l  #aMinus,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "-" ...
 loc_1440CE:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a1
                 move.l  #aPlus,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "+" ...
                 move.l  #aPlus,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1) ; "+" ...
                 tst.w   (word_141538).l
@@ -92767,22 +92458,22 @@ loc_1440CE:
                 bmi.s   loc_144106
                 move.l  #aMinus,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1) ; "-" ...
 loc_144106:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).l
                 tst.w   (numExtraPlayersWanted).l
                 bmi.s   loc_144118
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$118).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$118).l
 loc_144118:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$268).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$268).l
                 tst.w   (word_141538).l
                 bmi.s   loc_144134
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$268).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$268).l
 loc_144134:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).l
                 tst.w   (word_14153A).l
                 bmi.s   locret_144146
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$188).l
 locret_144146:
                 rts
 
@@ -93022,7 +92713,7 @@ loc_14440E:
 ; ===== sub_14441E =====
 ; prototype: void __usercall sub_14441E()
 sub_14441E:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.w  offerAmount(pc),d0
                 mulu.w  #$3E8,d0
@@ -93036,7 +92727,7 @@ PlayerOffersOnSelect13:
 ; ===== PlayerOffersAfterDrawCommon =====
 ; prototype: void __usercall PlayerOffersAfterDrawCommon(MenuEntry *entry@<a5>)
 PlayerOffersAfterDrawCommon:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).l,a0
                 move.w  2(a5),d7
                 sub.w   2(a0),d7
                 move.w  teamOffering(pc),d0
@@ -93054,11 +92745,11 @@ loc_144456:
 loc_14446E:
                 move.w  $16(a5),d7
                 movea.l #0,a4
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).l,a0
                 move.w  #$D,d5
                 move.w  #$FFFF,d6
                 bsr.w   sub_145B02
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).l,a5
                 move.w  #$C,d0
                 jmp     DrawMultipleItems
 
@@ -93475,21 +93166,21 @@ ViewSquadInit:
                 bne.s   loc_14478A
                 cmpi.w  #16,(careerNumPlayers).l
                 beq.s   loc_14478A
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$460).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$460).l
                 cmpi.w  #17,(careerNumPlayers).l
                 bls.s   loc_14478A
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$498).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$498).l
 loc_14478A:
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.l  (viewSquadTitle).l,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 movea.l (squadTeamPtr).l,a1
                 lea     5(a1),a1
                 move.l  a1,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 tst.w   (word_1448EE).l
                 beq.s   loc_1447C4
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$70).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$70).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).l
                 move.w  #3,d0
                 jsr     SetCurrentEntry
 loc_1447C4:
@@ -93519,20 +93210,20 @@ ViewSquadOnSelect21:
                 movea.l (squadTeamPtr).l,a0
                 move.w  #5,d0
                 jsr     RotatePlayersLeft
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).l,a5
                 jsr     CallDrawMenuItem
                 rts
 
 ; ===== ViewSquad21AfterDraw =====
 ; prototype: __int16 __usercall ViewSquad21AfterDraw@<d0>()
 ViewSquad21AfterDraw:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).l,a5
                 jmp     DrawMenuItem
 
 ; ===== ViewSquadCommon =====
 ; prototype: void __usercall ViewSquadCommon()
 ViewSquadCommon:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.w  2(a5),d1
                 sub.w   2(a0),d1
                 move.w  d1,(word_1448F6).l
@@ -93544,7 +93235,7 @@ ViewSquadCommon:
 ; ===== ViewSquadAfterDrawCommon =====
 ; prototype: __int16 __usercall ViewSquadAfterDrawCommon@<d0>()
 ViewSquadAfterDrawCommon:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.w  2(a5),d6
                 sub.w   2(a0),d6
                 move.w  d6,d1
@@ -93581,9 +93272,9 @@ loc_1448AC:
 loc_1448BA:
                 movea.l #0,a4
                 move.w  $16(a5),d7
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$508)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$508)).l,a0
                 bsr.w   sub_145B02
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$508)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$508)).l,a5
                 move.w  #$C,d0
                 jmp     DrawMultipleItems
 squadTeamPtr:
@@ -93601,7 +93292,7 @@ word_1448EE:
 word_1448F0:
                 dc.w $0000
 padding_42:
-                dc.b $00,$00
+                dc.b 0,0
 word_1448F4:
                 dc.w $0000
 word_1448F6:
@@ -93931,9 +93622,9 @@ BuyOtherPlayersInit:
 ; ===== BuyOtherPlayersFinish =====
 ; prototype: void __usercall BuyOtherPlayersFinish()
 BuyOtherPlayersFinish:
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.l  (dword_144BBA).l,$26(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 movea.l (dword_144BBE).l,a1
                 lea     5(a1),a1
                 move.l  a1,$26(a0)
@@ -93947,7 +93638,7 @@ j_SetExitMenuFlag_10:
 ; ===== BuyOtherPlayersCommon =====
 ; prototype: __int16 __usercall BuyOtherPlayersCommon@<d0>()
 BuyOtherPlayersCommon:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  2(a5),d1
                 sub.w   2(a0),d1
                 movea.l (dword_144BBE).l,a0
@@ -93965,7 +93656,7 @@ loc_144B6A:
 ; ===== BuyOtherPlayersAfterDrawCommon =====
 ; prototype: __int16 __usercall BuyOtherPlayersAfterDrawCommon@<d0>()
 BuyOtherPlayersAfterDrawCommon:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  2(a5),d6
                 sub.w   2(a0),d6
                 move.w  d6,d1
@@ -93976,9 +93667,9 @@ BuyOtherPlayersAfterDrawCommon:
                 clr.w   d5
                 movea.l #0,a4
                 move.w  $16(a5),d7
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).l,a0
                 bsr.w   sub_145B02
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).l,a5
                 move.w  #$C,d0
                 jmp     DrawMultipleItems
 dword_144BBA:
@@ -94397,9 +94088,9 @@ ShowPlayerMarket:
                 beq.s   loc_144EE0
                 lea     (aPlayersOnDomes).l,a1 ; "PLAYERS ON DOMESTIC MARKET"
 loc_144EE0:
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.l  a1,g_menuEntries+MENUENTRY_FG-g_menuEntries(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 jsr     GetBankBalance
                 bsr.w   sub_145084
@@ -94468,7 +94159,7 @@ loc_144FCA:
 ; prototype: void __usercall sub_144FDE()
 sub_144FDE:
                 move.w  (word_14535E).l,d1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.w  (word_14535A).l,d0
                 addi.w  #$A,d0
                 cmp.w   d1,d0
@@ -94516,32 +94207,32 @@ loc_14506E:
                 lea     (word_14507E).l,a0
                 jmp     DrawMenuItemsWaitForVSync
 word_14507E:
-                dc.w 4,6,-1
+                dc.w $0004,$0006,$FFFF
 
 ; ===== sub_145084 =====
 ; prototype: void __usercall sub_145084()
 sub_145084:
                 tst.w   (word_145352).l
                 beq.s   loc_1450AA
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #BRIGHT_BLUE_TO_BLUE_13,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 clr.w   MENUENTRY_ISDISABLED(a0)
                 rts
 loc_1450AA:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
                 rts
 loc_1450CA:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a0
                 move.w  2(a5),d0
                 sub.w   2(a0),d0
                 lea     (word_145362).l,a0
@@ -94561,7 +94252,7 @@ loc_1450FC:
                 rts
 loc_14510C:
                 clr.w   6(a5)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a0
                 move.w  2(a5),d6
                 sub.w   2(a0),d6
                 clr.w   d5
@@ -94598,9 +94289,9 @@ loc_145180:
                 addq.w  #1,d6
                 add.w   (word_14535A).l,d6
                 move.w  $16(a5),d7
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).l,a0
                 bsr.w   sub_145B02
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).l,a5
                 move.w  #$C,d0
                 jmp     DrawMultipleItems
 
@@ -94631,7 +94322,7 @@ loc_1451E2:
                 move.w  (word_145358).l,d0
                 cmpi.w  #6,d0
                 beq.s   loc_145202
-                lea     ($14ED5F).l,a5
+                lea     ((shortCountryNames+$1CB)).l,a5 ; "\x003DPv��"
                 lea     (a5,d0.w),a5
                 bra.s   loc_145208
 loc_145202:
@@ -94762,13 +94453,13 @@ word_14535C:
 word_14535E:
                 dc.w $0000
 padding_43:
-                dc.b $00,$FF
+                dc.b 0,-1
 word_145362:
                 dc.w $0000
 padding_44:
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00
+                dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+                dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+                dc.b 0,0,0,0,0,0
 buyPlayerMenu:
                 dc.l BuyPlayerInit      ; on init function
                 dc.l BuyPlayerInit      ; on return function
@@ -94899,7 +94590,7 @@ buyPlayerMenu:
 ; ===== BuyPlayerInit =====
 ; prototype: void __usercall BuyPlayerInit()
 BuyPlayerInit:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 jsr     GetBankBalance
                 rts
@@ -95313,7 +95004,7 @@ TransferMarketFinish:
 ; ===== TransferMenuSetBankState =====
 ; prototype: char __usercall TransferMenuSetBankState@<d0>()
 TransferMenuSetBankState:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 jmp     GetBankBalance
 
@@ -95446,7 +95137,7 @@ TakeOffMarketMenu:
 ; ===== TransferMarketCommon =====
 ; prototype: void __usercall TransferMarketCommon()
 TransferMarketCommon:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a0
                 move.w  2(a5),d7
                 sub.w   2(a0),d7
                 cmp.w   (playerSelected).l,d7
@@ -95477,14 +95168,14 @@ word_1459A0:
 CheckNumPlayersOnTransferMarket:
                 cmpi.w  #5,(numPlayersOnTransferMarket).l
                 bne.s   loc_1459B8
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).l
                 bra.s   loc_1459BC
 loc_1459B8:
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).l
 loc_1459BC:
                 tst.w   (numPlayersOnTransferMarket).l
                 bne.s   locret_1459CA
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).l
 locret_1459CA:
                 rts
 
@@ -95493,18 +95184,18 @@ locret_1459CA:
 CheckIfPlayerSelected:
                 tst.w   (playerSelected).l
                 bmi.s   loc_1459DE
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$118).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$118).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$188).l
                 rts
 loc_1459DE:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).l
                 rts
 
 ; ===== EnableDisableOffers =====
 ; prototype: void __usercall EnableDisableOffers()
 EnableDisableOffers:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a1
                 bsr.w   CheckForTransferOffers
                 bne.s   loc_145A02
                 move.w  MENUENTRY_STRINGFLAGS(a1),d0
@@ -95515,7 +95206,7 @@ loc_145A02:
                 bne.s   locret_145A2C
                 move.l  #aNoOffers,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a1) ; "NO OFFERS" ...
                 move.w  #1,MENUENTRY_ISDISABLED(a1)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
@@ -95526,7 +95217,7 @@ locret_145A2C:
 ; ===== TransferMarketAfterDrawCommon =====
 ; prototype: void __usercall TransferMarketAfterDrawCommon()
 TransferMarketAfterDrawCommon:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a0
                 move.w  2(a5),d6
                 sub.w   2(a0),d6
                 cmp.w   (numPlayersOnTransferMarket).l,d6
@@ -95551,10 +95242,10 @@ loc_145A62:
                 addq.w  #1,d6
 loc_145A80:
                 move.w  $16(a5),d7
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).l,a0
                 movea.l #0,a4
                 bsr.w   sub_145B02
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).l,a5
                 move.w  #$C,d0
                 jmp     DrawMultipleItems
 playerSelected:
@@ -96242,7 +95933,7 @@ loc_14637A:
                 addq.w  #1,d0
                 moveq   #$60,d1         ; '`'
                 divu.w  d0,d1
-                move.b  (byte_16EBD8).l,d0
+                move.b  (viewRandomPhase).l,d0
                 andi.l  #$FF,d0
                 divu.w  d1,d0
                 eor.w   d2,d0
@@ -97469,11 +97160,11 @@ loc_146F9E:
 ; ===== SelectNationalTeamFinish =====
 ; prototype: void __usercall SelectNationalTeamFinish()
 SelectNationalTeamFinish:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$850)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$850)).l,a0
                 subi.w  #$19,MENUENTRY_X(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  MENUENTRY_STRINGFLAGS(a0),d0
                 bset    #$D,d0
                 move.w  d0,$24(a0)
@@ -97485,42 +97176,42 @@ SelectNationalTeamFinish:
 ; ===== sub_146FD4 =====
 ; prototype: void __usercall sub_146FD4()
 sub_146FD4:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$540).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$578).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$540).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$578).l
                 cmpi.w  #$10,(careerNumPlayers).l
                 bls.s   loc_146FFC
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$540).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$540).l
                 cmpi.w  #$11,(careerNumPlayers).l
                 bls.s   loc_146FFC
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$578).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$578).l
 loc_146FFC:
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 movea.l MENUENTRY_FG(a0),a1
                 lea     (aASquad).l,a0  ; "%a SQUAD"
                 lea     ((careerTeam+5)).l,a2
                 jsr     PrintFormatted
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$70).w
-                lea     (g_menuEntries).w,a0
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$70).l
+                lea     (g_menuEntries).l,a0
                 move.w  #$1A,MENUENTRY_Y(a0)
                 tst.w   (word_1473C0).l
                 beq.s   loc_14705A
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$118).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$70).w
-                lea     (g_menuEntries).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$118).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$70).l
+                lea     (g_menuEntries).l,a0
                 move.w  #$12,MENUENTRY_Y(a0)
 loc_14705A:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$38).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$38).l
                 tst.w   (word_1473C0).l
                 bne.w   locret_1470A2
                 cmpi.w  #$14,(careerNumPlayers).l
                 beq.s   locret_1470A2
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$38).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$38).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aSelect1MoreInt).l,a0 ; "SELECT 1 MORE INTERNATIONAL SQUAD PLAYE"...
                 move.w  #$14,d0
@@ -97536,8 +97227,8 @@ locret_1470A2:
 ; ===== sub_1470A4 =====
 ; prototype: void __usercall sub_1470A4()
 sub_1470A4:
-                lea     ($147376).l,a0
-                move.b  byte_1473DC-loc_147376(a0),d3
+                lea     (loc_147376).l,a0
+                move.b  $66(a0),d3
                 andi.w  #$E0,d3
                 lsr.w   #5,d3
                 clr.l   d5
@@ -97575,12 +97266,12 @@ loc_1470FA:
 ; ===== sub_14710C =====
 ; prototype: void __usercall sub_14710C()
 sub_14710C:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
                 tst.w   (word_1473C0).l
                 bne.s   locret_147156
                 move.l  (dword_1473B2).l,d0
                 beq.s   locret_147156
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
                 move.l  (dword_1473B2).l,d0
                 clr.w   d2
                 move.w  #$1F,d1
@@ -97590,7 +97281,7 @@ loc_147132:
                 addq.w  #1,d2
 loc_147138:
                 dbf     d1,loc_147132
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.l  #aRemovePlayer,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "REMOVE PLAYER" ...
                 cmpi.w  #1,d2
                 beq.s   locret_147156
@@ -97668,20 +97359,20 @@ SelectNationalTeamOnSelect25:
                 lea     (careerTeam).l,a0
                 move.w  #5,d0
                 jsr     RotatePlayersLeft
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).l,a5
                 jsr     CallDrawMenuItem
                 rts
 
 ; ===== SelectNationalTeam25AfterDraw =====
 ; prototype: void __usercall SelectNationalTeam25AfterDraw()
 SelectNationalTeam25AfterDraw:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$540)).l,a5
                 jmp     DrawMenuItem
 
 ; ===== SelectNationalTeamCommon =====
 ; prototype: void __usercall SelectNationalTeamCommon()
 SelectNationalTeamCommon:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a0
                 move.w  2(a5),d1
                 sub.w   2(a0),d1
                 lea     (careerTeam).l,a0
@@ -97723,7 +97414,7 @@ SelectNationalTeamAfterDrawCommon:
                 lea     (byte_1473E8).l,a4
                 bra.w   loc_147390
 loc_147300:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a0
                 move.w  2(a5),d6
                 sub.w   2(a0),d6
                 move.w  d6,d7
@@ -97770,10 +97461,10 @@ loc_14737C:
                 lea     (a4,d1.w),a4
 loc_147390:
                 move.w  $16(a5),d7
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$5E8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$5E8)).l,a0
                 bsr.w   sub_145B02
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$818).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$5E8)).w,a5
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$818).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$5E8)).l,a5
                 move.w  #$C,d0
                 jmp     DrawMultipleItems
 locret_1473B0:
@@ -97789,13 +97480,12 @@ word_1473BE:
 word_1473C0:
                 dc.w $0000
 byte_1473C2:
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-byte_1473DC:
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+                dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+                dc.b 0,0,0,0,0,0,0,0,0,0
+                dc.b 0,0,0,0,0,0,0,0,0,0,0,0
 byte_1473E8:
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00
+                dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+                dc.b 0,0
 word_1473FA:
                 dc.w $0000
 word_1473FC:
@@ -98754,77 +98444,77 @@ playMatchMenu:
                 dc.w $0000              ; -= end entry 67 =-
                 dc.w -999               ; -= end menu =-
 sidePitchPositionsDefault:
-                dc.w 66,6,0,3,35,-32768,63,25
-                dc.w 16384,69,25,-32768,129,35,16384,3
-                dc.w 75,-32768,66,55,0,66,65,0
-                dc.w 129,75,16384,63,100,16384,69,100
-                dc.w -32768
+                dc.w $0042,$0006,$0000,$0003,$0023,$8000,$003F,$0019
+                dc.w $4000,$0045,$0019,$8000,$0081,$0023,$4000,$0003
+                dc.w $004B,$8000,$0042,$0037,$0000,$0042,$0041,$0000
+                dc.w $0081,$004B,$4000,$003F,$0064,$4000,$0045,$0064
+                dc.w $8000
 sidePitchPositions_5_4_1:
-                dc.w 66,6,0,3,40,-32768,66,20
-                dc.w 0,69,30,-32768,129,40,16384,63
-                dc.w 65,16384,63,30,16384,66,55,0
-                dc.w 69,65,-32768,66,75,0,66,100
-                dc.w 0
+                dc.w $0042,$0006,$0000,$0003,$0028,$8000,$0042,$0014
+                dc.w $0000,$0045,$001E,$8000,$0081,$0028,$4000,$003F
+                dc.w $0041,$4000,$003F,$001E,$4000,$0042,$0037,$0000
+                dc.w $0045,$0041,$8000,$0042,$004B,$0000,$0042,$0064
+                dc.w $0000
 sidePitchPositions_4_5_1:
-                dc.w 66,6,0,3,35,-32768,63,25
-                dc.w 16384,69,25,-32768,129,35,16384,3
-                dc.w 75,-32768,66,55,0,69,65,-32768
-                dc.w 129,75,16384,63,65,16384,66,100
-                dc.w 0
+                dc.w $0042,$0006,$0000,$0003,$0023,$8000,$003F,$0019
+                dc.w $4000,$0045,$0019,$8000,$0081,$0023,$4000,$0003
+                dc.w $004B,$8000,$0042,$0037,$0000,$0045,$0041,$8000
+                dc.w $0081,$004B,$4000,$003F,$0041,$4000,$0042,$0064
+                dc.w $0000
 sidePitchPositions_5_3_2:
-                dc.w 66,6,0,3,40,-32768,66,20
-                dc.w 0,69,30,-32768,129,40,16384,3
-                dc.w 60,-32768,63,30,16384,66,70,0
-                dc.w 129,60,16384,63,100,16384,69,100
-                dc.w -32768
+                dc.w $0042,$0006,$0000,$0003,$0028,$8000,$0042,$0014
+                dc.w $0000,$0045,$001E,$8000,$0081,$0028,$4000,$0003
+                dc.w $003C,$8000,$003F,$001E,$4000,$0042,$0046,$0000
+                dc.w $0081,$003C,$4000,$003F,$0064,$4000,$0045,$0064
+                dc.w $8000
 sidePitchPositions_3_5_2:
-                dc.w 66,6,0,63,35,16384,66,25
-                dc.w 0,69,55,-32768,69,35,-32768,3
-                dc.w 65,-32768,63,55,16384,66,75,0
-                dc.w 129,65,16384,63,100,16384,69,100
-                dc.w -32768
+                dc.w $0042,$0006,$0000,$003F,$0023,$4000,$0042,$0019
+                dc.w $0000,$0045,$0037,$8000,$0045,$0023,$8000,$0003
+                dc.w $0041,$8000,$003F,$0037,$4000,$0042,$004B,$0000
+                dc.w $0081,$0041,$4000,$003F,$0064,$4000,$0045,$0064
+                dc.w $8000
 sidePitchPositions_4_3_3:
-                dc.w 66,6,0,3,35,-32768,63,25
-                dc.w 16384,69,25,-32768,129,35,16384,3
-                dc.w 70,-32768,66,60,0,69,95,-32768
-                dc.w 129,70,16384,63,95,16384,66,105
-                dc.w 0
+                dc.w $0042,$0006,$0000,$0003,$0023,$8000,$003F,$0019
+                dc.w $4000,$0045,$0019,$8000,$0081,$0023,$4000,$0003
+                dc.w $0046,$8000,$0042,$003C,$0000,$0045,$005F,$8000
+                dc.w $0081,$0046,$4000,$003F,$005F,$4000,$0042,$0069
+                dc.w $0000
 sidePitchPositions_4_2_4:
-                dc.w 66,6,0,3,35,-32768,63,25
-                dc.w 16384,69,25,-32768,129,35,16384,3
-                dc.w 90,-32768,63,60,16384,69,60,-32768
-                dc.w 129,90,16384,66,100,0,66,110
-                dc.w 0
+                dc.w $0042,$0006,$0000,$0003,$0023,$8000,$003F,$0019
+                dc.w $4000,$0045,$0019,$8000,$0081,$0023,$4000,$0003
+                dc.w $005A,$8000,$003F,$003C,$4000,$0045,$003C,$8000
+                dc.w $0081,$005A,$4000,$0042,$0064,$0000,$0042,$006E
+                dc.w $0000
 sidePitchPositions_3_4_3:
-                dc.w 66,6,0,63,35,16384,66,25
-                dc.w 0,66,55,0,69,35,-32768,3
-                dc.w 75,-32768,66,65,0,69,95,-32768
-                dc.w 129,75,16384,63,95,16384,66,105
-                dc.w 0
+                dc.w $0042,$0006,$0000,$003F,$0023,$4000,$0042,$0019
+                dc.w $0000,$0042,$0037,$0000,$0045,$0023,$8000,$0003
+                dc.w $004B,$8000,$0042,$0041,$0000,$0045,$005F,$8000
+                dc.w $0081,$004B,$4000,$003F,$005F,$4000,$0042,$0069
+                dc.w $0000
 sidePitchPositionsSweep:
-                dc.w 66,6,0,3,40,-32768,66,20
-                dc.w 0,66,30,0,129,40,16384,3
-                dc.w 75,-32768,66,55,0,66,65,0
-                dc.w 129,75,16384,63,100,16384,69,100
-                dc.w -32768
+                dc.w $0042,$0006,$0000,$0003,$0028,$8000,$0042,$0014
+                dc.w $0000,$0042,$001E,$0000,$0081,$0028,$4000,$0003
+                dc.w $004B,$8000,$0042,$0037,$0000,$0042,$0041,$0000
+                dc.w $0081,$004B,$4000,$003F,$0064,$4000,$0045,$0064
+                dc.w $8000
 sidePitchPositions_5_2_3:
-                dc.w 66,6,0,3,40,-32768,66,20
-                dc.w 0,69,30,-32768,129,40,16384,3
-                dc.w 95,-32768,63,30,16384,69,60,-32768
-                dc.w 129,95,16384,63,60,16384,66,105
-                dc.w 0
+                dc.w $0042,$0006,$0000,$0003,$0028,$8000,$0042,$0014
+                dc.w $0000,$0045,$001E,$8000,$0081,$0028,$4000,$0003
+                dc.w $005F,$8000,$003F,$001E,$4000,$0045,$003C,$8000
+                dc.w $0081,$005F,$4000,$003F,$003C,$4000,$0042,$0069
+                dc.w $0000
 sidePitchPositionsAttack:
-                dc.w 66,6,0,63,35,16384,66,25
-                dc.w 0,63,60,16384,69,35,-32768,3
-                dc.w 100,-32768,69,60,-32768,66,90,0
-                dc.w 129,100,16384,63,110,16384,69,110
-                dc.w -32768
+                dc.w $0042,$0006,$0000,$003F,$0023,$4000,$0042,$0019
+                dc.w $0000,$003F,$003C,$4000,$0045,$0023,$8000,$0003
+                dc.w $0064,$8000,$0045,$003C,$8000,$0042,$005A,$0000
+                dc.w $0081,$0064,$4000,$003F,$006E,$4000,$0045,$006E
+                dc.w $8000
 sidePitchPositionsDefend:
-                dc.w 66,6,0,63,30,16384,63,20
-                dc.w 16384,69,20,-32768,69,30,-32768,3
-                dc.w 40,-32768,63,60,16384,69,60,-32768
-                dc.w 129,40,16384,66,70,0,66,100
-                dc.w 0
+                dc.w $0042,$0006,$0000,$003F,$001E,$4000,$003F,$0014
+                dc.w $4000,$0045,$0014,$8000,$0045,$001E,$8000,$0003
+                dc.w $0028,$8000,$003F,$003C,$4000,$0045,$003C,$8000
+                dc.w $0081,$0028,$4000,$0042,$0046,$0000,$0042,$0064
+                dc.w $0000
 sidePitchSurnamePositionsTable:
                 dc.l sidePitchPositionsDefault ; this table contains player surname positions and string flags for side pitch in play menu,
                                         ; it's indexed by the tactics; format is, for each player (11 total):
@@ -98923,15 +98613,15 @@ loc_147E70:
                 move.w  #4,d7
                 sub.w   (maxSubstitutesEntries).l,d7
                 bmi.s   loc_147ED0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$620)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$620)).l,a5
 loc_147EA4:
                 move.w  #1,MENUENTRY_ISINVISIBLE(a5)
                 lea     -$38(a5),a5
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).l,a0
                 subi.w  #9,MENUENTRY_Y(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$690)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$690)).l,a0
                 subi.w  #9,MENUENTRY_Y(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$658)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$658)).l,a0
                 subi.w  #9,MENUENTRY_Y(a0)
                 dbf     d7,loc_147EA4
 loc_147ED0:
@@ -98977,7 +98667,7 @@ loc_147F20:
                 bne.w   out_0
                 tst.w   (squadChangesAllowed).l
                 beq.w   out_0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a0
                 move.w  MENUENTRY_ORDINAL(a5),d1
                 sub.w   MENUENTRY_ORDINAL(a0),d1
                 movea.l a1,a0
@@ -98997,7 +98687,7 @@ loc_147F68:
                 bsr.w   UpdateTeamCheckmark
                 jmp     DrawMenu
 loc_147F74:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a0
                 move.w  MENUENTRY_ORDINAL(a5),d6
                 sub.w   MENUENTRY_ORDINAL(a0),d6
                 cmpi.w  #16,d6
@@ -99194,7 +98884,7 @@ PlayMatchChangeTactics:
                 bsr.w   UpdateLittleCheckmark
                 bsr.w   RedrawPlayerNames
                 movea.l (sp)+,a5
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$850)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$850)).l,a0
                 move.w  2(a5),d0
                 sub.w   2(a0),d0
                 movea.l (playMatchTeam1Ptr).l,a0
@@ -99333,7 +99023,7 @@ word_1483E2:
 ; ===== PlayMatch30AfterDraw =====
 ; prototype: __int16 __usercall PlayMatch30AfterDraw@<d0>()
 PlayMatch30AfterDraw:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$658)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$658)).l,a5
                 jmp     DrawMenuItem
 
 ; ===== UpdateTeamCheckmark =====
@@ -99342,7 +99032,7 @@ PlayMatch30AfterDraw:
 ; Show or hide small blinking checkmark when arranging players in a team.
 ; (the one next to a player)
 UpdateTeamCheckmark:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$818).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$818).l
                 tst.w   (squadChangesAllowed).l
                 beq.w   locret_148488
                 tst.w   (viewingOpponentTeam).l
@@ -99371,7 +99061,7 @@ loc_14844C:
                 cmp.w   (pmMenuNumPlayers).l,d1
                 bcc.s   loc_14848A
 loc_148462:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$818)).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$818)).l,a1
                 move.w  MENUENTRY_STRINGFLAGS(a1),d0
                 bset    #13,d0
                 move.w  d0,MENUENTRY_STRINGFLAGS(a1)
@@ -99379,7 +99069,7 @@ loc_148462:
                 add.w   d1,d0
                 jsr     CalcMenuEntryAddress
                 move.w  MENUENTRY_Y(a0),MENUENTRY_Y(a1)
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$818).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$818).l
 locret_148488:
                 rts
 loc_14848A:
@@ -99397,12 +99087,12 @@ loc_14849C:
 ; "view result", "play match", "view match", "coach match"
 ; Set background color to green if match is simulated ("view result"), red otherwise.
 SetGameStartButtonText:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #YELLOW_GREEN_BLACK_14,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a0
                 move.l  #aViewResult,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "VIEW RESULT" ...
                 tst.w   (squadChangesAllowed).l
                 beq.s   locret_148520
@@ -99421,7 +99111,7 @@ loc_1484EA:
 loc_148504:
                 move.l  #aViewMatch,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "VIEW MATCH" ...
 loc_14850C:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1F8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #RED_10,d0
@@ -99432,7 +99122,7 @@ locret_148520:
 ; ===== ShowOrHidePlayMatchButton =====
 ; prototype: void __usercall ShowOrHidePlayMatchButton()
 ShowOrHidePlayMatchButton:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).l
                 tst.w   (viewingOpponentTeam).l
                 beq.s   loc_14855C
                 movea.l (playMatchTeam2Ptr).l,a0
@@ -99440,13 +99130,13 @@ ShowOrHidePlayMatchButton:
                 bne.w   loc_14876E
                 tst.w   (squadChangesAllowed).l
                 beq.w   loc_14876E
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).l
                 tst.w   (byte_149224).l
                 beq.w   loc_14876E
                 bra.w   loc_14874A
 loc_14855C:
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.w  MENUENTRY_STRINGFLAGS(a0),d0
                 bclr    #$D,d0
                 move.w  d0,MENUENTRY_STRINGFLAGS(a0)
@@ -99521,7 +99211,7 @@ loc_148654:
                 jsr     GetNumberOfSubstitutes
                 cmpi.w  #1,d0
                 beq.s   loc_1486D0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.w  MENUENTRY_STRINGFLAGS(a0),d0
                 bset    #$D,d0
                 move.w  d0,$24(a0)
@@ -99571,14 +99261,14 @@ loc_14874A:
 loc_148760:
                 move.w  #1,(byte_149224).l
 loc_148768:
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).l
                 rts
 loc_14876E:
                 cmpi.l  #currentTeam,(playMatchTeam1Ptr).l
                 beq.s   loc_148780
                 clr.w   (byte_149224).l
 loc_148780:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).l
                 rts
 
 ; ===== SetUpTacticsButtons =====
@@ -99592,7 +99282,7 @@ SetUpTacticsButtons:
                 movea.l (playMatchTeam2Ptr).l,a6
 loc_14879C:
                 move.b  TEAMFILE_TACTICS(a6),d0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$850)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$850)).l,a0
                 clr.w   d1
 loc_1487A6:
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
@@ -99638,7 +99328,7 @@ loc_1487FE:
 ; Sets player surnames on green pitch on the right,
 ; (tactics) just before starting the game.
 SetPlayerSurnamesOnSidePitch:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C78)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C78)).l,a5
                 movea.l (playMatchTeam1Ptr).l,a0
                 tst.w   (viewingOpponentTeam).l
                 beq.s   loc_148824
@@ -99693,14 +99383,14 @@ loc_1488A6:
 ; Show or hide use match button. Show it only if this is a training
 ; game, we are using B team, and team has changed since the last game.
 ShowUseMatchTeamIfTraining:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).l
                 tst.w   (g_trainingGame).l
                 beq.s   locret_1488DE
                 tst.w   (is_A_team).l
                 bne.s   locret_1488DE
                 jsr     CheckIfTeamIsChanged
                 beq.s   locret_1488DE
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$118).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$118).l
 locret_1488DE:
                 rts
 
@@ -99711,7 +99401,7 @@ locret_1488DE:
 SetVariableButtons:
                 bsr.w   SetGameStartButtonText
                 bsr.s   ShowUseMatchTeamIfTraining
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.l  #aViewOppo,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "VIEW OPPO" ...
                 tst.w   (viewingOpponentTeam).l
                 beq.s   loc_148902
@@ -99722,7 +99412,7 @@ loc_148902:
                 move.l  #aViewOtherTeam,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "VIEW OTHER TEAM" ...
                 move.w  #93,MENUENTRY_DWWIDTH(a0)
 loc_148918:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.w  MENUENTRY_STRINGFLAGS(a0),d0
                 bclr    #$D,d0
                 move.w  d0,MENUENTRY_STRINGFLAGS(a0)
@@ -99731,19 +99421,19 @@ loc_148918:
                 move.l  #aViewATeam,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "VIEW A TEAM" ...
                 tst.w   (is_A_team).l
                 bne.s   loc_148972
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.l  #aViewBTeam,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "VIEW B TEAM" ...
                 move.w  #1,d0
                 lea     (currentTeam).l,a0
                 jsr     GetNumberOfSubstitutes
                 cmpi.w  #1,d0
                 beq.s   loc_148972
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.w  MENUENTRY_STRINGFLAGS(a0),d0
                 bset    #$D,d0
                 move.w  d0,MENUENTRY_STRINGFLAGS(a0)
 loc_148972:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 tst.w   (g_trainingGame).l
                 beq.s   loc_14898A
@@ -99770,60 +99460,60 @@ loc_1489C2:
                 movea.l (playMatchTeam1Ptr).l,a6
                 tst.w   (viewingOpponentTeam).l
                 beq.w   loc_148A4A
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  #204,MENUENTRY_Y(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.w  #204,MENUENTRY_Y(a0)
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #ORANGE_TO_BROWN_12,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 movea.l (playMatchTeam2Ptr).l,a6
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).l
                 movea.l (playMatchTeam2Ptr).l,a0
                 cmpi.b  #TEAM_COMPUTER,TEAMFILE_TEAMCONTROLS(a0)
                 bne.s   loc_148A30
                 tst.w   (squadChangesAllowed).l
                 bne.s   loc_148A36
 loc_148A30:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$188).l
 loc_148A36:
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$268).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$658).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$690).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$268).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$658).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$690).l
                 bra.w   loc_148C06
 loc_148A4A:
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  #204,MENUENTRY_Y(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.w  #204,MENUENTRY_Y(a0)
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 movea.l (playMatchTeam1Ptr).l,a1
                 tst.w   (showingCpuTeams).l
                 beq.s   loc_148A88
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).l
 loc_148A88:
                 move.l  #aCoach_1,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "\x01COACH:" ...
                 cmpi.b  #TEAM_PLAYER_COACH,TEAMFILE_TEAMCONTROLS(a1)
                 bne.s   loc_148AA0
                 move.l  #aPlayer_1,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "\x02PLAYER" ...
 loc_148AA0:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #BRIGHT_BLUE_TO_BLUE_13,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 cmpi.b  #TEAM_PLAYER_COACH,TEAMFILE_TEAMCONTROLS(a1)
                 bne.s   loc_148AD0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #BLUE_TO_PURPLE_11,d0
@@ -99831,14 +99521,14 @@ loc_148AA0:
 loc_148AD0:
                 tst.w   (squadChangesAllowed).l
                 bne.s   loc_148AE2
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
 loc_148AE2:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 clr.w   MENUENTRY_ISDISABLED(a0)
                 tst.w   (is_A_team).l
                 beq.s   loc_148AF8
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).l
 loc_148AF8:
                 tst.w   (g_trainingGame).l
                 beq.s   loc_148B34
@@ -99852,10 +99542,10 @@ loc_148B1C:
                 movea.l (playMatchTeam1Ptr).l,a1
                 cmpi.b  #TEAM_PLAYER_COACH,TEAMFILE_TEAMCONTROLS(a1)
                 beq.s   loc_148B34
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
 loc_148B34:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #BLUE_TO_PURPLE_11,d0
@@ -99863,14 +99553,14 @@ loc_148B34:
                 movea.l (playMatchTeam1Ptr).l,a1
                 cmpi.b  #TEAM_PLAYER_COACH,TEAMFILE_TEAMCONTROLS(a1)
                 beq.s   loc_148B86
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #BRIGHT_BLUE_TO_BLUE_13,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 cmpi.b  #TEAM_COACH,TEAMFILE_TEAMCONTROLS(a1)
                 beq.s   loc_148B86
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #ORANGE_TO_BROWN_12,d0
@@ -99880,36 +99570,36 @@ loc_148B86:
                 beq.s   loc_148BAA
                 cmpi.b  #TEAM_COMPUTER,TEAMFILE_TEAMCONTROLS(a1)
                 bne.s   loc_148BAA
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #BRIGHT_BLUE_TO_BLUE_13,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_148BAA:
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$230).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$230).l
                 tst.w   (showingCpuTeams).l
                 beq.s   loc_148BBC
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).l
 loc_148BBC:
                 tst.w   (is_A_team).l
                 beq.s   loc_148BCA
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).l
 loc_148BCA:
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$188).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$268).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$658).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$690).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$188).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$268).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$658).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$690).l
                 tst.w   (showingCpuTeams).l
                 bne.w   loc_148C06
                 move.w  (numPlayersToShowInMenu).l,d1
                 sub.w   (pmMenuNumPlayers).l,d1
                 beq.s   loc_148C06
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$658).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$658).l
                 cmpi.w  #1,d1
                 beq.s   loc_148C06
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$690).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$690).l
 loc_148C06:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 lea     5(a6),a1
                 tst.w   (g_trainingGame).l
                 beq.s   loc_148C2A
@@ -99919,7 +99609,7 @@ loc_148C06:
                 lea     (team_B_name).l,a1
 loc_148C2A:
                 move.l  a1,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 lea     TEAMFILE_COACHNAME(a6),a1
                 move.l  a1,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 rts
@@ -99940,12 +99630,12 @@ DrawPlayerEntries:
                 move.w  #1,d5
                 subq.w  #5,d7
                 add.w   (maxSubstitutesEntries).l,d7
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addq.w  #BLUE_TO_BLACK_8,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addq.w  #BLUE_TO_BLACK_8,d0
@@ -99961,36 +99651,36 @@ loc_148C7E:
                 bne.s   loc_148CC8
                 tst.w   d7
                 beq.s   loc_148CF4
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #BRIGHT_BLUE_TO_BLUE_13,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #BRIGHT_BLUE_TO_BLUE_13,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.w   loc_148DBE
 loc_148CC8:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #RED_10,d0
                 move.w  d0,30(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #RED_10,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.w   loc_148DBE
 loc_148CF4:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #YELLOW_GREEN_BLACK_14,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #YELLOW_GREEN_BLACK_14,d0
@@ -100004,24 +99694,24 @@ loc_148D20:
                 cmpi.w  #11,d7
                 beq.s   loc_148D8C
 loc_148D36:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #BLUE_TO_PURPLE_11,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #BLUE_TO_PURPLE_11,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.s   loc_148DBE
 loc_148D60:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #ORANGE_TO_BROWN_12,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #ORANGE_TO_BROWN_12,d0
@@ -100030,12 +99720,12 @@ loc_148D60:
 loc_148D8C:
                 cmpi.w  #5,(maxSubstitutesEntries).l
                 bls.s   loc_148D36
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #YELLOW_GREEN_BLACK_14,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #YELLOW_GREEN_BLACK_14,d0
@@ -100057,12 +99747,12 @@ loc_148DD2:
                 jsr     IsPlayerInjured
                 movem.l (sp)+,d1
                 beq.s   loc_148E22
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #RED_10,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_SPRITE1(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #RED_10,d0
@@ -100072,19 +99762,19 @@ loc_148E22:
                 bne.s   loc_148E56
                 cmp.w   (selectedPlayerPosition).l,d1
                 bne.s   loc_148E56
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addq.w  #ORANGE_TO_BROWN_6,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$738)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addq.w  #ORANGE_TO_BROWN_6,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_148E56:
                 move.w  MENUENTRY_Y(a5),d7
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).l,a0
                 move.w  d7,MENUENTRY_Y(a0)
                 move.w  (playMatchExcludeFlags).l,d0
                 movem.l d1,-(sp)
@@ -100120,7 +99810,7 @@ loc_148EAA:
 loc_148EE6:
                 cmp.w   d1,d0
                 bne.s   loc_148F00
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$818)).w,a2
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$818)).l,a2
                 move.w  MENUENTRY_Y(a0),MENUENTRY_Y(a2)
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a2)
                 move.w  MENUENTRY_FG+ENTRYTYPE2UNION_SPRITE2(a0),MENUENTRY_FG+ENTRYTYPE2UNION_SPRITE2(a2)
@@ -100193,17 +99883,17 @@ loc_148FEA:
                 move.w  d0,MENUENTRY_STRINGFLAGS(a0)
                 clr.w   4(a0)
                 lea     MENUENTRY_SIZE(a0),a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).l,a5
                 move.w  #6,d0           ; draw 6 items. 31-37
                 jmp     DrawMultipleItems
 
 ; ===== RedrawPlayerNames =====
 ; prototype: void __usercall RedrawPlayerNames()
 RedrawPlayerNames:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a5
                 move.w  #11,d0          ; draw 11 items
                 jsr     CallDrawMultipleItems
-                lea     (g_menuEntries).w,a5
+                lea     (g_menuEntries).l,a5
                 jsr     CallDrawMenuItem
                 rts
 
@@ -100243,7 +99933,7 @@ loc_149070:
 ; Compare new line-up to the old, and display big check or X mark depending is it better or not.
 ; If skills are equal, or we are looking at opponents team leave it hidden.
 UpdateCheckMarkSprite:
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 tst.w   (viewingOpponentTeam).l
                 bne.s   locret_1490C6
@@ -100339,7 +100029,7 @@ loc_1491E2:
                 lea     (word_1491F2).l,a0
                 jmp     DrawMenuItemsWaitForVSync
 word_1491F2:
-                dc.w 9,1,6,-1
+                dc.w $0009,$0001,$0006,$FFFF
 isFirstPlayerChoosingTeam:
                 dc.w $0000              ; true if the first player is choosing the team
 currentSelectedPlayerIndexPtr:
@@ -100388,7 +100078,7 @@ playMatchExcludeFlags:
                                         ;  0 = both
                                         ; sent as a D2 parameter to ShowPlayMatchMenu
 byte_149224:
-                dc.b $00,$00,$00,$00
+                dc.b 0,0,0,0
 careerTeamCoachOnly:
                 dc.w $0000              ; true if the career team is controlled by the CPU, i.e. the player is coach only
                                         ; (set when view result was pressed)
@@ -100413,7 +100103,7 @@ sub_14922A:
                 beq.w   loc_1492A8
                 tst.w   (youreSacked).l
                 bne.w   loc_149334
-                move.b  (byte_16EBD8).l,d0
+                move.b  (viewRandomPhase).l,d0
                 sub.b   (byte_169255).l,d0
                 ext.w   d0
                 lsl.w   #2,d0
@@ -101369,7 +101059,7 @@ JobOffersFinish:
 ; ===== JobOffersCommon =====
 ; prototype: void __usercall JobOffersCommon(struct MenuEntry *entry@<a5>)
 JobOffersCommon:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  MENUENTRY_ORDINAL(a5),d7
                 sub.w   MENUENTRY_ORDINAL(a0),d7
                 move.w  d7,(jobOfferOrdinal).l
@@ -101393,7 +101083,7 @@ loc_149F30:
 ; prototype: void __usercall sub_149F3C(struct MenuEntry *entry@<a5>)
 ; dos: cseg_605C0
 sub_149F3C:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.w  2(a5),d7
                 sub.w   2(a0),d7
                 move.w  #$FFFF,(jobOfferOrdinal).l
@@ -101423,26 +101113,26 @@ JobOffersExit:
 ; prototype: void __usercall sub_149F98()
 ; dos: cseg_6065E
 sub_149F98:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,MENUENTRY_ISINVISIBLE+$38(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,MENUENTRY_ISINVISIBLE+$38(a0)
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
                 tst.w   (numJobOffers).l
                 beq.w   locret_14A030
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
-                lea     ($2866).w,a0
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  MENUENTRY_Y(a0),d1
                 move.w  (numNewJobOffers).l,d0
                 mulu.w  #$F,d0
                 add.w   d0,d1
                 addi.w  #$1E,d1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a1
                 move.w  d1,MENUENTRY_Y(a1)
                 addi.w  #$14,d1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a1
                 move.w  d1,MENUENTRY_Y(a1)
                 addi.w  #$F,d1
                 lea     $38(a1),a1
@@ -101466,13 +101156,13 @@ locret_14A030:
 ; dos: cseg_6087D
 sub_14A032:
                 move.w  #1,MENUENTRY_ISDISABLED(a5)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.w  2(a5),d7
                 sub.w   2(a0),d7
                 cmp.w   (numJobOffers).l,d7
                 bcc.w   locret_14A11A
                 clr.w   6(a5)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   $3C(a0)
                 clr.w   d1
@@ -101480,7 +101170,7 @@ sub_14A032:
                 bne.s   loc_14A06C
                 move.w  #$D,d5
 loc_14A06C:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 or.w    d5,d0
@@ -101490,14 +101180,14 @@ loc_14A06C:
                 andi.w  #$FFF0,d0
                 or.w    d5,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).w,a3
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).l,a3
                 move.w  MENUENTRY_STRINGFLAGS(a3),d3
                 andi.w  #$FFF0,d3
                 move.w  $16(a5),$16(a3)
                 move.w  d7,d0
                 addq.w  #1,d0
                 move.w  d0,$26(a3)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).l,a4
                 move.w  MENUENTRY_STRINGFLAGS(a4),d4
                 andi.w  #$FFF0,d4
                 move.w  $16(a5),$16(a4)
@@ -101523,7 +101213,7 @@ loc_14A0FE:
                 jsr     PrintFormatted
                 move.w  d3,$24(a3)
                 move.w  d4,$24(a4)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).l,a5
                 move.w  #2,d0
                 jsr     DrawMultipleItems
 locret_14A11A:
@@ -101533,23 +101223,23 @@ locret_14A11A:
 ; prototype: void __usercall JobOffersAfterDrawCommon(struct MenuEntry *entry@<a5>)
 JobOffersAfterDrawCommon:
                 move.w  #1,MENUENTRY_ISDISABLED(a5)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  MENUENTRY_ORDINAL(a5),d7
                 sub.w   MENUENTRY_ORDINAL(a0),d7
                 cmp.w   (numNewJobOffers).l,d7
                 bcc.w   locret_14A1D2
                 clr.w   6(a5)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a0
                 clr.w   MENUENTRY_ISINVISIBLE(a0)
                 clr.w   MENUENTRY_ISINVISIBLE+$38(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a3
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a3
                 move.w  MENUENTRY_STRINGFLAGS(a3),d3
                 andi.w  #$FFF0,d3
                 move.w  MENUENTRY_Y(a5),MENUENTRY_Y(a3)
                 move.w  d7,d0
                 addq.w  #1,d0
                 move.w  d0,MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a3)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).w,a4
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).l,a4
                 move.w  MENUENTRY_STRINGFLAGS(a4),d4
                 andi.w  #$FFF0,d4
                 move.w  MENUENTRY_Y(a5),MENUENTRY_Y(a4)
@@ -101575,13 +101265,13 @@ loc_14A1B6:
                 jsr     PrintFormatted
                 move.w  d3,MENUENTRY_STRINGFLAGS(a3)
                 move.w  d4,MENUENTRY_STRINGFLAGS(a4)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a5
                 move.w  #2,d0
                 jsr     DrawMultipleItems
 locret_14A1D2:
                 rts
 padding_45:
-                dc.b $00,$00
+                dc.b 0,0
 word_14A1D6:
                 dc.w $0000
 gotJobOfferMenu:
@@ -101789,9 +101479,9 @@ GotJobOfferFinish:
                 add.w   (numJobOffers).l,d0
                 cmpi.w  #1,d0
                 bne.s   loc_14A3AC
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a0
                 move.l  #aRetire,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "RETIRE" ...
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #RED_10,d0
@@ -101799,16 +101489,16 @@ GotJobOfferFinish:
 loc_14A3AC:
                 cmpi.l  #$FFFFFFFF,(jobOfferFunds).l
                 bne.s   loc_14A3F0
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.l  #aInternationalJ,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "INTERNATIONAL JOB OFFER" ...
                 subi.w  #30,SEASONINFORMATIONS_TROPHYFLAGS(a0)
                 addi.w  #60,MENUENTRY_DWWIDTH(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a0
                 addi.w  #65,MENUENTRY_X(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a0
                 subi.w  #65,MENUENTRY_X(a0)
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2A0).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2A0).l
 loc_14A3F0:
                 cmpi.w  #$FFFF,(teamNoOfferAccepted).l
                 bne.w   loc_14A5D0
@@ -101816,16 +101506,16 @@ loc_14A3F0:
 loc_14A400:
                 tst.w   (jobOfferOrdinal).l
                 bpl.s   loc_14A410
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).l
                 bra.s   loc_14A416
 loc_14A410:
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$268).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$268).l
 loc_14A416:
                 tst.w   (word_14A89A).l
                 bne.s   loc_14A43C
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
@@ -101836,13 +101526,13 @@ loc_14A43C:
                 move.l  a0,(teamOfferingJobPtr).l
                 lea     (managerSexBuffer).l,a2
                 lea     (managerSurnameBuffer).l,a3
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aDearAB).l,a0  ; "DEAR %a %b"
                 jsr     PrintFormatted
                 cmpi.l  #$FFFFFFFF,(jobOfferFunds).l
                 beq.w   loc_14A530
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 movea.l (teamOfferingJobPtr).l,a2
                 lea     5(a2),a2
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
@@ -101850,7 +101540,7 @@ loc_14A43C:
                 movem.l a2,-(sp)
                 jsr     PrintFormatted
                 movem.l (sp)+,a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aCoachingJobAtO).l,a0 ; "COACHING JOB AT OUR CLUB FOR NEXT SEASO"...
                 jsr     PrintFormatted
@@ -101858,33 +101548,33 @@ loc_14A43C:
                 lea     (fundsBuffer).l,a1
                 jsr     Int2Pounds
                 lea     (fundsBuffer).l,a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aWeCanOfferYouA).l,a0 ; "WE CAN OFFER YOU A VERY COMPETITIVE SAL"...
                 jsr     PrintFormatted
                 lea     (fundsBuffer).l,a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aWeHopeToBeAble).l,a0 ; "WE HOPE TO BE ABLE TO MAKE FUNDS AVAILA"...
                 jsr     PrintFormatted
                 lea     (fundsBuffer).l,a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aInTheRegionOfA).l,a0 ; "IN THE REGION OF %a FOR IMPROVING THE T"...
                 jsr     PrintFormatted
                 lea     (fundsBuffer).l,a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aWeLookForwardT_1).l,a0 ; "WE LOOK FORWARD TO HEARING FROM YOU"
                 jsr     PrintFormatted
                 rts
 loc_14A530:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  MENUENTRY_Y(a0),d1
                 addi.w  #$A,d1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.w  d1,MENUENTRY_Y(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 movea.l (teamOfferingJobPtr).l,a2
                 lea     5(a2),a2
                 movea.l $26(a0),a1
@@ -101892,50 +101582,50 @@ loc_14A530:
                 movem.l a2,-(sp)
                 jsr     PrintFormatted
                 movem.l (sp)+,a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aOfAWouldLikeTo).l,a0 ; "OF %a WOULD LIKE TO OFFER YOU THE JOB"
                 jsr     PrintFormatted
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aAsCoachOfTheNa).l,a0 ; "AS COACH OF THE NATIONAL TEAM"
                 jsr     PrintFormatted
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aWeCanPromiseYo).l,a0 ; "WE CAN PROMISE YOU AN EXCELLENT SALARY "...
                 jsr     PrintFormatted
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aAnAnnuallyRevi).l,a0 ; "AN ANNUALLY REVIEWABLE CONTRACT"
                 jsr     PrintFormatted
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aWeLookForwardT).l,a0 ; "WE LOOK FORWARD TO HEARING FROM YOU"
                 jsr     PrintFormatted
                 rts
 loc_14A5D0:
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.l  #aNewJob,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "NEW JOB" ...
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  MENUENTRY_Y(a0),d1
                 addi.w  #10,d1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.w  d1,MENUENTRY_Y(a0)
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2D8).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$230).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$2D8).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1C0).l
                 move.w  (teamNoOfferAccepted).l,d0
                 bsr.w   GetTeamPointer
                 move.l  a0,(teamOfferingJobPtr).l
                 lea     (managerSexBuffer).l,a2
                 lea     (managerSurnameBuffer).l,a3
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aDearAB).l,a0  ; "DEAR %a %b"
                 jsr     PrintFormatted
                 cmpi.l  #$FFFFFFFF,(jobOfferFunds).l
                 beq.w   loc_14A6F6
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 movea.l (teamOfferingJobPtr).l,a2
                 lea     5(a2),a2
                 movea.l 38(a0),a1
@@ -101943,7 +101633,7 @@ loc_14A5D0:
                 movem.l a2,-(sp)
                 jsr     PrintFormatted
                 movem.l (sp)+,a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aHaveAcceptedTh).l,a0 ; "HAVE ACCEPTED THE POSITION OF COACH AT "...
                 jsr     PrintFormatted
@@ -101951,35 +101641,35 @@ loc_14A5D0:
                 lea     (fundsBuffer).l,a1
                 jsr     Int2Pounds
                 lea     (fundsBuffer).l,a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aFromTheStartOf_0).l,a0 ; "FROM THE START OF NEXT SEASON"
                 jsr     PrintFormatted
                 lea     (fundsBuffer).l,a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aWeHopeToBeAble_0).l,a0 ; "WE HOPE TO BE ABLE TO MAKE FUNDS AVAILA"...
                 jsr     PrintFormatted
                 lea     (fundsBuffer).l,a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aInTheRegionOfA_0).l,a0 ; "IN THE REGION OF %a FOR IMPROVING THE T"...
                 jsr     PrintFormatted
                 lea     (fundsBuffer).l,a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aAndWeLookForwa).l,a0 ; "AND WE LOOK FORWARD TO SEEING YOU SOON"
                 jsr     PrintFormatted
                 rts
 loc_14A6F6:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.w  MENUENTRY_Y(a0),d1
                 addi.w  #10,d1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 move.w  d1,MENUENTRY_Y(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 subi.w  #15,MENUENTRY_Y(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 movea.l (teamOfferingJobPtr).l,a2
                 lea     5(a2),a2
                 movea.l 38(a0),a1
@@ -101987,23 +101677,23 @@ loc_14A6F6:
                 movem.l a2,-(sp)
                 jsr     PrintFormatted
                 movem.l (sp)+,a2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aOfAAreDelighte).l,a0 ; "OF %a ARE DELIGHTED THAT YOU HAVE"
                 jsr     PrintFormatted
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aAcceptedThePos).l,a0 ; "ACCEPTED THE POSITION AS COACH OF THE N"...
                 jsr     PrintFormatted
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aFromTheStartOf).l,a0 ; "FROM THE START OF NEXT SEASON"
                 jsr     PrintFormatted
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aWeLookForwardT_0).l,a0 ; "\x00WE LOOK FORWARD TO SEEING YOU SOON"
                 jsr     PrintFormatted
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     ((aWeLookForwardT_0+1)).l,a0 ; "WE LOOK FORWARD TO SEEING YOU SOON"
                 jsr     PrintFormatted
@@ -102270,9 +101960,9 @@ ChairmanMemosInit:
                 move.w  #1,(fireResetFlag).l
                 tst.w   (isNationalSelector).l
                 beq.s   ChairmanMemosOnReturn
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.l  #aMemoFromThePre,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "MEMO FROM THE PRESIDENT" ...
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 move.l  #aThePresident,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "THE PRESIDENT" ...
 
 ; ===== ChairmanMemosOnReturn =====
@@ -102280,7 +101970,7 @@ ChairmanMemosInit:
 ChairmanMemosOnReturn:
                 lea     (managerSexBuffer).l,a2
                 lea     (managerSurnameBuffer).l,a3
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aDearAB_0).l,a0 ; "DEAR %a %b"
                 jsr     PrintFormatted
@@ -102289,13 +101979,13 @@ ChairmanMemosOnReturn:
                 lsl.w   #3,d0
                 lea     clubMessagesTable(pc),a5
                 lea     (a5,d0.w),a5
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 movea.l (a5)+,a0
                 lea     (managerNameBuffer).l,a2
                 movea.l plNameForMessage(pc),a3
                 jsr     PrintFormatted
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 movea.l (a5),a0
                 lea     (managerNameBuffer).l,a2
@@ -102311,7 +102001,7 @@ loc_14AB1E:
                 beq.s   loc_14AB1E
                 dbf     d1,loc_14AB18
                 movem.l (sp)+,d0-d1
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
                 jsr     DrawMenu
                 rts
 
@@ -102532,29 +102222,29 @@ ClubBusinessInit:
                 beq.w   loc_14ADC2
                 bra.w   loc_14AED4
 loc_14ACC8:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (old_balance).l,d0
                 jsr     Int2PoundsSigned
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (gateReceipts).l,d0
                 jsr     WriteAccountBalance
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$348)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (generalRunningCosts).l,d0
                 neg.l   d0
                 jsr     WriteAccountBalance
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (playerSales).l,d0
                 jsr     WriteAccountBalance
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (playerPurchases).l,d0
                 neg.l   d0
                 jsr     WriteAccountBalance
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$428)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (playerWagesBill).l,d0
                 neg.l   d0
@@ -102567,14 +102257,14 @@ loc_14ACC8:
                 sub.l   (playerWagesBill).l,d1
                 sub.l   (generalRunningCosts).l,d1
                 bpl.s   loc_14AD7E
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a0
                 move.l  #aTotalLoss,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "TOTAL LOSS:" ...
 loc_14AD7E:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  d1,d0
                 jsr     WriteAccountBalance
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).l,a0
                 move.l  (newBalance).l,d0
                 bpl.s   loc_14ADB6
                 move.w  36(a0),d1
@@ -102589,30 +102279,30 @@ loc_14ADB6:
                 jsr     Int2PoundsSigned
                 rts
 loc_14ADC2:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 addi.w  #30,MENUENTRY_Y(a0)
                 move.l  #aBalanceAtStart,$26(a0) ; "BALANCE AT START OF SEASON:"
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).l,a0
                 addi.w  #30,MENUENTRY_Y(a0)
                 movea.l 38(a0),a1
                 move.l  (old_balance).l,d0
                 jsr     Int2PoundsSigned
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$310).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$348).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$E0).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$118).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$310).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$348).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (playerSales).l,d0
                 jsr     WriteAccountBalance
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (playerPurchases).l,d0
                 neg.l   d0
                 jsr     WriteAccountBalance
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$428).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$428).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a0
                 subi.w  #15,MENUENTRY_Y(a0)
                 move.l  (dword_164A02).l,d1
                 add.l   (competitionBonuses).l,d1
@@ -102624,14 +102314,14 @@ loc_14ADC2:
                 bpl.s   loc_14AE7A
                 move.l  #aTotalLoss,38(a0) ; "TOTAL LOSS:"
 loc_14AE7A:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).l,a0
                 subi.w  #15,MENUENTRY_Y(a0)
                 movea.l 38(a0),a1
                 move.l  d1,d0
                 jsr     WriteAccountBalance
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a0
                 subi.w  #15,MENUENTRY_Y(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).l,a0
                 subi.w  #15,MENUENTRY_Y(a0)
                 move.l  (newBalance).l,d0
                 bpl.s   loc_14AEC8
@@ -102649,95 +102339,95 @@ loc_14AEC8:
 loc_14AED4:
                 tst.w   (word_164AC0).l
                 beq.s   loc_14AF08
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 move.w  #9,d1
 loc_14AEE4:
                 subi.w  #13,22(a0)
                 lea     56(a0),a0
                 dbf     d1,loc_14AEE4
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).l,a0
                 move.w  #9,d1
 loc_14AEFA:
                 subi.w  #13,22(a0)
                 lea     56(a0),a0
                 dbf     d1,loc_14AEFA
 loc_14AF08:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 move.l  #aBalanceAtEndOf,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "BALANCE AT END OF LAST SEASON:" ...
                 addq.w  #5,22(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2A0)).l,a0
                 addq.w  #5,MENUENTRY_Y(a0)
                 movea.l 38(a0),a1
                 move.l  (old_balance).l,d0
                 jsr     Int2PoundsSigned
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$2D8).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).w,a0
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$A8).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$2D8).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (competitionBonuses).l,d0
                 jsr     WriteAccountBalance
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.w  #7,d1
 loc_14AF54:
                 addi.w  #15,22(a0)
                 lea     56(a0),a0
                 dbf     d1,loc_14AF54
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).l,a0
                 move.w  #7,d1
 loc_14AF6A:
                 addi.w  #15,22(a0)
                 lea     56(a0),a0
                 dbf     d1,loc_14AF6A
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.l  #aSponsorshipFor,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "SPONSORSHIP FOR THE CLUB FOR THIS" ...
                 addq.w  #5,22(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 move.l  #aSeasonFromSens,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "SEASON FROM SENSISOFT PLC:" ...
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).l,a0
                 addi.w  #10,MENUENTRY_Y(a0)
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$348).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$348).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$310)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (dword_164A02).l,d0
                 jsr     WriteAccountBalance
                 tst.w   (word_164AC0).l
                 beq.w   loc_14B01E
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$150).w
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$380).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a0
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$150).l
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$380).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (sensisoftPlcSponsorship).l,d0
                 jsr     WriteAccountBalance
                 tst.w   (additionalInvestments).l
                 beq.s   loc_14AFF2
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.l  #aAdditionalInve,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0) ; "ADDITIONAL INVESTMENT FROM THE NEW CHAI"... ...
 loc_14AFF2:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a0
                 move.w  #4,d1
 loc_14AFFA:
                 addi.w  #15,22(a0)
                 lea     56(a0),a0
                 dbf     d1,loc_14AFFA
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).l,a0
                 move.w  #4,d1
 loc_14B010:
                 addi.w  #15,22(a0)
                 lea     56(a0),a0
                 dbf     d1,loc_14B010
 loc_14B01E:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3B8)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (playerSales).l,d0
                 jsr     WriteAccountBalance
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$3F0)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.l  (playerPurchases).l,d0
                 neg.l   d0
                 jsr     WriteAccountBalance
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$428).w
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$1F8).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$428).l
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a0
                 subi.w  #$F,MENUENTRY_Y(a0)
                 move.l  (dword_164A02).l,d1
                 add.l   (competitionBonuses).l,d1
@@ -102749,14 +102439,14 @@ loc_14B01E:
                 bpl.s   loc_14B092
                 move.l  #aTotalLoss,$26(a0) ; "TOTAL LOSS:"
 loc_14B092:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$460)).l,a0
                 subi.w  #15,MENUENTRY_Y(a0)
                 movea.l 38(a0),a1
                 move.l  d1,d0
                 jsr     WriteAccountBalance
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a0
                 subi.w  #$F,MENUENTRY_Y(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$498)).l,a0
                 subi.w  #$F,MENUENTRY_Y(a0)
                 move.l  (newBalance).l,d0
                 bpl.s   loc_14B0E0
@@ -103017,7 +102707,7 @@ yQuadrantToCoordinates:
                 dc.w 5,14,24,36,50,64,79,93
                 dc.w 107,121,136,150,164,176,186,195
 arrowSpritesOffsets:
-                dc.b $00,$F2,$06,$FA,$06,$00,$04,$04,$00,$06,$FC,$04,$FA,$00,$FA,$FA ; used when drawing player direction arrows in edit tactics menu, when fire is being held
+                dc.b 0,-14,6,-6,6,0,4,4,0,6,-4,4,-6,0,-6,-6 ; used when drawing player direction arrows in edit tactics menu, when fire is being held
                                         ; byte 2n is x, byte 2n+1 is y offset
 littlePlayersConvertTable:
                 dc.w 0,1,2,3,4,5,6,7
@@ -103311,17 +103001,17 @@ off_14B6B8:
 ; begins with zero terminated string (tactics name).
 ChooseTacticsInit:
                 jsr     CheckIsTeamNational
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.l  #USER_A+TEAMTACTICS_TACTICSNAME,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 move.l  #USER_B+TEAMTACTICS_TACTICSNAME,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.l  #USER_C+TEAMTACTICS_TACTICSNAME,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.l  #USER_D+TEAMTACTICS_TACTICSNAME,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$118)).l,a0
                 move.l  #USER_E+TEAMTACTICS_TACTICSNAME,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.l  #USER_F+TEAMTACTICS_TACTICSNAME,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 rts
 
@@ -103947,7 +103637,7 @@ EditTacticsOnRestore:
 EditTacticsCommon:
                 tst.w   (word_14C60E).l
                 bpl.w   out3
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$658)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$658)).l,a0
                 move.w  MENUENTRY_ORDINAL(a5),d6
                 sub.w   MENUENTRY_ORDINAL(a0),d6
                 addq.w  #1,d6
@@ -104004,7 +103694,7 @@ loc_14BC1C:
 loc_14BC3C:
                 movea.l (some_menu_entry_ptr).l,a5
                 jsr     CallDrawMenuItem
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$658)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$658)).l,a5
                 move.w  #10,d0
                 jsr     CallDrawMultipleItems
                 rts
@@ -104058,7 +103748,7 @@ out3:
 EditTacticsPlayerNamesCommon:
                 tst.w   (word_14C616).l
                 bpl.w   locret_14BD5E
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a0
                 move.w  MENUENTRY_ORDINAL(a5),d6
                 sub.w   MENUENTRY_ORDINAL(a0),d6
                 movea.l chooseTacticsTeamPtr(pc),a0
@@ -104166,7 +103856,7 @@ SelectCopyTactics:
 ; prototype: void __usercall UndoTactics()
 UndoTactics:
                 bsr.w   RestoreTactics
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a5
                 jsr     CallDrawMenuItem
                 bsr.w   sub_14C566
                 bsr.w   DrawPlayerNamesAndFaces
@@ -104209,7 +103899,7 @@ loc_14BE7A:
                 jmp     SetExitMenuFlag
 loc_14BE80:
                 lea     (aSaveEditedTact).l,a0 ; "SAVE EDITED TACTICS"
-                jsr     sub_151912
+                jsr     Asset_PromptInsertSaveDiskDf0
                 bne.w   locret_14BF38
                 lea     (importTacticsFilename).l,a1
                 lea     (editTacticsCurrentTactics).l,a0
@@ -104299,7 +103989,7 @@ FlipOnOff:
 ; Enable or disable player faces items in edit tactics menu, depending
 ; wheter flip is on or off.
 EnableOrDisablePlayerFacesItems:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$658)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$658)).l,a0
                 move.w  #9,d7
 loc_14BFC4:
                 tst.w   (flipOnOff).l
@@ -104317,7 +104007,7 @@ loc_14BFD8:
 ; prototype: void __usercall CopyCurrentTacticName()
 ; Sets edit tactics menu header to name of current tactics.
 CopyCurrentTacticName:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (aEditTactics).l,a0 ; "EDIT TACTICS"
                 jsr     StringCopy
@@ -104341,7 +104031,7 @@ loc_14C022:
                 bsr.w   EditTacticsStatus
                 tst.w   (word_14B4B6).l
                 bne.s   locret_14C046
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a5
                 jsr     CallDrawMenuItem
                 move.w  #4,d0
                 jsr     SetCurrentEntry
@@ -104353,12 +104043,12 @@ locret_14C046:
 CopyTactics:
                 tst.w   (word_14B4B6).l
                 bne.s   loc_14C07E
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a5
                 jsr     CallDrawMenuItem
                 bsr.w   EditTacticsMenuSavePlayerPositions
                 bsr.w   DrawPlayerNamesAndFaces
@@ -104368,16 +104058,16 @@ loc_14C07E:
                 bsr.w   EditTacticsStatus
                 tst.w   (word_14B4B6).l
                 bne.s   locret_14C0C8
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a5
                 jsr     CallDrawMenuItem
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #YELLOW_GREEN_BLACK_14,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 move.w  #ORANGE_TO_BROWN_4,d0
                 jsr     SetCurrentEntry
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a5
                 jsr     CallDrawMenuItem
                 bsr.w   sub_14C566
                 bsr.w   DrawPlayerNamesAndFaces
@@ -104398,7 +104088,7 @@ EditTacticsOnSelect28:
                 lea     (byte_14C0E8).l,a0
                 jmp     DrawMenuItemsWaitForVSync
 byte_14C0E8:
-                dc.b $00,$0A,$00,$1B,$FF,$FF
+                dc.b 0,10,0,27,-1,-1
 
 ; ===== EditTacticsAfterDrawCommon =====
 ; prototype: void __usercall EditTacticsAfterDrawCommon(void *cur@<a5>)
@@ -104407,13 +104097,13 @@ EditTacticsAfterDrawCommon:
                 subi.w  #29,d7          ; player faces
                 addq.w  #1,d7
                 bsr.w   sub_14C372
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).l,a5
                 jmp     DrawMenuItem
 
 ; ===== EditTactics28AfterDraw =====
 ; prototype: void __usercall EditTactics28AfterDraw()
 EditTactics28AfterDraw:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$5E8)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$5E8)).l,a5
                 jmp     DrawMenuItem
 
 ; ===== sub_14C110 =====
@@ -104421,15 +104111,15 @@ EditTactics28AfterDraw:
 ; dos: cseg_4ECAD
 sub_14C110:
                 movea.l chooseTacticsTeamPtr(pc),a6
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$5E8).w
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$620).w
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$5E8).l
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$620).l
                 move.w  (editTacticsNumPlayers).l,d1
                 subi.w  #16,d1
                 beq.s   locret_14C13A
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$5E8).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$5E8).l
                 cmpi.w  #1,d1
                 beq.s   locret_14C13A
-                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$620).w
+                clr.w   (g_menuEntries+MENUENTRY_ISINVISIBLE+$620).l
 locret_14C13A:
                 rts
 
@@ -104444,7 +104134,7 @@ EditTacticsAfterDrawPlayerNames:
                 cmpi.w  #$10,d7
                 bne.s   loc_14C170
                 move.w  #1,d5
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addq.w  #BLUE_TO_BLACK_8,d0
@@ -104456,27 +104146,27 @@ loc_14C170:
                 bcc.s   loc_14C1AC
                 tst.w   d7
                 beq.s   loc_14C194
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #BRIGHT_BLUE_TO_BLUE_13,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.w   loc_14C1D8
 loc_14C194:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #YELLOW_GREEN_BLACK_14,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.w   loc_14C1D8
 loc_14C1AC:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #BLUE_TO_PURPLE_11,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.w   loc_14C1D8
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #YELLOW_GREEN_BLACK_14,d0
@@ -104497,7 +104187,7 @@ loc_14C1D8:
                 jsr     IsPlayerInjured
                 movem.l (sp)+,d1
                 beq.s   loc_14C226
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #RED_10,d0
@@ -104505,7 +104195,7 @@ loc_14C1D8:
 loc_14C226:
                 cmp.w   (word_14C60E).l,d1
                 bne.s   loc_14C240
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addq.w  #ORANGE_TO_BROWN_6,d0
@@ -104516,13 +104206,13 @@ loc_14C240:
                 addq.w  #1,d0
                 cmp.w   d0,d7
                 bne.s   loc_14C262
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8F8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #ORANGE_TO_BROWN_12,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_14C262:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8C0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$8C0)).l,a0
                 move.w  $16(a5),d7
                 move.w  #1,4(a0)
                 tst.w   d5
@@ -104591,7 +104281,7 @@ loc_14C352:
                 or.w    d1,d0
                 move.w  d0,$24(a0)
                 lea     $38(a0),a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).l,a5
                 move.w  #6,d0
                 jmp     DrawMultipleItems
 
@@ -104603,7 +104293,7 @@ loc_14C352:
 sub_14C372:
                 cmpi.w  #16,d7          ; player 16
                 bne.s   loc_14C38E
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addq.w  #BLUE_TO_BLACK_8,d0
@@ -104614,14 +104304,14 @@ loc_14C38E:
                 bcc.s   loc_14C3C8
                 tst.w   d7
                 beq.s   loc_14C3B0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #BRIGHT_BLUE_TO_BLUE_13,d0
                 move.w  d0,MENUENTRY_BG(a0)
                 bra.w   loc_14C3FA
 loc_14C3B0:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #YELLOW_GREEN_BLACK_14,d0
@@ -104630,14 +104320,14 @@ loc_14C3B0:
 loc_14C3C8:
                 cmpi.w  #$B,d7
                 beq.s   loc_14C3E6
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #BLUE_TO_PURPLE_11,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.w   loc_14C3FA
 loc_14C3E6:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #YELLOW_GREEN_BLACK_14,d0
@@ -104659,7 +104349,7 @@ loc_14C3FA:
                 beq.s   loc_14C446
                 cmpi.w  #$20,d0         ; ' '
                 beq.s   loc_14C446
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #COLOR_RED,d0
@@ -104667,7 +104357,7 @@ loc_14C3FA:
 loc_14C446:
                 cmp.w   (word_14C60E).l,d1
                 bne.s   loc_14C460
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addq.w  #ORANGE_TO_BROWN_6,d0
@@ -104678,7 +104368,7 @@ loc_14C460:
                 addq.w  #1,d0
                 cmp.w   d0,d7
                 bne.s   loc_14C482
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #ORANGE_TO_BROWN_12,d0
@@ -104697,20 +104387,20 @@ loc_14C482:
                 lea     (word_14C602).l,a0
                 lsl.w   #PINK_TO_BROWN_1,d0
                 move.w  (a0,d0.w),d1
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 add.w   d1,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
                 bra.s   loc_14C4D6
 loc_14C4C2:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_0,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_14C4D6:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$888)).l,a0
                 move.w  MENUENTRY_Y(a5),MENUENTRY_Y(a0)
                 jsr     SetMenuEntryPlayerFace
                 cmpi.w  #11,d7
@@ -104732,12 +104422,12 @@ locret_14C512:
 ; prototype: void __usercall DrawPlayerNamesAndFaces()
 ; In tactics menu.
 DrawPlayerNamesAndFaces:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a5
                 jsr     CallDrawMenuItem
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$658)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$658)).l,a5
                 move.w  #10,d0          ; draw 10 items
                 jsr     CallDrawMultipleItems
-                lea     (g_menuEntries).w,a5
+                lea     (g_menuEntries).l,a5
                 jsr     CallDrawMenuItem
                 rts
 
@@ -104783,7 +104473,7 @@ loc_14C580:
 ; prototype: void __usercall SetBigCheckSprite()
 ; [edit tactics menu procedure]
 SetBigCheckSprite:
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0) ; make it invisible
                 move.w  MENUENTRY_STRINGFLAGS(a0),d1
                 bclr    #$D,d1          ; clear bit 1
@@ -105105,7 +104795,7 @@ loc_14C9DE:
                 rts
 loc_14C9F4:
                 move.w  #7,(editTacticsPitchStatus).l
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a5
                 jsr     CallDrawMenuItem
                 bsr.w   sub_14C566
                 bsr.w   DrawPlayerNamesAndFaces
@@ -105571,7 +105261,7 @@ loc_14CFD2:
 locret_14CFF0:
                 rts
 tacticCursorFrames:
-                dc.w 149,150,151,150
+                dc.w $0095,$0096,$0097,$0096
 
 ; ===== GetPlayerXYPositionFromQuadrant =====
 ; prototype: void __usercall GetPlayerXYPositionFromQuadrant(__int16 player@<d0>, __int16 ballLoc@<d1>)
@@ -106233,7 +105923,7 @@ ImportTacticsInit:
 ; ===== ImportTacticsSelectTactics =====
 ; prototype: void __usercall ImportTacticsSelectTactics(MenuEntry *cur@<a5>)
 ImportTacticsSelectTactics:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  MENUENTRY_ORDINAL(a5),d0
                 sub.w   MENUENTRY_ORDINAL(a0),d0
                 move.w  d0,(importMenuSelectedTactics).l
@@ -106250,7 +105940,7 @@ ExitImportTactics:
 LoadTactics:
                 move.w  #$FFFF,(importMenuSelectedTactics).l
                 lea     (aLoadEditedTact).l,a0 ; "LOAD EDITED TACTICS"
-                jsr     sub_151912
+                jsr     Asset_PromptInsertSaveDiskDf0
                 bne.s   loc_14D5B6
                 lea     (aLoadEditedTact).l,a1 ; "LOAD EDITED TACTICS"
                 jsr     GetFilenameAndExtension
@@ -106983,8 +106673,10 @@ littlePlayerSpriteGeneric:
 littlePlayersColorTable:
                 dc.b $00,$00,$00,$01,$00,$02,$00,$03,$00,$04,$00,$05,$00,$06,$00,$07 ; for sprites above
                 dc.b $00,$08,$00,$09,$00,$0A,$00,$0B,$00,$0C,$00,$0D,$00,$0E,$00,$0F
+; Sprites[4]
 littlePlayersSpriteTable:
-                dc.w 210,211,210,212    ; table for converting indices of those little pictures of
+                ; Sprites[4]
+                dc.w SPR_LITTLE_PLAYER_VERT_STRIPES,SPR_LITTLE_PLAYER_NO_STRIPES,SPR_LITTLE_PLAYER_VERT_STRIPES,SPR_LITTLE_PLAYER_HOR_STRIPES ; table for converting indices of those little pictures of
                                         ; players into sprites
 
 ; ===== ShowStadiumInit =====
@@ -106992,19 +106684,19 @@ littlePlayersSpriteTable:
 ShowStadiumInit:
                 lea     (aGrafsMenubg2Ra).l,a0 ; "grafs/menubg2.raw"
                 jsr     LoadOverlayToFrontbuffer
-                lea     (g_menuEntries).w,a0
+                lea     (g_menuEntries).l,a0
                 move.l  #gameName,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
                 tst.b   (gameRound).l
                 bne.s   loc_14DB7A
-                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$38).w
-                lea     (g_menuEntries).w,a0
+                move.w  #1,(g_menuEntries+MENUENTRY_ISINVISIBLE+$38).l
+                lea     (g_menuEntries).l,a0
                 addq.w  #5,MENUENTRY_Y(a0)
                 bra.s   loc_14DB86
 loc_14DB7A:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.l  #gameRound,MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0)
 loc_14DB86:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 lea     (topTeamInGame+TEAMGAME_TEAMNAME).l,a0
                 jsr     StringCopy
@@ -107012,7 +106704,7 @@ loc_14DB86:
                 clr.b   (a1)
                 tst.w   (hilStarted).l
                 bne.s   loc_14DBD8
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$70)).l,a0
                 move.w  #BRIGHT_BLUE_TO_BLUE_13,d1
                 tst.w   (topTeamCoachNo).l
                 bne.s   loc_14DBD4
@@ -107026,14 +106718,14 @@ loc_14DB86:
 loc_14DBD4:
                 move.w  d1,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_14DBD8:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
                 move.b  #' ',(a1)+
                 lea     (bottomTeamInGame+TEAMGAME_TEAMNAME).l,a0
                 jsr     StringCopy
                 tst.w   (hilStarted).l
                 bne.s   loc_14DC28
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$E0)).l,a0
                 move.w  #BRIGHT_BLUE_TO_BLUE_13,d1
                 tst.w   (bottomTeamCoachNo).l
                 bne.s   loc_14DC24
@@ -107048,7 +106740,7 @@ loc_14DC24:
                 move.w  d1,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
 loc_14DC28:
                 lea     (topTeamInGame).l,a6
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$380)).l,a5
                 clr.w   d1
 loc_14DC34:
                 move.w  d1,d0
@@ -107061,7 +106753,7 @@ loc_14DC34:
                 cmpi.w  #16,d1
                 bcs.s   loc_14DC34
                 lea     (bottomTeamInGame).l,a6
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$968)).w,a5
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$968)).l,a5
                 clr.w   d1
 loc_14DC5E:
                 move.w  d1,d0
@@ -107073,8 +106765,8 @@ loc_14DC5E:
                 addq.w  #1,d1
                 cmpi.w  #16,d1
                 bcs.s   loc_14DC5E
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).w,a0
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$CB0)).w,a1
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$6C8)).l,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$CB0)).l,a1
                 move.w  #5,d1
                 sub.w   (gameMaxSubstitutes).l,d1
                 beq.s   loc_14DCAA
@@ -107260,16 +106952,16 @@ HighlightsMenuOnReturn:
 HighlightsMenuCommon:
                 tst.w   (hilNumGoals).l
                 bne.s   loc_14DE6E
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #PINK_TO_BROWN_9,d0
@@ -107278,16 +106970,16 @@ HighlightsMenuCommon:
                 jsr     SetCurrentEntry
                 rts
 loc_14DE6E:
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 clr.w   MENUENTRY_ISDISABLED(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #YELLOW_GREEN_BLACK_14,d0
                 move.w  d0,MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 clr.w   MENUENTRY_ISDISABLED(a0)
-                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).w,a0
+                lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #YELLOW_GREEN_BLACK_14,d0
@@ -107303,7 +106995,7 @@ JmpShowHighlights:
 ; prototype: void __usercall LoadHighlightsMenu()
 LoadHighlightsMenu:
                 lea     (aLoadHighlights).l,a0 ; "LOAD HIGHLIGHTS"
-                jsr     sub_151912
+                jsr     Asset_PromptInsertSaveDiskDf0
                 bne.w   locret_14DF34
                 lea     (aLoadHighlights).l,a1 ; "LOAD HIGHLIGHTS"
                 jsr     GetFilenameAndExtension
@@ -107339,7 +107031,7 @@ locret_14DF34:
 ; prototype: void __usercall SaveHighlightsMenu()
 SaveHighlightsMenu:
                 lea     (aSaveHighlights).l,a0 ; "SAVE HIGHLIGHTS"
-                jsr     sub_151912
+                jsr     Asset_PromptInsertSaveDiskDf0
                 bne.w   locret_14DF8C
                 lea     (hilFilename).l,a0
                 move.l  #'.HIL',d0
@@ -108219,7 +107911,7 @@ careerContests:
                 dc.l friendly
                 dc.l friendlyCopy
                 dc.w $0028
-                dc.l european_championships2
+                dc.l europeanChampionships2
                 dc.l europeanChampionships2Copy
                 dc.w $004E
                 dc.l ecQualifyingGroup1
@@ -108261,7 +107953,7 @@ careerContests:
                 dc.l oceaniaCup         ; "#"
                 dc.l oceaniaCupCopy
                 dc.w $001C
-                dc.l world_cup2
+                dc.l worldCup2
                 dc.l worldCup2Copy
                 dc.w $0070
                 dc.l worldCupQualifyingGroup1
@@ -108314,30 +108006,38 @@ aDataUefacupTmd:
 euroCup:
                 dc.b $00,$02,$FF,$40,$20,$21,$00,$27,$01,$01,$01,$02,$03,$35,$04,$10
                 dc.b $04,$04,$08,$00,$08,$04,$00,$04,$02,$00,$02,$01,$00,$00,$00,$00
-                dc.b $00,$00,$00,$94,$94,$14,$00,$15,$6D,$B1,$00,$15,$6D,$C8,$0D,$01
-                dc.b $19,$00,$25,$05,$21,$21,$23,$06,$1E,$12,$0E,$04,$1C,$17,$01,$05
-                dc.b $26,$09,$14,$16,$08,$14,$24,$08,$1B,$0B,$14,$00,$1D,$0C
+                dc.b $00,$00,$00,$94,$94,$14
+                dc.l aEuropeanChampi_1  ; "EUROPEAN CHAMPIONS CUP"
+                dc.l aEuropeanCup       ; "EUROPEAN CUP"
+                dc.b $0D,$01,$19,$00,$25,$05,$21,$21,$23,$06,$1E,$12,$0E,$04,$1C,$17
+                dc.b $01,$05,$26,$09,$14,$16,$08,$14,$24,$08,$1B,$0B,$14,$00,$1D,$0C
 ; unsigned __int8[92]
 cupWinnersCup:
                 dc.b $01,$01,$FF,$40,$20,$0F,$00,$15,$01,$00,$20,$01,$35,$01,$94,$94
-                dc.b $94,$94,$14,$00,$00,$15,$6D,$E7,$00,$15,$6E,$00,$0F,$00,$4E,$02
-                dc.b $07,$02,$22,$0B,$23,$08,$05,$00,$1D,$02,$28,$10,$11,$08,$24,$00
-                dc.b $02,$02,$1B,$01,$13,$0F,$26,$0A,$0B,$04,$19,$15,$1E,$08,$14,$12
-                dc.b $0E,$16,$29,$07,$1F,$0A,$04,$0B,$0C,$08,$08,$12,$03,$06,$10,$08
-                dc.b $25,$0C,$27,$0A,$01,$07,$06,$0A,$15,$06,$0D,$1E
+                dc.b $94,$94,$14,$00
+                dc.l aEuropeanCupWin    ; "EUROPEAN CUP-WINNERS CUP"
+                dc.l aEuroCwCup         ; "EURO CW CUP"
+                dc.b $0F,$00,$4E,$02,$07,$02,$22,$0B,$23,$08,$05,$00,$1D,$02,$28,$10
+                dc.b $11,$08,$24,$00,$02,$02,$1B,$01,$13,$0F,$26,$0A,$0B,$04,$19,$15
+                dc.b $1E,$08,$14,$12,$0E,$16,$29,$07,$1F,$0A,$04,$0B,$0C,$08,$08,$12
+                dc.b $03,$06,$10,$08,$25,$0C,$27,$0A,$01,$07,$06,$0A,$15,$06,$0D,$1E
 ; unsigned __int8[92]
 uefaCup:
                 dc.b $02,$01,$FF,$40,$20,$0F,$00,$15,$01,$00,$20,$01,$35,$01,$94,$94
-                dc.b $94,$94,$14,$00,$00,$15,$6D,$D5,$00,$15,$6D,$DE,$1F,$13,$1D,$03
-                dc.b $1C,$07,$26,$05,$06,$08,$23,$2C,$1D,$18,$02,$00,$0E,$17,$14,$28
-                dc.b $24,$07,$25,$0A,$23,$13,$19,$0A,$02,$04,$1E,$0A,$14,$15,$01,$02
-                dc.b $21,$00,$07,$03,$10,$05,$08,$16,$0E,$1E,$26,$15,$14,$17,$23,$2A
-                dc.b $0E,$11,$1F,$10,$0D,$16,$1D,$14,$0D,$17,$0E,$19
+                dc.b $94,$94,$14,$00
+                dc.l aEufaCup           ; "EUFA CUP"
+                dc.l aEufaCup_0         ; "EUFA CUP"
+                dc.b $1F,$13,$1D,$03,$1C,$07,$26,$05,$06,$08,$23,$2C,$1D,$18,$02,$00
+                dc.b $0E,$17,$14,$28,$24,$07,$25,$0A,$23,$13,$19,$0A,$02,$04,$1E,$0A
+                dc.b $14,$15,$01,$02,$21,$00,$07,$03,$10,$05,$08,$16,$0E,$1E,$26,$15
+                dc.b $14,$17,$23,$2A,$0E,$11,$1F,$10,$0D,$16,$1D,$14,$0D,$17,$0E,$19
 ; unsigned __int8[112]
-world_cup2:
+worldCup2:
                 dc.b $03,$02,$FF,$88,$90,$23,$00,$29,$00,$01,$00,$01,$03,$35,$06,$20
                 dc.b $08,$04,$10,$00,$10,$08,$00,$08,$04,$00,$04,$02,$FF,$02,$02,$00
-                dc.b $02,$01,$00,$14,$14,$14,$14,$14,$00,$15,$42,$CE,$00,$15,$43,$D8
+                dc.b $02,$01,$00,$14,$14,$14,$14,$14
+                dc.l aWorldCup          ; "WORLD CUP"
+                dc.l aWorldCup_0        ; "WORLD CUP"
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
@@ -108346,68 +108046,92 @@ world_cup2:
 worldCup:
                 dc.b $04,$02,$FF,$88,$90,$23,$00,$29,$01,$00,$00,$01,$03,$35,$06,$18
                 dc.b $06,$04,$10,$00,$10,$08,$00,$08,$04,$00,$04,$02,$FF,$02,$02,$00
-                dc.b $02,$01,$00,$14,$14,$14,$14,$14,$00,$15,$42,$CE,$00,$15,$43,$D8
+                dc.b $02,$01,$00,$14,$14,$14,$14,$14
+                dc.l aWorldCup          ; "WORLD CUP"
+                dc.l aWorldCup_0        ; "WORLD CUP"
                 dc.b $50,$24,$52,$04,$53,$0D,$50,$2C,$52,$02,$50,$25,$51,$06,$50,$2B
                 dc.b $50,$11,$52,$01,$50,$2A,$54,$18,$52,$00,$50,$12,$51,$16,$50,$06
                 dc.b $50,$17,$50,$23,$50,$20,$53,$08,$50,$05,$51,$13,$50,$13,$54,$16
 ; unsigned __int8[40]
 worldCupQualifyingGroup1:
                 dc.b $05,$00,$50,$48,$10,$0F,$00,$15,$00,$01,$02,$03,$35,$06,$02,$00
-                dc.b $00,$00,$00,$00,$00,$15,$42,$F0,$00,$15,$43,$E2,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00
+                dc.l aWorldCupQualif_2  ; "WORLD CUP QUALIFYING GROUP 1"
+                dc.l aWCQualifier_0     ; "W.C. QUALIFIER"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[40]
 worldCupQualifyingGroup2:
                 dc.b $06,$00,$50,$48,$10,$0F,$00,$15,$00,$01,$02,$03,$35,$06,$02,$00
-                dc.b $00,$00,$00,$00,$00,$15,$43,$0D,$00,$15,$43,$E2,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00
+                dc.l aWorldCupQualif_3  ; "WORLD CUP QUALIFYING GROUP 2"
+                dc.l aWCQualifier_0     ; "W.C. QUALIFIER"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[40]
 worldCupQualifyingGroup3:
                 dc.b $07,$00,$50,$48,$10,$0F,$00,$15,$00,$01,$02,$03,$35,$06,$02,$00
-                dc.b $00,$00,$00,$00,$00,$15,$43,$2A,$00,$15,$43,$E2,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00
+                dc.l aWorldCupQualif_4  ; "WORLD CUP QUALIFYING GROUP 3"
+                dc.l aWCQualifier_0     ; "W.C. QUALIFIER"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[40]
 worldCupQualifyingGroup4:
                 dc.b $08,$00,$50,$48,$10,$0F,$00,$15,$00,$01,$02,$03,$35,$06,$02,$00
-                dc.b $00,$00,$00,$00,$00,$15,$43,$47,$00,$15,$43,$E2,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00
+                dc.l aWorldCupQualif_5  ; "WORLD CUP QUALIFYING GROUP 4"
+                dc.l aWCQualifier_0     ; "W.C. QUALIFIER"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[40]
 worldCupQualifyingGroup5:
                 dc.b $09,$00,$50,$48,$10,$0F,$00,$15,$00,$01,$02,$03,$35,$06,$02,$00
-                dc.b $00,$00,$00,$00,$00,$15,$43,$64,$00,$15,$43,$E2,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00
+                dc.l aWorldCupQualif_6  ; "WORLD CUP QUALIFYING GROUP 5"
+                dc.l aWCQualifier_0     ; "W.C. QUALIFIER"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[40]
 worldCupQualifyingGroup6:
                 dc.b $0A,$00,$50,$48,$10,$0F,$00,$15,$00,$01,$02,$03,$35,$06,$02,$00
-                dc.b $00,$00,$00,$00,$00,$15,$43,$81,$00,$15,$43,$E2,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00
+                dc.l aWorldCupQualif_7  ; "WORLD CUP QUALIFYING GROUP 6"
+                dc.l aWCQualifier_0     ; "W.C. QUALIFIER"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[40]
 worldCupQualifyingGroup7:
                 dc.b $0B,$00,$50,$48,$10,$0F,$00,$15,$00,$01,$02,$03,$35,$06,$02,$00
-                dc.b $00,$00,$00,$00,$00,$15,$43,$9E,$00,$15,$43,$E2,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00
+                dc.l aWorldCupQualif_8  ; "WORLD CUP QUALIFYING GROUP 7"
+                dc.l aWCQualifier_0     ; "W.C. QUALIFIER"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[40]
 worldCupQualifyingGroup8:
                 dc.b $0C,$00,$50,$48,$10,$0F,$00,$15,$00,$01,$02,$03,$35,$06,$02,$00
-                dc.b $00,$00,$00,$00,$00,$15,$43,$BB,$00,$15,$43,$E2,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00
+                dc.l aWorldCupQualif_9  ; "WORLD CUP QUALIFYING GROUP 8"
+                dc.l aWCQualifier_0     ; "W.C. QUALIFIER"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[72]
 northAmericaWorldCupQualification:
                 dc.b $0D,$02,$53,$48,$10,$23,$00,$29,$00,$01,$00,$02,$03,$35,$02,$0C
                 dc.b $00,$0C,$06,$01,$06,$03,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01
-                dc.b $01,$01,$94,$14,$14,$14,$14,$14,$00,$15,$42,$D8,$00,$15,$43,$E2
+                dc.b $01,$01,$94,$14,$14,$14,$14,$14
+                dc.l aWorldCupQualif_1  ; "WORLD CUP QUALIFICATION"
+                dc.l aWCQualifier_0     ; "W.C. QUALIFIER"
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[64]
 southAmericaWorldCupQualification:
                 dc.b $0E,$02,$52,$48,$10,$23,$00,$29,$00,$01,$00,$02,$03,$35,$01,$08
                 dc.b $01,$08,$04,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01
-                dc.b $01,$01,$14,$14,$14,$14,$14,$14,$00,$15,$42,$D8,$00,$15,$43,$E2
+                dc.b $01,$01,$14,$14,$14,$14,$14,$14
+                dc.l aWorldCupQualif_1  ; "WORLD CUP QUALIFICATION"
+                dc.l aWCQualifier_0     ; "W.C. QUALIFIER"
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[112]
 africaWorldCupQualification:
                 dc.b $0F,$02,$51,$48,$10,$23,$00,$29,$00,$01,$00,$02,$03,$35,$03,$20
                 dc.b $00,$20,$10,$00,$10,$08,$01,$08,$05,$01,$01,$01,$01,$01,$01,$01
-                dc.b $01,$01,$94,$94,$14,$14,$14,$14,$00,$15,$42,$D8,$00,$15,$43,$E2
+                dc.b $01,$01,$94,$94,$14,$14,$14,$14
+                dc.l aWorldCupQualif_1  ; "WORLD CUP QUALIFICATION"
+                dc.l aWCQualifier_0     ; "W.C. QUALIFIER"
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
@@ -108416,7 +108140,9 @@ africaWorldCupQualification:
 asiaWorldCupQualification:
                 dc.b $10,$02,$54,$48,$10,$23,$00,$29,$00,$01,$00,$02,$03,$35,$03,$18
                 dc.b $00,$18,$0C,$00,$0C,$06,$01,$06,$02,$01,$01,$01,$01,$01,$01,$01
-                dc.b $01,$01,$94,$94,$14,$14,$14,$14,$00,$15,$42,$D8,$00,$15,$43,$E2
+                dc.b $01,$01,$94,$94,$14,$14,$14,$14
+                dc.l aWorldCupQualif_1  ; "WORLD CUP QUALIFICATION"
+                dc.l aWCQualifier_0     ; "W.C. QUALIFIER"
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
@@ -108424,111 +108150,150 @@ asiaWorldCupQualification:
 ; unsigned __int8[36]
 oceaniaWorldCupQualification:
                 dc.b $11,$00,$55,$48,$10,$0F,$00,$15,$00,$01,$02,$03,$35,$04,$01,$00
-                dc.b $00,$00,$00,$00,$00,$15,$42,$D8,$00,$15,$43,$E2,$00,$00,$00,$00
                 dc.b $00,$00,$00,$00
+                dc.l aWorldCupQualif_1  ; "WORLD CUP QUALIFICATION"
+                dc.l aWCQualifier_0     ; "W.C. QUALIFIER"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[36]
 invitationTournament:
                 dc.b $12,$00,$FF,$98,$98,$0F,$00,$15,$00,$01,$01,$03,$35,$04,$00,$00
-                dc.b $00,$00,$00,$00,$00,$15,$40,$D6,$00,$15,$40,$EC,$00,$00,$00,$00
                 dc.b $00,$00,$00,$00
+                dc.l aInvitationTour    ; "INVITATION TOURNAMENT"
+                dc.l aInvTournament     ; "INV TOURNAMENT"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[36]
 tour:
                 dc.b $13,$00,$FF,$98,$98,$0F,$00,$15,$00,$01,$FF,$03,$35,$04,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$15,$40,$D1,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+                dc.l aTour              ; "TOUR"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[40]
 friendly:
                 dc.b $14,$00,$FF,$38,$00,$0F,$00,$15,$00,$01,$FF,$03,$35,$06,$00,$00
-                dc.b $00,$00,$00,$00,$00,$15,$40,$FB,$00,$15,$41,$04,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00
+                dc.l aFriendly          ; "FRIENDLY"
+                dc.l aFriendly_0        ; "FRIENDLY"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[78]
-european_championships2:
+europeanChampionships2:
                 dc.b $15,$02,$50,$88,$88,$21,$00,$27,$00,$01,$00,$01,$03,$35,$04,$10
                 dc.b $04,$04,$08,$00,$00,$04,$00,$04,$02,$00,$02,$01,$01,$01,$01,$01
-                dc.b $01,$01,$00,$14,$14,$14,$00,$15,$41,$54,$00,$15,$42,$2B,$00,$00
+                dc.b $01,$01,$00,$14,$14,$14
+                dc.l aEuropeanChampi_0  ; "EUROPEAN CHAMPIONSHIPS"
+                dc.l aECFinals          ; "E.C. FINALS"
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[78]
 europeanChampionships:
                 dc.b $16,$02,$50,$88,$88,$21,$00,$27,$01,$01,$00,$01,$03,$35,$04,$10
                 dc.b $04,$04,$08,$00,$00,$04,$00,$04,$02,$00,$02,$01,$01,$01,$01,$01
-                dc.b $01,$01,$00,$14,$14,$14,$00,$15,$41,$54,$00,$15,$42,$2B,$50,$0B
-                dc.b $50,$2C,$50,$13,$50,$27,$50,$2A,$50,$06,$50,$24,$50,$0F,$50,$11
-                dc.b $50,$09,$50,$17,$50,$25,$50,$0A,$50,$22,$50,$2D,$50,$07
+                dc.b $01,$01,$00,$14,$14,$14
+                dc.l aEuropeanChampi_0  ; "EUROPEAN CHAMPIONSHIPS"
+                dc.l aECFinals          ; "E.C. FINALS"
+                dc.b $50,$0B,$50,$2C,$50,$13,$50,$27,$50,$2A,$50,$06,$50,$24,$50,$0F
+                dc.b $50,$11,$50,$09,$50,$17,$50,$25,$50,$0A,$50,$22,$50,$2D,$50,$07
 ; unsigned __int8[40]
 ecQualifyingGroup1:
                 dc.b $17,$00,$50,$48,$10,$0F,$00,$15,$00,$01,$02,$03,$35,$06,$02,$00
-                dc.b $00,$00,$00,$00,$00,$15,$41,$6B,$00,$15,$42,$37,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00
+                dc.l aECQualifyingGr    ; "E.C. QUALIFYING GROUP 1"
+                dc.l aECQualifier_0     ; "E.C. QUALIFIER"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[40]
 ecQualifyingGroup2:
                 dc.b $18,$00,$50,$48,$10,$0F,$00,$15,$00,$01,$02,$03,$35,$06,$02,$00
-                dc.b $00,$00,$00,$00,$00,$15,$41,$83,$00,$15,$42,$37,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00
+                dc.l aECQualifyingGr_0  ; "E.C. QUALIFYING GROUP 2"
+                dc.l aECQualifier_0     ; "E.C. QUALIFIER"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[40]
 ecQualifyingGroup3:
                 dc.b $19,$00,$50,$48,$10,$0F,$00,$15,$00,$01,$02,$03,$35,$06,$02,$00
-                dc.b $00,$00,$00,$00,$00,$15,$41,$9B,$00,$15,$42,$37,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00
+                dc.l aECQualifyingGr_1  ; "E.C. QUALIFYING GROUP 3"
+                dc.l aECQualifier_0     ; "E.C. QUALIFIER"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[40]
 ecQualifyingGroup4:
                 dc.b $1A,$00,$50,$48,$10,$0F,$00,$15,$00,$01,$02,$03,$35,$06,$02,$00
-                dc.b $00,$00,$00,$00,$00,$15,$41,$B3,$00,$15,$42,$37,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00
+                dc.l aECQualifyingGr_2  ; "E.C. QUALIFYING GROUP 4"
+                dc.l aECQualifier_0     ; "E.C. QUALIFIER"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[40]
 ecQualifyingGroup5:
                 dc.b $1B,$00,$50,$48,$10,$0F,$00,$15,$00,$01,$02,$03,$35,$06,$02,$00
-                dc.b $00,$00,$00,$00,$00,$15,$41,$CB,$00,$15,$42,$37,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00
+                dc.l aECQualifyingGr_3  ; "E.C. QUALIFYING GROUP 5"
+                dc.l aECQualifier_0     ; "E.C. QUALIFIER"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[40]
 ecQualifyingGroup6:
                 dc.b $1C,$00,$50,$48,$10,$0F,$00,$15,$00,$01,$02,$03,$35,$06,$02,$00
-                dc.b $00,$00,$00,$00,$00,$15,$41,$E3,$00,$15,$42,$37,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00
+                dc.l aECQualifyingGr_4  ; "E.C. QUALIFYING GROUP 6"
+                dc.l aECQualifier_0     ; "E.C. QUALIFIER"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[40]
 ecQualifyingGroup7:
                 dc.b $1D,$00,$50,$48,$10,$0F,$00,$15,$00,$01,$02,$03,$35,$06,$02,$00
-                dc.b $00,$00,$00,$00,$00,$15,$41,$FB,$00,$15,$42,$37,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00
+                dc.l aECQualifyingGr_5  ; "E.C. QUALIFYING GROUP 7"
+                dc.l aECQualifier_0     ; "E.C. QUALIFIER"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[36]
 ecQualifyingGroup8:
                 dc.b $1E,$00,$50,$48,$10,$0F,$00,$15,$00,$01,$02,$03,$35,$04,$01,$00
-                dc.b $00,$00,$00,$00,$00,$15,$42,$13,$00,$15,$42,$37,$00,$00,$00,$00
                 dc.b $00,$00,$00,$00
+                dc.l aECQualifyingGr_6  ; "E.C. QUALIFYING GROUP 8"
+                dc.l aECQualifier_0     ; "E.C. QUALIFIER"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[70]
 copaAmerica:
                 dc.b $1F,$02,$52,$88,$90,$21,$00,$27,$00,$01,$00,$01,$03,$35,$04,$0C
                 dc.b $03,$04,$08,$00,$08,$04,$00,$04,$02,$00,$02,$01,$01,$01,$01,$01
-                dc.b $01,$01,$00,$04,$04,$04,$00,$15,$42,$46,$00,$15,$42,$53,$53,$08
-                dc.b $53,$0D,$52,$08,$52,$09,$52,$00,$52,$01,$52,$02,$52,$03,$52,$04
-                dc.b $52,$05,$52,$06,$52,$07
+                dc.b $01,$01,$00,$04,$04,$04
+                dc.l aCopaAmerica       ; "COPA AMERICA"
+                dc.l aCopaAmerica_0     ; "COPA AMERICA"
+                dc.b $53,$08,$53,$0D,$52,$08,$52,$09,$52,$00,$52,$01,$52,$02,$52,$03
+                dc.b $52,$04,$52,$05,$52,$06,$52,$07
 ; unsigned __int8[48]
 africanNationsCup:
                 dc.b $20,$02,$51,$88,$90,$23,$00,$00,$00,$01,$00,$01,$03,$35,$05,$20
                 dc.b $08,$04,$10,$00,$10,$08,$00,$08,$04,$00,$04,$02,$00,$02,$01,$01
-                dc.b $01,$01,$00,$14,$14,$14,$14,$00,$00,$15,$42,$60,$00,$15,$42,$74
+                dc.b $01,$01,$00,$14,$14,$14,$14,$00
+                dc.l aAfricanNations    ; "AFRICAN NATIONS CUP"
+                dc.l aAfricanCup        ; "AFRICAN CUP"
 ; unsigned __int8[46]
 northAmericanCup:
                 dc.b $21,$02,$53,$88,$90,$21,$00,$00,$00,$01,$00,$01,$03,$35,$04,$0C
                 dc.b $03,$04,$08,$00,$08,$04,$00,$04,$02,$00,$02,$01,$01,$01,$01,$01
-                dc.b $01,$01,$00,$14,$14,$14,$00,$15,$42,$80,$00,$15,$42,$93
+                dc.b $01,$01,$00,$14,$14,$14
+                dc.l aNorthAmericanC    ; "NORTH AMERICAN CUP"
+                dc.l aNAmericanCup      ; "N AMERICAN CUP"
 ; unsigned __int8[48]
 asianCup:
                 dc.b $22,$02,$54,$88,$90,$23,$00,$00,$00,$01,$00,$01,$03,$35,$05,$1E
                 dc.b $05,$06,$10,$00,$10,$08,$00,$08,$04,$00,$04,$02,$00,$02,$01,$01
-                dc.b $01,$01,$00,$14,$14,$14,$14,$00,$00,$15,$42,$A2,$00,$15,$42,$AC
+                dc.b $01,$01,$00,$14,$14,$14,$14,$00
+                dc.l aAsianCup          ; "ASIAN CUP"
+                dc.l aAsianCup_0        ; "ASIAN CUP"
 ; unsigned __int8[28]
 oceaniaCup:
                 dc.b $23,$00,$55,$88,$90,$0F,$00,$00,$00,$01,$01,$03,$35,$04,$00,$00
-                dc.b $00,$00,$00,$00,$00,$15,$42,$B6,$00,$15,$42,$C2
-; unsigned __int8[9]
+                dc.b $00,$00,$00,$00
+                dc.l aOceaniaCup        ; "OCEANIA CUP"
+                dc.l aOceaniaCup_0      ; "OCEANIA CUP"
+; unsigned __int8[56]
 customsLeague:
-                dc.b $24,$00,$48,$40,$20,$1B,$00,$00,$00
-; unsigned __int8[47]
-byte_14FB39:
-                dc.b $03,$02,$03,$35,$14,$00,$00,$00,$00,$00,$16,$00,$00,$00,$00,$00
-                dc.b $16,$00,$00,$00,$00,$00,$00,$00,$15,$44,$89,$00,$15,$44,$89,$00
-                dc.b $15,$44,$94,$00,$15,$44,$94,$00,$15,$44,$9F,$00,$15,$44,$9F
+                dc.b $24,$00,$48,$40,$20,$1B,$00,$00,$00,$03,$02,$03,$35,$14,$00,$00
+                dc.b $00,$00,$00,$16,$00,$00,$00,$00,$00,$16,$00,$00,$00,$00,$00,$00
+                dc.l aDivision1         ; "DIVISION 1"
+                dc.l aDivision1         ; "DIVISION 1"
+                dc.l aDivision2         ; "DIVISION 2"
+                dc.l aDivision2         ; "DIVISION 2"
+                dc.l aDivision3         ; "DIVISION 3"
+                dc.l aDivision3         ; "DIVISION 3"
 ; unsigned __int8[20]
 albanianLeague:
                 dc.b $25,$00,$00,$40,$20,$00,$00,$00,$00,$01,$02,$03,$35,$10,$00,$00
@@ -108569,30 +108334,69 @@ danishLeague:
 englishLeagues:
                 dc.b $2E,$00,$08,$38,$20,$21,$00,$00,$00,$04,$02,$03,$33,$14,$00,$00
                 dc.b $03,$00,$00,$18,$02,$04,$04,$00,$2E,$18,$03,$04,$04,$00,$78,$18
-                dc.b $03,$04,$00,$00,$C2,$00,$00,$14,$ED,$66,$00,$14,$ED,$75,$00,$14
-                dc.b $ED,$7D,$00,$14,$ED,$7D,$00,$14,$ED,$8A,$00,$14,$ED,$8A,$00,$14
-                dc.b $ED,$97,$00,$14,$ED,$97,$00,$14,$FD,$52,$00,$14,$FC,$82,$00,$00
-                dc.b $00,$03,$00,$01,$00,$02,$FF,$FF,$FF,$FF,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$14,$FC,$1C,$00,$00,$00,$01,$00,$00
-                dc.b $00,$00,$00,$14,$FC,$1C,$00,$00,$00,$01,$00,$00,$00,$03,$00,$14
-                dc.b $FC,$1C,$00,$00,$00,$01,$00,$00,$00,$01,$00,$14,$FC,$1C,$00,$00
-                dc.b $00,$01,$00,$00,$00,$02,$00,$14,$FD,$72,$00,$14,$FC,$D2,$00,$04
-                dc.b $00,$07,$00,$05,$00,$06,$FF,$FF,$FF,$FF,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$14,$FC,$1C,$00,$00,$00,$02,$00,$00
-                dc.b $00,$00,$00,$14,$FC,$1C,$00,$00,$00,$02,$00,$00,$00,$03,$00,$14
-                dc.b $FC,$1C,$00,$00,$00,$02,$00,$00,$00,$01,$00,$14,$FC,$1C,$00,$00
-                dc.b $00,$02,$00,$00,$00,$02,$00,$14,$FD,$92,$00,$14,$FD,$22,$00,$08
-                dc.b $00,$0B,$00,$09,$00,$0A,$FF,$FF,$FF,$FF,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$14,$FC,$1C,$00,$00,$00,$03,$00,$00
-                dc.b $00,$00,$00,$14,$FC,$1C,$00,$00,$00,$03,$00,$00,$00,$03,$00,$14
-                dc.b $FC,$1C,$00,$00,$00,$03,$00,$00,$00,$01,$00,$14,$FC,$1C,$00,$00
-                dc.b $00,$03,$00,$00,$00,$02,$2F,$01,$08,$80,$84,$0B,$00,$11,$01,$00
-                dc.b $04,$01,$33,$01,$94,$14,$00,$14,$ED,$C4,$00,$15,$64,$E5,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$30,$01,$08,$80,$84,$0B,$00,$11,$01,$00
-                dc.b $04,$01,$33,$01,$94,$14,$00,$14,$ED,$D3,$00,$15,$64,$E5,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$31,$01,$08,$80,$84,$0B,$00,$11,$01,$00
-                dc.b $04,$01,$33,$01,$94,$14,$00,$14,$ED,$E2,$00,$15,$64,$E5,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00
+                dc.b $03,$04,$00,$00,$C2,$00
+                dc.l aPremierLeague     ; "PREMIER LEAGUE"
+                dc.l aPremier           ; "PREMIER"
+                dc.l aDivisionOne       ; "DIVISION ONE"
+                dc.l aDivisionOne       ; "DIVISION ONE"
+                dc.l aDivisionTwo       ; "DIVISION TWO"
+                dc.l aDivisionTwo       ; "DIVISION TWO"
+                dc.l aDivisionThree     ; "DIVISION THREE"
+                dc.l aDivisionThree     ; "DIVISION THREE"
+                dc.l div1Playoffs
+                dc.l englishLeagues1
+                dc.b $00,$00,$00,$03,$00,$01,$00,$02,$FF,$FF,$FF,$FF,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+englishLeagues1:
+                dc.l englishLeagues     ; "."
+                dc.b $00,$00,$00,$01,$00,$00,$00,$00
+                dc.l englishLeagues     ; "."
+                dc.b $00,$00,$00,$01,$00,$00,$00,$03
+                dc.l englishLeagues     ; "."
+                dc.b $00,$00,$00,$01,$00,$00,$00,$01
+                dc.l englishLeagues     ; "."
+                dc.b $00,$00,$00,$01,$00,$00,$00,$02
+                dc.l div2Playoffs
+                dc.l englishLeagues2
+                dc.b $00,$04,$00,$07,$00,$05,$00,$06,$FF,$FF,$FF,$FF,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+englishLeagues2:
+                dc.l englishLeagues     ; "."
+                dc.b $00,$00,$00,$02,$00,$00,$00,$00
+                dc.l englishLeagues     ; "."
+                dc.b $00,$00,$00,$02,$00,$00,$00,$03
+                dc.l englishLeagues     ; "."
+                dc.b $00,$00,$00,$02,$00,$00,$00,$01
+                dc.l englishLeagues     ; "."
+                dc.b $00,$00,$00,$02,$00,$00,$00,$02
+                dc.l div3Playoffs
+                dc.l englishLeagues3
+                dc.b $00,$08,$00,$0B,$00,$09,$00,$0A,$FF,$FF,$FF,$FF,$00,$00,$00,$00
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+englishLeagues3:
+                dc.l englishLeagues     ; "."
+                dc.b $00,$00,$00,$03,$00,$00,$00,$00
+                dc.l englishLeagues     ; "."
+                dc.b $00,$00,$00,$03,$00,$00,$00,$03
+                dc.l englishLeagues     ; "."
+                dc.b $00,$00,$00,$03,$00,$00,$00,$01
+                dc.l englishLeagues     ; "."
+                dc.b $00,$00,$00,$03,$00,$00,$00,$02
+div1Playoffs:
+                dc.b $2F,$01,$08,$80,$84,$0B,$00,$11,$01,$00,$04,$01,$33,$01,$94,$14
+                dc.l aDiv1Playoffs      ; "DIV 1 PLAYOFFS"
+                dc.l aPlayoffs          ; "PLAYOFFS"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+div2Playoffs:
+                dc.w $3001,$0880,$840B,$0011,$0100,$0401,$3301,$9414
+                dc.l aDiv2Playoffs      ; "DIV 2 PLAYOFFS"
+                dc.l aPlayoffs          ; "PLAYOFFS"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+div3Playoffs:
+                dc.b $31,$01,$08,$80,$84,$0B,$00,$11,$01,$00,$04,$01,$33,$01,$94,$14
+                dc.l aDiv3Playoffs      ; "DIV 3 PLAYOFFS"
+                dc.l aPlayoffs          ; "PLAYOFFS"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[20]
 estonianLeague:
                 dc.b $32,$00,$0A,$38,$28,$00,$00,$00,$00,$01,$02,$03,$35,$0C,$00,$00
@@ -108608,13 +108412,19 @@ finnishLeague:
 ; unsigned __int8[42]
 frenchLeague:
                 dc.b $35,$00,$0D,$38,$28,$15,$00,$00,$00,$02,$02,$03,$35,$14,$00,$00
-                dc.b $03,$00,$00,$16,$03,$00,$00,$00,$00,$00,$00,$14,$EE,$32,$00,$14
-                dc.b $EE,$44,$00,$14,$EE,$4D,$00,$14,$EE,$5F
+                dc.b $03,$00,$00,$16,$03,$00,$00,$00,$00,$00
+                dc.l aPremiereDivisi    ; "PREMIERE DIVISION"
+                dc.l aPremiere          ; "PREMIERE"
+                dc.l aDeuxiemeDivisi    ; "DEUXIEME DIVISION"
+                dc.l aDeuxieme          ; "DEUXIEME"
 ; unsigned __int8[42]
 germanLeague:
                 dc.b $36,$00,$0E,$38,$28,$15,$00,$00,$00,$02,$02,$03,$35,$12,$00,$00
-                dc.b $03,$00,$00,$12,$03,$00,$00,$00,$00,$00,$00,$14,$EE,$7E,$00,$14
-                dc.b $EE,$7E,$00,$14,$EE,$86,$00,$14,$EE,$86
+                dc.b $03,$00,$00,$12,$03,$00,$00,$00,$00,$00
+                dc.l a1Liga             ; "1. LIGA"
+                dc.l a1Liga             ; "1. LIGA"
+                dc.l a2Liga             ; "2. LIGA"
+                dc.l a2Liga             ; "2. LIGA"
 ; unsigned __int8[20]
 greekLeague:
                 dc.b $37,$00,$0F,$40,$28,$00,$00,$00,$00,$01,$02,$03,$35,$12,$00,$00
@@ -108622,14 +108432,25 @@ greekLeague:
 ; unsigned __int8[138]
 dutchLeague:
                 dc.b $38,$00,$19,$38,$20,$00,$00,$00,$00,$02,$02,$03,$35,$12,$00,$00
-                dc.b $01,$02,$08,$12,$01,$02,$00,$00,$02,$00,$00,$14,$FE,$C0,$00,$14
-                dc.b $FE,$90,$00,$00,$00,$03,$00,$01,$00,$02,$00,$FF,$00,$FF,$00,$FF
-                dc.b $00,$FF,$01,$00,$01,$00,$01,$00,$01,$00,$00,$14,$FE,$56,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$14,$FE,$56,$00,$00,$00,$01,$00,$00
-                dc.b $00,$01,$00,$14,$FE,$56,$00,$00,$00,$00,$00,$00,$00,$01,$00,$14
-                dc.b $FE,$56,$00,$00,$00,$01,$00,$00,$00,$00,$39,$01,$19,$80,$80,$0B
-                dc.b $00,$11,$01,$01,$04,$01,$35,$01,$94,$94,$00,$15,$64,$E5,$00,$15
-                dc.b $64,$E5,$00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $01,$02,$08,$12,$01,$02,$00,$00,$02,$00
+                dc.l dutchPlayOffs
+                dc.l dutchLeagues1
+                dc.b $00,$00,$00,$03,$00,$01,$00,$02,$00,$FF,$00,$FF,$00,$FF,$00,$FF
+                dc.b $01,$00,$01,$00,$01,$00,$01,$00
+dutchLeagues1:
+                dc.l dutchLeague        ; "8"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+                dc.l dutchLeague        ; "8"
+                dc.b $00,$00,$00,$01,$00,$00,$00,$01
+                dc.l dutchLeague        ; "8"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$01
+                dc.l dutchLeague        ; "8"
+                dc.b $00,$00,$00,$01,$00,$00,$00,$00
+dutchPlayOffs:
+                dc.b $39,$01,$19,$80,$80,$0B,$00,$11,$01,$01,$04,$01,$35,$01,$94,$94
+                dc.l aPlayoffs          ; "PLAYOFFS"
+                dc.l aPlayoffs          ; "PLAYOFFS"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[20]
 hungarianLeague:
                 dc.b $3A,$00,$10,$38,$28,$00,$00,$00,$00,$01,$02,$03,$35,$10,$00,$00
@@ -108645,8 +108466,11 @@ israeliLeague:
 ; unsigned __int8[42]
 italianLeague:
                 dc.b $3D,$00,$14,$40,$20,$15,$00,$00,$00,$02,$02,$03,$35,$12,$00,$00
-                dc.b $04,$00,$00,$14,$04,$00,$00,$00,$00,$00,$00,$14,$EE,$0F,$00,$14
-                dc.b $EE,$0F,$00,$14,$EE,$17,$00,$14,$EE,$17
+                dc.b $04,$00,$00,$14,$04,$00,$00,$00,$00,$00
+                dc.l aSerieA            ; "SERIE A"
+                dc.l aSerieA            ; "SERIE A"
+                dc.l aSerieB            ; "SERIE B"
+                dc.l aSerieB            ; "SERIE B"
 ; unsigned __int8[20]
 latvianLeague:
                 dc.b $3E,$00,$15,$20,$40,$00,$00,$00,$00,$01,$02,$03,$35,$0A,$00,$00
@@ -108699,11 +108523,20 @@ sanMarinoLeague:
 scottishLeague:
                 dc.b $4A,$00,$21,$38,$20,$00,$00,$00,$00,$04,$04,$03,$33,$0A,$00,$00
                 dc.b $01,$01,$14,$0A,$01,$01,$02,$00,$0E,$0A,$02,$00,$02,$00,$00,$0A
-                dc.b $02,$00,$00,$00,$00,$00,$00,$15,$00,$84,$00,$15,$00,$6C,$00,$00
-                dc.b $00,$01,$00,$FF,$01,$00,$00,$15,$00,$36,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$15,$00,$36,$00,$00,$00,$01,$00,$00,$00,$00,$4B,$01
-                dc.b $21,$80,$80,$0B,$00,$11,$01,$00,$02,$01,$33,$01,$14,$00,$00,$15
-                dc.b $64,$E5,$00,$15,$64,$E5,$00,$00,$00,$00
+                dc.b $02,$00,$00,$00,$00,$00
+                dc.l scottishPlayoffs
+                dc.l scottishLeague1
+                dc.b $00,$00,$00,$01,$00,$FF,$01,$00
+scottishLeague1:
+                dc.l scottishLeague     ; "J"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+                dc.l scottishLeague     ; "J"
+                dc.b $00,$00,$00,$01,$00,$00,$00,$00
+scottishPlayoffs:
+                dc.b $4B,$01,$21,$80,$80,$0B,$00,$11,$01,$00,$02,$01,$33,$01,$14,$00
+                dc.l aPlayoffs          ; "PLAYOFFS"
+                dc.l aPlayoffs          ; "PLAYOFFS"
+                dc.b $00,$00,$00,$00
 ; unsigned __int8[20]
 slovakianLeague:
                 dc.b $4C,$00,$4E,$38,$28,$00,$00,$00,$00,$01,$02,$02,$35,$0C,$00,$00
@@ -108715,15 +108548,29 @@ slovenianLeague:
 ; unsigned __int8[154]
 spanishLeague:
                 dc.b $4E,$00,$23,$40,$28,$15,$00,$00,$00,$02,$02,$03,$35,$16,$00,$00
-                dc.b $02,$02,$18,$14,$02,$02,$00,$00,$12,$00,$00,$14,$EE,$A1,$00,$14
-                dc.b $EE,$B2,$00,$14,$EE,$BA,$00,$14,$EE,$CB,$00,$15,$01,$42,$00,$15
-                dc.b $01,$12,$00,$00,$00,$03,$00,$01,$00,$02,$00,$FF,$00,$FF,$00,$FF
-                dc.b $00,$FF,$01,$00,$01,$00,$01,$00,$01,$00,$00,$15,$00,$C8,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$15,$00,$C8,$00,$00,$00,$01,$00,$00
-                dc.b $00,$01,$00,$15,$00,$C8,$00,$00,$00,$00,$00,$00,$00,$01,$00,$15
-                dc.b $00,$C8,$00,$00,$00,$01,$00,$00,$00,$00,$4F,$01,$23,$88,$88,$0B
-                dc.b $00,$11,$01,$01,$04,$01,$35,$01,$94,$94,$00,$15,$64,$E5,$00,$15
-                dc.b $64,$E5,$00,$00,$00,$00,$00,$00,$00,$00
+                dc.b $02,$02,$18,$14,$02,$02,$00,$00,$12,$00
+                dc.l aPrimeraDivisio    ; "PRIMERA DIVISION"
+                dc.l aPrimera           ; "PRIMERA"
+                dc.l aSegundaDivisio    ; "SEGUNDA DIVISION"
+                dc.l aSegunda           ; "SEGUNDA"
+                dc.l spanishPlayoffs
+                dc.l spanishLeague1
+                dc.b $00,$00,$00,$03,$00,$01,$00,$02,$00,$FF,$00,$FF,$00,$FF,$00,$FF
+                dc.b $01,$00,$01,$00,$01,$00,$01,$00
+spanishLeague1:
+                dc.l spanishLeague      ; "N"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+                dc.l spanishLeague      ; "N"
+                dc.b $00,$00,$00,$01,$00,$00,$00,$01
+                dc.l spanishLeague      ; "N"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$01
+                dc.l spanishLeague      ; "N"
+                dc.b $00,$00,$00,$01,$00,$00,$00,$00
+spanishPlayoffs:
+                dc.b $4F,$01,$23,$88,$88,$0B,$00,$11,$01,$01,$04,$01,$35,$01,$94,$94
+                dc.l aPlayoffs          ; "PLAYOFFS"
+                dc.l aPlayoffs          ; "PLAYOFFS"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00
 ; unsigned __int8[20]
 swedishLeague:
                 dc.b $50,$00,$24,$18,$48,$00,$00,$00,$00,$01,$02,$03,$35,$0E,$00,$00
@@ -108760,9 +108607,15 @@ argentinianLeague:
 australianLeague:
                 dc.b $58,$00,$2C,$10,$50,$21,$00,$00,$00,$04,$02,$03,$35,$0C,$00,$00
                 dc.b $00,$00,$00,$0C,$00,$00,$00,$00,$00,$0E,$00,$00,$00,$00,$00,$0C
-                dc.b $00,$00,$00,$00,$00,$00,$00,$14,$EF,$67,$00,$14,$EF,$67,$00,$14
-                dc.b $EF,$74,$00,$14,$EF,$83,$00,$14,$EF,$92,$00,$14,$EF,$9F,$00,$14
-                dc.b $EF,$A3,$00,$14,$EF,$B7
+                dc.b $00,$00,$00,$00,$00,$00
+                dc.l a1stDivision       ; "1ST DIVISION"
+                dc.l a1stDivision       ; "1ST DIVISION"
+                dc.l aSouthDivision     ; "SOUTH DIVISION"
+                dc.l aSouthDivision_0   ; "SOUTH DIVISION"
+                dc.l aNswDivision       ; "NSW DIVISION"
+                dc.l aNsw               ; "NSW"
+                dc.l aQueenslandDivi    ; "QUEENSLAND DIVISION"
+                dc.l aQueensland        ; "QUEENSLAND"
 ; unsigned __int8[20]
 bolivianLeague:
                 dc.b $59,$00,$2D,$20,$58,$00,$00,$00,$00,$01,$02,$02,$35,$0C,$00,$00
@@ -108795,8 +108648,11 @@ indianLeague:
 ; unsigned __int8[42]
 japaneseLeague:
                 dc.b $60,$00,$37,$10,$50,$15,$00,$00,$00,$02,$02,$03,$35,$0E,$00,$00
-                dc.b $00,$00,$00,$0E,$00,$00,$00,$00,$00,$00,$00,$14,$EE,$DD,$00,$14
-                dc.b $EE,$E7,$00,$14,$EE,$F1,$00,$14,$EE,$F8
+                dc.b $00,$00,$00,$0E,$00,$00,$00,$00,$00,$00
+                dc.l aJLeague           ; "J. LEAGUE"
+                dc.l aJLeague_0         ; "J. LEAGUE"
+                dc.l aLeague_2          ; "LEAGUE"
+                dc.l aLeague_3          ; "LEAGUE"
 ; unsigned __int8[26]
 mexicanLeague:
                 dc.b $61,$00,$3C,$38,$20,$00,$00,$00,$00,$02,$02,$03,$35,$14,$00,$00
@@ -108805,8 +108661,12 @@ mexicanLeague:
 newZealandLeague:
                 dc.b $62,$00,$3E,$10,$48,$1B,$00,$00,$00,$03,$02,$03,$35,$0A,$00,$00
                 dc.b $00,$00,$00,$0A,$00,$00,$00,$00,$00,$0A,$00,$00,$00,$00,$00,$00
-                dc.b $00,$14,$EF,$1E,$00,$14,$EF,$2E,$00,$14,$EF,$37,$00,$14,$EF,$46
-                dc.b $00,$14,$EF,$4E,$00,$14,$EF,$5E
+                dc.l aNorthernRegion    ; "NORTHERN REGION"
+                dc.l aNorthern          ; "NORTHERN"
+                dc.l aCentralRegion     ; "CENTRAL REGION"
+                dc.l aCentral           ; "CENTRAL"
+                dc.l aSouthernRegion    ; "SOUTHERN REGION"
+                dc.l aSouthern          ; "SOUTHERN"
 ; unsigned __int8[20]
 paraguayanLeague:
                 dc.b $63,$00,$40,$40,$20,$00,$00,$00,$00,$01,$02,$03,$35,$0C,$00,$00
@@ -108830,11 +108690,20 @@ taiwaneseLeague:
 ; unsigned __int8[94]
 uruguayanLeague:
                 dc.b $68,$00,$47,$18,$58,$00,$00,$00,$00,$02,$02,$03,$35,$0C,$00,$00
-                dc.b $01,$01,$08,$0E,$01,$01,$00,$00,$02,$00,$00,$15,$04,$0E,$00,$15
-                dc.b $03,$F6,$00,$00,$00,$01,$00,$FF,$01,$00,$00,$15,$03,$CC,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$15,$03,$CC,$00,$00,$00,$01,$00,$00
-                dc.b $00,$00,$69,$01,$47,$58,$58,$0B,$00,$11,$01,$00,$02,$01,$35,$01
-                dc.b $94,$00,$00,$15,$64,$E5,$00,$15,$64,$E5,$00,$00,$00,$00
+                dc.b $01,$01,$08,$0E,$01,$01,$00,$00,$02,$00
+                dc.l uruguayanPlayoffs
+                dc.l off_1503F6
+                dc.b $00,$00,$00,$01,$00,$FF,$01,$00
+off_1503F6:
+                dc.l uruguayanLeague    ; "h"
+                dc.b $00,$00,$00,$00,$00,$00,$00,$00
+                dc.l uruguayanLeague    ; "h"
+                dc.b $00,$00,$00,$01,$00,$00,$00,$00
+uruguayanPlayoffs:
+                dc.b $69,$01,$47,$58,$58,$0B,$00,$11,$01,$00,$02,$01,$35,$01,$94,$00
+                dc.l aPlayoffs          ; "PLAYOFFS"
+                dc.l aPlayoffs          ; "PLAYOFFS"
+                dc.b $00,$00,$00,$00
 ; unsigned __int8[20]
 americanLeague:
                 dc.b $6A,$00,$49,$18,$48,$00,$00,$00,$00,$01,$02,$03,$35,$0A,$00,$00
@@ -108886,19 +108755,27 @@ danishCup:
 ; unsigned __int8[28]
 englishCup:
                 dc.b $76,$01,$08,$60,$80,$0F,$00,$00,$00,$00,$40,$00,$33,$03,$68,$68
-                dc.b $68,$68,$28,$28,$00,$14,$ED,$A6,$00,$14,$ED,$AA
+                dc.b $68,$68,$28,$28
+                dc.l aCup_4             ; "CUP"
+                dc.l aCup_5             ; "CUP"
 ; unsigned __int8[28]
 englishLeagueCup:
                 dc.b $77,$01,$08,$40,$10,$0F,$00,$00,$00,$00,$40,$02,$33,$02,$94,$68
-                dc.b $68,$68,$94,$28,$00,$14,$ED,$AE,$00,$14,$ED,$B9
+                dc.b $68,$68,$94,$28
+                dc.l aLeagueCup         ; "LEAGUE CUP"
+                dc.l aLeagueCup_0       ; "LEAGUE CUP"
 ; unsigned __int8[28]
 englishCup_1:
                 dc.b $78,$01,$08,$60,$80,$0F,$00,$00,$00,$00,$20,$00,$33,$04,$68,$68
-                dc.b $68,$28,$28,$00,$00,$14,$ED,$A6,$00,$14,$ED,$AA
+                dc.b $68,$28,$28,$00
+                dc.l aCup_4             ; "CUP"
+                dc.l aCup_5             ; "CUP"
 ; unsigned __int8[28]
 englishLeagueCup_1:
                 dc.b $79,$01,$08,$40,$10,$0F,$00,$00,$00,$00,$20,$02,$33,$03,$68,$68
-                dc.b $68,$94,$28,$00,$00,$14,$ED,$AE,$00,$14,$ED,$B9
+                dc.b $68,$94,$28,$00
+                dc.l aLeagueCup         ; "LEAGUE CUP"
+                dc.l aLeagueCup_0       ; "LEAGUE CUP"
 ; unsigned __int8[18]
 estonianCup:
                 dc.b $7A,$01,$0A,$80,$88,$00,$00,$00,$00,$00,$08,$01,$35,$01,$54,$94
@@ -108914,11 +108791,15 @@ finnishCup:
 ; unsigned __int8[28]
 frenchCup:
                 dc.b $7D,$01,$0D,$68,$88,$0F,$00,$00,$00,$00,$20,$00,$35,$01,$54,$54
-                dc.b $54,$54,$14,$00,$00,$14,$EE,$68,$00,$14,$EE,$78
+                dc.b $54,$54,$14,$00
+                dc.l aCoupeDeFrance     ; "COUPE DE FRANCE"
+                dc.l aCoupe             ; "COUPE"
 ; unsigned __int8[28]
 germanCup:
                 dc.b $7E,$01,$0E,$40,$28,$0F,$00,$00,$00,$00,$20,$00,$35,$03,$54,$54
-                dc.b $54,$54,$14,$00,$00,$14,$EE,$8E,$00,$14,$EE,$9B
+                dc.b $54,$54,$14,$00
+                dc.l aDFBPokal          ; "D.F.B. POKAL"
+                dc.l aPokal             ; "POKAL"
 ; unsigned __int8[18]
 greekCup:
                 dc.b $7F,$01,$0F,$00,$20,$00,$00,$00,$00,$00,$10,$01,$35,$02,$94,$94
@@ -108942,7 +108823,9 @@ israeliCup:
 ; unsigned __int8[28]
 italianCup:
                 dc.b $84,$01,$14,$38,$20,$0F,$00,$00,$00,$00,$20,$01,$35,$02,$94,$94
-                dc.b $94,$94,$14,$00,$00,$14,$EE,$1F,$00,$14,$EE,$2C
+                dc.b $94,$94,$14,$00
+                dc.l aCoppaItalia       ; "COPPA ITALIA"
+                dc.l aCoppa             ; "COPPA"
 ; unsigned __int8[18]
 latvianCup:
                 dc.b $85,$01,$15,$38,$40,$00,$00,$00,$00,$00,$08,$01,$35,$01,$94,$94
@@ -108994,11 +108877,15 @@ sanMarinoCup:
 ; unsigned __int8[28]
 scottishCup:
                 dc.b $91,$01,$21,$60,$80,$0F,$00,$00,$00,$00,$20,$00,$33,$03,$68,$68
-                dc.b $68,$68,$28,$00,$00,$14,$ED,$F1,$00,$14,$ED,$F5
+                dc.b $68,$68,$28,$00
+                dc.l aCup_6             ; "CUP"
+                dc.l aCup_7             ; "CUP"
 ; unsigned __int8[28]
 scottishLeagueCup:
                 dc.b $92,$01,$21,$38,$48,$0F,$00,$00,$00,$00,$20,$00,$33,$02,$68,$68
-                dc.b $68,$28,$28,$00,$00,$14,$ED,$F9,$00,$14,$EE,$04
+                dc.b $68,$28,$28,$00
+                dc.l aLeagueCup_1       ; "LEAGUE CUP"
+                dc.l aLeagueCup_2       ; "LEAGUE CUP"
 ; unsigned __int8[18]
 slovakianCup:
                 dc.b $93,$01,$4E,$80,$88,$00,$00,$00,$00,$00,$08,$01,$35,$01,$54,$94
@@ -109010,7 +108897,9 @@ slovenianCup:
 ; unsigned __int8[28]
 spanishCup:
                 dc.b $95,$01,$23,$58,$28,$0F,$00,$00,$00,$00,$20,$01,$35,$05,$94,$94
-                dc.b $94,$94,$14,$00,$00,$14,$EE,$D3,$00,$14,$EE,$D8
+                dc.b $94,$94,$14,$00
+                dc.l aCopa              ; "COPA"
+                dc.l aCopa_0            ; "COPA"
 ; unsigned __int8[18]
 swedishCup:
                 dc.b $96,$01,$24,$20,$28,$00,$00,$00,$00,$00,$10,$00,$35,$05,$54,$54
@@ -109046,11 +108935,15 @@ australianCup:
 ; unsigned __int8[26]
 japaneseCup:
                 dc.b $9E,$01,$37,$30,$38,$0D,$00,$00,$00,$00,$08,$01,$35,$02,$54,$54
-                dc.b $14,$00,$00,$14,$EE,$FF,$00,$14,$EF,$03
+                dc.b $14,$00
+                dc.l aCup_8             ; "CUP"
+                dc.l aCup_9             ; "CUP"
 ; unsigned __int8[26]
 japaneseEmperorsCup:
                 dc.b $9F,$01,$37,$58,$00,$0D,$00,$00,$00,$00,$10,$01,$35,$02,$54,$54
-                dc.b $54,$14,$00,$14,$EF,$07,$00,$14,$EF,$15
+                dc.b $54,$14
+                dc.l aEmperorSCup       ; "EMPEROR'S CUP"
+                dc.l aEmpCup            ; "EMP. CUP"
 ; unsigned __int8[18]
 southAfricanCup:
                 dc.b $A0,$01,$45,$38,$50,$00,$00,$00,$00,$00,$10,$01,$35,$02,$54,$54
@@ -109383,7 +109276,7 @@ worldTable:
 ; __int8 *[6]
 europeTable:
                 ; __int8 *[6]
-                dc.l BYTE_FC            ; element[0]
+                dc.l $FC                ; element[0]
                 dc.l europeanChampionships ; element[1]
                 dc.l euroCup            ; element[2]
                 dc.l cupWinnersCup      ; element[3]
@@ -109894,27 +109787,62 @@ byte_1511FA:
                 dc.b $20,$21,$4E,$22,$23,$24,$25,$26,$27,$28,$29,$2A,$4F,$45,$2B,$2D
                 dc.b $2E,$30,$31,$32,$40,$41,$42,$47,$4D,$33,$3C,$49,$4B,$37,$43,$2C
                 dc.b $3E,$FF
-byte_15123C:
-                dc.b $00,$15,$12,$60,$00,$04,$00,$04,$00,$15,$12,$64,$00,$06,$00,$05
-                dc.b $00,$15,$12,$6A,$00,$0B,$00,$05,$00,$15,$12,$75,$00,$16,$00,$02
-                dc.b $FF,$FF,$FF,$FF,$0E,$14,$23,$08,$02,$0D,$1D,$1E,$1F,$29,$01,$03
-                dc.b $06,$07,$0F,$19,$1C,$21,$24,$25,$26,$10,$0C,$00,$11,$05,$1B,$1A
-                dc.b $18,$12,$17,$04,$0A,$0B,$13,$15,$16,$20,$22,$27,$28,$4C,$4E,$00
-byte_15128C:
-                dc.b $00,$15,$12,$B0,$00,$04,$00,$04,$00,$15,$12,$B4,$00,$06,$00,$06
-                dc.b $00,$15,$12,$BA,$00,$0B,$00,$0B,$00,$15,$12,$C5,$00,$16,$00,$0B
-                dc.b $FF,$FF,$FF,$FF,$0E,$14,$23,$08,$02,$0D,$1D,$1E,$1F,$29,$01,$03
-                dc.b $06,$07,$0F,$19,$1C,$21,$24,$25,$26,$10,$0C,$00,$11,$05,$1B,$1A
-                dc.b $18,$12,$17,$04,$0A,$0B,$13,$15,$16,$20,$22,$27,$28,$4C,$4E,$00
-byte_1512DC:
-                dc.b $00,$15,$13,$00,$00,$0F,$00,$0A,$00,$15,$13,$0F,$00,$12,$00,$0A
-                dc.b $00,$15,$13,$21,$00,$16,$00,$08,$00,$15,$13,$37,$00,$16,$00,$04
-                dc.b $FF,$FF,$FF,$FF,$0E,$0E,$0E,$0E,$14,$14,$14,$14,$23,$23,$23,$23
-                dc.b $08,$08,$08,$02,$02,$02,$0D,$0D,$0D,$1D,$1D,$1D,$1E,$1E,$1E,$1F
-                dc.b $1F,$1F,$29,$29,$29,$01,$01,$03,$03,$06,$06,$07,$07,$0F,$0F,$19
-                dc.b $19,$1C,$1C,$21,$21,$24,$24,$25,$25,$26,$26,$10,$0C,$00,$11,$05
-                dc.b $1B,$1A,$18,$12,$17,$04,$0A,$0B,$13,$15,$16,$20,$22,$27,$28,$4C
-                dc.b $4E,$FF
+off_15123C:
+                dc.l byte_151260
+                dc.b $00,$04,$00,$04
+                dc.l byte_151264
+                dc.b $00,$06,$00,$05
+                dc.l byte_15126A
+                dc.b $00,$0B,$00,$05
+                dc.l byte_151275
+                dc.b $00,$16,$00,$02,$FF,$FF,$FF,$FF
+byte_151260:
+                dc.b $0E,$14,$23,$08
+byte_151264:
+                dc.b $02,$0D,$1D,$1E,$1F,$29
+byte_15126A:
+                dc.b $01,$03,$06,$07,$0F,$19,$1C,$21,$24,$25,$26
+byte_151275:
+                dc.b $10,$0C,$00,$11,$05,$1B,$1A,$18,$12,$17,$04,$0A,$0B,$13,$15,$16
+                dc.b $20,$22,$27,$28,$4C,$4E,$00
+off_15128C:
+                dc.l byte_1512B0
+                dc.b $00,$04,$00,$04
+                dc.l byte_1512B4
+                dc.b $00,$06,$00,$06
+                dc.l byte_1512BA
+                dc.b $00,$0B,$00,$0B
+                dc.l byte_1512C5
+                dc.b $00,$16,$00,$0B,$FF,$FF,$FF,$FF
+byte_1512B0:
+                dc.b $0E,$14,$23,$08
+byte_1512B4:
+                dc.b $02,$0D,$1D,$1E,$1F,$29
+byte_1512BA:
+                dc.b $01,$03,$06,$07,$0F,$19,$1C,$21,$24,$25,$26
+byte_1512C5:
+                dc.b $10,$0C,$00,$11,$05,$1B,$1A,$18,$12,$17,$04,$0A,$0B,$13,$15,$16
+                dc.b $20,$22,$27,$28,$4C,$4E,$00
+off_1512DC:
+                dc.l byte_151300
+                dc.b $00,$0F,$00,$0A
+                dc.l byte_15130F
+                dc.b $00,$12,$00,$0A
+                dc.l byte_151321
+                dc.b $00,$16,$00,$08
+                dc.l byte_151337
+                dc.b $00,$16,$00,$04,$FF,$FF,$FF,$FF
+byte_151300:
+                dc.b $0E,$0E,$0E,$0E,$14,$14,$14,$14,$23,$23,$23,$23,$08,$08,$08
+byte_15130F:
+                dc.b $02,$02,$02,$0D,$0D,$0D,$1D,$1D,$1D,$1E,$1E,$1E,$1F,$1F,$1F,$29
+                dc.b $29,$29
+byte_151321:
+                dc.b $01,$01,$03,$03,$06,$06,$07,$07,$0F,$0F,$19,$19,$1C,$1C,$21,$21
+                dc.b $24,$24,$25,$25,$26,$26
+byte_151337:
+                dc.b $10,$0C,$00,$11,$05,$1B,$1A,$18,$12,$17,$04,$0A,$0B,$13,$15,$16
+                dc.b $20,$22,$27,$28,$4C,$4E,$FF
 
 ; ===== sub_15134E =====
 ; prototype: void __usercall sub_15134E()
@@ -110278,7 +110206,7 @@ loc_151790:
                 bne.s   loc_151790
                 rts
 loc_15179A:
-                ori.l   #kFixedOne_16p16,d0
+                ori.l   #(goalBase+$2292),d0
                 rts
 byte_1517A2:
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
@@ -110368,7 +110296,7 @@ loc_1518B6:
                 bne.s   loc_1518B6
                 rts
 loc_1518C0:
-                ori.l   #kFixedOne_16p16,d0
+                ori.l   #(goalBase+$2292),d0
                 rts
 byte_1518C8:
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
@@ -110389,9 +110317,9 @@ ShowInsertDisk2Dialog:
 locret_151910:
                 rts
 
-; ===== sub_151912 =====
-; prototype: unsigned __int16 __usercall sub_151912@<d0>(const char *title@<a0>)
-sub_151912:
+; ===== Asset_PromptInsertSaveDiskDf0 =====
+; prototype: unsigned __int16 __usercall Asset_PromptInsertSaveDiskDf0@<d0>(const char *title@<a0>)
+Asset_PromptInsertSaveDiskDf0:
                 lea     (aInsertGameSave).l,a1 ; "\x01INSERT GAME SAVE DISK IN DF0:"
                 lea     (aOk).l,a2      ; "OK"
                 lea     (aAbort).l,a3   ; "ABORT"
@@ -110400,17 +110328,17 @@ sub_151912:
                 jsr     DoContinueAbortMenu
                 movem.l (sp)+,a0
                 tst.w   d0
-                bne.s   locret_151946
-                move.w  #$10,d7
-                jsr     AssetSysDispatch
-                bne.s   sub_151912
+                bne.s   prompt_insert_return
+                move.w  #ASSET_OP_WAIT_FOR_SAVE_DISK,d7
+                jsr     AssetSys_Dispatch
+                bne.s   Asset_PromptInsertSaveDiskDf0
                 clr.w   d0
-locret_151946:
+prompt_insert_return:
                 rts
 
-; ===== sub_151948 =====
-; prototype: void __usercall sub_151948()
-sub_151948:
+; ===== SaveCompetitionFile =====
+; prototype: void __usercall SaveCompetitionFile()
+SaveCompetitionFile:
                 move.l  #j_start,(dword_16F4B0).l
                 move.l  (aCj0611143807).l,(dword_16F4A4).l ; "CJ0611143807" ...
                 move.l  (aCj0611143807+4).l,(dword_16F4A8).l ; "11143807" ...
@@ -110418,38 +110346,38 @@ sub_151948:
                 move.w  #$1200,(word_16F4A2).l
                 rts
 
-; ===== sub_15197A =====
-; prototype: void __usercall sub_15197A()
-sub_15197A:
+; ===== LoadCompetitionFile =====
+; prototype: void __usercall LoadCompetitionFile()
+LoadCompetitionFile:
                 cmpi.w  #$500,(word_16F4A2).l
-                beq.s   loc_1519D0
+                beq.s   non_aga_error
                 move.l  (dword_16F4A4).l,d0
                 cmp.l   (aCj0611143807).l,d0 ; "CJ0611143807"
-                bne.s   loc_1519E2
+                bne.s   wrong_version_error
                 move.l  (dword_16F4A8).l,d0
                 cmp.l   (aCj0611143807+4).l,d0 ; "11143807"
-                bne.s   loc_1519E2
+                bne.s   wrong_version_error
                 move.l  (dword_16F4AC).l,d0
                 cmp.l   (aCj0611143807+8).l,d0 ; "3807"
-                bne.s   loc_1519E2
+                bne.s   wrong_version_error
                 cmpi.l  #j_start,(dword_16F4B0).l
-                bne.w   loc_1519F4
+                bne.w   diff_amiga_error
                 rts
                 lea     (aCompetitionFil).l,a0 ; "COMPETITION FILE EXPECTS AGA AMIGA"
                 jsr     ShowErrorMenu
                 move.w  #1,d0
                 rts
-loc_1519D0:
+non_aga_error:
                 lea     (aCompetitionFil_0).l,a0 ; "COMPETITION FILE EXPECTS NON-AGA AMIGA"
                 jsr     ShowErrorMenu
                 move.w  #1,d0
                 rts
-loc_1519E2:
+wrong_version_error:
                 lea     (aFileSavedByDif).l,a0 ; "FILE SAVED BY DIFFERENT S.W.O.S. VERSIO"...
                 jsr     ShowErrorMenu
                 move.w  #1,d0
                 rts
-loc_1519F4:
+diff_amiga_error:
                 lea     (aFileSavedOnDif).l,a0 ; "FILE SAVED ON DIFFERENT AMIGA MEMORY TY"...
                 jsr     ShowErrorMenu
                 move.w  #1,d0
@@ -110463,15 +110391,15 @@ LoadCareerFile:
                 movem.l (sp)+,a0
                 lea     (careerFileBuffer).l,a1
                 jsr     LoadFile
-                bne.s   loc_151A32
-                bsr.w   sub_15197A
-                bne.s   loc_151A38
+                bne.s   load_career_error
+                bsr.w   LoadCompetitionFile
+                bne.s   load_career_success
                 jsr     CycleMenuMusic
                 clr.w   d0
                 rts
-loc_151A32:
+load_career_error:
                 jsr     ShowFsErrorByCode
-loc_151A38:
+load_career_success:
                 jsr     RestoreOptions
                 jsr     InitUserTactics
                 move.w  #1,d0
@@ -110482,7 +110410,7 @@ loc_151A38:
 ; in:
 ;      A0 -> filename to save
 SaveCareerFile:
-                bsr.w   sub_151948
+                bsr.w   SaveCompetitionFile
                 move.l  #g_numSelectedTeams,d1
                 move.w  (g_numSelectedTeams).l,d0
                 mulu.w  #684,d0
@@ -110516,7 +110444,7 @@ LoadPresetFile:
                 lea     (competitionFileBuffer).l,a1
                 jsr     LoadFile
                 bne.s   loc_151AAE
-                bsr.w   sub_15197A
+                bsr.w   LoadCompetitionFile
                 bne.s   loc_151AB4
                 jsr     CycleMenuMusic
                 clr.w   d0
@@ -110534,7 +110462,7 @@ loc_151AB4:
 ; in:
 ;     A0 -> filename
 SavePresetCompetitionFile:
-                bsr.w   sub_151948
+                bsr.w   SaveCompetitionFile
                 move.l  #g_numSelectedTeams,d1
                 move.w  (numDiyTeams).l,d0
                 mulu.w  #684,d0
@@ -110566,7 +110494,7 @@ LoadDIYFile:
                 lea     (competitionFileBuffer).l,a1
                 jsr     LoadFile
                 bne.s   loc_151B26
-                bsr.w   sub_15197A
+                bsr.w   LoadCompetitionFile
                 bne.s   loc_151B2C
                 jsr     CycleMenuMusic
                 clr.w   d0
@@ -110582,7 +110510,7 @@ loc_151B2C:
 ; ===== SaveDIYFile =====
 ; prototype: unsigned __int16 __usercall SaveDIYFile@<d0>(const char *filename@<a0>)
 SaveDIYFile:
-                bsr.w   sub_151948
+                bsr.w   SaveCompetitionFile
                 move.l  #g_numSelectedTeams,d1
                 move.w  (numDiyTeams).l,d0
                 mulu.w  #684,d0
@@ -110600,10 +110528,10 @@ locret_151B70:
 ; ===== ReadTacticsFile =====
 ; prototype: unsigned __int16 __usercall ReadTacticsFile@<d0>(const char *filename@<a0>)
 ReadTacticsFile:
-                movea.l (g_frontbufferBase).l,a1
+                movea.l (frontbufferBasePtr).l,a1
                 jsr     LoadFile
                 bne.s   loc_151BA0
-                movea.l (g_frontbufferBase).l,a0
+                movea.l (frontbufferBasePtr).l,a0
                 lea     (editTacticsCurrentTactics).l,a1
                 move.w  #369,d1
 loc_151B90:
@@ -113204,9 +113132,9 @@ a23OnAgg_0:
 ; prototype: void __usercall InitSkinAndDefaultPointers()
 InitSkinAndDefaultPointers:
                 move.w  #1,(useIndividualPlayerSkinColor).l
-                move.l  #$DD6E,(goalBasePtr).l
-                move.l  #nextGoalPtrSaved,(nextGoalPtr).l
-                move.l  #g_spriteGraphicsPtrSaved,(g_spriteGraphicsPtr).l
+                move.l  #goalBase,(goalBasePtr).l
+                move.l  #nextGoal,(nextGoalPtr).l
+                move.l  #spriteGraphics,(spriteGraphicsPtr).l
                 rts
                 rts
 goalBasePtr:
@@ -113214,7 +113142,7 @@ goalBasePtr:
 nextGoalPtr:
                 dc.l 0                  ; pointer to next goal
 ; SpriteGraphics **
-g_spriteGraphicsPtr:
+spriteGraphicsPtr:
                 dc.l 0
 useIndividualPlayerSkinColor:
                 dc.w $0000              ; if this is zero player skin/color will not be individualized, instead they will all
@@ -113222,11 +113150,9 @@ useIndividualPlayerSkinColor:
                                         ; (always 1)
 
     SECTION bss,BSS
-    ORG $0015736A
-
 ; --- BSS_01 0015736A-00200000 ---
 
-BSS_01_padding_01:
+BSS_01_1573C8:
                 ds.b $5E
 g_loaderBankBitmap:
                 ds.b $4
@@ -113332,7 +113258,7 @@ sensisoftPlcSponsorship:
                 ds.b $4
 word_164A0E:
                 ds.b $2
-BSS_01_padding_02:
+BSS_01_164A14:
                 ds.b $4
 dword_164A14:
                 ds.b $4
@@ -113351,7 +113277,7 @@ additionalInvestments:
                                         ; Additional investments from the new chairman.
                                         ; 0  - no
                                         ; !0 - yes
-BSS_01_padding_03:
+BSS_01_164AC8:
                 ds.b $4
 word_164AC8:
                 ds.b $2
@@ -113461,7 +113387,7 @@ someTeamFlags:
                                         ; bit 0 must be clear for european championship
                                         ; bit 6 must be set for world cup qualifications
                                         ; bit 7 also (a guess)
-BSS_01_padding_04:
+BSS_01_164B28:
                 ds.b $1
 lastNationalityCall:
                 ds.b $2
@@ -113477,7 +113403,7 @@ word_164B30:
                 ds.b $2
 byte_164B32:
                 ds.b $1
-BSS_01_padding_05:
+BSS_01_164B34:
                 ds.b $1
 seasonReview:
                 ds.b $2
@@ -113488,7 +113414,7 @@ seasonReview:
                                         ;  0 - excellent season
 dword_164B36:
                 ds.b $4
-BSS_01_padding_06:
+BSS_01_164B4A:
                 ds.b $10
 word_164B4A:
                 ds.b $2
@@ -113528,7 +113454,7 @@ managerSurnameBuffer:
 plNationality:
                 ds.b $1
                                         ; player nationality when starting career
-BSS_01_padding_07:
+BSS_01_164B7C:
                 ds.b $1
 word_164B7C:
                 ds.b $2
@@ -113564,21 +113490,7 @@ homeMarketPlayers:
                                         ; byte - player ordinal
                                         ; byte - padding
 byte_164C34:
-                ds.b $1
-BSS_01_padding_08:
-                ds.b $2
-byte_164C37:
-                ds.b $1
-BSS_01_padding_09:
-                ds.b $1
-byte_164C39:
-                ds.b $1
-BSS_01_padding_10:
-                ds.b $7
-byte_164C41:
-                ds.b $1
-BSS_01_padding_11:
-                ds.b $38
+                ds.b $46
 word_164C7A:
                 ds.b $2
 numForeignMarketPlayers2:
@@ -113633,15 +113545,15 @@ word_164DB0:
                 ds.b $2
 byte_164DB2:
                 ds.b $1
-BSS_01_padding_12:
+BSS_01_164DC2:
                 ds.b $F
 byte_164DC2:
                 ds.b $1
-BSS_01_padding_13:
+BSS_01_164E12:
                 ds.b $4F
 byte_164E12:
                 ds.b $1
-BSS_01_padding_14:
+BSS_01_164F66:
                 ds.b $153
 currentMatchPlayers:
                 ds.b $20
@@ -113663,7 +113575,7 @@ someLeaguesTable:
 ; TeamFile
 currentTeam:
                 ds.b $2AC
-BSS_01_padding_15:
+BSS_01_1669BE:
                 ds.b $260
 playerPositions:
                 ds.b $20
@@ -113735,15 +113647,15 @@ byte_166B78:
                 ds.b $24
 dword_166B9C:
                 ds.b $4
-BSS_01_padding_16:
+BSS_01_166BA4:
                 ds.b $4
 byte_166BA4:
                 ds.b $1
-BSS_01_padding_17:
+BSS_01_166BAE:
                 ds.b $9
 word_166BAE:
                 ds.b $2
-BSS_01_padding_18:
+BSS_01_166BB2:
                 ds.b $2
 word_166BB2:
                 ds.b $2
@@ -113751,11 +113663,11 @@ word_166BB4:
                 ds.b $2
 word_166BB6:
                 ds.b $2
-BSS_01_padding_19:
+BSS_01_166BC0:
                 ds.b $8
 word_166BC0:
                 ds.b $2
-BSS_01_padding_20:
+BSS_01_1676C8:
                 ds.b $B06
 dword_1676C8:
                 ds.b $4
@@ -113763,15 +113675,15 @@ byte_1676CC:
                 ds.b $24
 dword_1676F0:
                 ds.b $4
-BSS_01_padding_21:
+BSS_01_1676F8:
                 ds.b $4
 byte_1676F8:
                 ds.b $1
-BSS_01_padding_22:
+BSS_01_167702:
                 ds.b $9
 word_167702:
                 ds.b $2
-BSS_01_padding_23:
+BSS_01_167706:
                 ds.b $2
 word_167706:
                 ds.b $2
@@ -113779,27 +113691,23 @@ word_167708:
                 ds.b $2
 word_16770A:
                 ds.b $2
-BSS_01_padding_24:
+BSS_01_167714:
                 ds.b $8
 word_167714:
                 ds.b $2
-BSS_01_padding_25:
+BSS_01_167B0C:
                 ds.b $3F6
 word_167B0C:
                 ds.b $2
-BSS_01_padding_26:
-                ds.b $30
-word_167B3E:
-                ds.b $2
-BSS_01_padding_27:
-                ds.b $A
+BSS_01_167B4A:
+                ds.b $3C
 word_167B4A:
                 ds.b $2
 word_167B4C:
                 ds.b $2
 word_167B4E:
                 ds.b $2
-BSS_01_padding_28:
+BSS_01_167F50:
                 ds.b $400
 dword_167F50:
                 ds.b $4
@@ -113807,15 +113715,15 @@ byte_167F54:
                 ds.b $24
 dword_167F78:
                 ds.b $4
-BSS_01_padding_29:
+BSS_01_167F80:
                 ds.b $4
 byte_167F80:
                 ds.b $1
-BSS_01_padding_30:
+BSS_01_167F8A:
                 ds.b $9
 word_167F8A:
                 ds.b $2
-BSS_01_padding_31:
+BSS_01_167F8E:
                 ds.b $2
 word_167F8E:
                 ds.b $2
@@ -113823,11 +113731,11 @@ word_167F90:
                 ds.b $2
 word_167F92:
                 ds.b $2
-BSS_01_padding_32:
+BSS_01_168AA4:
                 ds.b $B10
 byte_168AA4:
                 ds.b $1
-BSS_01_padding_33:
+BSS_01_168B24:
                 ds.b $7F
 euroCupCopy:
                 ds.b $4E
@@ -113909,13 +113817,13 @@ byte_169254:
                 ds.b $1
 byte_169255:
                 ds.b $1
-BSS_01_padding_34:
+BSS_01_1699A2:
                 ds.b $74C
 ; MarketPlayer[352]
 careerForeignMarketPlayers:
                 ds.b $39C0
                                         ; teamId
-BSS_01_padding_35:
+BSS_01_16E082:
                 ds.b $D20
 word_16E082:
                 ds.b $2
@@ -113929,15 +113837,15 @@ diyPresetNameOfCompetition:
                 ds.b $24
 dword_16E0AC:
                 ds.b $4
-BSS_01_padding_36:
+BSS_01_16E0B4:
                 ds.b $4
 byte_16E0B4:
                 ds.b $1
-BSS_01_padding_37:
+BSS_01_16E0B6:
                 ds.b $1
 numDiyTeams:
                 ds.b $2
-BSS_01_padding_38:
+BSS_01_16E0BE:
                 ds.b $6
 word_16E0BE:
                 ds.b $2
@@ -113949,7 +113857,7 @@ word_16E0C4:
                 ds.b $2
 word_16E0C6:
                 ds.b $2
-BSS_01_padding_39:
+BSS_01_16E0D8:
                 ds.b $10
 word_16E0D8:
                 ds.b $2
@@ -113959,25 +113867,25 @@ word_16E0DC:
                 ds.b $2
 word_16E0DE:
                 ds.b $2
-BSS_01_padding_40:
+BSS_01_16E0E4:
                 ds.b $4
 word_16E0E4:
                 ds.b $2
-BSS_01_padding_41:
+BSS_01_16E11E:
                 ds.b $38
 byte_16E11E:
                 ds.b $1
-BSS_01_padding_42:
+BSS_01_16E1B2:
                 ds.b $93
 byte_16E1B2:
                 ds.b $1
-BSS_01_padding_43:
+BSS_01_16E2D2:
                 ds.b $11F
 byte_16E2D2:
                 ds.b $1
-BSS_01_padding_44:
+BSS_01_16EBD8:
                 ds.b $905
-byte_16EBD8:
+viewRandomPhase:
                 ds.b $1
 seasonPlaying:
                 ds.b $1
@@ -114079,29 +113987,29 @@ byte_16F4BA:
                 ds.b $1
 byte_16F4BB:
                 ds.b $1
-BSS_01_padding_45:
+BSS_01_16F4CF:
                 ds.b $13
 byte_16F4CF:
                 ds.b $1
-BSS_01_padding_46:
+BSS_01_16F4D4:
                 ds.b $4
 byte_16F4D4:
                 ds.b $1
-BSS_01_padding_47:
+BSS_01_16F4F2:
                 ds.b $1D
 byte_16F4F2:
                 ds.b $1
-BSS_01_padding_48:
+BSS_01_16FA0E:
                 ds.b $51B
 editTeamsBuffer:
                 ds.b $AB02
 editTeamsSaveVarsArea:
                 ds.b $520A
-BSS_01_padding_49:
+BSS_01_17FFE6:
                 ds.b $8CC
 s_gameLength:
                 ds.b $2
-BSS_01_padding_50:
+BSS_01_17FFF2:
                 ds.b $A
 g_irqCookieObfuscated:
                 ds.b $4

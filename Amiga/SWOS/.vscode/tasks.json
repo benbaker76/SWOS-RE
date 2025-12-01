@@ -18,6 +18,8 @@
           "-nosym",
           "-devpac",
           "-Fhunk",
+          "-maxerrors=1000",
+          "-L", "build/SWOS2.lst",
           //"-Fbin"
           //"-linedebug"
           // Do not pass -o; the extension sets it to build/<name>.o
@@ -39,23 +41,24 @@
         "entrypoint": "SWOS2.s",
 
         "args": [
-          //"-bamigahunk",             // output Amiga HUNK executable
-          "-brawbin1",                 // output a flat raw binary
+          "-bamigahunk",             // output Amiga HUNK executable
+          //"-brawbin1",                 // output a flat raw binary
           "-Bstatic",                  // no shared linking
-          "-e", "start",
-          "-Mmap build/link.map",      // write a link map (handy for sanity checks)
+          //"-e", "start",
+          //"-Mmap build/link.map",      // write a link map (handy for sanity checks)
           // set load addresses to match your image (code starts at 0x100000)
           "-T", "${workspaceFolder}/swos2.ld",
 
           // keep symbol names if you want to inspect with a map; strip later if needed
-          "-s"  // (optional) strip
-          
+          //"-s",  // (optional) strip
+          //-r"   // generate relocation info
+
           // If you later add separate .data/.bss segments with names,
           // you can also guide them (e.g., -Tdata=..., -Tbss=...)
         ]
       },
 
-      "problemMatcher": []
+			"problemMatcher": [],
     }
   ]
 }

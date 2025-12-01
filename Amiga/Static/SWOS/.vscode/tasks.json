@@ -1,0 +1,62 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "amigaassembly",
+      "label": "amigaassembly: build",
+      "group": { "kind": "build", "isDefault": true },
+
+      "vasm": {
+        "enabled": true,
+        "command": "${config:amiga-assembly.binDir}/vasmm68k_mot",
+        "args": [
+          "-m68000",
+          //"-no-opt",
+          //"-Fhunkexe",
+          //"-kick1hunks",
+          //"-pic",
+          "-nosym",
+          "-devpac",
+          "-Fhunk",
+          "-L", "build/SWOS2.lst",
+          //"-Fbin"
+          //"-linedebug"
+          // Do not pass -o; the extension sets it to build/<name>.o
+        ]
+      },
+
+      "vlink": {
+        "enabled": true,
+        "command": "${config:amiga-assembly.binDir}/vlink",
+
+        // which objects to link (the extension will feed the vasm output)
+        "includes": "*.{s,S,asm,ASM}",
+        "excludes": "",
+
+        // where to write the final flat binary
+        "exefilename": "../uae/dh0/data/SWOS2",
+
+        // (optional) just for the extension’s UI; not required for rawbin
+        "entrypoint": "SWOS2.s",
+
+        "args": [
+          //"-bamigahunk",             // output Amiga HUNK executable
+          "-brawbin1",                 // output a flat raw binary
+          "-Bstatic",                  // no shared linking
+          "-e", "start",
+          "-Mmap build/link.map",      // write a link map (handy for sanity checks)
+          // set load addresses to match your image (code starts at 0x100000)
+          "-T", "${workspaceFolder}/swos2.ld",
+
+          // keep symbol names if you want to inspect with a map; strip later if needed
+          "-s"  // (optional) strip
+          
+          // If you later add separate .data/.bss segments with names,
+          // you can also guide them (e.g., -Tdata=..., -Tbss=...)
+        ]
+      },
+
+      "problemMatcher": []
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 Sections:
-00: "CODE" (0-D68)
+00: "CODE" (0-CA0)
 
 
 Source: "SWOSHD.s"
@@ -4749,135 +4749,126 @@ Source: "SWOSHD.s"
                             	    17: 	OUTPUT	wdh1:SWOS2/SWOS.Slave
                             	    18: 	;OPT	O+ OG+			;enable optimizing
                             	    19:     ENDC
-                            	    20:   
-                            	    21: ; chiponly triggers an access fault when trying to play
-                            	    22: ; let's hope we're not going to need that
-                            	    23: ;CHIP_ONLY
+                            	    20: 
+                            	    21: BUFFER_SIZE = $800
+                            	    22: 
+                            	    23: PROGRAM_LOCATION_OFFSET = $80000
                             	    24: 
-                            	    25: BUFFER_SIZE = $800
-                            	    26: 
-                            	    27: ; probably more than enough!
-                            	    28: TEAM_BUFFER_SIZE = $40000
-                            	    29: 
-                            	    30: PROGRAM_LOCATION_OFFSET = $80000
-                            	    31: 
-                            	    32:     IFD CHIP_ONLY
-                            	    33: CHIPMEMSIZE = $180000+PROGRAM_LOCATION_OFFSET
-                            	    34: FASTMEMSIZE = TEAM_BUFFER_SIZE
-                            	    35: PROGRAM_FASTMEMSIZE = 0
-                            	    36:     ELSE
-                            	    37: CHIPMEMSIZE = $100000
-                            	    38: PROGRAM_FASTMEMSIZE = $80000+PROGRAM_LOCATION_OFFSET
-                            	    39: FASTMEMSIZE = PROGRAM_FASTMEMSIZE+TEAM_BUFFER_SIZE
-                            	    40:     ENDC
-                            	    41: 
-                            	    42: ; 1MB chip + 1,5MB slow mem prog @ $D00000
-                            	    43: ; D5 07000000: fastmem: 07 = 0111 = 1.5MB
-                            	    44: ; D6 07000003: chipmem: 03 = 0011 = 1MB
-                            	    45: ; D7 00280000 : total memory
-                            	    46: 
-                            	    47: ; chip 2MB: prog @ $180000
-                            	    48: ; D5 00000000: no fastmem
-                            	    49: ; D6 0000000F: chipmem: 1111 = 2MB         
-                            	    50: ; D7 00200000: total memory
-                            	    51: 
-                            	    52: ; autocompute bit masks (not very useful, as the memory routine
-                            	    53: ; is so obscure and buggy that it is completely skipped)
-                            	    54: CHIPBITS = (1<<(CHIPMEMSIZE/$80000))-1
-                            	    55: FASTBITS = ((1<<(PROGRAM_FASTMEMSIZE/$80000))-1)<<24
-                            	    56:     
-                            	    57: ;======================================================================
-                            	    58: 
-                            	    59: base
-                            	    60: 		SLAVE_HEADER		;ws_Security + ws_ID
+                            	    25: CHIPMEMSIZE = $200000
+                            	    26: FASTMEMSIZE = $200000
+                            	    27: 
+                            	    28: STUB_FIX_SNOOP_BUG      = $0006
+                            	    29: STUB_FIX_MEM            = $000E
+                            	    30: STUB_ROB_NORTHEN_LOADER = $0016
+                            	    31: STUB_ACCESS             = $001E
+                            	    32: STUB_KB_HOOK            = $0026
+                            	    33: 
+                            	    34: ; 1MB chip + 1,5MB slow mem prog @ $D00000
+                            	    35: ; D5 07000000: fastmem: 07 = 0111 = 1.5MB
+                            	    36: ; D6 07000003: chipmem: 03 = 0011 = 1MB
+                            	    37: ; D7 00280000 : total memory
+                            	    38: 
+                            	    39: ; chip 2MB: prog @ $180000
+                            	    40: ; D5 00000000: no fastmem
+                            	    41: ; D6 0000000F: chipmem: 1111 = 2MB         
+                            	    42: ; D7 00200000: total memory
+                            	    43: 
+                            	    44: ; autocompute bit masks (not very useful, as the memory routine
+                            	    45: ; is so obscure and buggy that it is completely skipped)
+                            	    46: CHIPBITS = (1<<(CHIPMEMSIZE/$80000))-1
+                            	    47: FASTBITS = ((1<<(FASTMEMSIZE/$80000))-1)<<24
+                            	    48:     
+                            	    49: ;======================================================================
+                            	    50: 
+                            	    51: base
+                            	    52: 		SLAVE_HEADER		;ws_Security + ws_ID
 00:00000000 70FF            	     1M 		moveq	#-1,d0
 00:00000002 4E75            	     2M 		rts
 00:00000004 5748444C4F414453	     3M 		dc.b	"WHDLOADS"
-00:0000000C 000A            	    61: 		dc.w	10		;ws_Version
-00:0000000E 1006            	    62: 		dc.w	WHDLF_NoError|WHDLF_EmulTrap|WHDLF_ClearMem	;ws_flags
-00:00000010 00100000        	    63: 		dc.l	CHIPMEMSIZE		;ws_BaseMemSize
-00:00000014 00000000        	    64: 		dc.l	0		;ws_ExecInstall
-00:00000018 0192            	    65: 		dc.w	Start-base	;ws_GameLoader
-00:0000001A 0154            	    66: 		dc.w	_data-base		;ws_CurrentDir
-00:0000001C 0000            	    67: 		dc.w	0		;ws_DontCache
-00:0000001E 00              	    68: _keydebug	dc.b	0		;ws_keydebug = none
-00:0000001F 46              	    69: _keyexit	dc.b	$46		;ws_keyexit = Del
-                            	    70: _expmem:
-00:00000020 00140000        	    71: 		dc.l	FASTMEMSIZE		;ws_ExpMem
-00:00000024 002A            	    72: 		dc.w	_name-base	;ws_name
-00:00000026 0049            	    73: 		dc.w	_copy-base	;ws_copy
-00:00000028 0063            	    74: 		dc.w	_info-base	;ws_info
-                            	    75: 
-                            	    76: 
-                            	    77: DECL_VERSION:MACRO
-                            	    78: 	dc.b	"2.3"
-                            	    79: 	IFD BARFLY
-                            	    80: 		dc.b	" "
-                            	    81: 		INCBIN	"T:date"
-                            	    82: 	ENDC
-                            	    83: 	IFD	DATETIME
-                            	    84: 		dc.b	" "
-                            	    85: 		incbin	datetime
-                            	    86: 	ENDC
-                            	    87: 	ENDM
-                            	    88:     
-00:0000002A 2D2B2053656E7369	    89: _name	dc.b	'-+ Sensible World Of Soccer +-'
+00:0000000C 000A            	    53: 		dc.w	10		;ws_Version
+00:0000000E 1006            	    54: 		dc.w	WHDLF_NoError|WHDLF_EmulTrap|WHDLF_ClearMem	;ws_flags
+00:00000010 00200000        	    55: 		dc.l	CHIPMEMSIZE		;ws_BaseMemSize
+00:00000014 00000000        	    56: 		dc.l	0		;ws_ExecInstall
+00:00000018 0192            	    57: 		dc.w	Start-base	;ws_GameLoader
+00:0000001A 0154            	    58: 		dc.w	_data-base		;ws_CurrentDir
+00:0000001C 0000            	    59: 		dc.w	0		;ws_DontCache
+00:0000001E 00              	    60: _keydebug	dc.b	0		;ws_keydebug = none
+00:0000001F 46              	    61: _keyexit	dc.b	$46		;ws_keyexit = Del
+                            	    62: _expmem:
+00:00000020 00200000        	    63: 		dc.l	FASTMEMSIZE		;ws_ExpMem
+00:00000024 002A            	    64: 		dc.w	_name-base	;ws_name
+00:00000026 0049            	    65: 		dc.w	_copy-base	;ws_copy
+00:00000028 0063            	    66: 		dc.w	_info-base	;ws_info
+                            	    67: 
+                            	    68: DECL_VERSION:MACRO
+                            	    69: 	dc.b	"2.3"
+                            	    70: 	IFD BARFLY
+                            	    71: 		dc.b	" "
+                            	    72: 		INCBIN	"T:date"
+                            	    73: 	ENDC
+                            	    74: 	IFD	DATETIME
+                            	    75: 		dc.b	" "
+                            	    76: 		incbin	datetime
+                            	    77: 	ENDC
+                            	    78: 	ENDM
+                            	    79:     
+00:0000002A 2D2B2053656E7369	    80: _name	dc.b	'-+ Sensible World Of Soccer +-'
 00:00000032 626C6520576F726C
 00:0000003A 64204F6620536F63
 00:00000042 636572202B2D
-                            	    90:         IFD CHIP_ONLY
-                            	    91:         dc.b    " (DEBUG/CHIP mode)"
-                            	    92:         ENDC
-00:00000048 00              	    93:         dc.b    0
-00:00000049 313939342D393720	    94: _copy	dc.b	'1994-97 Sensible Software',0
+                            	    81:         IFD CHIP_ONLY
+                            	    82:         dc.b    " (DEBUG/CHIP mode)"
+                            	    83:         ENDC
+00:00000048 00              	    84:         dc.b    0
+00:00000049 313939342D393720	    85: _copy	dc.b	'1994-97 Sensible Software',0
 00:00000051 53656E7369626C65
 00:00000059 20536F6674776172
 00:00000061 65
 00:00000062 00
-00:00000063 2D2D2D2D2D2D2D2D	    95: _info	dc.b	'-------------------------',10
+00:00000063 2D2D2D2D2D2D2D2D	    86: _info	dc.b	'-------------------------',10
 00:0000006B 2D2D2D2D2D2D2D2D
 00:00000073 2D2D2D2D2D2D2D2D
 00:0000007B 2D
 00:0000007C 0A
-00:0000007D 53574F532076302E	    96: 	dc.b	'SWOS v0.9.......94-95',10
+00:0000007D 53574F532076302E	    87: 	dc.b	'SWOS v0.9.......94-95',10
 00:00000085 392E2E2E2E2E2E2E
 00:0000008D 39342D3935
 00:00000092 0A
-00:00000093 53574F532076312E	    97: 	dc.b	'SWOS v1.0.......94-95',10
+00:00000093 53574F532076312E	    88: 	dc.b	'SWOS v1.0.......94-95',10
 00:0000009B 302E2E2E2E2E2E2E
 00:000000A3 39342D3935
 00:000000A8 0A
-00:000000A9 53574F532076312E	    98: 	dc.b	'SWOS v1.1.......94-95',10
+00:000000A9 53574F532076312E	    89: 	dc.b	'SWOS v1.1.......94-95',10
 00:000000B1 312E2E2E2E2E2E2E
 00:000000B9 39342D3935
 00:000000BE 0A
-00:000000BF 53574F532E2E2E2E	    99: 	dc.b	'SWOS............95-96',10
+00:000000BF 53574F532E2E2E2E	    90: 	dc.b	'SWOS............95-96',10
 00:000000C7 2E2E2E2E2E2E2E2E
 00:000000CF 39352D3936
 00:000000D4 0A
-00:000000D5 53574F5320555044	   100: 	dc.b	'SWOS UPDATE.....95-96',10
+00:000000D5 53574F5320555044	    91: 	dc.b	'SWOS UPDATE.....95-96',10
 00:000000DD 4154452E2E2E2E2E
 00:000000E5 39352D3936
 00:000000EA 0A
-00:000000EB 53574F5320455552	   101: 	dc.b	'SWOS EURO96.....95-96',10
+00:000000EB 53574F5320455552	    92: 	dc.b	'SWOS EURO96.....95-96',10
 00:000000F3 4F39362E2E2E2E2E
 00:000000FB 39352D3936
 00:00000100 0A
-00:00000101 53574F532076312E	   102: 	dc.b	'SWOS v1.52 (v1).96-97',10
+00:00000101 53574F532076312E	    93: 	dc.b	'SWOS v1.52 (v1).96-97',10
 00:00000109 353220287631292E
 00:00000111 39362D3937
 00:00000116 0A
-00:00000117 53574F532076312E	   103: 	dc.b	'SWOS v1.52 (v2).96-97',10
+00:00000117 53574F532076312E	    94: 	dc.b	'SWOS v1.52 (v2).96-97',10
 00:0000011F 353220287632292E
 00:00000127 39362D3937
 00:0000012C 0A
-00:0000012D 2D2D2D2D2D2D2D2D	   104: 	dc.b	'-------------------------',10
+00:0000012D 2D2D2D2D2D2D2D2D	    95: 	dc.b	'-------------------------',10
 00:00000135 2D2D2D2D2D2D2D2D
 00:0000013D 2D2D2D2D2D2D2D2D
 00:00000145 2D
 00:00000146 0A
-00:00000147 56657273696F6E20	   105: 	dc.b	'Version '
-                            	   106:     DECL_VERSION
+00:00000147 56657273696F6E20	    96: 	dc.b	'Version '
+                            	    97:     DECL_VERSION
 00:0000014F 322E33          	     1M 	dc.b	"2.3"
                             	     2M 	IFD BARFLY
                             	     3M 		dc.b	" "
@@ -4887,33 +4878,33 @@ Source: "SWOSHD.s"
                             	     7M 		dc.b	" "
                             	     8M 		incbin	datetime
                             	     9M 	ENDC
-00:00000152 00              	   107: 	dc.b	0
-00:00000153 FF              	   108: 	dc.b	-1
-                            	   109: 	CNOP 0,2
-                            	   110: 
-                            	   111: _data:
-00:00000154 64617461        	   112: 	dc.b	"data",0
+00:00000152 00              	    98: 	dc.b	0
+00:00000153 FF              	    99: 	dc.b	-1
+                            	   100: 	CNOP 0,2
+                            	   101: 
+                            	   102: _data:
+00:00000154 64617461        	   103: 	dc.b	"data",0
 00:00000158 00
-                            	   113: 	; slave loads "SWOS2" program, which is designed for A1200...
-                            	   114: 	; (original SSBOOT program loads SWOS for < kick3.1+68020)
-                            	   115: Swos.rel:
-00:00000159 53574F53322E5245	   116: 	dc.b	'SWOS2.REL',0
+                            	   104: 	; slave loads "SWOS2" program, which is designed for A1200...
+                            	   105: 	; (original SSBOOT program loads SWOS for < kick3.1+68020)
+                            	   106: Swos.rel:
+00:00000159 53574F53322E5245	   107: 	dc.b	'SWOS2.REL',0
 00:00000161 4C
 00:00000162 00
-                            	   117: Swos.prg:
-00:00000163 53574F5332      	   118: 	dc.b	'SWOS2',0
+                            	   108: Swos.prg:
+00:00000163 53574F5332      	   109: 	dc.b	'SWOS2',0
 00:00000168 00
-                            	   119: _savedir:
-00:00000169 53415645        	   120: 	dc.b	'SAVE',0
+                            	   110: _savedir:
+00:00000169 53415645        	   111: 	dc.b	'SAVE',0
 00:0000016D 00
-                            	   121: _save_filepath:
-00:0000016E 534156452F      	   122: 	dc.b	'SAVE/'
-00:00000173 00              	   123: _save_filename:	ds.b	14
+                            	   112: _save_filepath:
+00:0000016E 534156452F      	   113: 	dc.b	'SAVE/'
+00:00000173 00              	   114: _save_filename:	ds.b	14
 00:00000174 *
-00:00000181 24              	   124: 	dc.b	"$","VER: slave "
+00:00000181 24              	   115: 	dc.b	"$","VER: slave "
 00:00000182 5645523A20736C61
 00:0000018A 766520
-                            	   125:     DECL_VERSION
+                            	   116:     DECL_VERSION
 00:0000018D 322E33          	     1M 	dc.b	"2.3"
                             	     2M 	IFD BARFLY
                             	     3M 		dc.b	" "
@@ -4923,868 +4914,417 @@ Source: "SWOSHD.s"
                             	     7M 		dc.b	" "
                             	     8M 		incbin	datetime
                             	     9M 	ENDC
-00:00000190 0A              	   126: 	dc.b	10,0	
+00:00000190 0A              	   117: 	dc.b	10,0	
 00:00000191 00
-                            	   127: 	even
+                            	   118: 	even
+                            	   119: 
+                            	   120: 
+                            	   121: 
+                            	   122: ;======================================================================
+                            	   123: Start	;	A0 = resident loader
+                            	   124: ;======================================================================
+                            	   125: 
+00:00000192 43FA028C        	   126: 	lea	_resload(pc),a1
+00:00000196 2288            	   127: 	move.l	a0,(a1)			;save for later use
                             	   128: 
-                            	   129: 
-                            	   130: 
-                            	   131: ;======================================================================
-                            	   132: Start	;	A0 = resident loader
-                            	   133: ;======================================================================
+                            	   129: 	; configure other expmem buffer
+00:00000198 43FA029E        	   130: 	lea program_location(pc),a1
+00:0000019C 207AFE82        	   131: 	move.l  _expmem(pc),a0       
+00:000001A0 D1FC00080000    	   132: 	add.l   #PROGRAM_LOCATION_OFFSET,a0
+00:000001A6 2288            	   133: 	move.l  a0,(a1)
                             	   134: 
-00:00000192 43FA0358        	   135: 		lea	_resload(pc),a1
-00:00000196 2288            	   136: 		move.l	a0,(a1)			;save for later use
-                            	   137:         IFD CHIP_ONLY
-                            	   138: 		; put team buffer in expmem
-                            	   139: 		lea	data_buffer(pc),a0
-                            	   140: 		move.l	_expmem(pc),(a0)
-                            	   141:         lea _expmem(pc),a0
-                            	   142:         move.l  #$100000,(a0)   ; simulate expmem
-                            	   143:         ENDC
-                            	   144: 
-                            	   145:         ; configure other expmem buffer
-00:00000198 43FA0362        	   146:         lea program_location(pc),a1
-00:0000019C 207AFE82        	   147:         move.l  _expmem(pc),a0       
-00:000001A0 D1FC00080000    	   148:         add.l   #PROGRAM_LOCATION_OFFSET,a0
-00:000001A6 2288            	   149:         move.l  a0,(a1)
-                            	   150:         IFND	CHIP_ONLY
-00:000001A8 D1FC00080000    	   151: 		add.l	#$80000,a0
-00:000001AE 43FA0350        	   152: 		lea		data_buffer(pc),a1
-00:000001B2 2288            	   153: 		move.l	a0,(a1)
-                            	   154: 		
-                            	   155: 		ENDC
-                            	   156: 
-                            	   157: 		patch	$100,avoid_big_value
+                            	   135: 	patch   $100,avoid_big_value
                             	     1M 	IFNE	NARG-2
                             	     2M 		FAIL	"patch: wrong amount of arguments"
                             	     3M 	ENDC
-00:000001B4 33FC4EF900000100	     4M 		move.w	#$4ef9,$100
-00:000001BC 487A0174        	     5M 		pea	(avoid_big_value,pc)
-00:000001C0 23DF00000102    	     6M 		move.l	(a7)+,2+$100
-                            	   158: 		
-00:000001C6 41FAFF91        	   159: 		lea	Swos.rel(pc),a0		
-00:000001CA 227AFE54        	   160:         move.l  _expmem(pc),a1
-00:000001CE 61000B62        	   161: 		bsr	_LoadFileDEC
-00:000001D2 41FA0320        	   162: 		lea	reloc_size(pc),a0
-00:000001D6 2080            	   163: 		move.l	d0,(a0)
-00:000001D8 41FAFF89        	   164: 		lea	Swos.prg(pc),a0
-                            	   165: 	
-00:000001DC 227A031E        	   166:         move.l  program_location(pc),a1
-                            	   167: 
-00:000001E0 61000B50        	   168: 		bsr	_LoadFileDEC
-                            	   169: 		;bsr	remove_hogs
-00:000001E4 41FA0312        	   170: 		lea	swos_version(pc),a0
-00:000001E8 2080            	   171: 		move.l	d0,(a0)
-00:000001EA 207A0310        	   172: 		move.l	program_location(pc),a0
-00:000001EE 227AFE30        	   173: 		move.l	_expmem(pc),a1
-                            	   174: ;a0 = Program
-                            	   175: ;a1 = relocation table
-                            	   176: ;relocate:
-                            	   177: ;		movem.l	d0-d1/a0-a2,-(a7)
-                            	   178: ;		moveq	#8,d1				;Header of load location!
-                            	   179: ;		move.l	reloc_size(pc),d0		;Size of relocation table!
-                            	   180: ;		move.l	a0,a2
-                            	   181: ;continue_relocation:
-                            	   182: ;		add.l	(a1)+,a0			;Add and move
-                            	   183: ;		add.b	d1,(a0)				;Force relocation!
-                            	   184: ;		move.l	a2,a0				;Restore
-                            	   185: ;		subq.l	#4,d0				;Because its longword!
-                            	   186: ;		bne.s	continue_relocation
-                            	   187: relocate:
-00:000001F2 48E7C0E0        	   188: 		movem.l	d0-d1/a0-a2,-(a7)
-00:000001F6 223A0304        	   189: 		move.l	program_location(pc),d1				; load location!
-00:000001FA 92BC00100000    	   190:         sub.l   #$100000,d1             ; base address
-00:00000200 203A02F2        	   191: 		move.l	reloc_size(pc),d0		;Size of relocation table!
-00:00000204 2448            	   192: 		move.l	a0,a2
-                            	   193: 
-                            	   194:         ; non-relocated addresses are like $001x???? with 0<=x<8
-                            	   195:         ; a0 is always odd and points on the "1x" part
-                            	   196:         ;
-                            	   197:         ; this is basic reloc which allows to reloc on second part of
-                            	   198:         ; chipmem or just slow mem, but not any mem, well it can be done
-                            	   199:         ; of course
-                            	   200:         ;
-                            	   201: continue_relocation:
-00:00000206 D1D9            	   202: 		add.l	(a1)+,a0			;Add and move
-                            	   203:         ; some reloc offsets are bogus (ex: C2 C3 at start)
-                            	   204:         ; filter them out with those heuristics
-00:00000208 4A20            	   205:         tst.b   -(a0)
-00:0000020A 6612            	   206:         bne.b   .skip
-00:0000020C 0C2800180001    	   207:         cmp.b   #$18,(1,a0)
-00:00000212 640A            	   208:         bcc.b   .skip
-00:00000214 0C2800100001    	   209:         cmp.b   #$10,(1,a0)
-00:0000021A 6502            	   210:         bcs.b   .skip
-                            	   211:         
-00:0000021C D390            	   212: 		add.l	d1,(a0)				;Force relocation!
-                            	   213: .skip
-00:0000021E 204A            	   214: 		move.l	a2,a0				;Restore
-00:00000220 5980            	   215: 		subq.l	#4,d0				;Because its longword!
-00:00000222 66E2            	   216: 		bne.s	continue_relocation
-00:00000224 4CDF0703        	   217: 		movem.l	(a7)+,d0-d1/a0-a2
-00:00000228 46FC2000        	   218: 		move.w	#$2000,sr
-00:0000022C 45FA02CA        	   219: 		lea	swos_version(pc),a2
-00:00000230 2412            	   220: 		move.l	(a2),d2
-00:00000232 203C4EF96002    	   221: 		move.l	#$4ef96002,d0
-00:00000238 223C70004E75    	   222: 		move.l	#$70004e75,d1
-                            	   223: 		
-00:0000023E 6000003E        	   224: 		bra swos_152
-                            	   225: 
-                            	   226: remove_hogs:
-00:00000242 48E78080        	   227: 		movem.l	d0/a0,-(a7)
-00:00000246 203A02AC        	   228: 		move.l	reloc_size(pc),d0	;Size of file!
-00:0000024A 207A02B0        	   229: 		move.l	program_location(pc),a0		;$180000
-                            	   230: loopblit:
-00:0000024E 0C5033FC        	   231: 		cmp.w	#$33fc,(a0)
-00:00000252 661E            	   232: 		bne.s	_notblit
-00:00000254 0C6884000002    	   233: 		cmp.w	#$8400,2(a0)
-00:0000025A 6708            	   234: 		beq.s	nextcheck
-00:0000025C 0C6804000002    	   235: 		cmp.w	#$0400,2(a0)
-00:00000262 660E            	   236: 		bne.s	_notblit
-                            	   237: nextcheck:
-00:00000264 0CA800DFF0960004	   238: 		cmp.l	#$dff096,4(a0)
-00:0000026C 6604            	   239: 		bne.s	_notblit
-00:0000026E 30BC6006        	   240: 		move.w	#$6006,(a0)		;Store BRA		
-00:00000272 5488            	   241: _notblit:	addq.l	#2,a0
-00:00000274 5580            	   242: 		subq.l	#2,d0
-00:00000276 66D6            	   243: 		bne.s	loopblit
-00:00000278 4CDF0101        	   244: 		movem.l	(a7)+,d0/a0
-00:0000027C 4E75            	   245: 		rts
+00:000001A8 33FC4EF900000100	     4M 		move.w	#$4ef9,$100
+00:000001B0 487A007E        	     5M 		pea	(avoid_big_value,pc)
+00:000001B4 23DF00000102    	     6M 		move.l	(a7)+,2+$100
+                            	   136: 
+                            	   137: 	;------------------------------------------------------
+                            	   138: 	; Load hunk executable "SWOS2" at program_location
+                            	   139: 	;------------------------------------------------------
+00:000001BA 41FAFFA7        	   140: 	lea     Swos.prg(pc),a0
+00:000001BE 227A0278        	   141: 	move.l  program_location(pc),a1
+00:000001C2 61000AA6        	   142: 	bsr     _LoadFileDEC           ; A0=name, A1=dest, D0=size
+                            	   143: 
+                            	   144: 	; (optional) remember file size as "version" if you want
+00:000001C6 41FA026C        	   145: 	lea     swos_version(pc),a0
+00:000001CA 2080            	   146: 	move.l  d0,(a0)
+                            	   147: 
+                            	   148: 	;------------------------------------------------------
+                            	   149: 	; Relocate AmigaDOS hunk executable in-place
+                            	   150: 	;   A0 = start of executable in memory
+                            	   151: 	;   A1 = taglist (we pass ALIGN=8 to mimic LoadSeg)
+                            	   152: 	;   A2 = _resload
+                            	   153: 	;   D0 = size of relocated exe on return
+                            	   154: 	;------------------------------------------------------
+00:000001CC 207A026A        	   155: 	move.l  program_location(pc),a0    ; address of executable
+                            	   156: 
+00:000001D0 42A7            	   157:     clr.l   -(a7)                      ; TAG_DONE
+00:000001D2 2F3C00010000    	   158: 	move.l  #$10000,-(a7)              ; chip area pointer = $00010000
+00:000001D8 487988100000    	   159: 	pea     WHDLTAG_CHIPPTR
+00:000001DE 487900000008    	   160: 	pea     8                          ; value
+00:000001E4 487988100002    	   161: 	pea     WHDLTAG_ALIGN              ; tag
+00:000001EA 224F            	   162: 	move.l  a7,a1                      ; A1 = taglist
+                            	   163: 
+00:000001EC 247A0232        	   164:     move.l  _resload(pc),a2
+00:000001F0 4EAA0050        	   165:     jsr     (resload_Relocate,a2)
+                            	   166: 
+00:000001F4 DEFC000C        	   167:     add.w   #12,a7
+                            	   168: 
+                            	   169:     ; keep size of relocated exe in reloc_size (handy for later)
+00:000001F8 41FA0236        	   170:     lea     reloc_size(pc),a0
+00:000001FC 2080            	   171:     move.l  d0,(a0)
+                            	   172: 
+00:000001FE 46FC2000        	   173:     move.w  #$2000,sr
+                            	   174: 
+                            	   175:     ;------------------------------------------------------
+                            	   176:     ; Install callback addresses into SWOS2 stubs
+                            	   177:     ;------------------------------------------------------
+00:00000202 207A0234        	   178:     move.l  program_location(pc),a0    ; A0 = base of relocated SWOS2
+00:00000206 61000044        	   179:     bsr     install_callbacks
+                            	   180: 
+                            	   181: 	; set registers D5-D7 to expected values
+00:0000020A 2E3C00200000    	   182: 	move.l  #CHIPMEMSIZE,D7
+00:00000210 2A3C0F000000    	   183: 	move.l  #FASTBITS,d5
+00:00000216 2C3C0F00000F    	   184: 	move.l  #CHIPBITS|FASTBITS,d6     
+                            	   185: 
+                            	   186: 	;ILLEGAL
+                            	   187: 
+00:0000021C 207A021A        	   188: 	move.l	program_location(pc),a0
+00:00000220 4ED0            	   189: 	jmp	(a0)			;Execute program!
+                            	   190:     
+                            	   191: ;-----------------------------
+                            	   192:     
+                            	   193: fix_snoop_bug
+00:00000222 2C7C00DFF000    	   194: 	MOVEA.L	#_custom,A6		;102398: 2c7c00dff000
+00:00000228 3D7C02000100    	   195: 	move.W	#$200,bplcon0(A6)	; colorbit
+00:0000022E 4E75            	   196:     rts
+                            	   197: 
+                            	   198: avoid_big_value:
+00:00000230 4A40            	   199: 	tst.w	d0
+00:00000232 6706            	   200: 	beq.b	.fail
+00:00000234 B07C0050        	   201: 	cmp.w	#$50,d0
+00:00000238 650E            	   202: 	bcs.b	.ok
+                            	   203: .fail
+                            	   204: 	; value in D0 is bogus, this will trigger an access fault
+                            	   205: 	; clear it, the called routine will run in degraded mode, it doesn't
+                            	   206: 	; seem to change anything.
+                            	   207: 	;
+                            	   208: 	; but fix this value in memory to avoid more issues
+                            	   209: 	; this will degrade gameplay but won't crash
+                            	   210: 
+00:0000023A 317C0001FFFE    	   211: 	move.w	#1,(-2,a0)
+00:00000240 584F            	   212: 	addq.w	#4,a7
+00:00000242 4CDF7FFF        	   213: 	MOVEM.L	(A7)+,D0-D7/A0-A6
+00:00000246 4E75            	   214: 	rts
+                            	   215: .ok
+00:00000248 5340            	   216: 	SUBQ.W	#1,D0			;14dfec: 5340
+00:0000024A 4E75            	   217: 	rts
+                            	   218: 
+                            	   219: 
+                            	   220: INSTALL_CALLBACK MACRO
+                            	   221:     ; A0 = base of relocated SWOS2
+                            	   222:     lea     \1(a0),a1         ; A1 -> stub (jsr 0; rts)
+                            	   223:     lea     \2(pc),a2         ; A2 = callback address in Slave
+                            	   224:     move.l  a2,(2,a1)         ; patch jsr operand
+                            	   225:     ENDM
+                            	   226: 
+                            	   227: install_callbacks:
+                            	   228:     INSTALL_CALLBACK  STUB_FIX_SNOOP_BUG,      fix_snoop_bug
+                            	     1M     ; A0 = base of relocated SWOS2
+00:0000024C 43E80006        	     2M     lea     STUB_FIX_SNOOP_BUG(a0),a1         ; A1 -> stub (jsr 0; rts)
+00:00000250 45FAFFD0        	     3M     lea     fix_snoop_bug(pc),a2         ; A2 = callback address in Slave
+00:00000254 234A0002        	     4M     move.l  a2,(2,a1)         ; patch jsr operand
+                            	   229:     INSTALL_CALLBACK  STUB_FIX_MEM,            fix_memory_routine
+                            	     1M     ; A0 = base of relocated SWOS2
+00:00000258 43E8000E        	     2M     lea     STUB_FIX_MEM(a0),a1         ; A1 -> stub (jsr 0; rts)
+00:0000025C 45FA002C        	     3M     lea     fix_memory_routine(pc),a2         ; A2 = callback address in Slave
+00:00000260 234A0002        	     4M     move.l  a2,(2,a1)         ; patch jsr operand
+                            	   230:     INSTALL_CALLBACK  STUB_ROB_NORTHEN_LOADER, rob_northen_loader
+                            	     1M     ; A0 = base of relocated SWOS2
+00:00000264 43E80016        	     2M     lea     STUB_ROB_NORTHEN_LOADER(a0),a1         ; A1 -> stub (jsr 0; rts)
+00:00000268 45FA0022        	     3M     lea     rob_northen_loader(pc),a2         ; A2 = callback address in Slave
+00:0000026C 234A0002        	     4M     move.l  a2,(2,a1)         ; patch jsr operand
+                            	   231:     INSTALL_CALLBACK  STUB_ACCESS,             access
+                            	     1M     ; A0 = base of relocated SWOS2
+00:00000270 43E8001E        	     2M     lea     STUB_ACCESS(a0),a1         ; A1 -> stub (jsr 0; rts)
+00:00000274 45FA016C        	     3M     lea     access(pc),a2         ; A2 = callback address in Slave
+00:00000278 234A0002        	     4M     move.l  a2,(2,a1)         ; patch jsr operand
+                            	   232:     INSTALL_CALLBACK  STUB_KB_HOOK,            kb_hook
+                            	     1M     ; A0 = base of relocated SWOS2
+00:0000027C 43E80026        	     2M     lea     STUB_KB_HOOK(a0),a1         ; A1 -> stub (jsr 0; rts)
+00:00000280 45FA0172        	     3M     lea     kb_hook(pc),a2         ; A2 = callback address in Slave
+00:00000284 234A0002        	     4M     move.l  a2,(2,a1)         ; patch jsr operand
+00:00000288 4E75            	   233:     rts
+                            	   234: 
+                            	   235: fix_memory_routine
+00:0000028A 4E75            	   236:     rts
+                            	   237: 
+                            	   238: rob_northen_loader:
+00:0000028C 2F0B            	   239: 	move.l	a3,-(a7)
+00:0000028E D040            	   240: 	add.w	d0,d0
+00:00000290 47FA0066        	   241: 	lea		rob_commands_table(pc),a3
+00:00000294 D6F30000        	   242: 	add.w	(a3,d0.w),a3
+00:00000298 4E93            	   243: 	jsr		(a3)
+00:0000029A 265F            	   244: 	move.l	(a7)+,a3
+00:0000029C 4E75            	   245: 	rts
                             	   246: 
-                            	   247: ;-----------------------------
-                            	   248: 
-                            	   249: swos_152:
-00:0000027E 41FA0026        	   250:         lea pl_9697_1(pc),a0
+                            	   247: ; < A0: name
+                            	   248: ; > A0: name prepended with "SAVE/" if .TAC,.PRE,.DIY,.SEA,.CAR, .HIL file,
+                            	   249: ; and DF0: prefix removed
+                            	   250: ; else unchanged
                             	   251: 
-                            	   252: patch_with_patchlist:
-00:00000282 227A0278        	   253:         move.l	program_location(pc),a1
-00:00000286 247A0264        	   254: 		        move.l  _resload(pc),a2
-00:0000028A 4EAA0064        	   255:         jsr (resload_Patch,a2)
-                            	   256:      
-                            	   257:         ; set registers D5-D7 to expected values
-00:0000028E 2E3C00200000    	   258:         move.l  #CHIPMEMSIZE+PROGRAM_FASTMEMSIZE,D7
-00:00000294 2A3C03000000    	   259:         move.l  #FASTBITS,d5
-00:0000029A 2C3C03000003    	   260:         move.l  #CHIPBITS|FASTBITS,d6       
-                            	   261: 
-00:000002A0 207A025A        	   262:         move.l	program_location(pc),a0
-00:000002A4 4ED0            	   263: 		jmp	(a0)			;Execute program!
-                            	   264: 
-                            	   265: pl_9697_1
-                            	   266:     PL_START
-                            	     1M PLIFCNT SET 0				;counts if nesting
-                            	     2M .patchlist
-                            	   267: 	; proper sized buffer for big team files
-                            	   268: 	PL_PA	$5968+2,data_buffer
-                            	     1M 	IFNE	NARG-2
-                            	     2M 	FAIL	PL_PA wrong number of arguments
-                            	     3M 	ENDC
-                            	     4M 	PL_CMDADR PLCMD_PA,$5968+2
-                            	     1M 	IFLT $5968+2
-                            	     2M 	FAIL	PL_CMDADR patch address cannot be negative
-                            	     3M 	ENDC
-                            	     4M 	IFLT $ffff-$5968+2
-                            	     5M 	dc.w	PLCMD_PA
-                            	     6M 	dc.l	$5968+2
-                            	     7M 	ELSE
-00:000002A6 800A            	     8M 	dc.w	PLCMDF_WORDADR+PLCMD_PA
-00:000002A8 596A            	     9M 	dc.w	$5968+2
-                            	    10M 	ENDC
-00:000002AA 025A            	     5M 	dc.w	data_buffer-.patchlist		;destination (inside slave!)
-                            	   269: 	PL_NOP	$59a2,4			; no size check
-                            	     1M 	IFNE	NARG-2
-                            	     2M 	FAIL	PL_NOP wrong number of arguments
-                            	     3M 	ENDC
-                            	     4M 	PL_CMDADR PLCMD_NOP,$59a2
-                            	     1M 	IFLT $59a2
-                            	     2M 	FAIL	PL_CMDADR patch address cannot be negative
-                            	     3M 	ENDC
-                            	     4M 	IFLT $ffff-$59a2
-                            	     5M 	dc.w	PLCMD_NOP
-                            	     6M 	dc.l	$59a2
-                            	     7M 	ELSE
-00:000002AC 800B            	     8M 	dc.w	PLCMDF_WORDADR+PLCMD_NOP
-00:000002AE 59A2            	     9M 	dc.w	$59a2
-                            	    10M 	ENDC
-00:000002B0 0004            	     5M 	dc.w	4			;distance given in bytes
-                            	   270: 	PL_PA	$59a6+2,data_buffer
-                            	     1M 	IFNE	NARG-2
-                            	     2M 	FAIL	PL_PA wrong number of arguments
-                            	     3M 	ENDC
-                            	     4M 	PL_CMDADR PLCMD_PA,$59a6+2
-                            	     1M 	IFLT $59a6+2
-                            	     2M 	FAIL	PL_CMDADR patch address cannot be negative
-                            	     3M 	ENDC
-                            	     4M 	IFLT $ffff-$59a6+2
-                            	     5M 	dc.w	PLCMD_PA
-                            	     6M 	dc.l	$59a6+2
-                            	     7M 	ELSE
-00:000002B2 800A            	     8M 	dc.w	PLCMDF_WORDADR+PLCMD_PA
-00:000002B4 59A8            	     9M 	dc.w	$59a6+2
-                            	    10M 	ENDC
-00:000002B6 025A            	     5M 	dc.w	data_buffer-.patchlist		;destination (inside slave!)
-                            	   271: 	
-                            	   272:     PL_W    $CC,$6002       ; fix zero div
-                            	     1M 	IFNE	NARG-2
-                            	     2M 	FAIL	PL_W wrong number of arguments
-                            	     3M 	ENDC
-                            	     4M 	PL_CMDADR PLCMD_W,$CC
-                            	     1M 	IFLT $CC
-                            	     2M 	FAIL	PL_CMDADR patch address cannot be negative
-                            	     3M 	ENDC
-                            	     4M 	IFLT $ffff-$CC
-                            	     5M 	dc.w	PLCMD_W
-                            	     6M 	dc.l	$CC
-                            	     7M 	ELSE
-00:000002B8 8007            	     8M 	dc.w	PLCMDF_WORDADR+PLCMD_W
-00:000002BA 00CC            	     9M 	dc.w	$CC
-                            	    10M 	ENDC
-00:000002BC 6002            	     5M 	dc.w	$6002			;data to write
-                            	   273:     ; copylock
-                            	   274:     PL_W    $5d80,$26bc
-                            	     1M 	IFNE	NARG-2
-                            	     2M 	FAIL	PL_W wrong number of arguments
-                            	     3M 	ENDC
-                            	     4M 	PL_CMDADR PLCMD_W,$5d80
-                            	     1M 	IFLT $5d80
-                            	     2M 	FAIL	PL_CMDADR patch address cannot be negative
-                            	     3M 	ENDC
-                            	     4M 	IFLT $ffff-$5d80
-                            	     5M 	dc.w	PLCMD_W
-                            	     6M 	dc.l	$5d80
-                            	     7M 	ELSE
-00:000002BE 8007            	     8M 	dc.w	PLCMDF_WORDADR+PLCMD_W
-00:000002C0 5D80            	     9M 	dc.w	$5d80
-                            	    10M 	ENDC
-00:000002C2 26BC            	     5M 	dc.w	$26bc			;data to write
-                            	   275:     PL_W    $5de4,$26bc
-                            	     1M 	IFNE	NARG-2
-                            	     2M 	FAIL	PL_W wrong number of arguments
-                            	     3M 	ENDC
-                            	     4M 	PL_CMDADR PLCMD_W,$5de4
-                            	     1M 	IFLT $5de4
-                            	     2M 	FAIL	PL_CMDADR patch address cannot be negative
-                            	     3M 	ENDC
-                            	     4M 	IFLT $ffff-$5de4
-                            	     5M 	dc.w	PLCMD_W
-                            	     6M 	dc.l	$5de4
-                            	     7M 	ELSE
-00:000002C4 8007            	     8M 	dc.w	PLCMDF_WORDADR+PLCMD_W
-00:000002C6 5DE4            	     9M 	dc.w	$5de4
-                            	    10M 	ENDC
-00:000002C8 26BC            	     5M 	dc.w	$26bc			;data to write
-                            	   276:     PL_L    $5de6,$cfd1efe7
-                            	     1M 	IFNE	NARG-2
-                            	     2M 	FAIL	PL_L wrong number of arguments
-                            	     3M 	ENDC
-                            	     4M 	PL_CMDADR PLCMD_L,$5de6
-                            	     1M 	IFLT $5de6
-                            	     2M 	FAIL	PL_CMDADR patch address cannot be negative
-                            	     3M 	ENDC
-                            	     4M 	IFLT $ffff-$5de6
-                            	     5M 	dc.w	PLCMD_L
-                            	     6M 	dc.l	$5de6
-                            	     7M 	ELSE
-00:000002CA 8008            	     8M 	dc.w	PLCMDF_WORDADR+PLCMD_L
-00:000002CC 5DE6            	     9M 	dc.w	$5de6
-                            	    10M 	ENDC
-00:000002CE CFD1EFE7        	     5M 	dc.l	$cfd1efe7			;data to write
-                            	   277:     PL_L    $5d82,$71583efc
-                            	     1M 	IFNE	NARG-2
-                            	     2M 	FAIL	PL_L wrong number of arguments
-                            	     3M 	ENDC
-                            	     4M 	PL_CMDADR PLCMD_L,$5d82
-                            	     1M 	IFLT $5d82
-                            	     2M 	FAIL	PL_CMDADR patch address cannot be negative
-                            	     3M 	ENDC
-                            	     4M 	IFLT $ffff-$5d82
-                            	     5M 	dc.w	PLCMD_L
-                            	     6M 	dc.l	$5d82
-                            	     7M 	ELSE
-00:000002D2 8008            	     8M 	dc.w	PLCMDF_WORDADR+PLCMD_L
-00:000002D4 5D82            	     9M 	dc.w	$5d82
-                            	    10M 	ENDC
-00:000002D6 71583EFC        	     5M 	dc.l	$71583efc			;data to write
-                            	   278: 	
-                            	   279: 	
-                            	   280:     PL_P    $670a,fix_memory_routine_9697_1
-                            	     1M 	IFNE	NARG-2
-                            	     2M 	FAIL	PL_P wrong number of arguments
-                            	     3M 	ENDC
-                            	     4M 	PL_CMDADR PLCMD_P,$670a
-                            	     1M 	IFLT $670a
-                            	     2M 	FAIL	PL_CMDADR patch address cannot be negative
-                            	     3M 	ENDC
-                            	     4M 	IFLT $ffff-$670a
-                            	     5M 	dc.w	PLCMD_P
-                            	     6M 	dc.l	$670a
-                            	     7M 	ELSE
-00:000002DA 8002            	     8M 	dc.w	PLCMDF_WORDADR+PLCMD_P
-00:000002DC 670A            	     9M 	dc.w	$670a
-                            	    10M 	ENDC
-00:000002DE 00A8            	     5M 	dc.w	fix_memory_routine_9697_1-.patchlist		;destination (inside slave!)
-                            	   281:     PL_PS   $76a4,access
-                            	     1M 	IFNE	NARG-2
-                            	     2M 	FAIL	PL_PS wrong number of arguments
-                            	     3M 	ENDC
-                            	     4M 	PL_CMDADR PLCMD_PS,$76a4
-                            	     1M 	IFLT $76a4
-                            	     2M 	FAIL	PL_CMDADR patch address cannot be negative
-                            	     3M 	ENDC
-                            	     4M 	IFLT $ffff-$76a4
-                            	     5M 	dc.w	PLCMD_PS
-                            	     6M 	dc.l	$76a4
-                            	     7M 	ELSE
-00:000002E0 8003            	     8M 	dc.w	PLCMDF_WORDADR+PLCMD_PS
-00:000002E2 76A4            	     9M 	dc.w	$76a4
-                            	    10M 	ENDC
-00:000002E4 0208            	     5M 	dc.w	access-.patchlist		;destination (inside slave!)
-                            	   282:     ;PL_W	$552c,$6002,	;TESTTESTTEST    
-                            	   283:     
-                            	   284:     ; jotd
-                            	   285:     PL_PS   $1B58,kb_hook
-                            	     1M 	IFNE	NARG-2
-                            	     2M 	FAIL	PL_PS wrong number of arguments
-                            	     3M 	ENDC
-                            	     4M 	PL_CMDADR PLCMD_PS,$1B58
-                            	     1M 	IFLT $1B58
-                            	     2M 	FAIL	PL_CMDADR patch address cannot be negative
-                            	     3M 	ENDC
-                            	     4M 	IFLT $ffff-$1B58
-                            	     5M 	dc.w	PLCMD_PS
-                            	     6M 	dc.l	$1B58
-                            	     7M 	ELSE
-00:000002E6 8003            	     8M 	dc.w	PLCMDF_WORDADR+PLCMD_PS
-00:000002E8 1B58            	     9M 	dc.w	$1B58
-                            	    10M 	ENDC
-00:000002EA 021A            	     5M 	dc.w	kb_hook-.patchlist		;destination (inside slave!)
-                            	   286: 
-                            	   287:     ; Fake send to loader, but we still need to update current disk or whatnot
-                            	   288: 	; else it crashes when loading tactics because disk changes and state is
-                            	   289: 	; not updated in the game
-                            	   290: 	PL_S	$43e,$49e-$43e
-                            	     1M 	IFNE	NARG-2
-                            	     2M 	FAIL	PL_S wrong number of arguments
-                            	     3M 	ENDC
-                            	     4M 	IFLT $8000-($49e-$43e)
-                            	     5M 	FAIL PL_S positive distance $49e-$43e too large, max is $8000
-                            	     6M 	ENDC
-                            	     7M 	IFGT -$7ffe-($49e-$43e)
-                            	     8M 	FAIL PL_S negative distance $49e-$43e too large, max is -$7ffe
-                            	     9M 	ENDC
-                            	    10M 	PL_CMDADR PLCMD_S,$43e
-                            	     1M 	IFLT $43e
-                            	     2M 	FAIL	PL_CMDADR patch address cannot be negative
-                            	     3M 	ENDC
-                            	     4M 	IFLT $ffff-$43e
-                            	     5M 	dc.w	PLCMD_S
-                            	     6M 	dc.l	$43e
-                            	     7M 	ELSE
-00:000002EC 8004            	     8M 	dc.w	PLCMDF_WORDADR+PLCMD_S
-00:000002EE 043E            	     9M 	dc.w	$43e
-                            	    10M 	ENDC
-00:000002F0 005E            	    11M 	dc.w	$49e-$43e-2			;distance
-                            	   291: 
-                            	   292:     ; fix snoop bugs
-                            	   293:     PL_PSS  $23ac,fix_snoop_bug,4
-                            	     1M 	IFNE	NARG-3
-                            	     2M 	FAIL	PL_PSS wrong number of arguments
-                            	     3M 	ENDC
-                            	     4M 	PL_CMDADR PLCMD_PSS,$23ac
-                            	     1M 	IFLT $23ac
-                            	     2M 	FAIL	PL_CMDADR patch address cannot be negative
-                            	     3M 	ENDC
-                            	     4M 	IFLT $ffff-$23ac
-                            	     5M 	dc.w	PLCMD_PSS
-                            	     6M 	dc.l	$23ac
-                            	     7M 	ELSE
-00:000002F2 8010            	     8M 	dc.w	PLCMDF_WORDADR+PLCMD_PSS
-00:000002F4 23AC            	     9M 	dc.w	$23ac
-                            	    10M 	ENDC
-00:000002F6 007E            	     5M 	dc.w	fix_snoop_bug-.patchlist		;destination (inside slave!)
-00:000002F8 0004            	     6M 	dc.w	4			;byte count of NOPs to append
-                            	   294:     PL_ORW  $20d2,$200  ; colorbit bplcon0
-                            	     1M 	IFNE	NARG-2
-                            	     2M 	FAIL	PL_ORW wrong number of arguments
-                            	     3M 	ENDC
-                            	     4M 	PL_CMDADR PLCMD_ORW,$20d2
-                            	     1M 	IFLT $20d2
-                            	     2M 	FAIL	PL_CMDADR patch address cannot be negative
-                            	     3M 	ENDC
-                            	     4M 	IFLT $ffff-$20d2
-                            	     5M 	dc.w	PLCMD_ORW
-                            	     6M 	dc.l	$20d2
-                            	     7M 	ELSE
-00:000002FA 8017            	     8M 	dc.w	PLCMDF_WORDADR+PLCMD_ORW
-00:000002FC 20D2            	     9M 	dc.w	$20d2
-                            	    10M 	ENDC
-00:000002FE 0200            	     5M 	dc.w	$200			;data to or
-                            	   295:     PL_L  $20dc,$01FE0000  ; remove bplcon3 write
-                            	     1M 	IFNE	NARG-2
-                            	     2M 	FAIL	PL_L wrong number of arguments
-                            	     3M 	ENDC
-                            	     4M 	PL_CMDADR PLCMD_L,$20dc
-                            	     1M 	IFLT $20dc
-                            	     2M 	FAIL	PL_CMDADR patch address cannot be negative
-                            	     3M 	ENDC
-                            	     4M 	IFLT $ffff-$20dc
-                            	     5M 	dc.w	PLCMD_L
-                            	     6M 	dc.l	$20dc
-                            	     7M 	ELSE
-00:00000300 8008            	     8M 	dc.w	PLCMDF_WORDADR+PLCMD_L
-00:00000302 20DC            	     9M 	dc.w	$20dc
-                            	    10M 	ENDC
-00:00000304 01FE0000        	     5M 	dc.l	$01FE0000			;data to write
-                            	   296:     PL_L  $20e0,$01FE0000  ; remove bplcon4 write
-                            	     1M 	IFNE	NARG-2
-                            	     2M 	FAIL	PL_L wrong number of arguments
-                            	     3M 	ENDC
-                            	     4M 	PL_CMDADR PLCMD_L,$20e0
-                            	     1M 	IFLT $20e0
-                            	     2M 	FAIL	PL_CMDADR patch address cannot be negative
-                            	     3M 	ENDC
-                            	     4M 	IFLT $ffff-$20e0
-                            	     5M 	dc.w	PLCMD_L
-                            	     6M 	dc.l	$20e0
-                            	     7M 	ELSE
-00:00000308 8008            	     8M 	dc.w	PLCMDF_WORDADR+PLCMD_L
-00:0000030A 20E0            	     9M 	dc.w	$20e0
-                            	    10M 	ENDC
-00:0000030C 01FE0000        	     5M 	dc.l	$01FE0000			;data to write
-                            	   297:     PL_R    $fd0   ; floppy shit
-                            	     1M 	IFNE	NARG-1
-                            	     2M 	FAIL	PL_R wrong number of arguments
-                            	     3M 	ENDC
-                            	     4M 	PL_CMDADR PLCMD_R,$fd0
-                            	     1M 	IFLT $fd0
-                            	     2M 	FAIL	PL_CMDADR patch address cannot be negative
-                            	     3M 	ENDC
-                            	     4M 	IFLT $ffff-$fd0
-                            	     5M 	dc.w	PLCMD_R
-                            	     6M 	dc.l	$fd0
-                            	     7M 	ELSE
-00:00000310 8001            	     8M 	dc.w	PLCMDF_WORDADR+PLCMD_R
-00:00000312 0FD0            	     9M 	dc.w	$fd0
-                            	    10M 	ENDC
-                            	   298:     PL_R    $155a   ; floppy shit
-                            	     1M 	IFNE	NARG-1
-                            	     2M 	FAIL	PL_R wrong number of arguments
-                            	     3M 	ENDC
-                            	     4M 	PL_CMDADR PLCMD_R,$155a
-                            	     1M 	IFLT $155a
-                            	     2M 	FAIL	PL_CMDADR patch address cannot be negative
-                            	     3M 	ENDC
-                            	     4M 	IFLT $ffff-$155a
-                            	     5M 	dc.w	PLCMD_R
-                            	     6M 	dc.l	$155a
-                            	     7M 	ELSE
-00:00000314 8001            	     8M 	dc.w	PLCMDF_WORDADR+PLCMD_R
-00:00000316 155A            	     9M 	dc.w	$155a
-                            	    10M 	ENDC
-                            	   299:    
-                            	   300: 
-                            	   301:    
-                            	   302: 	PL_R	$e7e
-                            	     1M 	IFNE	NARG-1
-                            	     2M 	FAIL	PL_R wrong number of arguments
-                            	     3M 	ENDC
-                            	     4M 	PL_CMDADR PLCMD_R,$e7e
-                            	     1M 	IFLT $e7e
-                            	     2M 	FAIL	PL_CMDADR patch address cannot be negative
-                            	     3M 	ENDC
-                            	     4M 	IFLT $ffff-$e7e
-                            	     5M 	dc.w	PLCMD_R
-                            	     6M 	dc.l	$e7e
-                            	     7M 	ELSE
-00:00000318 8001            	     8M 	dc.w	PLCMDF_WORDADR+PLCMD_R
-00:0000031A 0E7E            	     9M 	dc.w	$e7e
-                            	    10M 	ENDC
-                            	   303: 	PL_P	$5C0,rob_northen_loader
-                            	     1M 	IFNE	NARG-2
-                            	     2M 	FAIL	PL_P wrong number of arguments
-                            	     3M 	ENDC
-                            	     4M 	PL_CMDADR PLCMD_P,$5C0
-                            	     1M 	IFLT $5C0
-                            	     2M 	FAIL	PL_CMDADR patch address cannot be negative
-                            	     3M 	ENDC
-                            	     4M 	IFLT $ffff-$5C0
-                            	     5M 	dc.w	PLCMD_P
-                            	     6M 	dc.l	$5C0
-                            	     7M 	ELSE
-00:0000031C 8002            	     8M 	dc.w	PLCMDF_WORDADR+PLCMD_P
-00:0000031E 05C0            	     9M 	dc.w	$5C0
-                            	    10M 	ENDC
-00:00000320 00B2            	     5M 	dc.w	rob_northen_loader-.patchlist		;destination (inside slave!)
-                            	   304: 
-                            	   305: 	;;PL_L	$4df98,$4EB80100
-                            	   306: 
-                            	   307:     PL_END
-                            	     1M 	PLIFCNTCHK PL_END
-                            	     1M 	IFNE PLIFCNT
-                            	     2M 	FAIL	PL_END pairs of IF* and ENDIF do not match
-                            	     3M 	ENDC
-00:00000322 0000            	     2M 	dc.w	PLCMD_END
-                            	   308:     
-                            	   309: ;-----------------------------
-                            	   310:     
-                            	   311: fix_snoop_bug
-00:00000324 2C7C00DFF000    	   312: 	MOVEA.L	#_custom,A6		;102398: 2c7c00dff000
-00:0000032A 3D7C02000100    	   313: 	move.W	#$200,bplcon0(A6)	; colorbit
-00:00000330 4E75            	   314:     rts
-                            	   315: 
-                            	   316: avoid_big_value:
-00:00000332 4A40            	   317: 	tst.w	d0
-00:00000334 6706            	   318: 	beq.b	.fail
-00:00000336 B07C0050        	   319: 	cmp.w	#$50,d0
-00:0000033A 650E            	   320: 	bcs.b	.ok
-                            	   321: .fail
-                            	   322: 	; value in D0 is bogus, this will trigger an access fault
-                            	   323: 	; clear it, the called routine will run in degraded mode, it doesn't
-                            	   324: 	; seem to change anything.
-                            	   325: 	;
-                            	   326: 	; but fix this value in memory to avoid more issues
-                            	   327: 	; this will degrade gameplay but won't crash
-                            	   328: 
-00:0000033C 317C0001FFFE    	   329: 	move.w	#1,(-2,a0)
-00:00000342 584F            	   330: 	addq.w	#4,a7
-00:00000344 4CDF7FFF        	   331: 	MOVEM.L	(A7)+,D0-D7/A0-A6
-00:00000348 4E75            	   332: 	rts
-                            	   333: .ok
-00:0000034A 5340            	   334: 	SUBQ.W	#1,D0			;14dfec: 5340
-00:0000034C 4E75            	   335: 	rts
-                            	   336: 	
-                            	   337: 
-                            	   338: ; replaces memory detection routine that pokes into every location
-                            	   339: ; from $80000 to $20*$80000 ...
-                            	   340: ; in the end we just store the amount of chipmem, and use fastmem
-                            	   341: ; for the executable. Game doesn't handle/use more fastmem apparently
-                            	   342: ;
-                            	   343: ; if we set the proper value game tries to read outside memory bounds
-                            	   344: ; damn this memory management is a nightmare
-                            	   345: ;
-                            	   346: ; previous version of the slave wrote the value $200000 in a wrong
-                            	   347: ; location, leaving the actual location at 0, and the game worked
-                            	   348: ; so maybe it should be left as is.
-                            	   349: FIX_MEM_ROUTINE:MACRO
-                            	   350: fix_memory_routine_\1
-                            	   351:     rts
-                            	   352: ;    move.l  a0,-(a7)
-                            	   353: ;    move.l  _expmem(pc),a0
-                            	   354: ;    add.l   #\2+PROGRAM_LOCATION_OFFSET,a0
-                            	   355: ;    MOVE.L #CHIPMEMSIZE,(a0)
-                            	   356: ;    move.l  (a7)+,a0
-                            	   357: ;    rts
-                            	   358:     ENDM
-                            	   359: 
-                            	   360:     
-                            	   361:     FIX_MEM_ROUTINE 9697_1,$589c
-                            	     1M fix_memory_routine_9697_1
-00:0000034E 4E75            	     2M     rts
-                            	     3M ;    move.l  a0,-(a7)
-                            	     4M ;    move.l  _expmem(pc),a0
-                            	     5M ;    add.l   #$589c+PROGRAM_LOCATION_OFFSET,a0
-                            	     6M ;    MOVE.L #CHIPMEMSIZE,(a0)
-                            	     7M ;    move.l  (a7)+,a0
-                            	     8M ;    rts
-                            	   362:     FIX_MEM_ROUTINE 9495,$1676
-                            	     1M fix_memory_routine_9495
-00:00000350 4E75            	     2M     rts
-                            	     3M ;    move.l  a0,-(a7)
-                            	     4M ;    move.l  _expmem(pc),a0
-                            	     5M ;    add.l   #$1676+PROGRAM_LOCATION_OFFSET,a0
-                            	     6M ;    MOVE.L #CHIPMEMSIZE,(a0)
-                            	     7M ;    move.l  (a7)+,a0
-                            	     8M ;    rts
-                            	   363:     FIX_MEM_ROUTINE 9495_2,$1712
-                            	     1M fix_memory_routine_9495_2
-00:00000352 4E75            	     2M     rts
-                            	     3M ;    move.l  a0,-(a7)
-                            	     4M ;    move.l  _expmem(pc),a0
-                            	     5M ;    add.l   #$1712+PROGRAM_LOCATION_OFFSET,a0
-                            	     6M ;    MOVE.L #CHIPMEMSIZE,(a0)
-                            	     7M ;    move.l  (a7)+,a0
-                            	     8M ;    rts
-                            	   364:     FIX_MEM_ROUTINE 9596,$1718
-                            	     1M fix_memory_routine_9596
-00:00000354 4E75            	     2M     rts
-                            	     3M ;    move.l  a0,-(a7)
-                            	     4M ;    move.l  _expmem(pc),a0
-                            	     5M ;    add.l   #$1718+PROGRAM_LOCATION_OFFSET,a0
-                            	     6M ;    MOVE.L #CHIPMEMSIZE,(a0)
-                            	     7M ;    move.l  (a7)+,a0
-                            	     8M ;    rts
-                            	   365:     FIX_MEM_ROUTINE 9697,$5878
-                            	     1M fix_memory_routine_9697
-00:00000356 4E75            	     2M     rts
-                            	     3M ;    move.l  a0,-(a7)
-                            	     4M ;    move.l  _expmem(pc),a0
-                            	     5M ;    add.l   #$5878+PROGRAM_LOCATION_OFFSET,a0
-                            	     6M ;    MOVE.L #CHIPMEMSIZE,(a0)
-                            	     7M ;    move.l  (a7)+,a0
-                            	     8M ;    rts
-                            	   366: 
-                            	   367:     
-                            	   368: rob_northen_loader:
-00:00000358 2F0B            	   369: 	move.l	a3,-(a7)
-00:0000035A D040            	   370: 	add.w	d0,d0
-00:0000035C 47FA0066        	   371: 	lea		rob_commands_table(pc),a3
-00:00000360 D6F30000        	   372: 	add.w	(a3,d0.w),a3
-00:00000364 4E93            	   373: 	jsr		(a3)
-00:00000366 265F            	   374: 	move.l	(a7)+,a3
-00:00000368 4E75            	   375: 	rts
-                            	   376: 
-                            	   377: ; < A0: name
-                            	   378: ; > A0: name prepended with "SAVE/" if .TAC,.PRE,.DIY,.SEA,.CAR, .HIL file,
-                            	   379: ; and DF0: prefix removed
-                            	   380: ; else unchanged
-                            	   381: 
-                            	   382: fix_filename:
-00:0000036A 2448            	   383: 	move.l	a0,a2
-00:0000036C 0C28003A0003    	   384: 	cmp.b	#':',(3,a0)
-00:00000372 6602            	   385: 	bne.b	.loop
-00:00000374 5848            	   386: 	addq.w	#4,a0		; skip DF0:
-                            	   387: .loop
-00:00000376 4A1A            	   388: 	tst.b	(a2)+
-00:00000378 66FC            	   389: 	bne.b	.loop
-00:0000037A 534A            	   390: 	subq.w	#1,a2	; back
-                            	   391: 	; try to match one of the save extensions
-00:0000037C 1022            	   392: 	move.b	-(a2),d0
-00:0000037E E098            	   393: 	ror.l	#8,d0
-00:00000380 1022            	   394: 	move.b	-(a2),d0
-00:00000382 E098            	   395: 	ror.l	#8,d0
-00:00000384 1022            	   396: 	move.b	-(a2),d0
-00:00000386 E098            	   397: 	ror.l	#8,d0
-00:00000388 1022            	   398: 	move.b	-(a2),d0
-00:0000038A E098            	   399: 	ror.l	#8,d0
-00:0000038C 47FA001A        	   400: 	lea		_ext_table(pc),a3
-                            	   401: .comp
-00:00000390 241B            	   402: 	move.l	(a3)+,d2
-00:00000392 6712            	   403: 	beq.b	.no_userdata
-00:00000394 B480            	   404: 	cmp.l	d0,d2
-00:00000396 66F8            	   405: 	bne.b	.comp
-                            	   406: 	
-                            	   407: 	; user data file: copy to buffer with "SAVE/"
-00:00000398 47FAFDD9        	   408: 	lea		_save_filename(pc),a3
-00:0000039C 2448            	   409: 	move.l	a0,a2
-                            	   410: .copy
-00:0000039E 16DA            	   411: 	move.b	(a2)+,(a3)+
-00:000003A0 66FC            	   412: 	bne.b	.copy
-00:000003A2 41FAFDCA        	   413: 	lea	_save_filepath(pc),a0
-                            	   414: .no_userdata
-00:000003A6 4E75            	   415: 	rts
-                            	   416: 	
-                            	   417: _ext_table:
-00:000003A8 2E444959        	   418: 	dc.l	".DIY"
-00:000003AC 2E505245        	   419: 	dc.l	".PRE"
-00:000003B0 2E534541        	   420: 	dc.l	".SEA"
-00:000003B4 2E434152        	   421: 	dc.l	".CAR"
-00:000003B8 2E544143        	   422: 	dc.l	".TAC"
-00:000003BC 2E48494C        	   423: 	dc.l	".HIL"
-00:000003C0 00000000        	   424: 	dc.l	0
-                            	   425: 	
-                            	   426: rob_commands_table:
-00:000003C4 0010            	   427: 	dc.w	rob_load-rob_commands_table
-00:000003C6 0028            	   428: 	dc.w	rob_save-rob_commands_table
-00:000003C8 0042            	   429: 	dc.w	rob_delete-rob_commands_table
-00:000003CA 0070            	   430: 	dc.w	rob_list_directory-rob_commands_table
-00:000003CC 0056            	   431: 	dc.w	rob_format_disk-rob_commands_table
-00:000003CE 005A            	   432: 	dc.w	rob_get_file_size-rob_commands_table
-00:000003D0 00D8            	   433: 	dc.w	nothing-rob_commands_table
-00:000003D2 00D8            	   434: 	dc.w	nothing-rob_commands_table
-                            	   435: 	
-                            	   436: rob_load:
-00:000003D4 48E7FFFE        	   437: 	movem.l	d0-d7/a0-a6,-(a7)
-00:000003D8 6100FF90        	   438: 	bsr		fix_filename
-00:000003DC 6100093C        	   439: 	bsr	_LoadFile
-00:000003E0 4CDF7FFF        	   440: 	movem.l	(a7)+,d0-d7/a0-a6
-00:000003E4 223A010A        	   441: 	move.l	size(pc),d1
-00:000003E8 7000            	   442: 	moveq	#0,d0
-00:000003EA 4E75            	   443: 	rts
-                            	   444: 	
-                            	   445: rob_save:
-00:000003EC 48E7FFFE        	   446: 	movem.l	d0-d7/a0-a6,-(a7)
-00:000003F0 6100FF78        	   447: 	bsr		fix_filename
-00:000003F4 2001            	   448: 	move.l	d1,d0		; size
-00:000003F6 6100095E        	   449: 	bsr	_SaveFile
-00:000003FA 4CDF7FFF        	   450: 	movem.l	(a7)+,d0-d7/a0-a6
-00:000003FE 223A00F0        	   451: 	move.l	size(pc),d1
-00:00000402 7000            	   452: 	moveq	#0,d0
-00:00000404 4E75            	   453: 	rts
-                            	   454: 	
-                            	   455: rob_delete:
-00:00000406 48E7FFFE        	   456: 	movem.l	d0-d7/a0-a6,-(a7)
-00:0000040A 6100FF5E        	   457: 	bsr		fix_filename
-00:0000040E 61000934        	   458: 	bsr	_Deletefile
-00:00000412 4CDF7FFF        	   459: 	movem.l	(a7)+,d0-d7/a0-a6
-00:00000416 7000            	   460: 	moveq	#0,d0
-00:00000418 4E75            	   461: 	rts
-                            	   462: 	
-                            	   463: rob_format_disk:
-00:0000041A 7000            	   464: 	moveq	#0,d0
-00:0000041C 4E75            	   465: 	rts
-                            	   466: 
-                            	   467: rob_get_file_size:
-00:0000041E 48E73FFE        	   468: 	movem.l	d2-d7/a0-a6,-(a7)	
-00:00000422 6100FF46        	   469: 	bsr		fix_filename
-00:00000426 610008E0        	   470: 	bsr		_GetFileSize
-00:0000042A 2200            	   471: 	move.l	d0,d1
-00:0000042C 4CDF7FFC        	   472: 	movem.l	(a7)+,d2-d7/a0-a6
-00:00000430 7000            	   473: 	moveq	#0,d0
-00:00000432 4E75            	   474: 	rts
-                            	   475: 	
-                            	   476: rob_list_directory:
-00:00000434 48E7FFFE        	   477: 	movem.l	d0-d7/a0-a6,-(a7)
-00:00000438 247A00B2        	   478: 	move.l	_resload(pc),a2
-                            	   479: 	; skip colon
-00:0000043C 7200            	   480: 	moveq	#0,d1
-                            	   481: .sk
-00:0000043E 10301000        	   482: 	move.b	(a0,d1.w),d0
-00:00000442 670E            	   483: 	beq.b	.out
-00:00000444 B03C003A        	   484: 	cmp.b	#':',d0
-00:00000448 6704            	   485: 	beq.b	.colon
-00:0000044A 5241            	   486: 	addq	#1,d1
-00:0000044C 60F0            	   487: 	bra.b	.sk
-                            	   488: .colon
-                            	   489: 	; colon found: skip it
-00:0000044E 5248            	   490: 	addq.w	#1,a0
-00:00000450 D0C1            	   491: 	add.w	d1,a0
-                            	   492: .out
-00:00000452 41FAFD15        	   493: 	lea		_savedir(pc),a0
-                            	   494: 	; a0: directory path, stripped from drive prefix
-                            	   495: 	; a1: buffer, save it
-00:00000456 2649            	   496: 	move.l	a1,a3
-00:00000458 43FA00AA        	   497: 	lea		listdir_buffer(pc),a1
-00:0000045C 203C00000800    	   498: 	move.l	#BUFFER_SIZE,D0
-00:00000462 4EAA0014        	   499: 	jsr		resload_ListFiles(a2)
-00:00000466 41FA0088        	   500: 	lea		size(pc),a0
-00:0000046A 3080            	   501: 	move.w	d0,(a0)				; number of files
-00:0000046C 6722            	   502: 	beq.b	.empty
-00:0000046E 5340            	   503: 	subq	#1,d0			; minus one for dbf
-                            	   504: 	
-00:00000470 43FA0092        	   505: 	lea		listdir_buffer(pc),a1
-                            	   506: .copy_loop:
-00:00000474 7200            	   507: 	moveq	#0,d1
-                            	   508: .copy_file:
-00:00000476 17991002        	   509: 	move.b	(a1)+,(2,a3,d1.w)
-00:0000047A 6704            	   510: 	beq.b	.copyout
-00:0000047C 5241            	   511: 	addq	#1,d1
-00:0000047E 60F6            	   512: 	bra.b	.copy_file
-                            	   513: 	; set name length
-                            	   514: .copyout:
-00:00000480 17410001        	   515: 	move.b	d1,(1,a3)
-                            	   516: 	; try to mimic rob output...
-00:00000484 16BC00FD        	   517: 	move.b	#$FD,(a3)
-00:00000488 D6FC0020        	   518: 	add.w	#$20,a3		; next entry
-00:0000048C 51C8FFE6        	   519: 	dbf		d0,.copy_loop
-                            	   520: 	
-                            	   521: .empty:	
-00:00000490 4CDF7FFF        	   522: 	movem.l	(a7)+,d0-d7/a0-a6
-00:00000494 323A005A        	   523: 	move.w	size(pc),d1
-00:00000498 7000            	   524: 	moveq	#0,d0
-00:0000049A 4E75            	   525: 	rts
-                            	   526: 	
-                            	   527: nothing:
-                            	   528: 
-00:0000049C 4E71            	   529: 	nop
-00:0000049E 4E75            	   530: 	rts
-                            	   531: 	
-                            	   532: _flushcache:
-00:000004A0 2F0A            	   533: 	move.l	a2,-(a7)
-00:000004A2 247A0048        	   534: 	move.l	_resload(pc),a2
-00:000004A6 4EAA0020        	   535: 	jsr	resload_FlushCache(a2)
-00:000004AA 245F            	   536: 	move.l	(a7)+,a2
-00:000004AC 4E75            	   537: 	rts
-                            	   538: 
-                            	   539: request:
-                            	   540: 		
-                            	   541: ; Fixes bug with Highlights play! JOTD: potential issue if A1 is in fast!!!
-                            	   542: access:
-00:000004AE D3ED0018        	   543: 	adda.l	$18(a5),a1			;Game
-00:000004B2 2209            	   544: 	move.l	a1,d1
-00:000004B4 C2BC00FFFFFF    	   545: 	and.l	#$00ffffff,d1			;Clear high bytes!
-00:000004BA 2241            	   546: 	move.l	d1,a1
-00:000004BC 7200            	   547: 	moveq	#0,d1				;Game
-00:000004BE 4E75            	   548: 	rts
-                            	   549: 
-                            	   550: 
-                            	   551: 
-                            	   552: 
-                            	   553: kb_hook
-00:000004C0 103900BFEC01    	   554:     move.b  $bfec01,d0
-00:000004C6 3F00            	   555:     move.w  d0,-(a7)
-00:000004C8 4600            	   556:     not.b   d0
-00:000004CA E218            	   557:     ror.b   #1,d0
-00:000004CC B03AFB51        	   558:     cmp.b   _keyexit(pc),d0
-00:000004D0 6704            	   559:     beq.b   quit
-00:000004D2 301F            	   560: 	move.w  (a7)+,d0
-00:000004D4 4E75            	   561:     rts
-                            	   562:     
-                            	   563: quit
-00:000004D6 4879FFFFFFFF    	   564: 	pea	TDREASON_OK
-00:000004DC 2F3A000E        	   565: 	move.l	_resload(pc),-(a7)
-00:000004E0 5897            	   566: 	addq.l	#resload_Abort,(a7)
-00:000004E2 4E75            	   567: 	rts
-                            	   568:     
-                            	   569: copylock:
-00:000004E4 26BC71583EFC    	   570:     MOVE.L #$71583efc,(A3)
-00:000004EA 4E75            	   571:     rts
-                            	   572:     
-                            	   573: ;---------------
-                            	   574: 
-00:000004EC 00000000        	   575: _resload	dc.l	0		;address of resident loader
-                            	   576: size:
-00:000004F0 00000000        	   577: 		dc.l	0
-                            	   578: reloc_size:
-00:000004F4 00000000        	   579: 		dc.l	0
-                            	   580: swos_version:
-00:000004F8 00000000        	   581: 		dc.l	0
-                            	   582: program_location
-00:000004FC 00000000        	   583:     dc.l    0
-                            	   584: data_buffer:
-00:00000500 00000000        	   585: 	dc.l	0
-                            	   586: listdir_buffer:
-00:00000504 00              	   587: 	ds.b	BUFFER_SIZE
-00:00000505 *
-00:00000D04 00000000        	   588: 	dc.l	0		; safety
-                            	   589: ;--------------------------------
-                            	   590: ; IN:	d0=offset d1=size d2=disk a0=dest
-                            	   591: ; OUT:	d0=success
-                            	   592: 
-                            	   593: 		cnop	0,4
-                            	   594: 
-                            	   595: _GetFileSize:
-00:00000D08 48E740E0        	   596: 		movem.l	d1/a0-a2,-(a7)
-00:00000D0C 247AF7DE        	   597: 		move.l	_resload(pc),a2
-00:00000D10 4EAA0024        	   598: 		jsr	resload_GetFileSize(a2)
-00:00000D14 4CDF0702        	   599: 		movem.l	(a7)+,d1/a0-a2
-00:00000D18 4E75            	   600: 		rts
-                            	   601: _LoadFile:
-00:00000D1A 48E7C0E0        	   602: 		movem.l	d0-d1/a0-a2,-(a7)
-00:00000D1E 247AF7CC        	   603: 		move.l	_resload(pc),a2
-00:00000D22 4EAA0008        	   604: 		jsr	resload_LoadFile(a2)
-00:00000D26 41FAF7C8        	   605: 		lea	size(pc),a0
-00:00000D2A 2080            	   606: 		move.l	d0,(a0)
-00:00000D2C 4CDF0703        	   607: 		movem.l	(a7)+,d0-d1/a0-a2
-00:00000D30 4E75            	   608: 		rts
-                            	   609: 
-                            	   610: _LoadFileDEC:
-00:00000D32 48E740E0        	   611: 		movem.l	d1/a0-a2,-(a7)
-00:00000D36 247AF7B4        	   612: 		move.l	_resload(pc),a2
-00:00000D3A 4EAA001C        	   613: 		jsr	resload_LoadFileDecrunch(a2)
-00:00000D3E 4CDF0702        	   614: 		movem.l	(a7)+,d1/a0-a2
-00:00000D42 4E75            	   615: 		rts
-                            	   616: _Deletefile:
-00:00000D44 48E740E0        	   617: 		movem.l	d1/a0-a2,-(a7)
-00:00000D48 247AF7A2        	   618: 		move.l	_resload(pc),a2
-00:00000D4C 4EAA0058        	   619: 		jsr	resload_DeleteFile(a2)
-00:00000D50 4CDF0702        	   620: 		movem.l	(a7)+,d1/a0-a2
-00:00000D54 4E75            	   621: 		rts
-                            	   622: _SaveFile:
-00:00000D56 48E7C0E0        	   623: 		movem.l	d0-d1/a0-a2,-(a7)
-00:00000D5A 247AF790        	   624: 		move.l	_resload(pc),a2
-00:00000D5E 4EAA000C        	   625: 		jsr	resload_SaveFile(a2)
-00:00000D62 4CDF0703        	   626: au:		movem.l	(a7)+,d0-d1/a0-a2
-00:00000D66 4E75            	   627: 		rts
-                            	   628: ;==========================================
+                            	   252: fix_filename:
+00:0000029E 2448            	   253: 	move.l	a0,a2
+00:000002A0 0C28003A0003    	   254: 	cmp.b	#':',(3,a0)
+00:000002A6 6602            	   255: 	bne.b	.loop
+00:000002A8 5848            	   256: 	addq.w	#4,a0		; skip DF0:
+                            	   257: .loop
+00:000002AA 4A1A            	   258: 	tst.b	(a2)+
+00:000002AC 66FC            	   259: 	bne.b	.loop
+00:000002AE 534A            	   260: 	subq.w	#1,a2	; back
+                            	   261: 	; try to match one of the save extensions
+00:000002B0 1022            	   262: 	move.b	-(a2),d0
+00:000002B2 E098            	   263: 	ror.l	#8,d0
+00:000002B4 1022            	   264: 	move.b	-(a2),d0
+00:000002B6 E098            	   265: 	ror.l	#8,d0
+00:000002B8 1022            	   266: 	move.b	-(a2),d0
+00:000002BA E098            	   267: 	ror.l	#8,d0
+00:000002BC 1022            	   268: 	move.b	-(a2),d0
+00:000002BE E098            	   269: 	ror.l	#8,d0
+00:000002C0 47FA001A        	   270: 	lea		_ext_table(pc),a3
+                            	   271: .comp
+00:000002C4 241B            	   272: 	move.l	(a3)+,d2
+00:000002C6 6712            	   273: 	beq.b	.no_userdata
+00:000002C8 B480            	   274: 	cmp.l	d0,d2
+00:000002CA 66F8            	   275: 	bne.b	.comp
+                            	   276: 	
+                            	   277: 	; user data file: copy to buffer with "SAVE/"
+00:000002CC 47FAFEA5        	   278: 	lea		_save_filename(pc),a3
+00:000002D0 2448            	   279: 	move.l	a0,a2
+                            	   280: .copy
+00:000002D2 16DA            	   281: 	move.b	(a2)+,(a3)+
+00:000002D4 66FC            	   282: 	bne.b	.copy
+00:000002D6 41FAFE96        	   283: 	lea	_save_filepath(pc),a0
+                            	   284: .no_userdata
+00:000002DA 4E75            	   285: 	rts
+                            	   286: 	
+                            	   287: _ext_table:
+00:000002DC 2E444959        	   288: 	dc.l	".DIY"
+00:000002E0 2E505245        	   289: 	dc.l	".PRE"
+00:000002E4 2E534541        	   290: 	dc.l	".SEA"
+00:000002E8 2E434152        	   291: 	dc.l	".CAR"
+00:000002EC 2E544143        	   292: 	dc.l	".TAC"
+00:000002F0 2E48494C        	   293: 	dc.l	".HIL"
+00:000002F4 00000000        	   294: 	dc.l	0
+                            	   295: 	
+                            	   296: rob_commands_table:
+00:000002F8 0010            	   297: 	dc.w	rob_load-rob_commands_table
+00:000002FA 0028            	   298: 	dc.w	rob_save-rob_commands_table
+00:000002FC 0042            	   299: 	dc.w	rob_delete-rob_commands_table
+00:000002FE 0070            	   300: 	dc.w	rob_list_directory-rob_commands_table
+00:00000300 0056            	   301: 	dc.w	rob_format_disk-rob_commands_table
+00:00000302 005A            	   302: 	dc.w	rob_get_file_size-rob_commands_table
+00:00000304 00D8            	   303: 	dc.w	nothing-rob_commands_table
+00:00000306 00D8            	   304: 	dc.w	nothing-rob_commands_table
+                            	   305: 	
+                            	   306: rob_load:
+00:00000308 48E7FFFE        	   307: 	movem.l	d0-d7/a0-a6,-(a7)
+00:0000030C 6100FF90        	   308: 	bsr		fix_filename
+00:00000310 61000940        	   309: 	bsr	_LoadFile
+00:00000314 4CDF7FFF        	   310: 	movem.l	(a7)+,d0-d7/a0-a6
+00:00000318 223A0112        	   311: 	move.l	size(pc),d1
+00:0000031C 7000            	   312: 	moveq	#0,d0
+00:0000031E 4E75            	   313: 	rts
+                            	   314: 	
+                            	   315: rob_save:
+00:00000320 48E7FFFE        	   316: 	movem.l	d0-d7/a0-a6,-(a7)
+00:00000324 6100FF78        	   317: 	bsr		fix_filename
+00:00000328 2001            	   318: 	move.l	d1,d0		; size
+00:0000032A 61000962        	   319: 	bsr	_SaveFile
+00:0000032E 4CDF7FFF        	   320: 	movem.l	(a7)+,d0-d7/a0-a6
+00:00000332 223A00F8        	   321: 	move.l	size(pc),d1
+00:00000336 7000            	   322: 	moveq	#0,d0
+00:00000338 4E75            	   323: 	rts
+                            	   324: 	
+                            	   325: rob_delete:
+00:0000033A 48E7FFFE        	   326: 	movem.l	d0-d7/a0-a6,-(a7)
+00:0000033E 6100FF5E        	   327: 	bsr		fix_filename
+00:00000342 61000938        	   328: 	bsr	_Deletefile
+00:00000346 4CDF7FFF        	   329: 	movem.l	(a7)+,d0-d7/a0-a6
+00:0000034A 7000            	   330: 	moveq	#0,d0
+00:0000034C 4E75            	   331: 	rts
+                            	   332: 	
+                            	   333: rob_format_disk:
+00:0000034E 7000            	   334: 	moveq	#0,d0
+00:00000350 4E75            	   335: 	rts
+                            	   336: 
+                            	   337: rob_get_file_size:
+00:00000352 48E73FFE        	   338: 	movem.l	d2-d7/a0-a6,-(a7)	
+00:00000356 6100FF46        	   339: 	bsr		fix_filename
+00:0000035A 610008E4        	   340: 	bsr		_GetFileSize
+00:0000035E 2200            	   341: 	move.l	d0,d1
+00:00000360 4CDF7FFC        	   342: 	movem.l	(a7)+,d2-d7/a0-a6
+00:00000364 7000            	   343: 	moveq	#0,d0
+00:00000366 4E75            	   344: 	rts
+                            	   345: 	
+                            	   346: rob_list_directory:
+00:00000368 48E7FFFE        	   347: 	movem.l	d0-d7/a0-a6,-(a7)
+00:0000036C 247A00B2        	   348: 	move.l	_resload(pc),a2
+                            	   349: 	; skip colon
+00:00000370 7200            	   350: 	moveq	#0,d1
+                            	   351: .sk
+00:00000372 10301000        	   352: 	move.b	(a0,d1.w),d0
+00:00000376 670E            	   353: 	beq.b	.out
+00:00000378 B03C003A        	   354: 	cmp.b	#':',d0
+00:0000037C 6704            	   355: 	beq.b	.colon
+00:0000037E 5241            	   356: 	addq	#1,d1
+00:00000380 60F0            	   357: 	bra.b	.sk
+                            	   358: .colon
+                            	   359: 	; colon found: skip it
+00:00000382 5248            	   360: 	addq.w	#1,a0
+00:00000384 D0C1            	   361: 	add.w	d1,a0
+                            	   362: .out
+00:00000386 41FAFDE1        	   363: 	lea		_savedir(pc),a0
+                            	   364: 	; a0: directory path, stripped from drive prefix
+                            	   365: 	; a1: buffer, save it
+00:0000038A 2649            	   366: 	move.l	a1,a3
+00:0000038C 43FA00AE        	   367: 	lea		listdir_buffer(pc),a1
+00:00000390 203C00000800    	   368: 	move.l	#BUFFER_SIZE,D0
+00:00000396 4EAA0014        	   369: 	jsr		resload_ListFiles(a2)
+00:0000039A 41FA0090        	   370: 	lea		size(pc),a0
+00:0000039E 3080            	   371: 	move.w	d0,(a0)				; number of files
+00:000003A0 6722            	   372: 	beq.b	.empty
+00:000003A2 5340            	   373: 	subq	#1,d0			; minus one for dbf
+                            	   374: 	
+00:000003A4 43FA0096        	   375: 	lea		listdir_buffer(pc),a1
+                            	   376: .copy_loop:
+00:000003A8 7200            	   377: 	moveq	#0,d1
+                            	   378: .copy_file:
+00:000003AA 17991002        	   379: 	move.b	(a1)+,(2,a3,d1.w)
+00:000003AE 6704            	   380: 	beq.b	.copyout
+00:000003B0 5241            	   381: 	addq	#1,d1
+00:000003B2 60F6            	   382: 	bra.b	.copy_file
+                            	   383: 	; set name length
+                            	   384: .copyout:
+00:000003B4 17410001        	   385: 	move.b	d1,(1,a3)
+                            	   386: 	; try to mimic rob output...
+00:000003B8 16BC00FD        	   387: 	move.b	#$FD,(a3)
+00:000003BC D6FC0020        	   388: 	add.w	#$20,a3		; next entry
+00:000003C0 51C8FFE6        	   389: 	dbf		d0,.copy_loop
+                            	   390: 	
+                            	   391: .empty:	
+00:000003C4 4CDF7FFF        	   392: 	movem.l	(a7)+,d0-d7/a0-a6
+00:000003C8 323A0062        	   393: 	move.w	size(pc),d1
+00:000003CC 7000            	   394: 	moveq	#0,d0
+00:000003CE 4E75            	   395: 	rts
+                            	   396: 	
+                            	   397: nothing:
+                            	   398: 
+00:000003D0 4E71            	   399: 	nop
+00:000003D2 4E75            	   400: 	rts
+                            	   401: 	
+                            	   402: _flushcache:
+00:000003D4 2F0A            	   403: 	move.l	a2,-(a7)
+00:000003D6 247A0048        	   404: 	move.l	_resload(pc),a2
+00:000003DA 4EAA0020        	   405: 	jsr	resload_FlushCache(a2)
+00:000003DE 245F            	   406: 	move.l	(a7)+,a2
+00:000003E0 4E75            	   407: 	rts
+                            	   408: 
+                            	   409: request:
+                            	   410: 		
+                            	   411: ; Fixes bug with Highlights play! JOTD: potential issue if A1 is in fast!!!
+                            	   412: access:
+00:000003E2 D3ED0018        	   413: 	adda.l	$18(a5),a1			;Game
+00:000003E6 2209            	   414: 	move.l	a1,d1
+00:000003E8 C2BC00FFFFFF    	   415: 	and.l	#$00ffffff,d1			;Clear high bytes!
+00:000003EE 2241            	   416: 	move.l	d1,a1
+00:000003F0 7200            	   417: 	moveq	#0,d1				;Game
+00:000003F2 4E75            	   418: 	rts
+                            	   419: 
+                            	   420: kb_hook
+00:000003F4 103900BFEC01    	   421:     move.b  $bfec01,d0
+00:000003FA 3F00            	   422:     move.w  d0,-(a7)
+00:000003FC 4600            	   423:     not.b   d0
+00:000003FE E218            	   424:     ror.b   #1,d0
+00:00000400 B03AFC1D        	   425:     cmp.b   _keyexit(pc),d0
+00:00000404 6704            	   426:     beq.b   quit
+00:00000406 301F            	   427: 	move.w  (a7)+,d0
+00:00000408 4E75            	   428:     rts
+                            	   429:     
+                            	   430: quit
+00:0000040A 4879FFFFFFFF    	   431: 	pea	TDREASON_OK
+00:00000410 2F3A000E        	   432: 	move.l	_resload(pc),-(a7)
+00:00000414 5897            	   433: 	addq.l	#resload_Abort,(a7)
+00:00000416 4E75            	   434: 	rts
+                            	   435:     
+                            	   436: copylock:
+00:00000418 26BC71583EFC    	   437:     MOVE.L #$71583efc,(A3)
+00:0000041E 4E75            	   438:     rts
+                            	   439:     
+                            	   440: ;---------------
+                            	   441: 
+                            	   442: _resload
+00:00000420 00000000        	   443: 		dc.l	0		;address of resident loader
+                            	   444: _freefast:
+00:00000424 00000000        	   445: 		dc.l    0
+                            	   446: _freechip:
+00:00000428 00000000        	   447: 		dc.l    0
+                            	   448: size:
+00:0000042C 00000000        	   449: 		dc.l	0
+                            	   450: reloc_size:
+00:00000430 00000000        	   451: 		dc.l	0
+                            	   452: swos_version:
+00:00000434 00000000        	   453: 		dc.l	0
+                            	   454: program_location
+00:00000438 00000000        	   455:     dc.l    0
+                            	   456: listdir_buffer:
+00:0000043C 00              	   457: 	ds.b	BUFFER_SIZE
+00:0000043D *
+00:00000C3C 00000000        	   458: 	dc.l	0		; safety
+                            	   459: ;--------------------------------
+                            	   460: ; IN:	d0=offset d1=size d2=disk a0=dest
+                            	   461: ; OUT:	d0=success
+                            	   462: 
+                            	   463: 		cnop	0,4
+                            	   464: 
+                            	   465: _GetFileSize:
+00:00000C40 48E740E0        	   466: 		movem.l	d1/a0-a2,-(a7)
+00:00000C44 247AF7DA        	   467: 		move.l	_resload(pc),a2
+00:00000C48 4EAA0024        	   468: 		jsr	resload_GetFileSize(a2)
+00:00000C4C 4CDF0702        	   469: 		movem.l	(a7)+,d1/a0-a2
+00:00000C50 4E75            	   470: 		rts
+                            	   471: _LoadFile:
+00:00000C52 48E7C0E0        	   472: 		movem.l	d0-d1/a0-a2,-(a7)
+00:00000C56 247AF7C8        	   473: 		move.l	_resload(pc),a2
+00:00000C5A 4EAA0008        	   474: 		jsr	resload_LoadFile(a2)
+00:00000C5E 41FAF7CC        	   475: 		lea	size(pc),a0
+00:00000C62 2080            	   476: 		move.l	d0,(a0)
+00:00000C64 4CDF0703        	   477: 		movem.l	(a7)+,d0-d1/a0-a2
+00:00000C68 4E75            	   478: 		rts
+                            	   479: 
+                            	   480: _LoadFileDEC:
+00:00000C6A 48E740E0        	   481: 		movem.l	d1/a0-a2,-(a7)
+00:00000C6E 247AF7B0        	   482: 		move.l	_resload(pc),a2
+00:00000C72 4EAA001C        	   483: 		jsr	resload_LoadFileDecrunch(a2)
+00:00000C76 4CDF0702        	   484: 		movem.l	(a7)+,d1/a0-a2
+00:00000C7A 4E75            	   485: 		rts
+                            	   486: _Deletefile:
+00:00000C7C 48E740E0        	   487: 		movem.l	d1/a0-a2,-(a7)
+00:00000C80 247AF79E        	   488: 		move.l	_resload(pc),a2
+00:00000C84 4EAA0058        	   489: 		jsr	resload_DeleteFile(a2)
+00:00000C88 4CDF0702        	   490: 		movem.l	(a7)+,d1/a0-a2
+00:00000C8C 4E75            	   491: 		rts
+                            	   492: _SaveFile:
+00:00000C8E 48E7C0E0        	   493: 		movem.l	d0-d1/a0-a2,-(a7)
+00:00000C92 247AF78C        	   494: 		move.l	_resload(pc),a2
+00:00000C96 4EAA000C        	   495: 		jsr	resload_SaveFile(a2)
+00:00000C9A 4CDF0703        	   496: au:		movem.l	(a7)+,d0-d1/a0-a2
+00:00000C9E 4E75            	   497: 		rts
+                            	   498: ;==========================================
+                            	   499: 
 
 
 Symbols by name:
@@ -5794,8 +5334,8 @@ BMF_INVALID                      E:00000800
 BMF_RTGCHECK                     E:00000200
 BMF_RTGTAGS                      E:00000100
 BUFFER_SIZE                      E:00000800
-CHIPBITS                         E:00000003
-CHIPMEMSIZE                      E:00100000
+CHIPBITS                         E:0000000F
+CHIPMEMSIZE                      E:00200000
 CIACRBF_INMODE0                  E:00000020
 CIACRBF_INMODE1                  E:00000040
 COUNT_LIB                        S:FFFFFFE2
@@ -5809,8 +5349,8 @@ EURO72EXTRAHALFBRITELACE_KEY     E:00061085
 EURO72EXTRAHALFBRITE_KEY         E:00061084
 EURO72HAMLACE_KEY                E:00061805
 EURO72HAM_KEY                    E:00061804
-FASTBITS                         E:03000000
-FASTMEMSIZE                      E:00140000
+FASTBITS                         E:0F000000
+FASTMEMSIZE                      E:00200000
 IV_SIZE                          E:0000000C
 LH_SIZE                          E:0000000E
 LIB_BASE                         E:FFFFFFFA
@@ -5820,29 +5360,19 @@ LIB_USERDEF                      E:FFFFFFE2
 LIB_VECTSIZE                     E:00000006
 LN_SIZE                          E:0000000E
 MLH_SIZE                         E:0000000C
-PLCMDF_WORDADR                   E:00008000
-PLCMD_END                        E:00000000
-PLCMD_L                          E:00000008
-PLCMD_NOP                        E:0000000B
-PLCMD_ORW                        E:00000017
-PLCMD_P                          E:00000002
-PLCMD_PA                         E:0000000A
-PLCMD_PS                         E:00000003
-PLCMD_PSS                        E:00000010
-PLCMD_R                          E:00000001
-PLCMD_S                          E:00000004
-PLCMD_W                          E:00000007
-PLIFCNT                          S:00000000
-PROGRAM_FASTMEMSIZE              E:00100000
 PROGRAM_LOCATION_OFFSET          E:00080000
 SH_SIZE                          E:00000010
 SOFFSET                          S:00000090
+STUB_ACCESS                      E:0000001E
+STUB_FIX_MEM                     E:0000000E
+STUB_FIX_SNOOP_BUG               E:00000006
+STUB_KB_HOOK                     E:00000026
+STUB_ROB_NORTHEN_LOADER          E:00000016
 Start                           00:00000192
 Swos.prg                        00:00000163
 Swos.rel                        00:00000159
 TAG_USER                         E:80000000
 TDREASON_OK                      E:FFFFFFFF
-TEAM_BUFFER_SIZE                 E:00040000
 VGAEXTRAHALFBRITELACE_KEY        E:00031085
 VGAEXTRAHALFBRITE_KEY            E:00031084
 VGAHAMLACE_KEY                   E:00031805
@@ -5860,6 +5390,8 @@ WCPUF_Slave                      E:00000030
 WHDLF_ClearMem                   E:00001000
 WHDLF_EmulTrap                   E:00000004
 WHDLF_NoError                    E:00000002
+WHDLTAG_ALIGN                    E:88100002
+WHDLTAG_CHIPPTR                  E:88100000
 _000039BITDEF                    S:00008000
 _000042BITDEF                    S:00004000
 _000045BITDEF                    S:00002000
@@ -5950,56 +5482,46 @@ _000651BITDEF                    S:00000400
 _000654BITDEF                    S:00000200
 _000657BITDEF                    S:00000100
 _000660BITDEF                    S:00000001
-_Deletefile                     00:00000D44
-_GetFileSize                    00:00000D08
-_LoadFile                       00:00000D1A
-_LoadFileDEC                    00:00000D32
-_SaveFile                       00:00000D56
+_Deletefile                     00:00000C7C
+_GetFileSize                    00:00000C40
+_LoadFile                       00:00000C52
+_LoadFileDEC                    00:00000C6A
+_SaveFile                       00:00000C8E
 _copy                           00:00000049
 _custom                          E:00DFF000
 _data                           00:00000154
 _expmem                         00:00000020
-_ext_table                      00:000003A8
-_flushcache                     00:000004A0
+_ext_table                      00:000002DC
+_flushcache                     00:000003D4
+_freechip                       00:00000428
+_freefast                       00:00000424
 _info                           00:00000063
 _keydebug                       00:0000001E
 _keyexit                        00:0000001F
 _name                           00:0000002A
-_notblit                        00:00000272
-_resload                        00:000004EC
+_resload                        00:00000420
 _save_filename                  00:00000173
 _save_filepath                  00:0000016E
 _savedir                        00:00000169
-access                          00:000004AE
-au                              00:00000D62
-avoid_big_value                 00:00000332
+access                          00:000003E2
+au                              00:00000C9A
+avoid_big_value                 00:00000230
 base                            00:00000000
 bplcon0                          E:00000100
-continue_relocation             00:00000206
-copylock                        00:000004E4
-data_buffer                     00:00000500
-fix_filename                    00:0000036A
-fix_memory_routine_9495         00:00000350
-fix_memory_routine_9495_2       00:00000352
-fix_memory_routine_9596         00:00000354
-fix_memory_routine_9697         00:00000356
-fix_memory_routine_9697_1       00:0000034E
-fix_snoop_bug                   00:00000324
-kb_hook                         00:000004C0
-listdir_buffer                  00:00000504
-loopblit                        00:0000024E
-nextcheck                       00:00000264
-nothing                         00:0000049C
-patch_with_patchlist            00:00000282
-pl_9697_1                       00:000002A6
-program_location                00:000004FC
+copylock                        00:00000418
+fix_filename                    00:0000029E
+fix_memory_routine              00:0000028A
+fix_snoop_bug                   00:00000222
+install_callbacks               00:0000024C
+kb_hook                         00:000003F4
+listdir_buffer                  00:0000043C
+nothing                         00:000003D0
+program_location                00:00000438
 qh_SIZEOF                        E:00000010
-quit                            00:000004D6
+quit                            00:0000040A
 ra_SIZEOF                        E:00000008
-reloc_size                      00:000004F4
-relocate                        00:000001F2
-remove_hogs                     00:00000242
-request                         00:000004AE
+reloc_size                      00:00000430
+request                         00:000003E2
 resload_Abort                    E:00000004
 resload_DeleteFile               E:00000058
 resload_FlushCache               E:00000020
@@ -6007,127 +5529,121 @@ resload_GetFileSize              E:00000024
 resload_ListFiles                E:00000014
 resload_LoadFile                 E:00000008
 resload_LoadFileDecrunch         E:0000001C
-resload_Patch                    E:00000064
+resload_Relocate                 E:00000050
 resload_SaveFile                 E:0000000C
-rob_commands_table              00:000003C4
-rob_delete                      00:00000406
-rob_format_disk                 00:0000041A
-rob_get_file_size               00:0000041E
-rob_list_directory              00:00000434
-rob_load                        00:000003D4
-rob_northen_loader              00:00000358
-rob_save                        00:000003EC
-size                            00:000004F0
-swos_152                        00:0000027E
-swos_version                    00:000004F8
+rob_commands_table              00:000002F8
+rob_delete                      00:0000033A
+rob_format_disk                 00:0000034E
+rob_get_file_size               00:00000352
+rob_list_directory              00:00000368
+rob_load                        00:00000308
+rob_northen_loader              00:0000028C
+rob_save                        00:00000320
+size                            00:0000042C
+swos_version                    00:00000434
 tpt_SIZEOF                       E:00000004
 
 Symbols by value:
+88100000 WHDLTAG_CHIPPTR
+88100002 WHDLTAG_ALIGN
 FFFFFFE2 LIB_USERDEF
 FFFFFFE2 COUNT_LIB
 FFFFFFFA LIB_BASE
 FFFFFFFF TDREASON_OK
 00000000 base
-00000000 PLIFCNT
-00000000 PLCMD_END
-00000001 PLCMD_R
-00000001 _000628BITDEF
+00000001 _000071BITDEF
 00000001 _000162BITDEF
 00000001 _000660BITDEF
-00000001 _000266BITDEF
-00000001 _000437BITDEF
-00000001 _000071BITDEF
+00000001 _000628BITDEF
 00000001 _000192BITDEF
-00000002 _000269BITDEF
-00000002 DIPF_IS_DUALPF
-00000002 PLCMD_P
-00000002 _000225BITDEF
-00000002 _000195BITDEF
-00000002 _000440BITDEF
+00000001 _000437BITDEF
+00000001 _000266BITDEF
 00000002 _000074BITDEF
-00000002 _000165BITDEF
-00000002 _000625BITDEF
+00000002 _000269BITDEF
 00000002 WHDLF_NoError
+00000002 _000625BITDEF
+00000002 _000195BITDEF
+00000002 DIPF_IS_DUALPF
+00000002 _000440BITDEF
+00000002 _000165BITDEF
+00000002 _000225BITDEF
 00000003 WCPUF_Base
-00000003 CHIPBITS
-00000003 PLCMD_PS
-00000004 _000228BITDEF
-00000004 DIPF_IS_PF2PRI
-00000004 _000272BITDEF
-00000004 WHDLF_EmulTrap
-00000004 _000168BITDEF
 00000004 tpt_SIZEOF
+00000004 _000168BITDEF
+00000004 LIB_RESERVED
 00000004 _000443BITDEF
 00000004 _000622BITDEF
-00000004 PLCMD_S
-00000004 LIB_RESERVED
+00000004 _000272BITDEF
 00000004 resload_Abort
+00000004 _000228BITDEF
+00000004 WHDLF_EmulTrap
 00000004 _000077BITDEF
+00000004 DIPF_IS_PF2PRI
+00000006 STUB_FIX_SNOOP_BUG
 00000006 LIB_VECTSIZE
-00000007 PLCMD_W
 00000008 ra_SIZEOF
-00000008 PLCMD_L
+00000008 _000080BITDEF
 00000008 _000446BITDEF
 00000008 _000171BITDEF
-00000008 _000619BITDEF
-00000008 _000198BITDEF
-00000008 _000275BITDEF
-00000008 DIPF_IS_HAM
 00000008 _000231BITDEF
-00000008 _000080BITDEF
+00000008 _000275BITDEF
+00000008 _000619BITDEF
+00000008 DIPF_IS_HAM
+00000008 _000198BITDEF
 00000008 resload_LoadFile
-0000000A PLCMD_PA
-0000000B PLCMD_NOP
+0000000C MLH_SIZE
 0000000C resload_SaveFile
 0000000C IV_SIZE
-0000000C MLH_SIZE
 0000000C WCPUF_Exp
 0000000E LH_SIZE
+0000000E STUB_FIX_MEM
 0000000E LN_SIZE
-00000010 SH_SIZE
-00000010 _000278BITDEF
-00000010 qh_SIZEOF
-00000010 _000449BITDEF
+0000000F CHIPBITS
 00000010 _000201BITDEF
+00000010 SH_SIZE
+00000010 _000449BITDEF
+00000010 qh_SIZEOF
 00000010 _000083BITDEF
+00000010 _000278BITDEF
 00000010 _000174BITDEF
-00000010 PLCMD_PSS
 00000014 resload_ListFiles
-00000017 PLCMD_ORW
+00000016 STUB_ROB_NORTHEN_LOADER
 0000001C resload_LoadFileDecrunch
+0000001E STUB_ACCESS
 0000001E _keydebug
 0000001F _keyexit
-00000020 _expmem
-00000020 _000177BITDEF
-00000020 resload_FlushCache
-00000020 CIACRBF_INMODE0
 00000020 _000452BITDEF
+00000020 _000177BITDEF
+00000020 CIACRBF_INMODE0
+00000020 resload_FlushCache
+00000020 _expmem
 00000020 DISPLAYNAMELEN
 00000022 LIB_SIZE
 00000024 resload_GetFileSize
+00000026 STUB_KB_HOOK
 00000029 EOFFSET
 0000002A _name
 00000030 WCPUF_Slave
+00000040 CIACRBF_INMODE1
 00000040 _000455BITDEF
 00000040 _000180BITDEF
-00000040 CIACRBF_INMODE1
 00000049 _copy
+00000050 resload_Relocate
 00000058 resload_DeleteFile
 00000063 _info
-00000064 resload_Patch
-00000080 _000183BITDEF
 00000080 _000458BITDEF
-00000080 _000281BITDEF
 00000080 BMF_HIJACKED
+00000080 _000183BITDEF
+00000080 _000281BITDEF
 00000090 SOFFSET
-00000100 bplcon0
-00000100 BMF_RTGTAGS
-00000100 _000204BITDEF
-00000100 _000657BITDEF
-00000100 WCPUF_IC
-00000100 _000461BITDEF
-00000100 _000485BITDEF
 00000100 _000284BITDEF
+00000100 BMF_RTGTAGS
+00000100 bplcon0
+00000100 _000657BITDEF
+00000100 _000461BITDEF
+00000100 _000204BITDEF
+00000100 WCPUF_IC
+00000100 _000485BITDEF
 00000154 _data
 00000159 Swos.rel
 00000163 Swos.prg
@@ -6135,106 +5651,93 @@ FFFFFFFF TDREASON_OK
 0000016E _save_filepath
 00000173 _save_filename
 00000192 Start
-000001F2 relocate
-00000200 _000488BITDEF
 00000200 _000287BITDEF
 00000200 BMF_RTGCHECK
-00000200 _000464BITDEF
+00000200 _000488BITDEF
 00000200 WCPUF_DC
-00000200 _000654BITDEF
 00000200 _000207BITDEF
-00000206 continue_relocation
-00000242 remove_hogs
-0000024E loopblit
-00000264 nextcheck
-00000272 _notblit
-0000027E swos_152
-00000282 patch_with_patchlist
-000002A6 pl_9697_1
-00000324 fix_snoop_bug
-00000332 avoid_big_value
-0000034E fix_memory_routine_9697_1
-00000350 fix_memory_routine_9495
-00000352 fix_memory_routine_9495_2
-00000354 fix_memory_routine_9596
-00000356 fix_memory_routine_9697
-00000358 rob_northen_loader
-0000036A fix_filename
-000003A8 _ext_table
-000003C4 rob_commands_table
-000003D4 rob_load
-000003EC rob_save
+00000200 _000464BITDEF
+00000200 _000654BITDEF
+00000222 fix_snoop_bug
+00000230 avoid_big_value
+0000024C install_callbacks
+0000028A fix_memory_routine
+0000028C rob_northen_loader
+0000029E fix_filename
+000002DC _ext_table
+000002F8 rob_commands_table
+00000308 rob_load
+00000320 rob_save
+0000033A rob_delete
+0000034E rob_format_disk
+00000352 rob_get_file_size
+00000368 rob_list_directory
+000003D0 nothing
+000003D4 _flushcache
+000003E2 request
+000003E2 access
+000003F4 kb_hook
 00000400 _000290BITDEF
+00000400 _000467BITDEF
+00000400 BMF_FRIENDISTAG
 00000400 WCPUF_NWA
 00000400 _000491BITDEF
-00000400 _000651BITDEF
 00000400 _000186BITDEF
-00000400 BMF_FRIENDISTAG
-00000400 _000467BITDEF
-00000406 rob_delete
-0000041A rob_format_disk
-0000041E rob_get_file_size
-00000434 rob_list_directory
-0000049C nothing
-000004A0 _flushcache
-000004AE request
-000004AE access
-000004C0 kb_hook
-000004D6 quit
-000004E4 copylock
-000004EC _resload
-000004F0 size
-000004F4 reloc_size
-000004F8 swos_version
-000004FC program_location
-00000500 data_buffer
-00000504 listdir_buffer
+00000400 _000651BITDEF
+0000040A quit
+00000418 copylock
+00000420 _resload
+00000424 _freefast
+00000428 _freechip
+0000042C size
+00000430 reloc_size
+00000434 swos_version
+00000438 program_location
+0000043C listdir_buffer
+00000800 WCPUF_SB
 00000800 _000470BITDEF
 00000800 _000210BITDEF
-00000800 WCPUF_SB
+00000800 _000494BITDEF
 00000800 BMF_INVALID
 00000800 BUFFER_SIZE
 00000800 _000293BITDEF
-00000800 _000494BITDEF
 00000800 _000648BITDEF
-00000D08 _GetFileSize
-00000D1A _LoadFile
-00000D32 _LoadFileDEC
-00000D44 _Deletefile
-00000D56 _SaveFile
-00000D62 au
-00001000 _000473BITDEF
+00000C40 _GetFileSize
+00000C52 _LoadFile
+00000C6A _LoadFileDEC
+00000C7C _Deletefile
+00000C8E _SaveFile
+00000C9A au
 00001000 WHDLF_ClearMem
-00001000 _000645BITDEF
-00001000 _000213BITDEF
-00001000 DIPF_IS_EXTRAHALFBRITE
+00001000 _000473BITDEF
 00001000 _000497BITDEF
 00001000 WCPUF_BC
-00002000 _000642BITDEF
+00001000 _000213BITDEF
+00001000 _000645BITDEF
+00001000 DIPF_IS_EXTRAHALFBRITE
+00002000 _000045BITDEF
 00002000 _000500BITDEF
 00002000 _000216BITDEF
-00002000 _000476BITDEF
-00002000 _000045BITDEF
 00002000 WCPUF_SS
-00004000 _000479BITDEF
+00002000 _000476BITDEF
+00002000 _000642BITDEF
+00004000 _000547BITDEF
 00004000 WCPUF_FPU
 00004000 _000503BITDEF
 00004000 _000042BITDEF
-00004000 _000547BITDEF
 00004000 _000639BITDEF
-00008000 _000189BITDEF
-00008000 _000482BITDEF
-00008000 PLCMDF_WORDADR
-00008000 _000039BITDEF
+00004000 _000479BITDEF
 00008000 _000544BITDEF
+00008000 _000482BITDEF
 00008000 _000636BITDEF
+00008000 _000039BITDEF
+00008000 _000189BITDEF
 00008000 _000051BITDEF
 00020000 _000616BITDEF
 00031084 VGAEXTRAHALFBRITE_KEY
 00031085 VGAEXTRAHALFBRITELACE_KEY
 00031804 VGAHAM_KEY
 00031805 VGAHAMLACE_KEY
-00040000 TEAM_BUFFER_SIZE
 00040000 _000613BITDEF
 00061084 EURO72EXTRAHALFBRITE_KEY
 00061085 EURO72EXTRAHALFBRITELACE_KEY
@@ -6243,16 +5746,15 @@ FFFFFFFF TDREASON_OK
 00080000 PROGRAM_LOCATION_OFFSET
 00080000 _000610BITDEF
 00100000 _000607BITDEF
-00100000 CHIPMEMSIZE
-00100000 PROGRAM_FASTMEMSIZE
-00140000 FASTMEMSIZE
+00200000 FASTMEMSIZE
 00200000 _000604BITDEF
+00200000 CHIPMEMSIZE
 00400000 _000601BITDEF
 00800000 _000598BITDEF
 00DFF000 _custom
-03000000 FASTBITS
-40000000 _000595BITDEF
+0F000000 FASTBITS
 40000000 _000219BITDEF
+40000000 _000595BITDEF
+80000000 _000222BITDEF
 80000000 TAG_USER
 80000000 _000592BITDEF
-80000000 _000222BITDEF

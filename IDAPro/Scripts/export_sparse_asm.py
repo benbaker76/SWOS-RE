@@ -14,7 +14,6 @@ import re
 import idaapi
 import ida_bytes
 import ida_funcs
-import ida_ida
 import ida_kernwin
 import ida_lines
 import ida_name
@@ -35,12 +34,12 @@ EMIT_ORG                 = False
 ORG_DIRECTIVE            = "        ORG"
 ENTRY_POINT_LABEL        = "j_start"
 CODE_SECTION_NAME        = "text,CODE"
-BSS_SECTION_NAME         = "bss,BSS"
 INDENT_COL               = 16
 COMMENT_COL              = 40
 EQU_NAME_COL             = 40
 INCLUDE_NAME_IN_PROTO    = True
 KEEP_IDA_EOL_COMMENTS    = True
+FIX_RELOC_ERRORS         = True
 
 # org emission control
 MIN_ORG_HOLE_BYTES       = 16
@@ -84,6 +83,16 @@ RE_SP_MOVE_BW = re.compile(
     r'^(?P<lead>\s*move\.(?P<size>[bw]))\s+(?P<src>sp|a7)\s*(?P<comma>,)',
     flags=re.IGNORECASE,
 )
+_RE_GLOB_SHORT = re.compile(
+    r'\((g_(?:currentMenu|menuEntries)[^)]*)\)\.w'
+)
+LEA_CURRENTMENU_RE = re.compile(
+    r'^(\s*(?:[A-Za-z_][A-Za-z0-9_]*\s*:)?\s*lea\s+.*g_currentMenu.*)\.w(\s*,a[0-7]\s*.*)$'
+)
+
+LEA_MENUENTRIES_RE = re.compile(
+    r'^(\s*(?:[A-Za-z_][A-Za-z0-9_]*\s*:)?\s*lea\s+.*g_menuEntries.*)\.w(\s*,a[0-7]\s*.*)$'
+)
 
 # ----- constants -----
 MAX_LITERAL_UDT_RUN_ELEMS = 2048  # (kept for parity; not referenced directly)
@@ -99,7 +108,7 @@ MIN_STR_PREFIX     = 12           # require at least this many printable chars b
 MAX_STRING_AGG     = 1 << 16      # safety cap
 
 CUSTOM_BASE        = 0x00DFF000
-CUSTOM_END         = 0x00DFF200   # half-open: [$DFF000, $DFF200)
+CUSTOM_END         = 0x00DFF200   # half-open: ($DFF000, $DFF200)
 
 CIAB_BASE          = 0x00BFD000
 CIAB_END           = 0x00BFE000   # half-open
@@ -113,9 +122,12 @@ _PRINTED_CODE_SECTION = False
 _PRINTED_BSS_HEADER   = set()   # set of region names we've bannered (BSS_01, BSS_02…)
 
 BSS_REGIONS = [
-    ("BSS_0", 0x00000400, 0x00100000),  # [$00000400, $00100000)
-    ("BSS_1", 0x0015736A, 0x00200000),  # [$0015736A, $00200000)
+    ("BSSInChip", "BSS_0", "CHIP", 0x00000400, 0x00100000),  # ($00000400, $00100000)
+    ("bss",       "BSS_1", "",     0x0015736A, 0x00200000),  # ($0015736A, $00200000)
 ]
+
+def BSS_SECTION_NAME(name):
+  return f"{name},BSS"
 
 ENABLE_BSS_OFFSETS = True
 
@@ -123,9 +135,6 @@ DEBUG_STR_WRAP = False
 
 def _reset_bss_chain():
     _BSS_CHAIN_STATE.clear()
-
-def _reset_bss_chain_for_region(reg_name):
-    _BSS_CHAIN_STATE.pop(reg_name, None)
 
 # 2) Use the pretty name for padding labels inside the region.
 def _emit_bss_chain(fh, name, ea, item_len, addr_expr, reg_name):
@@ -139,27 +148,25 @@ def _emit_bss_chain(fh, name, ea, item_len, addr_expr, reg_name):
 
     # Resolve region base once (if known)
     reg = _bss_region_for_ea(ea)
-    base = reg[1] if reg else ea
+    base = reg[3] if reg else ea
 
     if not st:
         # First symbol in this region: if it doesn't start at base, emit the leading padding.
-        st = {"last_label": None, "last_ea": base, "last_size": 0, "pad_idx": 1}
+        st = {"last_label": None, "last_ea": base, "last_size": 0}
         if ea > base:
             pretty = _format_bss_banner_name(reg_name) if reg_name else "BSS"
-            pad_label = f"{pretty}_padding_{st['pad_idx']:02d}"
+            pad_label = f"{pretty}_{ea:X}"
             fh.write(col_indent(f"{pad_label}:") + "\n")
             fh.write(col_indent(f"ds.b ${ea - base:X}") + "\n")
-            st["pad_idx"] += 1
     else:
         # Subsequent symbols: insert padding from end of previous item if needed.
         prev_end = st["last_ea"] + st["last_size"]
         pad = ea - prev_end
         if pad > 0:
             pretty = _format_bss_banner_name(reg_name) if reg_name else "BSS"
-            pad_label = f"{pretty}_padding_{st['pad_idx']:02d}"
+            pad_label = f"{pretty}_{ea:X}"
             fh.write(col_indent(f"{pad_label}:") + "\n")
             fh.write(col_indent(f"ds.b ${pad:X}") + "\n")
-            st["pad_idx"] += 1
 
     # type (if present)
     if label:
@@ -175,7 +182,55 @@ def _emit_bss_chain(fh, name, ea, item_len, addr_expr, reg_name):
     st["last_size"]  = size
     _BSS_CHAIN_STATE[reg_name] = st
 
-def _fix_sp_deref(line: str) -> str:
+def _clamp_array_count_to_item(ea: int, count: int) -> int:
+    flags = ida_bytes.get_full_flags(ea)
+    item_size = ida_bytes.get_item_size(ea)
+    elsize = ida_bytes.get_data_elsize(ea, flags)
+
+    if not elsize:
+        return count
+
+    return item_size // elsize
+
+def _array_layout_matches_flags(ea: int, elem_size: int, count: int, max_check: int = 8) -> bool:
+    """
+    Sanity check: verify that there are no *conflicting* data heads inside
+    the declared array.
+
+    We ONLY reject the array if IDA has started a new item head whose size
+    disagrees with the element size (e.g. array of words, but a dword head
+    starts at element #1 for an embedded pointer).
+
+    This keeps legit arrays like __int8[28] intact, even if IDA hasn't
+    created per-element data items.
+    """
+    if elem_size not in (1, 2, 4) or count <= 1:
+        # Exotic sizes or single-element "arrays": don't block them here.
+        return True
+
+    seg = ida_segment.getseg(ea)
+    if not seg:
+        return True
+
+    limit = min(count, max_check)
+    for i in range(1, limit):  # skip element 0 at ea
+        cur = ea + i * elem_size
+        if cur >= seg.end_ea:
+            break
+
+        f = ida_bytes.get_full_flags(cur)
+
+        # Only care if there's a *new head* here.
+        if ida_bytes.is_head(f):
+            sz = ida_bytes.get_item_size(cur) or 0
+            # If IDA started an item whose size doesn't match elem_size,
+            # this conflicts with a packed array layout.
+            if sz and sz != elem_size:
+                return False
+
+    return True
+
+def _fix_sp_deref(line: str, ea: int | None = None) -> str:
     # Skip if already parenthesized
     if "(sp)" in line.lower() or "(a7)" in line.lower():
         return line
@@ -185,8 +240,34 @@ def _fix_sp_deref(line: str) -> str:
         line
     )
 
-def _fixups(line: str) -> str:
-    line = _fix_sp_deref(line)
+def _fix_reloc(line: str, *, ea: int | None = None) -> str:
+    if "g_currentMenu" not in line and "g_menuEntries" not in line:
+        return line
+
+    original = line
+
+    # convert (...).w -> (...).l
+    def _repl(m: re.Match) -> str:
+        inner = m.group(1)
+        return f"({inner}).l"
+
+    line = _RE_GLOB_SHORT.sub(_repl, line)
+
+    m = LEA_CURRENTMENU_RE.match(line)
+    if m:
+        return f"{m.group(1)}.l{m.group(2)}"
+
+    m = LEA_MENUENTRIES_RE.match(line)
+    if m:
+        return f"{m.group(1)}.l{m.group(2)}"
+
+    return line
+    
+
+def _fixups(line: str, *, ea: int | None = None) -> str:
+    line = _fix_sp_deref(line, ea=ea)
+    if FIX_RELOC_ERRORS:
+        line = _fix_reloc(line, ea=ea)
     return line
 
 def _write_asm(fh, s: str, *, ea: int | None = None, code_col: int = INDENT_COL, cmt_col: int = COMMENT_COL) -> str:
@@ -199,7 +280,7 @@ def _write_asm(fh, s: str, *, ea: int | None = None, code_col: int = INDENT_COL,
       - writes to fh with a trailing newline
     Returns the final, printed line (without trailing newline).
     """
-    s = _fixups(s or "")
+    s = _fixups(s or "", ea=ea)
     if ea is not None:
         # If this is the ENTRY_POINT_LABEL's first printed line, drop the CODE section + ORG now.
         _maybe_emit_code_section_for_entry(fh, ea)
@@ -216,27 +297,27 @@ def _emit_bss_header(fh):
         return
     fh.write("\n")
     fh.write("; ===== BSS REGION =====\n")
-    for name, start, end in BSS_REGIONS:
-        fh.write(_equ_line_keepcase(f"{name}_BASE", f"${start:08X}") + "\n")
-        fh.write(_equ_line_keepcase(f"{name}_END",  f"${end:08X}")  + "\n")
+    for name, type, mem, base, end in BSS_REGIONS:
+        fh.write(_equ_line_keepcase(f"{type}_BASE", f"${base:08X}") + "\n")
+        fh.write(_equ_line_keepcase(f"{type}_END",  f"${end:08X}")  + "\n")
     fh.write("; ===== END BSS REGION =====\n")
 
 def _bss_region_for_ea(addr: int):
     """Return (region_name, base, end) or None if addr not in any BSS region."""
     if not ENABLE_BSS_OFFSETS:
         return None
-    for name, base, end in BSS_REGIONS:
+    for name, type, mem, base, end in BSS_REGIONS:
         if base <= addr < end:
-            return (name, base, end)
+            return (name, type, mem, base, end)
     return None
 
 def _fmt_bss_or_abs(addr: int) -> str:
     """Format an absolute address using BSS_X_BASE+off if inside a defined BSS region."""
     reg = _bss_region_for_ea(addr)
     if reg:
-        name, base, _end = reg
+        name, type, mem, base, _end = reg
         off = addr - base
-        return f"{name}_BASE" if off == 0 else f"{name}_BASE+${off:X}"
+        return f"{type}_BASE" if off == 0 else f"{type}_BASE+${off:X}"
     return f"${addr:X}"
 
 def _emit_data_type_comment_if_any(fh, ea):
@@ -261,10 +342,10 @@ def _asm_quote_escape(b: int) -> str | None:
 
 def _eol_text_at(ea: int) -> str:
     s = ida_lines.tag_remove(ida_lines.generate_disasm_line(ea, 0) or "")
-    i = s.find(';')
-    if i == -1:
+    _code, cmt = _split_code_and_comment(s)
+    if not cmt:
         return ""
-    c = s[i+1:].strip()
+    c = cmt.strip()
     return "" if c.lower() == "raw" else c
 
 def _eol_at(ea: int) -> str:
@@ -363,10 +444,6 @@ def emit_wrapped_comments_dedup(fh, ea, base_line_or_text, indent_fn, _seg_end_e
             continue
         #fh.write(indent_fn(f"; [{id} include_next={include_next}]" + ln) + "\n")
         fh.write(indent_fn("; " + ln) + "\n")
-
-
-def _disasm_line(ea: int) -> str:
-    return tag_remove(ida_lines.generate_disasm_line(ea, 0) or "")
 
 def _get_extra_block_lines(ea: int, which: int) -> list[str]:
     out = []
@@ -689,55 +766,6 @@ def _emit_string_wrapped63_itemspan(fh, ea: int, total: int):
 
     fh.write(col_indent(out) + "\n")
 
-def _emit_string_like_full_item_bytewise(fh, ea: int, seg_end_ea: int) -> int:
-    raw, end_ea = _collect_bytes_until_next_named_label(ea, seg_end_ea)
-    if not raw:
-        return min(ea + 1, seg_end_ea)
-
-    # split at first NUL
-    try:
-        nul_idx = raw.index(0)
-        prefix, has_nul, tail = raw[:nul_idx], True, raw[nul_idx+1:]
-    except ValueError:
-        prefix, has_nul, tail = raw, False, b""
-
-    def _esc(s: str) -> str: return s.replace("'", "''")
-
-    # wrap the prefix in 63-char lines
-    text = prefix.decode("latin-1", "ignore")
-    chunks = [text[i:i+WRAP_CHARS] for i in range(0, len(text), WRAP_CHARS)]
-    if not chunks:
-        last = "dc.b"
-    else:
-        for c in chunks[:-1]:
-            fh.write(col_indent(f"dc.b '{_esc(c)}'") + "\n")
-        last = f"dc.b '{_esc(chunks[-1])}'"
-
-    # build tail tokens: include NUL then printable runs / $HH
-    tokens = []
-    if has_nul:
-        tokens.append("0")
-
-    i = 0
-    while i < len(tail):
-        b = tail[i]
-        if 0x20 <= b <= 0x7E:
-            j = i
-            while j < len(tail) and 0x20 <= tail[j] <= 0x7E:
-                j += 1
-            tokens.append("'" + _esc(tail[i:j].decode("latin-1", "ignore")) + "'")
-            i = j
-        else:
-            tokens.append(f"${b:02X}")
-            i += 1
-
-    if last == "dc.b":
-        fh.write(col_indent("dc.b " + (",".join(tokens) if tokens else "''")) + "\n")
-    else:
-        fh.write(col_indent(last + ("," + ",".join(tokens) if tokens else "")) + "\n")
-
-    return end_ea
-
 def _has_inner_label(ea: int, size: int) -> bool:
     # true if there is a label on any inner byte of the item
     for i in range(1, size):
@@ -788,9 +816,16 @@ def _emit_scalar_dc_forced(fh, ea, width, label, treat_as_ptr: bool=False, use_e
     ti = ida_typeinf.tinfo_t()
     have_ti = ida_nalt.get_tinfo(ti, ea)
 
+    # AP_SIGNED override: if set, treat as "unsigned style = hex"
+    ap_force_hex = _ap_signed_at(ea)
+
+    # Typed int? Keep signed vs unsigned behaviour strict:
+    #   - signed    → decimal (unless AP_SIGNED forces hex)
+    #   - unsigned  → hex
+    is_signed_int   = bool(have_ti and ti.is_int() and ti.is_signed())
+    is_unsigned_int = bool(have_ti and ti.is_int() and not ti.is_signed())
+
     eol = _eol_text_at(ea) if use_eol else ""
-    # If we are not inheriting IDA's EOL, use the provided member label as the comment
-    # (except when it's the sentinel "raw")
     if not eol:
         if (label or "").strip().lower() != "raw":
             eol = label or ""
@@ -804,12 +839,26 @@ def _emit_scalar_dc_forced(fh, ea, width, label, treat_as_ptr: bool=False, use_e
 
     if width == 1:
         uv = ida_bytes.get_wide_byte(ea)
-        txt = _fmt_s_dec(uv, 8) if ((uv & 0x80) or (have_ti and ti.is_int() and ti.is_signed())) else _fmt_u(uv, 1)
+        if ap_force_hex:
+            txt = _fmt_u(uv, 1)
+        elif is_signed_int:
+            txt = _fmt_s_dec(uv, 8)
+        elif is_unsigned_int:
+            txt = _fmt_u(uv, 1)
+        else:
+            txt = _fmt_s_dec(uv, 8) if (uv & 0x80) else _fmt_u(uv, 1)
         return _write("dc.b", txt, eol)
 
     if width == 2:
         uv = ida_bytes.get_wide_word(ea)
-        txt = _fmt_s_dec(uv, 16) if ((uv & 0x8000) or (have_ti and ti.is_int() and ti.is_signed())) else _fmt_u(uv, 2)
+        if ap_force_hex:
+            txt = _fmt_u(uv, 2)
+        elif is_signed_int:
+            txt = _fmt_s_dec(uv, 16)
+        elif is_unsigned_int:
+            txt = _fmt_u(uv, 2)
+        else:
+            txt = _fmt_s_dec(uv, 16) if (uv & 0x8000) else _fmt_u(uv, 2)
         return _write("dc.w", txt, eol)
 
     # width == 4
@@ -848,7 +897,14 @@ def _emit_scalar_dc_forced(fh, ea, width, label, treat_as_ptr: bool=False, use_e
         fh.write(line)
         return line.rstrip("\n")
 
-    txt = _fmt_s_dec(uv, 32) if ((uv & 0x80000000) or (have_ti and ti.is_int() and ti.is_signed())) else _fmt_u(uv, 4)
+    if ap_force_hex:
+        txt = _fmt_u(uv, 4)
+    elif is_signed_int:
+        txt = _fmt_s_dec(uv, 32)
+    elif is_unsigned_int:
+        txt = _fmt_u(uv, 4)
+    else:
+        txt = _fmt_s_dec(uv, 32) if (uv & 0x80000000) else _fmt_u(uv, 4)
     return _write("dc.l", txt, eol)
 
 
@@ -1144,10 +1200,13 @@ def emit_dc_b_numeric_by_tinfo(fh, ea: int, count: int):
             if et.is_int() and et.get_size() == 1:
                 signed_elem = et.is_signed()
 
+    if _ap_signed_at(ea):
+        signed_elem = True
+
     per_line = 16
     end = ea + count
     cur = ea
-    first = True  # <-- add
+    first = True
     while cur < end:
         take = min(per_line, end - cur)
         bs = ida_bytes.get_bytes(cur, take) or b""
@@ -1213,57 +1272,6 @@ def _looks_like_c_string(ea: int, maxlen=256) -> bool:
         saw = True
     return False
 
-def _asm_escape_bytes(bs: bytes) -> str:
-    """
-    Turn bytes into one or more ASM string literals (Devpac/vasm friendly), using:
-      - "text"  for printable runs (quotes escaped by doubling: "" )
-      - numeric bytes for non-printables
-    We'll return a list-like string suitable for dc.b arguments, e.g.:
-      "HELLO",0,13,10,"WORLD",0
-    """
-    parts = []
-    i = 0
-    n = len(bs)
-    while i < n:
-        # collect printable run
-        j = i
-        while j < n and _is_printable(bs[j]):
-            j += 1
-        if j > i:
-            s = bs[i:j].decode('latin-1', 'ignore')
-            s = s.replace('"', '""')  # Devpac/vasm escape for quote inside quotes
-            parts.append(f'"{s}"')
-            i = j
-            continue
-        # single non-printable
-        parts.append(str(_to_signed(bs[i], 8)))
-        i += 1
-    return ",".join(parts)
-
-def _collect_c_string_span(ea: int, limit: int) -> int:
-    """Return length up to and including first NUL (<= limit). 0 if not string."""
-    if not _looks_like_c_string(ea, maxlen=min(limit, 4096)):
-        return 0
-    l = 0
-    while l < limit:
-        b = ida_bytes.get_wide_byte(ea + l)
-        if b == 0:
-            return l + 1  # include NUL
-        l += 1
-    return 0
-
-def _fmt_unsigned(uv: int, sz: int) -> str:
-    if DEFAULT_UNSIGNED_STYLE == "hex":
-        return f"$%0*X" % ({1:2,2:4,4:8}.get(sz, 0) or 0, uv)
-    return str(uv)
-
-def _fmt_signed_or_unsigned(ti: ida_typeinf.tinfo_t, uv: int) -> str:
-    sz = ti.get_size() or 1
-    if ti.is_signed():
-        return str(_to_signed(uv, sz * 8))
-    return _fmt_unsigned(uv, sz)
-
-
 def _asm_id(s: str) -> str:
     s = s or ""
     s = s.replace("struct ", "").replace("union ", "").replace("enum ", "")
@@ -1283,11 +1291,6 @@ def _advance_or_min(ea, suggested_end, seg_end_ea, fallback_len=1):
     if suggested_end is None or suggested_end <= ea:
         suggested_end = ea + max(1, int(fallback_len))
     return min(int(suggested_end), int(seg_end_ea))
-
-
-def _safe_item_len(ea):
-    sz = ida_bytes.get_item_size(ea) or 1
-    return max(1, int(sz))
 
 
 def _safe_get_bytes(ea: int, size: int) -> bytes:
@@ -1335,6 +1338,19 @@ def _read_int_be(ea: int, size: int) -> int:
         v = (v << 8) | (byte if isinstance(byte, int) else ord(byte))
     return v
 
+def _ap_signed_at(ea: int) -> bool:
+    """
+    Return True if the data item at EA has the AP_SIGNED flag set.
+    This is our manual override: if set, we always emit numeric values as hex.
+    """
+    params = ida_nalt.array_parameters_t()
+    has_params = ida_nalt.get_array_parameters(params, ea)
+
+    if has_params is None:
+        return False
+    
+    return (params.flags & ida_nalt.AP_SIGNED) != 0
+
 def _to_signed(val: int, bits: int) -> int:
     mask = (1 << bits) - 1
     v = val & mask
@@ -1353,20 +1369,6 @@ def _ptr_text_or_hex(addr: int) -> str:
         return "0"
     nm = name_at(addr)
     return nm if nm else f"$%X" % addr
-
-
-def _format_int_literal(val: int, sz: int, treat_as_ptr: bool) -> str:
-    if treat_as_ptr:
-        if val == 0:
-            return "0"
-        return f"$%X" % val
-    if sz == 1:
-        return str(_to_signed(val, 8))
-    if sz == 2:
-        return str(_to_signed(val, 16))
-    if sz == 4:
-        return str(_to_signed(val, 32))
-    return str(val)
 
 
 def _next_named_ea_after(ea: int, seg_end: int) -> int:
@@ -1440,6 +1442,9 @@ def _enum_member_name_by_value_from_tinfo(enum_ti: ida_typeinf.tinfo_t, value: i
     return None
 
 def _emit_enum_array_grouped(fh, ea: int, enum_ti: ida_typeinf.tinfo_t, stride: int, count: int, header_comment: str | None = None):
+    # NEW: do not trust 'count' blindly – clamp it to the bytes at EA
+    count = _clamp_array_count_to_item(ea, count)
+    
     if header_comment:
         fh.write(col_indent(f"; {header_comment}") + "\n")
     per_line = {1: 16, 2: 8, 4: 6}.get(stride, 16)
@@ -1553,16 +1558,6 @@ def is_func_start(ea):
     return f is not None and f.start_ea == ea
 
 
-def write_org(fh, addr, *, force=False):
-    """
-    Write an ORG line. Respects EMIT_ORG unless force=True.
-    """
-    # Central guard: never emit ORG unless explicitly enabled.
-    if not (EMIT_ORG and not force):
-         return
-    fh.write("%s $%X\n" % (ORG_DIRECTIVE, addr))
-
-
 def _is_align_flag(f):
     return hasattr(ida_bytes, "is_align") and ida_bytes.is_align(f)
 
@@ -1620,7 +1615,7 @@ def _format_bss_banner_name(reg_name: str) -> str:
     idx = int(m.group(1))
     return f"BSS_{idx:02d}"
 
-def _ensure_bss_section_banner(fh, reg_name: str, base: int, end: int, at_ea: int):
+def _ensure_bss_section_banner(fh, reg, at_ea: int):
     """
     Before emitting the first symbol that lives inside a given BSS region,
     print:
@@ -1630,19 +1625,23 @@ def _ensure_bss_section_banner(fh, reg_name: str, base: int, end: int, at_ea: in
     Only once per region.
     """
     global _PRINTED_BSS_HEADER
-    if reg_name in _PRINTED_BSS_HEADER:
+
+    name, type, mem, base, end = reg
+
+    if type in _PRINTED_BSS_HEADER:
         return
 
     # Always ORG to region base so we can emit leading padding if the first symbol is not at base
-    _emit_section_and_org(fh, BSS_SECTION_NAME, base)
-    nice = _format_bss_banner_name(reg_name)
+    _emit_section_and_org(fh, BSS_SECTION_NAME(name) + (f",{mem}" if mem else ""), base)
+    nice = _format_bss_banner_name(type)
     fh.write(f"; --- {nice} {base:08X}-{end:08X} ---\n\n")
-    _PRINTED_BSS_HEADER.add(reg_name)
+    _PRINTED_BSS_HEADER.add(type)
 
 def _emit_section_and_org(fh, section_name: str, org_addr: int):
     fh.write("\n")
     fh.write(f"    SECTION {section_name}\n")
-    fh.write(f"    ORG ${org_addr:08X}\n\n")
+    if EMIT_ORG:
+        fh.write(f"    ORG ${org_addr:08X}\n\n")
 
 def _maybe_emit_code_section_for_entry(fh, ea: int):
     """
@@ -2113,39 +2112,208 @@ def rewrite_struct_refs(line: str) -> str:
 
     return left + right
 
+def _find_base_for_ptr(v: int) -> tuple[str | None, int]:
+    """
+    Given an address v that is likely inside some object (string, array, etc),
+    walk backwards in the same segment until we find a named symbol.
+    Returns (name, ea) or (None, BADADDR) if no suitable base is found.
+    """
+    seg = ida_segment.getseg(v)
+    if not seg:
+        return None, idc.BADADDR
+
+    ea = v
+    limit = 0x2000  # don't walk more than 8KB just in case
+
+    while ea >= seg.start_ea and limit > 0:
+        nm = idc.get_name(ea, idc.GN_VISIBLE)
+        if nm:
+            return nm, ea
+        ea -= 1
+        limit -= 1
+
+    return None, idc.BADADDR
+
+
+def _format_ptr_array_vals(values: list[int]) -> list[str]:
+    """
+    Given a small chunk of 32-bit values that we already decided is a pointer array,
+    try to detect the 'all point into the same object' pattern (like a big string),
+    and emit base+offset. If that pattern isn't there, fall back to the old behavior.
+    """
+    non_sentinel = [v for v in values if v not in (0, 0xFFFFFFFF)]
+    base_name = None
+    base_ea = idc.BADADDR
+    relative_mode = False
+
+    if non_sentinel:
+        # Find base for the first non-sentinel
+        nm0, ea0 = _find_base_for_ptr(non_sentinel[0])
+        if nm0:
+            base_name, base_ea = nm0, ea0
+            relative_mode = True
+            # Make sure *all* non-sentinel values resolve to the same base
+            for v in non_sentinel[1:]:
+                nm, ea = _find_base_for_ptr(v)
+                if nm != base_name or ea != base_ea:
+                    relative_mode = False
+                    break
+
+    out: list[str] = []
+
+    # Nice case: everything points into the same object -> base+offset
+    if relative_mode and base_name:
+        for v in values:
+            if v == 0:
+                out.append("NULL")
+            elif v == 0xFFFFFFFF:
+                out.append("$FFFFFFFF")
+            else:
+                delta = v - base_ea
+                if delta == 0:
+                    out.append(base_name)
+                else:
+                    out.append(f"{base_name}+${delta:X}")
+        return out
+
+    # Fallback: original pointer behavior (no base+offset trick)
+    for v in values:
+        if v == 0:
+            out.append("NULL")
+        elif v == 0xFFFFFFFF:
+            out.append("$FFFFFFFF")
+        else:
+            nm = idc.get_name(v, idc.GN_VISIBLE)
+            out.append(nm if nm else _fmt_u(v, 4))
+    return out
 
 # ---------- array/scalar emitters ----------
-def emit_scalar_array_grouped(fh, ea: int, elem_width: int, count: int, header_comment: str | None = None):
+def emit_scalar_array_grouped(
+    fh,
+    ea: int,
+    elem_width: int,
+    count: int,
+    header_comment: str | None = None,
+    signed_elem: bool | None = None,
+    elem_t: idaapi.tinfo_t | None = None,
+):
+    """
+    Extended version of scalar array emitter:
+    - Emits enum members for enum arrays
+    - Emits pointer labels (with base+offset) for pointer-ish long arrays
+    - Emits signed/unsigned integers for everything else
+    """
     elem_width = 1 if elem_width not in (1, 2, 4) else elem_width
+    # NEW: clamp count to actual bytes at EA
+    count = _clamp_array_count_to_item(ea, count)
     per_line = {1: 16, 2: 8, 4: 8}[elem_width]
 
     if header_comment:
         fh.write(col_indent(f"; {header_comment}") + "\n")
 
-    first = True  # <-- add
+    # ---------- ENUM RESOLUTION HELPERS ----------
+
+    def _resolve_enum(ti: idaapi.tinfo_t, v: int) -> str:
+        """Return enum name or numeric fallback."""
+        enum_t = ti.get_enum()
+        if not enum_t:
+            return _fmt_u(v, elem_width)
+
+        # exact match
+        name = idaapi.get_enum_name(enum_t, v)
+        if name:
+            return name
+
+        # try bitwise flags
+        parts = []
+        mid = idaapi.get_first_enum_member(enum_t, v)
+        while mid != idc.BADADDR:
+            parts.append(idaapi.get_enum_member_name(enum_t, mid))
+            mid = idaapi.get_next_enum_member(enum_t, mid, v)
+        if parts:
+            return "|".join(parts)
+
+        return _fmt_u(v, elem_width)
+
+    # ---------------------------------------------
+
+    if _ap_signed_at(ea):
+        signed_elem = True
+
+    first = True
     i = 0
+
     while i < count:
         n = min(per_line, count - i)
         base = ea + i * elem_width
-        vals = []
+        vals: list[str] = []
 
+        # ============================
+        # BYTE ARRAY
+        # ============================
         if elem_width == 1:
             for j in range(n):
                 v = ida_bytes.get_wide_byte(base + j)
-                vals.append(str(_to_signed(v, 8)))
+                vals.append(_fmt_s_dec(v, 8) if signed_elem else _fmt_u(v, 1))
             line = "dc.b " + ",".join(vals)
+
+        # ============================
+        # WORD ARRAY
+        # ============================
         elif elem_width == 2:
             for j in range(n):
                 v = ida_bytes.get_wide_word(base + j * 2)
-                vals.append(str(_to_signed(v, 16)))
+
+                if elem_t and elem_t.is_enum():
+                    vals.append(_resolve_enum(elem_t, v))
+                else:
+                    vals.append(_fmt_s_dec(v, 16) if signed_elem else _fmt_u(v, 2))
+
             line = "dc.w " + ",".join(vals)
-        else:  # 4
-            for j in range(n):
-                v = ida_bytes.get_wide_dword(base + j * 4)
-                vals.append(str(_to_signed(v, 32)))
+
+        # ============================
+        # LONG ARRAY (enum? ptr? int?)
+        # ============================
+        else:  # elem_width == 4
+
+            # Collect raw values once for this chunk
+            raw_vals = [ida_bytes.get_wide_dword(base + j * 4) for j in range(n)]
+
+            # Decide if this array is likely a pointer table
+            treat_as_ptr_array = False
+
+            if elem_t and elem_t.is_ptr():
+                # Typed as pointer → trust IDA
+                treat_as_ptr_array = True
+            else:
+                # Heuristic: any value that can be tied to a named base
+                for vtest in raw_vals:
+                    if vtest in (0, 0xFFFFFFFF):
+                        continue
+                    base_info = _find_base_for_ptr(vtest)
+                    if base_info and base_info[1]:
+                        treat_as_ptr_array = True
+                        break
+
+            # ENUM ARRAY?
+            if elem_t and elem_t.is_enum():
+                vals = [_resolve_enum(elem_t, v) for v in raw_vals]
+
+            # POINTER ARRAY?
+            elif treat_as_ptr_array:
+                # Use helper that emits aName, aName+offset, NULL, $FFFFFFFF, etc.
+                vals = _format_ptr_array_vals(raw_vals)
+
+            # RAW INTEGER ARRAY
+            else:
+                vals = [
+                    _fmt_s_dec(v, 32) if signed_elem else _fmt_u(v, 4)
+                    for v in raw_vals
+                ]
+
             line = "dc.l " + ",".join(vals)
 
-        # Attach the head's EOL to the FIRST line of this item.
+        # Append EOL comment for first line only (existing behavior)
         if first:
             eol = _eol_at(ea)
             if eol:
@@ -2160,10 +2328,12 @@ def emit_array_dc(fh, ea: int) -> bool:
     """
     Arrays with strict rules:
       - exact char[N] AND looks_like_c_string(ea) → dc.b "....",0,...
-      - __int8 arrays → decimal dc.b
-      - unsigned __int8 arrays → hex dc.b
-      - 16-bit arrays → dc.w (signed→dec, unsigned→hex)
-      - 32-bit arrays → dc.l (pointer tables → labels; else signed/unsigned with negative→dec heuristic)
+      - __int8 / unsigned __int8 arrays          → decimal / hex dc.b (respect element signedness)
+      - enum arrays                               → enum member names (dc.b/dc.w/dc.l as needed)
+      - 16-bit int arrays                         → dc.w (signed→dec, unsigned→hex)
+      - 32-bit int arrays                         → dc.l (signed→dec, unsigned→hex)
+      - pointer arrays                            → labels where resolvable
+      - everything else                           → falls back to numeric bytes (never quoted)
     """
     ti = ida_typeinf.tinfo_t()
     if not (ida_nalt.get_tinfo(ti, ea) and ti.is_array()):
@@ -2173,12 +2343,24 @@ def emit_array_dc(fh, ea: int) -> bool:
     if not ti.get_array_details(atd):
         return False
 
-    elem = atd.elem_type
+    elem   = atd.elem_type
     nelems = atd.nelems
     if nelems <= 0:
         return False
 
-    esz = elem.get_size()
+    esz   = elem.get_size() or 1
+    tdisp = _type_display_name(ti)
+
+    # Determine signedness for integer arrays
+    # signed_elem=True  -> decimal
+    # signed_elem=False -> hex
+    signed_elem = False
+    if elem.is_int():
+        signed_elem = elem.is_signed()
+
+    # AP_SIGNED is our "force hex" override even for signed types
+    if _ap_signed_at(ea):
+        signed_elem = False
 
     # 1) true strings only: exact char[N] + looks_like_c_string guard
     if _is_exact_decl_char_array(ea) and _is_plain_char_tinfo(elem) and _looks_like_c_string(ea):
@@ -2186,81 +2368,65 @@ def emit_array_dc(fh, ea: int) -> bool:
         emit_dc_b_as_stringy_chunks(fh, ea, total)
         return True
 
-    # 2) byte arrays (no quoting ever)  <-- existing comment
-    if elem.is_int() and esz == 1:
-        # NEW: allow short control prefix + printable + NUL → mixed emit
-        total = ida_bytes.get_item_size(ea) or nelems
-        pref, span = _collect_prefixed_c_string(ea, total, max_prefix=4)
-        if pref or (_looks_like_c_string(ea)):  # handle both prefixed and pure strings
-            parts = []
-            # numeric prefix, if any
-            for k in range(pref):
-                parts.append(_fmt_u(ida_bytes.get_wide_byte(ea + k), 1))
-            # quoted printable run up to NUL
-            i = pref
-            txt = []
-            while i < span:
-                b = ida_bytes.get_wide_byte(ea + i)
-                if b == 0:
-                    break
-                esc = _asm_quote_escape(b)
-                # all should be printable here
-                txt.append(esc if esc is not None else ' ')
-                i += 1
-            parts.append('"' + ''.join(txt) + '"')
-            parts.append("0")
-            # any remainder after the first NUL → numeric
-            cur = ea + span
-            end = ea + total
-            while cur < end:
-                parts.append(_fmt_u(ida_bytes.get_wide_byte(cur), 1))
-                cur += 1
-            fh.write(col_indent("dc.b " + ",".join(parts)) + "\n")
+    # 2) ENUM ARRAYS: emit enum member names
+    if elem.is_enum():
+        total = esz * nelems
+        if not _is_range_loaded(ea, total):
+            # Can't safely read the full array, fall back to bytes
+            emit_dc_b_numeric_by_tinfo(fh, ea, ida_bytes.get_item_size(ea) or total)
             return True
 
-        # fallback: pure numeric bytes with signedness rule
-        emit_dc_b_numeric_by_tinfo(fh, ea, nelems)
+        # Use the enum-aware emitter (dc.b/dc.w/dc.l based on element size)
+        _emit_enum_array_grouped(
+            fh,
+            ea,
+            elem,
+            esz,
+            nelems,
+            header_comment=tdisp
+        )
         return True
 
-    # 3) word arrays
+    # 3) byte arrays (no quoting ever here; strings handled above)
+    if elem.is_int() and esz == 1:
+        total = ida_bytes.get_item_size(ea) or nelems
+        emit_dc_b_numeric_by_tinfo(fh, ea, total)
+        return True
+
+    # 4) word arrays
     if elem.is_int() and esz == 2:
-        signed_elem = elem.is_signed()
         per_line = 12
         cur = ea
-        for i in range(0, nelems, per_line):
-            take = min(per_line, nelems - i)
+        for _ in range(0, nelems, per_line):
+            take = min(per_line, nelems - (_ // per_line) * per_line)
             parts = []
-            for _ in range(take):
+            for _j in range(take):
                 uv = ida_bytes.get_wide_word(cur)
                 parts.append(_fmt_s_dec(uv, 16) if signed_elem else _fmt_u(uv, 2))
                 cur += 2
             fh.write(col_indent("dc.w " + ",".join(parts)) + "\n")
         return True
 
-    # 4) long arrays
+    # 5) long arrays
     if esz == 4:
         # pointer-table heuristic OR typed pointer
         treat_as_ptr_array = elem.is_ptr() or _looks_like_pointer_array(ea, nelems)
         per_line = 8
         cur = ea
-        for i in range(0, nelems, per_line):
-            take = min(per_line, nelems - i)
+        for _ in range(0, nelems, per_line):
+            take = min(per_line, nelems - (_ // per_line) * per_line)
             parts = []
-            for _ in range(take):
+            for _j in range(take):
                 uv = ida_bytes.get_wide_dword(cur)
                 if treat_as_ptr_array:
                     parts.append(_name_or_hex_for_ptr(uv))
                 else:
-                    if elem.is_int():
-                        parts.append(_fmt_s_dec(uv, 32) if elem.is_signed() else _fmt_u(uv, 4))
-                    else:
-                        # unknown intness → heuristic: negative => decimal
-                        parts.append(_fmt_s_dec(uv, 32) if (uv & 0x80000000) else _fmt_u(uv, 4))
+                    parts.append(_fmt_s_dec(uv, 32) if signed_elem else _fmt_u(uv, 4))
                 cur += 4
             fh.write(col_indent("dc.l " + ",".join(parts)) + "\n")
         return True
 
-    # 5) Fallback: dump bytes numerically (never quoted)
+    # 6) Fallback: dump bytes numerically (never quoted)
     total = ida_bytes.get_item_size(ea) or (nelems * max(1, esz))
     emit_dc_b_numeric_by_tinfo(fh, ea, total)
     return True
@@ -2454,10 +2620,18 @@ def _emit_data_item_structured(fh, ea: int) -> bool:
         atd = ida_typeinf.array_type_data_t()
         if not tif.get_array_details(atd):
             return False
+
         elem_t  = atd.elem_type
         esz     = elem_t.get_size() or 1
         cnt     = int(atd.nelems or 0)
         if not (elem_t and esz > 0 and cnt > 0):
+            return False
+
+        # NEW: sanity check that the declared array layout actually matches
+        # the data flags (byte/word/dword) of the heads that follow.
+        # If not, bail out so we don't smear over embedded pointers like
+        # introMenuImageScript's aGrafsCharsetRa.
+        if not _array_layout_matches_flags(ea, esz, cnt):
             return False
 
         tdisp       = _type_display_name(tif)
@@ -2510,7 +2684,7 @@ def _emit_data_item_structured(fh, ea: int) -> bool:
                 fh.write(col_indent(f"; {tdisp}") + "\n")
                 fh.write(col_indent(f"ds.b {needed} ; {tdisp}") + "\n")
                 return True
-            _emit_scalar_array_grouped(fh, ea, forced_w, cnt, header_comment=tdisp)
+            emit_scalar_array_grouped(fh, ea, forced_w, cnt, header_comment=tdisp)
             return True
 
         # enum arrays
@@ -2524,15 +2698,37 @@ def _emit_data_item_structured(fh, ea: int) -> bool:
             return True
 
         # integer arrays (never quote unless exact char[N])
-        needed = phys_stride * cnt
+        # Use item_size/elsize to clamp the element count so we don't
+        # walk into embedded pointers or following symbols.
+        max_elems = _clamp_array_count_to_item(ea, cnt)
+
+        # If something went weird and clamp returned 0, fall back to cnt.
+        if max_elems <= 0:
+            max_elems = cnt
+
+        needed = phys_stride * max_elems
         if not _is_range_loaded(ea, needed):
             fh.write(col_indent(f"; {tdisp}") + "\n")
             fh.write(col_indent(f"ds.b {needed} ; {tdisp}") + "\n")
             return True
+
         if phys_stride == 1:
-            emit_dc_b_numeric_by_tinfo(fh, ea, cnt)
+            # For byte arrays, `max_elems` is also the number of bytes to emit.
+            emit_dc_b_numeric_by_tinfo(fh, ea, max_elems)
         else:
-            emit_scalar_array_grouped(fh, ea, phys_stride, cnt, header_comment=tdisp)
+            # Respect element signedness:
+            #   - signed   → decimal
+            #   - unsigned → hex
+            is_signed_elem = bool(elem_t.is_int() and elem_t.is_signed())
+            emit_scalar_array_grouped(
+                fh,
+                ea,
+                phys_stride,
+                max_elems,
+                header_comment=tdisp,
+                signed_elem=is_signed_elem,
+                elem_t=elem_t,
+            )
         return True
 
     # Single UDT
@@ -2731,11 +2927,11 @@ def emit_one_data_item(fh, ea: int, seg_end_ea: int) -> int:
         nm = name_at(ea)
         if nm:
             addr_expr = _fmt_bss_or_abs(ea)  # "BSS_X_BASE+..." or "$XXXXXXXX"
-            reg_info  = _bss_region_for_ea(ea)
-            reg_name  = reg_info[0] if reg_info else None
-            if reg_info:
+            reg  = _bss_region_for_ea(ea)
+            reg_name  = reg[1] if reg else None
+            if reg:
                 # region-level SECTION/ORG + banner (once)
-                _ensure_bss_section_banner(fh, reg_info[0], reg_info[1], reg_info[2], ea)
+                _ensure_bss_section_banner(fh, reg, ea)
             else:
                 # OLD: equ_line = _equ_line_keepcase(nm, f"$%X" % ea)
                 equ_line = _equ_line_keepcase(nm, _fmt_bss_or_abs(ea))

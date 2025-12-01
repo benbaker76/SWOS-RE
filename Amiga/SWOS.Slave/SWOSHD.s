@@ -17,27 +17,19 @@
 	OUTPUT	wdh1:SWOS2/SWOS.Slave
 	;OPT	O+ OG+			;enable optimizing
     ENDC
-  
-; chiponly triggers an access fault when trying to play
-; let's hope we're not going to need that
-;CHIP_ONLY
 
 BUFFER_SIZE = $800
 
-; probably more than enough!
-TEAM_BUFFER_SIZE = $40000
-
 PROGRAM_LOCATION_OFFSET = $80000
 
-    IFD CHIP_ONLY
-CHIPMEMSIZE = $180000+PROGRAM_LOCATION_OFFSET
-FASTMEMSIZE = TEAM_BUFFER_SIZE
-PROGRAM_FASTMEMSIZE = 0
-    ELSE
-CHIPMEMSIZE = $100000
-PROGRAM_FASTMEMSIZE = $80000+PROGRAM_LOCATION_OFFSET
-FASTMEMSIZE = PROGRAM_FASTMEMSIZE+TEAM_BUFFER_SIZE
-    ENDC
+CHIPMEMSIZE = $200000
+FASTMEMSIZE = $200000
+
+STUB_FIX_SNOOP_BUG      = $0006
+STUB_FIX_MEM            = $000E
+STUB_ROB_NORTHEN_LOADER = $0016
+STUB_ACCESS             = $001E
+STUB_KB_HOOK            = $0026
 
 ; 1MB chip + 1,5MB slow mem prog @ $D00000
 ; D5 07000000: fastmem: 07 = 0111 = 1.5MB
@@ -52,7 +44,7 @@ FASTMEMSIZE = PROGRAM_FASTMEMSIZE+TEAM_BUFFER_SIZE
 ; autocompute bit masks (not very useful, as the memory routine
 ; is so obscure and buggy that it is completely skipped)
 CHIPBITS = (1<<(CHIPMEMSIZE/$80000))-1
-FASTBITS = ((1<<(PROGRAM_FASTMEMSIZE/$80000))-1)<<24
+FASTBITS = ((1<<(FASTMEMSIZE/$80000))-1)<<24
     
 ;======================================================================
 
@@ -72,7 +64,6 @@ _expmem:
 		dc.w	_name-base	;ws_name
 		dc.w	_copy-base	;ws_copy
 		dc.w	_info-base	;ws_info
-
 
 DECL_VERSION:MACRO
 	dc.b	"2.3"
@@ -132,182 +123,70 @@ _save_filename:	ds.b	14
 Start	;	A0 = resident loader
 ;======================================================================
 
-		lea	_resload(pc),a1
-		move.l	a0,(a1)			;save for later use
-        IFD CHIP_ONLY
-		; put team buffer in expmem
-		lea	data_buffer(pc),a0
-		move.l	_expmem(pc),(a0)
-        lea _expmem(pc),a0
-        move.l  #$100000,(a0)   ; simulate expmem
-        ENDC
+	lea	_resload(pc),a1
+	move.l	a0,(a1)			;save for later use
 
-        ; configure other expmem buffer
-        lea program_location(pc),a1
-        move.l  _expmem(pc),a0       
-        add.l   #PROGRAM_LOCATION_OFFSET,a0
-        move.l  a0,(a1)
-        IFND	CHIP_ONLY
-		add.l	#$80000,a0
-		lea		data_buffer(pc),a1
-		move.l	a0,(a1)
-		
-		ENDC
+	; configure other expmem buffer
+	lea program_location(pc),a1
+	move.l  _expmem(pc),a0       
+	add.l   #PROGRAM_LOCATION_OFFSET,a0
+	move.l  a0,(a1)
 
-		patch	$100,avoid_big_value
-		
-		lea	Swos.rel(pc),a0		
-        move.l  _expmem(pc),a1
-		bsr	_LoadFileDEC
-		lea	reloc_size(pc),a0
-		move.l	d0,(a0)
-		lea	Swos.prg(pc),a0
-	
-        move.l  program_location(pc),a1
+	patch   $100,avoid_big_value
 
-		bsr	_LoadFileDEC
-		;bsr	remove_hogs
-		lea	swos_version(pc),a0
-		move.l	d0,(a0)
-		move.l	program_location(pc),a0
-		move.l	_expmem(pc),a1
-;a0 = Program
-;a1 = relocation table
-;relocate:
-;		movem.l	d0-d1/a0-a2,-(a7)
-;		moveq	#8,d1				;Header of load location!
-;		move.l	reloc_size(pc),d0		;Size of relocation table!
-;		move.l	a0,a2
-;continue_relocation:
-;		add.l	(a1)+,a0			;Add and move
-;		add.b	d1,(a0)				;Force relocation!
-;		move.l	a2,a0				;Restore
-;		subq.l	#4,d0				;Because its longword!
-;		bne.s	continue_relocation
-relocate:
-		movem.l	d0-d1/a0-a2,-(a7)
-		move.l	program_location(pc),d1				; load location!
-        sub.l   #$100000,d1             ; base address
-		move.l	reloc_size(pc),d0		;Size of relocation table!
-		move.l	a0,a2
+	;------------------------------------------------------
+	; Load hunk executable "SWOS2" at program_location
+	;------------------------------------------------------
+	lea     Swos.prg(pc),a0
+	move.l  program_location(pc),a1
+	bsr     _LoadFileDEC           ; A0=name, A1=dest, D0=size
 
-        ; non-relocated addresses are like $001x???? with 0<=x<8
-        ; a0 is always odd and points on the "1x" part
-        ;
-        ; this is basic reloc which allows to reloc on second part of
-        ; chipmem or just slow mem, but not any mem, well it can be done
-        ; of course
-        ;
-continue_relocation:
-		add.l	(a1)+,a0			;Add and move
-        ; some reloc offsets are bogus (ex: C2 C3 at start)
-        ; filter them out with those heuristics
-        tst.b   -(a0)
-        bne.b   .skip
-        cmp.b   #$18,(1,a0)
-        bcc.b   .skip
-        cmp.b   #$10,(1,a0)
-        bcs.b   .skip
-        
-		add.l	d1,(a0)				;Force relocation!
-.skip
-		move.l	a2,a0				;Restore
-		subq.l	#4,d0				;Because its longword!
-		bne.s	continue_relocation
-		movem.l	(a7)+,d0-d1/a0-a2
-		move.w	#$2000,sr
-		lea	swos_version(pc),a2
-		move.l	(a2),d2
-		move.l	#$4ef96002,d0
-		move.l	#$70004e75,d1
-		
-		bra swos_152
+	; (optional) remember file size as "version" if you want
+	lea     swos_version(pc),a0
+	move.l  d0,(a0)
 
-remove_hogs:
-		movem.l	d0/a0,-(a7)
-		move.l	reloc_size(pc),d0	;Size of file!
-		move.l	program_location(pc),a0		;$180000
-loopblit:
-		cmp.w	#$33fc,(a0)
-		bne.s	_notblit
-		cmp.w	#$8400,2(a0)
-		beq.s	nextcheck
-		cmp.w	#$0400,2(a0)
-		bne.s	_notblit
-nextcheck:
-		cmp.l	#$dff096,4(a0)
-		bne.s	_notblit
-		move.w	#$6006,(a0)		;Store BRA		
-_notblit:	addq.l	#2,a0
-		subq.l	#2,d0
-		bne.s	loopblit
-		movem.l	(a7)+,d0/a0
-		rts
+	;------------------------------------------------------
+	; Relocate AmigaDOS hunk executable in-place
+	;   A0 = start of executable in memory
+	;   A1 = taglist (we pass ALIGN=8 to mimic LoadSeg)
+	;   A2 = _resload
+	;   D0 = size of relocated exe on return
+	;------------------------------------------------------
+	move.l  program_location(pc),a0    ; address of executable
 
-;-----------------------------
+    clr.l   -(a7)                      ; TAG_DONE
+	move.l  #$10000,-(a7)              ; chip area pointer = $00010000
+	pea     WHDLTAG_CHIPPTR
+	pea     8                          ; value
+	pea     WHDLTAG_ALIGN              ; tag
+	move.l  a7,a1                      ; A1 = taglist
 
-swos_152:
-        lea pl_9697_1(pc),a0
+    move.l  _resload(pc),a2
+    jsr     (resload_Relocate,a2)
 
-patch_with_patchlist:
-        move.l	program_location(pc),a1
-		        move.l  _resload(pc),a2
-        jsr (resload_Patch,a2)
-     
-        ; set registers D5-D7 to expected values
-        move.l  #CHIPMEMSIZE+PROGRAM_FASTMEMSIZE,D7
-        move.l  #FASTBITS,d5
-        move.l  #CHIPBITS|FASTBITS,d6       
+    add.w   #12,a7
 
-        move.l	program_location(pc),a0
-		jmp	(a0)			;Execute program!
+    ; keep size of relocated exe in reloc_size (handy for later)
+    lea     reloc_size(pc),a0
+    move.l  d0,(a0)
 
-pl_9697_1
-    PL_START
-	; proper sized buffer for big team files
-	PL_PA	$5968+2,data_buffer
-	PL_NOP	$59a2,4			; no size check
-	PL_PA	$59a6+2,data_buffer
-	
-    PL_W    $CC,$6002       ; fix zero div
-    ; copylock
-    PL_W    $5d80,$26bc
-    PL_W    $5de4,$26bc
-    PL_L    $5de6,$cfd1efe7
-    PL_L    $5d82,$71583efc
-	
-	
-    PL_P    $670a,fix_memory_routine_9697_1
-    PL_PS   $76a4,access
-    ;PL_W	$552c,$6002,	;TESTTESTTEST    
-    
-    ; jotd
-    PL_PS   $1B58,kb_hook
+    move.w  #$2000,sr
 
-    ; Fake send to loader, but we still need to update current disk or whatnot
-	; else it crashes when loading tactics because disk changes and state is
-	; not updated in the game
-	PL_S	$43e,$49e-$43e
+    ;------------------------------------------------------
+    ; Install callback addresses into SWOS2 stubs
+    ;------------------------------------------------------
+    move.l  program_location(pc),a0    ; A0 = base of relocated SWOS2
+    bsr     install_callbacks
 
-    ; fix snoop bugs
-    PL_PSS  $23ac,fix_snoop_bug,4
-    PL_ORW  $20d2,$200  ; colorbit bplcon0
-    PL_L  $20dc,$01FE0000  ; remove bplcon3 write
-    PL_L  $20e0,$01FE0000  ; remove bplcon4 write
-    PL_R    $fd0   ; floppy shit
-    PL_R    $155a   ; floppy shit
-   
+	; set registers D5-D7 to expected values
+	move.l  #CHIPMEMSIZE,D7
+	move.l  #FASTBITS,d5
+	move.l  #CHIPBITS|FASTBITS,d6     
 
-   
-	PL_R	$e7e
-	PL_P	$5C0,rob_northen_loader
+	;ILLEGAL
 
-	;;PL_L	$4df98,$4EB80100
-	
-	PL_W   $39EE,$4E73 ; L5: stop jumping into temp-stack trampoline (bra -> rte)
-    PL_W   $39D6,$4E73 ; L3: don’t call set_tmp_stack_ptr either: branch -> rte
-
-    PL_END
+	move.l	program_location(pc),a0
+	jmp	(a0)			;Execute program!
     
 ;-----------------------------
     
@@ -336,38 +215,26 @@ avoid_big_value:
 .ok
 	SUBQ.W	#1,D0			;14dfec: 5340
 	rts
-	
 
-; replaces memory detection routine that pokes into every location
-; from $80000 to $20*$80000 ...
-; in the end we just store the amount of chipmem, and use fastmem
-; for the executable. Game doesn't handle/use more fastmem apparently
-;
-; if we set the proper value game tries to read outside memory bounds
-; damn this memory management is a nightmare
-;
-; previous version of the slave wrote the value $200000 in a wrong
-; location, leaving the actual location at 0, and the game worked
-; so maybe it should be left as is.
-FIX_MEM_ROUTINE:MACRO
-fix_memory_routine_\1
-    rts
-;    move.l  a0,-(a7)
-;    move.l  _expmem(pc),a0
-;    add.l   #\2+PROGRAM_LOCATION_OFFSET,a0
-;    MOVE.L #CHIPMEMSIZE,(a0)
-;    move.l  (a7)+,a0
-;    rts
+
+INSTALL_CALLBACK MACRO
+    ; A0 = base of relocated SWOS2
+    lea     \1(a0),a1         ; A1 -> stub (jsr 0; rts)
+    lea     \2(pc),a2         ; A2 = callback address in Slave
+    move.l  a2,(2,a1)         ; patch jsr operand
     ENDM
 
-    
-    FIX_MEM_ROUTINE 9697_1,$589c
-    FIX_MEM_ROUTINE 9495,$1676
-    FIX_MEM_ROUTINE 9495_2,$1712
-    FIX_MEM_ROUTINE 9596,$1718
-    FIX_MEM_ROUTINE 9697,$5878
+install_callbacks:
+    INSTALL_CALLBACK  STUB_FIX_SNOOP_BUG,      fix_snoop_bug
+    INSTALL_CALLBACK  STUB_FIX_MEM,            fix_memory_routine
+    INSTALL_CALLBACK  STUB_ROB_NORTHEN_LOADER, rob_northen_loader
+    INSTALL_CALLBACK  STUB_ACCESS,             access
+    INSTALL_CALLBACK  STUB_KB_HOOK,            kb_hook
+    rts
 
-    
+fix_memory_routine
+    rts
+
 rob_northen_loader:
 	move.l	a3,-(a7)
 	add.w	d0,d0
@@ -550,9 +417,6 @@ access:
 	moveq	#0,d1				;Game
 	rts
 
-
-
-
 kb_hook
     move.b  $bfec01,d0
     move.w  d0,-(a7)
@@ -575,7 +439,12 @@ copylock:
     
 ;---------------
 
-_resload	dc.l	0		;address of resident loader
+_resload
+		dc.l	0		;address of resident loader
+_freefast:
+		dc.l    0
+_freechip:
+		dc.l    0
 size:
 		dc.l	0
 reloc_size:
@@ -584,8 +453,6 @@ swos_version:
 		dc.l	0
 program_location
     dc.l    0
-data_buffer:
-	dc.l	0
 listdir_buffer:
 	ds.b	BUFFER_SIZE
 	dc.l	0		; safety

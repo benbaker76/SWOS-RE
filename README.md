@@ -87,7 +87,7 @@ The adf's used in this project are:
 This is a **memory map** for an Amiga system showing key address ranges and how they can be used:
 
 - **CHIP_RAM**: Main shared RAM the CPU and custom chips (Agnus/Denise/Paula) can access - for code, data, and graphics/audio buffers.
-- **CIAB** and **CIAA (`0xBFE000`–`0xBFEFFF`, 4 KB, `rw`)**: The two Complex Interface Adapters - memory-mapped I/O registers for timers, keyboard/joystick, serial/parallel, etc.
+- **CIAB** and **CIAA (`0xBFE000`-`0xBFEFFF`, 4 KB, `rw`)**: The two Complex Interface Adapters - memory-mapped I/O registers for timers, keyboard/joystick, serial/parallel, etc.
 - **AMIGA_CUSTOM**: Custom-chip register block (blitter, copper, bitplanes, audio, sprites, interrupts).    
 - **KICK_ROM**: The Kickstart ROM with the OS core; readable/executable but not writable.
 
@@ -129,7 +129,7 @@ Here are some useful shortcuts:
 
 #### find_undefined_filebacked.py
 
-[find_undefined_filebacked.py](IDAPro/Scripts/find_undefined_filebacked.py) scans your IDA database for **contiguous ranges of file-backed bytes** (i.e., from the original file, not BSS) that are still **undefined** (no code/data item) and prints each run as `START_ADDRESS len=BYTES` to the Output window; this makes it easy to spot "holes" you need to define (with `dc.b/w/l`, arrays, or `blk.b`) so your re-emitted assembly preserves the original binary’s size, layout, and addresses for true 1:1 rebuilds.
+[find_undefined_filebacked.py](IDAPro/Scripts/find_undefined_filebacked.py) scans your IDA database for **contiguous ranges of file-backed bytes** (i.e., from the original file, not BSS) that are still **undefined** (no code/data item) and prints each run as `START_ADDRESS len=BYTES` to the Output window; this makes it easy to spot "holes" you need to define (with `dc.b/w/l`, arrays, or `blk.b`) so your re-emitted assembly preserves the original binary's size, layout, and addresses for true 1:1 rebuilds.
 
 Example output:
 ```
@@ -167,7 +167,7 @@ A key feature is robust **comment handling** for IDA 9's wrapped/overflow commen
 
 The script recognizes the menu header (four dwords: init/return/draw/default entry), then walks entries until the **sentinel** `-999` (0xFB39) "end menu", handling **start menu** (`-998`), **template mode** (`-997`) and **coordinate mode switches** (`0xFFFE`\=wide, `0xFFFF`\=byte). In template or entry blocks it parses the standard x,y,width,height coordinates (byte or word based on mode), and then decodes a stream of **typed chunks**:
 
-- `1` invisible entry; `2` navigation links (left/right/up/down); `3` custom background proc (pointer); `4` entry+frame **color flags** (pretty-printed to human color names); `5/9/21` sprite background/foreground/copy; `7/15/16/13/14` function hooks (foreground, before/after draw, on-select, input mask); `8/10/11/12/22` string/text forms (with **string flags**: color, font size, alignment; tables and multi-line pointers), and small two-byte "skip" args for `17–20`. It also prints a "control mask" explanation for input flags (fire/up/down/left/right variants). Throughout, it guards against accidental mis-signing (only toggles signed display when a negative literal is actually present), and it uses IDA's current types/comments where possible. Net effect: messy menu data becomes a **clean, browsable structure with comments and correct renderings**, tailored to Amiga's formats while preserving the original names.
+- `1` invisible entry; `2` navigation links (left/right/up/down); `3` custom background proc (pointer); `4` entry+frame **color flags** (pretty-printed to human color names); `5/9/21` sprite background/foreground/copy; `7/15/16/13/14` function hooks (foreground, before/after draw, on-select, input mask); `8/10/11/12/22` string/text forms (with **string flags**: color, font size, alignment; tables and multi-line pointers), and small two-byte "skip" args for `17-20`. It also prints a "control mask" explanation for input flags (fire/up/down/left/right variants). Throughout, it guards against accidental mis-signing (only toggles signed display when a negative literal is actually present), and it uses IDA's current types/comments where possible. Net effect: messy menu data becomes a **clean, browsable structure with comments and correct renderings**, tailored to Amiga's formats while preserving the original names.
 
 ### Ghidra Export Plugin
 
@@ -421,7 +421,7 @@ The WHDLoad SWOS.Slave has the following patches:
 	- Removes several old low-level problems (memory bus errors, divide-by-zero, CACR code, snoop bugs on most versions).
 - **Improves performance and memory usage on real hardware**
 	- Makes the game use **fast RAM** instead of only chip RAM, removing the infamous long-time slowdown on accelerated Amigas.
-	- Adjusts memory requirements to **1 MB Chip + ~2.5 MB other (Fast) RAM**, and fixes the config so it runs properly on 68000–68060 systems.
+	- Adjusts memory requirements to **1 MB Chip + ~2.5 MB other (Fast) RAM**, and fixes the config so it runs properly on 68000-68060 systems.
 - **Cleans up file layout & saves**
 	- Game now looks for data files in a `data` directory (matching how the installer copies them).
 	- User data (seasons, leagues, careers, highlights, tactics, DIY, etc.) is saved/loaded from a `SAVE` directory.
@@ -452,9 +452,9 @@ C:UAEquit
 - **Declares runtime requirements** (chip/fast memory, version, flags) via the WHDLoad slave header, and exposes a quit key.
 - **Loads and relocates the game binary** (e.g., `SWOS2` plus its relocation table), placing code/data into the configured ExpMem/ChipMem.
 - **Applies patches at startup** (via a patch list) to fix compatibility/snoop issues, skip copy-protection, adjust blitter/timing, and route file I/O.
-- **Bridges file access** (save/load) to WHDLoad’s “resload” API so saves go to a folder (e.g., `SAVE/`) instead of disks.
+- **Bridges file access** (save/load) to WHDLoad's “resload” API so saves go to a folder (e.g., `SAVE/`) instead of disks.
 - **Handles WHDLoad tooltypes** like `PRELOAD`, `NOCACHE`, `NOVBRMOVE`, etc., and cooperates with options like `whdload_quit`.
-- **Installs small hooks** (e.g., keyboard exit) and cleanup paths, then jumps into the game’s entry point.
+- **Installs small hooks** (e.g., keyboard exit) and cleanup paths, then jumps into the game's entry point.
 
 ### Hdf Version
 
@@ -527,9 +527,194 @@ Once you've created a full source patch of `SWOS2.s` you can now use VS Code to 
 
 ![](images/patch_05.png)
 
-## Amiga C
+### SWOS vs SWOS2
 
-- [Amiga C/C++ Compile, Debug & Profile](https://marketplace.visualstudio.com/items?itemName=BartmanAbyss.amiga-debug) VSCode Extension.
+The original **Sensible World of Soccer** Amiga release ships with two main game binaries:
+
+- **SWOS** - the original executable, used on older configurations (for example, machines with Kickstart versions and CPUs below the A1200-style Kick 3.1 + 68020 setup).
+- **SWOS2** - the A1200-oriented executable, tuned for later machines and used when the SSBOOT loader detects a suitable configuration.
+
+All of the work described here focuses on **SWOS2**, which is the A1200-targeted version of the game.
+
+#### SWOS2.REL
+
+`SWOS2.REL` is a **separate relocation table** used by the original game's loader in conjunction with the flat, pre-relocated **SWOS2** executable image. It does **not** contain code or data itself; instead, it encodes the offsets within the SWOS2 image that must be adjusted when the image is placed in memory.
+
+At runtime, the loader:
+
+1. Loads the static SWOS2 binary into memory at some chosen base address.
+2. Reads `SWOS2.REL` and walks its relocation entries.
+3. For each relocation entry, it:
+   - Interprets the value as an offset into the SWOS2 image.
+   - Locates the word or long at that offset.
+   - Adds the final load base to that word/long to make it a valid runtime address.
+
+Because `SWOS2.REL` enumerates all locations in the SWOS2 image that are treated as pointers, it effectively encodes **where all absolute address references live**. That makes it an extremely valuable source of information when reverse engineering and when reconstructing a fully relocatable hunk-based build later.
+
+#### Structure of `SWOS2.REL`
+
+`SWOS2.REL` is a **flat array of 32-bit big-endian offsets**. There is no header, no counts, and no extra metadata - just `N` longwords, each describing where a relocatable pointer lives in the original SWOS2 image.
+
+For example, the start of the file looks like this:
+
+```hex
+00 00 00 03  00 00 00 C2  00 00 00 C3  00 00 00 C7
+00 00 00 D9  00 00 00 DF  00 00 00 E9  00 00 01 0D
+...
+```
+
+Interpreted as big-endian 32-bit integers, this gives a sequence of offsets:
+
+```text
+index  raw bytes       offset (big-endian)
+-----  --------------  -------------------
+0      00 00 00 03     0x00000003
+1      00 00 00 C2     0x000000C2
+2      00 00 00 C3     0x000000C3
+3      00 00 00 C7     0x000000C7
+4      00 00 00 D9     0x000000D9
+5      00 00 00 DF     0x000000DF
+6      00 00 00 E9     0x000000E9
+7      00 00 01 0D     0x0000010D
+...
+```
+
+Given a known **program base** (in your IDA setup, `PROGRAM_BASE = 0x00100000`), each relocation entry is applied by:
+
+1. Computing the effective `a0` after the game's relocation add:
+```text
+a0_after_add = PROGRAM_BASE + offset
+```
+2. Backing up one byte (because the 68k code does `tst.b -(a0)` before reading the long):
+```text
+ptr_ea = a0_after_add - 1
+```
+3. Reading the 32-bit value at `ptr_ea`, which is the **relocatable pointer value**.
+4. Treating that value as the pre-relocation target address inside the SWOS image.
+
+For example, for the very first entry:
+
+- Offset bytes: `00 00 00 03` → `offset = 0x00000003`
+- `a0_after_add = 0x00100000 + 0x00000003 = 0x00100003`
+- `ptr_ea = 0x00100003 - 1 = 0x00100002`
+- The long at `0x00100002` is `0x001000C4`, so the target is `start` at `0x001000C4`.
+
+This matches the first line of the relocation dump:
+
+```text
+0000: off=0x00000003 ptr_ea=0x00100002 val=0x001000C4 -> target=0x001000C4 [C] start  jmp     start
+```
+
+Likewise, later entries map cleanly to other code and data symbols (interrupt handlers, globals, drive string tables, etc.), e.g.:
+
+```text
+0015: off=0x00000233 ptr_ea=0x00100232 val=0x00100268 -> target=0x00100268 [D] kDriveListPtrs  lea (kDriveListPtrs).l,a3
+0016: off=0x00000269 ptr_ea=0x00100268 val=0x00100278 -> target=0x00100278 [D] aDf0            dc.l aDf0
+...
+```
+
+This simple **"array of big-endian offsets from the program base"** structure is what makes `SWOS2.REL` such a rich source of information: by replaying the relocation logic against the IDA database, we can reconstruct exactly which words in the original static image were treated as addresses, and where they pointed.
+
+### `export_sparse_asm.py`
+
+`export_sparse_asm.py` is an **IDAPython script for IDA 9.0** that runs on the SWOS2 database which matches the original static executable layout (1:1 bytes). It is specifically designed to consume the original `SWOS2.REL` file and use IDA's analysis to generate a relocation table text file.
+
+It performs two key tasks:
+
+1. **Reads and parses `SWOS2.REL` directly from disk**  
+The script opens the original `SWOS2.REL`, walks the relocation stream, and reconstructs the list of relocation entries (i.e. "these offsets in the original image contain relocatable addresses"). Each entry is treated as a big-endian 32-bit offset from the program base, matching the way the original game and WHDLoad slave apply relocations.
+
+2. **Uses the IDA 9.0 API to correlate relocations with the loaded database and display its references in the disassembly**
+Using the IDA 9.x API the script maps each relocation entry to an effective address (EA) in the IDA database and inspects the surrounding code/data and types. From this it generates a relocation dump (`SWOS2_reloc_dump.txt`) summarising the relocation entries in a readable, EA-based form.
+
+#### Example `SWOS2_reloc_dump.txt` output:
+
+Below is a sample of the relocation dump produced by the script, showing how each relocation entry is resolved back into the SWOS2 IDB:
+
+```text
+0000: off=0x00000003 ptr_ea=0x00100002 val=0x001000C4 -> target=0x001000C4 [C] start                                     jmp     start
+0001: off=0x000000C2 ptr_ea=0x001000C1 val=0x38303721 [FILTERED BY HEURISTICS]
+0002: off=0x000000C3 ptr_ea=0x001000C2 val=0x303721FC [FILTERED BY HEURISTICS]
+0003: off=0x000000C7 ptr_ea=0x001000C6 val=0x001000D0 -> target=0x001000D0 [C] loc_1000D0                                move.l  #loc_1000D0,(DIVIDE_BY_ZERO).w
+0004: off=0x000000D9 ptr_ea=0x001000D8 val=0x001023AC -> target=0x001023AC [C] InitHardwareAtFrameStart                  jsr     InitHardwareAtFrameStart
+0005: off=0x000000DF ptr_ea=0x001000DE val=0x001573C8 -> target=0x001573C8 [D] g_loaderBankBitmap                        lea     (g_loaderBankBitmap).l,a0
+0006: off=0x000000E9 ptr_ea=0x001000E8 val=0x0017FFF6 -> target=0x0017FFF6 [D] byte_17FFF6                               cmpa.l  #byte_17FFF6,a0
+0007: off=0x0000010D ptr_ea=0x0010010C val=0x001573D0 -> target=0x001573D0 [D] g_loaderMemTop                            move.l  d7,(g_loaderMemTop).l
+0008: off=0x00000113 ptr_ea=0x00100112 val=0x001573C8 -> target=0x001573C8 [D] g_loaderBankBitmap                        move.l  d6,(g_loaderBankBitmap).l
+0009: off=0x00000119 ptr_ea=0x00100118 val=0x001573CC -> target=0x001573CC [D] dword_1573CC                              move.l  d5,(dword_1573CC).l
+0010: off=0x00000163 ptr_ea=0x00100162 val=0x00101B2C -> target=0x00101B2C [C] Int12KeyboardHandler                      move.l  #Int12KeyboardHandler,(LEVEL_2_INTERRUPT_AUTOVECTOR).w
+0011: off=0x0000016B ptr_ea=0x0010016A val=0x00101BCE -> target=0x00101BCE [C] Int13TimerHandler                         move.l  #Int13TimerHandler,(LEVEL_3_INTERRUPT_AUTOVECTOR).w
+0012: off=0x00000173 ptr_ea=0x00100172 val=0x00107446 -> target=0x00107446 [C] Level4InterruptHandler                    move.l  #Level4InterruptHandler,(LEVEL_4_INTERRUPT_AUTOVECTOR).w
+0013: off=0x0000017B ptr_ea=0x0010017A val=0x00103996 -> target=0x00103996 [C] SetupInterrupts                           jsr     SetupInterrupts
+0014: off=0x000001A9 ptr_ea=0x001001A8 val=0x0010E6FE -> target=0x0010E6FE [C] main                                      jmp     main
+0015: off=0x00000233 ptr_ea=0x00100232 val=0x00100268 -> target=0x00100268 [D] kDriveListPtrs                            lea     (kDriveListPtrs).l,a3
+0016: off=0x00000269 ptr_ea=0x00100268 val=0x00100278 -> target=0x00100278 [D] aDf0                                      dc.l aDf0
+0017: off=0x0000026D ptr_ea=0x0010026C val=0x0010027D -> target=0x0010027D [D] aDf1                                      dc.l aDf1
+0018: off=0x00000271 ptr_ea=0x00100270 val=0x00100282 -> target=0x00100282 [D] aDf2                                      dc.l aDf2
+0019: off=0x00000275 ptr_ea=0x00100274 val=0x00100287 -> target=0x00100287 [D] aDf3                                      dc.l aDf3
+...
+```
+
+### SWOS2 Amiga Hunk executable
+
+The next step is to take the sparse assembly produced by `export_sparse_asm.py`, tidy and structure it (adding meaningful labels, types, comments, and segment boundaries), and then **rebuild SWOS2 as a true Amiga hunk executable**.
+
+In this new build:
+
+- Code and data are placed into proper **HUNK_CODE** and **HUNK_DATA** segments.
+- The assembler/linker generate **relocation hunks** instead of relying on an external flat relocation file.
+- Absolute addresses are replaced by **labels and relocatable expressions**, which the linker can freely move.
+
+Moving to a hunk-based SWOS2 gives several key benefits:
+
+- **Relocation flexibility** - the code and data no longer have to live at exactly the same physical addresses as the original static build. The OS can load the program where it wants, and the relocation hunks will patch everything automatically.
+- **Room for growth** - new code and data can be added (e.g. new gameplay logic, graphics structures, tables) without constantly fighting fixed addresses or overflowing the original layout.
+- **Better toolchain integration** - once the game is a standard hunk executable, it can be linked with additional object files, libraries, and even mixed-language modules, just like any other Amiga program.
+
+### Floppy to Hard Disk Drive
+
+In the original setup, the static SWOS2 image is launched via **WHDLoad** with a `SWOS.Slave` file. That slave injects callbacks to handle disk access and decompression by calling WHDLoad's `resload_*` entry points (for example, for getting file sizes, loading files, optionally decrunching data, and saving/deleting files). From the game's point of view, many of these operations still assume floppy-style paths like `DFx:`.
+
+In the new SWOS2 hunk-based build, the goal is to:
+
+1. **Move file access from floppy-style devices to hard-disk-style devices**, e.g. from `DF0:` to `DH0:` (or other system volumes), so that SWOS2 behaves like a normal hard-disk-installed game.
+2. **Eliminate the dependency on WHDLoad's `resload_*` functions** by implementing our own file I/O stubs directly inside the SWOS2 hunk executable, written in 68k assembly and linked as part of the program.
+3. **Bind all file operations directly to AmigaDOS or equivalent system services**, so launching the game is just running the SWOS2 hunk executable, without going through WHDLoad at all.
+
+Once all call sites that previously relied on `resload_GetFileSize`, `resload_LoadFile`, `resload_LoadFileDecrunch`, `resload_DeleteFile`, and `resload_SaveFile` have been redirected to in-executable routines, the `SWOS.Slave` file and WHDLoad are no longer required for normal gameplay. SWOS2 becomes a **fully standalone Amiga hunk executable** ("jailbroken").
+
+At that point, development and debugging get significantly easier:
+
+- The [Amiga Assembly](https://marketplace.visualstudio.com/items?itemName=prb28.amiga-assembly) can be used to assemble the SWOS2 source and attach its debugger directly to the running hunk executable.
+- Breakpoints, single-stepping, and inspection of registers/memory can be done directly against the real game binary, without WHDLoad's wrapper in the way.
+
+### C Port
+
+A clean, symbolised hunk-based SWOS2 executable also lays the groundwork for an incremental **SWOS-to-C port**.
+
+With a proper hunk build and a modern toolchain, we can:
+
+- Port one assembly subroutine at a time to C (or C++), link it into the same executable, and verify its behaviour against the original implementation.
+- Keep the rest of the game in 68k assembly while gradually replacing pieces with higher-level code.
+- Use VSCode's tooling, including the [Amiga C/C++ Compile, Debug & Profile](https://marketplace.visualstudio.com/items?itemName=BartmanAbyss.amiga-debug) extension, which ships with **vasm** (the same assembler used in the Amiga Assembly extension) and a complete C/C++ toolchain, to build, debug, and profile mixed C/assembly builds.
+
+This staged approach means we don't need a "big bang" rewrite. Instead, the C port can be evolved incrementally, with each converted routine tested in the real game environment.
+
+### SWOS 25/26 Amiga
+
+The hunk-based SWOS2 executable is also the platform on which the **SWOS 25/26 Amiga version** will be built.
+
+Planned goals for this future version include:
+
+- **Updated team data** for the 25/26 season, including leagues, clubs, and player rosters aligned with the modern database used by the community.
+- **Additional graphics and presentation polish**, such as refreshed kits, logos, menus, and potentially new in-game UI elements enabled by the more flexible memory layout.
+- **Gameplay and options enhancements**, made possible by being able to insert new logic, tables, and state without the tight constraints of the original static binary layout.
+
+Because the new SWOS2 hunk build removes the rigid address dependencies and external WHDLoad file handling, all of these changes can be implemented in a more maintainable, modular way. The same infrastructure that supports the 25/26 season update can also support follow-up patches and experimental features, making this a long-term, extensible foundation for SWOS on the Amiga.
+
+## `swos-port-c`
+
+`swos-port-c` is the long-term C port of the Amiga SWOS2 codebase, using the new SWOS2 Amiga Hunk executable as the reference for behaviour. The goal is to translate the original 68k gameplay and menu logic into clean, portable C and drive it with an SDL2 frontend (for video, input, audio, and timing) so the game can run on modern platforms (Windows, Linux, macOS, etc.). Once the C core reaches parity with the Amiga version, it will be integrated into the SWOS 2020 project, providing a single, maintainable engine for future seasons and feature updates.
 
 ## AI Assistance
 
@@ -542,6 +727,14 @@ Coming Soon!
 	- https://github.com/LaurieWired/GhidraMCP
 	- https://github.com/jtang613/GhidrAssistMCP
 	- https://github.com/mrexodia/ida-pro-mcp
+
+## Utilities
+
+Here's a collection of useful tools and utilities:
+
+- [010 Editor](https://www.sweetscape.com/010editor/) – Commercial text and hex editor with powerful binary templates for inspecting and editing complex binary formats.  
+- [HxD](https://mh-nexus.de/en/hxd/) – Free, fast hex editor and disk editor for Windows, useful for inspecting raw files, memory, and disks.  
+- [grepWin](https://tools.stefankueng.com/grepWin.html) – Lightweight Windows search tool that adds grep-style regex search and replace to folders via a simple GUI and Explorer integration.
 
 ## Credits
 
