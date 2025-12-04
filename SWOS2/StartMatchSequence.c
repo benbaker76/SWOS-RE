@@ -1,7 +1,7 @@
 /*
  * Auto-generated call graph export
  * Start: StartMatchSequence
- * Date : 2025-11-30 18:37:50
+ * Date : 2025-12-03 21:46:25
  */
 
 /* ===================== INCLUDES ===================== */
@@ -2540,13 +2540,13 @@ ushort __usercall LoadFile(char *filename,void *dst)
   
   src = (undefined1 *)frontbufferBasePtr;
   if (g_assetCurrentIndex == 4) {
-    uVar1 = AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
+    uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
   }
   else {
     bVar2 = g_assetLoaderCacheFlag == 0;
     if ((bVar2) || (AssetCacheCopyByName(filename,(void *)frontbufferBasePtr), !bVar2)) {
       bVar2 = false;
-      uVar1 = AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
+      uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
       if (!bVar2) {
         if (g_assetCurrentIndex == 4) {
           return uVar1;
@@ -2562,13 +2562,13 @@ ushort __usercall LoadFile(char *filename,void *dst)
       panicReasonCode = 0xe000;
       PanicHaltLoop();
       if (g_assetCurrentIndex == 4) {
-        uVar1 = AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
+        uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
       }
       else {
         bVar2 = g_assetLoaderCacheFlag == 0;
         if ((bVar2) || (AssetCacheCopyByName(filename,src), !bVar2)) {
           bVar2 = false;
-          uVar1 = AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
+          uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
           if (!bVar2) {
             if (g_assetCurrentIndex == 4) {
               return uVar1;
@@ -2619,13 +2619,13 @@ ushort __usercall PlaySong(char *filename)
   bool bVar2;
   
   if (g_assetCurrentIndex == 4) {
-    uVar1 = AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
+    uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
   }
   else {
     bVar2 = g_assetLoaderCacheFlag == 0;
     if ((bVar2) || (AssetCacheCopyByName(filename,unaff_A1), !bVar2)) {
       bVar2 = false;
-      uVar1 = AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
+      uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
       if (!bVar2) {
         if (g_assetCurrentIndex == 4) {
           return uVar1;

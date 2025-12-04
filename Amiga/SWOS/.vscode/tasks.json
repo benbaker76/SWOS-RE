@@ -15,13 +15,13 @@
           //"-Fhunkexe",
           //"-kick1hunks",
           //"-pic",
-          "-nosym",
-          "-devpac",
+          //"-nosym",
+          //"-devpac",
           "-Fhunk",
-          "-maxerrors=1000",
+          //"-maxerrors=1000",
           "-L", "build/SWOS2.lst",
           //"-Fbin"
-          //"-linedebug"
+          "-linedebug"
           // Do not pass -o; the extension sets it to build/<name>.o
         ]
       },
@@ -44,7 +44,7 @@
           "-bamigahunk",             // output Amiga HUNK executable
           //"-brawbin1",                 // output a flat raw binary
           "-Bstatic",                  // no shared linking
-          //"-e", "start",
+          "-e", "j_start",
           //"-Mmap build/link.map",      // write a link map (handy for sanity checks)
           // set load addresses to match your image (code starts at 0x100000)
           "-T", "${workspaceFolder}/swos2.ld",

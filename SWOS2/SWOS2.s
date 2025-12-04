@@ -1429,24 +1429,6 @@ TEAMGENERALINFO_GOALKEEPERPLAYING_SIZE  EQU 2
 TEAMGENERALINFO_RESETCONTROLS           EQU 142
 TEAMGENERALINFO_RESETCONTROLS_SIZE      EQU 2
 
-; ==== ENUM: ASSETSYSOP ====
-ASSET_OP_INIT_CONTEXT                   EQU 0
-ASSET_OP_INIT_SOURCE0                   EQU 1
-ASSET_OP_LOAD_FILE                      EQU 2
-ASSET_OP_INIT_SOURCE2                   EQU 3
-ASSET_OP_RESOLVE_ASSET_LIST             EQU 4
-ASSET_OP_DO_CRITICAL                    EQU 5
-ASSET_OP_DELETE_FILE                    EQU 6
-ASSET_OP_SELECT_AND_OPEN                EQU 7
-ASSET_OP_OPEN_ANY_SOURCE                EQU 8
-ASSET_OP_UNK_09                         EQU 9
-ASSET_OP_OPEN_SAVE_VOLUME               EQU 10
-ASSET_OP_QUERY_ASSET_METADATA           EQU 12
-ASSET_OP_UNK_0D                         EQU 13
-ASSET_OP_SERVICE_LOADER                 EQU 14
-ASSET_OP_UNK_0F                         EQU 15
-ASSET_OP_WAIT_FOR_SAVE_DISK             EQU 16
-
 ; ==== ENUM: FPS ====
 FPS_50HZ                                EQU 49
 
@@ -1484,6 +1466,17 @@ TEAMGAME_UNK3                           EQU 41
 TEAMGAME_UNK3_SIZE                      EQU 1
 TEAMGAME_UNK4                           EQU 42
 TEAMGAME_UNK4_SIZE                      EQU 976
+
+; ==== ENUM: ASSETSYSOP ====
+ASSET_OP_INIT_CONTEXT                   EQU 0
+ASSET_OP_INIT_SOURCE0                   EQU 2
+ASSET_OP_LOAD_FILE                      EQU 4
+ASSET_OP_INIT_SOURCE2                   EQU 6
+ASSET_OP_RESOLVE_ASSET_LIST             EQU 8
+ASSET_OP_DO_CRITICAL                    EQU 10
+ASSET_OP_5_THEN_MAYBE_6                 EQU 12
+ASSET_OP_SELECT_AND_OPEN                EQU 14
+ASSET_OP_OPEN_ANY_SOURCE                EQU 16
 
 ; ===== END TYPES / ENUMS =====
 
@@ -2190,9 +2183,9 @@ loc_100140:
                 bne.s   loc_100140
                 move.w  #$8340,(DMACON).l
                 move.w  #$400,(DMACON).l
-                move.l  #Int12KeyboardHandler,(LEVEL_2_INTERRUPT_AUTOVECTOR).w
-                move.l  #Int13TimerHandler,(LEVEL_3_INTERRUPT_AUTOVECTOR).w
-                move.l  #Level4InterruptHandler,(LEVEL_4_INTERRUPT_AUTOVECTOR).w
+                move.l  #Int2KeyboardHandler,(LEVEL_2_INTERRUPT_AUTOVECTOR).w
+                move.l  #Int3TimerHandler,(LEVEL_3_INTERRUPT_AUTOVECTOR).w
+                move.l  #Int4Handler,(LEVEL_4_INTERRUPT_AUTOVECTOR).w
                 jsr     SetupInterrupts
                 move.b  #$88,(CIAA_ICR).l
                 move.w  #$C008,(INTENA).l
@@ -4568,9 +4561,9 @@ team1Filename:
 team2Filename:
                 dc.l 0
 
-; ===== Int12KeyboardHandler =====
-; prototype: void __interrupt Int12KeyboardHandler()
-Int12KeyboardHandler:
+; ===== Int2KeyboardHandler =====
+; prototype: void __interrupt Int2KeyboardHandler()
+Int2KeyboardHandler:
                 movem.l d0-d7/a0-a6,-(sp)
                 lea     (BLTDDAT).l,a6
                 move.w  $1E(a6),d0
@@ -4616,9 +4609,9 @@ writeOnly01:
 lastVBlankServiceTick:
                 dc.w $0000
 
-; ===== Int13TimerHandler =====
-; prototype: void __interrupt Int13TimerHandler()
-Int13TimerHandler:
+; ===== Int3TimerHandler =====
+; prototype: void __interrupt Int3TimerHandler()
+Int3TimerHandler:
                 movem.l d0-d7/a0-a6,-(sp)
                 lea     (BLTDDAT).l,a6
                 tst.w   (waitingInterrupt).l
@@ -6573,8 +6566,8 @@ word_103994:
 ; prototype: void __usercall SetupInterrupts()
 SetupInterrupts:
                 move.l  (LEVEL_3_INTERRUPT_AUTOVECTOR).w,(LEVEL_1_INTERRUPT_AUTOVECTOR).w
-                move.l  #Int_Level3_2_Handler,(LEVEL_3_INTERRUPT_AUTOVECTOR).w
-                move.l  #Int_Level5_Handler,(LEVEL_5_INTERRUPT_AUTOVECTOR).w
+                move.l  #Int3Handler,(LEVEL_3_INTERRUPT_AUTOVECTOR).w
+                move.l  #Int5Handler,(LEVEL_5_INTERRUPT_AUTOVECTOR).w
                 move.w  #%1100100000100100,(INTENA).l ; Master interrupt
                                         ; Serial port receive buffer full
                                         ; Start of vertical blank
@@ -6583,9 +6576,9 @@ SetupInterrupts:
 int5SerialBusBufferFull:
                 dc.w $0000
 
-; ===== Int_Level3_2_Handler =====
-; prototype: void __usercall Int_Level3_2_Handler()
-Int_Level3_2_Handler:
+; ===== Int3Handler =====
+; prototype: void __usercall Int3Handler()
+Int3Handler:
                 move.w  #$20,(INTREQ).l ; Clear level5 int
                 move.w  #$8004,(INTREQ).l ; trigger software initiated interrupt.
                 tst.w   (int5SerialBusBufferFull).l
@@ -6600,9 +6593,9 @@ int_done:
 nullsub_4:
                 rts
 
-; ===== Int_Level5_Handler =====
-; prototype: void __usercall Int_Level5_Handler()
-Int_Level5_Handler:
+; ===== Int5Handler =====
+; prototype: void __usercall Int5Handler()
+Int5Handler:
                 move.w  #$800,(INTREQ).l ; Serial port receive buffer full
                 move.w  #1,(int5SerialBusBufferFull).l
                 bra.w   *+4
@@ -9137,7 +9130,7 @@ AssetSys_InitDiskImageSources:
 LoadRNCToBufferNoBlit:
                 movem.l d2-d7/a0-a6,-(sp)
                 movea.l a1,a6
-                move.w  #ASSET_OP_LOAD_FILE,d7
+                move.w  #ASSET_OP_INIT_SOURCE0,d7
                 jsr AssetSys_Dispatch(pc)
                 bne.s   read_failed_retry_or_exit
                 cmpi.l  #$524E4301,(a6)
@@ -9189,7 +9182,7 @@ LoadFile:
                 movem.l d2-d7/a0-a6,-(sp)
                 cmpi.w  #4,(g_assetCurrentIndex).l
                 bne.s   stage_in_frontbuffer
-                move.w  #ASSET_OP_LOAD_FILE,d7
+                move.w  #ASSET_OP_INIT_SOURCE0,d7
                 jsr AssetSys_Dispatch(pc)
                 bra.w   load_file_restore_regs_and_rts
 stage_in_frontbuffer:
@@ -9200,7 +9193,7 @@ stage_in_frontbuffer:
                 bsr.w   AssetCacheCopyByName
                 beq.s   size_check_and_decode
 try_open_or_use_cached:
-                move.w  #ASSET_OP_LOAD_FILE,d7
+                move.w  #ASSET_OP_INIT_SOURCE0,d7
                 jsr AssetSys_Dispatch(pc)
                 bne.w   load_file_read_failed_retry
                 tst.l   (g_assetLoaderCacheFlag).l
@@ -9267,7 +9260,7 @@ PlaySong:
                 movem.l d2-d7/a0-a6,-(sp)
                 cmpi.w  #4,(g_assetCurrentIndex).l
                 bne.s   play_song_use_frontbuffer_path
-                move.w  #ASSET_OP_LOAD_FILE,d7
+                move.w  #ASSET_OP_INIT_SOURCE0,d7
                 jsr AssetSys_Dispatch(pc)
                 bra.w   play_song_restore_regs_and_return
 play_song_use_frontbuffer_path:
@@ -9276,7 +9269,7 @@ play_song_use_frontbuffer_path:
                 bsr.w   AssetCacheCopyByName
                 beq.s   play_song_success_clear_d0
 play_song_try_cache_or_load:
-                move.w  #ASSET_OP_LOAD_FILE,d7
+                move.w  #ASSET_OP_INIT_SOURCE0,d7
                 jsr AssetSys_Dispatch(pc)
                 bne.s   play_song_retry_on_error
                 tst.l   (g_assetLoaderCacheFlag).l
@@ -9310,7 +9303,7 @@ AssetEnsureReadyWithRetry:
                 movem.l d2-d7/a0-a6,-(sp)
                 cmpi.w  #4,(g_assetCurrentIndex).l
                 bne.s   asset_ensure_use_frontbuffer_path
-                move.w  #ASSET_OP_LOAD_FILE,d7
+                move.w  #ASSET_OP_INIT_SOURCE0,d7
                 jsr AssetSys_Dispatch(pc)
                 bra.w   asset_ensure_restore_regs_and_return
 asset_ensure_use_frontbuffer_path:
@@ -9319,7 +9312,7 @@ asset_ensure_use_frontbuffer_path:
                 bsr.w   AssetCacheCopyByName
                 beq.s   asset_ensure_success_clear_d0
 asset_ensure_try_cache_or_load:
-                move.w  #ASSET_OP_LOAD_FILE,d7
+                move.w  #ASSET_OP_INIT_SOURCE0,d7
                 jsr AssetSys_Dispatch(pc)
                 bne.s   asset_ensure_retry_on_error
 asset_ensure_success_clear_d0:
@@ -9345,17 +9338,17 @@ asset_ensure_retry_delay_wait_tick:
 ; ===== WriteFile =====
 ; prototype: unsigned __int16 __usercall WriteFile@<d0>(const char *filename@<a0>, const void *src@<a1>, unsigned int size@<d1>)
 WriteFile:
-                move.w  #ASSET_OP_RESOLVE_ASSET_LIST,d7
+                move.w  #ASSET_OP_LOAD_FILE,d7
                 jsr AssetSys_Dispatch(pc)
                 rts
-                move.w  #ASSET_OP_QUERY_ASSET_METADATA,d7
+                move.w  #ASSET_OP_5_THEN_MAYBE_6,d7
                 jsr AssetSys_Dispatch(pc)
                 rts
 
 ; ===== FindFilesExtensionPresent =====
 ; prototype: unsigned __int16 __usercall FindFilesExtensionPresent@<d0>(const char *ext@<a0>)
 FindFilesExtensionPresent:
-                move.w  #ASSET_OP_OPEN_ANY_SOURCE,d7
+                move.w  #ASSET_OP_RESOLVE_ASSET_LIST,d7
                 jsr AssetSys_Dispatch(pc)
                 rts
                 dc.w -24063
@@ -9779,7 +9772,7 @@ LoaderBootstrapBlobPI:
 AssetSvcLoaderOp:
                 movem.l d2-d7/a0-a6,-(sp)
                 move.w  #1,d0
-                move.w  #ASSET_OP_SERVICE_LOADER,d7
+                move.w  #ASSET_OP_SELECT_AND_OPEN,d7
                 jsr AssetSys_Dispatch(pc)
                 movem.l (sp)+,d2-d7/a0-a6
                 rts
@@ -9789,7 +9782,7 @@ AssetSvcLoaderOp:
 AssetSvcLoaderOp2:
                 movem.l d2-d7/a0-a6,-(sp)
                 move.w  #2,d0
-                move.w  #ASSET_OP_SERVICE_LOADER,d7
+                move.w  #ASSET_OP_SELECT_AND_OPEN,d7
                 jsr AssetSys_Dispatch(pc)
                 movem.l (sp)+,d2-d7/a0-a6
                 rts
@@ -9799,7 +9792,7 @@ AssetSvcLoaderOp2:
 AssetSvcLoaderOp3:
                 movem.l d2-d7/a0-a6,-(sp)
                 move.w  #3,d0
-                move.w  #ASSET_OP_SERVICE_LOADER,d7
+                move.w  #ASSET_OP_SELECT_AND_OPEN,d7
                 jsr AssetSys_Dispatch(pc)
                 movem.l (sp)+,d2-d7/a0-a6
                 rts
@@ -9998,7 +9991,7 @@ name_not_found_return:
 AssetCacheLoadFromAssetSys:
                 movem.l d1-d7/a0-a6,-(sp)
                 movea.l a0,a6
-                move.w  #ASSET_OP_QUERY_ASSET_METADATA,d7
+                move.w  #ASSET_OP_5_THEN_MAYBE_6,d7
                 jsr AssetSys_Dispatch(pc)
                 bne.w   assetsys_failed_return
                 move.l  d1,d0
@@ -10007,7 +10000,7 @@ AssetCacheLoadFromAssetSys:
                 movea.l a0,a5
                 movea.l a6,a0
                 lea     48(a5),a1
-                move.w  #ASSET_OP_LOAD_FILE,d7
+                move.w  #ASSET_OP_INIT_SOURCE0,d7
                 jsr AssetSys_Dispatch(pc)
                 bne.w   assetsys_failed_return
                 lea     14(a5),a0
@@ -11220,7 +11213,7 @@ PlaySample:
                 rts
 locret_107444:
                 rts
-Level4InterruptHandler:
+Int4Handler:
                 rte
 
 ; ===== AudioIRQEntryThunk =====
@@ -87513,7 +87506,7 @@ FormatSaveDiskMenu:
                 move.w  #1,d0
                 jsr     DoContinueAbortMenu
                 bne.s   format_save_return
-                move.w  #ASSET_OP_WAIT_FOR_SAVE_DISK,d7
+                move.w  #ASSET_OP_OPEN_ANY_SOURCE,d7
                 jsr     AssetSys_Dispatch
                 beq.s   disk_ready
                 cmpi.w  #$1D,d0
@@ -87522,7 +87515,7 @@ FormatSaveDiskMenu:
 disk_ready:
                 jsr     StopMusic
                 lea     (aSwosu).l,a0   ; "SWOSU"
-                move.w  #ASSET_OP_OPEN_SAVE_VOLUME,d7
+                move.w  #ASSET_OP_DO_CRITICAL,d7
                 jsr     AssetSys_Dispatch
                 tst.w   (g_menuMusic).l
                 beq.s   play_menu_music_if_any
@@ -87535,7 +87528,7 @@ play_menu_music_if_any:
                 lea     (aSwos4Dku).l,a0 ; "swos4.dku"
                 lea     (word_140872).l,a1
                 moveq   #2,d1
-                move.w  #ASSET_OP_RESOLVE_ASSET_LIST,d7
+                move.w  #ASSET_OP_LOAD_FILE,d7
                 jsr     AssetSys_Dispatch
                 bne.s   show_fs_error_and_return
 format_save_return:
@@ -87557,7 +87550,7 @@ DeleteFileMenu:
                 lea     (aDeleteFile).l,a1 ; "DELETE FILE"
                 jsr GetFilenameAndExtension(pc)
                 bne.s   delete_file_return
-                move.w  #ASSET_OP_DELETE_FILE,d7
+                move.w  #ASSET_OP_INIT_SOURCE2,d7
                 jsr     AssetSys_Dispatch
                 beq.s   delete_file_return
                 jsr ShowFsErrorByCode(pc)
@@ -110329,7 +110322,7 @@ Asset_PromptInsertSaveDiskDf0:
                 movem.l (sp)+,a0
                 tst.w   d0
                 bne.s   prompt_insert_return
-                move.w  #ASSET_OP_WAIT_FOR_SAVE_DISK,d7
+                move.w  #ASSET_OP_OPEN_ANY_SOURCE,d7
                 jsr     AssetSys_Dispatch
                 bne.s   Asset_PromptInsertSaveDiskDf0
                 clr.w   d0

@@ -1,10 +1,10 @@
 #define ASSET_OP_INIT_CONTEXT 0x0
-#define ASSET_OP_LOAD_FILE 0x2
+#define ASSET_OP_INIT_SOURCE0 0x2
 #define FPS_50HZ 0x31
-#define ASSET_OP_RESOLVE_ASSET_LIST 0x4
-#define ASSET_OP_QUERY_ASSET_METADATA 0xc
-#define ASSET_OP_OPEN_ANY_SOURCE 0x8
-#define ASSET_OP_SERVICE_LOADER 0xe
+#define ASSET_OP_LOAD_FILE 0x4
+#define ASSET_OP_5_THEN_MAYBE_6 0xc
+#define ASSET_OP_RESOLVE_ASSET_LIST 0x8
+#define ASSET_OP_SELECT_AND_OPEN 0xe
 #define ST_PENALTY 0xe
 #define PL_NORMAL 0x0
 #define ST_GAME_IN_PROGRESS 0x64
@@ -195,9 +195,9 @@
 #define CN_NORTH_AMERICA 0x53
 #define CN_ASIA 0x54
 #define CLUB_TEAMS 0x1
-#define ASSET_OP_WAIT_FOR_SAVE_DISK 0x10
-#define ASSET_OP_OPEN_SAVE_VOLUME 0xa
-#define ASSET_OP_DELETE_FILE 0x6
+#define ASSET_OP_OPEN_ANY_SOURCE 0x10
+#define ASSET_OP_DO_CRITICAL 0xa
+#define ASSET_OP_INIT_SOURCE2 0x6
 #define CLUB_UNWILLING_TO_PURCHASE_PLAYERS 0x1
 #define PINK_TO_BROWN_1 0x1
 #define ORANGE_TO_BROWN_5 0x5
@@ -1301,21 +1301,14 @@ typedef enum Positions {
 
 typedef enum AssetSysOp {
     ASSET_OP_INIT_CONTEXT=0,
-    ASSET_OP_INIT_SOURCE0=1,
-    ASSET_OP_LOAD_FILE=2,
-    ASSET_OP_INIT_SOURCE2=3,
-    ASSET_OP_RESOLVE_ASSET_LIST=4,
-    ASSET_OP_DO_CRITICAL=5,
-    ASSET_OP_DELETE_FILE=6,
-    ASSET_OP_SELECT_AND_OPEN=7,
-    ASSET_OP_OPEN_ANY_SOURCE=8,
-    ASSET_OP_UNK_09=9,
-    ASSET_OP_OPEN_SAVE_VOLUME=10,
-    ASSET_OP_QUERY_ASSET_METADATA=12,
-    ASSET_OP_UNK_0D=13,
-    ASSET_OP_SERVICE_LOADER=14,
-    ASSET_OP_UNK_0F=15,
-    ASSET_OP_WAIT_FOR_SAVE_DISK=16
+    ASSET_OP_INIT_SOURCE0=2,
+    ASSET_OP_LOAD_FILE=4,
+    ASSET_OP_INIT_SOURCE2=6,
+    ASSET_OP_RESOLVE_ASSET_LIST=8,
+    ASSET_OP_DO_CRITICAL=10,
+    ASSET_OP_5_THEN_MAYBE_6=12,
+    ASSET_OP_SELECT_AND_OPEN=14,
+    ASSET_OP_OPEN_ANY_SOURCE=16
 } AssetSysOp;
 
 typedef enum DiyCompetitionTypes {
@@ -1509,8 +1502,8 @@ uint __usercall FloppyCIA_BuildStepPattern(void);
 void __usercall FloppyTimer_DelayTicks(uint ticks);
 void __usercall FloppyTimer_WaitIfRunning(uint limit);
 void __usercall FloppyTimer_StartCiaB(void);
-void __usercall Int12KeyboardHandler(void);
-void __usercall Int13TimerHandler(void);
+void __usercall Int2KeyboardHandler(void);
+void __usercall Int3TimerHandler(void);
 ushort __usercall GetKey(void);
 void __usercall InitDisplayAndCopper(void);
 void __usercall UpdatePlanePtrsAndBlitParams(void);
@@ -1541,9 +1534,9 @@ void __usercall nullsub_2(void);
 void __usercall nullsub_3(void);
 void __usercall ReturnFunction(void);
 void __usercall SetupInterrupts(void);
-void __usercall Int_Level3_2_Handler(void);
+void __usercall Int3Handler(void);
 void __usercall nullsub_4(void);
-void __usercall Int_Level5_Handler(void);
+void __usercall Int5Handler(void);
 undefined8 SetTempStackPtr(void);
 void __usercall ReturnFromFunction(void);
 void __usercall BlitterSpan4Planes(void);

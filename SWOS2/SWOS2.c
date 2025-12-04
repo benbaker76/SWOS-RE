@@ -16,8 +16,8 @@ byte[9240] g_pitchDatBuffer;
 byte byte_17FFF6;
 ushort DMACON;
 ushort INTENA;
-undefined Int12KeyboardHandler;
-undefined Int13TimerHandler;
+undefined Int2KeyboardHandler;
+undefined Int3TimerHandler;
 short COLOR00;
 dword dword_1573CC;
 dword magicValue;
@@ -224,8 +224,8 @@ word g_menuInsBank;
 word playHighlightFlag;
 dword imageStreamBytesLeft;
 word currentSpriteIndex;
-undefined Int_Level3_2_Handler;
-undefined Int_Level5_Handler;
+undefined Int3Handler;
+undefined Int5Handler;
 dword LEVEL_1_INTERRUPT_AUTOVECTOR;
 dword LEVEL_5_INTERRUPT_AUTOVECTOR;
 word int5SerialBusBufferFull;
@@ -2575,9 +2575,9 @@ void __usercall j_start(void)
   } while (iVar1 != 0);
   DMACON = 0x8340;
   DMACON = 0x400;
-  LEVEL_2_INTERRUPT_AUTOVECTOR = (dword)Int12KeyboardHandler;
-  LEVEL_3_INTERRUPT_AUTOVECTOR = (dword)Int13TimerHandler;
-  LEVEL_4_INTERRUPT_AUTOVECTOR = (dword)&Level4InterruptHandler;
+  LEVEL_2_INTERRUPT_AUTOVECTOR = (dword)Int2KeyboardHandler;
+  LEVEL_3_INTERRUPT_AUTOVECTOR = (dword)Int3TimerHandler;
+  LEVEL_4_INTERRUPT_AUTOVECTOR = (dword)&Int4Handler;
   DAT_0000cc88 = 0x10017e;
   SetupInterrupts();
   INTENA = 0xc008;
@@ -2644,9 +2644,9 @@ void __usercall start(void)
   } while (iVar1 != 0);
   DMACON = 0x8340;
   DMACON = 0x400;
-  LEVEL_2_INTERRUPT_AUTOVECTOR = (dword)Int12KeyboardHandler;
-  LEVEL_3_INTERRUPT_AUTOVECTOR = (dword)Int13TimerHandler;
-  LEVEL_4_INTERRUPT_AUTOVECTOR = (dword)&Level4InterruptHandler;
+  LEVEL_2_INTERRUPT_AUTOVECTOR = (dword)Int2KeyboardHandler;
+  LEVEL_3_INTERRUPT_AUTOVECTOR = (dword)Int3TimerHandler;
+  LEVEL_4_INTERRUPT_AUTOVECTOR = (dword)&Int4Handler;
   DAT_0000cc88 = 0x10017e;
   SetupInterrupts();
   INTENA = 0xc008;
@@ -5195,7 +5195,7 @@ void __usercall FloppyTimer_StartCiaB(void)
 
 
 
-void __usercall Int12KeyboardHandler(void)
+void __usercall Int2KeyboardHandler(void)
 
 {
   byte bVar1;
@@ -5235,7 +5235,7 @@ void __usercall Int12KeyboardHandler(void)
 
 // WARNING: Control flow encountered bad instruction data
 
-void __usercall Int13TimerHandler(void)
+void __usercall Int3TimerHandler(void)
 
 {
   short sVar1;
@@ -6809,8 +6809,8 @@ void __usercall SetupInterrupts(void)
 
 {
   LEVEL_1_INTERRUPT_AUTOVECTOR = LEVEL_3_INTERRUPT_AUTOVECTOR;
-  LEVEL_3_INTERRUPT_AUTOVECTOR = (dword)Int_Level3_2_Handler;
-  LEVEL_5_INTERRUPT_AUTOVECTOR = (dword)Int_Level5_Handler;
+  LEVEL_3_INTERRUPT_AUTOVECTOR = (dword)Int3Handler;
+  LEVEL_5_INTERRUPT_AUTOVECTOR = (dword)Int5Handler;
                     // Master interrupt
                     // Serial port receive buffer full
                     // Start of vertical blank
@@ -6821,7 +6821,7 @@ void __usercall SetupInterrupts(void)
 
 
 
-void __usercall Int_Level3_2_Handler(void)
+void __usercall Int3Handler(void)
 
 {
                     // Clear level5 int 
@@ -6846,7 +6846,7 @@ void __usercall nullsub_4(void)
 
 
 
-void __usercall Int_Level5_Handler(void)
+void __usercall Int5Handler(void)
 
 {
                     // Serial port receive buffer full 
@@ -9124,7 +9124,7 @@ ushort __usercall LoadRNCToBufferNoBlit(char *filename,void *dst)
   bool bVar2;
   
   bVar2 = false;
-  uVar1 = AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
+  uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
   if (bVar2) {
                     // WARNING: Load size is inaccurate
     if (*dst != 0x524e4301) {
@@ -9132,13 +9132,13 @@ ushort __usercall LoadRNCToBufferNoBlit(char *filename,void *dst)
       PanicHaltLoop();
       src = (undefined1 *)frontbufferBasePtr;
       if (g_assetCurrentIndex == 4) {
-        uVar1 = AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
+        uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
       }
       else {
         bVar2 = g_assetLoaderCacheFlag == 0;
         if ((bVar2) || (AssetCacheCopyByName(filename,(void *)frontbufferBasePtr), !bVar2)) {
           bVar2 = false;
-          uVar1 = AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
+          uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
           if (!bVar2) {
             if (g_assetCurrentIndex == 4) {
               return uVar1;
@@ -9154,13 +9154,13 @@ ushort __usercall LoadRNCToBufferNoBlit(char *filename,void *dst)
           panicReasonCode = 0xe000;
           PanicHaltLoop();
           if (g_assetCurrentIndex == 4) {
-            uVar1 = AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
+            uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
           }
           else {
             bVar2 = g_assetLoaderCacheFlag == 0;
             if ((bVar2) || (AssetCacheCopyByName(filename,src), !bVar2)) {
               bVar2 = false;
-              uVar1 = AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
+              uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
               if (!bVar2) {
                 if (g_assetCurrentIndex == 4) {
                   return uVar1;
@@ -9233,13 +9233,13 @@ ushort __usercall LoadFile(char *filename,void *dst)
   
   src = (undefined1 *)frontbufferBasePtr;
   if (g_assetCurrentIndex == 4) {
-    uVar1 = AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
+    uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
   }
   else {
     bVar2 = g_assetLoaderCacheFlag == 0;
     if ((bVar2) || (AssetCacheCopyByName(filename,(void *)frontbufferBasePtr), !bVar2)) {
       bVar2 = false;
-      uVar1 = AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
+      uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
       if (!bVar2) {
         if (g_assetCurrentIndex == 4) {
           return uVar1;
@@ -9255,13 +9255,13 @@ ushort __usercall LoadFile(char *filename,void *dst)
       panicReasonCode = 0xe000;
       PanicHaltLoop();
       if (g_assetCurrentIndex == 4) {
-        uVar1 = AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
+        uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
       }
       else {
         bVar2 = g_assetLoaderCacheFlag == 0;
         if ((bVar2) || (AssetCacheCopyByName(filename,src), !bVar2)) {
           bVar2 = false;
-          uVar1 = AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
+          uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
           if (!bVar2) {
             if (g_assetCurrentIndex == 4) {
               return uVar1;
@@ -9311,13 +9311,13 @@ ushort __usercall PlaySong(char *filename)
   bool bVar2;
   
   if (g_assetCurrentIndex == 4) {
-    uVar1 = AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
+    uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
   }
   else {
     bVar2 = g_assetLoaderCacheFlag == 0;
     if ((bVar2) || (AssetCacheCopyByName(filename,unaff_A1), !bVar2)) {
       bVar2 = false;
-      uVar1 = AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
+      uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
       if (!bVar2) {
         if (g_assetCurrentIndex == 4) {
           return uVar1;
@@ -9347,13 +9347,13 @@ ushort __usercall AssetEnsureReadyWithRetry(char *name)
   bool bVar2;
   
   if (g_assetCurrentIndex == 4) {
-    uVar1 = AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
+    uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
   }
   else {
     bVar2 = g_assetLoaderCacheFlag == 0;
     if ((bVar2) || (AssetCacheCopyByName(name,unaff_A1), !bVar2)) {
       bVar2 = false;
-      uVar1 = AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
+      uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
       if (!bVar2) {
         if (g_assetCurrentIndex == 4) {
           return uVar1;
@@ -9374,7 +9374,7 @@ ushort __usercall WriteFile(char *filename,void *src,uint size)
 {
   ushort uVar1;
   
-  uVar1 = AssetSys_Dispatch(ASSET_OP_RESOLVE_ASSET_LIST);
+  uVar1 = AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
   return uVar1;
 }
 
@@ -9385,7 +9385,7 @@ ushort __usercall FindFilesExtensionPresent(char *ext)
 {
   ushort uVar1;
   
-  uVar1 = AssetSys_Dispatch(ASSET_OP_OPEN_ANY_SOURCE);
+  uVar1 = AssetSys_Dispatch(ASSET_OP_RESOLVE_ASSET_LIST);
   return uVar1;
 }
 
@@ -9572,7 +9572,7 @@ void __usercall InstallAndInitLoaderBootstrap(void)
 void __usercall AssetSvcLoaderOp(void)
 
 {
-  AssetSys_Dispatch(ASSET_OP_SERVICE_LOADER);
+  AssetSys_Dispatch(ASSET_OP_SELECT_AND_OPEN);
   return;
 }
 
@@ -9581,7 +9581,7 @@ void __usercall AssetSvcLoaderOp(void)
 void __usercall AssetSvcLoaderOp2(void)
 
 {
-  AssetSys_Dispatch(ASSET_OP_SERVICE_LOADER);
+  AssetSys_Dispatch(ASSET_OP_SELECT_AND_OPEN);
   return;
 }
 
@@ -9590,7 +9590,7 @@ void __usercall AssetSvcLoaderOp2(void)
 void __usercall AssetSvcLoaderOp3(void)
 
 {
-  AssetSys_Dispatch(ASSET_OP_SERVICE_LOADER);
+  AssetSys_Dispatch(ASSET_OP_SELECT_AND_OPEN);
   return;
 }
 
@@ -9806,7 +9806,7 @@ short __usercall AssetCacheLoadFromAssetSys(char *name)
   bool bVar3;
   
   bVar3 = false;
-  AssetSys_Dispatch(ASSET_OP_QUERY_ASSET_METADATA);
+  AssetSys_Dispatch(ASSET_OP_5_THEN_MAYBE_6);
   if (bVar3) {
     bVar3 = unaff_D1 == 0;
     AssetCacheAlloc(unaff_D1);
@@ -9814,7 +9814,7 @@ short __usercall AssetCacheLoadFromAssetSys(char *name)
       return 1;
     }
     bVar3 = false;
-    AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
+    AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
     if (bVar3) {
       pcVar2 = name + 0xe;
       do {
@@ -58546,7 +58546,7 @@ void __usercall FormatSaveDiskMenu(void)
       return;
     }
     bVar1 = false;
-    errCode = AssetSys_Dispatch(ASSET_OP_WAIT_FOR_SAVE_DISK);
+    errCode = AssetSys_Dispatch(ASSET_OP_OPEN_ANY_SOURCE);
     if (bVar1) break;
     if (errCode != 0x1d) {
 show_fs_error_and_return:
@@ -58555,13 +58555,13 @@ show_fs_error_and_return:
     }
   }
   StopMusic();
-  errCode = AssetSys_Dispatch(ASSET_OP_OPEN_SAVE_VOLUME);
+  errCode = AssetSys_Dispatch(ASSET_OP_DO_CRITICAL);
   if (g_menuMusic != 0) {
     TryPlayMusic();
   }
   if (errCode == 0) {
     bVar1 = false;
-    errCode = AssetSys_Dispatch(ASSET_OP_RESOLVE_ASSET_LIST);
+    errCode = AssetSys_Dispatch(ASSET_OP_LOAD_FILE);
     if (bVar1) {
       return;
     }
@@ -58584,7 +58584,7 @@ void __usercall DeleteFileMenu(void)
     GetFilenameAndExtension(CONCAT22((short)((uint)unaff_D0 >> 0x10),uVar1),aDeleteFile);
     if ((bool)in_ZF) {
       bVar2 = false;
-      uVar1 = AssetSys_Dispatch(ASSET_OP_DELETE_FILE);
+      uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE2);
       if (!bVar2) {
         ShowFsErrorByCode(uVar1);
       }
@@ -70662,7 +70662,7 @@ ushort __usercall Asset_PromptInsertSaveDiskDf0(char *title)
       return uVar1;
     }
     bVar2 = false;
-    AssetSys_Dispatch(ASSET_OP_WAIT_FOR_SAVE_DISK);
+    AssetSys_Dispatch(ASSET_OP_OPEN_ANY_SOURCE);
   } while (!bVar2);
   return 0;
 }

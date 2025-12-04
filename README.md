@@ -919,6 +919,181 @@ One of the long-term goals of converting SWOS2 into a **stand-alone Amiga Hunk e
 
 Those debugger-based workflows are covered in the following sections once the custom HDD routines and stand-alone Hunk build are in place.
 
+## 5. Cooperating with AmigaDOS: temporarily yielding the level 2 interrupt
+
+Once SWOS2 stopped using WHDLoad's `resload_*` helpers and started calling `dos.library` directly, a new class of problems appeared: **illegal instructions and Gurus inside `dos_Open` / `dos_Read`**.
+
+The underlying reason is:
+
+- The game **replaces the OS level-2 autovector** with its own keyboard interrupt (`Int2KeyboardHandler`).
+- `dos.library` itself relies on **Exec's own level-2 handler** (and uses privileged instructions like `ORI #$2000,SR`) while doing I/O.
+- If we call into DOS while our custom handler is still installed, the OS ends up running code that assumes a different interrupt setup than what we actually have, which can lead to illegal instructions or stack corruption.
+
+The safest fix is to:
+
+> **Temporarily give level-2 back to Exec/DOS for the duration of each disk I/O call, then restore the game's handler afterwards.**
+
+We already saved the original vector at startup:
+
+```asm
+        move.l  (LEVEL_2_INTERRUPT_AUTOVECTOR).l,oldInt2
+        move.l  #Int2KeyboardHandler,(LEVEL_2_INTERRUPT_AUTOVECTOR).w
+```
+
+So the WHDLoad compatibility stubs in `resload.s` do this dance around every call that touches `dos.library`.
+
+For example, the `_LoadFile` wrapper that Rob Northen's loader calls:
+
+```asm
+; --- _LoadFile ------------------------------------------------------------
+; In:  A0 = filename, A1 = destination buffer
+; Out: global 'size' updated with length; caller registers restored
+_LoadFile:
+        movem.l d0-d1/a0-a2,-(sp)
+
+        ; Hand level 2 back to Exec/DOS while we do file I/O
+        move.l  oldInt2,(LEVEL_2_INTERRUPT_AUTOVECTOR).l
+        jsr     resload_LoadFile           ; D0 = length, D1 = error
+        move.l  #Int2KeyboardHandler,(LEVEL_2_INTERRUPT_AUTOVECTOR).l
+
+        ; Store returned length for the Rob Northen loader code
+        lea     size(pc),a0
+        move.l  d0,(a0)
+
+        movem.l (sp)+,d0-d1/a0-a2
+        rts
+```
+
+The same pattern is used for the other WHDLoad-style entry points:
+
+- `_GetFileSize` → `resload_GetFileSize`
+- `_SaveFile`    → `resload_SaveFile`
+- `_Deletefile`  → `resload_Deletefile`
+- `_ListFiles`   → `resload_ListFiles`
+
+Each of these:
+
+1. Saves the game's registers (via `movem.l`).
+2. Writes `oldInt2` back into `LEVEL_2_INTERRUPT_AUTOVECTOR` to restore the original DOS/Exec handler.
+3. Calls the new `resload_*` implementation, which internally uses `dos_Open`, `dos_Read`, `dos_Write`, etc.
+4. Re-installs `Int2KeyboardHandler` as the level-2 autovector.
+5. Restores registers and returns to the Rob Northen loader / game code.
+
+This keeps the **visible behaviour of all existing `resload_*` call sites identical** (same prototypes, same `size` global), while avoiding illegal instructions inside the DOS I/O path.
+
+## 6. Cleanly returning from SWOS2 back to DOS
+
+Once SWOS2 runs as a normal Hunk executable with AmigaDOS file I/O, we also need a **clean way to exit back to the shell / Workbench** instead of just "falling off the end" or leaving interrupts and DMA enabled.
+
+There are three pieces to this:
+
+### 6.1. Mapping a key to "quit to DOS"
+
+The keyboard hook (`kb_hook`) is installed as part of the custom level-2 handler. It already sees raw keycodes via CIA:
+
+```asm
+kb_hook
+    move.b  $bfec01,d0
+    move.w  d0,-(a7)
+    not.b   d0
+    ror.b   #1,d0
+    cmp.b   _keyexit(pc),d0
+    beq.b   quit
+    move.w  (a7)+,d0
+    rts
+
+quit:
+    move.w  (a7)+,d0
+    rts
+
+_keyexit    dc.b    $46        ; ws_keyexit = Del
+```
+
+Instead of trying to tear everything down directly inside the interrupt handler (which risks stack mismatches and re-entrancy issues), the project uses a **global flag** (e.g. `g_quitToDos`) and checks it in the main loops.
+
+A typical pattern in a polling loop looks like:
+
+```asm
+tst.w   g_quitToDos
+bne.s   intro_continue  ; or branch to a clean exit path
+```
+
+This lets the game finish its inner loop, unwind to a safe point (usually `main`), and then call the final cleanup routine.
+
+### 6.2. Restoring interrupts and hardware state: `ExitToDos`
+
+At the very top level, after `main` returns, the entry point simply calls a dedicated cleanup routine:
+
+```asm
+start:
+    ...
+    jsr     main
+    jsr     ExitToDos
+    moveq   #0,d0
+    rts
+```
+
+`ExitToDos` is responsible for putting the machine back into a state that AmigaDOS expects:
+
+```asm
+        xdef    ExitToDos
+ExitToDos:
+        ; Restore original interrupt vectors
+        move.l  oldInt1,(LEVEL_1_INTERRUPT_AUTOVECTOR).l
+        move.l  oldInt2,(LEVEL_2_INTERRUPT_AUTOVECTOR).l
+        move.l  oldInt3,(LEVEL_3_INTERRUPT_AUTOVECTOR).l
+        move.l  oldInt4,(LEVEL_4_INTERRUPT_AUTOVECTOR).l
+        move.l  oldInt5,(LEVEL_5_INTERRUPT_AUTOVECTOR).l
+
+        ; Disable all remaining interrupts
+        move.w  #$7FFF,(INTENA).l
+        move.b  #$7F,(CIAA_ICR).l
+        move.b  #$7F,(CIAB_ICR).l
+
+        ; Stop DMA and restore a neutral palette
+        move.w  #$7FFF,(DMACON).l
+        move.w  #0,(COLOR00).l
+
+        rts
+```
+
+Key points:
+
+- **All** hardware vectors we touched (levels 1-5) are restored from the saved `oldIntX` values taken at startup.
+- CIAs and custom-chip interrupts are disabled so DOS doesn't inherit stray interrupt sources.
+- DMA is turned off and the background colour is reset, so the user is dropped back to a clean shell / Workbench screen.
+
+Because the program was launched as a regular AmigaOS process (from Shell or via a script), a simple `RTS` from `start` is enough to return control to DOS. There's no need to call `dos_Exit()` explicitly (and in practice, doing so after heavy custom interrupt work can hang under some environments).
+
+### 6.3. Optional: quitting the emulator from a script
+
+If running under UAE / FS-UAE, a tiny `SWOS` script in the same directory can wrap the executable and then immediately request that the emulator shuts down once the game returns:
+
+```amiga
+CD PROGDIR:
+STACK 50000
+data/SWOS2
+UAEquit
+```
+
+From the game's perspective, it just exits back to DOS via `ExitToDos` and returns from `start`. From the user's perspective, double-clicking the icon:
+
+- launches SWOS2,
+- the game runs in full-screen as a stand-alone executable,
+- and when they hit **Del** (or otherwise exit the game), control returns to the script, which calls `UAEquit` and closes the emulator.
+
+Taken together, the **interrupt hand-off around `resload_*`** and the **clean shutdown path in `ExitToDos`** complete the journey from "WHDLoad-only slave" to a proper **stand-alone Amiga Hunk executable** that plays nicely with both AmigaDOS and modern debugging tools.
+
+### 7. Amiga Assembly Debugger
+
+![](/images/debug_04.png)
+
+Now that SWOS2 runs as a **stand-alone Hunk executable** with normal AmigaDOS I/O, we can finally bring the Amiga Assembly VSCode debugger into the loop instead of flying blind through hex dumps and printf-style hacks. The game can be launched directly under the debugger (or via a script that the debugger controls), which means all of your assembled source files line up with the running code: you can set **source-level breakpoints** in `SWOS2.s` / `resload.s`, single-step through instructions, and immediately see the effect on registers and memory. Instead of guessing why `UnpackMenu` jumped into space or why `LoaderIntroWaitForFireOrTimeout` blew its stack, you can just stop inside those routines, inspect `A0/A1/D0/D1`, and watch each write to `g_currentMenu` or `currentGameTick` as it happens.
+
+On top of that, the debugger gives you “modern IDE” style features mapped onto the Amiga: **watch expressions** for key globals (e.g. `g_quitToDos`, `g_currentMenuPtr`, `size`), **memory views** of chip/fast RAM to track graphics and buffers, and **step-into/step-out** control around your new `resload_*` implementations and Rob Northen loader stubs. You can set breakpoints on your custom interrupts (`Int2KeyboardHandler`, `Int3TimerHandler`) to see exactly when CIA events fire, or break on the return from a `dos_Read`/`dos_Open` wrapper to confirm file sizes and destinations. In practice, this turns SWOS2 from a black box that occasionally Guru-meditates into a **fully inspectable process**, making reverse-engineering, refactoring, and the eventual C port vastly more manageable.
+
+Be sure to visit the [Visual Studio Code Amiga Assembly Wiki](https://github.com/prb28/vscode-amiga-assembly/wiki) for more details on how to use the debugging features.
+
 ## AI Assistance
 
 Coming Soon!
@@ -936,6 +1111,7 @@ Coming Soon!
 - [UAEUNP 0.8](https://www.winuae.net/download/) list and extract Amiga based disk images and archives such as ADF.
 - [rnc_lib.exe](https://www.romhacking.net/utilities/1310/) will compress or decompress an RNC compressed file.
 - [SWOEditorS](https://swoes.info/editor_downloads/) an editor for Sensible world of soccer
+- [AG-SWSEdt](https://github.com/anoxic83/AG_SWSEdt)
 
 ## Utilities
 
@@ -947,9 +1123,11 @@ Here's a collection of useful tools and utilities:
 
 ## Resources
 
+- [Amiga Hardware Reference Manual 3rd Edition](https://archive.org/details/amiga-hardware-reference-manual-3rd-edition)
 - [MarkeyJester's Motorola 68000 Beginner's Tutorial](https://mrjester.hapisan.com/04_MC68)
 - [Reverse-engineering Amiga games](https://tetracorp.github.io/guide/reverse-engineering-amiga.html)
 - [An approach to reverse engineering for old amiga games...](https://github.com/kermitfrog/Amiga-Re-Engineering)
+- [Visual Studio Code Amiga Assembly Wiki](https://github.com/prb28/vscode-amiga-assembly/wiki)
 
 ## VSCode Extensions
 - [Amiga Assembly](https://marketplace.visualstudio.com/items?itemName=prb28.amiga-assembly)
