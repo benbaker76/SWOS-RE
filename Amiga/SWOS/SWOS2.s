@@ -20918,9 +20918,9 @@ ShowLoaderIntroSequence:
                 cmpi.l  #$100000,d0
                 bls.s   loader_intro_main
 loader_intro_bad_dword_spin:
-                move.w  d1,(COLOR00).l
-                addq.w  #1,d1
-                bra.s   loader_intro_bad_dword_spin
+                ;move.w  d1,(COLOR00).l
+                ;addq.w  #1,d1
+                ;bra.s   loader_intro_bad_dword_spin
 loader_intro_main:
                 move.w  #0,d1
                 clr.w   d2

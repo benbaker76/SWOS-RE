@@ -36,8 +36,8 @@
                 "-s", "fpu_model=none",
                 "-s", "kickstart_rom_file=./Kickstarts/Kickstart v3.1 rev 40.68 (1993)(Commodore)(A1200).rom",
 
-                "-s", "chipmem_size=2",
-                "-s", "fastmem_size=8",
+                "-s", "chipmem_size=2048",
+                "-s", "fastmem_size=8192",
 
                 "-s","filesystem2=rw,DH0:${workspaceFolder}\\uae\\dh0,0",
 
@@ -81,8 +81,8 @@
                 "-s", "fpu_model=none",
                 "-s", "kickstart_rom_file=./Kickstarts/Kickstart v3.1 rev 40.68 (1993)(Commodore)(A1200).rom",
 
-                "-s", "chipmem_size=2",
-                "-s", "fastmem_size=8",
+                "-s", "chipmem_size=2048",
+                "-s", "fastmem_size=8192",
 
                 "-s","filesystem2=rw,DH0:${workspaceFolder}\\uae\\dh0,0",
 
