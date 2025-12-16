@@ -936,8 +936,12 @@ The safest fix is to:
 We already saved the original vector at startup:
 
 ```asm
-        move.l  (LEVEL_2_INTERRUPT_AUTOVECTOR).l,oldInt2
-        move.l  #Int2KeyboardHandler,(LEVEL_2_INTERRUPT_AUTOVECTOR).w
+        ; Save original Exec/OS autovectors
+        move.l  LEVEL_1_INTERRUPT_AUTOVECTOR(a0),S_SavedInt1
+        move.l  LEVEL_2_INTERRUPT_AUTOVECTOR(a0),S_SavedInt2
+        move.l  LEVEL_3_INTERRUPT_AUTOVECTOR(a0),S_SavedInt3
+        move.l  LEVEL_4_INTERRUPT_AUTOVECTOR(a0),S_SavedInt4
+        move.l  LEVEL_5_INTERRUPT_AUTOVECTOR(a0),S_SavedInt5
 ```
 
 So the WHDLoad compatibility stubs in `resload.s` do this dance around every call that touches `dos.library`.
@@ -951,12 +955,19 @@ For example, the `_LoadFile` wrapper that Rob Northen's loader calls:
 _LoadFile:
         movem.l d0-d1/a0-a2,-(sp)
 
-        ; Hand level 2 back to Exec/DOS while we do file I/O
-        move.l  oldInt2,(LEVEL_2_INTERRUPT_AUTOVECTOR).l
-        jsr     resload_LoadFile           ; D0 = length, D1 = error
-        move.l  #Int2KeyboardHandler,(LEVEL_2_INTERRUPT_AUTOVECTOR).l
+        move.l  a0,a2                  ; save filename
 
-        ; Store returned length for the Rob Northen loader code
+        ; Exec owns level 2 while we do DOS I/O
+        move.l  S_VBR(pc),a0
+        move.l  S_SavedInt2,LEVEL_2_INTERRUPT_AUTOVECTOR(a0)
+
+        move.l  a2,a0                  ; restore filename for resload_LoadFile
+        jsr     resload_LoadFile       ; D0 = length, D1 = error
+
+        move.l  S_VBR(pc),a0
+        move.l  #Int2KeyboardHandler,LEVEL_2_INTERRUPT_AUTOVECTOR(a0)
+
+        ; store returned length for rob_*
         lea     size(pc),a0
         move.l  d0,(a0)
 
@@ -985,14 +996,17 @@ This keeps the **visible behaviour of all existing `resload_*` call sites identi
 
 Once SWOS2 runs as a normal Hunk executable with AmigaDOS file I/O, we also need a **clean way to exit back to the shell / Workbench** instead of just "falling off the end" or leaving interrupts and DMA enabled.
 
+Some of this is covered in the [Amiga 500: Bare-Metal Startup Code](https://bumbershootsoft.wordpress.com/2024/08/10/amiga-500-bare-metal-startup-code/) blog post.
+
 There are three pieces to this:
 
 ### 6.1. Mapping a key to "quit to DOS"
 
-The keyboard hook (`kb_hook`) is installed as part of the custom level-2 handler. It already sees raw keycodes via CIA:
+The keyboard hook (`KBHook`) is installed as part of the custom level-2 handler. It already sees raw keycodes via CIA:
 
 ```asm
-kb_hook
+        xdef    KBHook
+KBHook
     move.b  $bfec01,d0
     move.w  d0,-(a7)
     not.b   d0
@@ -1004,9 +1018,13 @@ kb_hook
 
 quit:
     move.w  (a7)+,d0
+    move.w  #1,g_quitToDos
     rts
 
-_keyexit    dc.b    $46        ; ws_keyexit = Del
+_keyexit	dc.b	$46		;ws_keyexit = Del
+        xdef    g_quitToDos
+g_quitToDos:
+        dc.w    0
 ```
 
 Instead of trying to tear everything down directly inside the interrupt handler (which risks stack mismatches and re-entrancy issues), the project uses a **global flag** (e.g. `g_quitToDos`) and checks it in the main loops.
@@ -1014,8 +1032,8 @@ Instead of trying to tear everything down directly inside the interrupt handler 
 A typical pattern in a polling loop looks like:
 
 ```asm
-tst.w   g_quitToDos
-bne.s   intro_continue  ; or branch to a clean exit path
+    tst.w   g_quitToDos
+    bne.s   intro_continue  ; or branch to a clean exit path
 ```
 
 This lets the game finish its inner loop, unwind to a safe point (usually `main`), and then call the final cleanup routine.
@@ -1029,7 +1047,6 @@ start:
     ...
     jsr     main
     jsr     ExitToDos
-    moveq   #0,d0
     rts
 ```
 
@@ -1038,22 +1055,66 @@ start:
 ```asm
         xdef    ExitToDos
 ExitToDos:
-        ; Restore original interrupt vectors
-        move.l  oldInt1,(LEVEL_1_INTERRUPT_AUTOVECTOR).l
-        move.l  oldInt2,(LEVEL_2_INTERRUPT_AUTOVECTOR).l
-        move.l  oldInt3,(LEVEL_3_INTERRUPT_AUTOVECTOR).l
-        move.l  oldInt4,(LEVEL_4_INTERRUPT_AUTOVECTOR).l
-        move.l  oldInt5,(LEVEL_5_INTERRUPT_AUTOVECTOR).l
 
-        ; Disable all remaining interrupts
-        move.w  #$7FFF,(INTENA).l
-        move.b  #$7F,(CIAA_ICR).l
-        move.b  #$7F,(CIAB_ICR).l
+        move.l  S_VBR(pc),a0
 
-        ; Stop DMA and restore a neutral palette
-        move.w  #$7FFF,(DMACON).l
-        move.w  #0,(COLOR00).l
+        move.l  S_SavedInt1,LEVEL_1_INTERRUPT_AUTOVECTOR(a0)
+        move.l  S_SavedInt2,LEVEL_2_INTERRUPT_AUTOVECTOR(a0)
+        move.l  S_SavedInt3,LEVEL_3_INTERRUPT_AUTOVECTOR(a0)
+        move.l  S_SavedInt4,LEVEL_4_INTERRUPT_AUTOVECTOR(a0)
+        move.l  S_SavedInt5,LEVEL_5_INTERRUPT_AUTOVECTOR(a0)
 
+       ; Wait for blitter idle again (paranoia)
+        btst    #14-8,(DMACONR).l
+.blt_idle_exit:
+        btst    #14-8,(DMACONR).l
+        bne.s   .blt_idle_exit
+
+        ; Now safe to kill DMA and interrupts
+        ;move.w  #$01FF,(DMACON).l     ; Disable all DMA channels
+        ;move.w  #$3FFF,(INTENA).l     ; Disable all interrupts
+
+        ; Restore original view via graphics.library
+        move.l  S_GfxBase(pc),a6         ; Load gfxbase
+        move.l  gfx_copinit(a6),COP1LC   ; Restore coplist pointer 1
+        move.l  gfx_LOFlist(a6),COP2LC   ; Restore coplist pointer 2
+        clr.w   COPJMP1                  ; Make Copper use restored pointer
+        
+        ; Restore DMA / interrupts / ADKCON
+        move.w  S_SavedDmaCon,(DMACON).l
+        move.w  S_SavedIntEna,(INTENA).l
+        move.w  S_SavedAdkCon,(ADKCON).l
+
+        move.l  S_SavedView,a1
+        beq.s   .no_view                 ; (paranoia)
+        jsr     GfxLoadView(a6)
+        move.l  S_GfxBase(pc),a6
+        jsr     GfxWaitTOF(a6)
+        jsr     GfxWaitTOF(a6)
+
+.no_view:
+
+        tst.w   S_FromWB
+        beq.s   .done
+
+        ; --- Hand control back to Workbench / CLI ---
+        move.l  4.w,a6                  ; Exec base
+
+        tst.l   S_WBMsg
+        beq.s   .no_wbmsg
+        move.l  S_WBMsg(pc),a1
+        jsr     ExecReplyMsg(a6)
+.no_wbmsg:
+
+        ; Close graphics.library if we opened it
+        move.l  S_GfxBase(pc),a1
+        beq.s   .done
+        jsr     ExecCloseLib(a6)
+
+.done:
+
+        movea.l S_SavedSP,sp
+        moveq   #0,d0
         rts
 ```
 
@@ -1070,10 +1131,8 @@ Because the program was launched as a regular AmigaOS process (from Shell or via
 If running under UAE / FS-UAE, a tiny `SWOS` script in the same directory can wrap the executable and then immediately request that the emulator shuts down once the game returns:
 
 ```amiga
-CD PROGDIR:
-STACK 50000
+CD SYS:SWOS
 data/SWOS2
-UAEquit
 ```
 
 From the game's perspective, it just exits back to DOS via `ExitToDos` and returns from `start`. From the user's perspective, double-clicking the icon:
@@ -1128,6 +1187,13 @@ Here's a collection of useful tools and utilities:
 - [Reverse-engineering Amiga games](https://tetracorp.github.io/guide/reverse-engineering-amiga.html)
 - [An approach to reverse engineering for old amiga games...](https://github.com/kermitfrog/Amiga-Re-Engineering)
 - [Visual Studio Code Amiga Assembly Wiki](https://github.com/prb28/vscode-amiga-assembly/wiki)
+- [Amiga 500: Bare-Metal Startup Code](https://bumbershootsoft.wordpress.com/2024/08/10/amiga-500-bare-metal-startup-code/)
+
+## Books
+- [Mastering Amiga Assembler](https://gitlab.com/amigasourcecodepreservation/mastering-amiga-assembler/-/blob/master/pdf/mastering-amiga-assembler-1992-overaa.pdf)
+- [Total AMIGA assembler](https://amigasourcecodepreservation.gitlab.io/total-amiga-assembler/)
+- [Bare-Metal Amiga Programming: For OCS, ECS and AGA](https://www.amazon.com/Bare-Metal-Amiga-Programming-OCS-ECS/dp/B09GJQ3SF6)
+- [Motorola M68000 Family Programmer's Reference Manual](https://www.nxp.com/docs/en/reference-manual/M68000PRM.pdf)
 
 ## VSCode Extensions
 - [Amiga Assembly](https://marketplace.visualstudio.com/items?itemName=prb28.amiga-assembly)

@@ -4,7 +4,7 @@
 ; ===== TYPES / ENUMS (EQU) =====
 
 ; ===== AMIGA CUSTOM REGISTERS (EQU) =====
-BLTDDAT                                 EQU $00DFF000
+CUSTOM                                  EQU $00DFF000
 DMACONR                                 EQU $00DFF002
 VPOSR                                   EQU $00DFF004
 JOY0DAT                                 EQU $00DFF00A
@@ -1478,6 +1478,82 @@ ASSET_OP_5_THEN_MAYBE_6                 EQU 12
 ASSET_OP_SELECT_AND_OPEN                EQU 14
 ASSET_OP_OPEN_ANY_SOURCE                EQU 16
 
+; ==== ENUM: FRONTBUFFER ====
+FRONTBUFFER_ROW_STRIDE_BYTES            EQU 176
+FRONTBUFFER_VISIBLE_LINES               EQU 272
+FRONTBUFFER_TOTAL_LINES                 EQU 273
+FRONTBUFFER_SIZE_VISIBLE_BYTES          EQU 47872
+FRONTBUFFER_SIZE_TOTAL_BYTES            EQU 48048
+
+; ==== ENUM: COPPERLIST ====
+COPPERLIST_SIZE_BYTES                   EQU 320
+COPPERLIST_SIZE_BYTES_MINUS_ONE         EQU 319
+
+; ==== ENUM: BITPLANELAYOUT ====
+NUM_PLANES                              EQU 4
+NUM_PLANES_MINUS_ONE                    EQU 3
+PLANE_STRIDE                            EQU 44
+PLANE_STRIDE_TIMES2                     EQU 88
+PLANE_STRIDE_MINUS2                     EQU 42
+PLANE_STRIDE_MINUS4                     EQU 40
+ROW_STRIDE_BYTES                        EQU 176
+SRC_SCANLINE_BYTES                      EQU 8
+FETCH_BYTES_PER_LINE                    EQU 42
+
+; ==== ENUM: DISPLAYGEOMETRY ====
+SCREEN_WIDTH                            EQU 336
+SCREEN_HEIGHT                           EQU 272
+WORD_ALIGN_MASK                         EQU 15
+SCROLL_RIGHT_EDGE_X                     EQU 335
+SPRITE_MAX_Y_DRAW                       EQU 257
+
+; ==== ENUM: FILEINFO ====
+PITCHFILE_MAX_SIZE                      EQU 45600
+
+; ==== ENUM: SCROLLBLIT ====
+TILE_STRIDE                             EQU 14
+TILE_SHIFT_X                            EQU 4
+TILE_HEIGHT                             EQU 16
+TILE_SIZE                               EQU 128
+TILE_MASK                               EQU 15
+PITCH_PTR_ROW_BYTES                     EQU 168
+PITCH_DEST_MOD_UNALIGNED                EQU 132
+PITCH_DEST_MOD_ALIGNED                  EQU 134
+BLTDMOD_PLANE_STEP                      EQU 42
+BLTSIZE_WIDTH_1WORD                     EQU 1
+BLTSIZE_HEIGHT_SHIFT                    EQU 8
+BLTSIZE_TILE_COL                        EQU 4097
+BLTSIZE_COL_16LINES_ALLPLANES           EQU 4097
+BLTSIZE_OVERLAY_PANEL                   EQU 4374
+DMACON_BLT_ON                           EQU 33792
+DMACON_BLT_OFF                          EQU 1024
+DMACONR_BLTBUSY_BIT                     EQU 6
+BLTCON0                                 EQU 64
+BLTCON1                                 EQU 66
+BLTAFWM                                 EQU 68
+BLTALWM                                 EQU 70
+BLTAPT                                  EQU 80
+BLTSIZE                                 EQU 88
+BLTCPT                                  EQU 72
+BLTBPT                                  EQU 76
+BLTDPT                                  EQU 84
+BLTCMOD                                 EQU 96
+BLTBMOD                                 EQU 98
+BLTAMOD                                 EQU 100
+BLTDMOD                                 EQU 102
+BLTCDAT                                 EQU 112
+BLTBDAT                                 EQU 114
+BLTADAT                                 EQU 116
+BLTCON0_BASE_LINKED                     EQU 4042
+BLTCON0_BASE_SINGLE                     EQU 1994
+BLT_WORDCOUNT_BASE                      EQU 22
+BLT_BATCH_MAX                           EQU 1024
+BLT_FWM_ALL                             EQU 65535
+BLT_LWM_ALL                             EQU 65535
+BLT_ADAT_ALL_ONE                        EQU 65535
+BLT_BLITQ_END                           EQU 4294967295
+WORD_ALIGN_EVEN_MASK                    EQU 65534
+
 ; ===== END TYPES / ENUMS =====
 
 ; --- segment CHIP_RAM 00000000-001FFFFF ---
@@ -1667,30 +1743,30 @@ frontbufferBaseAlt:
                 ds.b $BBB0
 BSS_00_29F0C:
                 ds.b $2
-; unsigned __int32[2][4][225]
+; unsigned __int32[225]
 bitPlane0Base:
-                ds.b $1C20
-; unsigned __int32[2][4][225]
+                ds.b $384
+; unsigned __int32[225]
 bitPlane1Base:
-                ds.b $1C20
-; unsigned __int32[2][4][225]
+                ds.b $384
+; unsigned __int32[225]
 bitPlane2Base:
-                ds.b $1C20
-; unsigned __int32[2][4][225]
+                ds.b $384
+; unsigned __int32[225]
 bitPlane3Base:
-                ds.b $1C20
-; unsigned __int32[2][4][225]
+                ds.b $384
+; unsigned __int32[225]
 bitPlane0BaseAlt:
-                ds.b $1C20
-; unsigned __int32[2][4][225]
+                ds.b $384
+; unsigned __int32[225]
 bitPlane1BaseAlt:
-                ds.b $1C20
-; unsigned __int32[2][4][225]
+                ds.b $384
+; unsigned __int32[225]
 bitPlane2BaseAlt:
-                ds.b $1C20
-; unsigned __int32[2][4][225]
+                ds.b $384
+; unsigned __int32[225]
 bitPlane3BaseAlt:
-                ds.b $1C20
+                ds.b $384
 ; unsigned __int32*
 bitPlane0BasePtr:
                 ds.b $4
@@ -2174,7 +2250,7 @@ loc_1000F4:
                 lea     (frontbufferBase).l,a0
                 lea     (frontbufferBaseAlt).l,a1
                 lea     (frontbufferMaskBuffer).l,a2
-                move.l  #$BBB0,d0
+                move.l  #FRONTBUFFER_SIZE_TOTAL_BYTES,d0
 loc_100140:
                 move.w  #$F0F0,(a0)+
                 move.w  #$F0F0,(a1)+
@@ -2182,7 +2258,7 @@ loc_100140:
                 subq.l  #2,d0
                 bne.s   loc_100140
                 move.w  #$8340,(DMACON).l
-                move.w  #$400,(DMACON).l
+                move.w  #DMACON_BLT_OFF,(DMACON).l
                 move.l  #Int2KeyboardHandler,(LEVEL_2_INTERRUPT_AUTOVECTOR).w
                 move.l  #Int3TimerHandler,(LEVEL_3_INTERRUPT_AUTOVECTOR).w
                 move.l  #Int4Handler,(LEVEL_4_INTERRUPT_AUTOVECTOR).w
@@ -3829,7 +3905,7 @@ floppy_retry_loop:
                 moveq   #$1C,d0
                 btst    #3,(CIAA_PRA).l
                 beq.s   floppy_start_exit
-                lea     (BLTDDAT).l,a0
+                lea     (CUSTOM).l,a0
                 move.w  #$4000,$24(a0)
                 move.l  -$18(a6),$20(a0)
                 move.w  #$6600,$9E(a0)
@@ -4135,7 +4211,7 @@ gap_fill_copy_loop:
                 bne.s   gap_fill_copy_loop
                 rts
 FloppyDMA_WaitDmaDone:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   FloppyDMA_WaitDmaDone
                 rts
 
@@ -4230,7 +4306,7 @@ mfm_store_encoded_long:
 ; ===== FloppyDMA_StartBlitterTransfer =====
 ; prototype: void __usercall FloppyDMA_StartBlitterTransfer(void *dmaBuf@<a0>, unsigned int byteCount@<d0>)
 FloppyDMA_StartBlitterTransfer:
-                lea     (BLTDDAT).l,a1
+                lea     (CUSTOM).l,a1
                 move.w  #$4000,$24(a1)
                 move.w  #$8210,$96(a1)
                 move.w  #$6600,$9E(a1)
@@ -4247,7 +4323,7 @@ FloppyDMA_StartBlitterTransfer:
 ; ===== FloppyDMA_WaitBlitterDone =====
 ; prototype: unsigned int __usercall FloppyDMA_WaitBlitterDone@<d0>()
 FloppyDMA_WaitBlitterDone:
-                lea     (BLTDDAT).l,a1
+                lea     (CUSTOM).l,a1
                 move.l  #$9C4,d0
                 bsr.w   FloppyTimer_StartCiaB
 blitter_wait_loop:
@@ -4434,36 +4510,38 @@ timer_return:
                 rts
 byte_1016AA:
                 dc.b $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-g_copperList:
+; unsigned __int16[16]
+gamePalette:
+                ; unsigned __int16[16]
                 dc.w $0360,$0999,$0FFF,$0000,$0721,$0A40,$0F71,$0250
                 dc.w $0030,$0370,$0F00,$000F,$0702,$088F,$0380,$0FF0
-kNibbleMaskSeedA:
+kTitleLogoColors:
                 dc.b $00,$00,$22,$AA,$00,$00,$FF,$BB,$00,$33,$33,$33,$44,$33,$AA,$00
                 dc.b $88,$00,$CC,$CC,$CC,$88,$88,$88,$55,$55,$55,$FF,$FF,$99,$DD,$DD
                 dc.b $88,$BB,$BB,$77,$99,$99,$66,$77,$77,$44,$55,$55,$33,$33,$33,$22
-kNibbleMaskSeedB:
+kTitleScreenColors:
                 dc.b $00,$00,$23,$00,$00,$00,$23,$23,$23,$47,$47,$47,$77,$77,$77,$9B
                 dc.b $9B,$9B,$CF,$CF,$CF,$EF,$EF,$EF,$00,$33,$AB,$00,$8B,$CF,$EF,$CF
                 dc.b $33,$8B,$00,$00,$AB,$00,$00,$DF,$00,$00,$00,$67,$00,$FF,$FF,$FF
-kNibbleMaskSeedC:
+kTitleTextColors:
                 dc.b $00,$00,$22,$FF,$00,$44,$FF,$00,$44,$00,$00,$44,$FF,$00,$44,$FF
                 dc.b $00,$44,$FF,$00,$44,$FF,$00,$44,$00,$00,$66,$FF,$FF,$99,$DD,$DD
                 dc.b $88,$BB,$BB,$77,$99,$99,$66,$77,$77,$44,$55,$55,$33,$33,$33,$22
-paletteBankBlack16:
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-kNibbleMaskLineA:
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-kNibbleMaskLineB:
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-kNibbleMaskLineC:
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-kNibbleMaskLineD:
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$0F
+blackPalette:
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+titleLogoPalette:
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+titleScreenPalette:
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+titleTextPalette:
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+panicPalette:
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+                dc.w $0000,$0000,$0000,$0000,$0000,$0000,$0000,$000F
 fadeStep:
                 dc.w $0020
 aSoundMenuSng:
@@ -4565,7 +4643,7 @@ team2Filename:
 ; prototype: void __interrupt Int2KeyboardHandler()
 Int2KeyboardHandler:
                 movem.l d0-d7/a0-a6,-(sp)
-                lea     (BLTDDAT).l,a6
+                lea     (CUSTOM).l,a6
                 move.w  $1E(a6),d0
                 btst    #3,d0           ; I/O Ports and timers fired?
                 beq.w   _101BB4_done
@@ -4613,7 +4691,7 @@ lastVBlankServiceTick:
 ; prototype: void __interrupt Int3TimerHandler()
 Int3TimerHandler:
                 movem.l d0-d7/a0-a6,-(sp)
-                lea     (BLTDDAT).l,a6
+                lea     (CUSTOM).l,a6
                 tst.w   (waitingInterrupt).l
                 beq.w   isr_common_housekeeping
                 move.w  (currentGameTick).l,d0
@@ -4731,7 +4809,7 @@ InitDisplayAndCopper:
                 move.l  #$FFFFFFFF,(a0)
                 lea     (copperListTemplate).l,a0
                 lea     (copperListBuffer).l,a1
-                move.w  #$13F,d0
+                move.w  #COPPERLIST_SIZE_BYTES_MINUS_ONE,d0
 copy_copperlist_loop:
                 move.b  (a0)+,(a1)+
                 dbf     d0,copy_copperlist_loop
@@ -4782,12 +4860,12 @@ clear_word_table_b_loop:
                 lea     (copperListBuffer).l,a0
                 move.l  a0,(COP1LC).l
                 move.w  (COPJMP1).l,d0
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 _101EE0_wait_blitter_idle:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   _101EE0_wait_blitter_idle
-                move.w  #$400,(DMACON).l
+                move.w  #DMACON_BLT_OFF,(DMACON).l
                 move.w  #$8280,(DMACON).l
                 move.w  #$8220,(DMACON).l
                 movem.l (sp)+,d0-d1/a0-a1
@@ -4819,16 +4897,16 @@ UpdatePlanePtrsAndBlitParams:
                 move.w  (cameraXMod320).l,d1
                 andi.w  #$F,d1
                 bne.s   unaligned_scroll_setup
-                move.w  #$86,(copperListBuffer+$5A).l
-                move.w  #$86,(copperListBuffer+$5E).l
+                move.w  #PITCH_DEST_MOD_ALIGNED,(copperListBuffer+$5A).l
+                move.w  #PITCH_DEST_MOD_ALIGNED,(copperListBuffer+$5E).l
                 move.w  #$30,(copperListBuffer+$62).l ; '0'
                 move.w  #0,(copperListBuffer+$4A).l
                 bra.s   emit_plane_ptr_tables
 unaligned_scroll_setup:
                 move.w  #$10,d0
                 sub.w   d1,d0
-                move.w  #$84,(copperListBuffer+$5A).l
-                move.w  #$84,(copperListBuffer+$5E).l
+                move.w  #PITCH_DEST_MOD_UNALIGNED,(copperListBuffer+$5A).l
+                move.w  #PITCH_DEST_MOD_UNALIGNED,(copperListBuffer+$5E).l
                 move.w  #$28,(copperListBuffer+$62).l ; '('
                 andi.w  #$FF00,(copperListBuffer+$4A).l
                 move.w  d0,(copperListBuffer+$4A).l
@@ -4838,7 +4916,7 @@ emit_plane_ptr_tables:
                 lea     ((copperListBuffer+$F4)).l,a0
                 lea     ((copperListBuffer+$11C)).l,a1
                 move.w  (cameraYMod320).l,d0
-                mulu.w  #$B0,d0
+                mulu.w  #ROW_STRIDE_BYTES,d0
                 tst.w   (usePlaneOffsetFlag).l
                 beq.s   check_alt_base
                 addi.l  #frontbufferMaskBuffer,d0
@@ -4862,7 +4940,7 @@ apply_x_offset:
 add_primary_base_for_x:
                 add.l   (frontbufferBasePtr).l,d1
 finalize_plane_ptrs:
-                move.w  #3,d2
+                move.w  #NUM_PLANES_MINUS_ONE,d2
 write_plane_ptrs_loop:
                 move.w  d0,6(a0)
                 swap    d0
@@ -4872,12 +4950,12 @@ write_plane_ptrs_loop:
                 swap    d1
                 move.w  d1,2(a1)
                 swap    d1
-                addi.l  #$2C,d0         ; ','
-                addi.l  #$2C,d1         ; ','
+                addi.l  #PLANE_STRIDE,d0
+                addi.l  #PLANE_STRIDE,d1
                 addq.l  #8,a0
                 addq.l  #8,a1
                 dbf     d2,write_plane_ptrs_loop
-                move.w  #$110,d0
+                move.w  #SCREEN_HEIGHT,d0
                 sub.w   (cameraYMod320).l,d0
                 addi.w  #$24,d0         ; '$'
                 cmpi.w  #$FF,d0
@@ -4975,7 +5053,7 @@ _1023AA_exit_rts:
 ; ===== InitHardwareAtFrameStart =====
 ; prototype: void __usercall InitHardwareAtFrameStart()
 InitHardwareAtFrameStart:
-                movea.l #BLTDDAT,a6
+                movea.l #CUSTOM,a6
                 clr.w   $100(a6)
 wait_for_top_of_frame:
                 move.l  4(a6),d0
@@ -5046,7 +5124,7 @@ wait_buttons:
                 lea     (panicOutBuf).l,a0
                 jsr     DrawMenuTextCentered
                 jsr     WaitForVSync
-                move.w  #4,(paletteBankIndex).l
+                move.w  #4,(paletteIndex).l
                 jsr     FadeIn
 panic_spin_forever:
                 bra.s   panic_spin_forever
@@ -5347,31 +5425,31 @@ ret_value:
 ; ===== ProcessSpriteBlitQueue =====
 ; prototype: void __usercall ProcessSpriteBlitQueue()
 ProcessSpriteBlitQueue:
-                lea     (BLTDDAT).l,a6
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                lea     (CUSTOM).l,a6
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 wait_blitter_idle_1:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   wait_blitter_idle_1
-                move.w  #$400,(DMACON).l
-                move.w  #$FFFF,$44(a6)
-                move.w  #$FFFF,$46(a6)
-                clr.w   $42(a6)
-                move.w  #$9F0,$40(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.w  #BLT_FWM_ALL,BLTAFWM(a6)
+                move.w  #BLT_FWM_ALL,BLTALWM(a6)
+                clr.w   BLTCON1(a6)
+                move.w  #$9F0,BLTCON0(a6)
                 movea.l (spriteBlitQueue).l,a4
 blit_queue_loop:
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 _1029C4_wait_blitter_idle_2:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   _1029C4_wait_blitter_idle_2
-                move.w  #$400,(DMACON).l
-                move.l  (a4),$50(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  (a4),BLTAPT(a6)
                 bmi.s   reset_queue_terminator
-                move.l  4(a4),$54(a6)
-                move.w  8(a4),$64(a6)
-                move.w  8(a4),$66(a6)
-                move.w  $A(a4),$58(a6)
+                move.l  4(a4),BLTDPT(a6)
+                move.w  8(a4),BLTAMOD(a6)
+                move.w  8(a4),BLTDMOD(a6)
+                move.w  $A(a4),BLTSIZE(a6)
                 lea     $C(a4),a4
                 bra.s   blit_queue_loop
 reset_queue_terminator:
@@ -5387,7 +5465,7 @@ LoadPitchMap:
                 movea.l (a0,d0.w),a0
                 lea     (g_pitchDatBuffer).l,a1
                 jsr     LoadFile
-                cmpi.l  #$B220,d1
+                cmpi.l  #PITCHFILE_MAX_SIZE,d1
                 bls.s   _102A34_done
                 move.w  #3,(panicReasonCode).l
                 jsr PanicHaltLoop(pc)
@@ -5578,17 +5656,17 @@ ScrollToCurrent:
 ScrollXUpdateColumnsAndBlit:
                 move.w  (g_cameraX).l,d0
                 cmp.w   (g_oldCameraX).l,d0
-                beq.w   locret_102F8C
+                beq.w   scroll_x_update_return
                 bpl.w   x_scroll_moved_right
                 bra.w   x_scroll_moved_left
 x_scroll_moved_right:
-                move.w  #335,d5
+                move.w  #SCROLL_RIGHT_EDGE_X,d5
                 move.w  (g_oldCameraX).l,d0
-                addi.w  #335,d0
-                asr.w   #4,d0
+                addi.w  #SCROLL_RIGHT_EDGE_X,d0
+                asr.w   #TILE_SHIFT_X,d0
                 move.w  (g_cameraX).l,d1
-                addi.w  #335,d1
-                asr.w   #4,d1
+                addi.w  #SCROLL_RIGHT_EDGE_X,d1
+                asr.w   #TILE_SHIFT_X,d1
                 cmp.w   d0,d1
                 bne.s   x_scroll_crossed_tile_boundary
                 move.w  (g_cameraX).l,(g_oldCameraX).l
@@ -5597,9 +5675,9 @@ x_scroll_moved_right:
 x_scroll_moved_left:
                 clr.w   d5
                 move.w  (g_oldCameraX).l,d0
-                asr.w   #4,d0
+                asr.w   #TILE_SHIFT_X,d0
                 move.w  (g_cameraX).l,d1
-                asr.w   #4,d1
+                asr.w   #TILE_SHIFT_X,d1
                 cmp.w   d0,d1
                 bne.s   x_scroll_crossed_tile_boundary
                 move.w  (g_cameraX).l,(g_oldCameraX).l
@@ -5608,13 +5686,13 @@ x_scroll_moved_left:
 x_scroll_crossed_tile_boundary:
                 clr.w   (cameraCoordinatesValid).l
                 move.w  (g_cameraX).l,(g_oldCameraX).l
-                lea     (BLTDDAT).l,a6
+                lea     (CUSTOM).l,a6
                 move.w  (g_cameraY).l,d0
-                lsr.w   #4,d0
-                mulu.w  #$A8,d0
+                lsr.w   #TILE_SHIFT_X,d0
+                mulu.w  #PITCH_PTR_ROW_BYTES,d0
                 move.w  (g_cameraX).l,d1
                 add.w   d5,d1
-                lsr.w   #4,d1
+                lsr.w   #TILE_SHIFT_X,d1
                 lsl.w   #2,d1
                 add.w   d1,d0
                 lea     (g_pitchDatBuffer).l,a1
@@ -5623,132 +5701,132 @@ x_scroll_crossed_tile_boundary:
                 move.w  (cameraXMod320).l,d0
                 add.w   d5,d0
                 lsr.w   #3,d0
-                andi.l  #$FFFE,d0
+                andi.l  #WORD_ALIGN_EVEN_MASK,d0
                 adda.l  d0,a0
                 move.w  (cameraYMod320).l,d0
-                mulu.w  #$B0,d0
+                mulu.w  #ROW_STRIDE_BYTES,d0
                 adda.l  d0,a0
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
-loc_102D80:
-                btst    #6,(DMACONR).l
-                bne.s   loc_102D80
-                move.w  #$400,(DMACON).l
-                move.l  a0,$54(a6)
-                clr.w   $64(a6)
-                move.w  #$2A,$66(a6)    ; '*'
-                move.w  #$FFFF,$44(a6)
-                move.w  #$FFFF,$46(a6)
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+wait_blitter_idle_for_dest_setup:
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+                bne.s   wait_blitter_idle_for_dest_setup
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  a0,BLTDPT(a6)
+                clr.w   BLTAMOD(a6)
+                move.w  #BLTDMOD_PLANE_STEP,BLTDMOD(a6)
+                move.w  #BLT_FWM_ALL,BLTAFWM(a6)
+                move.w  #BLT_FWM_ALL,BLTALWM(a6)
                 clr.w   $42(a6)
                 move.w  #$9F0,$40(a6)
                 move.w  (cameraYMod320).l,d2
                 move.w  d2,d1
-                andi.w  #$F,d1
-                beq.w   loc_102E46
-                move.w  #$10,d3
+                andi.w  #TILE_MASK,d1
+                beq.w   top_segments_loop_check
+                move.w  #TILE_HEIGHT,d3
                 sub.w   d1,d3
                 add.w   d3,d2
                 lsl.w   #3,d1
                 ext.l   d1
-                lsl.w   #8,d3
-                addq.w  #1,d3
+                lsl.w   #BLTSIZE_HEIGHT_SHIFT,d3
+                addq.w  #BLTSIZE_WIDTH_1WORD,d3
                 movea.l (a1),a0
-                adda.l  #$A8,a1
+                adda.l  #PITCH_PTR_ROW_BYTES,a1
                 adda.l  d1,a0
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
-loc_102DF0:
-                btst    #6,(DMACONR).l
-                bne.s   loc_102DF0
-                move.w  #$400,(DMACON).l
-                move.l  a0,$50(a6)
-                move.w  d3,$58(a6)
-                bra.w   loc_102E46
-blit_loop_top_segment:
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+wait_blitter_idle_for_top_remainder_blit:
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+                bne.s   wait_blitter_idle_for_top_remainder_blit
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  a0,BLTAPT(a6)
+                move.w  d3,BLTSIZE(a6)
+                bra.w   top_segments_loop_check
+blit_top_segments_loop:
                 movea.l (a1),a0
-                adda.l  #$A8,a1
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
-loc_102E26:
-                btst    #6,(DMACONR).l
-                bne.s   loc_102E26
-                move.w  #$400,(DMACON).l
-                move.l  a0,$50(a6)
-                move.w  #$1001,$58(a6)
-                addi.w  #$10,d2
-loc_102E46:
-                cmpi.w  #$110,d2
-                bcs.s   blit_loop_top_segment
+                adda.l  #PITCH_PTR_ROW_BYTES,a1
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+wait_blitter_idle_for_top_segment_blit:
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+                bne.s   wait_blitter_idle_for_top_segment_blit
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  a0,BLTAPT(a6)
+                move.w  #BLTSIZE_TILE_COL,BLTSIZE(a6)
+                addi.w  #TILE_HEIGHT,d2
+top_segments_loop_check:
+                cmpi.w  #SCREEN_HEIGHT,d2
+                bcs.s   blit_top_segments_loop
                 movea.l (frontbufferBasePtr).l,a0
                 move.w  (cameraXMod320).l,d0
                 add.w   d5,d0
                 lsr.w   #3,d0
-                andi.l  #$FFFE,d0
+                andi.l  #WORD_ALIGN_EVEN_MASK,d0
                 adda.l  d0,a0
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
-loc_102E74:
-                btst    #6,(DMACONR).l
-                bne.s   loc_102E74
-                move.w  #$400,(DMACON).l
-                move.l  a0,$54(a6)
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+wait_blitter_idle_for_second_dest_setup:
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+                bne.s   wait_blitter_idle_for_second_dest_setup
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  a0,BLTDPT(a6)
                 move.w  (cameraYMod320).l,d2
-                cmpi.w  #$10,d2
-                bcs.w   loc_102ED6
-blit_loop_bottom_segment:
+                cmpi.w  #TILE_HEIGHT,d2
+                bcs.w   blit_bottom_remainder_or_exit
+blit_bottom_segments_loop:
                 movea.l (a1),a0
-                adda.l  #$A8,a1
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
-loc_102EB0:
-                btst    #6,(DMACONR).l
-                bne.s   loc_102EB0
-                move.w  #$400,(DMACON).l
-                move.l  a0,$50(a6)
-                move.w  #$1001,$58(a6)
-                subi.w  #$10,d2
-                cmpi.w  #$10,d2
-                bcc.s   blit_loop_bottom_segment
-loc_102ED6:
+                adda.l  #PITCH_PTR_ROW_BYTES,a1
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+wait_blitter_idle_for_bottom_segment_blit:
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+                bne.s   wait_blitter_idle_for_bottom_segment_blit
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  a0,BLTAPT(a6)
+                move.w  #BLTSIZE_TILE_COL,BLTSIZE(a6)
+                subi.w  #TILE_HEIGHT,d2
+                cmpi.w  #TILE_HEIGHT,d2
+                bcc.s   blit_bottom_segments_loop
+blit_bottom_remainder_or_exit:
                 tst.w   d2
-                beq.w   loc_102F0C
+                beq.w   setup_mask_copy_blit
                 movea.l (a1),a0
                 lsl.w   #8,d2
                 addq.w  #1,d2
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
-loc_102EF2:
-                btst    #6,(DMACONR).l
-                bne.s   loc_102EF2
-                move.w  #$400,(DMACON).l
-                move.l  a0,$50(a6)
-                move.w  d2,$58(a6)
-loc_102F0C:
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+wait_blitter_idle_for_bottom_remainder_blit:
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+                bne.s   wait_blitter_idle_for_bottom_remainder_blit
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  a0,BLTAPT(a6)
+                move.w  d2,BLTSIZE(a6)
+setup_mask_copy_blit:
                 move.w  (cameraXMod320).l,d0
                 add.w   d5,d0
                 lsr.w   #3,d0
-                andi.l  #$FFFE,d0
+                andi.l  #WORD_ALIGN_EVEN_MASK,d0
                 add.l   (frontbufferBasePtr).l,d0
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
-loc_102F32:
-                btst    #6,(DMACONR).l
-                bne.s   loc_102F32
-                move.w  #$400,(DMACON).l
-                move.l  d0,$50(a6)
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+wait_blitter_idle_for_mask_copy_setup:
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+                bne.s   wait_blitter_idle_for_mask_copy_setup
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  d0,BLTAPT(a6)
                 sub.l   (frontbufferBasePtr).l,d0
                 addi.l  #frontbufferMaskBuffer,d0
-                move.l  d0,$54(a6)
-                move.w  #$2A,$64(a6)    ; '*'
-                move.w  #$1001,$58(a6)
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
-loc_102F74:
-                btst    #6,(DMACONR).l
-                bne.s   loc_102F74
-                move.w  #$400,(DMACON).l
-                move.w  #1,$58(a6)
-locret_102F8C:
+                move.l  d0,BLTDPT(a6)
+                move.w  #BLTDMOD_PLANE_STEP,BLTAMOD(a6)
+                move.w  #BLTSIZE_TILE_COL,BLTSIZE(a6)
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+wait_blitter_idle_for_final_1word_blit:
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+                bne.s   wait_blitter_idle_for_final_1word_blit
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.w  #1,BLTSIZE(a6)
+scroll_x_update_return:
                 rts
 
 ; ===== ScrollYUpdateRowsAndBlit =====
@@ -5756,203 +5834,203 @@ locret_102F8C:
 ScrollYUpdateRowsAndBlit:
                 move.w  (g_cameraY).l,d1
                 sub.w   (g_oldCameraY).l,d1
-                beq.w   locret_103282
-                bpl.w   loc_102FAA
+                beq.w   scroll_y_update_return
+                bpl.w   y_scroll_moved_down_compute_visible_height
                 clr.w   d5
                 neg.w   d1
-                bra.w   loc_102FB0
-loc_102FAA:
-                move.w  #272,d5
+                bra.w   y_scroll_prepare_pitch_ptr_and_dest_base
+y_scroll_moved_down_compute_visible_height:
+                move.w  #SCREEN_HEIGHT,d5
                 sub.w   d1,d5
-loc_102FB0:
+y_scroll_prepare_pitch_ptr_and_dest_base:
                 move.w  (g_cameraY).l,(g_oldCameraY).l
                 clr.w   (cameraCoordinatesValid).l
                 lea     (g_pitchDatBuffer).l,a1
                 move.w  (g_cameraY).l,d0
                 add.w   d5,d0
-                lsr.w   #4,d0
-                mulu.w  #$A8,d0
+                lsr.w   #TILE_SHIFT_X,d0
+                mulu.w  #PITCH_PTR_ROW_BYTES,d0
                 adda.l  d0,a1
                 move.w  (g_cameraX).l,d0
-                lsr.w   #4,d0
+                lsr.w   #TILE_SHIFT_X,d0
                 lsl.w   #2,d0
                 ext.l   d0
                 adda.l  d0,a1
                 movea.l (frontbufferBasePtr).l,a3
                 move.w  (cameraXMod320).l,d0
                 lsr.w   #3,d0
-                andi.l  #$FFFE,d0
+                andi.l  #WORD_ALIGN_EVEN_MASK,d0
                 adda.l  d0,a3
                 move.w  (cameraYMod320).l,d0
                 add.w   d5,d0
-                cmpi.w  #$110,d0
-                bcs.w   loc_10300E
-                subi.w  #$110,d0
-loc_10300E:
-                mulu.w  #$B0,d0
+                cmpi.w  #SCREEN_HEIGHT,d0
+                bcs.w   wrap_camera_y_to_visible_range
+                subi.w  #SCREEN_HEIGHT,d0
+wrap_camera_y_to_visible_range:
+                mulu.w  #ROW_STRIDE_BYTES,d0
                 adda.l  d0,a3
                 move.w  (g_cameraX).l,d7
                 andi.w  #$F,d7
-                beq.s   choose_column_wordcount_and_stride
+                beq.s   choose_row_wordcount_and_dest_stride
                 move.w  #$15,d6
-                move.l  #$84,d7
-                bra.s   loc_103036
-choose_column_wordcount_and_stride:
+                move.l  #PITCH_DEST_MOD_UNALIGNED,d7
+                bra.s   init_dest_plane_ptrs_and_row_state
+choose_row_wordcount_and_dest_stride:
                 move.w  #$14,d6
-                move.l  #$86,d7
-loc_103036:
-                lea     $2C(a3),a4
-                lea     $58(a3),a5
-                lea     $84(a3),a6
+                move.l  #PITCH_DEST_MOD_ALIGNED,d7
+init_dest_plane_ptrs_and_row_state:
+                lea     PLANE_STRIDE(a3),a4
+                lea     PLANE_STRIDE_TIMES2(a3),a5
+                lea     PITCH_DEST_MOD_UNALIGNED(a3),a6
                 move.w  (cameraYMod320).l,d4
                 add.w   d5,d4
-                cmpi.w  #$110,d4
-                bcs.w   loc_103056
-                subi.w  #$110,d4
-loc_103056:
-                move.l  a3,(dword_103286).l
-                move.w  d6,(word_103284).l
-                addq.w  #1,(word_103284).l
-                clr.w   (word_10328A).l
-                clr.w   (word_103290).l
-                clr.l   (dword_10328C).l
+                cmpi.w  #SCREEN_HEIGHT,d4
+                bcs.w   init_blit_accumulators_and_src_row_offset
+                subi.w  #SCREEN_HEIGHT,d4
+init_blit_accumulators_and_src_row_offset:
+                move.l  a3,(maskBlitDestPtr).l
+                move.w  d6,(blitWordCount).l
+                addq.w  #1,(blitWordCount).l
+                clr.w   (maskBlitPendingBytesA).l
+                clr.w   (maskBlitPendingBytesB).l
+                clr.l   (maskBlitSecondStreamPtr).l
                 move.w  (g_cameraY).l,d3
                 add.w   d5,d3
-                andi.w  #$F,d3
+                andi.w  #TILE_MASK,d3
                 lsl.w   #3,d3
                 ext.l   d3
                 subq.w  #1,d1
-loc_10308C:
+copy_row_words_loop:
                 move.w  d6,d2
                 move.l  a1,-(sp)
-loc_103090:
+copy_row_words_inner:
                 movea.l (a1)+,a0
                 adda.l  d3,a0
                 move.w  (a0)+,(a3)+
                 move.w  (a0)+,(a4)+
                 move.w  (a0)+,(a5)+
                 move.w  (a0),(a6)+
-                dbf     d2,loc_103090
+                dbf     d2,copy_row_words_inner
                 movea.l (sp)+,a1
-                addq.w  #4,(word_10328A).l
-                addq.w  #4,(word_103290).l
-                addq.l  #8,d3
-                cmpi.w  #$80,d3
-                bne.w   loc_1030C0
-                adda.l  #$A8,a1
+                addq.w  #NUM_PLANES,(maskBlitPendingBytesA).l
+                addq.w  #NUM_PLANES,(maskBlitPendingBytesB).l
+                addq.l  #SRC_SCANLINE_BYTES,d3
+                cmpi.w  #TILE_SIZE,d3
+                bne.w   advance_dest_ptrs_and_handle_wrap
+                adda.l  #PITCH_PTR_ROW_BYTES,a1
                 clr.l   d3
-loc_1030C0:
+advance_dest_ptrs_and_handle_wrap:
                 adda.l  d7,a3
                 adda.l  d7,a4
                 adda.l  d7,a5
                 adda.l  d7,a6
                 addq.w  #1,d4
-                cmpi.w  #$110,d4
-                bne.w   loc_1030F8
-                suba.l  #$BB00,a3
-                suba.l  #$BB00,a4
-                suba.l  #$BB00,a5
-                suba.l  #$BB00,a6
+                cmpi.w  #SCREEN_HEIGHT,d4
+                bne.w   next_row_or_finish_copy
+                suba.l  #FRONTBUFFER_SIZE_VISIBLE_BYTES,a3
+                suba.l  #FRONTBUFFER_SIZE_VISIBLE_BYTES,a4
+                suba.l  #FRONTBUFFER_SIZE_VISIBLE_BYTES,a5
+                suba.l  #FRONTBUFFER_SIZE_VISIBLE_BYTES,a6
                 clr.w   d4
-                move.l  a3,(dword_10328C).l
-                clr.w   (word_103290).l
-loc_1030F8:
-                dbf     d1,loc_10308C
-                lea     (BLTDDAT).l,a6
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
-loc_103112:
-                btst    #6,(DMACONR).l
-                bne.s   loc_103112
-                move.w  #$400,(DMACON).l
-                move.w  #$FFFF,$44(a6)
-                move.w  #$FFFF,$46(a6)
-                clr.w   $42(a6)
-                move.w  #$9F0,$40(a6)
-                move.w  #$16,d0
-                sub.w   (word_103284).l,d0
+                move.l  a3,(maskBlitSecondStreamPtr).l
+                clr.w   (maskBlitPendingBytesB).l
+next_row_or_finish_copy:
+                dbf     d1,copy_row_words_loop
+                lea     (CUSTOM).l,a6
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+wait_blitter_idle_for_mod_setup:
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+                bne.s   wait_blitter_idle_for_mod_setup
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.w  #BLT_FWM_ALL,BLTAFWM(a6)
+                move.w  #BLT_FWM_ALL,BLTALWM(a6)
+                clr.w   BLTCON1(a6)
+                move.w  #$9F0,BLTCON0(a6)
+                move.w  #BLT_WORDCOUNT_BASE,d0
+                sub.w   (blitWordCount).l,d0
                 lsl.w   #1,d0
-                move.w  d0,$64(a6)
-                move.w  d0,$66(a6)
-                tst.l   (dword_10328C).l
-                beq.s   loc_103162
-                move.w  (word_103290).l,d0
-                sub.w   d0,(word_10328A).l
-loc_103162:
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
-loc_103172:
-                btst    #6,(DMACONR).l
-                bne.s   loc_103172
-                move.w  #$400,(DMACON).l
-                move.l  (dword_103286).l,d0
-                move.l  d0,$50(a6)
+                move.w  d0,BLTAMOD(a6)
+                move.w  d0,BLTDMOD(a6)
+                tst.l   (maskBlitSecondStreamPtr).l
+                beq.s   adjust_pending_counts_for_wrap_case
+                move.w  (maskBlitPendingBytesB).l,d0
+                sub.w   d0,(maskBlitPendingBytesA).l
+adjust_pending_counts_for_wrap_case:
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+wait_blitter_idle_for_mask_ptr_setup:
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+                bne.s   wait_blitter_idle_for_mask_ptr_setup
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  (maskBlitDestPtr).l,d0
+                move.l  d0,BLTAPT(a6)
                 sub.l   (frontbufferBasePtr).l,d0
                 addi.l  #frontbufferMaskBuffer,d0
-                move.l  d0,$54(a6)
-loc_10319E:
-                move.w  (word_10328A).l,d0
-                beq.w   loc_1031E8
+                move.l  d0,BLTDPT(a6)
+mask_blit_batch_loop_a:
+                move.w  (maskBlitPendingBytesA).l,d0
+                beq.w   maybe_do_second_mask_blit_stream
                 cmpi.w  #$400,d0
-                bls.s   loc_1031B2
+                bls.s   mask_blit_issue_batch_a
                 move.w  #$400,d0
-loc_1031B2:
-                sub.w   d0,(word_10328A).l
+mask_blit_issue_batch_a:
+                sub.w   d0,(maskBlitPendingBytesA).l
                 lsl.w   #6,d0
-                add.w   (word_103284).l,d0
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
-loc_1031D0:
-                btst    #6,(DMACONR).l
-                bne.s   loc_1031D0
-                move.w  #$400,(DMACON).l
-                move.w  d0,$58(a6)
-                bra.s   loc_10319E
-loc_1031E8:
-                tst.l   (dword_10328C).l
-                beq.w   locret_103282
-                move.w  (word_103290).l,d0
-                beq.w   locret_103282
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
-loc_10320C:
-                btst    #6,(DMACONR).l
-                bne.s   loc_10320C
-                move.w  #$400,(DMACON).l
-                move.l  (dword_10328C).l,d0
-                move.l  d0,$50(a6)
+                add.w   (blitWordCount).l,d0
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+wait_blitter_idle_for_batch_a:
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+                bne.s   wait_blitter_idle_for_batch_a
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.w  d0,BLTSIZE(a6)
+                bra.s   mask_blit_batch_loop_a
+maybe_do_second_mask_blit_stream:
+                tst.l   (maskBlitSecondStreamPtr).l
+                beq.w   scroll_y_update_return
+                move.w  (maskBlitPendingBytesB).l,d0
+                beq.w   scroll_y_update_return
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+wait_blitter_idle_for_second_stream_ptr_setu:
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+                bne.s   wait_blitter_idle_for_second_stream_ptr_setu
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  (maskBlitSecondStreamPtr).l,d0
+                move.l  d0,BLTAPT(a6)
                 sub.l   (frontbufferBasePtr).l,d0
                 addi.l  #frontbufferMaskBuffer,d0
-                move.l  d0,$54(a6)
-loc_103238:
-                move.w  (word_103290).l,d0
-                beq.w   locret_103282
+                move.l  d0,BLTDPT(a6)
+mask_blit_batch_loop_b:
+                move.w  (maskBlitPendingBytesB).l,d0
+                beq.w   scroll_y_update_return
                 cmpi.w  #$400,d0
-                bls.s   loc_10324C
+                bls.s   mask_blit_issue_batch_b
                 move.w  #$400,d0
-loc_10324C:
-                sub.w   d0,(word_103290).l
+mask_blit_issue_batch_b:
+                sub.w   d0,(maskBlitPendingBytesB).l
                 lsl.w   #6,d0
-                add.w   (word_103284).l,d0
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
-loc_10326A:
-                btst    #6,(DMACONR).l
-                bne.s   loc_10326A
-                move.w  #$400,(DMACON).l
-                move.w  d0,$58(a6)
-                bra.s   loc_103238
-locret_103282:
+                add.w   (blitWordCount).l,d0
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+wait_blitter_idle_for_batch_b:
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
+                bne.s   wait_blitter_idle_for_batch_b
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.w  d0,BLTSIZE(a6)
+                bra.s   mask_blit_batch_loop_b
+scroll_y_update_return:
                 rts
-word_103284:
+blitWordCount:
                 dc.w $0000
-dword_103286:
+maskBlitDestPtr:
                 dc.l 0
-word_10328A:
+maskBlitPendingBytesA:
                 dc.w $0000
-dword_10328C:
+maskBlitSecondStreamPtr:
                 dc.l 0
-word_103290:
+maskBlitPendingBytesB:
                 dc.w $0000
 
 ; ===== ApplyFadeStep =====
@@ -5965,9 +6043,9 @@ ApplyFadeStep:
                 lsl.w   #2,d2
                 move.w  2(a0,d2.w),d3
                 move.w  (a0,d2.w),d2
-                move.w  (paletteBankIndex).l,d0
+                move.w  (paletteIndex).l,d0
                 lsl.w   #2,d0
-                lea     (paletteBankTable).l,a0
+                lea     (paletteTable).l,a0
                 movea.l (a0,d0.w),a0
                 lea     ((copperListBuffer+$72)).l,a1
                 lea     ((copperListBuffer+$B2)).l,a2
@@ -5990,9 +6068,9 @@ ApplyFadeLoaderPath:
                 lsl.w   #2,d2
                 move.w  2(a0,d2.w),d3
                 move.w  (a0,d2.w),d2
-                move.w  (paletteBankIndex).l,d0
+                move.w  (paletteIndex).l,d0
                 lsl.w   #2,d0
-                lea     (paletteBankTable).l,a0
+                lea     (paletteTable).l,a0
                 movea.l (a0,d0.w),a0
                 lea     ((copperListBuffer+$72)).l,a1
                 lea     ((copperListBuffer+$B2)).l,a2
@@ -6654,14 +6732,14 @@ ReturnFromFunction:
 ; ===== BlitterSpan4Planes =====
 ; prototype: void __usercall BlitterSpan4Planes()
 BlitterSpan4Planes:
-                lea     (BLTDDAT).l,a6
-                mulu.w  #$B0,d1
+                lea     (CUSTOM).l,a6
+                mulu.w  #ROW_STRIDE_BYTES,d1
                 adda.l  d1,a0
                 move.w  d0,d1
                 lsr.w   #3,d0
-                andi.w  #$FFFE,d0
+                andi.w  #WORD_ALIGN_EVEN_MASK,d0
                 adda.w  d0,a0
-                andi.w  #$F,d1
+                andi.w  #TILE_MASK,d1
                 move.w  #$8FC,d5
                 move.w  #$100,d6
                 movem.l d1-d2/d4/a0,-(sp)
@@ -6670,15 +6748,15 @@ BlitterSpan4Planes:
                 movem.l d1-d2/a0,-(sp)
                 bsr.w   BlitterSpanCoreMasked
                 movem.l (sp)+,d1-d2/a0
-                lea     $2C(a0),a0
+                lea     PLANE_STRIDE(a0),a0
                 movem.l d1-d2/a0,-(sp)
                 bsr.w   BlitterSpanCoreMasked
                 movem.l (sp)+,d1-d2/a0
-                lea     $2C(a0),a0
+                lea     PLANE_STRIDE(a0),a0
                 movem.l d1-d2/a0,-(sp)
                 bsr.w   BlitterSpanCoreMasked
                 movem.l (sp)+,d1-d2/a0
-                lea     $2C(a0),a0
+                lea     PLANE_STRIDE(a0),a0
 loc_103C34:
                 bra.s   BlitterSpanCoreMasked
 leftMaskTable:
@@ -6709,26 +6787,26 @@ align_and_prepare_left_mask:
                 or.w    partialSpanMaskTable(pc,d2.w),d7
                 moveq   #0,d2
 start_left_edge_blit:
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 wait_blitter_ready_left:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   wait_blitter_ready_left
-                move.w  #$400,(DMACON).l
-                move.w  d7,$44(a6)
-                move.w  d7,$46(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.w  d7,BLTAFWM(a6)
+                move.w  d7,BLTALWM(a6)
                 not.w   d7
-                move.w  d7,$72(a6)
-                move.l  a0,$50(a6)
-                move.l  a0,$54(a6)
-                move.w  #$AE,$64(a6)
-                move.w  #$AE,$66(a6)
-                move.w  d5,$40(a6)
-                move.w  #0,$42(a6)
+                move.w  d7,BLTBDAT(a6)
+                move.l  a0,BLTAPT(a6)
+                move.l  a0,BLTDPT(a6)
+                move.w  #$AE,BLTAMOD(a6)
+                move.w  #$AE,BLTDMOD(a6)
+                move.w  d5,BLTCON0(a6)
+                move.w  #0,BLTCON1(a6)
                 move.w  d3,d7
                 asl.w   #6,d7
                 ori.w   #1,d7
-                move.w  d7,$58(a6)
+                move.w  d7,BLTSIZE(a6)
                 addq.w  #2,a0
                 tst.w   d2
                 bne.s   blit_aligned_middle_words
@@ -6746,51 +6824,51 @@ blit_aligned_middle_words:
                 move.w  d2,d0
                 lsr.w   #4,d0
                 beq.s   blit_right_edge
-                move.w  #$B0,d1
+                move.w  #ROW_STRIDE_BYTES,d1
                 sub.w   d0,d1
                 sub.w   d0,d1
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 wait_blitter_ready_middle:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   wait_blitter_ready_middle
-                move.w  #$400,(DMACON).l
-                move.l  a0,$54(a6)
-                move.w  d1,$66(a6)
-                move.w  d6,$40(a6)
-                move.w  #0,$42(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  a0,BLTDPT(a6)
+                move.w  d1,BLTDMOD(a6)
+                move.w  d6,BLTCON0(a6)
+                move.w  #0,BLTCON1(a6)
                 move.w  d3,d1
                 asl.w   #6,d1
                 or.w    d0,d1
-                move.w  d1,$58(a6)
+                move.w  d1,BLTSIZE(a6)
                 add.w   d0,d0
                 adda.w  d0,a0
 blit_right_edge:
-                andi.w  #$F,d2
+                andi.w  #TILE_MASK,d2
                 beq.s   blitter_span_core_masked_return
                 add.w   d2,d2
                 move.w  tailMaskTable(pc,d2.w),d7
                 not.w   d7
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 wait_blitter_ready_right:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   wait_blitter_ready_right
-                move.w  #$400,(DMACON).l
-                move.w  d7,$44(a6)
-                move.w  d7,$46(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.w  d7,BLTAFWM(a6)
+                move.w  d7,BLTALWM(a6)
                 not.w   d7
-                move.w  d7,$72(a6)
-                move.l  a0,$50(a6)
-                move.l  a0,$54(a6)
-                move.w  #$AE,$64(a6)
-                move.w  #$AE,$66(a6)
-                move.w  d5,$40(a6)
-                move.w  #0,$42(a6)
+                move.w  d7,BLTBDAT(a6)
+                move.l  a0,BLTAPT(a6)
+                move.l  a0,BLTDPT(a6)
+                move.w  #$AE,BLTAMOD(a6)
+                move.w  #$AE,BLTDMOD(a6)
+                move.w  d5,BLTCON0(a6)
+                move.w  #0,BLTCON1(a6)
                 move.w  d3,d7
                 asl.w   #6,d7
                 ori.w   #1,d7
-                move.w  d7,$58(a6)
+                move.w  d7,BLTSIZE(a6)
 blitter_span_core_masked_return:
                 rts
 blitter_rectrow_masked:
@@ -6801,7 +6879,7 @@ blitter_rectrow_masked:
                 movem.l (sp)+,d0-d3/a0-a1
                 asl.w   #2,d1
                 asl.w   #2,d3
-                mulu.w  #$2C,d1         ; ','
+                mulu.w  #PLANE_STRIDE,d1
                 adda.l  d1,a0
                 adda.l  d1,a1
                 move.w  d0,d4
@@ -6815,38 +6893,38 @@ blitter_rectrow_masked:
                 add.w   d4,d4
                 adda.w  d4,a0
                 adda.w  d4,a1
-                andi.w  #$F,d0
-                andi.w  #$F,d1
-                lea     (BLTDDAT).l,a6
+                andi.w  #TILE_MASK,d0
+                andi.w  #TILE_MASK,d1
+                lea     (CUSTOM).l,a6
                 lea     firstWordMaskTable(pc),a2
                 add.w   d0,d0
                 add.w   d1,d1
                 move.w  (a2,d0.w),d0
                 lea     lastWordMaskTable(pc),a2
                 move.w  (a2,d1.w),d1
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 wait_blitter_ready:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   wait_blitter_ready
-                move.w  #$400,(DMACON).l
+                move.w  #DMACON_BLT_OFF,(DMACON).l
                 addq.w  #1,d5
-                move.w  #$DFC,$40(a6)
-                move.w  #0,$42(a6)
-                move.w  d0,$44(a6)
-                move.w  d1,$46(a6)
-                move.l  a0,$50(a6)
-                move.l  a1,$4C(a6)
-                move.l  a1,$54(a6)
-                move.w  #$2C,d0         ; ','
+                move.w  #$DFC,BLTCON0(a6)
+                move.w  #0,BLTCON1(a6)
+                move.w  d0,BLTAFWM(a6)
+                move.w  d1,BLTALWM(a6)
+                move.l  a0,BLTAPT(a6)
+                move.l  a1,BLTBPT(a6)
+                move.l  a1,BLTDPT(a6)
+                move.w  #PLANE_STRIDE,d0
                 sub.w   d5,d0
                 sub.w   d5,d0
-                move.w  d0,$64(a6)
-                move.w  d0,$62(a6)
-                move.w  d0,$66(a6)
+                move.w  d0,BLTAMOD(a6)
+                move.w  d0,BLTBMOD(a6)
+                move.w  d0,BLTDMOD(a6)
                 asl.w   #6,d3
                 or.w    d5,d3
-                move.w  d3,$58(a6)
+                move.w  d3,BLTSIZE(a6)
                 rts
 firstWordMaskTable:
                 dc.w $FFFF,$7FFF,$3FFF,$1FFF,$0FFF,$07FF,$03FF,$01FF
@@ -6855,9 +6933,11 @@ lastWordMaskTable:
                 dc.w $8000,$C000,$E000,$F000,$F800,$FC00,$FE00,$FF00
                 dc.w $FF80,$FFC0,$FFE0,$FFF0,$FFF8,$FFFC,$FFFE,$FFFF
 
-; ===== BuildNibbleMaskLine =====
-; prototype: void __usercall BuildNibbleMaskLine()
-BuildNibbleMaskLine:
+; ===== BuildPaletteFromColors =====
+; prototype: void __usercall BuildPaletteFromColors(unsigned __int8 *palette@<a0>)
+; in:  A0 = color table (48 bytes = 16*(R,G,B) bytes; uses high nibbles only)
+; out: A1 = palette (16 words, $0RGB)
+BuildPaletteFromColors:
                 move.w  #$F,d2
 build_triplet_loop:
                 clr.w   d1
@@ -6879,34 +6959,34 @@ build_triplet_loop:
 ; ===== BlitterCopyOverlayToScreen =====
 ; prototype: void __usercall BlitterCopyOverlayToScreen()
 BlitterCopyOverlayToScreen:
-                lea     (BLTDDAT).l,a6
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                lea     (CUSTOM).l,a6
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 _103F12_wait_blitter_idle_pre_copy:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   _103F12_wait_blitter_idle_pre_copy
-                move.w  #$400,(DMACON).l
-                move.w  #$FFFF,$46(a6)
-                move.w  #$FFFF,$44(a6)
-                clr.w   $42(a6)
-                move.w  #$9F0,$40(a6)
-                clr.w   $64(a6)
-                clr.w   $66(a6)
-                move.l  (frontbufferBasePtr).l,$54(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.w  #BLT_FWM_ALL,BLTALWM(a6)
+                move.w  #BLT_FWM_ALL,BLTAFWM(a6)
+                clr.w   BLTCON1(a6)
+                move.w  #$9F0,BLTCON0(a6)
+                clr.w   BLTAMOD(a6)
+                clr.w   BLTDMOD(a6)
+                move.l  (frontbufferBasePtr).l,BLTDPT(a6)
                 move.l  #frontbufferBase,d0
                 cmpi.l  #frontbufferBaseAlt,(frontbufferBasePtr).l
                 beq.s   select_offscreen_buffer_done
                 move.l  #frontbufferBaseAlt,d0
 select_offscreen_buffer_done:
-                move.l  d0,$50(a6)
-                move.w  #$1116,$58(a6)
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.l  d0,BLTAPT(a6)
+                move.w  #BLTSIZE_OVERLAY_PANEL,BLTSIZE(a6)
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 wait_blitter_idle_post_copy:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   wait_blitter_idle_post_copy
-                move.w  #$400,(DMACON).l
-                move.w  #$16,$58(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.w  #$16,BLTSIZE(a6)
                 rts
 overlayActiveFlag:
                 dc.w $0000
@@ -6914,55 +6994,55 @@ overlayActiveFlag:
 ; ===== BlitterCopyPanelToScreen =====
 ; prototype: void __usercall BlitterCopyPanelToScreen()
 BlitterCopyPanelToScreen:
-                lea     (BLTDDAT).l,a6
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                lea     (CUSTOM).l,a6
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 wait_for_blitter_idle_before_setup:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   wait_for_blitter_idle_before_setup
-                move.w  #$400,(DMACON).l
-                move.w  #$FFFF,$46(a6)
-                move.w  #$FFFF,$44(a6)
-                clr.w   $42(a6)
-                move.w  #$9F0,$40(a6)
-                clr.w   $64(a6)
-                clr.w   $66(a6)
-                move.l  #frontbufferMaskBuffer,$50(a6)
-                move.l  (frontbufferBasePtr).l,$54(a6)
-                move.w  #$1116,$58(a6)
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.w  #BLT_FWM_ALL,BLTALWM(a6)
+                move.w  #BLT_FWM_ALL,BLTAFWM(a6)
+                clr.w   BLTCON1(a6)
+                move.w  #$9F0,BLTCON0(a6)
+                clr.w   BLTAMOD(a6)
+                clr.w   BLTDMOD(a6)
+                move.l  #frontbufferMaskBuffer,BLTAPT(a6)
+                move.l  (frontbufferBasePtr).l,BLTDPT(a6)
+                move.w  #BLTSIZE_OVERLAY_PANEL,BLTSIZE(a6)
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 wait_for_blitter_idle_before_kick_size16:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   wait_for_blitter_idle_before_kick_size16
-                move.w  #$400,(DMACON).l
-                move.w  #$16,$58(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.w  #$16,BLTSIZE(a6)
                 rts
 
 ; ===== HWSprite_LoadFromSpriteGraphics =====
 ; prototype: void __usercall HWSprite_LoadFromSpriteGraphics()
 HWSprite_LoadFromSpriteGraphics:
-                lea     (BLTDDAT).l,a6
+                lea     (CUSTOM).l,a6
                 movea.l (spriteGraphicsPtr).l,a0
                 lsl.w   #2,d0
                 movea.l (a0,d0.w),a0
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 _104040_wait_blitter_idle:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   _104040_wait_blitter_idle
-                move.w  #$400,(DMACON).l
-                move.w  #$FFFF,$46(a6)
-                move.w  #$FFFF,$44(a6)
-                clr.w   $42(a6)
-                move.w  #$1F0,$40(a6)
-                clr.w   $74(a6)
-                clr.w   $66(a6)
-                move.l  (a0),$54(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.w  #BLT_FWM_ALL,BLTALWM(a6)
+                move.w  #BLT_FWM_ALL,BLTAFWM(a6)
+                clr.w   BLTCON1(a6)
+                move.w  #$1F0,BLTCON0(a6)
+                clr.w   BLTADAT(a6)
+                clr.w   BLTDMOD(a6)
+                move.l  (a0),BLTDPT(a6)
                 move.w  $C(a0),d0
                 lsl.w   #8,d0
-                add.w   $E(a0),d0
-                move.w  d0,$58(a6)
+                add.w   TILE_STRIDE(a0),d0
+                move.w  d0,BLTSIZE(a6)
                 rts
 
 ; ===== BlitSpritePlanar_Word =====
@@ -7255,61 +7335,61 @@ CopySprite:
                 movea.l (a0,d3.w),a1
                 lsl.w   #2,d0
                 movea.l (a0,d0.w),a0
-                move.w  $E(a1),d3
+                move.w  TILE_STRIDE(a1),d3
                 lsl.w   #1,d3
                 movea.l (a1),a1
                 bra.w   *+4
 blitter_begin:
-                lea     (BLTDDAT).l,a6
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                lea     (CUSTOM).l,a6
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 _104346_wait_blitter_idle:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   _104346_wait_blitter_idle
-                move.w  #$400,(DMACON).l
+                move.w  #DMACON_BLT_OFF,(DMACON).l
                 clr.w   d6
                 move.w  d1,d0
-                andi.w  #$F,d0
+                andi.w  #TILE_MASK,d0
                 move.w  $A(a0),d7
-                andi.w  #$F,d7
+                andi.w  #TILE_MASK,d7
                 bne.s   _10436E_compute_firstword_mask
                 move.w  #$10,d7
 _10436E_compute_firstword_mask:
                 add.w   d7,d0
-                move.w  $E(a0),d7
+                move.w  TILE_STRIDE(a0),d7
                 addq.w  #1,d7
                 cmpi.w  #$10,d0
                 bhi.s   program_edge_masks
                 move.w  #$FFFF,d6
                 subq.w  #1,d7
 program_edge_masks:
-                move.w  d6,$46(a6)
-                move.w  #$FFFF,$44(a6)
+                move.w  d6,BLTALWM(a6)
+                move.w  #BLT_FWM_ALL,BLTAFWM(a6)
                 move.w  d1,d0
-                andi.w  #$F,d0
+                andi.w  #TILE_MASK,d0
                 lsl.w   #6,d0
                 lsl.w   #6,d0
-                move.w  d0,$42(a6)
+                move.w  d0,BLTCON1(a6)
                 tst.l   4(a0)
                 beq.w   _1043AA_setup_singleplane_mode
-                addi.w  #$FCA,d0
+                addi.w  #BLTCON0_BASE_LINKED,d0
                 bra.w   write_bltcon0_and_continue
 _1043AA_setup_singleplane_mode:
-                addi.w  #$7CA,d0
-                move.w  #$FFFF,$74(a6)
+                addi.w  #BLTCON0_BASE_SINGLE,d0
+                move.w  #$FFFF,BLTADAT(a6)
 write_bltcon0_and_continue:
-                move.w  d0,$40(a6)
+                move.w  d0,BLTCON0(a6)
                 move.w  d1,d0
                 lsr.w   #3,d0
-                andi.l  #$FFFE,d0
+                andi.l  #WORD_ALIGN_EVEN_MASK,d0
                 move.l  d0,d6
                 lsl.w   #2,d3
                 mulu.w  d3,d2
                 lsr.w   #2,d3
                 add.l   d2,d0
                 add.l   a1,d0
-                move.l  d0,$48(a6)
-                move.l  d0,$54(a6)
+                move.l  d0,BLTCPT(a6)
+                move.l  d0,BLTDPT(a6)
                 tst.w   8(a0)
                 beq.w   copy_four_planes_separately
                 move.w  $C(a0),d4
@@ -7317,84 +7397,84 @@ write_bltcon0_and_continue:
                 lsl.w   #6,d4
                 add.w   d7,d4
                 lsl.w   #1,d7
-                move.w  $E(a0),d0
+                move.w  TILE_STRIDE(a0),d0
                 lsl.w   #1,d0
                 sub.w   d7,d0
-                move.w  d0,$64(a6)
-                move.w  d0,$62(a6)
+                move.w  d0,BLTAMOD(a6)
+                move.w  d0,BLTBMOD(a6)
                 sub.w   d7,d3
-                move.w  d3,$60(a6)
-                move.w  d3,$66(a6)
-                move.l  (a0),$4C(a6)
-                move.l  4(a0),$50(a6)
-                move.w  d4,$58(a6)
+                move.w  d3,BLTCMOD(a6)
+                move.w  d3,BLTDMOD(a6)
+                move.l  (a0),BLTBPT(a6)
+                move.l  4(a0),BLTAPT(a6)
+                move.w  d4,BLTSIZE(a6)
                 rts
 copy_four_planes_separately:
                 move.w  $C(a0),d4
                 lsl.w   #6,d4
                 add.w   d7,d4
                 lsl.w   #1,d7
-                move.w  $E(a0),d2
+                move.w  TILE_STRIDE(a0),d2
                 lsl.w   #3,d2
                 sub.w   d7,d2
-                move.w  d2,$62(a6)
-                move.w  $E(a0),d2
+                move.w  d2,BLTBMOD(a6)
+                move.w  TILE_STRIDE(a0),d2
                 lsl.w   #1,d2
                 sub.w   d7,d2
-                move.w  d2,$64(a6)
+                move.w  d2,BLTAMOD(a6)
                 move.w  d3,d2
                 lsl.w   #2,d2
                 sub.w   d7,d2
-                move.w  d2,$60(a6)
-                move.w  d2,$66(a6)
+                move.w  d2,BLTCMOD(a6)
+                move.w  d2,BLTDMOD(a6)
                 move.l  (a0),d1
                 move.l  4(a0),d2
-                move.l  d1,$4C(a6)
-                move.l  d2,$50(a6)
-                move.w  d4,$58(a6)
+                move.l  d1,BLTBPT(a6)
+                move.l  d2,BLTAPT(a6)
+                move.w  d4,BLTSIZE(a6)
                 ext.l   d3
-                move.w  $E(a0),d5
+                move.w  TILE_STRIDE(a0),d5
                 lsl.w   #1,d5
                 ext.l   d5
                 add.l   d3,d0
                 add.l   d5,d1
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 _104474_pass2_wait_and_setup:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   _104474_pass2_wait_and_setup
-                move.w  #$400,(DMACON).l
-                move.l  d0,$48(a6)
-                move.l  d0,$54(a6)
-                move.l  d1,$4C(a6)
-                move.l  d2,$50(a6)
-                move.w  d4,$58(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  d0,BLTCPT(a6)
+                move.l  d0,BLTDPT(a6)
+                move.l  d1,BLTBPT(a6)
+                move.l  d2,BLTAPT(a6)
+                move.w  d4,BLTSIZE(a6)
                 add.l   d3,d0
                 add.l   d5,d1
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 _1044AE_pass3_wait_and_setup:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   _1044AE_pass3_wait_and_setup
-                move.w  #$400,(DMACON).l
-                move.l  d0,$48(a6)
-                move.l  d0,$54(a6)
-                move.l  d1,$4C(a6)
-                move.l  d2,$50(a6)
-                move.w  d4,$58(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  d0,BLTCPT(a6)
+                move.l  d0,BLTDPT(a6)
+                move.l  d1,BLTBPT(a6)
+                move.l  d2,BLTAPT(a6)
+                move.w  d4,BLTSIZE(a6)
                 add.l   d3,d0
                 add.l   d5,d1
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 pass4_wait_and_setup:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   pass4_wait_and_setup
-                move.w  #$400,(DMACON).l
-                move.l  d0,$48(a6)
-                move.l  d0,$54(a6)
-                move.l  d1,$4C(a6)
-                move.l  d2,$50(a6)
-                move.w  d4,$58(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  d0,BLTCPT(a6)
+                move.l  d0,BLTDPT(a6)
+                move.l  d1,BLTBPT(a6)
+                move.l  d2,BLTAPT(a6)
+                move.w  d4,BLTSIZE(a6)
                 rts
 
 ; ===== DrawSpriteHotspotInCameraView =====
@@ -7421,9 +7501,9 @@ DrawSpriteInCameraView:
                 movea.l (a0,d0.w),a0
                 sub.w   (g_cameraX).l,d1
                 sub.w   (g_cameraY).l,d2
-                cmpi.w  #$150,d1
+                cmpi.w  #SCREEN_WIDTH,d1
                 bge.w   _10456E_exit_rts
-                cmpi.w  #$110,d2
+                cmpi.w  #SCREEN_HEIGHT,d2
                 bge.w   _10456E_exit_rts
                 move.w  $A(a0),d0
                 neg.w   d0
@@ -7476,74 +7556,74 @@ DrawSpriteClipped:
 clip_top_against_0:
                 move.w  d2,d0
                 add.w   d3,d0
-                subi.w  #272,d0
+                subi.w  #SCREEN_HEIGHT,d0
                 bmi.s   apply_screen_offsets
                 sub.w   d0,d3
 apply_screen_offsets:
                 add.w   (cameraXMod320).l,d1
                 add.w   (cameraYMod320).l,d2
-                cmpi.w  #272,d2
+                cmpi.w  #SCREEN_HEIGHT,d2
                 blt.s   _1045D2_wrap_y_within_buffer
-                subi.w  #272,d2
+                subi.w  #SCREEN_HEIGHT,d2
 _1045D2_wrap_y_within_buffer:
-                lea     (BLTDDAT).l,a6
+                lea     (CUSTOM).l,a6
                 clr.w   d6
                 move.w  d1,d0
-                andi.w  #$F,d0
+                andi.w  #TILE_MASK,d0
                 move.w  $A(a0),d7
-                andi.w  #$F,d7
+                andi.w  #TILE_MASK,d7
                 bne.s   _1045EE_compute_firstword_mask
                 move.w  #$10,d7
 _1045EE_compute_firstword_mask:
                 add.w   d7,d0
-                move.w  $E(a0),d7
+                move.w  TILE_STRIDE(a0),d7
                 addq.w  #1,d7
                 cmpi.w  #$10,d0
                 bhi.s   start_blitter_wait
-                move.w  #$FFFF,d6
+                move.w  #BLT_LWM_ALL,d6
                 subq.w  #1,d7
 start_blitter_wait:
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 _104612_wait_blitter_idle:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   _104612_wait_blitter_idle
-                move.w  #$400,(DMACON).l
-                move.w  d6,$46(a6)
-                move.w  #$FFFF,$44(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.w  d6,BLTALWM(a6)
+                move.w  #BLT_FWM_ALL,BLTAFWM(a6)
                 move.w  d1,d0
-                andi.w  #$F,d0
+                andi.w  #TILE_MASK,d0
                 lsl.w   #6,d0
                 lsl.w   #6,d0
-                move.w  d0,$42(a6)
+                move.w  d0,BLTCON1(a6)
                 tst.l   4(a0)
                 beq.w   _10464C_setup_singleplane_mode
-                addi.w  #$FCA,d0
+                addi.w  #BLTCON0_BASE_LINKED,d0
                 bra.w   write_bltcon_and_go
 _10464C_setup_singleplane_mode:
-                addi.w  #$7CA,d0
+                addi.w  #BLTCON0_BASE_SINGLE,d0
                 move.w  #$FFFF,$74(a6)
 write_bltcon_and_go:
-                move.w  d0,$40(a6)
+                move.w  d0,BLTCON0(a6)
                 clr.w   d4
                 move.w  d2,d0
                 add.w   d3,d0
-                subi.w  #$110,d0
+                subi.w  #SCREEN_HEIGHT,d0
                 bls.w   save_rows_to_blit
                 move.w  d0,d4
                 sub.w   d0,d3
 save_rows_to_blit:
                 move.w  d3,(queuedLineCount).l
                 move.w  d1,d0
-                asr.w   #4,d0
+                asr.w   #TILE_SHIFT_X,d0
                 asl.w   #1,d0
                 ext.l   d0
                 move.l  d0,d6
-                mulu.w  #$B0,d2
+                mulu.w  #ROW_STRIDE_BYTES,d2
                 add.l   d2,d0
                 add.l   a1,d0
-                move.l  d0,$48(a6)
-                move.l  d0,$54(a6)
+                move.l  d0,BLTCPT(a6)
+                move.l  d0,BLTDPT(a6)
                 movea.l d0,a2
                 move.l  d0,4(a3)
                 sub.l   a1,d0
@@ -7557,101 +7637,101 @@ save_rows_to_blit:
                 lsl.w   #6,d3
                 add.w   d7,d3
                 lsl.w   #1,d7
-                move.w  $E(a0),d0
+                move.w  TILE_STRIDE(a0),d0
                 lsl.w   #1,d0
                 move.w  d0,d1
                 lsl.w   #2,d1
                 sub.w   d7,d0
-                move.w  d0,$64(a6)
+                move.w  d0,BLTAMOD(a6)
                 sub.w   d7,d1
-                move.w  d1,$62(a6)
-                move.w  #$2C,d0         ; ','
+                move.w  d1,BLTBMOD(a6)
+                move.w  #PLANE_STRIDE,d0
                 sub.w   d7,d0
                 move.w  d0,8(a3)
-                addi.w  #$84,d0
-                move.w  d0,$60(a6)
-                move.w  d0,$66(a6)
+                addi.w  #PITCH_DEST_MOD_UNALIGNED,d0
+                move.w  d0,BLTCMOD(a6)
+                move.w  d0,BLTDMOD(a6)
                 ext.l   d5
                 beq.s   apply_source_top_skip
                 lsl.w   #2,d5
-                mulu.w  $E(a0),d5
+                mulu.w  TILE_STRIDE(a0),d5
                 lsl.l   #1,d5
 apply_source_top_skip:
                 move.l  (a0),d0
                 add.l   d5,d0
-                move.l  d0,$4C(a6)
+                move.l  d0,BLTBPT(a6)
                 movea.l d0,a5
                 move.l  4(a0),d0
                 lsr.w   #2,d5
                 add.l   d5,d0
-                move.l  d0,$50(a6)
+                move.l  d0,BLTAPT(a6)
                 movea.l d0,a4
                 adda.l  #$C,a3
-                move.w  d3,$58(a6)
+                move.w  d3,BLTSIZE(a6)
                 move.l  a4,(savedSrcPlaneB).l
                 move.l  a5,(savedSrcPlaneA).l
-                move.w  $E(a0),d0
+                move.w  TILE_STRIDE(a0),d0
                 lsl.w   #1,d0
                 ext.l   d0
-                adda.l  #$2C,a2         ; ','
+                adda.l  #PLANE_STRIDE,a2
                 adda.l  d0,a5
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 pass1_wait_and_setup:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   pass1_wait_and_setup
-                move.w  #$400,(DMACON).l
-                move.l  a2,$48(a6)
-                move.l  a2,$54(a6)
-                move.l  a4,$50(a6)
-                move.l  a5,$4C(a6)
-                move.w  d3,$58(a6)
-                adda.l  #$2C,a2         ; ','
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  a2,BLTCPT(a6)
+                move.l  a2,BLTDPT(a6)
+                move.l  a4,BLTAPT(a6)
+                move.l  a5,BLTBPT(a6)
+                move.w  d3,BLTSIZE(a6)
+                adda.l  #PLANE_STRIDE,a2
                 adda.l  d0,a5
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 _104772_pass2_wait_and_setup:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   _104772_pass2_wait_and_setup
-                move.w  #$400,(DMACON).l
-                move.l  a2,$48(a6)
-                move.l  a2,$54(a6)
-                move.l  a4,$50(a6)
-                move.l  a5,$4C(a6)
-                move.w  d3,$58(a6)
-                adda.l  #$2C,a2         ; ','
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  a2,BLTCPT(a6)
+                move.l  a2,BLTDPT(a6)
+                move.l  a4,BLTAPT(a6)
+                move.l  a5,BLTBPT(a6)
+                move.w  d3,BLTSIZE(a6)
+                adda.l  #PLANE_STRIDE,a2
                 adda.l  d0,a5
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 _1047B0_pass3_wait_and_setup:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   _1047B0_pass3_wait_and_setup
-                move.w  #$400,(DMACON).l
-                move.l  a2,$48(a6)
-                move.l  a2,$54(a6)
-                move.l  a4,$50(a6)
-                move.l  a5,$4C(a6)
-                move.w  d3,$58(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  a2,BLTCPT(a6)
+                move.l  a2,BLTDPT(a6)
+                move.l  a4,BLTAPT(a6)
+                move.l  a5,BLTBPT(a6)
+                move.w  d3,BLTSIZE(a6)
                 tst.w   d4
                 beq.w   seal_queue_and_exit
                 move.w  (queuedLineCount).l,d2
-                mulu.w  $E(a0),d2
+                mulu.w  TILE_STRIDE(a0),d2
                 lsl.l   #1,d2
                 move.l  (savedSrcPlaneB).l,d1
                 add.l   d2,d1
                 lsl.l   #2,d2
                 add.l   (savedSrcPlaneA).l,d2
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 tail_pass_wait_and_setup:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   tail_pass_wait_and_setup
-                move.w  #$400,(DMACON).l
+                move.w  #DMACON_BLT_OFF,(DMACON).l
                 add.l   a1,d6
-                move.l  d6,$48(a6)
-                move.l  d6,$54(a6)
-                move.l  d1,$50(a6)
-                move.l  d2,$4C(a6)
+                move.l  d6,BLTCPT(a6)
+                move.l  d6,BLTDPT(a6)
+                move.l  d1,BLTAPT(a6)
+                move.l  d2,BLTBPT(a6)
                 move.l  d6,d0
                 move.l  d0,4(a3)
                 sub.l   a1,d0
@@ -7665,53 +7745,53 @@ tail_pass_wait_and_setup:
                 move.w  d0,$A(a3)
                 lsl.w   #6,d4
                 add.w   d7,d4
-                move.w  d4,$58(a6)
-                move.w  $E(a0),d0
+                move.w  d4,BLTSIZE(a6)
+                move.w  TILE_STRIDE(a0),d0
                 lsl.w   #1,d0
                 ext.l   d0
-                addi.l  #$2C,d6         ; ','
+                addi.l  #PLANE_STRIDE,d6
                 add.l   d0,d2
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 tail_pass2_wait_and_setup:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   tail_pass2_wait_and_setup
-                move.w  #$400,(DMACON).l
-                move.l  d6,$48(a6)
-                move.l  d6,$54(a6)
-                move.l  d1,$50(a6)
-                move.l  d2,$4C(a6)
-                move.w  d4,$58(a6)
-                addi.l  #$2C,d6         ; ','
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  d6,BLTCPT(a6)
+                move.l  d6,BLTDPT(a6)
+                move.l  d1,BLTAPT(a6)
+                move.l  d2,BLTBPT(a6)
+                move.w  d4,BLTSIZE(a6)
+                addi.l  #PLANE_STRIDE,d6
                 add.l   d0,d2
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 tail_pass3_wait_and_setup:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   tail_pass3_wait_and_setup
-                move.w  #$400,(DMACON).l
-                move.l  d6,$48(a6)
-                move.l  d6,$54(a6)
-                move.l  d1,$50(a6)
-                move.l  d2,$4C(a6)
-                move.w  d4,$58(a6)
-                addi.l  #$2C,d6         ; ','
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  d6,BLTCPT(a6)
+                move.l  d6,BLTDPT(a6)
+                move.l  d1,BLTAPT(a6)
+                move.l  d2,BLTBPT(a6)
+                move.w  d4,BLTSIZE(a6)
+                addi.l  #PLANE_STRIDE,d6
                 add.l   d0,d2
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 tail_pass4_wait_and_setup:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   tail_pass4_wait_and_setup
-                move.w  #$400,(DMACON).l
-                move.l  d6,$48(a6)
-                move.l  d6,$54(a6)
-                move.l  d1,$50(a6)
-                move.l  d2,$4C(a6)
-                move.w  d4,$58(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  d6,BLTCPT(a6)
+                move.l  d6,BLTDPT(a6)
+                move.l  d1,BLTAPT(a6)
+                move.l  d2,BLTBPT(a6)
+                move.w  d4,BLTSIZE(a6)
                 move.w  -4(a3),8(a3)
                 adda.l  #$C,a3
 seal_queue_and_exit:
-                move.l  #$FFFFFFFF,(a3)
+                move.l  #BLT_BLITQ_END,(a3)
                 move.l  a3,(spriteBlitQueue).l
                 movem.l (sp)+,a2/a4-a5
                 rts
@@ -7736,17 +7816,17 @@ reload_height:
 clip_top_against_0_2:
                 move.w  d2,d0
                 add.w   d3,d0
-                subi.w  #$110,d0
+                subi.w  #SCREEN_HEIGHT,d0
                 bmi.w   apply_screen_offsets_2
                 sub.w   d0,d3
 apply_screen_offsets_2:
                 add.w   (cameraXMod320).l,d1
                 add.w   (cameraYMod320).l,d2
-                cmpi.w  #$110,d2
+                cmpi.w  #SCREEN_HEIGHT,d2
                 blt.s   wrap_y_within_buffer_2
-                subi.w  #$110,d2
+                subi.w  #SCREEN_HEIGHT,d2
 wrap_y_within_buffer_2:
-                lea     (BLTDDAT).l,a6
+                lea     (CUSTOM).l,a6
                 clr.w   d6
                 move.w  d1,d0
                 andi.w  #$F,d0
@@ -7763,32 +7843,32 @@ compute_firstword_mask_2:
                 move.w  #$FFFF,d6
                 subq.w  #1,d7
 start_blitter_wait_2:
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 _1049C2_wait_blitter_idle_2:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   _1049C2_wait_blitter_idle_2
-                move.w  #$400,(DMACON).l
-                move.w  d6,$46(a6)
-                move.w  #$FFFF,$44(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.w  d6,BLTALWM(a6)
+                move.w  #BLT_FWM_ALL,BLTAFWM(a6)
                 move.w  d1,d0
-                andi.w  #$F,d0
+                andi.w  #TILE_MASK,d0
                 lsl.w   #6,d0
                 lsl.w   #6,d0
-                move.w  d0,$42(a6)
+                move.w  d0,BLTCON1(a6)
                 tst.l   4(a0)
                 beq.w   setup_singleplane_mode_2
-                addi.w  #$FCA,d0
+                addi.w  #BLTCON0_BASE_LINKED,d0
                 bra.w   write_bltcon_and_go_2
 setup_singleplane_mode_2:
-                addi.w  #$7CA,d0
+                addi.w  #BLTCON0_BASE_SINGLE,d0
                 move.w  #$FFFF,$74(a6)
 write_bltcon_and_go_2:
-                move.w  d0,$40(a6)
+                move.w  d0,BLTCON0(a6)
                 clr.w   d4
                 move.w  d2,d0
                 add.w   d3,d0
-                subi.w  #$110,d0
+                subi.w  #SCREEN_HEIGHT,d0
                 bls.w   compute_dest_ptrs
                 move.w  d0,d4
                 sub.w   d0,d3
@@ -7798,11 +7878,11 @@ compute_dest_ptrs:
                 asl.w   #1,d0
                 ext.l   d0
                 move.l  d0,d6
-                mulu.w  #$B0,d2
+                mulu.w  #ROW_STRIDE_BYTES,d2
                 add.l   d2,d0
                 add.l   a1,d0
-                move.l  d0,$48(a6)
-                move.l  d0,$54(a6)
+                move.l  d0,BLTCPT(a6)
+                move.l  d0,BLTDPT(a6)
                 move.l  d0,4(a3)
                 sub.l   a1,d0
                 addi.l  #frontbufferMaskBuffer,d0
@@ -7811,29 +7891,29 @@ compute_dest_ptrs:
                 lsl.w   #6,d3
                 add.w   d7,d3
                 lsl.w   #1,d7
-                move.w  $E(a0),d0
+                move.w  TILE_STRIDE(a0),d0
                 lsl.w   #1,d0
                 sub.w   d7,d0
-                move.w  d0,$64(a6)
-                move.w  d0,$62(a6)
-                move.w  #$2C,d0         ; ','
+                move.w  d0,BLTAMOD(a6)
+                move.w  d0,BLTBMOD(a6)
+                move.w  #PLANE_STRIDE,d0
                 sub.w   d7,d0
-                move.w  d0,$60(a6)
-                move.w  d0,$66(a6)
+                move.w  d0,BLTCMOD(a6)
+                move.w  d0,BLTDMOD(a6)
                 move.w  d0,8(a3)
                 ext.l   d5
                 beq.s   apply_source_top_skip_2
                 lsl.w   #2,d5
-                mulu.w  $E(a0),d5
+                mulu.w  TILE_STRIDE(a0),d5
                 lsl.l   #1,d5
 apply_source_top_skip_2:
                 move.l  (a0),d0
                 add.l   d5,d0
-                move.l  d0,$4C(a6)
+                move.l  d0,BLTBPT(a6)
                 move.l  4(a0),d0
                 add.l   d5,d0
-                move.l  d0,$50(a6)
-                move.w  d3,$58(a6)
+                move.l  d0,BLTAPT(a6)
+                move.w  d3,BLTSIZE(a6)
                 move.w  d3,$A(a3)
                 adda.l  #$C,a3
                 tst.w   d4
@@ -7844,15 +7924,15 @@ apply_source_top_skip_2:
                 lsl.w   #6,d4
                 add.w   d7,d4
                 move.l  d6,4(a3)
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 wait_blitter_idle_tail:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   wait_blitter_idle_tail
-                move.w  #$400,(DMACON).l
-                move.l  d6,$48(a6)
-                move.l  d6,$54(a6)
-                move.w  d4,$58(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  d6,BLTCPT(a6)
+                move.l  d6,BLTDPT(a6)
+                move.w  d4,BLTSIZE(a6)
                 sub.l   a1,d6
                 addi.l  #frontbufferMaskBuffer,d6
                 move.l  d6,(a3)
@@ -7903,15 +7983,15 @@ _104B54_exit_rts:
 ; ===== DrawQueuedSpritesToPlanes =====
 ; prototype: void __usercall DrawQueuedSpritesToPlanes()
 DrawQueuedSpritesToPlanes:
-                lea     (BLTDDAT).l,a6
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                lea     (CUSTOM).l,a6
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 _104B6C_wait_blitter_idle:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   _104B6C_wait_blitter_idle
-                move.w  #$400,(DMACON).l
-                move.w  #$FFFF,$46(a6)
-                move.w  #$FFFF,$44(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.w  #BLT_FWM_ALL,BLTALWM(a6)
+                move.w  #BLT_FWM_ALL,BLTAFWM(a6)
                 clr.w   $42(a6)
                 move.w  #$9F0,$40(a6)
                 move.w  #4,$64(a6)
@@ -7997,26 +8077,26 @@ apply_hpos_odd_to_mask:
                 move.w  d4,(a4)+
                 move.w  d4,(a5)+
                 bset    #7,-1(a5)
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 wait_blitter_idle_first:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   wait_blitter_idle_first
-                move.w  #$400,(DMACON).l
-                move.l  (a0),$50(a6)
-                move.l  a4,$54(a6)
-                move.w  $14(a0),$58(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  (a0),BLTAPT(a6)
+                move.l  a4,BLTDPT(a6)
+                move.w  $14(a0),BLTSIZE(a6)
                 move.l  (a0),d1
                 addq.l  #4,d1
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 wait_blitter_idle_second:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   wait_blitter_idle_second
-                move.w  #$400,(DMACON).l
-                move.l  d1,$50(a6)
-                move.l  a5,$54(a6)
-                move.w  $14(a0),$58(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.l  d1,BLTAPT(a6)
+                move.l  a5,BLTDPT(a6)
+                move.w  $14(a0),BLTSIZE(a6)
                 move.w  $C(a0),d0
                 lsl.w   #2,d0
                 lea     (a4,d0.w),a4
@@ -8087,9 +8167,9 @@ loop_next_sorted_sprite:
                 sub.w   $12(a0),d2
                 sub.w   (g_cameraY).l,d2
                 sub.w   $26(a1),d2
-                cmpi.w  #$150,d1
+                cmpi.w  #SCREEN_WIDTH,d1
                 bge.w   cull_sprite_outside_view
-                cmpi.w  #$110,d2
+                cmpi.w  #SCREEN_HEIGHT,d2
                 bge.w   cull_sprite_outside_view
                 move.w  $A(a0),d0
                 neg.w   d0
@@ -8763,17 +8843,17 @@ BlitStringToFrontBuffer:
                 move.w  $C(a0),d3
                 add.w   (cameraXMod320).l,d1
                 add.w   (cameraYMod320).l,d2
-                cmpi.w  #$110,d2
+                cmpi.w  #SCREEN_HEIGHT,d2
                 blt.s   _105404_wrap_y_within_buffer
-                subi.w  #$110,d2
+                subi.w  #SCREEN_HEIGHT,d2
 _105404_wrap_y_within_buffer:
-                lea     (BLTDDAT).l,a6
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                lea     (CUSTOM).l,a6
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 _10541A_wait_blitter_idle:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   _10541A_wait_blitter_idle
-                move.w  #$400,(DMACON).l
+                move.w  #DMACON_BLT_OFF,(DMACON).l
                 clr.w   d6
                 move.w  d1,d0
                 andi.w  #$F,d0
@@ -8783,27 +8863,27 @@ _10541A_wait_blitter_idle:
                 move.w  #$10,d7
 _105442_calc_xshift_and_span:
                 add.w   d7,d0
-                move.w  $E(a0),d7
+                move.w  TILE_STRIDE(a0),d7
                 addq.w  #1,d7
                 cmpi.w  #$10,d0
                 bhi.s   _105456_apply_edge_word_masks
                 move.w  #$FFFF,d6
                 subq.w  #1,d7
 _105456_apply_edge_word_masks:
-                move.w  d6,$46(a6)
-                move.w  #$FFFF,$44(a6)
+                move.w  d6,BLTALWM(a6)
+                move.w  #BLT_FWM_ALL,BLTAFWM(a6)
                 move.w  d1,d0
-                andi.w  #$F,d0
+                andi.w  #TILE_MASK,d0
                 lsl.w   #6,d0
                 lsl.w   #6,d0
-                move.w  d0,$42(a6)
+                move.w  d0,BLTCON1(a6)
                 move.w  d0,(bltconShiftBase).l
                 tst.l   4(a0)
                 beq.w   panic_bad_font_or_params
                 clr.w   d4
                 move.w  d2,d0
                 add.w   d3,d0
-                subi.w  #$110,d0
+                subi.w  #SCREEN_HEIGHT,d0
                 bls.w   store_height_and_calc_dstptr
                 move.w  d0,d4
                 sub.w   d0,d3
@@ -8814,29 +8894,29 @@ store_height_and_calc_dstptr:
                 asl.w   #1,d0
                 ext.l   d0
                 move.l  d0,d6
-                mulu.w  #$B0,d2
+                mulu.w  #ROW_STRIDE_BYTES,d2
                 add.l   d2,d0
                 add.l   a1,d0
                 movea.l d0,a2
                 lsl.w   #6,d3
                 add.w   d7,d3
                 lsl.w   #1,d7
-                move.w  $E(a0),d0
+                move.w  TILE_STRIDE(a0),d0
                 lsl.w   #1,d0
                 move.w  d0,d1
                 lsl.w   #2,d1
                 sub.w   d7,d0
-                move.w  d0,$64(a6)
+                move.w  d0,BLTAMOD(a6)
                 sub.w   d7,d1
-                move.w  d1,$62(a6)
-                move.w  #$2C,d0         ; ','
+                move.w  d1,BLTBMOD(a6)
+                move.w  #PLANE_STRIDE,d0
                 sub.w   d7,d0
-                addi.w  #$84,d0
-                move.w  d0,$60(a6)
-                move.w  d0,$66(a6)
+                addi.w  #PITCH_DEST_MOD_UNALIGNED,d0
+                move.w  d0,BLTCMOD(a6)
+                move.w  d0,BLTDMOD(a6)
                 movea.l 4(a0),a4
                 movea.l (a0),a5
-                move.w  $E(a0),d0
+                move.w  TILE_STRIDE(a0),d0
                 lsl.w   #1,d0
                 ext.l   d0
                 adda.l  d0,a5
@@ -8851,49 +8931,49 @@ _105502_two_pass_blit_loop:
                 lsr.w   #1,d5
                 bcc.s   _105526_setup_blit_pass_A
                 move.w  (bltconShiftBase).l,d0
-                addi.w  #$FCA,d0
-                move.w  d0,$40(a6)
-                move.l  a4,$50(a6)
-                move.l  a5,$4C(a6)
-                move.l  a2,$48(a6)
-                move.l  a2,$54(a6)
+                addi.w  #BLTCON0_BASE_LINKED,d0
+                move.w  d0,BLTCON0(a6)
+                move.l  a4,BLTAPT(a6)
+                move.l  a5,BLTBPT(a6)
+                move.l  a2,BLTCPT(a6)
+                move.l  a2,BLTDPT(a6)
                 bra.s   _105540_start_blit
 _105526_setup_blit_pass_A:
                 move.w  (bltconShiftBase).l,d0
                 addi.w  #$B0A,d0
-                move.w  d0,$40(a6)
-                move.l  a4,$50(a6)
-                move.l  a2,$48(a6)
-                move.l  a2,$54(a6)
+                move.w  d0,BLTCON0(a6)
+                move.l  a4,BLTAPT(a6)
+                move.l  a2,BLTCPT(a6)
+                move.l  a2,BLTDPT(a6)
 _105540_start_blit:
-                move.w  d3,$58(a6)
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  d3,BLTSIZE(a6)
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 _105554_wait_blit_done:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   _105554_wait_blit_done
-                move.w  #$400,(DMACON).l
-                adda.l  #$2C,a2         ; ','
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                adda.l  #PLANE_STRIDE,a2
                 dbf     d1,_105502_two_pass_blit_loop
                 lsr.w   #1,d5
                 bcc.s   _105590_setup_final_pass_with_srcC
                 move.w  (bltconShiftBase).l,d0
                 addi.w  #$BFA,d0
-                move.w  d0,$40(a6)
-                move.l  a4,$50(a6)
-                move.l  a2,$48(a6)
-                move.l  a2,$54(a6)
+                move.w  d0,BLTCON0(a6)
+                move.l  a4,BLTAPT(a6)
+                move.l  a2,BLTCPT(a6)
+                move.l  a2,BLTDPT(a6)
                 bra.s   finish_pass_and_check_wrap
 _105590_setup_final_pass_with_srcC:
                 move.w  (bltconShiftBase).l,d0
-                addi.w  #$FCA,d0
-                move.w  d0,$40(a6)
-                move.l  a4,$50(a6)
-                move.l  a3,$4C(a6)
-                move.l  a2,$48(a6)
-                move.l  a2,$54(a6)
+                addi.w  #BLTCON0_BASE_LINKED,d0
+                move.w  d0,BLTCON0(a6)
+                move.l  a4,BLTAPT(a6)
+                move.l  a3,BLTBPT(a6)
+                move.l  a2,BLTCPT(a6)
+                move.l  a2,BLTDPT(a6)
 finish_pass_and_check_wrap:
-                move.w  d3,$58(a6)
+                move.w  d3,BLTSIZE(a6)
                 tst.w   d4
                 beq.w   blit_return
                 move.w  (textBlitHeightLines).l,d0
@@ -8910,12 +8990,12 @@ finish_pass_and_check_wrap:
                 lsl.w   #6,d3
                 add.w   d7,d3
                 clr.w   d4
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 wait_blit_done_wrap:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   wait_blit_done_wrap
-                move.w  #$400,(DMACON).l
+                move.w  #DMACON_BLT_OFF,(DMACON).l
                 bra.w   restart_blit_span
 blit_return:
                 rts
@@ -8945,25 +9025,25 @@ BlitGlyphToSpriteBitmap:
                 movea.l (spriteGraphicsPtr).l,a1
                 lsl.w   #2,d4
                 movea.l (a1,d4.w),a1
-                move.w  $E(a1),d0
+                move.w  TILE_STRIDE(a1),d0
                 lsl.w   #1,d0
                 move.w  d0,(dstRowBytesPerPlane).l
                 ext.l   d0
                 move.l  d0,(dstRowAdvanceBytes).l
                 movea.l (a1),a1
                 move.w  $C(a0),d3
-                lea     (BLTDDAT).l,a6
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                lea     (CUSTOM).l,a6
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 _105672_wait_blitter_idle:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   _105672_wait_blitter_idle
-                move.w  #$400,(DMACON).l
+                move.w  #DMACON_BLT_OFF,(DMACON).l
                 clr.w   d6
                 move.w  d1,d0
-                andi.w  #$F,d0
+                andi.w  #TILE_MASK,d0
                 move.w  $A(a0),d7
-                andi.w  #$F,d7
+                andi.w  #TILE_MASK,d7
                 bne.s   _10569A_calc_xshift_and_span
                 move.w  #$10,d7
 _10569A_calc_xshift_and_span:
@@ -8975,13 +9055,13 @@ _10569A_calc_xshift_and_span:
                 move.w  #$FFFF,d6
                 subq.w  #1,d7
 _1056AE_apply_edge_word_masks:
-                move.w  d6,$46(a6)
-                move.w  #$FFFF,$44(a6)
+                move.w  d6,BLTALWM(a6)
+                move.w  #BLT_FWM_ALL,BLTAFWM(a6)
                 move.w  d1,d0
-                andi.w  #$F,d0
+                andi.w  #TILE_MASK,d0
                 lsl.w   #6,d0
                 lsl.w   #6,d0
-                move.w  d0,$42(a6)
+                move.w  d0,BLTCON1(a6)
                 move.w  d0,(bltconShiftBase_glyph).l
                 tst.l   4(a0)
                 beq.w   panic_missing_bitplanes
@@ -9004,16 +9084,16 @@ _1056AE_apply_edge_word_masks:
                 move.w  d0,d1
                 lsl.w   #2,d1
                 sub.w   d7,d0
-                move.w  d0,$64(a6)
+                move.w  d0,BLTAMOD(a6)
                 sub.w   d7,d1
-                move.w  d1,$62(a6)
+                move.w  d1,BLTBMOD(a6)
                 move.w  (dstRowBytesPerPlane).l,d0
                 sub.w   d7,d0
                 add.w   (dstRowBytesPerPlane).l,d0
                 add.w   (dstRowBytesPerPlane).l,d0
                 add.w   (dstRowBytesPerPlane).l,d0
-                move.w  d0,$60(a6)
-                move.w  d0,$66(a6)
+                move.w  d0,BLTCMOD(a6)
+                move.w  d0,BLTDMOD(a6)
                 movea.l 4(a0),a4
                 movea.l (a0),a5
                 move.w  $E(a0),d0
@@ -9030,49 +9110,49 @@ _10575C_two_pass_blit_loop:
                 lsr.w   #1,d5
                 bcc.s   _105780_setup_blit_pass_A
                 move.w  (bltconShiftBase_glyph).l,d0
-                addi.w  #$FCA,d0
-                move.w  d0,$40(a6)
-                move.l  a4,$50(a6)
-                move.l  a5,$4C(a6)
-                move.l  a2,$48(a6)
-                move.l  a2,$54(a6)
+                addi.w  #BLTCON0_BASE_LINKED,d0
+                move.w  d0,BLTCON0(a6)
+                move.l  a4,BLTAPT(a6)
+                move.l  a5,BLTBPT(a6)
+                move.l  a2,BLTCPT(a6)
+                move.l  a2,BLTDPT(a6)
                 bra.s   _10579A_start_blit
 _105780_setup_blit_pass_A:
                 move.w  (bltconShiftBase_glyph).l,d0
                 addi.w  #$B0A,d0
-                move.w  d0,$40(a6)
-                move.l  a4,$50(a6)
-                move.l  a2,$48(a6)
-                move.l  a2,$54(a6)
+                move.w  d0,BLTCON0(a6)
+                move.l  a4,BLTAPT(a6)
+                move.l  a2,BLTCPT(a6)
+                move.l  a2,BLTDPT(a6)
 _10579A_start_blit:
-                move.w  d3,$58(a6)
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  d3,BLTSIZE(a6)
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 _1057AE_wait_blit_done:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   _1057AE_wait_blit_done
-                move.w  #$400,(DMACON).l
+                move.w  #DMACON_BLT_OFF,(DMACON).l
                 adda.l  (dstRowAdvanceBytes).l,a2
                 dbf     d1,_10575C_two_pass_blit_loop
                 lsr.w   #1,d5
                 bcc.s   _1057EA_setup_final_pass_with_srcC
                 move.w  (bltconShiftBase_glyph).l,d0
                 addi.w  #$BFA,d0
-                move.w  d0,$40(a6)
-                move.l  a4,$50(a6)
-                move.l  a2,$48(a6)
-                move.l  a2,$54(a6)
+                move.w  d0,BLTCON0(a6)
+                move.l  a4,BLTAPT(a6)
+                move.l  a2,BLTCPT(a6)
+                move.l  a2,BLTDPT(a6)
                 bra.s   _105808_finish_and_return
 _1057EA_setup_final_pass_with_srcC:
                 move.w  (bltconShiftBase_glyph).l,d0
-                addi.w  #$FCA,d0
-                move.w  d0,$40(a6)
-                move.l  a4,$50(a6)
-                move.l  a3,$4C(a6)
-                move.l  a2,$48(a6)
-                move.l  a2,$54(a6)
+                addi.w  #BLTCON0_BASE_LINKED,d0
+                move.w  d0,BLTCON0(a6)
+                move.l  a4,BLTAPT(a6)
+                move.l  a3,BLTBPT(a6)
+                move.l  a2,BLTCPT(a6)
+                move.l  a2,BLTDPT(a6)
 _105808_finish_and_return:
-                move.w  d3,$58(a6)
+                move.w  d3,BLTSIZE(a6)
                 rts
 panic_bad_glyph_header:
                 move.w  #$1566,(panicReasonCode).l
@@ -9202,7 +9282,7 @@ try_open_or_use_cached:
                 beq.s   size_check_and_decode
                 bsr.w   AssetCacheStoreFromMemory
 size_check_and_decode:
-                cmpi.l  #$BBB0,d1
+                cmpi.l  #FRONTBUFFER_SIZE_TOTAL_BYTES,d1
                 bhi.w   fatal_image_too_large
                 movea.l (frontbufferBasePtr).l,a0
                 cmpi.l  #$524E4301,(a0)
@@ -11337,7 +11417,7 @@ loc_10759A:
 StopAllAudioChannels:
                 movem.l d0/a5-a6,-(sp)
                 lea     audioState(pc),a5
-                lea     (BLTDDAT).l,a6
+                lea     (CUSTOM).l,a6
                 moveq   #0,d0
                 move.w  d0,$20(a5)
                 move.w  d0,$22(a5)
@@ -11495,7 +11575,7 @@ queue_next_done:
 ; prototype: unsigned __int8 __usercall AudioIRQUpdateChannels@<d0>()
 AudioIRQUpdateChannels:
                 movem.l d1-d7/a0-a6,-(sp)
-                lea     (BLTDDAT).l,a6
+                lea     (CUSTOM).l,a6
                 lea     audioState(pc),a5
                 move.w  audioCounter-audioState(a5),d0
                 andi.w  #3,d0
@@ -13168,9 +13248,9 @@ clamp_dy_max:
                 bpl.s   clamp_x_to_screen
                 clr.w   d1
 clamp_x_to_screen:
-                cmpi.w  #$150,d1
+                cmpi.w  #SCREEN_WIDTH,d1
                 blt.s   clamp_x_to_pitch_width
-                move.w  #$150,d1
+                move.w  #SCREEN_WIDTH,d1
 clamp_x_to_pitch_width:
                 cmpi.w  #$10,d2
                 bge.s   _109326_clamp_y_min
@@ -14465,44 +14545,44 @@ loc_10A3DC:
                 cmpi.w  #16,d0
                 bne.s   loc_10A3DC
                 rts
-; __int16[3]
-paletteTriplet1:
-                ; __int16[3]
-                dc.w 1936,1680,2448
-; __int16[3]
-paletteTriplet2:
-                ; __int16[3]
-                dc.w 2448,2192,1936
-; __int16[3]
-paletteTriplet3:
-                ; __int16[3]
-                dc.w 912,1936,912
-; __int16[3]
-paletteTriplet4:
-                ; __int16[3]
-                dc.w 880,1904,880
-; __int16[3]
-paletteTriplet5:
-                ; __int16[3]
-                dc.w 2416,2160,1904
-; __int16[3]
-paletteTriplet6:
-                ; __int16[3]
-                dc.w 2454,2198,1942
-; __int16[3]
-paletteTriplet7:
-                ; __int16[3]
-                dc.w 1872,1616,1360
-; __int16 *[7]
-kPaletteTripletPtrs:
-                ; __int16 *[7]
-                dc.l paletteTriplet6    ; element[0]
-                dc.l paletteTriplet7    ; element[1]
-                dc.l paletteTriplet3    ; element[2]
-                dc.l paletteTriplet4    ; element[3]
-                dc.l paletteTriplet1    ; element[4]
-                dc.l paletteTriplet2    ; element[5]
-                dc.l paletteTriplet5    ; element[6]
+; unsigned __int16[3]
+normalPalette:
+                ; unsigned __int16[3]
+                dc.w $0790,$0690,$0990
+; unsigned __int16[3]
+dryPalette:
+                ; unsigned __int16[3]
+                dc.w $0990,$0890,$0790
+; unsigned __int16[3]
+wetPalette:
+                ; unsigned __int16[3]
+                dc.w $0390,$0790,$0390
+; unsigned __int16[3]
+softPalette:
+                ; unsigned __int16[3]
+                dc.w $0370,$0770,$0370
+; unsigned __int16[3]
+hardPalette:
+                ; unsigned __int16[3]
+                dc.w $0970,$0870,$0770
+; unsigned __int16[3]
+frozenPalette:
+                ; unsigned __int16[3]
+                dc.w $0996,$0896,$0796
+; unsigned __int16[3]
+muddyPalette:
+                ; unsigned __int16[3]
+                dc.w $0750,$0650,$0550
+; unsigned __int16 *[7]
+pitchPalettePtrs:
+                ; unsigned __int16 *[7]
+                dc.l frozenPalette      ; element[0]
+                dc.l muddyPalette       ; element[1]
+                dc.l wetPalette         ; element[2]
+                dc.l softPalette        ; element[3]
+                dc.l normalPalette      ; element[4]
+                dc.l dryPalette         ; element[5]
+                dc.l hardPalette        ; element[6]
 ; unsigned __int8[84]
 pitchTypeSeasonalProbabilities:
                 dc.b 30,20,30,20,0,0,0,20,30,20,20,10,0,0,10,30
@@ -14549,7 +14629,7 @@ wait_for_both_joy_fire_release:
                 tst.b   (pl2Fire).l
                 bne.s   wait_for_both_joy_fire_release
                 jsr FadeOutToBlack(pc)
-                move.w  #2,(paletteBankIndex).l
+                move.w  #2,(paletteIndex).l
                 bra.w   *+4
 
 ; ===== InitGameRestoreTeams =====
@@ -14592,7 +14672,7 @@ copy_team_data_bytes_loop:
                 movem.l d0-d7/a0-a6,-(sp)
                 jsr     ApplyTeamTactics
                 movem.l (sp)+,d0-d7/a0-a6
-                move.w  #2,(paletteBankIndex).l
+                move.w  #2,(paletteIndex).l
                 bsr.w   nullsub_5
                 jsr CrowdResetMatchState(pc)
                 bsr.w   Rand
@@ -14613,10 +14693,10 @@ apply_palette_and_pitch_tables:
                 move.w  (pitchNumberAndType).l,d1
                 andi.w  #$FF,d1
                 lsl.w   #2,d1
-                lea     kPaletteTripletPtrs(pc),a0
+                lea     pitchPalettePtrs(pc),a0
                 movea.l (a0,d1.w),a0
-                lea     (g_copperList).l,a1
-                move.l  #g_copperList,(currentCopperList).l
+                lea     (gamePalette).l,a1
+                move.l  #gamePalette,(paletteTable+8).l
                 move.w  (a0)+,(a1)
                 move.w  (a0)+,$E(a1)
                 move.w  (a0),$12(a1)
@@ -19141,15 +19221,15 @@ main:
                 jsr     InitDisplayAndCopper
                 jsr     AssetSys_InitDiskImageSources
                 jsr     InitSkinAndDefaultPointers
-                lea     (kNibbleMaskSeedA).l,a0
-                lea     (kNibbleMaskLineA).l,a1
-                jsr     BuildNibbleMaskLine
-                lea     (kNibbleMaskSeedB).l,a0
-                lea     (kNibbleMaskLineB).l,a1
-                jsr     BuildNibbleMaskLine
-                lea     (kNibbleMaskSeedC).l,a0
-                lea     (kNibbleMaskLineC).l,a1
-                jsr     BuildNibbleMaskLine
+                lea     (kTitleLogoColors).l,a0
+                lea     (titleLogoPalette).l,a1
+                jsr     BuildPaletteFromColors
+                lea     (kTitleScreenColors).l,a0
+                lea     (titleScreenPalette).l,a1
+                jsr     BuildPaletteFromColors
+                lea     (kTitleTextColors).l,a0
+                lea     (titleTextPalette).l,a1
+                jsr     BuildPaletteFromColors
                 move.w  #1,(bootTemp0).l
                 clr.w   (bootTemp1).l
                 clr.w   (bootTemp2).l
@@ -19165,14 +19245,14 @@ main:
                 jsr     FadeOutToBlack
                 clr.w   (loaderModeFlag).l
                 jsr     DoubleBufferSwapSequence
-                clr.w   (paletteBankIndex).l
+                clr.w   (paletteIndex).l
                 lea     (aGrafsOlddisk1R).l,a0 ; "grafs/olddisk1.raw"
                 jsr     LoadOverlayToFrontbuffer
                 jsr     BlitterCopyPanelToScreen2
                 jsr     WaitForVSync
                 lea     (aGrafsDisk22Raw).l,a0 ; "grafs/disk22.raw"
                 jsr     LoadOverlayToFrontbuffer
-                clr.w   (paletteBankIndex).l
+                clr.w   (paletteIndex).l
                 jsr     FadeIn
 poll_loader_op3_with_delays:
                 movem.l d0-d1,-(sp)
@@ -19192,7 +19272,7 @@ wait_for_next_tick_inner:
                 beq.s   build_intro_menu_assets
                 jsr     BlitterCopyPanelToScreen2
                 jsr     WaitForVSync
-                clr.w   (paletteBankIndex).l
+                clr.w   (paletteIndex).l
                 jsr     FadeIn
 poll_loader_op2_with_delays:
                 movem.l d0-d1,-(sp)
@@ -19387,12 +19467,12 @@ handle_instant_replay_request:
                 clr.w   (instantReplayFlag).l
                 clr.w   (goalCameraMode).l
 wait_for_vblank_sync:
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 wait_for_vblank_flag_clear:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   wait_for_vblank_flag_clear
-                move.w  #$400,(DMACON).l
+                move.w  #DMACON_BLT_OFF,(DMACON).l
                 move.l  (g_irqCookieObfuscated).l,d0
                 eori.l  #$CFD1F9BD,d0
                 cmpi.l  #$165A,d0
@@ -19490,12 +19570,12 @@ frame_loop:
                 clr.w   (playHighlightFlag).l
                 bra.w   *+4
 sync_to_vblank_and_request_irq:
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 _10ECB6_wait_blitter_idle:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   _10ECB6_wait_blitter_idle
-                move.w  #$400,(DMACON).l
+                move.w  #DMACON_BLT_OFF,(DMACON).l
                 move.l  (g_irqCookieObfuscated).l,d0
                 eori.l  #$CFD1F96B,d0
                 cmpi.l  #$168C,d0
@@ -19612,12 +19692,12 @@ handle_instant_replay_switch:
                 bsr.w   HandleInstantReplayStateSwitch
                 clr.w   (instantReplayFlag).l
 vblank_sync_and_irq_handshake:
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 _10EE7E_wait_blitter_idle:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   _10EE7E_wait_blitter_idle
-                move.w  #$400,(DMACON).l
+                move.w  #DMACON_BLT_OFF,(DMACON).l
                 move.l  (g_irqCookieObfuscated).l,d0
                 eori.l  #$CFD1F959,d0
                 cmpi.l  #$16BE,d0
@@ -19710,12 +19790,12 @@ stop_replay_and_return:
                 jsr RestoreHighlightPointers(pc)
                 rts
 vblank_irq_wait_gate:
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 wait_for_vblank_clear:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   wait_for_vblank_clear
-                move.w  #$400,(DMACON).l
+                move.w  #DMACON_BLT_OFF,(DMACON).l
                 move.l  (g_irqCookieObfuscated).l,d0
                 eori.l  #$CFD1F917,d0
                 cmpi.l  #$16F0,d0
@@ -20146,13 +20226,10 @@ fadeCommand:
                 dc.w $03E7
 fadeInitFlag:
                 dc.w $03E7
-paletteBankIndex:
+paletteIndex:
                 dc.w $0000
-paletteBankTable:
-                dc.l paletteBankDefault16
-                dc.l paletteBankBlack16
-currentCopperList:
-                dc.l g_copperList,kNibbleMaskLineB,kNibbleMaskLineD,kNibbleMaskLineC,kNibbleMaskLineA
+paletteTable:
+                dc.l menuPalette,blackPalette,gamePalette,titleScreenPalette,panicPalette,titleTextPalette,titleLogoPalette
 word_10F1CE:
                 dc.w $1234
 cameraSnapToPlayerCount:
@@ -20663,7 +20740,7 @@ ReplayExitMenuAfterFriendly:
                 jsr     SwapBuffersAndCameraViewState
                 jsr     UpdatePlanePtrsAndBlitParams
                 move.w  #1,(replaySelected).l
-                clr.w   (paletteBankIndex).l
+                clr.w   (paletteIndex).l
                 bsr.w   DrawReplayOrExitMenu
                 jsr     FadeIn
 replay_exit_loop_draw_menu:
@@ -20889,7 +20966,7 @@ loader_intro_main:
                 tst.b   (pl1Fire).l
                 bne.w   loader_intro_fire_pressed_path
                 jsr     LoaderIntroLoadHeroAudioBank
-                move.w  #6,(paletteBankIndex).l
+                move.w  #6,(paletteIndex).l
                 move.w  #$FA,d7
                 lea     (aGrafsLoader00R).l,a0 ; "grafs/loader00.raw"
                 bsr.w   LoaderIntroShowFrameFadeInOut
@@ -20898,12 +20975,12 @@ loader_intro_main:
                 lea     (aGrafsLoader01R).l,a0 ; "grafs/loader01.raw"
                 bsr.w   LoaderIntroShowFrameFadeInOut
                 bne.w   loader_intro_load_fail_early
-                move.w  #3,(paletteBankIndex).l
+                move.w  #3,(paletteIndex).l
                 move.w  #$FA,d7
                 lea     (aGrafsLoader1Ra).l,a0 ; "grafs/loader1.raw"
                 bsr.w   LoaderIntroShowFrameWithMusic
                 bne.w   loader_intro_exit_cleanup
-                move.w  #5,(paletteBankIndex).l
+                move.w  #5,(paletteIndex).l
                 move.w  #$FA,d7
                 lea     (aGrafsLoader2Ra).l,a0 ; "grafs/loader2.raw"
                 bsr.w   LoaderIntroShowFrameFadeInOut
@@ -20945,13 +21022,13 @@ loader_intro_main:
                 bsr.w   LoaderIntroShowFrameFadeInOut
                 bne.w   loader_intro_load_fail_mid
                 move.w  #$6D6,d7
-                move.w  #3,(paletteBankIndex).l
+                move.w  #3,(paletteIndex).l
                 lea     (aGrafsLoader1Ra).l,a0 ; "grafs/loader1.raw"
                 bsr.w   LoaderIntroShowFrameFadeInOut
                 bra.w   loader_intro_exit_cleanup
 loader_intro_load_fail_mid:
                 jsr     FadeOutToBlack
-                move.w  #3,(paletteBankIndex).l
+                move.w  #3,(paletteIndex).l
                 lea     (aGrafsLoader1Ra).l,a0 ; "grafs/loader1.raw"
                 movem.l d7,-(sp)
                 bsr.w   LoaderIntroLoadFrameToFrontbufferAlt
@@ -20963,7 +21040,7 @@ loader_intro_exit_cleanup:
                 jsr     LoaderIntroStopMusicAndResetAudio
                 rts
 loader_intro_fire_pressed_path:
-                move.w  #3,(paletteBankIndex).l
+                move.w  #3,(paletteIndex).l
                 lea     (aGrafsLoader1Ra).l,a0 ; "grafs/loader1.raw"
                 movem.l d7,-(sp)
                 bsr.w   LoaderIntroLoadFrameToFrontbufferAlt
@@ -20974,7 +21051,7 @@ loader_intro_fire_pressed_path:
                 rts
 loader_intro_load_fail_early:
                 jsr     FadeOutToBlack
-                move.w  #3,(paletteBankIndex).l
+                move.w  #3,(paletteIndex).l
                 lea     (aGrafsLoader1Ra).l,a0 ; "grafs/loader1.raw"
                 movem.l d7,-(sp)
                 bsr.w   LoaderIntroLoadFrameToFrontbufferAlt
@@ -22459,16 +22536,16 @@ PositionAndClipSprite:
                 beq.s   skip_sprite_draw
                 tst.w   d2
                 bmi.s   skip_sprite_draw
-                cmpi.w  #257,d2
+                cmpi.w  #SPRITE_MAX_Y_DRAW,d2
                 bgt.s   skip_sprite_draw
                 add.w   cameraXMod320(pc),d1
                 add.w   cameraYMod320(pc),d2
-                cmpi.w  #272,d2
+                cmpi.w  #SCREEN_HEIGHT,d2
                 blt.s   set_clipped_y_position
-                subi.w  #272,d2
+                subi.w  #SCREEN_HEIGHT,d2
 set_clipped_y_position:
                 move.w  d2,(spriteClippedY).l
-                cmpi.w  #257,d2
+                cmpi.w  #SPRITE_MAX_Y_DRAW,d2
                 ble.s   check_x_overlap_and_setup
                 move.w  (spriteClippedY).l,d2
                 sub.w   cameraXMod320(pc),d1
@@ -22477,49 +22554,49 @@ skip_sprite_draw:
                 jmp     DrawSpriteClipped
 check_x_overlap_and_setup:
                 move.w  d1,d0
-                andi.w  #$F,d0
+                andi.w  #TILE_MASK,d0
                 add.w   $A(a0),d0
                 cmpi.w  #$10,d0
                 bhi.w   setup_right_edge_clip
                 movea.l (spriteBlitQueue).l,a3
                 movea.l (frontbufferBasePtr).l,a1
-                lea     (BLTDDAT).l,a6
+                lea     (CUSTOM).l,a6
                 move.w  d1,d0
-                andi.w  #$F,d0
+                andi.w  #TILE_MASK,d0
                 lsl.w   #6,d0
                 lsl.w   #6,d0
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 wait_blitter_ready_a:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   wait_blitter_ready_a
-                move.w  #$400,(DMACON).l
-                move.w  d0,$42(a6)
-                addi.w  #$FCA,d0
-                move.w  d0,$40(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.w  d0,BLTCON1(a6)
+                addi.w  #BLTCON0_BASE_LINKED,d0
+                move.w  d0,BLTCON0(a6)
                 move.w  d1,d0
                 asr.w   #4,d0
                 asl.w   #1,d0
                 ext.l   d0
-                mulu.w  #$B0,d2
+                mulu.w  #ROW_STRIDE_BYTES,d2
                 add.l   d2,d0
                 add.l   a1,d0
-                move.l  d0,$48(a6)
-                move.l  d0,$54(a6)
+                move.l  d0,BLTCPT(a6)
+                move.l  d0,BLTDPT(a6)
                 move.l  d0,4(a3)
                 sub.l   a1,d0
                 addi.l  #frontbufferMaskBuffer,d0
                 move.l  d0,(a3)
-                move.w  #0,$64(a6)
-                move.w  #0,$62(a6)
-                move.w  #$2A,$60(a6)    ; '*'
-                move.w  #$2A,$66(a6)    ; '*'
-                move.w  #$2A,8(a3)      ; '*'
-                move.l  (a0),$4C(a6)
-                move.l  4(a0),$50(a6)
-                move.w  #$FFFF,$44(a6)
-                move.w  #$FFFF,$46(a6)
-                move.w  #$F01,$58(a6)
+                move.w  #0,BLTAMOD(a6)
+                move.w  #0,BLTBMOD(a6)
+                move.w  #PLANE_STRIDE_MINUS2,$60(a6)
+                move.w  #PLANE_STRIDE_MINUS2,$66(a6)
+                move.w  #PLANE_STRIDE_MINUS2,8(a3)
+                move.l  (a0),BLTBPT(a6)
+                move.l  4(a0),BLTAPT(a6)
+                move.w  #BLT_FWM_ALL,BLTAFWM(a6)
+                move.w  #BLT_FWM_ALL,BLTALWM(a6)
+                move.w  #$F01,BLTSIZE(a6)
                 move.w  #$F01,$A(a3)
                 lea     $C(a3),a3
                 move.l  #$FFFFFFFF,(a3)
@@ -22528,43 +22605,43 @@ wait_blitter_ready_a:
 setup_right_edge_clip:
                 movea.l (spriteBlitQueue).l,a3
                 movea.l (frontbufferBasePtr).l,a1
-                lea     (BLTDDAT).l,a6
+                lea     (CUSTOM).l,a6
                 move.w  d1,d0
-                andi.w  #$F,d0
+                andi.w  #TILE_MASK,d0
                 lsl.w   #6,d0
                 lsl.w   #6,d0
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 wait_blitter_ready_b:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   wait_blitter_ready_b
-                move.w  #$400,(DMACON).l
-                move.w  d0,$42(a6)
-                addi.w  #$FCA,d0
-                move.w  d0,$40(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.w  d0,BLTCON1(a6)
+                addi.w  #BLTCON0_BASE_LINKED,d0
+                move.w  d0,BLTCON0(a6)
                 move.w  d1,d0
                 asr.w   #4,d0
                 asl.w   #1,d0
                 ext.l   d0
-                mulu.w  #$B0,d2
+                mulu.w  #ROW_STRIDE_BYTES,d2
                 add.l   d2,d0
                 add.l   a1,d0
-                move.l  d0,$48(a6)
-                move.l  d0,$54(a6)
+                move.l  d0,BLTCPT(a6)
+                move.l  d0,BLTDPT(a6)
                 move.l  d0,4(a3)
                 sub.l   a1,d0
                 addi.l  #frontbufferMaskBuffer,d0
                 move.l  d0,(a3)
-                move.w  #$FFFE,$64(a6)
-                move.w  #$FFFE,$62(a6)
-                move.w  #$28,$60(a6)    ; '('
-                move.w  #$28,$66(a6)    ; '('
-                move.w  #$28,8(a3)      ; '('
-                move.l  (a0),$4C(a6)
-                move.l  4(a0),$50(a6)
-                move.w  #$FFFF,$44(a6)
-                move.w  #0,$46(a6)
-                move.w  #$F02,$58(a6)
+                move.w  #$FFFE,BLTAMOD(a6)
+                move.w  #$FFFE,BLTBMOD(a6)
+                move.w  #PLANE_STRIDE_MINUS4,$60(a6)
+                move.w  #PLANE_STRIDE_MINUS4,$66(a6)
+                move.w  #PLANE_STRIDE_MINUS4,8(a3)
+                move.l  (a0),BLTBPT(a6)
+                move.l  4(a0),BLTAPT(a6)
+                move.w  #BLT_FWM_ALL,BLTAFWM(a6)
+                move.w  #0,BLTALWM(a6)
+                move.w  #$F02,BLTSIZE(a6)
                 move.w  #$F02,$A(a3)
                 lea     $C(a3),a3
                 move.l  #$FFFFFFFF,(a3)
@@ -42448,7 +42525,7 @@ DoubleBufferSwapSequence:
                 move.w  #$8989,(panicReasonCode).l
                 jsr     PanicHaltLoop
 loc_1206C0:
-                clr.w   (paletteBankIndex).l
+                clr.w   (paletteIndex).l
                 move.w  #0,d1
                 clr.w   d2
                 jsr     SetCameraCoordinates
@@ -42804,29 +42881,29 @@ CopyWholeSprite:
 ; ===== BlitterCopyPanelToScreen2 =====
 ; prototype: void __usercall BlitterCopyPanelToScreen2()
 BlitterCopyPanelToScreen2:
-                lea     (BLTDDAT).l,a6
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                lea     (CUSTOM).l,a6
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 _120B88_wait_blitter_idle_pre_copy:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   _120B88_wait_blitter_idle_pre_copy
-                move.w  #$400,(DMACON).l
-                move.w  #$FFFF,$46(a6)
-                move.w  #$FFFF,$44(a6)
-                clr.w   $42(a6)
-                move.w  #$9F0,$40(a6)
-                clr.w   $64(a6)
-                clr.w   $66(a6)
-                move.l  #frontbufferMaskBuffer,$50(a6)
-                move.l  (frontbufferBasePtr).l,$54(a6)
-                move.w  #$1116,$58(a6)
-                move.w  #$8400,(DMACON).l
-                btst    #6,(DMACONR).l
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.w  #BLT_FWM_ALL,BLTALWM(a6)
+                move.w  #BLT_FWM_ALL,BLTAFWM(a6)
+                clr.w   BLTCON1(a6)
+                move.w  #$9F0,BLTCON0(a6)
+                clr.w   BLTAMOD(a6)
+                clr.w   BLTDMOD(a6)
+                move.l  #frontbufferMaskBuffer,BLTAPT(a6)
+                move.l  (frontbufferBasePtr).l,BLTDPT(a6)
+                move.w  #BLTSIZE_OVERLAY_PANEL,BLTSIZE(a6)
+                move.w  #DMACON_BLT_ON,(DMACON).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
 wait_blitter_idle_post_kick:
-                btst    #6,(DMACONR).l
+                btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
                 bne.s   wait_blitter_idle_post_kick
-                move.w  #$400,(DMACON).l
-                move.w  #$16,$58(a6)
+                move.w  #DMACON_BLT_OFF,(DMACON).l
+                move.w  #$16,BLTSIZE(a6)
                 rts
 
 ; ===== Int2Ascii =====
@@ -60547,7 +60624,7 @@ ResetAnimatedPatterns:
                 bhi.s   loc_12FB6C
                 btst    #7,d0
                 bne.s   loc_12FB6C
-                subi.l  #$80,-4(a0)
+                subi.l  #TILE_SIZE,-4(a0)
 loc_12FB6C:
                 dbf     d1,ResetAnimatedPatterns
                 lea     animatedPatterns(pc),a0
@@ -60601,7 +60678,7 @@ DrawPatternFromIndex:
                 sub.w   (g_cameraY).l,d2
                 cmpi.w  #336,d1
                 bge.w   locret_12FC4E
-                cmpi.w  #272,d2
+                cmpi.w  #SCREEN_HEIGHT,d2
                 bge.w   locret_12FC4E
                 cmpi.w  #$FFF0,d1
                 ble.w   locret_12FC4E
@@ -111391,9 +111468,11 @@ ingameTeamPlayerOffsets:
                                         ; player offsets in in-game team structure (index * 61)
 kColorTableShine:
                 dc.w 2,2,1,1,7,7,1,1    ; this color table is used for shining selected menu entry frame
-paletteBankDefault16:
-                dc.b $00,$01,$0A,$AB,$0F,$FF,$01,$02,$06,$21,$0A,$40,$0F,$71,$06,$67
-                dc.b $02,$04,$04,$45,$0F,$00,$00,$0F,$07,$02,$08,$8F,$03,$80,$0F,$F0
+; unsigned __int16[16]
+menuPalette:
+                ; unsigned __int16[16]
+                dc.w $0001,$0AAB,$0FFF,$0102,$0621,$0A40,$0F71,$0667
+                dc.w $0204,$0445,$0F00,$000F,$0702,$088F,$0380,$0FF0
 aResigned:
                 dc.b '- RESIGNED -',0
 aRetired:

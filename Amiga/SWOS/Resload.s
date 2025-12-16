@@ -265,8 +265,8 @@ DetachOSDisplay:
         bne.s   .blt_busy              ; If busy, spin
 
         ; Now safe to kill DMA and interrupts
-        move.w  #$01FF,(DMACON).l     ; Disable all DMA channels
-        move.w  #$3FFF,(INTENA).l     ; Disable all interrupts
+        move.w  #$01FF,(DMACON).l      ; Disable all DMA channels
+        move.w  #$3FFF,(INTENA).l      ; Disable all interrupts
 
 .done:
         movem.l (sp)+,d0-d1/a0-a2
