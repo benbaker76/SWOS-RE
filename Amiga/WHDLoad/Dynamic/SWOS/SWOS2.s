@@ -1478,27 +1478,9 @@ ASSET_OP_5_THEN_MAYBE_6                 EQU 12
 ASSET_OP_SELECT_AND_OPEN                EQU 14
 ASSET_OP_OPEN_ANY_SOURCE                EQU 16
 
-; ==== ENUM: FRONTBUFFER ====
-FRONTBUFFER_ROW_STRIDE_BYTES            EQU 176
-FRONTBUFFER_VISIBLE_LINES               EQU 272
-FRONTBUFFER_TOTAL_LINES                 EQU 273
-FRONTBUFFER_SIZE_VISIBLE_BYTES          EQU 47872
-FRONTBUFFER_SIZE_TOTAL_BYTES            EQU 48048
-
 ; ==== ENUM: COPPERLIST ====
 COPPERLIST_SIZE_BYTES                   EQU 320
 COPPERLIST_SIZE_BYTES_MINUS_ONE         EQU 319
-
-; ==== ENUM: BITPLANELAYOUT ====
-NUM_PLANES                              EQU 4
-NUM_PLANES_MINUS_ONE                    EQU 3
-PLANE_STRIDE                            EQU 44
-PLANE_STRIDE_TIMES2                     EQU 88
-PLANE_STRIDE_MINUS2                     EQU 42
-PLANE_STRIDE_MINUS4                     EQU 40
-ROW_STRIDE_BYTES                        EQU 176
-SRC_SCANLINE_BYTES                      EQU 8
-FETCH_BYTES_PER_LINE                    EQU 42
 
 ; ==== ENUM: DISPLAYGEOMETRY ====
 SCREEN_WIDTH                            EQU 336
@@ -1520,14 +1502,35 @@ PITCH_PTR_ROW_BYTES                     EQU 168
 PITCH_DEST_MOD_UNALIGNED                EQU 132
 PITCH_DEST_MOD_ALIGNED                  EQU 134
 BLTDMOD_PLANE_STEP                      EQU 42
-BLTSIZE_WIDTH_1WORD                     EQU 1
-BLTSIZE_HEIGHT_SHIFT                    EQU 8
 BLTSIZE_TILE_COL                        EQU 4097
 BLTSIZE_COL_16LINES_ALLPLANES           EQU 4097
 BLTSIZE_OVERLAY_PANEL                   EQU 4374
 DMACON_BLT_ON                           EQU 33792
 DMACON_BLT_OFF                          EQU 1024
 DMACONR_BLTBUSY_BIT                     EQU 6
+WORD_ALIGN_EVEN_MASK                    EQU 65534
+
+; ==== ENUM: BITPLANELAYOUT_BITSHIFT ====
+NUM_PLANES_SHIFT                        EQU 2
+NUM_PLANES_SHIFT_PLUS1                  EQU 3
+
+; ==== ENUM: IMAGESTREAMLAYOUT ====
+IMAGE_ROW_STRIDE_BYTES                  EQU 160
+BITPLANE_ROW_BYTES                      EQU 40
+
+; ==== ENUM: BITPLANELAYOUT_TIMES ====
+PLANE_STRIDE_TIMES2                     EQU 88
+PLANE_STRIDE_TIMES3                     EQU 132
+PLANE_STRIDE_TIMES4                     EQU 176
+PLANE_STRIDE_TIMES5                     EQU 220
+PLANE_STRIDE_TIMES6                     EQU 264
+PLANE_STRIDE_TIMES7                     EQU 308
+
+; ==== ENUM: SPRITEBLIT ====
+SPRITE_BLTSIZE_W1                       EQU 3841
+SPRITE_BLTSIZE_W2                       EQU 3842
+
+; ==== ENUM: BLITCON ====
 BLTCON0                                 EQU 64
 BLTCON1                                 EQU 66
 BLTAFWM                                 EQU 68
@@ -1546,13 +1549,47 @@ BLTBDAT                                 EQU 114
 BLTADAT                                 EQU 116
 BLTCON0_BASE_LINKED                     EQU 4042
 BLTCON0_BASE_SINGLE                     EQU 1994
-BLT_WORDCOUNT_BASE                      EQU 22
 BLT_BATCH_MAX                           EQU 1024
 BLT_FWM_ALL                             EQU 65535
 BLT_LWM_ALL                             EQU 65535
 BLT_ADAT_ALL_ONE                        EQU 65535
 BLT_BLITQ_END                           EQU 4294967295
-WORD_ALIGN_EVEN_MASK                    EQU 65534
+BLTCON0_ASH_SHIFT                       EQU 12
+BLTCON0_USEA                            EQU 2048
+BLTCON0_USEB                            EQU 1024
+BLTCON0_USEC                            EQU 512
+BLTCON0_USED                            EQU 256
+BLT_LF_A                                EQU 240
+BLT_LF_A_OR_B                           EQU 252
+
+; ==== ENUM: BLITUSE ====
+BLTCON0_USEA_LF_FC                      EQU 2300
+BLTCON0_USEA_USED_LF_F0                 EQU 2544
+BLTCON0_USEA_USED_LF_FC                 EQU 2556
+BLTCON0_USEA_USEB_USED_LF_FC            EQU 3580
+BLTCON0_USED_LF_00                      EQU 256
+BLTCON0_USED_LF_F0                      EQU 496
+BLTCON0_USED_LF_FF                      EQU 511
+
+; ==== ENUM: FRONTBUFFER ====
+FRONTBUFFER_ROW_STRIDE_BYTES            EQU 176
+FRONTBUFFER_VISIBLE_LINES               EQU 272
+FRONTBUFFER_TOTAL_LINES                 EQU 273
+FRONTBUFFER_SIZE_VISIBLE_BYTES          EQU 47872
+FRONTBUFFER_SIZE_TOTAL_BYTES            EQU 48048
+FB_COPY_WORDS_MINUS1                    EQU 24023
+FB_BLT_MOD_AFTER_1_WORD                 EQU 174
+
+; ==== ENUM: BITPLANELAYOUT ====
+NUM_PLANES                              EQU 4
+NUM_PLANES_MINUS1                       EQU 3
+NUM_PLANES_MINUS2                       EQU 2
+PLANE_STRIDE                            EQU 44
+PLANE_STRIDE_MINUS2                     EQU 42
+PLANE_STRIDE_MINUS4                     EQU 40
+PLANE_STRIDE_DIV2                       EQU 22
+ROW_STRIDE_BYTES                        EQU 176
+SRC_SCANLINE_BYTES                      EQU 8
 
 ; ===== END TYPES / ENUMS =====
 
@@ -1818,15 +1855,11 @@ BSS_00_2C044:
 dword_2C044:
                 ds.b $4
 plane01RenderStackBase:
-                ds.b $1
-BSS_00_2C1B0:
-                ds.b $167
+                ds.b $168
 plane23RenderStackPtr:
                 ds.b $4
 plane23RenderStackBase:
-                ds.b $1
-BSS_00_2C31C:
-                ds.b $167
+                ds.b $168
 kSpriteBlitQueueSentinel_A:
                 ds.b $2
 BSS_00_2CED4:
@@ -2049,14 +2082,12 @@ dword_2E4B8:
                 ds.b $4
 BSS_00_2E624:
                 ds.b $168
-imageCmdWorkbuf:
-                ds.b $8CA
-BSS_00_3E600:
-                ds.b $F712
+imageCmdWorkBuf:
+                ds.b $FFDC
 g_menuInsBank:
-                ds.b $2
+                ds.b $4
 BSS_00_49132:
-                ds.b $AB30
+                ds.b $AB2E
 g_menuSongData:
                 ds.b $1
 BSS_00_496F2:
@@ -4969,7 +5000,7 @@ apply_x_offset:
 add_primary_base_for_x:
                 add.l   (frontbufferBasePtr).l,d1
 finalize_plane_ptrs:
-                move.w  #NUM_PLANES_MINUS_ONE,d2
+                move.w  #NUM_PLANES_MINUS1,d2
 write_plane_ptrs_loop:
                 move.w  d0,6(a0)
                 swap    d0
@@ -5465,7 +5496,7 @@ wait_blitter_idle_1:
                 move.w  #BLT_FWM_ALL,BLTAFWM(a6)
                 move.w  #BLT_FWM_ALL,BLTALWM(a6)
                 clr.w   BLTCON1(a6)
-                move.w  #$9F0,BLTCON0(a6)
+                move.w  #BLTCON0_USEA_USED_LF_F0,BLTCON0(a6)
                 movea.l (spriteBlitQueue).l,a4
 blit_queue_loop:
                 move.w  #DMACON_BLT_ON,(DMACON).l
@@ -5747,8 +5778,8 @@ wait_blitter_idle_for_dest_setup:
                 move.w  #BLTDMOD_PLANE_STEP,BLTDMOD(a6)
                 move.w  #BLT_FWM_ALL,BLTAFWM(a6)
                 move.w  #BLT_FWM_ALL,BLTALWM(a6)
-                clr.w   $42(a6)
-                move.w  #$9F0,$40(a6)
+                clr.w   BLTCON1(a6)
+                move.w  #BLTCON0_USEA_USED_LF_F0,BLTCON0(a6)
                 move.w  (cameraYMod320).l,d2
                 move.w  d2,d1
                 andi.w  #TILE_MASK,d1
@@ -5756,10 +5787,10 @@ wait_blitter_idle_for_dest_setup:
                 move.w  #TILE_HEIGHT,d3
                 sub.w   d1,d3
                 add.w   d3,d2
-                lsl.w   #3,d1
+                lsl.w   #NUM_PLANES_SHIFT_PLUS1,d1
                 ext.l   d1
-                lsl.w   #BLTSIZE_HEIGHT_SHIFT,d3
-                addq.w  #BLTSIZE_WIDTH_1WORD,d3
+                lsl.w   #8,d3
+                addq.w  #1,d3
                 movea.l (a1),a0
                 adda.l  #PITCH_PTR_ROW_BYTES,a1
                 adda.l  d1,a0
@@ -5927,7 +5958,7 @@ init_blit_accumulators_and_src_row_offset:
                 move.w  (g_cameraY).l,d3
                 add.w   d5,d3
                 andi.w  #TILE_MASK,d3
-                lsl.w   #3,d3
+                lsl.w   #NUM_PLANES_SHIFT_PLUS1,d3
                 ext.l   d3
                 subq.w  #1,d1
 copy_row_words_loop:
@@ -5976,8 +6007,8 @@ wait_blitter_idle_for_mod_setup:
                 move.w  #BLT_FWM_ALL,BLTAFWM(a6)
                 move.w  #BLT_FWM_ALL,BLTALWM(a6)
                 clr.w   BLTCON1(a6)
-                move.w  #$9F0,BLTCON0(a6)
-                move.w  #BLT_WORDCOUNT_BASE,d0
+                move.w  #BLTCON0_USEA_USED_LF_F0,BLTCON0(a6)
+                move.w  #PLANE_STRIDE_DIV2,d0
                 sub.w   (blitWordCount).l,d0
                 lsl.w   #1,d0
                 move.w  d0,BLTAMOD(a6)
@@ -6215,7 +6246,7 @@ FadeOutAndIn:
                 rts
 
 ; ===== ProcessImageCommandStream =====
-; prototype: void __usercall ProcessImageCommandStream()
+; prototype: void __usercall ProcessImageCommandStream(const unsigned __int16 *cmdBuffer@<a0>, unsigned __int8 *workBuffer@<a3>)
 ProcessImageCommandStream:
                 move.l  a3,(imageStreamCursor).l
 read_next_opcode:
@@ -6436,7 +6467,7 @@ opcode_unknown_fallback:
 final_copy_and_return:
                 movea.l (frontbufferBasePtr).l,a0
                 lea     (frontbufferMaskBuffer).l,a1
-                move.w  #$5DD7,d0
+                move.w  #FB_COPY_WORDS_MINUS1,d0
 copy_frontbuffer_to_planeoffset_loop:
                 move.w  (a0)+,(a1)+
                 dbf     d0,copy_frontbuffer_to_planeoffset_loop
@@ -6502,7 +6533,7 @@ sprite_index_filter_done:
                 beq.s   emit_header_and_calc_tile_dims
                 lsr.w   #3,d1
                 andi.l  #$FFFE,d1
-                mulu.w  #$A0,d2
+                mulu.w  #IMAGE_ROW_STRIDE_BYTES,d2
                 adda.l  d1,a1
                 adda.l  d2,a1
 emit_header_and_calc_tile_dims:
@@ -6519,12 +6550,12 @@ emit_header_and_calc_tile_dims:
                 move.l  a2,-$18(a2)
                 cmpa.l  #0,a1
                 bne.s   copy_source_rows_loop
-                moveq   #$28,d1         ; '('
+                moveq   #BITPLANE_ROW_BYTES,d1
                 ext.l   d3
                 sub.l   d3,d1
                 sub.l   d3,d1
                 subq.w  #1,d3
-                mulu.w  #4,d4
+                mulu.w  #NUM_PLANES,d4
                 subq.w  #1,d4
 fill_checkerboard_rows_loop:
                 move.w  d3,d0
@@ -6534,12 +6565,12 @@ fill_checkerboard_inner_loop:
                 dbf     d4,fill_checkerboard_rows_loop
                 bra.s   finish_header_clear_next_ptr
 copy_source_rows_loop:
-                moveq   #$28,d1         ; '('
+                moveq   #BITPLANE_ROW_BYTES,d1
                 ext.l   d3
                 sub.l   d3,d1
                 sub.l   d3,d1
                 subq.w  #1,d3
-                mulu.w  #4,d4
+                mulu.w  #NUM_PLANES,d4
                 subq.w  #1,d4
 copy_source_row_inner_loop:
                 move.w  d3,d0
@@ -6573,7 +6604,7 @@ compose_rows_outer_repeat:
                 move.w  #0,d2
                 cmpa.l  #0,a6
                 beq.s   compose_rows_repeat_per_plane
-                move.w  #3,d2
+                move.w  #NUM_PLANES_MINUS1,d2
 compose_rows_repeat_per_plane:
                 movea.l a3,a1
                 move.w  $E(a0),d4
@@ -6583,7 +6614,7 @@ compose_row_setup:
                 lsl.w   #1,d3
                 clr.w   d1
                 move.w  (a1),d0
-                move.w  #2,d5
+                move.w  #NUM_PLANES_MINUS2,d5
 compose_row_or_accumulate:
                 add.w   d3,d1
                 or.w    (a1,d1.w),d0
@@ -6593,7 +6624,7 @@ compose_row_or_accumulate:
                 dbf     d4,compose_row_setup
                 dbf     d2,compose_rows_repeat_per_plane
                 move.w  $E(a0),d5
-                lsl.w   #3,d5
+                lsl.w   #NUM_PLANES_SHIFT_PLUS1,d5
                 ext.l   d5
                 adda.l  d5,a3
                 dbf     d6,compose_rows_outer_repeat
@@ -6607,7 +6638,7 @@ generate_right_edge_mask_begin:
                 move.w  $C(a0),d1
                 cmpa.l  #0,a6
                 beq.s   generate_right_edge_mask_outer_loop
-                mulu.w  #4,d1
+                mulu.w  #NUM_PLANES,d1
 generate_right_edge_mask_outer_loop:
                 subq.w  #1,d1
 loc_1038FE:
@@ -6771,8 +6802,8 @@ BlitterSpan4Planes:
                 andi.w  #WORD_ALIGN_EVEN_MASK,d0
                 adda.w  d0,a0
                 andi.w  #TILE_MASK,d1
-                move.w  #$8FC,d5
-                move.w  #$100,d6
+                move.w  #BLTCON0_USEA_LF_FC,d5
+                move.w  #BLTCON0_USED_LF_00,d6
                 movem.l d1-d2/d4/a0,-(sp)
                 bsr.w   align_and_prepare_left_mask
                 movem.l (sp)+,d1-d2/d4/a0
@@ -6797,12 +6828,12 @@ leftMaskTable:
 ; ===== BlitterSpanCoreMasked =====
 ; prototype: void __usercall BlitterSpanCoreMasked()
 BlitterSpanCoreMasked:
-                move.w  #$9F0,d5
-                move.w  #$100,d6
+                move.w  #BLTCON0_USEA_USED_LF_F0,d5
+                move.w  #BLTCON0_USED_LF_00,d6
                 lsr.w   #1,d4
                 bcc.s   align_and_prepare_left_mask
-                move.w  #$9FC,d5
-                move.w  #$1FF,d6
+                move.w  #BLTCON0_USEA_USED_LF_FC,d5
+                move.w  #BLTCON0_USED_LF_FF,d6
 align_and_prepare_left_mask:
                 tst.w   d1
                 beq.w   blit_aligned_middle_words
@@ -6830,8 +6861,8 @@ wait_blitter_ready_left:
                 move.w  d7,BLTBDAT(a6)
                 move.l  a0,BLTAPT(a6)
                 move.l  a0,BLTDPT(a6)
-                move.w  #$AE,BLTAMOD(a6)
-                move.w  #$AE,BLTDMOD(a6)
+                move.w  #FB_BLT_MOD_AFTER_1_WORD,BLTAMOD(a6)
+                move.w  #FB_BLT_MOD_AFTER_1_WORD,BLTDMOD(a6)
                 move.w  d5,BLTCON0(a6)
                 move.w  #0,BLTCON1(a6)
                 move.w  d3,d7
@@ -6892,8 +6923,8 @@ wait_blitter_ready_right:
                 move.w  d7,BLTBDAT(a6)
                 move.l  a0,BLTAPT(a6)
                 move.l  a0,BLTDPT(a6)
-                move.w  #$AE,BLTAMOD(a6)
-                move.w  #$AE,BLTDMOD(a6)
+                move.w  #FB_BLT_MOD_AFTER_1_WORD,BLTAMOD(a6)
+                move.w  #FB_BLT_MOD_AFTER_1_WORD,BLTDMOD(a6)
                 move.w  d5,BLTCON0(a6)
                 move.w  #0,BLTCON1(a6)
                 move.w  d3,d7
@@ -6940,7 +6971,7 @@ wait_blitter_ready:
                 bne.s   wait_blitter_ready
                 move.w  #DMACON_BLT_OFF,(DMACON).l
                 addq.w  #1,d5
-                move.w  #$DFC,BLTCON0(a6)
+                move.w  #BLTCON0_USEA_USEB_USED_LF_FC,BLTCON0(a6)
                 move.w  #0,BLTCON1(a6)
                 move.w  d0,BLTAFWM(a6)
                 move.w  d1,BLTALWM(a6)
@@ -7000,7 +7031,7 @@ _103F12_wait_blitter_idle_pre_copy:
                 move.w  #BLT_FWM_ALL,BLTALWM(a6)
                 move.w  #BLT_FWM_ALL,BLTAFWM(a6)
                 clr.w   BLTCON1(a6)
-                move.w  #$9F0,BLTCON0(a6)
+                move.w  #BLTCON0_USEA_USED_LF_F0,BLTCON0(a6)
                 clr.w   BLTAMOD(a6)
                 clr.w   BLTDMOD(a6)
                 move.l  (frontbufferBasePtr).l,BLTDPT(a6)
@@ -7035,7 +7066,7 @@ wait_for_blitter_idle_before_setup:
                 move.w  #BLT_FWM_ALL,BLTALWM(a6)
                 move.w  #BLT_FWM_ALL,BLTAFWM(a6)
                 clr.w   BLTCON1(a6)
-                move.w  #$9F0,BLTCON0(a6)
+                move.w  #BLTCON0_USEA_USED_LF_F0,BLTCON0(a6)
                 clr.w   BLTAMOD(a6)
                 clr.w   BLTDMOD(a6)
                 move.l  #frontbufferMaskBuffer,BLTAPT(a6)
@@ -7051,7 +7082,7 @@ wait_for_blitter_idle_before_kick_size16:
                 rts
 
 ; ===== HWSprite_LoadFromSpriteGraphics =====
-; prototype: void __usercall HWSprite_LoadFromSpriteGraphics()
+; prototype: void __usercall HWSprite_LoadFromSpriteGraphics(__int16 spriteIndex@<d0>)
 HWSprite_LoadFromSpriteGraphics:
                 lea     (CUSTOM).l,a6
                 movea.l (spriteGraphicsPtr).l,a0
@@ -7066,7 +7097,7 @@ _104040_wait_blitter_idle:
                 move.w  #BLT_FWM_ALL,BLTALWM(a6)
                 move.w  #BLT_FWM_ALL,BLTAFWM(a6)
                 clr.w   BLTCON1(a6)
-                move.w  #$1F0,BLTCON0(a6)
+                move.w  #BLTCON0_USED_LF_F0,BLTCON0(a6)
                 clr.w   BLTADAT(a6)
                 clr.w   BLTDMOD(a6)
                 move.l  (a0),BLTDPT(a6)
@@ -7414,9 +7445,9 @@ write_bltcon0_and_continue:
                 lsr.w   #3,d0
                 andi.l  #WORD_ALIGN_EVEN_MASK,d0
                 move.l  d0,d6
-                lsl.w   #2,d3
+                lsl.w   #NUM_PLANES_SHIFT,d3
                 mulu.w  d3,d2
-                lsr.w   #2,d3
+                lsr.w   #NUM_PLANES_SHIFT,d3
                 add.l   d2,d0
                 add.l   a1,d0
                 move.l  d0,BLTCPT(a6)
@@ -7424,7 +7455,7 @@ write_bltcon0_and_continue:
                 tst.w   8(a0)
                 beq.w   copy_four_planes_separately
                 move.w  $C(a0),d4
-                lsl.w   #2,d4
+                lsl.w   #NUM_PLANES_SHIFT,d4
                 lsl.w   #6,d4
                 add.w   d7,d4
                 lsl.w   #1,d7
@@ -7446,7 +7477,7 @@ copy_four_planes_separately:
                 add.w   d7,d4
                 lsl.w   #1,d7
                 move.w  TILE_STRIDE(a0),d2
-                lsl.w   #3,d2
+                lsl.w   #NUM_PLANES_SHIFT_PLUS1,d2
                 sub.w   d7,d2
                 move.w  d2,BLTBMOD(a6)
                 move.w  TILE_STRIDE(a0),d2
@@ -7454,7 +7485,7 @@ copy_four_planes_separately:
                 sub.w   d7,d2
                 move.w  d2,BLTAMOD(a6)
                 move.w  d3,d2
-                lsl.w   #2,d2
+                lsl.w   #NUM_PLANES_SHIFT,d2
                 sub.w   d7,d2
                 move.w  d2,BLTCMOD(a6)
                 move.w  d2,BLTDMOD(a6)
@@ -7611,7 +7642,7 @@ _1045EE_compute_firstword_mask:
                 addq.w  #1,d7
                 cmpi.w  #$10,d0
                 bhi.s   start_blitter_wait
-                move.w  #BLT_LWM_ALL,d6
+                move.w  #BLT_FWM_ALL,d6
                 subq.w  #1,d7
 start_blitter_wait:
                 move.w  #DMACON_BLT_ON,(DMACON).l
@@ -7661,7 +7692,7 @@ save_rows_to_blit:
                 addi.l  #frontbufferMaskBuffer,d0
                 move.l  d0,(a3)
                 move.w  d3,d0
-                lsl.w   #2,d0
+                lsl.w   #NUM_PLANES_SHIFT,d0
                 lsl.w   #6,d0
                 add.w   d7,d0
                 move.w  d0,$A(a3)
@@ -7671,7 +7702,7 @@ save_rows_to_blit:
                 move.w  TILE_STRIDE(a0),d0
                 lsl.w   #1,d0
                 move.w  d0,d1
-                lsl.w   #2,d1
+                lsl.w   #NUM_PLANES_SHIFT,d1
                 sub.w   d7,d0
                 move.w  d0,BLTAMOD(a6)
                 sub.w   d7,d1
@@ -7684,7 +7715,7 @@ save_rows_to_blit:
                 move.w  d0,BLTDMOD(a6)
                 ext.l   d5
                 beq.s   apply_source_top_skip
-                lsl.w   #2,d5
+                lsl.w   #NUM_PLANES_SHIFT,d5
                 mulu.w  TILE_STRIDE(a0),d5
                 lsl.l   #1,d5
 apply_source_top_skip:
@@ -7693,7 +7724,7 @@ apply_source_top_skip:
                 move.l  d0,BLTBPT(a6)
                 movea.l d0,a5
                 move.l  4(a0),d0
-                lsr.w   #2,d5
+                lsr.w   #NUM_PLANES_SHIFT,d5
                 add.l   d5,d0
                 move.l  d0,BLTAPT(a6)
                 movea.l d0,a4
@@ -7750,7 +7781,7 @@ _1047B0_pass3_wait_and_setup:
                 lsl.l   #1,d2
                 move.l  (savedSrcPlaneB).l,d1
                 add.l   d2,d1
-                lsl.l   #2,d2
+                lsl.l   #NUM_PLANES_SHIFT,d2
                 add.l   (savedSrcPlaneA).l,d2
                 move.w  #DMACON_BLT_ON,(DMACON).l
                 btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
@@ -7770,7 +7801,7 @@ tail_pass_wait_and_setup:
                 move.l  d0,(a3)
                 lsr.w   #1,d7
                 move.w  d4,d0
-                lsl.w   #2,d0
+                lsl.w   #NUM_PLANES_SHIFT,d0
                 lsl.w   #6,d0
                 add.w   d7,d0
                 move.w  d0,$A(a3)
@@ -7860,9 +7891,9 @@ wrap_y_within_buffer_2:
                 lea     (CUSTOM).l,a6
                 clr.w   d6
                 move.w  d1,d0
-                andi.w  #$F,d0
+                andi.w  #TILE_MASK,d0
                 move.w  $A(a0),d7
-                andi.w  #$F,d7
+                andi.w  #TILE_MASK,d7
                 bne.s   compute_firstword_mask_2
                 move.w  #$10,d7
 compute_firstword_mask_2:
@@ -7893,7 +7924,7 @@ _1049C2_wait_blitter_idle_2:
                 bra.w   write_bltcon_and_go_2
 setup_singleplane_mode_2:
                 addi.w  #BLTCON0_BASE_SINGLE,d0
-                move.w  #$FFFF,$74(a6)
+                move.w  #$FFFF,BLTADAT(a6)
 write_bltcon_and_go_2:
                 move.w  d0,BLTCON0(a6)
                 clr.w   d4
@@ -7905,7 +7936,7 @@ write_bltcon_and_go_2:
                 sub.w   d0,d3
 compute_dest_ptrs:
                 move.w  d1,d0
-                asr.w   #4,d0
+                asr.w   #TILE_SHIFT_X,d0
                 asl.w   #1,d0
                 ext.l   d0
                 move.l  d0,d6
@@ -7918,7 +7949,7 @@ compute_dest_ptrs:
                 sub.l   a1,d0
                 addi.l  #frontbufferMaskBuffer,d0
                 move.l  d0,(a3)
-                lsl.w   #2,d3
+                lsl.w   #NUM_PLANES_SHIFT,d3
                 lsl.w   #6,d3
                 add.w   d7,d3
                 lsl.w   #1,d7
@@ -7934,7 +7965,7 @@ compute_dest_ptrs:
                 move.w  d0,8(a3)
                 ext.l   d5
                 beq.s   apply_source_top_skip_2
-                lsl.w   #2,d5
+                lsl.w   #NUM_PLANES_SHIFT,d5
                 mulu.w  TILE_STRIDE(a0),d5
                 lsl.l   #1,d5
 apply_source_top_skip_2:
@@ -7951,7 +7982,7 @@ apply_source_top_skip_2:
                 beq.w   seal_queue_and_exit_2
                 add.l   a1,d6
                 lsr.w   #1,d7
-                lsl.w   #2,d4
+                lsl.w   #NUM_PLANES_SHIFT,d4
                 lsl.w   #6,d4
                 add.w   d7,d4
                 move.l  d6,4(a3)
@@ -7997,7 +8028,7 @@ maybe_record_highlight:
                 bcs.s   choose_draw_path
                 cmpa.l  #bottomCornerLeftPositions,a4
                 bcc.s   choose_draw_path
-                jsr     PositionAndClipSprite
+                jsr     QueueMaskedSpriteBlitClipped
                 bra.s   loop_next
 choose_draw_path:
                 tst.w   $48(a4)
@@ -8011,9 +8042,9 @@ loop_next:
 _104B54_exit_rts:
                 rts
 
-; ===== DrawQueuedSpritesToPlanes =====
-; prototype: void __usercall DrawQueuedSpritesToPlanes()
-DrawQueuedSpritesToPlanes:
+; ===== RenderSpriteBandsToCopperLists =====
+; prototype: void __usercall RenderSpriteBandsToCopperLists()
+RenderSpriteBandsToCopperLists:
                 lea     (CUSTOM).l,a6
                 move.w  #DMACON_BLT_ON,(DMACON).l
                 btst    #DMACONR_BLTBUSY_BIT,(DMACONR).l
@@ -8023,10 +8054,10 @@ _104B6C_wait_blitter_idle:
                 move.w  #DMACON_BLT_OFF,(DMACON).l
                 move.w  #BLT_FWM_ALL,BLTALWM(a6)
                 move.w  #BLT_FWM_ALL,BLTAFWM(a6)
-                clr.w   $42(a6)
-                move.w  #$9F0,$40(a6)
-                move.w  #4,$64(a6)
-                clr.w   $66(a6)
+                clr.w   BLTCON1(a6)
+                move.w  #BLTCON0_USEA_USED_LF_F0,BLTCON0(a6)
+                move.w  #4,BLTAMOD(a6)
+                clr.w   BLTDMOD(a6)
                 movea.l (bitPlane0BasePtr).l,a4
                 movea.l (bitPlane1BasePtr).l,a5
                 movea.l (dword_2C044).l,a3
@@ -8044,7 +8075,7 @@ draw_loop_planes01:
                 move.w  d2,d5
                 bsr.w   SaveCoordinatesForHighlights
 blit_entry_planes01:
-                bsr.w   EmitPlanePairWaitAndBlit
+                bsr.w   RenderSpriteBandPlanePair
                 bra.s   draw_loop_planes01
 seal_planes01:
                 move.l  (copperZeroLong).l,(a4)
@@ -8066,16 +8097,16 @@ draw_loop_planes23:
                 move.w  d2,d5
                 bsr.w   SaveCoordinatesForHighlights
 blit_entry_planes23:
-                bsr.w   EmitPlanePairWaitAndBlit
+                bsr.w   RenderSpriteBandPlanePair
                 bra.s   draw_loop_planes23
 seal_planes23:
                 move.l  (copperZeroLong).l,(a4)
                 move.l  (copperZeroLong).l,(a5)
                 rts
 
-; ===== EmitPlanePairWaitAndBlit =====
-; prototype: void __usercall EmitPlanePairWaitAndBlit()
-EmitPlanePairWaitAndBlit:
+; ===== RenderSpriteBandPlanePair =====
+; prototype: void __usercall RenderSpriteBandPlanePair()
+RenderSpriteBandPlanePair:
                 move.w  d2,d3
                 add.w   $C(a0),d3
                 addi.w  #$70,d1         ; 'p'
@@ -8134,9 +8165,9 @@ wait_blitter_idle_second:
                 lea     (a5,d0.w),a5
                 rts
 
-; ===== BuildSpritePlaneStacks =====
-; prototype: void __usercall BuildSpritePlaneStacks()
-BuildSpritePlaneStacks:
+; ===== BuildSpriteBandAndGeneralRenderStacks =====
+; prototype: void __usercall BuildSpriteBandAndGeneralRenderStacks()
+BuildSpriteBandAndGeneralRenderStacks:
                 move.w  (numSpritesToRender).l,d7
                 beq.w   ret_no_sprites
                 lea     (plane01RenderStackBase).l,a4
@@ -8371,9 +8402,9 @@ locret_104FBC:
 ; prototype: void __usercall DrawSprites()
 DrawSprites:
                 bsr.s   SortSprites
-                jsr BuildSpritePlaneStacks(pc)
+                jsr BuildSpriteBandAndGeneralRenderStacks(pc)
                 bsr.w   DrawQueuedSprites
-                jsr DrawQueuedSpritesToPlanes(pc)
+                jsr RenderSpriteBandsToCopperLists(pc)
                 rts
 
 ; ===== AdjustFanColor =====
@@ -8708,7 +8739,7 @@ DrawMenuText:
                 move.w  CHARTABLE_CHARSPACING(a5),d5
                 lea     CHARTABLE_CONVERSIONTABLE(a5),a3
                 movea.l (spriteGraphicsPtr).l,a2
-                move.w  #336,d6
+                move.w  #SCREEN_WIDTH,d6
 next_char_loop:
                 move.b  (a0)+,d0
                 beq.s   _105304_finish_and_return
@@ -8935,7 +8966,7 @@ store_height_and_calc_dstptr:
                 move.w  TILE_STRIDE(a0),d0
                 lsl.w   #1,d0
                 move.w  d0,d1
-                lsl.w   #2,d1
+                lsl.w   #NUM_PLANES_SHIFT,d1
                 sub.w   d7,d0
                 move.w  d0,BLTAMOD(a6)
                 sub.w   d7,d1
@@ -9011,7 +9042,7 @@ finish_pass_and_check_wrap:
                 mulu.w  $E(a0),d0
                 lsl.l   #1,d0
                 adda.l  d0,a4
-                lsl.l   #2,d0
+                lsl.l   #NUM_PLANES_SHIFT,d0
                 adda.l  d0,a3
                 adda.l  d0,a5
                 movea.l d6,a2
@@ -9103,7 +9134,7 @@ _1056AE_apply_edge_word_masks:
                 ext.l   d0
                 move.l  d0,d6
                 mulu.w  (dstRowBytesPerPlane).l,d2
-                lsl.l   #2,d2
+                lsl.l   #NUM_PLANES_SHIFT,d2
                 add.l   d2,d0
                 add.l   a1,d0
                 movea.l d0,a2
@@ -9113,7 +9144,7 @@ _1056AE_apply_edge_word_masks:
                 move.w  $E(a0),d0
                 lsl.w   #1,d0
                 move.w  d0,d1
-                lsl.w   #2,d1
+                lsl.w   #NUM_PLANES_SHIFT,d1
                 sub.w   d7,d0
                 move.w  d0,BLTAMOD(a6)
                 sub.w   d7,d1
@@ -19325,7 +19356,7 @@ wait_for_next_tick_inner2:
                 jsr     FadeOutToBlack
 build_intro_menu_assets:
                 lea     (introMenuImageScript).l,a0
-                lea     (imageCmdWorkbuf).l,a3
+                lea     (imageCmdWorkBuf).l,a3
                 jsr     ProcessImageCommandStream
                 move.l  (imageStreamCursor).l,(menuImageStreamBaseEnd).l
                 jsr     AssetPrecacheMenuPack
@@ -22561,9 +22592,9 @@ store_next_xy_and_return:
                 move.w  d6,(ballNextY).l
                 rts
 
-; ===== PositionAndClipSprite =====
-; prototype: void __usercall PositionAndClipSprite(void *sprite@<a0>, unsigned __int16 x@<d1>, unsigned __int16 y@<d2>)
-PositionAndClipSprite:
+; ===== QueueMaskedSpriteBlitClipped =====
+; prototype: void __usercall QueueMaskedSpriteBlitClipped(void *sprite@<a0>, unsigned __int16 x@<d1>, unsigned __int16 y@<d2>)
+QueueMaskedSpriteBlitClipped:
                 cmpi.w  #$F,$C(a0)
                 bne.s   skip_sprite_draw
                 cmpi.w  #$10,$A(a0)
@@ -22625,15 +22656,15 @@ wait_blitter_ready_a:
                 move.l  d0,(a3)
                 move.w  #0,BLTAMOD(a6)
                 move.w  #0,BLTBMOD(a6)
-                move.w  #PLANE_STRIDE_MINUS2,$60(a6)
-                move.w  #PLANE_STRIDE_MINUS2,$66(a6)
+                move.w  #PLANE_STRIDE_MINUS2,BLTCMOD(a6)
+                move.w  #PLANE_STRIDE_MINUS2,BLTDMOD(a6)
                 move.w  #PLANE_STRIDE_MINUS2,8(a3)
                 move.l  (a0),BLTBPT(a6)
                 move.l  4(a0),BLTAPT(a6)
                 move.w  #BLT_FWM_ALL,BLTAFWM(a6)
                 move.w  #BLT_FWM_ALL,BLTALWM(a6)
-                move.w  #$F01,BLTSIZE(a6)
-                move.w  #$F01,$A(a3)
+                move.w  #SPRITE_BLTSIZE_W1,BLTSIZE(a6)
+                move.w  #SPRITE_BLTSIZE_W1,$A(a3)
                 lea     $C(a3),a3
                 move.l  #$FFFFFFFF,(a3)
                 move.l  a3,(spriteBlitQueue).l
@@ -22670,15 +22701,15 @@ wait_blitter_ready_b:
                 move.l  d0,(a3)
                 move.w  #$FFFE,BLTAMOD(a6)
                 move.w  #$FFFE,BLTBMOD(a6)
-                move.w  #PLANE_STRIDE_MINUS4,$60(a6)
-                move.w  #PLANE_STRIDE_MINUS4,$66(a6)
+                move.w  #PLANE_STRIDE_MINUS4,BLTCMOD(a6)
+                move.w  #PLANE_STRIDE_MINUS4,BLTDMOD(a6)
                 move.w  #PLANE_STRIDE_MINUS4,8(a3)
                 move.l  (a0),BLTBPT(a6)
                 move.l  4(a0),BLTAPT(a6)
                 move.w  #BLT_FWM_ALL,BLTAFWM(a6)
                 move.w  #0,BLTALWM(a6)
-                move.w  #$F02,BLTSIZE(a6)
-                move.w  #$F02,$A(a3)
+                move.w  #SPRITE_BLTSIZE_W2,BLTSIZE(a6)
+                move.w  #SPRITE_BLTSIZE_W2,$A(a3)
                 lea     $C(a3),a3
                 move.l  #$FFFFFFFF,(a3)
                 move.l  a3,(spriteBlitQueue).l
@@ -42927,7 +42958,7 @@ _120B88_wait_blitter_idle_pre_copy:
                 move.w  #BLT_FWM_ALL,BLTALWM(a6)
                 move.w  #BLT_FWM_ALL,BLTAFWM(a6)
                 clr.w   BLTCON1(a6)
-                move.w  #$9F0,BLTCON0(a6)
+                move.w  #BLTCON0_USEA_USED_LF_F0,BLTCON0(a6)
                 clr.w   BLTAMOD(a6)
                 clr.w   BLTDMOD(a6)
                 move.l  #frontbufferMaskBuffer,BLTAPT(a6)
