@@ -2,30 +2,30 @@
 
 
 undefined4 DAT_0000cc88;
-undefined1 CIAA_DDRA;
 undefined LAB_00107446;
-dword g_loaderBankBitmap;
 dword DIVIDE_BY_ZERO;
-undefined1 CIAA_ICR;
-dword g_loaderMemTop;
 dword LEVEL_2_INTERRUPT_AUTOVECTOR;
+undefined1 CIAA_PRA;
 dword LEVEL_3_INTERRUPT_AUTOVECTOR;
+undefined1 CIAA_DDRA;
 dword LEVEL_4_INTERRUPT_AUTOVECTOR;
+dword g_loaderBankBitmap;
+undefined1 CIAA_ICR;
+byte byte_17FFF6;
+dword g_loaderMemTop;
 byte[48048] frontbufferMaskBuffer;
 byte[9240] g_pitchDatBuffer;
-byte byte_17FFF6;
 ushort DMACON;
 ushort INTENA;
+dword dword_1573CC;
 undefined Int2KeyboardHandler;
 undefined Int3TimerHandler;
-short COLOR00;
-dword dword_1573CC;
 dword magicValue;
+short COLOR00;
 byte[48048] frontbufferBase;
 byte[48048] frontbufferBaseAlt;
-undefined1 CIAA_PRA;
-undefined AssetSys_JumpTable;
 word g_assetSelect;
+undefined AssetSys_JumpTable;
 dword g_assetSource1;
 dword g_assetSource2;
 dword g_assetSource3;
@@ -57,11 +57,11 @@ undefined4 UNK_000001fc;
 uint UNK_00000200;
 uchar[32] floppyDriveFlags;
 undefined1 CIAB_PRB;
+ushort INTREQ;
 ushort INTREQR;
 ushort DSKLEN;
-ushort INTREQ;
-ushort ADKCON;
 undefined4 DAT_00dff020;
+ushort ADKCON;
 undefined2 DAT_00dff07e;
 void *DAT_00dff020;
 ushort INTREQR+1;
@@ -71,10 +71,10 @@ undefined CIAB_TALO;
 undefined CIAB_TAHI;
 word keyCount;
 byte[12] keyBuffer;
+byte keyIn;
 undefined1 CIAA_SDR;
 undefined1 CIAA_CRA;
 uint VPOSR;
-byte keyIn;
 word keyDelay;
 word writeOnly01;
 word lastVBlankServiceTick;
@@ -89,37 +89,42 @@ byte audioDbgFlagA;
 word g_audioActive;
 FixedPoint_ g_cameraX;
 FixedPoint_ g_cameraY;
-byte[128] keycodeLut;
 word currentKey;
+byte[128] keycodeLut;
 uint *bitPlane0BasePtr;
-ushort DMACONR;
 uint *bitPlane1BasePtr;
 uint *bitPlane2BasePtr;
 uint *bitPlane3BasePtr;
 word[160] copperListBuffer;
 dword copperZeroLong;
+ushort DMACONR;
 uint COP1LC;
-ushort COPJMP1;
 ushort[160] copperListTemplate;
+ushort COPJMP1;
 dword frontbufferBasePtr;
 dword frontbufferBaseAltPtr;
 word kSpriteBlitQueueSentinel_A;
 word kSpriteBlitQueueSentinel_B;
-uint[2][4][225] bitPlane0Base;
-uint bitPlane1Base;
-uint bitPlane2Base;
-uint bitPlane3Base;
+uint[225] bitPlane0Base;
+uint[225] bitPlane1Base;
+uint[225] bitPlane2Base;
+uint[225] bitPlane3Base;
 word cameraXMod320;
 word cameraYMod320;
 word useAltBaseFlag;
 word[8] usePlaneOffsetFlag;
-uint bitPlane0BaseAlt;
+uint[225] bitPlane0BaseAlt;
+word cameraXSaved0;
+uint[225] bitPlane1BaseAlt;
+word cameraYSaved0;
+uint[225] bitPlane2BaseAlt;
+word dstXByteOffsetSaved1;
+uint[225] bitPlane3BaseAlt;
+word dstYStartLinesSaved1;
+word oldCameraXSaved1;
 word oldCameraYSaved1;
-uint bitPlane1BaseAlt;
 word cameraXSaved1;
-uint bitPlane2BaseAlt;
 word cameraYSaved1;
-uint bitPlane3BaseAlt;
 dword spriteBlitQueue;
 word g_oldCameraX;
 word g_oldCameraY;
@@ -127,22 +132,22 @@ word dstXByteOffsetSaved0;
 word dstYStartLinesSaved0;
 word oldCameraXSaved0;
 word oldCameraYSaved0;
-word cameraXSaved0;
-word cameraYSaved0;
-word dstXByteOffsetSaved1;
-word dstYStartLinesSaved1;
-word oldCameraXSaved1;
 undefined2 DAT_00dff100;
 ushort CIAB_ICR;
-word pl1Direction;
+word paletteIndex;
 byte[3] panicFormatStr;
-byte pl1Fire;
 byte[105] panicOutBuf;
 word panicReasonCode;
+word pl1Direction;
+byte pl1Fire;
 word pl2Direction;
 CharTable bigCharsTable;
 byte pl2Fire;
-word paletteBankIndex;
+byte pl1WasLeft;
+byte pl1WasRight;
+byte pl1WasUp;
+byte pl1WasDown;
+byte pl1LastFired;
 byte pl1Left;
 byte pl1Right;
 byte pl1Up;
@@ -158,11 +163,11 @@ byte pl1UpPress;
 byte pl1DownPress;
 byte pl1ShortFire;
 word pl1FireCounter;
-byte pl1WasLeft;
-byte pl1WasRight;
-byte pl1WasUp;
-byte pl1WasDown;
-byte pl1LastFired;
+byte pl2UpRight;
+byte pl2UpLeft;
+byte pl2DownRight;
+byte pl2DownLeft;
+byte pl2LeftPress;
 byte pl2RightPress;
 byte pl2UpPress;
 byte pl2DownPress;
@@ -178,11 +183,6 @@ byte pl2Left;
 byte pl2Right;
 byte pl2Up;
 byte pl2Down;
-byte pl2UpRight;
-byte pl2UpLeft;
-byte pl2DownRight;
-byte pl2DownLeft;
-byte pl2LeftPress;
 undefined2 DAT_00dff044;
 undefined2 DAT_00dff046;
 undefined2 DAT_00dff042;
@@ -193,51 +193,51 @@ undefined2 DAT_00dff064;
 undefined2 DAT_00dff066;
 undefined2 DAT_00dff058;
 pointer swcPitchMapFiles;
-word fansSidesSwapped;
 TeamGame topTeamInGame;
 TeamGame bottomTeamInGame;
+word fansSidesSwapped;
 Menu g_currentMenu;
 word[16] pitchFansConvertTable;
 word cameraCoordinatesValid;
 byte *DAT_00dff054;
-word word_103284;
-dword dword_103286;
-word word_10328A;
+word blitWordCount;
+dword maskBlitDestPtr;
 short DAT_00dff064;
-dword dword_10328C;
+word maskBlitPendingBytesA;
 short DAT_00dff066;
-word word_103290;
+dword maskBlitSecondStreamPtr;
 dword DAT_00dff050;
+word maskBlitPendingBytesB;
 short DAT_00dff058;
+pointer[7] paletteTable;
 word loaderModeFlag;
 char[20] fadeShiftMaskTable;
-pointer paletteBankTable;
-word fadeState;
 word fadeCommand;
 word fadeStep;
+word fadeState;
 word fadeInitFlag;
 dword imageStreamCursor;
+word currentSpriteIndex;
+dword g_menuInsBank;
 SpriteGraphics * *spriteGraphicsPtr;
 word useIndividualPlayerSkinColor;
 word playGame;
-word g_menuInsBank;
 word playHighlightFlag;
 dword imageStreamBytesLeft;
-word currentSpriteIndex;
+dword LEVEL_1_INTERRUPT_AUTOVECTOR;
 undefined Int3Handler;
 undefined Int5Handler;
-dword LEVEL_1_INTERRUPT_AUTOVECTOR;
 dword LEVEL_5_INTERRUPT_AUTOVECTOR;
 word int5SerialBusBufferFull;
-dword oldStackPtr;
 word[201] isrTrampolineGuard;
+dword oldStackPtr;
 pointer tmpStackPtr;
 ushort[16] partialSpanMaskTable;
 ushort[16] tailMaskTable;
-word[16] firstWordMaskTable;
-word[16] lastWordMaskTable;
 int DAT_00dff04c;
+word[16] firstWordMaskTable;
 short DAT_00dff062;
+word[16] lastWordMaskTable;
 ushort DAT_00dff058;
 dword DAT_00dff054;
 byte *DAT_00dff050;
@@ -250,21 +250,21 @@ short DAT_00dff060;
 short WORD_00104932;
 int DWORD_00104934;
 int DWORD_00104938;
-Sprite team2Player11Sprite;
-byte renderStackBase;
-dword dword_2BCF8;
 Sprite goalie1Sprite;
-byte plane01RenderStackBase;
+byte renderStackBase;
+Sprite team2Player11Sprite;
+dword dword_2BCF8;
+byte[360] plane01RenderStackBase;
 dword plane23RenderStackPtr;
-byte plane23RenderStackBase;
+byte[360] plane23RenderStackBase;
 dword dword_2C044;
+byte[10] occlMinYBuckets;
+byte[52] occlMinYBucketsActive;
 word overlayActiveFlag;
 word numSpritesToRender;
 dword[78] sortedSprites;
 word plane01BandTopY;
 word plane23BandTopY;
-byte[10] occlMinYBuckets;
-byte[52] occlMinYBucketsActive;
 Sprite *[79] allSpritesArray;
 int DWORD_0010510c;
 word DAT_00dff042;
@@ -281,30 +281,30 @@ dword blitSrcA_MaskPtr_glyph;
 dword blitSrcB_GlyphPtr_glyph;
 word dstRowBytesPerPlane;
 byte[56] dstRowAdvanceBytes;
-word g_assetLoaderAltPathReady;
 dword g_assetLoaderCacheFlag;
-uchar[2226] LoaderBootstrapBlobPI;
+word g_assetLoaderAltPathReady;
 word g_assetParamBlock;
+uchar[2226] LoaderBootstrapBlobPI;
 word crowdEventFlags;
 dword g_irqCookieObfuscated;
 dword g_assetLoaderWorkPtr;
-byte[24] surnameBuf;
 byte g_assetLoaderBank0Base;
+byte[24] surnameBuf;
 undefined j_start;
 byte[195000] g_assetLoaderMainRegion;
+word goalCounter;
+word currentCrowdSample;
 word crowdChantVolume;
 word patternsGoalCounter;
 word showFansCounter;
 word sfxQueueCount;
 word sfxQueueWriteIdx;
-word goalCounter;
-word currentCrowdSample;
 word fadeInChantTimer;
 word g_crowdChantsOn;
 word nextChantTimer;
 word fadeOutChantTimer;
-word g_trainingGame;
 word[4] crowdSamples;
+word g_trainingGame;
 string aSoundSfxSng;
 string aSoundSfxIn1;
 string aSoundSfxIn2;
@@ -318,13 +318,13 @@ word endOfHalfWriteOnly;
 word lastKickSampleTick;
 word pendingSampleId3_4;
 word gameState;
+byte audioCounter;
+byte[11] audioFlags;
 byte[176] audioChannel0;
 byte[176] audioChannel1;
 byte[176] audioChannel2;
 byte[176] audioChannel3;
 byte[22] audioPresetChannelCmdTable;
-byte audioCounter;
-byte[11] audioFlags;
 ushort AUD0LC;
 ushort AUD1LC;
 ushort AUD2LC;
@@ -340,9 +340,9 @@ Sprite *[11] team1SpritesTable;
 word goalScored;
 Sprite *lastPlayerScored;
 word lastTeamScoredNumber;
+word gameStatePl;
 word breakCameraMode;
 AnimTable playerNormalStandingAnimTable;
-word gameStatePl;
 Sprite ballSprite;
 word g_inSubstitutesMenu;
 TeamGeneralInfo *lastTeamPlayedBeforeBreak;
@@ -357,10 +357,10 @@ word cameraYVelocity;
 word g_substituteInProgress;
 word playingPenalties;
 word penaltiesState;
-Sprite goal1TopSprite;
 word whichCard;
-Sprite goal2BottomSprite;
+Sprite goal1TopSprite;
 Sprite *bookedPlayer;
+Sprite goal2BottomSprite;
 word hideBall;
 short[5] ballMovingFrameIndices;
 short[3] ballStaticFrameIndices;
@@ -371,8 +371,8 @@ word kBallAirConstant;
 word ballSpeedBounceFactor;
 word ballBounceFactor;
 word pitchBallSpeedFactor;
-dword teamThatSubstitutes;
 word ballNextX;
+dword teamThatSubstitutes;
 word ballNextY;
 dword kGravityConstant;
 word ballQuadrantIndex;
@@ -409,25 +409,26 @@ Sprite[8] advertInGameSprites;
 word goalCameraMode;
 word frameCount;
 word blockAdvertisements;
-byte[32] cornerFlagPictureIndices;
 Sprite cornerFlagSprite;
+byte[32] cornerFlagPictureIndices;
+word lastFrameTicks;
+Sprite big_S_Sprite;
+word statsTimer;
 word g_subsState;
 word g_spinBigS;
 word big_S_index;
 word currentPlayerIndicatorPosition;
-word lastFrameTicks;
-Sprite big_S_Sprite;
-word statsTimer;
 byte[32] plNamesLengthTable;
-CharTable smallCharsTable;
 char[16] numberBuffer;
+CharTable smallCharsTable;
 byte[32] plOrdinalsTable;
 byte[32] plNamesLengthTableCopy;
+TeamGame *topTeamPtr;
+TeamGame *bottomTeamPtr;
 TeamGame topTeamSaved;
 TeamGame bottomTeamSaved;
 word pitchNumberAndType;
-TeamGame *topTeamPtr;
-TeamGame *bottomTeamPtr;
+pointer playerCardChancesPerGameLength;
 word subsTeamsSwapped;
 word g_cameraLeavingSubsTimer;
 word benchOff;
@@ -439,22 +440,23 @@ word team1GoalsDigit2;
 word team2GoalsDigit2;
 word team1GoalsDigit1;
 word team2GoalsDigit1;
+ushort[16] gamePalette;
 word team1NumSubs;
 word team2NumSubs;
 word team1GoalkeeperReplaced;
-word[16] g_copperList;
 word team2GoalkeeperReplaced;
-pointer[5] currentCopperList;
 word gameRandValue;
 TeamStatisticsData team1StatsData;
 TeamStatisticsData team2StatsData;
-short *[7] kPaletteTripletPtrs;
+ushort *[7] pitchPalettePtrs;
+ushort gamePalette[7];
+ushort gamePalette[9];
 word secondLeg;
 word teamStarting;
 word teamPlayingUp;
 word[7] kBallSpeedBounceFactorTable;
-word[7] kBallBounceFactorTable;
 word dontShowScorers;
+word[7] kBallBounceFactorTable;
 short[7] kPitchBallSpeedInfluence;
 word gameLengthInGame;
 word team1GoalsFirstLeg;
@@ -463,11 +465,13 @@ word showStats;
 word timeDelta;
 word[4] gameLenSecondsTable;
 word playerCardChance;
-pointer playerCardChancesPerGameLength;
-word team1MostFrequentFace;
-word team2MostFrequentFace;
+pointer teamFilenamesTable;
+word team1NameLength;
+word team2NameLength;
 byte byte_10AE4A;
 byte byte_10AE4B;
+word team1MostFrequentFace;
+word team2MostFrequentFace;
 byte[4] facesFrequency;
 word[16] team1PlayersColorTable;
 word[16] team2PlayersColorTable;
@@ -477,37 +481,35 @@ pointer[3] skinAndHairColorConversionTable;
 byte[3] team1GoalieFaceToPosition;
 byte[3] team2GoalieFaceToPosition;
 byte team1GoalieFaces;
-byte team2GoalieFaces;
+ushort[5166] menuColorAndTextScript;
 dword team1Filename;
 dword menuImageStreamBaseEnd;
-pointer teamFilenamesTable;
 dword team2Filename;
-word team1NameLength;
-word team2NameLength;
+byte team2GoalieFaces;
 Sprite *[11] team2SpritesTable;
-TeamGeneralInfo *lastTeamBooked;
-char[30] yellowCardTable;
-word refTimer;
-char[30] redCardTable;
 char[46] secondYellowTable;
 Sprite bookedPlayerCardOrNumberSprite;
+TeamGeneralInfo *lastTeamBooked;
+word refTimer;
+char[30] yellowCardTable;
+char[30] redCardTable;
 Sprite team1CurPlayerNumSprite;
 Sprite team2CurPlayerNumSprite;
 Sprite playerMarkSprite;
+TeamGeneralInfo *lastTeamPlayed;
+Sprite *lastPlayerPlayed;
+word nobodysBallTimer;
 word nobodysBallLastFrame;
 Sprite *currentScorer;
 TeamGeneralInfo *lastTeamScored;
 Sprite *lastPlayerBeforeGoalkeeper;
 word resultTimer;
 Sprite currentPlayerNameSprite;
-TeamGeneralInfo *lastTeamPlayed;
-Sprite *lastPlayerPlayed;
-word nobodysBallTimer;
-Sprite currentTimeSprite;
 word copyTimeSprite;
 word secondsSwitchAccumulator;
 word gameSeconds;
 dword gameTime;
+Sprite currentTimeSprite;
 dword winningTeamPtr;
 word statsTeam1GoalsCopy;
 word statsTeam2GoalsCopy;
@@ -515,6 +517,11 @@ word playing2ndGame;
 word extraTimeState;
 word timeVar;
 word endGameCounter;
+Sprite team2NameSprite;
+Sprite team1GoalsDigit2Sprite;
+Sprite team1GoalsDigit1Sprite;
+Sprite team2GoalsDigit2Sprite;
+Sprite team2GoalsDigit1Sprite;
 Sprite team1TotalGoalsDigit2Sprite;
 Sprite team1TotalGoalsDigit1Sprite;
 Sprite team2TotalGoalsDigit2Sprite;
@@ -534,19 +541,14 @@ Sprite gridMiddleRowRightSprite;
 Sprite gridBottomRowLeftSprite;
 Sprite gridBottomRowRightSprite;
 Sprite team1NameSprite;
-Sprite team2NameSprite;
-Sprite team1GoalsDigit2Sprite;
-Sprite team1GoalsDigit1Sprite;
-Sprite team2GoalsDigit2Sprite;
-Sprite team2GoalsDigit1Sprite;
-uchar[84] pitchTypeSeasonalProbabilities;
-word numScenesInHilFile;
-uchar[8] pitchTypeProbabilities;
-word plg_D0_param;
 byte[16] pitchNumberProbabilities;
 word gamePitchTypeOrSeason;
 word gamePitchType;
 word gameSeason;
+uchar[84] pitchTypeSeasonalProbabilities;
+word numScenesInHilFile;
+uchar[8] pitchTypeProbabilities;
+word plg_D0_param;
 byte[2044] hilFileBuffer;
 byte[100] hilGameName;
 byte[100] hilGameRound;
@@ -560,32 +562,32 @@ word hilTeam1Goals;
 word hilTeam2Goals;
 word hilMaxSubstitutes;
 dword currentHilPtr;
+dword savedNextGoalPtr;
+word normalReplayRunning;
+dword goalBasePtr;
+dword nextGoalPtr;
 word hilSceneNumber;
 word goIntoHighlightsLoop;
 dword savedCurrentHilPtr;
 dword savedCurrentGoalPtr;
-dword savedGoalBasePtr;
-dword savedNextGoalPtr;
-word normalReplayRunning;
-dword goalBasePtr;
 dword currentGoalPtr;
-dword nextGoalPtr;
+dword savedGoalBasePtr;
 byte[19000] hilStartOfGoalsBuffer;
 byte[171000] inGameHilBuffer;
 word replayState;
 word throwInDeadVar;
 word animPatternsState;
-word savedCameraX;
-word savedCameraY;
 word hilLeftTeamGoals;
 word hilRightTeamGoals;
+word savedCameraX;
+word savedCameraY;
+word[16] ingameTeamPlayerOffsets;
+word penalty;
 word runSlower;
 pointer[3] alreadyScoredTable;
 pointer[3] firstGoalScoredTable;
 word team1PenaltyGoals;
 word team2PenaltyGoals;
-word[16] ingameTeamPlayerOffsets;
-word penalty;
 word subsWriteOnly;
 word subsTrainingTopTeam;
 word g_goToSubsTimer;
@@ -635,18 +637,21 @@ word pl1Tactics;
 word pl2Tactics;
 word deadBenchVar;
 word maxSubsPerTeam;
+word subsMenuHighlightColor;
+word subsMenuEntryFrameColor;
 word drawTrainingTopHalfOfTheBench;
 word initialSubsState;
 word[9] benchColors;
 word subsMenuBackgroundColor;
-word subsMenuHighlightColor;
-word subsMenuEntryFrameColor;
+string aFormation;
 string playerNumberString;
 char *[20] playerPositionsStringTable;
-string aFormation;
 char *[18] tacticsStringTable;
 TeamTactics *[19] g_tacticsTable;
 char *[18] positionsTable;
+byte[48] kTitleLogoColors;
+byte[48] kTitleScreenColors;
+byte[48] kTitleTextColors;
 word bootTemp0;
 word bootTemp1;
 word bootTemp2;
@@ -656,6 +661,8 @@ word bootTemp5;
 word bootTemp6;
 string aGrafsDisk22Raw;
 string aGrafsOlddisk1R;
+word instantReplayFlag;
+word saveHighlightScene;
 word fadeAndSaveHighlightScene;
 word spaceReplayTimer;
 word strikeDestX;
@@ -665,30 +672,28 @@ word gameCanceled;
 word isGoalAttempt;
 word team1NumAllowedInjuries;
 word team2NumAllowedInjuries;
-word instantReplayFlag;
-word saveHighlightScene;
 dword teamScoredDataPtr;
 word fireBlocked;
 string aBookings;
 string aSendingsOff;
 word userRequestedReplay;
 word lastGameTick;
-byte[15] byte_10F2EA;
+byte seed2;
 byte randXorIndex2;
 byte randXorKey2;
 pointer savedRandStatePtr;
-byte seed2;
+byte[15] byte_10F2EA;
 word randomSeed;
 char[257] kRandomTable;
+byte randXorKey;
 byte seed;
 byte randXorIndex;
-byte randXorKey;
 word overlayFlagBackup;
 pointer corePrecacheTable;
 pointer[23] menuPrecacheTable;
+word fire;
 string aGrafsMenubg2Ra;
 word menuControlsDirection;
-word fire;
 string aExit;
 string aReplay;
 string aSoundHeroIns;
@@ -705,6 +710,10 @@ string aMinus;
 string aFoulsConceded;
 string aGoals;
 char[6] statsNumber;
+short[8] kBallSpeedPassingIncrease;
+short kPassingSpeedCloserThan2500;
+short kPassingSpeed_2500_10000;
+short kPassingSpeed_10000_22500;
 short kPassingSpeed_22500_40000;
 short kPassingSpeed_40000_62500;
 short kPassingSpeed_62500_90000;
@@ -712,10 +721,6 @@ short kPassingSpeed_90000_122500;
 short kPassingSpeedFurtherThan122500;
 short kFreePassReleasingBallSpeed;
 short[8] kAIFailedPassChance;
-short[8] kBallSpeedPassingIncrease;
-short kPassingSpeedCloserThan2500;
-short kPassingSpeed_2500_10000;
-short kPassingSpeed_10000_22500;
 short[8] kBallSpeedKicking;
 short[8] kBallSpeedFinishing;
 dword kBallKickingDeltaZ;
@@ -726,23 +731,23 @@ char[8] plAvgTacklingBallControlDiffChance;
 short[8] kBallSpeedDeltaWhenControlled;
 short[8] kPlayerTacklingDownTime;
 short[8] kComputerTacklingDownTime;
+word stoppageTimerTotal;
 short[8] kPlayerSpeedsGameInProgress;
 short[8] kPlayerSpeedsGameStopped;
 word[8] kInjuriesSpeedHandicap;
-word stoppageTimerTotal;
 GoalieSkill *[8] kGoalieSkillTables;
 GoalieSkill teamPlOfs24Table;
-word spriteClippedY;
 undefined2 DAT_00dff062;
 undefined2 DAT_00dff060;
 undefined4 DAT_00dff04c;
 undefined4 DAT_00dff050;
+word spriteClippedY;
 word[16] playerYQuadrantCoordinates;
 char[7] kInjuryLevels;
 char[7] kInjuryLevelAlreadyInjured;
 short[8] kInjuryRecoveryTime;
-byte playerTackledAnimTable;
 char[4] kTackleInjuryProbability;
+AnimTable_20 playerTackledAnimTable;
 char[4] kTackleInjuryProbabilityAlreadyInjured;
 word team1PenaltyAttempts;
 word team2PenaltyAttempts;
@@ -750,20 +755,20 @@ word team1PenaltyShooterIndex;
 word team2PenaltyShooterIndex;
 word savedTeam1Goals;
 word savedTeam2Goals;
+Sprite *lastKeeperPlayed;
 word goalOut;
 word gameNotInProgressCounterWriteOnly;
 word stoppageTimerActive;
 word stoppageEventTimer;
 word pl1Coach;
 word pl2Coach;
-word topTeamCoachNo;
 word inGameCounter;
-word bottomTeamCoachNo;
+word topTeamCoachNo;
 word breakState;
+word bottomTeamCoachNo;
 word topTeamPlayerNo;
 word bottomTeamPlayerNo;
 short playerHadBall;
-Sprite *lastKeeperPlayed;
 Sprite *penaltyShooterSprite;
 word ballOutOfGameTimer;
 word stoppageAuxFlag;
@@ -777,31 +782,31 @@ word deadCameraBreakVar02;
 word deadCameraBreakVar03;
 word penaltiesTimer;
 AnimTable jumpHeaderHitAnimTable;
-short[8] kPlayerHeaderSpeedIncrease;
 dword kBallJumpHeaderDeltaZ;
+short[8] kPlayerHeaderSpeedIncrease;
 dword kHeaderLowJumpHeight;
 dword kHeaderHighJumpHeight;
 AnimTable staticHeaderAttemptAnimTable;
 AnimTable staticHeaderAimAnimTable;
-word kStaticHeaderBaseBallSpeed;
 AnimTable staticHeaderHitAnimTable;
+word kStaticHeaderBaseBallSpeed;
 word kStaticHeaderPlayerSpeed;
+word plg_D3_param;
 byte[5] cardAnimStatesNoFlag;
 byte[5] cardAnimStatesWithFlag;
-word plg_D3_param;
 word dseg_114EB0;
+short kKeeperSaveDistance;
+dword[8] kGoalkeeperDiveDeltas;
 word kKeeperPenaltySaveDistanceFar;
 word[17] kKeeperPenaltySaveDistanceNear;
 word ballDefensiveX;
-short kKeeperSaveDistance;
-dword[8] kGoalkeeperDiveDeltas;
+word strikeDestZ;
 word ballDefensiveY;
 word ballDefensiveZ;
 word ballNotHighX;
 word ballNotHighY;
 word ballNotHighZ;
 word strikeDestY;
-word strikeDestZ;
 byte BYTE_00140000;
 word ballNextGroundX;
 word ballNextYGroundY;
@@ -814,43 +819,43 @@ word kGoalkeeperStrongDeflectBallSpeed;
 word kGoalkeeperMediumDeflectBallSpeed;
 word kGoalkeeperWeakDeflectBallSpeed;
 dword kGoalkeeperDeflectDeltaZ;
+AnimTable leftGoalieJumpingLowAnimTable;
+AnimTable[2] rightGoalieJumpingLowAnimTable;
+short kGoalkeeperNearJumpSpeed;
 word kGoalkeeperFarJumpSpeed;
 word kGoalkeeperFarJumpSlowerSpeed;
 AnimTable[2] leftGoalieJumpingHighAnimTable;
 AnimTable rightGoalieJumpingHighAnimTable;
-AnimTable leftGoalieJumpingLowAnimTable;
-AnimTable[2] rightGoalieJumpingLowAnimTable;
-short kGoalkeeperNearJumpSpeed;
 AnimTable plTacklingAnimTable;
 word kPlayerTacklingSpeed;
-word[12] kJumpHeaderSpeed;
 AnimTable jumpHeaderAttemptAnimTable;
-word[16] kLowerRightCornerBallDestDelta;
-word[16] kLeftThrowInBallDestDelta;
-word[16] kRightThrowInBallDestDelta;
+word[12] kJumpHeaderSpeed;
 word[16] kPenaltyBallDestDelta;
 word[16] kUpperLeftCornerBallDestDelta;
 word[16] kUpperRightCornerBallDestDelta;
 word[16] kLowerLeftCornerBallDestDelta;
+word[16] kLowerRightCornerBallDestDelta;
+word[16] kLeftThrowInBallDestDelta;
+word[16] kRightThrowInBallDestDelta;
 word[16] kBallPlOffsets;
 word[16] kPlayerWithBallOffsets;
-short[32] kPassingSpinFactor;
-dword kHighKickDeltaZ;
 word kHighKickBallSpeed;
 dword kNormalKickDeltaZ;
 word kNormalKickBallSpeed;
 word[10] kSpinMultiplierFactor;
 char[64] kKickSpinFactor;
+short[32] kPassingSpinFactor;
+dword kHighKickDeltaZ;
 word forceLeftTeam;
 word playerTurnFlags;
-word cameraMoveToShowerLatch;
 word halfNumber;
+word cameraMoveToShowerLatch;
 word lastCameraDirection;
 word lastPlayerTurnFlags;
 word teamNumThatScored;
 dword teamScoredGamePtr;
-word statsTeam1GoalsCopy2;
 word playRefereeWhistle;
+word statsTeam1GoalsCopy2;
 word statsTeam2GoalsCopy2;
 Position[22] kTeamsStartingCoordinates;
 word cameraSnapToPlayerCount;
@@ -868,19 +873,19 @@ word kShotAtGoalMinumumSpeed;
 word[8] kKeeperEaseBallTable;
 word kSubstitutedPlayerSpeed;
 word kGoalkeeperSpeedWhenGameStopped;
-word ballInUpperPenaltyArea;
-word kPlayerGroundConstant;
-word ballInLowerPenaltyArea;
-word kPlayerAirConstant;
 word ballSpeed;
-dword prevLastPlayer;
+word ballInUpperPenaltyArea;
 word dseg_114EA6;
+word ballInLowerPenaltyArea;
+word kPlayerGroundConstant;
+word kPlayerAirConstant;
+dword prevLastPlayer;
 dword prevLastTeamPlayed;
 word[7] freeKickFactorsX;
 word freeKickDestX;
 word kGoalkeeperGameSpeed;
-word word_10F1F4;
 word kInjuryForeverSpeed;
+word word_10F1F4;
 char[16] goalScoredChances;
 GoalieSkill dseg_17EECC;
 AnimTable playerRunningAnimTable;
@@ -894,6 +899,7 @@ AnimTable playerLosingReactionAnimTable;
 AnimTable playerWinningReactionAnimTable;
 word throwInPassOrKick;
 word[64] kBallFriction;
+word AI_maxStoppageTime;
 word deadVarAlways0;
 dword playerKickerPtr;
 word team1Computer;
@@ -907,38 +913,40 @@ short[3] AI_rotateRightTable;
 short[3] AI_longKickTable;
 short AI_counter;
 char[6] AI_throwInDirections;
-word AI_maxStoppageTime;
 short AI_attackHalf;
 short AI_counterWriteOnly;
 word deadVar02;
 byte[6] byte_11FC60;
-undefined InitSkinAndDefaultPointers;
 string aResigned;
-dword dword_9978C;
+undefined InitSkinAndDefaultPointers;
 pointer menuTypesJumpTable;
-MenuEntry templateMenuEntry;
-byte[2000] diyLeagueScratchBuffer;
+dword dword_99788;
+dword dword_9978C;
 word menuX;
 word menuY;
-dword dword_99788;
+MenuEntry templateMenuEntry;
+byte[2000] diyLeagueScratchBuffer;
+word[4] nextEntryDirectionOffsets;
 word menuCursorFrame;
 MenuEntry[100] g_menuEntries;
 word shortFire;
+dword g_errorMessagePtr;
 byte up;
 byte down;
 byte left;
 byte right;
-dword g_errorMessagePtr;
 word menuStatus;
 word menuFade;
 word controlMask;
 word menuTextBlinkCounter;
-word[4] nextEntryDirectionOffsets;
 word teamsLoaded;
 word poolplyrLoaded;
 word g_exitMenu;
 byte[14] importTacticsFilename;
+word word_1573F8;
+word word_1573FA;
 word coachOrPlayer;
+word word_1573FE;
 word fireResetFlag;
 byte plNationality;
 word competitionOver;
@@ -954,14 +962,12 @@ word deadVar01;
 word writeOnlyVar01;
 word flipOnOff;
 word g_numSelectedTeams;
-word word_1573F8;
-word word_1573FA;
-word word_1573FE;
 pointer defaultNamesTable;
 pointer defaultSurnamesTable;
 word mrOrMs;
 byte[9] managerNameBuffer;
 byte[13] managerSurnameBuffer;
+TeamTactics tact_4_4_2;
 TeamTactics tact_5_3_2;
 string aUSER_A;
 string aUSER_B;
@@ -976,9 +982,9 @@ string aUSER_F;
 TeamTactics USER_D;
 TeamTactics USER_E;
 TeamTactics USER_F;
-TeamTactics tact_4_4_2;
 word g_menuMusic;
 string aGrafsMenubgRaw;
+ushort[406] menuBGImageCmdStream;
 word fireCounter;
 word menuControlsDirection2;
 word lastControls;
@@ -989,8 +995,8 @@ dword g_allowShorterMenuItemsWithFrames;
 word pl1SkipFireCounter;
 word pl2SkipFireCounter;
 byte[32] outerFrameColorsTable;
-byte[100] inMenuKeyboardBuffer;
 word deadInputTextVar;
+byte[100] inMenuKeyboardBuffer;
 byte[12] inputAllowedControlKeys;
 word g_allowExtraCharsFlag;
 word forceDrawTransparentMenuItems;
@@ -1011,25 +1017,9 @@ byte LAB_001217e0;
 byte LAB_001217e0+1;
 byte LAB_001217e2;
 pointer[18] playersPositionsByTactics;
+byte viewRandomPhase;
 word currentSeasonShowing;
 byte newRandomSeedCopy;
-byte viewRandomPhase;
-word word_122AEC;
-byte[32] byte_122AEE;
-byte[32] byte_122B0E;
-dword dword_122B2E;
-dword dword_122B32;
-word word_122B36;
-word word_122B38;
-byte[32] byte_122B3A;
-byte[64] byte_122B5A;
-word word_122B9A;
-byte[128] byte_121D20;
-byte[6] byte_121DA0;
-pointer[18] off_121DA6;
-pointer[16] off_121DEE;
-word inEditTactics;
-byte[1292] careerTeam;
 dword dword_122AC2;
 word word_122AC8;
 word word_122ACA;
@@ -1047,41 +1037,57 @@ word word_122AE4;
 word word_122AE6;
 word word_122AE8;
 word word_122AEA;
+word word_122AEC;
+byte[32] byte_122AEE;
+word inEditTactics;
+byte[32] byte_122B0E;
+dword dword_122B2E;
+dword dword_122B32;
+word word_122B36;
+word word_122B38;
+byte[32] byte_122B3A;
+byte[64] byte_122B5A;
+word word_122B9A;
+byte[128] byte_121D20;
+byte[6] byte_121DA0;
+pointer[18] off_121DA6;
+pointer[16] off_121DEE;
+byte[1292] careerTeam;
 byte[128] byte_121F48;
 byte[3] byte_121FC8;
 byte[3] byte_121FCB;
-word[16] currentMatchPlayers;
 byte[4] byte_122236;
 pointer[18] off_12215E;
+word[16] currentMatchPlayers;
 GameTypes g_gameType;
 word word_2DF2C;
+byte byte_164DB2;
 undefined2 DAT_00164db6;
+byte byte_164DC2;
 undefined2 DAT_00164dba;
 undefined2 DAT_00164dbe;
 undefined2 DAT_00164dc4;
-byte byte_164DB2;
-byte byte_164DC2;
 word careerNumPlayers;
 byte[8] byte_122740;
 byte[48] byte_1229B2;
 byte[64] byte_1229E2;
 byte[160] byte_122A22;
 byte[32] playerPositionsArray;
-word word_122D8C;
 word oldPlayerSkill;
-dword plPositions;
-word totalSkillsFactorSum;
-word numPlayersAtQuadrant;
+word word_122D8C;
 uchar[1226] quadrantDistanceFactor;
 dword[35] priceSkillPonders;
 char[240] quadrantCoordinatesToBallQuadrant;
 byte[8] skillValuePonders;
 byte[50] plPricesIncreaseTable;
+dword plPositions;
+word totalSkillsFactorSum;
+word numPlayersAtQuadrant;
 byte[32] byte_164AA0;
 byte[50] byte_1248E2;
 word diyPointsForAWin;
-word DIY_competitionStart;
 word isNationalSelector;
+word DIY_competitionStart;
 byte[144] byte_124B3A;
 word word_124BCA;
 TeamFile currentTeam;
@@ -1089,61 +1095,62 @@ word[16] playerPositions;
 word numPlayers;
 word word_164B84;
 undefined LAB_0012541a;
+word word_2DA96;
 undefined LAB_00125426;
-word selTeamNumber;
+dword gateReceipts;
 dword dword_124BD4;
 word word_124BD8;
+dword dword_124BDC;
 word word_2DB22;
 word word_2DB24;
-dword dword_124BDC;
-dword newBalance;
 word word_164B56;
-dword gateReceipts;
-word word_2DA96;
+word selTeamNumber;
+dword newBalance;
 dword dword_164A1C;
 word word_164AC8;
-word clubBusinessActive;
 word word_1649CE;
+word clubBusinessActive;
 word word_1649D0;
-word currentMessage;
-word stayingInOldClub;
-word youreSacked;
 word word_164AE4;
+word seasonReview;
+word currentMessage;
 word word_164AE6;
 word word_164AEA;
+word stayingInOldClub;
 word word_164AEC;
-word seasonReview;
-word word_1649D6;
-word word_1649DC;
-word word_1649DE;
+word youreSacked;
 dword dword_166B18;
+word numDiyTeams;
 dword dword_166B1C;
 word word_164ACA;
 word word_164B1C;
 byte byte_169255;
 word word_166BC0;
-word competitionFileBuffer;
 word word_16E0DC;
-word numDiyTeams;
 word word_16E0DE;
 word word_167714;
 word word_16E0E4;
 word word_1649D2;
 word word_1649D4;
-dword dword_124BD0;
-word word_124BDA;
+word word_1649D6;
+word word_1649DC;
+word word_1649DE;
+word competitionFileBuffer;
+dword generalRunningCosts;
+dword playerWagesBill;
 dword dword_124BE0;
 dword dword_164A14;
 dword dword_164A18;
 word word_165CE0;
-dword generalRunningCosts;
-dword playerWagesBill;
 dword dword_124BCC;
-dword dword_164A02;
+dword dword_124BD0;
+word word_124BDA;
 dword dword_166B20;
-dword old_balance;
 dword competitionBonuses;
+dword dword_164A02;
+dword old_balance;
 dword dword_166B14;
+byte[78] europeanChampionships2Copy;
 byte[70] copaAmericaCopy;
 byte[48] africanNationsCupCopy;
 byte[46] northAmericanCupCopy;
@@ -1152,45 +1159,44 @@ byte[36] invitationTournamentCopy;
 byte[28] oceaniaCupCopy;
 byte[36] tourCopy;
 byte[112] worldCup2Copy;
-byte[78] europeanChampionships2Copy;
 word isCareer;
-word word_164AD4;
 word word_164ACC;
 word word_164ACE;
 word word_164AD0;
-word playWinCupAnimation;
-word word_164ADA;
+word word_164AD4;
 word word_164ADE;
 word word_164AE0;
 word word_164AE2;
+word playWinCupAnimation;
+word word_164ADA;
 word word_164AD2;
-word seasonFinished;
 word[5] word_125C76;
+word seasonFinished;
+byte[40] friendlyCopy;
+byte[40] e_c_qualifying_group_1_copy;
+word word_166B28;
 byte[36] e_c_qualifying_group_8_copy;
-word word_167F8A;
+word word_12F0EA;
+word word_12F0EC;
+word word_166BAE;
 byte[40] world_cup_qualifying_group_1_copy;
+word word_167702;
 byte[40] world_cup_qualifying_group_8_copy;
 byte[72] north_america_world_cup_qualification_copy;
 byte[64] south_america_world_cup_qualification_copy;
-word word_164ADC;
-word word_16E0BE;
 byte[112] africa_world_cup_qualification_copy;
 byte[108] asiaWorldCupQualificationCopy;
 byte[36] oceaniaWorldCupQualificationCopy;
+word word_167F8A;
+word word_164ADC;
+word word_16E0BE;
 word word_164AE8;
 word word_164AEE;
 word word_164AF0;
 word word_164B4A;
+byte someTeamFlags;
 word word_164B4C;
 word word_164B4E;
-byte someTeamFlags;
-word word_166B28;
-word word_12F0EA;
-word word_12F0EC;
-word word_166BAE;
-word word_167702;
-byte[40] friendlyCopy;
-byte[40] e_c_qualifying_group_1_copy;
 undefined2 DAT_0016e0f2;
 word word_164B30;
 word[5] word_1261B2;
@@ -1200,15 +1206,15 @@ word word_164B80;
 word word_164B82;
 byte byte_16E1B2;
 byte byte_167F80;
+dword startingBalance;
 byte byte_166BA4;
-word playPromotedAnimation;
 byte byte_16E0B4;
 byte byte_1676F8;
-dword startingBalance;
+word playPromotedAnimation;
 word word_164A0E;
-word timeToNegotiate;
 word word_164DA0;
 word word_164B1A;
+word timeToNegotiate;
 word word_164DA8;
 word[92] avgTeamValueBases;
 char[131] avgTeamValues;
@@ -1216,10 +1222,10 @@ string aRes;
 string aLoan;
 string aTrial;
 dword selTeamsPtr;
-word word_12F6E0;
 word diyLeagueMinSubstitutes;
 word diyLeagueMaxSubstitutes;
 word word_2DF1C;
+word word_12F6E0;
 word diyLeaguePlayEachTeam;
 word WORD_0002e220;
 undefined2 DAT_0002df62;
@@ -1237,10 +1243,10 @@ TeamFile *gameTeam1;
 TeamFile *gameTeam2;
 word team1AppPercent;
 word team2AppPercent;
-byte shirtType1;
-byte shirtType2;
 word similarityFactor;
 byte[46] byte_1270D0;
+byte shirtType1;
+byte shirtType2;
 char *[12] off_152020;
 byte[4] teamKitsSimilarity;
 string aBank;
@@ -1253,75 +1259,76 @@ word careerFileBuffer;
 word numNeededTeams;
 pointer off_14F132;
 undefined1 DAT_0002df1e;
-word word_2DF40;
-word word_2DF44;
-word word_2DF46;
-word word_2DF4A;
-word word_2DF4C;
-word word_2DF58;
 string aCup_0;
+pointer off_14F07A;
 char *[262] countriesTable;
+dword dword_2DF18;
+word word_2DF40;
 byte[35] diyLeagueName;
 word diyLeagueNumTeams;
+word word_2DF44;
 word diyPitchTypeOrSeason_2;
+word word_2DF46;
 word diyLeaguePitchType;
 byte diyLeagueStartMonth;
+word word_2DF4A;
 byte diyLeagueEndMonth;
+word word_2DF4C;
+word word_2DF58;
 word g_pitchType;
 char *[4] divisionsTable;
-dword dword_2DF18;
-pointer off_14F07A;
 undefined1 DAT_0002dafe;
 undefined2 DAT_0002db20;
 char *DAT_0002daf8;
 undefined2 DAT_0002dc2a;
-string aAbort;
-string aLeague_1;
-string aDiyCompetitionPrompt;
-string aPresetCompetitionPrompt;
-string aSeasonPrompt;
 byte byte_2DAD4;
-word diyPitchTypeOrSeason;
-string aCareerPrompt;
-word diyPitchType;
 word word_2DB02;
 byte byte_2DB08;
 byte byte_2DB09;
 word word_2DB0C;
 byte byte_2DB1A;
 word word_2DB1C;
+string aAbort;
 word word_2DB1E;
+string aLeague_1;
 word word_2DB2A;
 byte byte_2DB6A;
+string aDiyCompetitionPrompt;
+word diyPitchTypeOrSeason;
+word diyPitchType;
+string aPresetCompetitionPrompt;
+string aSeasonPrompt;
+string aCareerPrompt;
 string aContinue;
-word word_16EBE2;
+byte seasonPlaying;
 word contestStarted;
 byte[14] competitionFilename;
-word currentTeamNumber;
 byte[14] hilFilename;
+word currentTeamNumber;
 short currentTick+1;
-byte seasonPlaying;
-word word_127D3E;
+word word_16EBE2;
+string aAET90Mins23;
+string a23OnAgg;
+string aAWin01OnPens;
+string aAWin01OnPensAE;
 string aAWin01OnPensAE_1;
 string aAETReplay;
 string aAET90Mins23Rep;
 string aAWin01OnPensRe;
 string aAWin01OnPensAE_3;
 string aAWin01OnPensAE_5;
+byte[70] resultString;
 string a1stLeg01;
 string aAWin23OnAgg;
 string aAWin23OnAggAET;
-byte[70] resultString;
 string a23OnAggAWinOnA;
 string a23OnAggAWinOnA_0;
 string aReplay_0;
 string a23OnAggAWin01O;
+word word_127D3E;
 string aAET;
 string a23OnAggAWin01O_0;
-string aAET90Mins23;
-string a23OnAgg;
-string aAWin01OnPens;
-string aAWin01OnPensAE;
+word g_exitGameFlag;
 word pitchTypeOrSeason;
 word friendlyPitchType;
 word friendlySeason;
@@ -1329,26 +1336,25 @@ word minSubstitutes;
 word maxSubstitutes;
 string aTraining;
 string aFriendly_1;
-word g_exitGameFlag;
 ushort DAT_0002dc2a;
 byte BYTE_0002df1f;
 undefined2 DAT_0002e03e;
 word word_126A86;
 word word_2DF38;
 word word_2DF42;
-char *[15] off_152080;
 string a1stLeg;
 string a2ndLeg;
+char *[15] off_152080;
 word word_2DF3A;
 word word_2DF3C;
 word careerTeamCoachOnly;
 word team1SelectedPlayerIndex;
 word team2SelectedPlayerIndex;
-pointer stadiumMenu;
 word hilStarted;
-word word_128ECC;
+pointer stadiumMenu;
 word g_gameLength;
 word g_allPlayerTeamsEqual;
+word word_128ECC;
 byte[17] team_A_name;
 byte[17] team_B_name;
 word word_165494;
@@ -1389,31 +1395,31 @@ word word_169250;
 byte byte_169254;
 word word_2DB28;
 word word_2E1BE;
+word word_129368;
 undefined2 DAT_0002db10;
 undefined2 DAT_0002df30;
 word DAT_0002db0e;
 word DAT_0002db12;
-word word_129364;
-word word_129366;
-word word_129368;
 word word_2DB0A;
+word word_2DF2A;
 word diySelectedButtonOrd;
 word diySavedEntryOrd;
-word word_2DF2A;
-uchar[78] europeanChampionships;
+word word_129364;
+word word_129366;
 byte[64] byte_129476;
 uchar[96] worldCup;
 uchar[78] europeanChampionships2;
+uchar[78] europeanChampionships;
 byte[8] byte_1297F4;
 byte[4] byte_1297FC;
-undefined sub_129960;
 byte[16] byte_1298FC;
 byte[76] byte_12990C;
 byte[8] byte_129958;
+undefined sub_129960;
 undefined2 DAT_0002db0e;
 undefined2 DAT_0002db12;
-string aDiyTournament;
 word[20] word_129C42;
+string aDiyTournament;
 word word_2DEF2;
 string aDiyCup;
 word WORD_0002e21e;
@@ -1459,29 +1465,29 @@ byte byte_16F4BB;
 undefined2 DAT_000c9bbc;
 word word_494C;
 word[9] word_12B148;
-word[3] word_12B15A;
 word word_6158;
-word word_12B160;
+word[3] word_12B15A;
 word word_695C;
-word teamNoOfferAccepted;
+word word_12B160;
 word word_12B142;
 word word_12B144;
 word word_12B146;
-byte byte_6C08;
-byte byte_6EB4;
-byte byte_7160;
+word teamNoOfferAccepted;
 word word_12B1B6;
 word word_12B1B8;
+byte byte_6C08;
 word word_12B1BA;
+byte byte_6EB4;
 dword dword_12B1BC;
+byte byte_7160;
 dword dword_12B1C0;
 dword dword_12B1C4;
+byte[40] e_c_qualifying_group_2_copy;
+byte[40] e_c_qualifying_group_3_copy;
 byte[40] e_c_qualifying_group_4_copy;
 byte[40] e_c_qualifying_group_5_copy;
 byte[40] e_c_qualifying_group_6_copy;
 byte[40] e_c_qualifying_group_7_copy;
-byte[40] e_c_qualifying_group_2_copy;
-byte[40] e_c_qualifying_group_3_copy;
 byte[40] world_cup_qualifying_group_2_copy;
 byte[40] world_cup_qualifying_group_3_copy;
 byte[40] world_cup_qualifying_group_4_copy;
@@ -1491,7 +1497,6 @@ byte[40] world_cup_qualifying_group_7_copy;
 byte[78] euroCupCopy;
 byte[92] cupWinnersCupCopy;
 byte[92] uefaCupCopy;
-dword dword_12B1D0;
 pointer off_15123C;
 pointer off_15128C;
 pointer off_1512DC;
@@ -1500,28 +1505,29 @@ byte[33] byte_12B173;
 byte[33] byte_12B194;
 dword dword_12B1C8;
 dword dword_12B1CC;
+dword dword_12B1D0;
 byte byte_12B1B5;
 word WORD_00005eac;
 word word_4BF8;
-char *[256] competitionsTable;
 byte[66] byte_1511FA;
+char *[256] competitionsTable;
 word playRelegatedAnimation;
 byte[32] byte_12B1D4;
 dword dword_166B24;
 word word_167B0C;
 byte[2000] someLeaguesTable;
 byte[64014] teamFileBuffer;
-undefined *DAT_00164b3a;
-undefined *DAT_00164b3e;
-pointer[5] off_12C1F4;
-undefined *DAT_00164b42;
-pointer[5] off_12C208;
-undefined *DAT_00164b46;
 pointer[5] off_12C21C;
+undefined *DAT_00164b3a;
 pointer[5] off_12C230;
+undefined *DAT_00164b3e;
 dword[5] dword_12C244;
+undefined *DAT_00164b42;
 pointer[5] off_12C258;
+undefined *DAT_00164b46;
 dword dword_164B36;
+pointer[5] off_12C1F4;
+pointer[5] off_12C208;
 pointer[5] off_12C302;
 pointer[5] off_12C316;
 pointer[5] off_12C32A;
@@ -1546,43 +1552,33 @@ pointer[5] off_12C654;
 pointer[5] off_12C668;
 dword[5] dword_12C67C;
 pointer[5] off_12C690;
-pointer[8] off_12C802;
-dword[5] dword_12C822;
-pointer[5] off_12C836;
-pointer[5] off_12C84A;
 pointer[5] off_12C85E;
 pointer[5] off_12C872;
 pointer[5] off_12C886;
 dword[5] dword_12C89A;
 pointer[5] off_12C8AE;
+pointer[8] off_12C802;
+dword[5] dword_12C822;
+pointer[5] off_12C836;
+pointer[5] off_12C84A;
 pointer[8] off_12CAF0;
 pointer off_12CC98;
 byte[852] nationalTeams;
 word word_14978A;
 dword dword_166B2A;
 word WORD_00167b3e;
-word word_167B4C;
 undefined DAT_00167d5a;
-word word_167B4E;
 word[4] word_12CE70;
 word word_16E0C2;
 word word_16E0C4;
 word word_16E0C6;
 word word_167B4A;
+word word_167B4C;
+word word_167B4E;
 word word_16E082;
 word[10] arrayOfPointers;
 string aFriendly;
-word gamesPlayed;
-word numWins;
-word numDrawn;
-word numLost;
-word goalsScored;
-word goalsTaken;
-word word_169252;
-word word_164B02;
-word word_164B04;
-word word_164B06;
-word word_164B08;
+string aOceaniaTour;
 word word_164B0A;
 word word_164B0C;
 word word_164B0E;
@@ -1591,11 +1587,21 @@ word word_164B12;
 word word_164B14;
 word word_164B16;
 word word_164B18;
+word gamesPlayed;
+word numWins;
+word numDrawn;
+word numLost;
+word goalsScored;
+word goalsTaken;
+word word_169252;
 string aEuropeanTour;
-string aOceaniaTour;
+word word_164B02;
+word word_164B04;
+word word_164B06;
+word word_164B08;
 byte DAT_0002df1e;
-byte[162] byte_166A6E;
 word word_16924C;
+byte[162] byte_166A6E;
 dword dword_166B74;
 dword dword_1676C8;
 dword dword_167F50;
@@ -1606,40 +1612,40 @@ word word_16924E;
 word word_164B88;
 word word_164B8A;
 word word_164B8C;
-word additionalInvestments;
 word word_164AC0;
+word additionalInvestments;
 word careerTeamLeague;
-word word_167F8E;
-word word_167F90;
-word word_167F92;
-word word_164AD6;
-pointer careerContests;
-uchar[78] euroCup;
-uchar[92] cupWinnersCup;
-uchar[92] uefaCup;
-word word_164B2C;
-word word_164C7A;
 word word_166BB2;
 word word_166BB4;
 word word_166BB6;
 word word_167706;
 word word_167708;
 word word_16770A;
-dword dword_16E0AC;
-byte byte_164B2A;
-byte byte_164B2B;
-byte byte_164B32;
-word retired;
-word word_164B58;
-uchar[10] byte_150898;
-uchar[10] byte_1508A2;
-word lastNationalityCall;
-word word_165496;
-word numNewJobOffers;
-word numJobOffers;
+pointer careerContests;
+uchar[78] euroCup;
+uchar[92] cupWinnersCup;
+uchar[92] uefaCup;
+word word_167F8E;
+word word_167F90;
+word word_167F92;
+word word_164AD6;
+word word_164B2C;
+word word_164C7A;
 pointer[6] off_12E896;
 dword dword_166B9C;
 dword dword_1676F0;
+dword dword_16E0AC;
+word retired;
+byte byte_164B2A;
+byte byte_164B2B;
+byte byte_164B32;
+word lastNationalityCall;
+word word_164B58;
+uchar[10] byte_150898;
+uchar[10] byte_1508A2;
+word numNewJobOffers;
+word numJobOffers;
+word word_165496;
 dword dword_167F78;
 word[24] word_166B30;
 word seasonNumberOfSquads;
@@ -1655,10 +1661,10 @@ undefined DAT_0002dbd0;
 dword teamFundsAccepted;
 word word_12F0EE;
 undefined1 DAT_0016e172;
-byte byte_16E2D2;
 undefined1 DAT_0016e352;
 byte byte_168AA4;
 byte byte_16E11E;
+byte byte_16E2D2;
 byte[54720] tmdFileBuffer;
 byte[64] animPatternsRandomTable;
 word[8] animatedPatterns;
@@ -1669,11 +1675,11 @@ byte[32] trainingMatchSavedPlayers;
 word word_1669E4;
 byte[32] byte_166A06;
 byte[32] lastMatchPlayers;
+byte currentTactics;
+word word_166A28;
 word word_166A2A;
 byte[32] byte_166A4C;
-byte currentTactics;
 byte byte_166A6D;
-word word_166A28;
 word word_166A26;
 pointer[18] off_1390C0;
 pointer[8] off_1301EA;
@@ -1683,29 +1689,29 @@ short DAT_0016e0d2;
 dword plNameForMessage;
 word leagueNumber;
 word selectTeamsNoLimit;
-word topOfStackMark;
 byte[100] teamsTable;
 byte[100] teamNumbersIndices_;
 dword[100] teamPointers_;
-word viewTeamsColumn1_;
-word viewTeamsColumn2_;
+word topOfStackMark;
 byte lastLoadedExtNumber;
+word viewTeamsColumn1_;
 word word_131128;
 word word_13112A;
+word viewTeamsColumn2_;
+word exitSelectTeams;
 word chooseTeamsResult;
 word changeTeams;
 word viewSelectedTeams;
 word abortSelectTeams;
-word exitSelectTeams;
+word word_13F966;
 dword selectedTeamPtr;
 dword chooseTeamsFunc;
 word selectedTeamCountryNumber;
-word word_13F966;
-dword curCountryStr;
-dword chooseTeamsHeader1stPart;
 string aChooseTeamsFor;
 string aChangeTeamsFor;
 dword gameTypeStr;
+dword curCountryStr;
+dword chooseTeamsHeader1stPart;
 word[5] word_130F86;
 string aSelect0MoreTea;
 string aSelect1MoreTea;
@@ -1715,53 +1721,53 @@ string aSelect1LessTea;
 string aError;
 word word_13112C;
 word word_13112E;
+dword selectedContest;
 word viewTeamsColumn1;
 word viewTeamsColumn2;
 word viewTeamsColumn3;
 word choosingPreset;
 word selTeamsUpperBound;
 string aAllSelectedTea;
+dword[64] teamPointers;
 byte[64] teamNumbersIndices;
 word numSelectedTeamsCopy;
-dword[64] teamPointers;
 uchar[70] copaAmerica;
-dword selectedContest;
 pointer[2] off_131A4E;
-string aChooseTeams;
 string aChangeTeams;
+string aChooseTeams;
 word viewTeamsStartY;
 word viewTeamsAbortY;
 word diyLeagueLookOnly;
 word diyLeagueSelectTeams;
 pointer designDiyLeagueMenu;
-pointer DIY_leagueTournamentMenu;
 word word_133312;
 word word_133314;
 word word_133316;
 word word_133318;
+pointer DIY_leagueTournamentMenu;
+string aWinnerQualifie;
+string aTop0Qualify;
 string aTeamsPromoted0;
 string aTeamsPromoted0_0;
 string aTeamsRelegated;
 string aTeamsRelegated_0;
-string aWinnerQualifie;
-string aTop0Qualify;
-word diyLeagueEndingMonth;
 word diyLeagueStartingMonth;
+word diyLeagueEndingMonth;
 string aPlayLeague;
 word diyPitchTypeOrSeason_1;
 string aX0;
 string aSelect0Teams;
-word currentDiyLine;
 word word_13331A;
+word currentDiyLine;
 word word_13330A;
 word word_13330C;
 word numDiyResults;
 dword competitionStatsMenu;
+word word_13AB78;
 word diyCompetitionType;
 dword diyNameOfCompetitionPtr;
 dword diyTeamsBufferPtr;
 word diyNumberOfTeams;
-word word_13AB78;
 word word_133308;
 dword diyLeftTeamPtr;
 dword diyRightTeamPtr;
@@ -1773,26 +1779,26 @@ string aNextRound;
 string aNextMatch;
 undefined2 DAT_0002e1a8;
 undefined2 DAT_0002e1aa;
-pointer[8] off_13323C;
 undefined2 DAT_0002e1ac;
 undefined2 DAT_0002e1ae;
+pointer[8] off_13323C;
+pointer designDiyCupMenu;
 word diyCupLookOnly;
 word diyCupSelectTeams;
-pointer designDiyCupMenu;
-pointer DIY_cupMenu;
 word word_1350B0;
 word word_1350B2;
 word word_1350B4;
 word word_1350B6;
+pointer DIY_cupMenu;
 word word_134080;
 word word_134082;
 string aPlayCup;
 word word_13407E;
 word word_1350AE;
 word word_1350C0;
+char *[3] off_1520BC;
 string aDraw;
 string aReplays;
-char *[3] off_1520BC;
 dword dword_1350B8;
 dword dword_1350BC;
 string aOr;
@@ -1812,10 +1818,14 @@ word word_136D14;
 word word_136D16;
 string aPlayTournament;
 word word_136D12;
+string aTop0InEachGrou_1;
+string aMatchWinnersQu;
+string aMatchWinnersOn;
+string aTop0InGroupQua;
+string aMatchWinnerWin;
 string aMatchWinnerOnA;
 string aGroupWinnerWin;
 string a3rdPlayOff;
-string asc_135D9A;
 string aFinal_4;
 string aStar;
 string aKnockout;
@@ -1827,36 +1837,32 @@ string aWinnersOfEachG;
 string aWinnersOfEachG_0;
 string aWinnersOfEachG_1;
 string aTop0InEachGrou;
+string asc_135D9A;
 string aTop0InEachGrou_0;
-string aTop0InEachGrou_1;
-string aMatchWinnersQu;
-string aMatchWinnersOn;
-string aTop0InGroupQua;
-string aMatchWinnerWin;
 dword dword_136D1C;
 word word_136D20;
 word word_136D22;
 word diySelected;
-word friendlyOk;
 pointer friendlyGameMenu;
+word friendlyOk;
 string aPlayFriendly;
 pointer friendlyPitchTypeTable;
 pointer friendly_season_table;
+string aCustomTeamsChanged;
+string aSave;
+undefined EditTeamsCallback;
 word saveCustomTeams;
 string aCustomsEdt;
 string aEditCustomTeam;
 string aSelectTeamToEd;
-string aCustomTeamsChanged;
-string aSave;
-undefined EditTeamsCallback;
 dword editTeamsSelectedTeam;
 pointer editTeamsMenu;
 word teamIsImported;
+byte byte_16F4CF;
 string aSelectTeamToIm;
 byte[43778] editTeamsBuffer;
 byte[21002] editTeamsSaveVarsArea;
 word lastSelectedTeam;
-byte byte_16F4CF;
 char DAT_0016f4d1;
 char DAT_0016f4d0;
 char DAT_0016f4d2;
@@ -1870,23 +1876,23 @@ byte BYTE_0016f4d9;
 undefined DAT_0016f4da;
 undefined DAT_0016f504;
 undefined1 DAT_0016f51c;
-byte[20] kTeamColorsTable;
 byte DAT_0016f4d1;
+byte[32] editTeamsShortsColTable;
 byte DAT_0016f4d2;
 byte DAT_0016f4d0;
+byte[32] editTeamsSocksColTable;
+byte[20] kTeamColorsTable;
 byte[64] shirtTypesTable;
 byte[16] shirtsIndexTable;
 byte[32] editTeamsPrimaryShirtColTable;
-byte[32] editTeamsShortsColTable;
-byte[32] editTeamsSocksColTable;
-byte[32] editTeamsSecondaryShirtColTable;
 byte DAT_0016f4d6;
 byte DAT_0016f4d7;
-byte[32] editTeamsSecondaryShortsColTable;
 byte DAT_0016f4d5;
+byte[32] editTeamsSecondaryShirtColTable;
+byte[32] editTeamsSecondaryShortsColTable;
 byte[32] editTeamsSecondarySocksColTable;
-pointer competitionTopGoalScorersMenu;
 dword diyStatsName;
+pointer competitionTopGoalScorersMenu;
 pointer topGoalScorersMenu;
 undefined DAT_000996e7;
 byte highestScorersTable;
@@ -1902,24 +1908,24 @@ pointer[7] off_138E34;
 pointer[7] off_138E50;
 pointer[7] off_138E6C;
 string aSelectSquadToV;
-pointer squadMenu;
 word word_13A6DE;
-dword dword_13A6EA;
 word teamSkillDiffAfterChange;
+pointer squadMenu;
+dword dword_13A6EA;
 word isNationalSquad;
 word word_13A6E0;
-string aClubs;
 word word_13A6E8;
 word word_13A6F0;
 dword dword_13A6F4;
+string aClubs;
 word[3] word_139A3C;
 word word_13A6F2;
+string shortCountryNames;
 byte[100] fundsBuffer;
 byte[32] oldPlayerPositionsArray;
 byte byte_164E12;
 dword dword_13A6E2;
 word word_13A6E6;
-string shortCountryNames;
 word newPlayerSkill;
 string aFr;
 string aWc;
@@ -1933,28 +1939,30 @@ string aAc;
 string aOc;
 string aTnm;
 string aTr;
-string aRetire;
 string a0EndSeason;
+string aRetire;
 string aNewJob;
 string aNoJobOffers;
 pointer viewCompetitionsMenu;
 pointer gotJobOfferMenu;
-pointer jobOffersMenu;
 word word_14A89A;
+pointer jobOffersMenu;
 pointer contestMenu;
 string aSaveCareer;
 string aSelectTeamToMa;
 byte nationalityOrdinal;
 byte[64] nationalityOrdinalsArray;
 string aOther;
-byte[4] managerSexBuffer;
 string aMr;
 string aMs;
-byte[36] byte_167F54;
+byte[4] managerSexBuffer;
+byte[36] diyPresetNameOfCompetition;
 byte[36] byte_166B78;
 byte[36] byte_1676CC;
-byte[36] diyPresetNameOfCompetition;
+byte[36] byte_167F54;
 pointer managementRecordMenu;
+pointer careerOverMenu;
+string aDash;
 string aQualified;
 string aNotQualified;
 string aPromoted;
@@ -1962,14 +1970,12 @@ string aRelegated;
 string aPosition0;
 string aKnockedOutInRo;
 string aStillInCompeti;
-pointer careerOverMenu;
-string aDash;
-word word_13CAA0;
-word word_13CAA4;
-word gameListY;
-word contestEntryHeight;
 string aSquads;
 word currentGame;
+word gameListY;
+word contestEntryHeight;
+word word_13CAA0;
+word word_13CAA4;
 pointer clubBusinessMenu;
 pointer transferMarketMenu;
 word word_13F78E;
@@ -1984,6 +1990,7 @@ string a001Season;
 string aChangeSquad;
 string aSelectSquad;
 string aSquadSelected;
+dword careerGameTopTeamName;
 dword careerGameBottomTeamName;
 word cglm_team_control;
 word columnMarker;
@@ -1997,7 +2004,6 @@ char *[16] off_151FE0;
 char *[12] off_152050;
 string aLeg1;
 string aLeg2;
-dword careerGameTopTeamName;
 string aManagementReco;
 word currentSeasonNumber;
 string aPl0W1D2L3F4A5;
@@ -2006,10 +2012,11 @@ string aNational;
 string aA;
 string a12Season;
 string a102Season;
+word[1060] word_165498;
 string aSeasonSTopScor;
 string aSeasonSTopScor_0;
 string aA0;
-word[1060] word_165498;
+string aWon0Drawn1Lost;
 string aFriendlies;
 string aWinners;
 string aRunnerUp;
@@ -2018,18 +2025,17 @@ string aThirdPlace;
 string aFourthPlace;
 string aReachedSemiFin;
 string aReachedQuarter;
-string aWon0Drawn1Lost;
 word[10] trophySprites;
 string aSeveral;
+word numTeamsCountryBuffer;
+byte[64] b_index_countries;
 byte[256] dwArrayCountries;
 pointer selectTeamsForTacticsMenu;
 dword chooseTeamMenuName;
 word teamSelected;
-word numTeamsCountryBuffer;
-byte[64] b_index_countries;
-word selTeamsColumn1;
 word selTeamsColumn2;
 word selTeamsColumn3;
+word selTeamsColumn1;
 word word_13DED6;
 word word_13DED8;
 undefined DAT_000000fc;
@@ -2055,7 +2061,6 @@ dword[10] teamNames;
 dword[64] countryNames;
 word numLeaguesInCountry;
 word chooseTeamsNumTeams;
-word word_13F944;
 word numSelectedTeams;
 pointer countryStackPtr;
 byte[10] countriesStack;
@@ -2071,17 +2076,18 @@ word playSeason;
 word teamsType;
 word numberOfLeagues;
 word stayInSelectTeams;
+word word_13F944;
 word exitFlag;
 dword entryText2;
 word[10] selectedTeamsStack;
 word prevSelectedTeamEntry;
 pointer continental_cups;
 pointer off_14EFC2;
-pointer chooseTeamsMenu;
 word showClubTeams;
 word showNationalTeams;
 word showOrigCustomTeams;
 string aStatistics;
+pointer chooseTeamsMenu;
 string aChooseCompetit;
 string aChoosePresetCo;
 string aChooseSeason;
@@ -2090,51 +2096,51 @@ word teamsLowerBound;
 word numTeamsColumn1;
 word numTeamsColumn2;
 word numTeamsColumn3;
-word headerYPlusHeight;
 word exitY;
+word headerYPlusHeight;
+string aDiskError;
+string aDiskWriteProte;
 string aNoDiskInDrive;
 string aFileNotFound;
 string aDiskFull;
 string aCannotFormatGa;
-string aDiskError;
-string aDiskWriteProte;
+word totalNumberOfFiles;
+word savingFile;
+dword menuTitle;
 dword g_extension;
 byte[180] foundFilesPtrTable;
+word numberOfFiles;
+byte[1918] foundFilenamesBuffer;
 pointer selectFilesMenu;
 byte[180] extensionsBuffer;
 byte[13] inputSaveFilename;
 byte[13] g_selectedFilename;
-word numberOfFiles;
-byte[1918] foundFilenamesBuffer;
 word numMatchedFiles;
-word totalNumberOfFiles;
-word savingFile;
-dword menuTitle;
 word selFilesColumn1NumItems;
 word selFilesColumn2NumItems;
 word selFilesColumn3NumItems;
+string aHigh;
 string aDiy;
 string aPreset;
 string aSeason_0;
 string aCareer_0;
 string aTact;
-string aHigh;
 string aCanOnlySaveMax;
 word selFilesColumnStartY;
 word selFilesColumnEndY;
 string aInsertBlankDis;
 string aFormatSaveDisk;
 string aDeleteFile;
+dword errorText;
 pointer continueMenu;
 word errorPromptsEnabled;
-dword errorText;
-word contAbortDefault;
-word contAbortResult;
-pointer continueAbortMenu;
 dword promptHeader;
 dword whatIsChanging;
 dword continueText;
 dword abortText;
+word contAbortDefault;
+word contAbortResult;
+pointer continueAbortMenu;
 byte[70] saveFileTitle;
 string aSeason_1;
 string aCareer_1;
@@ -2145,36 +2151,36 @@ dword diyCompetitionMenu;
 string aDiyCompetition_0;
 string aPresetCompetit_0;
 pointer careerMenu;
-string aLoadOldCompeti;
 string aNotACompetitio;
+string aLoadOldCompeti;
 pointer highlightsMenu;
 pointer optionsMenu;
 pointer diskMenu;
+byte byte_16F4F2;
 byte byte_496F2;
 byte byte_4973E;
-byte byte_16F4F2;
 word word_164C7E;
-MarketPlayer[352] careerForeignMarketPlayers;
 word numForeignMarketPlayers2;
+MarketPlayer[352] careerForeignMarketPlayers;
+word numPlayersOnTransferMarket;
 word word_164DAA;
 word word_164DAC;
 word word_164DAE;
 word word_164DB0;
-word numPlayersOnTransferMarket;
+word numOffers;
 word word_164C80;
 word word_164C82;
 word word_164C84;
 word word_164C86;
 word word_164C88;
-word numOffers;
 word word_164B86;
+word word_141534;
+word word_141538;
 word teamOffering;
+word word_14153A;
 word numExtraPlayersWanted;
 word offerAmount;
 dword playerSales;
-word word_141534;
-word word_141538;
-word word_14153A;
 dword playerPurchases;
 pointer off_141CB0;
 pointer off_14221C;
@@ -2196,65 +2202,65 @@ word writeOnlyCareerVar002;
 word[5] playersOnTransferMarket;
 pointer showPlayerMarketMenu;
 word showDomesticPlayerMarket;
-word word_141544;
-pointer thirdPartyOfferMenu;
-word word_143E48;
 word offerStatus;
+word word_141544;
+word word_143E48;
+pointer thirdPartyOfferMenu;
+string aAImprovedOffer_2;
+string aBAndC_1;
+string aAImprovedExcha_1;
+string aB_2;
+string aAImprovedExcha_2;
 string aBAndC_2;
+dword dword_14350A;
 string aAFurtherImprov;
+dword dword_14350E;
 string aAFurtherImprov_0;
+dword dword_143512;
 string aAFurtherImprov_1;
+dword dword_143516;
 string aAFurtherImprov_2;
+dword dword_14351A;
 string aAFurtherImprov_3;
+dword dword_14351E;
 string aB_3;
+dword dword_143522;
 string aAFurtherImprov_4;
+dword dword_143526;
 string aBAndC_3;
+dword dword_14352A;
 string aAFurtherImprov_5;
+dword dword_14352E;
 string aOfferForB;
+dword dword_143532;
 string aAFurtherImprov_6;
+dword dword_143536;
 string aBAndC_4;
 string aAOfferForB;
-dword dword_14350A;
 string aAOfferForBAndC;
-dword dword_14350E;
 string aAExchangeOffer;
-dword dword_143512;
 string aAExchangeOffer_0;
-dword dword_143516;
 string aAOfferFor;
-dword dword_14351A;
 string aB;
-dword dword_14351E;
 string aAOfferFor_0;
-dword dword_143522;
 string aBAndC;
-dword dword_143526;
 string aAExchangeOffer_1;
-dword dword_14352A;
 string aB_0;
-dword dword_14352E;
 string aAExchangeOffer_2;
-dword dword_143532;
 string aBAndC_0;
-dword dword_143536;
 string aAImprovedOffer;
 string aAImprovedOffer_0;
 string aAImprovedExcha;
 string aAImprovedExcha_0;
 string aAImprovedOffer_1;
 string aB_1;
-string aAImprovedOffer_2;
-string aBAndC_1;
-string aAImprovedExcha_1;
-string aB_2;
-string aAImprovedExcha_2;
+string aInADealWithAFo;
 string aUnlessTheOffer;
 string aWeHereAtAWould;
+pointer[12] off_143738;
 pointer[4] sellExchangeStrings;
 string aDearAB;
 word teamWillingToSellOrExchange;
-pointer[12] off_143738;
-string aInADealWithAFo;
 word word_143990;
 string aWeHereAtAWishT;
 string aWeHereAtAWishT_0;
@@ -2273,18 +2279,18 @@ string aSelectPlayerTo_0;
 word word_164DA2;
 word word_164DA4;
 word word_164DA6;
-pointer viewSquadMenu;
+dword squadTeamPtr;
+dword viewSquadTitle;
 dword dword_1448E2;
 dword dword_1448E6;
 dword dword_1448EA;
 word word_1448EE;
 word word_1448F0;
 word word_1448F4;
-dword squadTeamPtr;
-dword viewSquadTitle;
+pointer viewSquadMenu;
 word word_1448F6;
-dword dword_144BBE;
 dword dword_144BBA;
+dword dword_144BBE;
 word word_145352;
 word word_145354;
 word word_145356;
@@ -2297,9 +2303,9 @@ string aPlayersOnForei;
 string aList;
 string aMore;
 word[3] word_14507E;
-pointer off_144E7A;
 word word_145362;
 char[17] byte_15350B;
+pointer off_144E7A;
 string aBuyOtherDomest;
 pointer buyOtherPlayersMenu;
 string aBuyOtherForeig;
@@ -2310,6 +2316,7 @@ pointer offersMenu;
 word[3] word_1459A0;
 string aNoOffers;
 word word_145D1A;
+word word_2DA9C;
 word word_14153E;
 word word_141540;
 byte[16] byte_146180;
@@ -2319,16 +2326,15 @@ word word_1462D0;
 word word_1462D2;
 word word_1462D4;
 byte[100] byte_1462D6;
-word word_2DA9C;
 pointer playerTransferMenu;
 word word_146742;
 word word_146744;
 word skipLeagueNumbers;
-string aAddInternation;
-string aAddInternation_0;
 undefined AddInternationalPlayerHome;
 undefined AddInternationalPlayerAbroad;
 word word_146B8E;
+string aAddInternation;
+string aAddInternation_0;
 undefined1 DAT_00164f65;
 word word_1473FA;
 word word_1473FC;
@@ -2337,32 +2343,32 @@ dword dword_146B94;
 undefined sub_146C96;
 pointer selectNationalTeamMenu;
 word word_1473BE;
-word word_1473C0;
 dword dword_1473B2;
+word word_1473C0;
+string aSelect1MoreInt;
 string aSelect0MoreInt;
 string aASquad;
-string aSelect1MoreInt;
-dword dword_1473B6;
 undefined BYTE_ARRAY_001473dc;
+dword dword_1473B6;
 dword dword_1473BA;
 string aRemovePlayer;
 string aRemovePlayers;
 byte[26] byte_1473C2;
 byte[18] byte_1473E8;
-pointer nationalTeamAddPlayerMenu;
 word nationalTeamAddPlayerType;
+pointer nationalTeamAddPlayerMenu;
+word squadChangesAllowed;
+TeamFile *playMatchTeam1Ptr;
+TeamFile *playMatchTeam2Ptr;
 pointer playMatchMenu;
 word maxSubstitutesEntries;
 word playMatchControlFlags;
 word playerNumThatStarted;
 word isFirstPlayerChoosingTeam;
 word playMatchExcludeFlags;
-word squadChangesAllowed;
-TeamFile *playMatchTeam1Ptr;
-TeamFile *playMatchTeam2Ptr;
+word showingCpuTeams;
 word viewingOpponentTeam;
 word is_A_team;
-word showingCpuTeams;
 word pmMenuNumPlayers;
 word numPlayersToShowInMenu;
 word selectedPlayerPosition;
@@ -2374,33 +2380,35 @@ string aCoachMatch;
 string aPlayCoachMatch;
 string aViewResult;
 string aViewMatch;
+byte[4] byte_149224;
 string aViewATeam;
 string aViewBTeam;
-byte[4] byte_149224;
 pointer sidePitchSurnamePositionsTable;
+string aViewOtherTeam;
 string aViewTeam;
 string aViewOppo;
 string aCoach_1;
 string aPlayer_1;
-string aViewOtherTeam;
 word[4] word_1491F2;
-word word_16E0D8;
-word word_16E0DA;
 word word_1496F4;
 word word_164B2E;
+word word_16E0D8;
 word nat_teams_rand_limit1;
+word word_16E0DA;
 uchar[4] byte_1508D4;
 word numNationalTeams;
 JobOffer[5] jobOffers;
 JobOffer[5] newJobOffers;
 word word_14A1D6;
-word jobOfferOrdinal;
 word oldJobOfferOrdinal;
+word jobOfferOrdinal;
 string aInternationalJ_0;
 string aJobOfferFromA;
 string aJobOfferFromAW;
 word teamNoOfferingJob;
 dword jobOfferFunds;
+string aTheMembersOfTh;
+string aOfAWouldLikeTo;
 string aAsCoachOfTheNa;
 string aWeCanPromiseYo;
 string aAnAnnuallyRevi;
@@ -2423,8 +2431,6 @@ string aHaveAcceptedTh;
 string aFromTheStartOf_0;
 string aWeHopeToBeAble_0;
 string aInTheRegionOfA_0;
-string aTheMembersOfTh;
-string aOfAWouldLikeTo;
 pointer chairmanMemosMenu;
 pointer PTR_aAnyFurtherPlay_0014a952;
 string aMemoFromThePre;
@@ -2439,39 +2445,39 @@ string aAdditionalInve;
 string aSponsorshipFor;
 string aSeasonFromSens;
 dword[32] dword_164A20;
-byte[128] editTacticsCountryBuffer;
 string aEditTacticsSel;
+byte[128] editTacticsCountryBuffer;
+pointer editTacticsMenu;
 pointer chooseTacticsMenu;
 word chosenTactics;
-pointer editTacticsMenu;
-word editTacticsNumPlayers;
 word word_14C60E;
 dword dword_14C612;
 word word_14C616;
+word editTacticsNumPlayers;
 TeamTactics editTacticsCurrentTactics;
 dword some_menu_entry_ptr;
 word word_14C610;
-word tacticsChangedFlag;
 string aEditedTacticsWillBeLost;
 string aEditTactics;
-string aSaveEditedTact;
+word tacticsChangedFlag;
 string aTacticsHaveBeenChanged;
-word importMenuSelectedTactics;
+string aSaveEditedTact;
 pointer importTacticsMenu;
+word importMenuSelectedTactics;
 word word_14B4B6;
-word editTacticsBallLocation;
 word editTacticsPlayerX;
+word editTacticsBallLocation;
 byte[6] byte_14C0E8;
 word[5] word_14C602;
+word word_14B490;
 word markedPlayerNumber;
 word editTacticsPitchStatus;
-word word_14B490;
 word[16] littlePlayersConvertTable;
 word ballRow;
 word ballColumn;
 dword editTacticsPlayerNumbers;
-word pitchWidth;
 word word_14B4A6;
+word pitchWidth;
 word editTacticsBallRow;
 word editTacticsBallColumn;
 word editTacticsLastBallLocation;
@@ -2501,18 +2507,18 @@ undefined2 DAT_0002e140;
 byte[32] byte_1517A2;
 undefined2 DAT_0002db6c;
 byte[32] byte_1518C8;
-string aInsertSwosDisk_0;
 string aOk;
+string aInsertSwosDisk_0;
 string aInsertGameSave;
-word word_16F4A2;
-dword dword_16F4A4;
-string aCj0611143807;
 dword dword_16F4A8;
 dword dword_16F4AC;
 dword dword_16F4B0;
+string aCj0611143807;
+word word_16F4A2;
+dword dword_16F4A4;
+string aCompetitionFil_0;
 string aFileSavedByDif;
 string aFileSavedOnDif;
-string aCompetitionFil_0;
 byte[50] teamFilenameBuffer;
 string aDataTeamNnn;
 string aEditedCustomTe;
@@ -2623,7 +2629,7 @@ void __usercall start(void)
   } while (pbVar5 != (byte *)0xfeaf6);
   magicValue = 0x12345678;
   COLOR00 = 0;
-  iVar1 = 0xbbb0;
+  iVar1 = FRONTBUFFER_SIZE_TOTAL_BYTES;
   pbVar4 = frontbufferBase;
   pbVar5 = frontbufferBaseAlt;
   pbVar6 = frontbufferMaskBuffer;
@@ -2643,7 +2649,7 @@ void __usercall start(void)
     pbVar6 = pbVar6 + 2;
   } while (iVar1 != 0);
   DMACON = 0x8340;
-  DMACON = 0x400;
+  DMACON = DMACON_BLT_OFF;
   LEVEL_2_INTERRUPT_AUTOVECTOR = (dword)Int2KeyboardHandler;
   LEVEL_3_INTERRUPT_AUTOVECTOR = (dword)Int3TimerHandler;
   LEVEL_4_INTERRUPT_AUTOVECTOR = (dword)&Int4Handler;
@@ -2885,7 +2891,7 @@ int __usercall AssetSys_Op5ThenMaybe6(void *source_desc)
   uint unaff_D1;
   char *pA_00;
   
-  pA_00 = AssetSysPrepCopyParams((char *)source_desc);
+  pA_00 = AssetSysPrepCopyParams(source_desc);
   pB = g_assetAltBasePtr;
   ctx = g_assetBasePtr;
   pA = (void *)FloppyAsset_DispatchOp
@@ -2986,7 +2992,7 @@ uint __usercall FloppyAsset_DispatchOp(uint op,uint arg1,void *pA,void *pB,void 
   uint uVar1;
   char cVar2;
   
-  Floppy_ParseDrivePrefix(op,(uchar *)pA);
+  Floppy_ParseDrivePrefix(op,pA);
   if (op == 0) {
     Floppy_StreamInit(ctx,pB);
   }
@@ -3096,76 +3102,76 @@ uint __usercall Floppy_ReadFromTmpEntry(void *entry,void *dst,uint remaining)
   int *piVar1;
   short sVar2;
   uint uVar3;
-  uint count;
+  uint uVar4;
   int unaff_D1;
   int unaff_D2;
-  short sVar4;
+  short sVar5;
   int unaff_D3;
   short unaff_D4w;
   int unaff_D5;
   void *unaff_A6;
-  bool bVar5;
+  bool bVar6;
   
   Floppy_MapIndexToTmpEntryOrFail((uint)entry);
-  uVar3 = *(int *)((int)entry + 0xe) - *(int *)((int)entry + 6);
-  if (uVar3 != 0) {
-    if ((int)uVar3 < (int)remaining) {
-      remaining = uVar3;
+  uVar4 = *(int *)((int)entry + 0xe) - *(int *)((int)entry + 6);
+  uVar3 = 0;
+  if (uVar4 != 0) {
+    if ((int)uVar4 < (int)remaining) {
+      remaining = uVar4;
     }
-                    // WARNING: Load size is inaccurate
-    floppyCurrentDrive = *entry;
-    uVar3 = *(uint *)((int)entry + 6);
-    Floppy_PosToCHS(uVar3);
+    floppyCurrentDrive = *(word *)entry;
+    uVar4 = *(uint *)((int)entry + 6);
+    Floppy_PosToCHS(uVar4);
     piVar1 = *(int **)((int)entry + 10);
-    sVar4 = (short)unaff_D2;
-    if (sVar4 == *(short *)((int)entry + 2)) {
+    sVar5 = (short)unaff_D2;
+    if (sVar5 == *(short *)((int)entry + 2)) {
 LAB_00100724:
       if (unaff_D4w != *(short *)((int)entry + 4)) {
         unaff_D1 = *(int *)((int)piVar1 + (int)(short)((short)unaff_D3 * -4 + 0x134));
-        bVar5 = unaff_D1 == 0;
-        uVar3 = Floppy_TransferNonBlockingLen1Wrapper();
-        if (!bVar5) {
-          return uVar3;
+        bVar6 = unaff_D1 == 0;
+        uVar4 = Floppy_TransferNonBlockingLen1Wrapper();
+        if (!bVar6) {
+          return uVar4;
         }
         *(short *)((int)entry + 4) = unaff_D4w;
       }
-      count = 0x1e8U - unaff_D5;
+      uVar4 = 0x1e8U - unaff_D5;
       if ((int)remaining < (int)(0x1e8U - unaff_D5)) {
-        count = remaining;
+        uVar4 = remaining;
       }
-      uVar3 = remaining - count;
-      *(int *)((int)entry + 6) = count + *(int *)((int)entry + 6);
+      *(int *)((int)entry + 6) = uVar4 + *(int *)((int)entry + 6);
       Floppy_CopyBytesWithAlignment
-                (count,(void *)(unaff_D5 + *(int *)((int)entry + 10) + 0x200),dst);
-      if (uVar3 != 0) {
+                (uVar4,(void *)(unaff_D5 + *(int *)((int)entry + 10) + 0x200),dst);
+      uVar3 = 0;
+      if (remaining - uVar4 != 0) {
         *(uint *)(*(int *)((int)entry + 10) + 0x1fc) = unaff_D3 + 1U;
-        bVar5 = (unaff_D3 + 1U & 0x3fff) == 0;
-        uVar3 = Floppy_StreamContinue(dst,unaff_A6,uVar3);
-        if (bVar5) {
+        bVar6 = (unaff_D3 + 1U & 0x3fff) == 0;
+        uVar3 = Floppy_StreamContinue(dst,unaff_A6,remaining - uVar4);
+        if (bVar6) {
           *(int *)((int)entry + 6) = unaff_D1 + *(int *)((int)entry + 6);
           Floppy_PosToCHS(*(int *)((int)entry + 6) - 1);
-          *(short *)((int)entry + 2) = sVar4;
+          *(short *)((int)entry + 2) = sVar5;
           uVar3 = 0;
         }
       }
     }
     else {
-      if (unaff_D2 == CONCAT22((short)(uVar3 >> 0x10),*(short *)((int)entry + 2)) + 1)
+      if (unaff_D2 == CONCAT22((short)(uVar4 >> 0x10),*(short *)((int)entry + 2)) + 1)
       goto LAB_00100710;
       *(undefined2 *)((int)entry + 2) = 0;
       unaff_D1 = piVar1[1];
-      bVar5 = *piVar1 == 2;
-      if (!bVar5) {
+      bVar6 = *piVar1 == 2;
+      if (!bVar6) {
         unaff_D1 = piVar1[0x7d];
-        bVar5 = unaff_D1 == 0;
+        bVar6 = unaff_D1 == 0;
       }
-      while (uVar3 = Floppy_TransferNonBlockingLen1Wrapper(), bVar5) {
-        if (sVar4 == *(short *)((int)entry + 2)) goto LAB_00100724;
+      while (uVar3 = Floppy_TransferNonBlockingLen1Wrapper(), bVar6) {
+        if (sVar5 == *(short *)((int)entry + 2)) goto LAB_00100724;
 LAB_00100710:
         unaff_D1 = piVar1[0x7e];
         sVar2 = *(short *)((int)entry + 2) + 1;
         *(short *)((int)entry + 2) = sVar2;
-        bVar5 = sVar2 == 0;
+        bVar6 = sVar2 == 0;
       }
     }
   }
@@ -3482,7 +3488,7 @@ uint __usercall Floppy_LoadByName(void *ctx,void *nameSrc,void *data,uint size)
                 base[4] = uVar2;
                 base[5] = 0;
                 puVar7 = base + 6;
-                puVar9 = (undefined1 *)data;
+                puVar9 = data;
                 if ((short)uVar3 != 0) {
                   uVar3 = (uint)(ushort)((short)uVar3 - 1);
                 }
@@ -3493,7 +3499,7 @@ uint __usercall Floppy_LoadByName(void *ctx,void *nameSrc,void *data,uint size)
                   uVar4 = (short)uVar3 - 1;
                   uVar3 = (uint)uVar4;
                   puVar7 = ctx_00;
-                  puVar9 = (undefined1 *)data;
+                  puVar9 = data;
                 } while (uVar4 != 0xffff);
                 uVar3 = Floppy_Checksum512Words(base);
                 base[5] = uVar3;
@@ -3758,8 +3764,7 @@ void __usercall Floppy_RecordCopyText(void *rec,void *text)
   do {
     cVar2 = cVar2 + '\x01';
     if (cVar2 == '\x1e') break;
-                    // WARNING: Load size is inaccurate
-    cVar1 = *text;
+    cVar1 = *(char *)text;
     *pcVar3 = cVar1;
     pcVar3 = pcVar3 + 1;
     text = (char *)((int)text + 1);
@@ -3806,7 +3811,7 @@ uint __usercall Floppy_DumpStatus(void *ctx,void *outBuf)
           *puVar6 = *puVar5;
           sVar2 = sVar2 + -1;
           puVar5 = puVar5 + 1;
-          puVar6 = (undefined1 *)outBuf;
+          puVar6 = outBuf;
         } while (sVar2 != -1);
         unaff_D1 = unaff_D1 + 1;
         uVar1 = *(uint *)((int)ctx + 0x34f0);
@@ -3932,8 +3937,7 @@ LAB_00100c6e:
     if (!bVar9) {
       return;
     }
-                    // WARNING: Load size is inaccurate
-    if (*ctx != 2) {
+    if (*(int *)ctx != 2) {
       return;
     }
     iVar4 = 2;
@@ -4098,35 +4102,37 @@ uint __usercall Floppy_HashLastPathComponent(char *path)
 {
   byte bVar1;
   uint uVar2;
-  uchar *puVar3;
-  byte *pbVar4;
+  uint uVar3;
+  uchar *puVar4;
   byte *pbVar5;
-  uchar *puVar6;
+  byte *pbVar6;
+  uchar *puVar7;
   
   uVar2 = 0xffffffff;
   floppyDriveFlags[0] = '\0';
-  puVar3 = (uchar *)path;
+  puVar4 = (uchar *)path;
   do {
-    puVar6 = puVar3;
+    puVar7 = puVar4;
     uVar2 = uVar2 + 1;
-    if (*puVar6 == '\0') break;
-    puVar3 = puVar6 + 1;
-  } while (*puVar6 != '/');
-  pbVar4 = floppyDriveFlags;
+    if (*puVar7 == '\0') break;
+    puVar4 = puVar7 + 1;
+  } while (*puVar7 != '/');
+  uVar3 = 0;
+  pbVar5 = floppyDriveFlags;
   if (uVar2 != 0) {
     do {
-      puVar3 = (uchar *)path + 1;
+      puVar4 = (uchar *)path + 1;
       bVar1 = Floppy_ToUpperOrZero(*path);
-      pbVar5 = pbVar4 + 1;
-      *pbVar4 = bVar1;
+      pbVar6 = pbVar5 + 1;
+      *pbVar5 = bVar1;
       uVar2 = (ushort)((ushort)bVar1 + (short)((uVar2 & 0xffff) * 0xd)) & 0x7ff;
-      path = (char *)puVar3;
-      pbVar4 = pbVar5;
-    } while (puVar6 != puVar3);
-    *pbVar5 = 0;
-    uVar2 = (uint)(ushort)((short)(uVar2 % 0x48) + 6);
+      path = (char *)puVar4;
+      pbVar5 = pbVar6;
+    } while (puVar7 != puVar4);
+    *pbVar6 = 0;
+    uVar3 = (uint)(ushort)((short)(uVar2 % 0x48) + 6);
   }
-  return uVar2;
+  return uVar3;
 }
 
 
@@ -4200,8 +4206,7 @@ uint __usercall Floppy_Checksum512Words(void *base)
   iVar1 = 0;
   sVar2 = 0x7f;
   do {
-                    // WARNING: Load size is inaccurate
-    iVar1 = *base + iVar1;
+    iVar1 = *(int *)base + iVar1;
     sVar2 = sVar2 + -1;
     base = (int *)((int)base + 4);
   } while (sVar2 != -1);
@@ -4748,8 +4753,7 @@ uint __usercall FloppyID_DecodeHeader(void)
 uint __usercall FloppyMFM_DecodeLongPair(void *p)
 
 {
-                    // WARNING: Load size is inaccurate
-  return *(uint *)((int)p + 4) & 0x55555555 | (*p & 0x55555555) * 2;
+  return *(uint *)((int)p + 4) & 0x55555555 | (*(uint *)p & 0x55555555) * 2;
 }
 
 
@@ -4797,8 +4801,7 @@ uint __usercall FloppyMFM_ComputeChecksum(void *p,uint bytes)
   sVar2 = ((ushort)(bytes >> 2) & 0x3fff) - 1;
   uVar1 = 0;
   do {
-                    // WARNING: Load size is inaccurate
-    uVar1 = *p ^ uVar1;
+    uVar1 = *(uint *)p ^ uVar1;
     sVar2 = sVar2 + -1;
     p = (uint *)((int)p + 4);
   } while (sVar2 != -1);
@@ -4844,8 +4847,7 @@ void __usercall FloppyMFM_DecodeInterleavedTrack(void *src,void *dst)
   sVar1 = 0x7f;
   puVar2 = (uint *)((int)src + 0x200);
   do {
-                    // WARNING: Load size is inaccurate
-    *(uint *)dst = *puVar2 & 0x55555555 | (*src & 0x55555555) * 2;
+    *(uint *)dst = *puVar2 & 0x55555555 | (*(uint *)src & 0x55555555) * 2;
     sVar1 = sVar1 + -1;
     src = (uint *)((int)src + 4);
     dst = (uint *)((int)dst + 4);
@@ -4865,11 +4867,9 @@ void __usercall FloppyMFM_EncodeBuffer(void *src,void *dst,uint sizeBytes)
   
   uVar1 = (sizeBytes >> 2) - 1;
   do {
-                    // WARNING: Load size is inaccurate
-    FloppyMFM_EncodeLong(*src >> 1,dst);
-                    // WARNING: Load size is inaccurate
+    FloppyMFM_EncodeLong(*(uint *)src >> 1,dst);
     p = (void *)((int)dst + (sizeBytes - 4));
-    FloppyMFM_EncodeLong(*src,p);
+    FloppyMFM_EncodeLong(*(uint *)src,p);
     dst = (void *)((int)p - sizeBytes);
     uVar2 = (short)uVar1 - 1;
     uVar1 = (uint)uVar2;
@@ -4889,8 +4889,7 @@ void __usercall FloppyMFM_WriteEncodedLong(uint value,void *buf)
   
   FloppyMFM_EncodeLong(value >> 1,buf);
   FloppyMFM_EncodeLong(value,buf);
-                    // WARNING: Load size is inaccurate
-  bVar1 = *buf;
+  bVar1 = *(byte *)buf;
   if ((*(byte *)((int)buf + -1) & 1) == 0) {
     if ((bVar1 & 0x40) != 0) {
       return;
@@ -4911,8 +4910,7 @@ void __usercall FloppyMFM_AdjustClockBit(void *p)
 {
   byte bVar1;
   
-                    // WARNING: Load size is inaccurate
-  bVar1 = *p;
+  bVar1 = *(byte *)p;
   if ((*(byte *)((int)p + -1) & 1) == 0) {
     if ((bVar1 & 0x40) != 0) {
       return;
@@ -5365,7 +5363,7 @@ void __usercall InitDisplayAndCopper(void)
   frontbufferBaseAltPtr = (dword)frontbufferBaseAlt;
   _kSpriteBlitQueueSentinel_A = 0xffffffff;
   _kSpriteBlitQueueSentinel_B = 0xffffffff;
-  sVar5 = 0x13f;
+  sVar5 = COPPERLIST_SIZE_BYTES_MINUS_ONE;
   puVar6 = copperListTemplate;
   pwVar8 = copperListBuffer;
   do {
@@ -5402,14 +5400,14 @@ void __usercall InitDisplayAndCopper(void)
     pwVar8 = pwVar8 + 2;
     sVar5 = sVar5 + -1;
   } while (sVar5 != -1);
-  bitPlane0BasePtr = (uint *)bitPlane0Base;
-  bitPlane1BasePtr = bitPlane0Base[0][1];
-  bitPlane2BasePtr = bitPlane0Base[0][2];
-  bitPlane3BasePtr = bitPlane0Base[0][3];
-  bitPlane0Base[0][0][0] = copperZeroLong;
-  bitPlane0Base[0][1][0] = copperZeroLong;
-  bitPlane0Base[0][2][0] = copperZeroLong;
-  bitPlane0Base[0][3][0] = copperZeroLong;
+  bitPlane0BasePtr = bitPlane0Base;
+  bitPlane1BasePtr = bitPlane1Base;
+  bitPlane2BasePtr = bitPlane2Base;
+  bitPlane3BasePtr = bitPlane3Base;
+  bitPlane0Base[0] = copperZeroLong;
+  bitPlane1Base[0] = copperZeroLong;
+  bitPlane2Base[0] = copperZeroLong;
+  bitPlane3Base[0] = copperZeroLong;
   UpdatePlanePtrsAndBlitParams();
   COP1LC = 0x2bb3c;
   uVar4 = COPJMP1;
@@ -5418,7 +5416,7 @@ void __usercall InitDisplayAndCopper(void)
   do {
     bVar2 = DMACONR._0_1_;
   } while ((bVar2 & 0x40) != 0);
-  DMACON = 0x400;
+  DMACON = DMACON_BLT_OFF;
   DMACON = 0x8280;
   DMACON = 0x8220;
   return;
@@ -5442,20 +5440,20 @@ void __usercall UpdatePlanePtrsAndBlitParams(void)
   int iVar11;
   
   if ((cameraXMod320 & 0xf) == 0) {
-    copperListBuffer[0x2d] = 0x86;
-    copperListBuffer[0x2f] = 0x86;
+    copperListBuffer[0x2d] = PITCH_DEST_MOD_ALIGNED;
+    copperListBuffer[0x2f] = PITCH_DEST_MOD_ALIGNED;
     copperListBuffer[0x31] = 0x30;
     copperListBuffer[0x25] = 0;
   }
   else {
-    copperListBuffer[0x2d] = 0x84;
-    copperListBuffer[0x2f] = 0x84;
+    copperListBuffer[0x2d] = PITCH_DEST_MOD_UNALIGNED;
+    copperListBuffer[0x2f] = PITCH_DEST_MOD_UNALIGNED;
     copperListBuffer[0x31] = 0x28;
     copperListBuffer[0x25] = (0x10 - (cameraXMod320 & 0xf)) * 0x11;
   }
   iVar10 = 0x2bc30;
   iVar11 = 0x2bc58;
-  iVar6 = (uint)cameraYMod320 * 0xb0;
+  iVar6 = (uint)cameraYMod320 * ROW_STRIDE_BYTES;
   if (usePlaneOffsetFlag[0] == 0) {
     if (useAltBaseFlag == 0) {
       pbVar7 = (byte *)(frontbufferBasePtr + iVar6);
@@ -5469,13 +5467,12 @@ void __usercall UpdatePlanePtrsAndBlitParams(void)
   }
   uVar1 = cameraXMod320 >> 3 & 0xfffe;
   pbVar7 = pbVar7 + uVar1;
-  if (usePlaneOffsetFlag[0] == 0) {
-    pbVar8 = (byte *)(frontbufferBasePtr + uVar1);
+  pbVar8 = (byte *)frontbufferBasePtr;
+  if (usePlaneOffsetFlag[0] != 0) {
+    pbVar8 = frontbufferMaskBuffer;
   }
-  else {
-    pbVar8 = frontbufferMaskBuffer + uVar1;
-  }
-  sVar9 = 3;
+  pbVar8 = pbVar8 + uVar1;
+  sVar9 = NUM_PLANES_MINUS1;
   puVar2 = bitPlane0BasePtr;
   puVar3 = bitPlane1BasePtr;
   puVar4 = bitPlane2BasePtr;
@@ -5497,8 +5494,8 @@ void __usercall UpdatePlanePtrsAndBlitParams(void)
     puVar4 = (uint *)CONCAT22(copperListBuffer[0xb],copperListBuffer[0xd]);
     puVar3 = (uint *)CONCAT22(copperListBuffer[7],copperListBuffer[9]);
     puVar2 = (uint *)CONCAT22(copperListBuffer[3],copperListBuffer[5]);
-    pbVar7 = pbVar7 + 0x2c;
-    pbVar8 = pbVar8 + 0x2c;
+    pbVar7 = pbVar7 + PLANE_STRIDE;
+    pbVar8 = pbVar8 + PLANE_STRIDE;
     iVar10 = iVar10 + 8;
     iVar11 = iVar11 + 8;
     sVar9 = sVar9 + -1;
@@ -5518,19 +5515,15 @@ void __usercall UpdatePlanePtrsAndBlitParams(void)
 void __usercall SwapBuffersAndCameraViewState(void)
 
 {
-  uint (*paauVar1) [4] [225];
-  uint (*paauVar2) [4] [225];
-  uint (*paauVar3) [4] [225];
-  
   if ((byte *)frontbufferBasePtr == frontbufferBase) {
-    bitPlane0BasePtr = (uint *)(bitPlane0Base + 1);
-    paauVar1 = bitPlane0Base + 1;
-    paauVar2 = bitPlane0Base + 1;
-    paauVar3 = bitPlane0Base + 1;
-    bitPlane0Base[1][0][0] = copperZeroLong;
-    bitPlane0Base[1][1][0] = copperZeroLong;
-    bitPlane0Base[1][2][0] = copperZeroLong;
-    bitPlane0Base[1][3][0] = copperZeroLong;
+    bitPlane0BasePtr = bitPlane0BaseAlt;
+    bitPlane1BasePtr = bitPlane1BaseAlt;
+    bitPlane2BasePtr = bitPlane2BaseAlt;
+    bitPlane3BasePtr = bitPlane3BaseAlt;
+    bitPlane0BaseAlt[0] = copperZeroLong;
+    bitPlane1BaseAlt[0] = copperZeroLong;
+    bitPlane2BaseAlt[0] = copperZeroLong;
+    bitPlane3BaseAlt[0] = copperZeroLong;
     frontbufferBasePtr = (dword)frontbufferBaseAlt;
     frontbufferBaseAltPtr = (dword)frontbufferBase;
     spriteBlitQueue = (dword)&kSpriteBlitQueueSentinel_B;
@@ -5548,14 +5541,14 @@ void __usercall SwapBuffersAndCameraViewState(void)
     g_cameraY.s.i = cameraYSaved1;
   }
   else {
-    bitPlane0BasePtr = (uint *)bitPlane0Base;
-    paauVar1 = bitPlane0Base;
-    paauVar2 = bitPlane0Base;
-    paauVar3 = bitPlane0Base;
-    bitPlane0Base[0][0][0] = copperZeroLong;
-    bitPlane0Base[0][1][0] = copperZeroLong;
-    bitPlane0Base[0][2][0] = copperZeroLong;
-    bitPlane0Base[0][3][0] = copperZeroLong;
+    bitPlane0BasePtr = bitPlane0Base;
+    bitPlane1BasePtr = bitPlane1Base;
+    bitPlane2BasePtr = bitPlane2Base;
+    bitPlane3BasePtr = bitPlane3Base;
+    bitPlane0Base[0] = copperZeroLong;
+    bitPlane1Base[0] = copperZeroLong;
+    bitPlane2Base[0] = copperZeroLong;
+    bitPlane3Base[0] = copperZeroLong;
     frontbufferBasePtr = (dword)frontbufferBase;
     frontbufferBaseAltPtr = (dword)frontbufferBaseAlt;
     spriteBlitQueue = (dword)&kSpriteBlitQueueSentinel_A;
@@ -5572,9 +5565,6 @@ void __usercall SwapBuffersAndCameraViewState(void)
     g_cameraX.s.i = cameraXSaved0;
     g_cameraY.s.i = cameraYSaved0;
   }
-  bitPlane3BasePtr = (*paauVar3)[3];
-  bitPlane2BasePtr = (*paauVar2)[2];
-  bitPlane1BasePtr = (*paauVar1)[1];
   return;
 }
 
@@ -5630,7 +5620,7 @@ void __usercall PanicHaltLoop(void)
   } while ((pl2Fire == 0) || (pl2Direction != 0));
   DrawMenuTextCentered(0x98,0xe1,0xf,(char *)panicOutBuf,&bigCharsTable);
   WaitForVSync();
-  paletteBankIndex = 4;
+  paletteIndex = 4;
   FadeIn();
   do {
                     // WARNING: Do nothing block with infinite loop
@@ -5808,11 +5798,11 @@ void __usercall ProcessSpriteBlitQueue(void)
   do {
     bVar2 = DMACONR._0_1_;
   } while ((bVar2 & 0x40) != 0);
-  DMACON = 0x400;
+  DMACON = DMACON_BLT_OFF;
   DAT_00dff044 = 0xffff;
   DAT_00dff046 = 0xffff;
   DAT_00dff042 = 0;
-  DAT_00dff040 = 0x9f0;
+  DAT_00dff040 = BLTCON0_USEA_USED_LF_F0;
   piVar3 = (int *)spriteBlitQueue;
   while( true ) {
     DMACON = 0x8400;
@@ -5820,7 +5810,7 @@ void __usercall ProcessSpriteBlitQueue(void)
     do {
       bVar2 = DMACONR._0_1_;
     } while ((bVar2 & 0x40) != 0);
-    DMACON = 0x400;
+    DMACON = DMACON_BLT_OFF;
     DAT_00dff050 = *piVar3;
     if (DAT_00dff050 < 0) break;
     DAT_00dff054 = piVar3[1];
@@ -5841,7 +5831,7 @@ void __usercall LoadPitchMap(ushort mapIndex)
   uint unaff_D1;
   
   LoadFile(*(char **)((int)&swcPitchMapFiles + (int)(short)(mapIndex << 2)),g_pitchDatBuffer);
-  if (0xb220 < unaff_D1) {
+  if (PITCHFILE_MAX_SIZE < unaff_D1) {
     panicReasonCode = 3;
     PanicHaltLoop();
   }
@@ -6045,15 +6035,16 @@ void __usercall ScrollXUpdateColumnsAndBlit(void)
   if (g_cameraX.s.i != g_oldCameraX) {
     if ((short)(g_cameraX.s.i - g_oldCameraX) < 0) {
       sVar4 = 0;
-      if ((short)g_cameraX.s.i >> 4 == (short)g_oldCameraX >> 4) {
+      if ((short)g_cameraX.s.i >> TILE_SHIFT_X == (short)g_oldCameraX >> TILE_SHIFT_X) {
         g_oldCameraX = g_cameraX.s.i;
         cameraCoordinatesValid = 0;
         return;
       }
     }
     else {
-      sVar4 = 0x14f;
-      if ((short)(g_cameraX.s.i + 0x14f) >> 4 == (short)(g_oldCameraX + 0x14f) >> 4) {
+      sVar4 = SCROLL_RIGHT_EDGE_X;
+      if ((short)(g_cameraX.s.i + SCROLL_RIGHT_EDGE_X) >> TILE_SHIFT_X ==
+          (short)(g_oldCameraX + SCROLL_RIGHT_EDGE_X) >> TILE_SHIFT_X) {
         g_oldCameraX = g_cameraX.s.i;
         cameraCoordinatesValid = 0;
         return;
@@ -6066,47 +6057,43 @@ void __usercall ScrollXUpdateColumnsAndBlit(void)
     do {
       bVar2 = DMACONR._0_1_;
     } while ((bVar2 & 0x40) != 0);
-    DMACON = 0x400;
-    DAT_00dff066 = 0x2a;
+    DMACON = DMACON_BLT_OFF;
+    DAT_00dff066 = BLTDMOD_PLANE_STEP;
     DAT_00dff044 = 0xffff;
     DAT_00dff046 = 0xffff;
     DAT_00dff042 = 0;
-    DAT_00dff040 = 0x9f0;
+    DAT_00dff040 = BLTCON0_USEA_USED_LF_F0;
     uVar3 = cameraYMod320;
-    if ((cameraYMod320 & 0xf) != 0) {
-      uVar3 = (0x10 - (cameraYMod320 & 0xf)) + cameraYMod320;
+    if ((cameraYMod320 & TILE_MASK) != 0) {
+      uVar3 = (TILE_HEIGHT - (cameraYMod320 & TILE_MASK)) + cameraYMod320;
       DMACON = 0x8400;
       uVar1 = DMACONR._0_1_;
       do {
         bVar2 = DMACONR._0_1_;
       } while ((bVar2 & 0x40) != 0);
-      DMACON = 0x400;
+      DMACON = DMACON_BLT_OFF;
     }
-    for (; uVar3 < 0x110; uVar3 = uVar3 + 0x10) {
+    for (; uVar3 < SCREEN_HEIGHT; uVar3 = uVar3 + TILE_HEIGHT) {
       DMACON = 0x8400;
       uVar1 = DMACONR._0_1_;
       do {
         bVar2 = DMACONR._0_1_;
       } while ((bVar2 & 0x40) != 0);
-      DMACON = 0x400;
+      DMACON = DMACON_BLT_OFF;
     }
     DMACON = 0x8400;
     uVar1 = DMACONR._0_1_;
     do {
       bVar2 = DMACONR._0_1_;
     } while ((bVar2 & 0x40) != 0);
-    DMACON = 0x400;
-    uVar3 = cameraYMod320;
-    if (0xf < cameraYMod320) {
+    DMACON = DMACON_BLT_OFF;
+    for (uVar3 = cameraYMod320; TILE_HEIGHT - 1 < uVar3; uVar3 = uVar3 + -TILE_HEIGHT) {
+      DMACON = 0x8400;
+      uVar1 = DMACONR._0_1_;
       do {
-        DMACON = 0x8400;
-        uVar1 = DMACONR._0_1_;
-        do {
-          bVar2 = DMACONR._0_1_;
-        } while ((bVar2 & 0x40) != 0);
-        DMACON = 0x400;
-        uVar3 = uVar3 - 0x10;
-      } while (0xf < uVar3);
+        bVar2 = DMACONR._0_1_;
+      } while ((bVar2 & 0x40) != 0);
+      DMACON = DMACON_BLT_OFF;
     }
     if (uVar3 != 0) {
       DMACON = 0x8400;
@@ -6114,23 +6101,24 @@ void __usercall ScrollXUpdateColumnsAndBlit(void)
       do {
         bVar2 = DMACONR._0_1_;
       } while ((bVar2 & 0x40) != 0);
-      DMACON = 0x400;
+      DMACON = DMACON_BLT_OFF;
     }
-    DAT_00dff050 = frontbufferBasePtr + ((ushort)(sVar4 + cameraXMod320) >> 3 & 0xfffe);
+    DAT_00dff050 = frontbufferBasePtr +
+                   ((ushort)(sVar4 + cameraXMod320) >> 3 & WORD_ALIGN_EVEN_MASK);
     DMACON = 0x8400;
     uVar1 = DMACONR._0_1_;
     do {
       bVar2 = DMACONR._0_1_;
     } while ((bVar2 & 0x40) != 0);
-    DMACON = 0x400;
+    DMACON = DMACON_BLT_OFF;
     DAT_00dff054 = frontbufferMaskBuffer + (DAT_00dff050 - frontbufferBasePtr);
-    DAT_00dff064 = 0x2a;
+    DAT_00dff064 = BLTDMOD_PLANE_STEP;
     DMACON = 0x8400;
     uVar1 = DMACONR._0_1_;
     do {
       bVar2 = DMACONR._0_1_;
     } while ((bVar2 & 0x40) != 0);
-    DMACON = 0x400;
+    DMACON = DMACON_BLT_OFF;
     DAT_00dff058 = 1;
   }
   return;
@@ -6170,42 +6158,44 @@ void __usercall ScrollYUpdateRowsAndBlit(void)
       uVar4 = -uVar4;
     }
     else {
-      sVar8 = 0x110 - uVar4;
+      sVar8 = SCREEN_HEIGHT - uVar4;
     }
     g_oldCameraY = g_cameraY.s.i;
     cameraCoordinatesValid = 0;
-    piVar12 = (int *)((int)(short)((g_cameraX.s.i >> 4) << 2) +
-                     (uint)((ushort)(sVar8 + g_cameraY.s.i) >> 4) * 0xa8 + 0x400);
+    piVar12 = (int *)((int)(short)((g_cameraX.s.i >> TILE_SHIFT_X) << 2) +
+                     (uint)((ushort)(sVar8 + g_cameraY.s.i) >> TILE_SHIFT_X) * PITCH_PTR_ROW_BYTES +
+                     0x400);
     uVar7 = sVar8 + cameraYMod320;
-    if (0x10f < uVar7) {
-      uVar7 = uVar7 - 0x110;
+    if (SCREEN_HEIGHT - 1 < uVar7) {
+      uVar7 = uVar7 + -SCREEN_HEIGHT;
     }
     puVar14 = (undefined2 *)
-              ((uint)uVar7 * 0xb0 + (cameraXMod320 >> 3 & 0xfffe) + frontbufferBasePtr);
+              ((uint)uVar7 * ROW_STRIDE_BYTES +
+              (cameraXMod320 >> 3 & WORD_ALIGN_EVEN_MASK) + frontbufferBasePtr);
     if ((g_cameraX.s.i & 0xf) == 0) {
       sVar9 = 0x14;
-      iVar10 = 0x86;
+      iVar10 = PITCH_DEST_MOD_ALIGNED;
     }
     else {
       sVar9 = 0x15;
-      iVar10 = 0x84;
+      iVar10 = PITCH_DEST_MOD_UNALIGNED;
     }
     puVar17 = puVar14 + 0x16;
     puVar19 = puVar14 + 0x2c;
     puVar21 = puVar14 + 0x42;
     uVar7 = sVar8 + cameraYMod320;
-    if (0x10f < uVar7) {
-      uVar7 = uVar7 - 0x110;
+    if (SCREEN_HEIGHT - 1 < uVar7) {
+      uVar7 = uVar7 + -SCREEN_HEIGHT;
     }
-    word_103284 = sVar9 + 1;
-    word_10328A = 0;
-    word_103290 = 0;
-    dword_10328C = 0;
-    iVar6 = (int)(short)((sVar8 + g_cameraY.s.i & 0xf) << 3);
+    blitWordCount = sVar9 + 1;
+    maskBlitPendingBytesA = 0;
+    maskBlitPendingBytesB = 0;
+    maskBlitSecondStreamPtr = 0;
+    iVar6 = (int)(short)((sVar8 + g_cameraY.s.i & TILE_MASK) << NUM_PLANES_SHIFT_PLUS1);
     sVar8 = uVar4 - 1;
     sVar5 = sVar9;
     piVar13 = piVar12;
-    dword_103286 = (dword)puVar14;
+    maskBlitDestPtr = (dword)puVar14;
     do {
       do {
         puVar11 = (undefined2 *)(iVar6 + *piVar13);
@@ -6224,10 +6214,10 @@ void __usercall ScrollYUpdateRowsAndBlit(void)
         puVar19 = puVar18;
         puVar21 = puVar20;
       } while (sVar5 != -1);
-      word_10328A = word_10328A + 4;
-      word_103290 = word_103290 + 4;
-      iVar6 = iVar6 + 8;
-      if ((short)iVar6 == 0x80) {
+      maskBlitPendingBytesA = maskBlitPendingBytesA + NUM_PLANES;
+      maskBlitPendingBytesB = maskBlitPendingBytesB + NUM_PLANES;
+      iVar6 = iVar6 + SRC_SCANLINE_BYTES;
+      if ((short)iVar6 == TILE_SIZE) {
         piVar12 = piVar12 + 0x2a;
         iVar6 = 0;
       }
@@ -6236,14 +6226,14 @@ void __usercall ScrollYUpdateRowsAndBlit(void)
       puVar19 = (undefined2 *)(iVar10 + (int)puVar18);
       puVar21 = (undefined2 *)(iVar10 + (int)puVar20);
       uVar7 = uVar7 + 1;
-      if (uVar7 == 0x110) {
+      if (uVar7 == SCREEN_HEIGHT) {
         puVar14 = puVar14 + -0x5d80;
         puVar17 = puVar17 + -0x5d80;
         puVar19 = puVar19 + -0x5d80;
         puVar21 = puVar21 + -0x5d80;
         uVar7 = 0;
-        word_103290 = 0;
-        dword_10328C = (dword)puVar14;
+        maskBlitPendingBytesB = 0;
+        maskBlitSecondStreamPtr = (dword)puVar14;
       }
       sVar8 = sVar8 + -1;
       sVar5 = sVar9;
@@ -6254,60 +6244,60 @@ void __usercall ScrollYUpdateRowsAndBlit(void)
     do {
       bVar2 = DMACONR._0_1_;
     } while ((bVar2 & 0x40) != 0);
-    DMACON = 0x400;
+    DMACON = DMACON_BLT_OFF;
     DAT_00dff044 = 0xffff;
     DAT_00dff046 = 0xffff;
     DAT_00dff042 = 0;
-    DAT_00dff040 = 0x9f0;
-    DAT_00dff064 = (0x16 - word_103284) * 2;
-    if (dword_10328C != 0) {
-      word_10328A = word_10328A - word_103290;
+    DAT_00dff040 = BLTCON0_USEA_USED_LF_F0;
+    DAT_00dff064 = (PLANE_STRIDE_DIV2 - blitWordCount) * 2;
+    if (maskBlitSecondStreamPtr != 0) {
+      maskBlitPendingBytesA = maskBlitPendingBytesA - maskBlitPendingBytesB;
     }
     DMACON = 0x8400;
     uVar1 = DMACONR._0_1_;
     do {
       bVar2 = DMACONR._0_1_;
     } while ((bVar2 & 0x40) != 0);
-    DMACON = 0x400;
-    DAT_00dff050 = dword_103286;
-    DAT_00dff054 = frontbufferMaskBuffer + (dword_103286 - frontbufferBasePtr);
-    while (word_10328A != 0) {
-      wVar3 = word_10328A;
-      if (0x400 < word_10328A) {
+    DMACON = DMACON_BLT_OFF;
+    DAT_00dff050 = maskBlitDestPtr;
+    DAT_00dff054 = frontbufferMaskBuffer + (maskBlitDestPtr - frontbufferBasePtr);
+    while (maskBlitPendingBytesA != 0) {
+      wVar3 = maskBlitPendingBytesA;
+      if (0x400 < maskBlitPendingBytesA) {
         wVar3 = 0x400;
       }
-      word_10328A = word_10328A - wVar3;
-      DAT_00dff058 = word_103284 + wVar3 * 0x40;
+      maskBlitPendingBytesA = maskBlitPendingBytesA - wVar3;
+      DAT_00dff058 = blitWordCount + wVar3 * 0x40;
       DMACON = 0x8400;
       uVar1 = DMACONR._0_1_;
       do {
         bVar2 = DMACONR._0_1_;
       } while ((bVar2 & 0x40) != 0);
-      DMACON = 0x400;
+      DMACON = DMACON_BLT_OFF;
     }
     DAT_00dff066 = DAT_00dff064;
-    if ((dword_10328C != 0) && (word_103290 != 0)) {
+    if ((maskBlitSecondStreamPtr != 0) && (maskBlitPendingBytesB != 0)) {
       DMACON = 0x8400;
       uVar1 = DMACONR._0_1_;
       do {
         bVar2 = DMACONR._0_1_;
       } while ((bVar2 & 0x40) != 0);
-      DMACON = 0x400;
-      DAT_00dff050 = dword_10328C;
-      DAT_00dff054 = frontbufferMaskBuffer + (dword_10328C - frontbufferBasePtr);
-      while (word_103290 != 0) {
-        wVar3 = word_103290;
-        if (0x400 < word_103290) {
+      DMACON = DMACON_BLT_OFF;
+      DAT_00dff050 = maskBlitSecondStreamPtr;
+      DAT_00dff054 = frontbufferMaskBuffer + (maskBlitSecondStreamPtr - frontbufferBasePtr);
+      while (maskBlitPendingBytesB != 0) {
+        wVar3 = maskBlitPendingBytesB;
+        if (0x400 < maskBlitPendingBytesB) {
           wVar3 = 0x400;
         }
-        word_103290 = word_103290 - wVar3;
-        DAT_00dff058 = word_103284 + wVar3 * 0x40;
+        maskBlitPendingBytesB = maskBlitPendingBytesB - wVar3;
+        DAT_00dff058 = blitWordCount + wVar3 * 0x40;
         DMACON = 0x8400;
         uVar1 = DMACONR._0_1_;
         do {
           bVar2 = DMACONR._0_1_;
         } while ((bVar2 & 0x40) != 0);
-        DMACON = 0x400;
+        DMACON = DMACON_BLT_OFF;
       }
     }
   }
@@ -6334,7 +6324,7 @@ void __usercall ApplyFadeStep(ushort fadeLevel)
     puVar6 = copperListBuffer + 0x39;
     puVar7 = copperListBuffer + 0x59;
     sVar4 = 0xf;
-    puVar5 = *(ushort **)((int)&paletteBankTable + (int)(short)(paletteBankIndex << 2));
+    puVar5 = *(ushort **)((int)paletteTable + (int)(short)(paletteIndex << 2));
     do {
       uVar3 = uVar1 & *puVar5 >> (uVar2 & 0x3f);
       *puVar6 = uVar3;
@@ -6352,7 +6342,7 @@ void __usercall ApplyFadeStep(ushort fadeLevel)
   puVar6 = copperListBuffer + 0x39;
   puVar7 = copperListBuffer + 0x59;
   sVar4 = 0xf;
-  puVar5 = *(ushort **)((int)&paletteBankTable + (int)(short)(paletteBankIndex << 2));
+  puVar5 = *(ushort **)((int)paletteTable + (int)(short)(paletteIndex << 2));
   do {
     uVar3 = uVar1 & *puVar5 >> (uVar2 & 0x3f);
     if ((uVar3 & 0xf) < 2) {
@@ -6454,29 +6444,27 @@ void __usercall FadeOutAndIn(void)
 
 
 
-void __usercall ProcessImageCommandStream(void)
+void __usercall ProcessImageCommandStream(ushort *cmdBuffer,uchar *workBuffer)
 
 {
   ushort uVar1;
   short sVar2;
   ushort unaff_D1w;
   ushort unaff_D2w;
-  ushort *unaff_A0;
   byte *pbVar3;
   ushort *puVar4;
   char *pcVar5;
   ushort *puVar6;
   undefined2 *puVar7;
-  dword unaff_A3;
   undefined1 uVar8;
   
-  imageStreamCursor = unaff_A3;
+  imageStreamCursor = (dword)workBuffer;
 read_next_opcode:
   do {
-    puVar6 = unaff_A0 + 1;
-    if (*unaff_A0 == 0xffff) {
+    puVar6 = cmdBuffer + 1;
+    if (*cmdBuffer == 0xffff) {
 final_copy_and_return:
-      sVar2 = 0x5dd7;
+      sVar2 = FB_COPY_WORDS_MINUS1;
       puVar7 = (undefined2 *)frontbufferBasePtr;
       pbVar3 = frontbufferMaskBuffer;
       do {
@@ -6487,7 +6475,7 @@ final_copy_and_return:
       } while (sVar2 != -1);
       return;
     }
-    uVar1 = *unaff_A0 & 0xf000;
+    uVar1 = *cmdBuffer & 0xf000;
     if (uVar1 == 0x7000) {
       pcVar5 = *(char **)puVar6;
 process_nested_list:
@@ -6495,7 +6483,7 @@ process_nested_list:
       do {
         LoadFile(pcVar5,frontbufferMaskBuffer);
       } while (!(bool)uVar8);
-      unaff_A0 = unaff_A0 + 3;
+      cmdBuffer = cmdBuffer + 3;
       goto read_next_opcode;
     }
     if (uVar1 == 0x8000) {
@@ -6503,91 +6491,91 @@ process_nested_list:
       goto process_nested_list;
     }
     if (uVar1 == 0xc000) {
-      uVar1 = *unaff_A0;
+      uVar1 = *cmdBuffer;
       unaff_D1w = (ushort)*(byte *)puVar6;
-      puVar6 = unaff_A0 + 2;
-      unaff_D2w = (ushort)*(byte *)((int)unaff_A0 + 3);
+      puVar6 = cmdBuffer + 2;
+      unaff_D2w = (ushort)*(byte *)((int)cmdBuffer + 3);
 dispatch_draw_pack_A:
-      unaff_A0 = puVar6 + 1;
+      cmdBuffer = puVar6 + 1;
       BlitDispatch(uVar1 & 0xfff,unaff_D1w,unaff_D2w,(ushort)*(byte *)puVar6,(ushort)(byte)*puVar6,
                    0xffff,0,0,frontbufferMaskBuffer,(void *)0x0);
     }
     else {
       if (uVar1 == 0x1000) {
-        uVar1 = *unaff_A0;
+        uVar1 = *cmdBuffer;
         unaff_D1w = *puVar6;
-        puVar6 = unaff_A0 + 3;
-        unaff_D2w = unaff_A0[2];
+        puVar6 = cmdBuffer + 3;
+        unaff_D2w = cmdBuffer[2];
         goto dispatch_draw_pack_A;
       }
       if (uVar1 == 0x5000) {
-        uVar1 = *unaff_A0;
+        uVar1 = *cmdBuffer;
         unaff_D1w = *puVar6;
-        puVar6 = unaff_A0 + 3;
-        unaff_D2w = unaff_A0[2];
-        pbVar3 = (byte *)((int)unaff_A0 + 7);
-        unaff_A0 = unaff_A0 + 4;
+        puVar6 = cmdBuffer + 3;
+        unaff_D2w = cmdBuffer[2];
+        pbVar3 = (byte *)((int)cmdBuffer + 7);
+        cmdBuffer = cmdBuffer + 4;
         BlitDispatch(uVar1 & 0xfff,unaff_D1w,unaff_D2w,(ushort)*(byte *)puVar6,(ushort)*pbVar3,
                      0xfffe,0,0,frontbufferMaskBuffer,(void *)0x0);
       }
       else if (uVar1 == 0xd000) {
-        uVar1 = *unaff_A0;
+        uVar1 = *cmdBuffer;
         unaff_D1w = (ushort)*(byte *)puVar6;
-        puVar6 = unaff_A0 + 2;
-        unaff_D2w = (ushort)*(byte *)((int)unaff_A0 + 3);
+        puVar6 = cmdBuffer + 2;
+        unaff_D2w = (ushort)*(byte *)((int)cmdBuffer + 3);
 dispatch_draw_pack_B:
-        unaff_A0 = puVar6 + 2;
+        cmdBuffer = puVar6 + 2;
         BlitDispatch(uVar1 & 0xfff,unaff_D1w,unaff_D2w,(ushort)*(byte *)puVar6,(ushort)(byte)*puVar6
                      ,0xffff,(short)*(char *)(puVar6 + 1),(short)*(char *)((int)puVar6 + 3),
                      frontbufferMaskBuffer,(void *)0x0);
       }
       else {
         if (uVar1 == 0x2000) {
-          uVar1 = *unaff_A0;
+          uVar1 = *cmdBuffer;
           unaff_D1w = *puVar6;
-          puVar6 = unaff_A0 + 3;
-          unaff_D2w = unaff_A0[2];
+          puVar6 = cmdBuffer + 3;
+          unaff_D2w = cmdBuffer[2];
           goto dispatch_draw_pack_B;
         }
         if (uVar1 == 0xe000) {
-          uVar1 = *unaff_A0;
+          uVar1 = *cmdBuffer;
           unaff_D1w = (ushort)*(byte *)puVar6;
-          puVar6 = unaff_A0 + 2;
-          unaff_D2w = (ushort)*(byte *)((int)unaff_A0 + 3);
+          puVar6 = cmdBuffer + 2;
+          unaff_D2w = (ushort)*(byte *)((int)cmdBuffer + 3);
 dispatch_draw_pack_C:
-          unaff_A0 = puVar6 + 3;
+          cmdBuffer = puVar6 + 3;
           BlitDispatch(uVar1 & 0xfff,unaff_D1w,unaff_D2w,(ushort)*(byte *)puVar6,
                        (ushort)(byte)*puVar6,puVar6[2],(short)*(char *)(puVar6 + 1),
                        (short)*(char *)((int)puVar6 + 3),frontbufferMaskBuffer,(void *)0x0);
         }
         else {
           if (uVar1 == 0x3000) {
-            uVar1 = *unaff_A0;
+            uVar1 = *cmdBuffer;
             unaff_D1w = *puVar6;
-            puVar6 = unaff_A0 + 3;
-            unaff_D2w = unaff_A0[2];
+            puVar6 = cmdBuffer + 3;
+            unaff_D2w = cmdBuffer[2];
             goto dispatch_draw_pack_C;
           }
           if (uVar1 == 0xa000) {
-            uVar1 = *unaff_A0;
+            uVar1 = *cmdBuffer;
             unaff_D1w = *puVar6;
-            puVar6 = unaff_A0 + 3;
-            unaff_D2w = unaff_A0[2];
-            pbVar3 = (byte *)((int)unaff_A0 + 7);
-            puVar4 = unaff_A0 + 4;
-            pcVar5 = (char *)((int)unaff_A0 + 9);
-            unaff_A0 = unaff_A0 + 5;
+            puVar6 = cmdBuffer + 3;
+            unaff_D2w = cmdBuffer[2];
+            pbVar3 = (byte *)((int)cmdBuffer + 7);
+            puVar4 = cmdBuffer + 4;
+            pcVar5 = (char *)((int)cmdBuffer + 9);
+            cmdBuffer = cmdBuffer + 5;
             BlitDispatch(uVar1 & 0xfff,unaff_D1w,unaff_D2w,(ushort)*(byte *)puVar6,(ushort)*pbVar3,
                          0xffff,(short)*(char *)puVar4,(short)*pcVar5,frontbufferMaskBuffer,
                          (void *)((int)&NULL + 1));
           }
           else if (uVar1 == 0xf000) {
-            uVar1 = *unaff_A0;
+            uVar1 = *cmdBuffer;
             unaff_D1w = (ushort)*(byte *)puVar6;
-            puVar6 = unaff_A0 + 2;
-            unaff_D2w = (ushort)*(byte *)((int)unaff_A0 + 3);
+            puVar6 = cmdBuffer + 2;
+            unaff_D2w = (ushort)*(byte *)((int)cmdBuffer + 3);
 dispatch_draw_pack_D:
-            unaff_A0 = puVar6 + 3;
+            cmdBuffer = puVar6 + 3;
             BlitDispatch(uVar1 & 0xfff,unaff_D1w,unaff_D2w,(ushort)*(byte *)puVar6,
                          (ushort)(byte)*puVar6,puVar6[2],(short)*(char *)(puVar6 + 1),
                          (short)*(char *)((int)puVar6 + 3),frontbufferMaskBuffer,
@@ -6595,10 +6583,10 @@ dispatch_draw_pack_D:
           }
           else {
             if (uVar1 == 0xb000) {
-              uVar1 = *unaff_A0;
+              uVar1 = *cmdBuffer;
               unaff_D1w = *puVar6;
-              puVar6 = unaff_A0 + 3;
-              unaff_D2w = unaff_A0[2];
+              puVar6 = cmdBuffer + 3;
+              unaff_D2w = cmdBuffer[2];
               goto dispatch_draw_pack_D;
             }
             if (uVar1 != 0x9000) {
@@ -6606,9 +6594,9 @@ dispatch_draw_pack_D:
               PanicHaltLoop();
               goto final_copy_and_return;
             }
-            uVar1 = *unaff_A0;
-            puVar4 = unaff_A0 + 2;
-            unaff_A0 = unaff_A0 + 3;
+            uVar1 = *cmdBuffer;
+            puVar4 = cmdBuffer + 2;
+            cmdBuffer = cmdBuffer + 3;
             BlitDispatch(uVar1 & 0xfff,unaff_D1w,unaff_D2w,*puVar6,*puVar4,0xffff,0,0,(void *)0x0,
                          (void *)0x0);
           }
@@ -6633,8 +6621,8 @@ BlitDispatch(ushort spriteIndex,ushort xOffset,ushort yOffset,ushort width,ushor
   short sVar6;
   ushort *puVar7;
   ushort *puVar8;
-  ushort *puVar9;
-  ushort *puVar10;
+  dword *pdVar9;
+  dword *pdVar10;
   
   if (maskSel == 0) {
     panicReasonCode = 0xc6;
@@ -6656,43 +6644,44 @@ BlitDispatch(ushort spriteIndex,ushort xOffset,ushort yOffset,ushort width,ushor
     *(ushort *)(imageStreamCursor + 0xc) = height;
     *(undefined2 *)(imageStreamCursor + 8) = 0;
     *(char *)(imageStreamCursor + 8) = -(planesFlag != (void *)0x0);
+    puVar7 = (ushort *)0x0;
     if (src != (void *)0x0) {
-      src = (void *)((int)src + (uint)yOffset * 0xa0 + (xOffset >> 3 & 0xfffe));
+      puVar7 = (ushort *)
+               ((int)src + (uint)yOffset * IMAGE_ROW_STRIDE_BYTES + (xOffset >> 3 & 0xfffe));
     }
     uVar3 = (ushort)(width + 0xf) >> 4;
     *(ushort *)(imageStreamCursor + 0xe) = uVar3;
     *(ushort *)(imageStreamCursor + 0x14) = uVar3 * 2 + height * 0x40;
-    puVar10 = (ushort *)(imageStreamCursor + 0x18);
-    *(ushort **)imageStreamCursor = puVar10;
-    if ((ushort *)src == (ushort *)0x0) {
-      sVar4 = height * 4 + -1;
+    pdVar9 = (dword *)(imageStreamCursor + 0x18);
+    *(dword **)imageStreamCursor = pdVar9;
+    if (puVar7 == (ushort *)0x0) {
+      sVar4 = height * NUM_PLANES + -1;
       sVar1 = uVar3 - 1;
       do {
         do {
-          puVar9 = puVar10 + 1;
-          *puVar10 = 0x5555;
+          pdVar10 = (dword *)((int)pdVar9 + 2);
+          *(ushort *)pdVar9 = 0x5555;
           sVar1 = sVar1 + -1;
-          puVar10 = puVar9;
+          pdVar9 = pdVar10;
         } while (sVar1 != -1);
         sVar4 = sVar4 + -1;
         sVar1 = uVar3 - 1;
       } while (sVar4 != -1);
-      src = (ushort *)0x0;
+      puVar7 = (ushort *)0x0;
     }
     else {
-      sVar4 = height * 4 + -1;
+      sVar4 = height * NUM_PLANES + -1;
       sVar1 = uVar3 - 1;
       do {
         do {
-          puVar7 = (ushort *)((int)src + 2);
-                    // WARNING: Load size is inaccurate
-          puVar9 = puVar10 + 1;
-          *puVar10 = *src;
+          puVar8 = puVar7 + 1;
+          pdVar10 = (dword *)((int)pdVar9 + 2);
+          *(ushort *)pdVar9 = *puVar7;
           sVar1 = sVar1 + -1;
-          src = puVar7;
-          puVar10 = puVar9;
+          puVar7 = puVar8;
+          pdVar9 = pdVar10;
         } while (sVar1 != -1);
-        src = puVar7 + (0x14 - (short)uVar3);
+        puVar7 = puVar8 + (0x14 - (short)uVar3);
         sVar4 = sVar4 + -1;
         sVar1 = uVar3 - 1;
       } while (sVar4 != -1);
@@ -6700,58 +6689,59 @@ BlitDispatch(ushort spriteIndex,ushort xOffset,ushort yOffset,ushort width,ushor
     *(undefined4 *)(imageStreamCursor + 4) = 0;
     if (maskSel != 0) {
       if ((short)maskSel < 0) {
-        *(ushort **)(imageStreamCursor + 4) = puVar9;
-        if (((ushort *)src == (ushort *)0x0) || (maskSel == 0xfffe)) {
+        *(dword **)(imageStreamCursor + 4) = pdVar10;
+        if ((puVar7 == (ushort *)0x0) || (maskSel == 0xfffe)) {
           sVar4 = *(short *)(imageStreamCursor + 0xe);
           sVar1 = *(short *)(imageStreamCursor + 10);
           sVar5 = *(short *)(imageStreamCursor + 0xc);
           if (planesFlag != (void *)0x0) {
-            sVar5 = sVar5 * 4;
+            sVar5 = sVar5 * NUM_PLANES;
           }
           sVar5 = sVar5 + -1;
           do {
             sVar2 = *(short *)(imageStreamCursor + 0xe) + -1;
             do {
-              puVar10 = puVar9;
-              puVar9 = puVar10 + 1;
-              *puVar10 = 0xffff;
+              pdVar9 = pdVar10;
+              pdVar10 = (dword *)((int)pdVar9 + 2);
+              *(ushort *)pdVar9 = 0xffff;
               sVar2 = sVar2 + -1;
             } while (sVar2 != -1);
-            *puVar10 = -1 << (sVar4 * 0x10 - sVar1 & 0x3fU);
+            *(short *)pdVar9 = -1 << (sVar4 * 0x10 - sVar1 & 0x3fU);
             sVar5 = sVar5 + -1;
           } while (sVar5 != -1);
         }
         else {
-          puVar10 = *(ushort **)imageStreamCursor;
+          puVar7 = *(ushort **)imageStreamCursor;
           sVar4 = *(short *)(imageStreamCursor + 0xc) + -1;
           do {
             sVar1 = 0;
             if (planesFlag != (void *)0x0) {
-              sVar1 = 3;
+              sVar1 = NUM_PLANES_MINUS1;
             }
             do {
               sVar5 = *(short *)(imageStreamCursor + 0xe) + -1;
-              puVar7 = puVar10;
-              puVar8 = puVar9;
+              puVar8 = puVar7;
+              pdVar9 = pdVar10;
               do {
                 sVar2 = 0;
-                uVar3 = *puVar7;
-                sVar6 = 2;
+                uVar3 = *puVar8;
+                sVar6 = NUM_PLANES_MINUS2;
                 do {
                   sVar2 = *(short *)(imageStreamCursor + 0xe) * 2 + sVar2;
-                  uVar3 = *(ushort *)((int)puVar7 + (int)sVar2) | uVar3;
+                  uVar3 = *(ushort *)((int)puVar8 + (int)sVar2) | uVar3;
                   sVar6 = sVar6 + -1;
                 } while (sVar6 != -1);
-                puVar9 = puVar8 + 1;
-                *puVar8 = uVar3;
-                puVar7 = puVar7 + 1;
+                pdVar10 = (dword *)((int)pdVar9 + 2);
+                *(ushort *)pdVar9 = uVar3;
+                puVar8 = puVar8 + 1;
                 sVar5 = sVar5 + -1;
-                puVar8 = puVar9;
+                pdVar9 = pdVar10;
               } while (sVar5 != -1);
               sVar1 = sVar1 + -1;
             } while (sVar1 != -1);
-            puVar10 = (ushort *)
-                      ((int)(short)(*(short *)(imageStreamCursor + 0xe) << 3) + (int)puVar10);
+            puVar7 = (ushort *)
+                     ((int)(short)(*(short *)(imageStreamCursor + 0xe) << NUM_PLANES_SHIFT_PLUS1) +
+                     (int)puVar7);
             sVar4 = sVar4 + -1;
           } while (sVar4 != -1);
         }
@@ -6761,17 +6751,17 @@ BlitDispatch(ushort spriteIndex,ushort xOffset,ushort yOffset,ushort width,ushor
              *(undefined4 *)(*(int *)((int)spriteGraphicsPtr + (int)(short)(maskSel << 2)) + 4);
       }
     }
-    imageStreamCursor = (dword)puVar9;
+    imageStreamCursor = (dword)pdVar10;
     if ((playGame == 0) && (playHighlightFlag == 0)) {
-      imageStreamBytesLeft = (int)&g_menuInsBank - (int)puVar9;
-      if (puVar9 < &g_menuInsBank) {
+      imageStreamBytesLeft = (int)&g_menuInsBank - (int)pdVar10;
+      if (pdVar10 < &g_menuInsBank) {
         return;
       }
       panicReasonCode = 8;
       PanicHaltLoop();
     }
-    imageStreamBytesLeft = (int)&imageStreamCursor - (int)puVar9;
-    if ((ushort *)0x6763f < puVar9) {
+    imageStreamBytesLeft = (int)&imageStreamCursor - (int)pdVar10;
+    if ((dword *)0x6763f < pdVar10) {
       panicReasonCode = 8;
       PanicHaltLoop();
     }
@@ -6890,7 +6880,8 @@ void __usercall BlitterSpan4Planes(void)
   uint unaff_D1;
   
   align_and_prepare_left_mask
-            (CONCAT22((short)((unaff_D1 & 0xffff) * 0xb0 >> 0x10),unaff_D0w) & 0xffff000f);
+            (CONCAT22((short)((unaff_D1 & 0xffff) * ROW_STRIDE_BYTES >> 0x10),unaff_D0w) &
+             0xffff000f);
   BlitterSpanCoreMasked();
   BlitterSpanCoreMasked();
   BlitterSpanCoreMasked();
@@ -6916,11 +6907,11 @@ void __usercall BlitterSpanCoreMasked(void)
   int unaff_A0;
   int unaff_A6;
   
-  uVar5 = 0x9f0;
-  uVar6 = 0x100;
+  uVar5 = BLTCON0_USEA_USED_LF_F0;
+  uVar6 = BLTCON0_USED_LF_00;
   if ((unaff_D4w & 1) != 0) {
-    uVar5 = 0x9fc;
-    uVar6 = 0x1ff;
+    uVar5 = BLTCON0_USEA_USED_LF_FC;
+    uVar6 = BLTCON0_USED_LF_FF;
   }
   if (unaff_D1w != 0) {
     uVar4 = *(ushort *)((short)(unaff_D1w * 2) + 0x103c34);
@@ -7017,14 +7008,14 @@ void align_and_prepare_left_mask(void)
     do {
       bVar3 = DMACONR._0_1_;
     } while ((bVar3 & 0x40) != 0);
-    DMACON = 0x400;
+    DMACON = DMACON_BLT_OFF;
     *(ushort *)(unaff_A6 + 0x44) = uVar4;
     *(ushort *)(unaff_A6 + 0x46) = uVar4;
     *(ushort *)(unaff_A6 + 0x72) = ~uVar4;
     *(int *)(unaff_A6 + 0x50) = in_A0;
     *(int *)(unaff_A6 + 0x54) = in_A0;
-    *(undefined2 *)(unaff_A6 + 100) = 0xae;
-    *(undefined2 *)(unaff_A6 + 0x66) = 0xae;
+    *(undefined2 *)(unaff_A6 + 100) = FB_BLT_MOD_AFTER_1_WORD;
+    *(undefined2 *)(unaff_A6 + 0x66) = FB_BLT_MOD_AFTER_1_WORD;
     *(undefined2 *)(unaff_A6 + 0x40) = unaff_D5w;
     *(undefined2 *)(unaff_A6 + 0x42) = 0;
     *(ushort *)(unaff_A6 + 0x58) = unaff_D3w << 6 | 1;
@@ -7040,30 +7031,30 @@ void align_and_prepare_left_mask(void)
     do {
       bVar3 = DMACONR._0_1_;
     } while ((bVar3 & 0x40) != 0);
-    DMACON = 0x400;
+    DMACON = DMACON_BLT_OFF;
     *(int *)(unaff_A6 + 0x54) = in_A0;
-    *(ushort *)(unaff_A6 + 0x66) = uVar4 * -2 + 0xb0;
+    *(ushort *)(unaff_A6 + 0x66) = uVar4 * -2 + ROW_STRIDE_BYTES;
     *(undefined2 *)(unaff_A6 + 0x40) = unaff_D6w;
     *(undefined2 *)(unaff_A6 + 0x42) = 0;
     *(ushort *)(unaff_A6 + 0x58) = uVar4 | unaff_D3w << 6;
     in_A0 = (short)(uVar4 * 2) + in_A0;
   }
-  if ((unaff_D2w & 0xf) != 0) {
-    uVar4 = *(ushort *)((int)tailMaskTable + (int)(short)((unaff_D2w & 0xf) * 2));
+  if ((unaff_D2w & TILE_MASK) != 0) {
+    uVar4 = *(ushort *)((int)tailMaskTable + (int)(short)((unaff_D2w & TILE_MASK) * 2));
     uVar1 = ~uVar4;
     DMACON = 0x8400;
     uVar2 = DMACONR._0_1_;
     do {
       bVar3 = DMACONR._0_1_;
     } while ((bVar3 & 0x40) != 0);
-    DMACON = 0x400;
+    DMACON = DMACON_BLT_OFF;
     *(ushort *)(unaff_A6 + 0x44) = uVar1;
     *(ushort *)(unaff_A6 + 0x46) = uVar1;
     *(ushort *)(unaff_A6 + 0x72) = uVar4;
     *(int *)(unaff_A6 + 0x50) = in_A0;
     *(int *)(unaff_A6 + 0x54) = in_A0;
-    *(undefined2 *)(unaff_A6 + 100) = 0xae;
-    *(undefined2 *)(unaff_A6 + 0x66) = 0xae;
+    *(undefined2 *)(unaff_A6 + 100) = FB_BLT_MOD_AFTER_1_WORD;
+    *(undefined2 *)(unaff_A6 + 0x66) = FB_BLT_MOD_AFTER_1_WORD;
     *(undefined2 *)(unaff_A6 + 0x40) = unaff_D5w;
     *(undefined2 *)(unaff_A6 + 0x42) = 0;
     *(ushort *)(unaff_A6 + 0x58) = unaff_D3w << 6 | 1;
@@ -7090,7 +7081,7 @@ void blitter_rectrow_masked(void)
   int in_A1;
   
   BlitterSpan4Planes();
-  iVar6 = (uint)(ushort)(in_D1w << 2) * 0x2c;
+  iVar6 = (uint)(ushort)(in_D1w << 2) * PLANE_STRIDE;
   uVar1 = unaff_D2w + -1 + in_D0w;
   sVar5 = (in_D0w >> 4) * 2;
   DAT_00dff04c = (int)sVar5 + iVar6 + in_A1;
@@ -7099,15 +7090,15 @@ void blitter_rectrow_masked(void)
   do {
     bVar4 = DMACONR._0_1_;
   } while ((bVar4 & 0x40) != 0);
-  DMACON = 0x400;
+  DMACON = DMACON_BLT_OFF;
   uVar2 = ((uVar1 >> 4) - (in_D0w >> 4)) + 1;
-  DAT_00dff040 = 0xdfc;
+  DAT_00dff040 = BLTCON0_USEA_USEB_USED_LF_FC;
   DAT_00dff042 = 0;
-  DAT_00dff044 = *(undefined2 *)((int)firstWordMaskTable + (int)(short)((in_D0w & 0xf) * 2));
-  DAT_00dff046 = *(undefined2 *)((int)lastWordMaskTable + (int)(short)((uVar1 & 0xf) * 2));
+  DAT_00dff044 = *(undefined2 *)((int)firstWordMaskTable + (int)(short)((in_D0w & TILE_MASK) * 2));
+  DAT_00dff046 = *(undefined2 *)((int)lastWordMaskTable + (int)(short)((uVar1 & TILE_MASK) * 2));
   DAT_00dff050 = (int)sVar5 + iVar6 + in_A0;
   DAT_00dff054 = DAT_00dff04c;
-  DAT_00dff064 = uVar2 * -2 + 0x2c;
+  DAT_00dff064 = uVar2 * -2 + PLANE_STRIDE;
   DAT_00dff062 = DAT_00dff064;
   DAT_00dff066 = DAT_00dff064;
   DAT_00dff058 = uVar2 | unaff_D3w << 8;
@@ -7116,20 +7107,22 @@ void blitter_rectrow_masked(void)
 
 
 
-void __usercall BuildNibbleMaskLine(void)
+// in:  A0 = color table (48 bytes = 16*(R,G,B) bytes; uses high nibbles only)
+// out: A1 = palette (16 words, $0RGB)
+
+void __usercall BuildPaletteFromColors(uchar *palette)
 
 {
   short sVar1;
   short sVar2;
-  byte *unaff_A0;
   byte *pbVar3;
   undefined2 *unaff_A1;
   
   sVar2 = 0xf;
   do {
-    pbVar3 = unaff_A0 + 2;
-    sVar1 = (ushort)(byte)((unaff_A0[1] >> 4) + (*unaff_A0 & 0xf0)) << 4;
-    unaff_A0 = unaff_A0 + 3;
+    pbVar3 = palette + 2;
+    sVar1 = (ushort)(byte)((palette[1] >> 4) + (*palette & 0xf0)) << 4;
+    palette = palette + 3;
     *unaff_A1 = CONCAT11((char)((ushort)sVar1 >> 8),(*pbVar3 >> 4) + (char)sVar1);
     sVar2 = sVar2 + -1;
     unaff_A1 = unaff_A1 + 1;
@@ -7150,11 +7143,11 @@ void __usercall BlitterCopyOverlayToScreen(void)
   do {
     bVar2 = DMACONR._0_1_;
   } while ((bVar2 & 0x40) != 0);
-  DMACON = 0x400;
+  DMACON = DMACON_BLT_OFF;
   DAT_00dff046 = 0xffff;
   DAT_00dff044 = 0xffff;
   DAT_00dff042 = 0;
-  DAT_00dff040 = 0x9f0;
+  DAT_00dff040 = BLTCON0_USEA_USED_LF_F0;
   DAT_00dff064 = 0;
   DAT_00dff066 = 0;
   DAT_00dff054 = frontbufferBasePtr;
@@ -7167,7 +7160,7 @@ void __usercall BlitterCopyOverlayToScreen(void)
   do {
     bVar2 = DMACONR._0_1_;
   } while ((bVar2 & 0x40) != 0);
-  DMACON = 0x400;
+  DMACON = DMACON_BLT_OFF;
   DAT_00dff058 = 0x16;
   return;
 }
@@ -7185,11 +7178,11 @@ void __usercall BlitterCopyPanelToScreen(void)
   do {
     bVar2 = DMACONR._0_1_;
   } while ((bVar2 & 0x40) != 0);
-  DMACON = 0x400;
+  DMACON = DMACON_BLT_OFF;
   DAT_00dff046 = 0xffff;
   DAT_00dff044 = 0xffff;
   DAT_00dff042 = 0;
-  DAT_00dff040 = 0x9f0;
+  DAT_00dff040 = BLTCON0_USEA_USED_LF_F0;
   DAT_00dff064 = 0;
   DAT_00dff066 = 0;
   DAT_00dff050 = frontbufferMaskBuffer;
@@ -7199,32 +7192,31 @@ void __usercall BlitterCopyPanelToScreen(void)
   do {
     bVar2 = DMACONR._0_1_;
   } while ((bVar2 & 0x40) != 0);
-  DMACON = 0x400;
+  DMACON = DMACON_BLT_OFF;
   DAT_00dff058 = 0x16;
   return;
 }
 
 
 
-void __usercall HWSprite_LoadFromSpriteGraphics(void)
+void __usercall HWSprite_LoadFromSpriteGraphics(short spriteIndex)
 
 {
   undefined4 *puVar1;
   undefined1 uVar2;
   byte bVar3;
-  short unaff_D0w;
   
-  puVar1 = *(undefined4 **)((int)spriteGraphicsPtr + (int)(short)(unaff_D0w << 2));
+  puVar1 = *(undefined4 **)((int)spriteGraphicsPtr + (int)(short)(spriteIndex << 2));
   DMACON = 0x8400;
   uVar2 = DMACONR._0_1_;
   do {
     bVar3 = DMACONR._0_1_;
   } while ((bVar3 & 0x40) != 0);
-  DMACON = 0x400;
+  DMACON = DMACON_BLT_OFF;
   DAT_00dff046 = 0xffff;
   DAT_00dff044 = 0xffff;
   DAT_00dff042 = 0;
-  DAT_00dff040 = 0x1f0;
+  DAT_00dff040 = BLTCON0_USED_LF_F0;
   DAT_00dff074 = 0;
   DAT_00dff066 = 0;
   DAT_00dff054 = *puVar1;
@@ -7484,29 +7476,29 @@ uchar __usercall CopySprite(ushort srcSprite,ushort xOffset,ushort yOffset,ushor
   do {
     bVar4 = DMACONR._0_1_;
   } while ((bVar4 & 0x40) != 0);
-  DMACON = 0x400;
+  DMACON = DMACON_BLT_OFF;
   DAT_00dff046 = 0;
-  uVar6 = *(ushort *)((int)piVar2 + 10) & 0xf;
+  uVar6 = *(ushort *)((int)piVar2 + 10) & TILE_MASK;
   if (uVar6 == 0) {
     uVar6 = 0x10;
   }
   sVar7 = *(short *)((int)piVar2 + 0xe) + 1;
-  if ((ushort)(uVar6 + (xOffset & 0xf)) < 0x11) {
+  if ((ushort)(uVar6 + (xOffset & TILE_MASK)) < 0x11) {
     DAT_00dff046 = 0xffff;
     sVar7 = *(short *)((int)piVar2 + 0xe);
   }
   DAT_00dff044 = 0xffff;
   DAT_00dff042 = xOffset * 0x1000;
   if (piVar2[1] == 0) {
-    DAT_00dff040 = DAT_00dff042 + 0x7ca;
+    DAT_00dff040 = DAT_00dff042 + BLTCON0_BASE_SINGLE;
     DAT_00dff074 = 0xffff;
   }
   else {
-    DAT_00dff040 = DAT_00dff042 + 0xfca;
+    DAT_00dff040 = DAT_00dff042 + BLTCON0_BASE_LINKED;
   }
   uVar6 = *(short *)((int)piVar1 + 0xe) << 3;
-  uVar5 = uVar6 >> 2;
-  DAT_00dff048 = *piVar1 + (uint)yOffset * (uint)uVar6 + (xOffset >> 3 & 0xfffe);
+  uVar5 = uVar6 >> NUM_PLANES_SHIFT;
+  DAT_00dff048 = *piVar1 + (uint)yOffset * (uint)uVar6 + (xOffset >> 3 & WORD_ALIGN_EVEN_MASK);
   DAT_00dff054 = DAT_00dff048;
   if (*(short *)(piVar2 + 2) != 0) {
     DAT_00dff064 = *(short *)((int)piVar2 + 0xe) * 2 + sVar7 * -2;
@@ -7528,19 +7520,19 @@ uchar __usercall CopySprite(ushort srcSprite,ushort xOffset,ushort yOffset,ushor
   do {
     bVar4 = DMACONR._0_1_;
   } while ((bVar4 & 0x40) != 0);
-  DMACON = 0x400;
+  DMACON = DMACON_BLT_OFF;
   DMACON = 0x8400;
   uVar3 = DMACONR._0_1_;
   do {
     bVar4 = DMACONR._0_1_;
   } while ((bVar4 & 0x40) != 0);
-  DMACON = 0x400;
+  DMACON = DMACON_BLT_OFF;
   DMACON = 0x8400;
   uVar3 = DMACONR._0_1_;
   do {
     bVar4 = DMACONR._0_1_;
   } while ((bVar4 & 0x40) != 0);
-  DMACON = 0x400;
+  DMACON = DMACON_BLT_OFF;
   DAT_00dff054 = DAT_00dff048;
   DAT_00dff04c = (short)(*(short *)((int)piVar2 + 0xe) << 1) * 3 + *piVar2;
   DAT_00dff050 = piVar2[1];
@@ -7571,7 +7563,6 @@ void __usercall DrawSpriteInCameraView(void)
   void *sprite;
   ushort x;
   ushort y;
-  ushort uVar1;
   short unaff_D0w;
   short unaff_D1w;
   short unaff_D2w;
@@ -7579,11 +7570,8 @@ void __usercall DrawSpriteInCameraView(void)
   sprite = *(void **)((int)spriteGraphicsPtr + (int)(short)(unaff_D0w << 2));
   x = unaff_D1w - g_cameraX._0_2_;
   y = unaff_D2w - g_cameraY._0_2_;
-  if (((((short)x < 0x150) && ((short)y < 0x110)) &&
-      (uVar1 = -*(short *)((int)sprite + 10),
-      x != uVar1 && SBORROW2(x,uVar1) == (short)(x + *(short *)((int)sprite + 10)) < 0)) &&
-     (uVar1 = -*(short *)((int)sprite + 0xc),
-     y != uVar1 && SBORROW2(y,uVar1) == (short)(y + *(short *)((int)sprite + 0xc)) < 0)) {
+  if (((((short)x < SCREEN_WIDTH) && ((short)y < SCREEN_HEIGHT)) &&
+      (-*(short *)((int)sprite + 10) < (short)x)) && (-*(short *)((int)sprite + 0xc) < (short)y)) {
     DrawSpriteClipped(sprite,x,y);
     return;
   }
@@ -7641,22 +7629,22 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
       sVar8 = y + sVar8;
       y = 0;
     }
-    uVar1 = (sVar8 + y) - 0x110;
+    uVar1 = sVar8 + y + -SCREEN_HEIGHT;
     if (-1 < (int)((uint)uVar1 << 0x10)) {
       sVar8 = sVar8 - uVar1;
     }
     uVar1 = cameraXMod320 + x;
     uVar7 = cameraYMod320 + y;
-    if (0x10f < (short)uVar7) {
-      uVar7 = uVar7 - 0x110;
+    if (SCREEN_HEIGHT - 1 < (short)uVar7) {
+      uVar7 = uVar7 + -SCREEN_HEIGHT;
     }
     DAT_00dff046 = 0;
-    uVar13 = *(ushort *)((int)sprite + 10) & 0xf;
+    uVar13 = *(ushort *)((int)sprite + 10) & TILE_MASK;
     if (uVar13 == 0) {
       uVar13 = 0x10;
     }
     uVar14 = *(ushort *)((int)sprite + 0xe) + 1;
-    if ((ushort)(uVar13 + (uVar1 & 0xf)) < 0x11) {
+    if ((ushort)(uVar13 + (uVar1 & TILE_MASK)) < 0x11) {
       DAT_00dff046 = 0xffff;
       uVar14 = *(ushort *)((int)sprite + 0xe);
     }
@@ -7665,25 +7653,25 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
     do {
       bVar4 = DMACONR._0_1_;
     } while ((bVar4 & 0x40) != 0);
-    DMACON = 0x400;
+    DMACON = DMACON_BLT_OFF;
     DAT_00dff044 = 0xffff;
     DAT_00dff042 = uVar1 * 0x1000;
     if (*(int *)((int)sprite + 4) == 0) {
-      DAT_00dff040 = DAT_00dff042 + 0x7ca;
+      DAT_00dff040 = DAT_00dff042 + BLTCON0_BASE_SINGLE;
       DAT_00dff074 = 0xffff;
     }
     else {
-      DAT_00dff040 = DAT_00dff042 + 0xfca;
+      DAT_00dff040 = DAT_00dff042 + BLTCON0_BASE_LINKED;
     }
-    sVar2 = (sVar8 + uVar7) - 0x110;
+    sVar2 = sVar8 + uVar7 + -SCREEN_HEIGHT;
     sVar9 = 0;
-    if (0x10f < (ushort)(sVar8 + uVar7) && sVar2 != 0) {
+    if (SCREEN_HEIGHT - 1 < (ushort)(sVar8 + uVar7) && sVar2 != 0) {
       sVar8 = sVar8 - sVar2;
       sVar9 = sVar2;
     }
                     // WARNING: Read-only address (ram,0x00104932) is written
-    iVar6 = (int)(short)(((short)uVar1 >> 4) << 1);
-    iVar11 = frontbufferBasePtr + (uint)uVar7 * 0xb0 + iVar6;
+    iVar6 = (int)(short)(((short)uVar1 >> TILE_SHIFT_X) << 1);
+    iVar11 = frontbufferBasePtr + (uint)uVar7 * ROW_STRIDE_BYTES + iVar6;
     sRam00104932 = sVar8;
     *(int *)(spriteBlitQueue + 4) = iVar11;
     *(byte **)spriteBlitQueue = frontbufferMaskBuffer + (iVar11 - dVar5);
@@ -7691,15 +7679,15 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
     DAT_00dff058 = uVar14 + sVar8 * 0x40;
     DAT_00dff064 = *(short *)((int)sprite + 0xe) * 2 + uVar14 * -2;
     DAT_00dff062 = *(short *)((int)sprite + 0xe) * 8 + uVar14 * -2;
-    *(ushort *)(spriteBlitQueue + 8) = uVar14 * -2 + 0x2c;
+    *(ushort *)(spriteBlitQueue + 8) = uVar14 * -2 + PLANE_STRIDE;
     DAT_00dff060 = uVar14 * -2 + 0xb0;
-    iVar10 = (int)sVar12;
-    if (iVar10 != 0) {
-      iVar10 = (uint)(ushort)(sVar12 << 2) * (uint)*(ushort *)((int)sprite + 0xe) * 2;
+    iVar10 = 0;
+    if (sVar12 != 0) {
+      iVar10 = (uint)(ushort)(sVar12 << NUM_PLANES_SHIFT) * (uint)*(ushort *)((int)sprite + 0xe) * 2
+      ;
     }
-                    // WARNING: Load size is inaccurate
-    iRam00104938 = iVar10 + *sprite;
-    iRam00104934 = CONCAT22((short)((uint)iVar10 >> 0x10),(ushort)iVar10 >> 2) +
+    iRam00104938 = iVar10 + *(int *)sprite;
+    iRam00104934 = CONCAT22((short)((uint)iVar10 >> 0x10),(ushort)iVar10 >> NUM_PLANES_SHIFT) +
                    *(int *)((int)sprite + 4);
     piVar15 = (int *)(spriteBlitQueue + 0xc);
                     // WARNING: Read-only address (ram,0x00104934) is written
@@ -7710,20 +7698,20 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
     do {
       bVar4 = DMACONR._0_1_;
     } while ((bVar4 & 0x40) != 0);
-    DMACON = 0x400;
+    DMACON = DMACON_BLT_OFF;
     DMACON = 0x8400;
     uVar3 = DMACONR._0_1_;
     do {
       bVar4 = DMACONR._0_1_;
     } while ((bVar4 & 0x40) != 0);
-    DMACON = 0x400;
+    DMACON = DMACON_BLT_OFF;
     DAT_00dff048 = iVar11 + 0x84;
     DMACON = 0x8400;
     uVar3 = DMACONR._0_1_;
     do {
       bVar4 = DMACONR._0_1_;
     } while ((bVar4 & 0x40) != 0);
-    DMACON = 0x400;
+    DMACON = DMACON_BLT_OFF;
     DAT_00dff050 = iRam00104934;
     DAT_00dff054 = DAT_00dff048;
     DAT_00dff066 = DAT_00dff060;
@@ -7733,7 +7721,7 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
       do {
         bVar4 = DMACONR._0_1_;
       } while ((bVar4 & 0x40) != 0);
-      DMACON = 0x400;
+      DMACON = DMACON_BLT_OFF;
       iVar6 = dVar5 + iVar6;
       *(int *)(spriteBlitQueue + 0x10) = iVar6;
       *piVar15 = (int)(frontbufferMaskBuffer + (iVar6 - dVar5));
@@ -7744,13 +7732,13 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
       do {
         bVar4 = DMACONR._0_1_;
       } while ((bVar4 & 0x40) != 0);
-      DMACON = 0x400;
+      DMACON = DMACON_BLT_OFF;
       DMACON = 0x8400;
       uVar3 = DMACONR._0_1_;
       do {
         bVar4 = DMACONR._0_1_;
       } while ((bVar4 & 0x40) != 0);
-      DMACON = 0x400;
+      DMACON = DMACON_BLT_OFF;
       DAT_00dff048 = iVar6 + 0x84;
       DAT_00dff04c = (short)(*(short *)((int)sprite + 0xe) << 1) * 3;
       DMACON = 0x8400;
@@ -7758,7 +7746,7 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
       do {
         bVar4 = DMACONR._0_1_;
       } while ((bVar4 & 0x40) != 0);
-      DMACON = 0x400;
+      DMACON = DMACON_BLT_OFF;
       DAT_00dff050 = 0;
       DAT_00dff054 = DAT_00dff048;
       *(undefined2 *)(spriteBlitQueue + 0x14) = *(undefined2 *)(spriteBlitQueue + 8);
@@ -7775,22 +7763,22 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
     sVar8 = y + sVar8;
     y = 0;
   }
-  uVar1 = (sVar8 + y) - 0x110;
+  uVar1 = sVar8 + y + -SCREEN_HEIGHT;
   if (-1 < (int)((uint)uVar1 << 0x10)) {
     sVar8 = sVar8 - uVar1;
   }
   uVar1 = cameraXMod320 + x;
   uVar7 = cameraYMod320 + y;
-  if (0x10f < (short)uVar7) {
-    uVar7 = uVar7 - 0x110;
+  if (SCREEN_HEIGHT - 1 < (short)uVar7) {
+    uVar7 = uVar7 + -SCREEN_HEIGHT;
   }
   DAT_00dff046 = 0;
-  uVar13 = *(ushort *)((int)sprite + 10) & 0xf;
+  uVar13 = *(ushort *)((int)sprite + 10) & TILE_MASK;
   if (uVar13 == 0) {
     uVar13 = 0x10;
   }
   uVar14 = *(ushort *)((int)sprite + 0xe) + 1;
-  if ((ushort)(uVar13 + (uVar1 & 0xf)) < 0x11) {
+  if ((ushort)(uVar13 + (uVar1 & TILE_MASK)) < 0x11) {
     DAT_00dff046 = 0xffff;
     uVar14 = *(ushort *)((int)sprite + 0xe);
   }
@@ -7799,40 +7787,39 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
   do {
     bVar4 = DMACONR._0_1_;
   } while ((bVar4 & 0x40) != 0);
-  DMACON = 0x400;
+  DMACON = DMACON_BLT_OFF;
   DAT_00dff044 = 0xffff;
   DAT_00dff042 = uVar1 * 0x1000;
   if (*(int *)((int)sprite + 4) == 0) {
-    DAT_00dff040 = DAT_00dff042 + 0x7ca;
+    DAT_00dff040 = DAT_00dff042 + BLTCON0_BASE_SINGLE;
     DAT_00dff074 = 0xffff;
   }
   else {
-    DAT_00dff040 = DAT_00dff042 + 0xfca;
+    DAT_00dff040 = DAT_00dff042 + BLTCON0_BASE_LINKED;
   }
-  sVar2 = (sVar8 + uVar7) - 0x110;
+  sVar2 = sVar8 + uVar7 + -SCREEN_HEIGHT;
   sVar9 = 0;
-  if (0x10f < (ushort)(sVar8 + uVar7) && sVar2 != 0) {
+  if (SCREEN_HEIGHT - 1 < (ushort)(sVar8 + uVar7) && sVar2 != 0) {
     sVar8 = sVar8 - sVar2;
     sVar9 = sVar2;
   }
-  iVar6 = (int)(short)(((short)uVar1 >> 4) << 1);
-  iVar11 = frontbufferBasePtr + (uint)uVar7 * 0xb0 + iVar6;
+  iVar6 = (int)(short)(((short)uVar1 >> TILE_SHIFT_X) << 1);
+  iVar11 = frontbufferBasePtr + (uint)uVar7 * ROW_STRIDE_BYTES + iVar6;
   DAT_00dff048 = iVar11;
   DAT_00dff054 = iVar11;
   *(int *)(spriteBlitQueue + 4) = iVar11;
   *(byte **)spriteBlitQueue = frontbufferMaskBuffer + (iVar11 - dVar5);
   DAT_00dff058 = uVar14 + sVar8 * 0x100;
   DAT_00dff062 = *(short *)((int)sprite + 0xe) * 2 + uVar14 * -2;
-  DAT_00dff060 = uVar14 * -2 + 0x2c;
+  DAT_00dff060 = uVar14 * -2 + PLANE_STRIDE;
   DAT_00dff064 = DAT_00dff062;
   DAT_00dff066 = DAT_00dff060;
   *(short *)(spriteBlitQueue + 8) = DAT_00dff060;
-  iVar11 = (int)sVar12;
-  if (iVar11 != 0) {
-    iVar11 = (uint)(ushort)(sVar12 << 2) * (uint)*(ushort *)((int)sprite + 0xe) * 2;
+  iVar11 = 0;
+  if (sVar12 != 0) {
+    iVar11 = (uint)(ushort)(sVar12 << NUM_PLANES_SHIFT) * (uint)*(ushort *)((int)sprite + 0xe) * 2;
   }
-                    // WARNING: Load size is inaccurate
-  DAT_00dff04c = iVar11 + *sprite;
+  DAT_00dff04c = iVar11 + *(int *)sprite;
   DAT_00dff050 = iVar11 + *(int *)((int)sprite + 4);
   *(short *)(spriteBlitQueue + 10) = DAT_00dff058;
   piVar15 = (int *)(spriteBlitQueue + 0xc);
@@ -7845,7 +7832,7 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
     do {
       bVar4 = DMACONR._0_1_;
     } while ((bVar4 & 0x40) != 0);
-    DMACON = 0x400;
+    DMACON = DMACON_BLT_OFF;
     DAT_00dff054 = DAT_00dff048;
     DAT_00dff058 = sVar8;
     *piVar15 = (int)(frontbufferMaskBuffer + (DAT_00dff048 - dVar5));
@@ -7889,7 +7876,7 @@ void __usercall DrawQueuedSprites(void)
       }
     }
     else {
-      PositionAndClipSprite(sprite,x,y);
+      QueueMaskedSpriteBlitClipped(sprite,x,y);
     }
   }
   return;
@@ -7897,7 +7884,7 @@ void __usercall DrawQueuedSprites(void)
 
 
 
-void __usercall DrawQueuedSpritesToPlanes(void)
+void __usercall RenderSpriteBandsToCopperLists(void)
 
 {
   undefined1 uVar1;
@@ -7916,15 +7903,15 @@ void __usercall DrawQueuedSpritesToPlanes(void)
   do {
     bVar2 = DMACONR._0_1_;
   } while ((bVar2 & 0x40) != 0);
-  DMACON = 0x400;
+  DMACON = DMACON_BLT_OFF;
   DAT_00dff046 = 0xffff;
   DAT_00dff044 = 0xffff;
   DAT_00dff042 = 0;
-  DAT_00dff040 = 0x9f0;
+  DAT_00dff040 = BLTCON0_USEA_USED_LF_F0;
   DAT_00dff064 = 4;
   DAT_00dff066 = 0;
   pbVar8 = (byte *)dword_2C044;
-  while (pbVar8 != &plane01RenderStackBase) {
+  while (pbVar8 != plane01RenderStackBase) {
     puVar5 = (ushort *)(pbVar8 + -2);
     puVar6 = (ushort *)(pbVar8 + -4);
     pbVar7 = pbVar8 + -8;
@@ -7932,14 +7919,14 @@ void __usercall DrawQueuedSpritesToPlanes(void)
     if (**(short **)pbVar8 != 0) {
       SaveCoordinatesForHighlights(*(short *)(*(int *)pbVar7 + 0x16),*puVar6,*puVar5);
     }
-    EmitPlanePairWaitAndBlit();
+    RenderSpriteBandPlanePair();
   }
   *puVar3 = copperZeroLong;
   *puVar4 = copperZeroLong;
   puVar4 = bitPlane3BasePtr;
   puVar3 = bitPlane2BasePtr;
   pbVar8 = (byte *)plane23RenderStackPtr;
-  while (pbVar8 != &plane23RenderStackBase) {
+  while (pbVar8 != plane23RenderStackBase) {
     puVar5 = (ushort *)(pbVar8 + -2);
     puVar6 = (ushort *)(pbVar8 + -4);
     pbVar7 = pbVar8 + -8;
@@ -7947,7 +7934,7 @@ void __usercall DrawQueuedSpritesToPlanes(void)
     if (**(short **)pbVar8 != 0) {
       SaveCoordinatesForHighlights(*(short *)(*(int *)pbVar7 + 0x16),*puVar6,*puVar5);
     }
-    EmitPlanePairWaitAndBlit();
+    RenderSpriteBandPlanePair();
   }
   *puVar3 = copperZeroLong;
   *puVar4 = copperZeroLong;
@@ -7956,7 +7943,7 @@ void __usercall DrawQueuedSpritesToPlanes(void)
 
 
 
-void __usercall EmitPlanePairWaitAndBlit(void)
+void __usercall RenderSpriteBandPlanePair(void)
 
 {
   ushort uVar1;
@@ -7993,7 +7980,7 @@ void __usercall EmitPlanePairWaitAndBlit(void)
   do {
     bVar4 = DMACONR._0_1_;
   } while ((bVar4 & 0x40) != 0);
-  DMACON = 0x400;
+  DMACON = DMACON_BLT_OFF;
   *(int *)(unaff_A6 + 0x50) = *unaff_A0;
   *(short **)(unaff_A6 + 0x54) = unaff_A4 + 2;
   *(undefined2 *)(unaff_A6 + 0x58) = *(undefined2 *)(unaff_A0 + 5);
@@ -8002,7 +7989,7 @@ void __usercall EmitPlanePairWaitAndBlit(void)
   do {
     bVar4 = DMACONR._0_1_;
   } while ((bVar4 & 0x40) != 0);
-  DMACON = 0x400;
+  DMACON = DMACON_BLT_OFF;
   *(int *)(unaff_A6 + 0x50) = *unaff_A0 + 4;
   *(short **)(unaff_A6 + 0x54) = unaff_A5 + 2;
   *(undefined2 *)(unaff_A6 + 0x58) = *(undefined2 *)(unaff_A0 + 5);
@@ -8011,28 +7998,27 @@ void __usercall EmitPlanePairWaitAndBlit(void)
 
 
 
-void __usercall BuildSpritePlaneStacks(void)
+void __usercall BuildSpriteBandAndGeneralRenderStacks(void)
 
 {
   dword dVar1;
   dword dVar2;
   short sVar3;
   short sVar4;
-  word wVar5;
-  short sVar6;
-  word wVar7;
+  short sVar5;
+  word wVar6;
+  short sVar7;
   short sVar8;
-  short sVar9;
-  dword *pdVar10;
+  dword *pdVar9;
+  byte *pbVar10;
   byte *pbVar11;
   byte *pbVar12;
-  byte *pbVar13;
-  word *pwVar14;
+  word *pwVar13;
   
   if (numSpritesToRender != 0) {
-    pbVar11 = &plane01RenderStackBase;
-    pbVar12 = &plane23RenderStackBase;
-    pbVar13 = &renderStackBase;
+    pbVar10 = plane01RenderStackBase;
+    pbVar11 = plane23RenderStackBase;
+    pbVar12 = &renderStackBase;
     occlMinYBuckets[0] = 0x7f;
     occlMinYBuckets[1] = 0xff;
     occlMinYBuckets[2] = 0x7f;
@@ -8097,88 +8083,84 @@ void __usercall BuildSpritePlaneStacks(void)
     occlMinYBucketsActive[0x33] = 0xff;
     plane01BandTopY = 32000;
     plane23BandTopY = 32000;
-    pdVar10 = (dword *)((int)sortedSprites + (int)(short)(numSpritesToRender << 2));
-    sVar9 = numSpritesToRender - 1;
+    pdVar9 = (dword *)((int)sortedSprites + (int)(short)(numSpritesToRender << 2));
+    sVar8 = numSpritesToRender - 1;
     do {
-      if (pdVar10 == sortedSprites) {
-        dword_2BCF8 = (dword)pbVar13;
-        dword_2C044 = (dword)pbVar11;
-        plane23RenderStackPtr = (dword)pbVar12;
+      if (pdVar9 == sortedSprites) {
+        dword_2BCF8 = (dword)pbVar12;
+        dword_2C044 = (dword)pbVar10;
+        plane23RenderStackPtr = (dword)pbVar11;
         return;
       }
-      pdVar10 = pdVar10 + -1;
-      dVar1 = *pdVar10;
+      pdVar9 = pdVar9 + -1;
+      dVar1 = *pdVar9;
       if (-1 < *(short *)(dVar1 + 0x46)) {
         dVar2 = *(dword *)((int)spriteGraphicsPtr + (int)(short)(*(short *)(dVar1 + 0x46) << 2));
-        sVar4 = (*(short *)(dVar1 + 0x1e) - *(short *)(dVar2 + 0x10)) - g_cameraX._0_2_;
-        wVar5 = ((*(short *)(dVar1 + 0x22) - *(short *)(dVar2 + 0x12)) - g_cameraY._0_2_) -
+        sVar5 = (*(short *)(dVar1 + 0x1e) - *(short *)(dVar2 + 0x10)) - g_cameraX._0_2_;
+        wVar6 = ((*(short *)(dVar1 + 0x22) - *(short *)(dVar2 + 0x12)) - g_cameraY._0_2_) -
                 *(short *)(dVar1 + 0x26);
-        if ((((sVar4 < 0x150) && ((short)wVar5 < 0x110)) &&
-            (sVar6 = -*(short *)(dVar2 + 10),
-            sVar4 != sVar6 && SBORROW2(sVar4,sVar6) == (short)(sVar4 + *(short *)(dVar2 + 10)) < 0))
-           && (wVar7 = -*(short *)(dVar2 + 0xc),
-              wVar5 != wVar7 &&
-              SBORROW2(wVar5,wVar7) == (short)(wVar5 + *(short *)(dVar2 + 0xc)) < 0)) {
+        if ((((sVar5 < SCREEN_WIDTH) && ((short)wVar6 < SCREEN_HEIGHT)) &&
+            (-*(short *)(dVar2 + 10) < sVar5)) && (-*(short *)(dVar2 + 0xc) < (short)wVar6)) {
           if ((overlayActiveFlag == 0) && (*(short *)(dVar2 + 10) < 0x11)) {
-            sVar6 = (sVar4 >> 4) << 1;
-            sVar8 = ((short)(*(short *)(dVar2 + 10) + sVar4 + -1) >> 4) << 1;
-            if ((((short)wVar5 < 0) ||
-                (sVar3 = *(short *)(dVar2 + 0xc) + wVar5,
-                *(short *)(occlMinYBucketsActive + sVar6) < sVar3)) ||
-               (*(short *)(occlMinYBucketsActive + sVar8) < sVar3)) {
+            sVar3 = (sVar5 >> 4) << 1;
+            sVar7 = ((short)(*(short *)(dVar2 + 10) + sVar5 + -1) >> 4) << 1;
+            if ((((short)wVar6 < 0) ||
+                (sVar4 = *(short *)(dVar2 + 0xc) + wVar6,
+                *(short *)(occlMinYBucketsActive + sVar3) < sVar4)) ||
+               (*(short *)(occlMinYBucketsActive + sVar7) < sVar4)) {
 enqueue_to_general_stack:
               *(undefined2 *)(dVar1 + 0x56) = 0;
-              *(dword *)pbVar13 = dVar1;
-              *(dword *)((int)pbVar13 + 4) = dVar2;
-              pwVar14 = (word *)((int)pbVar13 + 10);
-              *(short *)((int)pbVar13 + 8) = sVar4;
-              pbVar13 = (byte *)((int)pbVar13 + 0xc);
-              *pwVar14 = wVar5;
-            }
-            else if (sVar3 < (short)plane23BandTopY) {
-              *(undefined2 *)(dVar1 + 0x56) = 2;
-              plane23BandTopY = wVar5;
               *(dword *)pbVar12 = dVar1;
               *(dword *)((int)pbVar12 + 4) = dVar2;
-              pwVar14 = (word *)((int)pbVar12 + 10);
-              *(short *)((int)pbVar12 + 8) = sVar4;
+              pwVar13 = (word *)((int)pbVar12 + 10);
+              *(short *)((int)pbVar12 + 8) = sVar5;
               pbVar12 = (byte *)((int)pbVar12 + 0xc);
-              *pwVar14 = wVar5;
+              *pwVar13 = wVar6;
             }
-            else {
-              if ((short)plane01BandTopY <= sVar3) goto enqueue_to_general_stack;
-              *(undefined2 *)(dVar1 + 0x56) = 1;
-              plane01BandTopY = wVar5;
+            else if (sVar4 < (short)plane23BandTopY) {
+              *(undefined2 *)(dVar1 + 0x56) = 2;
+              plane23BandTopY = wVar6;
               *(dword *)pbVar11 = dVar1;
               *(dword *)((int)pbVar11 + 4) = dVar2;
-              pwVar14 = (word *)((int)pbVar11 + 10);
-              *(short *)((int)pbVar11 + 8) = sVar4;
+              pwVar13 = (word *)((int)pbVar11 + 10);
+              *(short *)((int)pbVar11 + 8) = sVar5;
               pbVar11 = (byte *)((int)pbVar11 + 0xc);
-              *pwVar14 = wVar5;
+              *pwVar13 = wVar6;
             }
-            if ((short)wVar5 < *(short *)(occlMinYBucketsActive + sVar6)) {
-              *(word *)(occlMinYBucketsActive + sVar6) = wVar5;
+            else {
+              if ((short)plane01BandTopY <= sVar4) goto enqueue_to_general_stack;
+              *(undefined2 *)(dVar1 + 0x56) = 1;
+              plane01BandTopY = wVar6;
+              *(dword *)pbVar10 = dVar1;
+              *(dword *)((int)pbVar10 + 4) = dVar2;
+              pwVar13 = (word *)((int)pbVar10 + 10);
+              *(short *)((int)pbVar10 + 8) = sVar5;
+              pbVar10 = (byte *)((int)pbVar10 + 0xc);
+              *pwVar13 = wVar6;
             }
-            if ((short)wVar5 < *(short *)(occlMinYBucketsActive + sVar8)) {
-              *(word *)(occlMinYBucketsActive + sVar8) = wVar5;
+            if ((short)wVar6 < *(short *)(occlMinYBucketsActive + sVar3)) {
+              *(word *)(occlMinYBucketsActive + sVar3) = wVar6;
+            }
+            if ((short)wVar6 < *(short *)(occlMinYBucketsActive + sVar7)) {
+              *(word *)(occlMinYBucketsActive + sVar7) = wVar6;
             }
           }
           else {
-            sVar8 = (sVar4 >> 4) << 1;
-            sVar6 = *(short *)(dVar2 + 10);
+            sVar7 = (sVar5 >> 4) << 1;
+            sVar3 = *(short *)(dVar2 + 10);
             do {
-              if ((short)wVar5 < *(short *)(occlMinYBucketsActive + sVar8)) {
-                *(word *)(occlMinYBucketsActive + sVar8) = wVar5;
+              if ((short)wVar6 < *(short *)(occlMinYBucketsActive + sVar7)) {
+                *(word *)(occlMinYBucketsActive + sVar7) = wVar6;
               }
-              sVar8 = sVar8 + 2;
-            } while (sVar8 <= (short)(((short)(sVar6 + sVar4 + -1) >> 4) * 2));
+              sVar7 = sVar7 + 2;
+            } while (sVar7 <= (short)(((short)(sVar3 + sVar5 + -1) >> 4) * 2));
             *(undefined2 *)(dVar1 + 0x56) = 0;
-            *(dword *)pbVar13 = dVar1;
-            *(dword *)((int)pbVar13 + 4) = dVar2;
-            pwVar14 = (word *)((int)pbVar13 + 10);
-            *(short *)((int)pbVar13 + 8) = sVar4;
-            pbVar13 = (byte *)((int)pbVar13 + 0xc);
-            *pwVar14 = wVar5;
+            *(dword *)pbVar12 = dVar1;
+            *(dword *)((int)pbVar12 + 4) = dVar2;
+            pwVar13 = (word *)((int)pbVar12 + 10);
+            *(short *)((int)pbVar12 + 8) = sVar5;
+            pbVar12 = (byte *)((int)pbVar12 + 0xc);
+            *pwVar13 = wVar6;
           }
           *(undefined2 *)(dVar1 + 0x54) = 1;
         }
@@ -8186,11 +8168,11 @@ enqueue_to_general_stack:
           *(undefined2 *)(dVar1 + 0x54) = 0;
         }
       }
-      sVar9 = sVar9 + -1;
-      dword_2BCF8 = (dword)pbVar13;
-      dword_2C044 = (dword)pbVar11;
-      plane23RenderStackPtr = (dword)pbVar12;
-    } while (sVar9 != -1);
+      sVar8 = sVar8 + -1;
+      dword_2BCF8 = (dword)pbVar12;
+      dword_2C044 = (dword)pbVar10;
+      plane23RenderStackPtr = (dword)pbVar11;
+    } while (sVar8 != -1);
   }
   return;
 }
@@ -8269,9 +8251,9 @@ void __usercall DrawSprites(void)
 
 {
   SortSprites();
-  BuildSpritePlaneStacks();
+  BuildSpriteBandAndGeneralRenderStacks();
   DrawQueuedSprites();
-  DrawQueuedSpritesToPlanes();
+  RenderSpriteBandsToCopperLists();
   return;
 }
 
@@ -8373,7 +8355,7 @@ char __usercall ConvertSpriteColors(ushort spriteNumber,ushort *colorConvTable)
   bool bVar5;
   bool bVar6;
   int iVar7;
-  ushort uVar8;
+  char cVar8;
   ushort uVar9;
   ushort uVar10;
   ushort uVar11;
@@ -8422,20 +8404,20 @@ char __usercall ConvertSpriteColors(ushort spriteNumber,ushort *colorConvTable)
           uVar10 = uVar10 << 1;
           bVar6 = (short)uVar9 < 0;
           uVar9 = uVar9 << 1;
-          uVar8 = *(ushort *)
+          uVar2 = *(ushort *)
                    ((int)colorConvTable +
                    (int)(short)(((((ushort)bVar3 << 1 | (ushort)bVar4) * 2 | (ushort)bVar5) * 2 |
                                 (ushort)bVar6) * 2));
-          if ((uVar8 & 1) != 0) {
+          if ((uVar2 & 1) != 0) {
             uVar9 = uVar9 | 1;
           }
-          if ((uVar8 >> 1 & 1) != 0) {
+          if ((uVar2 >> 1 & 1) != 0) {
             uVar10 = uVar10 | 1;
           }
-          if ((uVar8 >> 2 & 1) != 0) {
+          if ((uVar2 >> 2 & 1) != 0) {
             uVar11 = uVar11 | 1;
           }
-          if ((uVar8 >> 3 & 1) != 0) {
+          if ((uVar2 >> 3 & 1) != 0) {
             uVar12 = uVar12 | 1;
           }
           sVar14 = sVar14 + -1;
@@ -8456,7 +8438,7 @@ char __usercall ConvertSpriteColors(ushort spriteNumber,ushort *colorConvTable)
       } while (sVar13 != -1);
       sVar15 = sVar15 + -1;
     } while (sVar15 != -1);
-    return (char)(uVar8 >> 4);
+    return (char)(uVar2 >> 4);
   }
   piVar1 = *(int **)((int)spriteGraphicsPtr + (int)(short)(spriteNumber << 2));
   uVar9 = *(ushort *)((int)piVar1 + 0xe);
@@ -8497,9 +8479,10 @@ char __usercall ConvertSpriteColors(ushort spriteNumber,ushort *colorConvTable)
         uVar10 = uVar10 << 1;
         bVar6 = (short)uVar9 < 0;
         uVar9 = uVar9 << 1;
-        uVar8 = (((ushort)bVar3 << 1 | (ushort)bVar4) * 2 | (ushort)bVar5) * 2 | (ushort)bVar6;
-        if (uVar8 != 0) {
-          uVar2 = *(ushort *)((int)colorConvTable + (int)(short)(uVar8 * 2));
+        uVar2 = (((ushort)bVar3 << 1 | (ushort)bVar4) * 2 | (ushort)bVar5) * 2 | (ushort)bVar6;
+        cVar8 = '\0';
+        if (uVar2 != 0) {
+          uVar2 = *(ushort *)((int)colorConvTable + (int)(short)(uVar2 * 2));
           if ((uVar2 & 1) != 0) {
             uVar9 = uVar9 | 1;
           }
@@ -8509,7 +8492,7 @@ char __usercall ConvertSpriteColors(ushort spriteNumber,ushort *colorConvTable)
           if ((uVar2 >> 2 & 1) != 0) {
             uVar11 = uVar11 | 1;
           }
-          uVar8 = uVar2 >> 4;
+          cVar8 = (char)(uVar2 >> 4);
           if ((uVar2 >> 3 & 1) != 0) {
             uVar12 = uVar12 | 1;
           }
@@ -8532,7 +8515,7 @@ char __usercall ConvertSpriteColors(ushort spriteNumber,ushort *colorConvTable)
     } while (sVar13 != -1);
     sVar15 = sVar15 + -1;
   } while (sVar15 != -1);
-  return (char)uVar8;
+  return cVar8;
 }
 
 
@@ -8663,14 +8646,14 @@ short __usercall DrawMenuText(ushort x,ushort y,ushort color,char *text,CharTabl
       unaff_D0w = wVar1 + chars->conversionTable[(short)(ushort)(byte)(cVar3 - 0x20)];
       x = wVar2 + x_00 + *(short *)(*(int *)((int)ppSVar4 + (int)(short)(unaff_D0w * 4)) + 10);
       if (-1 < (short)x_00) {
-        if (0x14f < x) {
+        if (SCREEN_WIDTH - 1 < x) {
           return unaff_D0w;
         }
         BlitStringToFrontBuffer(unaff_D0w,x_00,y,color);
       }
     }
     x = x_00 + chars->spaceWidth;
-  } while (((short)x_00 < 0) || (x < 0x150));
+  } while (((short)x_00 < 0) || (x < SCREEN_WIDTH));
   return unaff_D0w;
 }
 
@@ -8819,15 +8802,15 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
     uVar11 = *(ushort *)(pbVar1 + 0xc);
     x = cameraXMod320 + x;
     y = cameraYMod320 + y;
-    if (0x10f < (short)y) {
-      y = y - 0x110;
+    if (SCREEN_HEIGHT - 1 < (short)y) {
+      y = y + -SCREEN_HEIGHT;
     }
     DMACON = 0x8400;
     uVar5 = DMACONR._0_1_;
     do {
       bVar6 = DMACONR._0_1_;
     } while ((bVar6 & 0x40) != 0);
-    DMACON = 0x400;
+    DMACON = DMACON_BLT_OFF;
     DAT_00dff046 = 0;
     uVar9 = *(ushort *)(pbVar1 + 10) & 0xf;
     if (uVar9 == 0) {
@@ -8843,9 +8826,9 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
     DAT_00dff042 = uVar9;
     bltconShiftBase = uVar9;
     if (*(int *)(pbVar1 + 4) != 0) {
-      sVar16 = (uVar11 + y) - 0x110;
+      sVar16 = uVar11 + y + -SCREEN_HEIGHT;
       sVar12 = 0;
-      if (0x10f < (ushort)(uVar11 + y) && sVar16 != 0) {
+      if (SCREEN_HEIGHT - 1 < (ushort)(uVar11 + y) && sVar16 != 0) {
         uVar11 = uVar11 - sVar16;
         sVar12 = sVar16;
       }
@@ -8863,7 +8846,7 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
       dVar17 = (int)sVar10 + dVar18 + (int)sVar10;
       blitSrcA_MaskPtr = DAT_00dff050;
       blitSrcB_GlyphPtr = dVar18;
-      iVar8 = (uint)y * 0xb0 + iVar7;
+      iVar8 = (uint)y * ROW_STRIDE_BYTES + iVar7;
       while( true ) {
         DAT_00dff048 = frontbufferBasePtr + iVar8;
         sVar10 = 2;
@@ -8879,12 +8862,12 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
           do {
             bVar6 = DMACONR._0_1_;
           } while ((bVar6 & 0x40) != 0);
-          DMACON = 0x400;
-          DAT_00dff048 = DAT_00dff048 + 0x2c;
+          DMACON = DMACON_BLT_OFF;
+          DAT_00dff048 = DAT_00dff048 + PLANE_STRIDE;
           sVar10 = sVar10 + -1;
         } while (sVar10 != -1);
         if ((uVar13 & 1) == 0) {
-          DAT_00dff040 = uVar9 + 0xfca;
+          DAT_00dff040 = uVar9 + BLTCON0_BASE_LINKED;
           DAT_00dff04c = dVar17;
         }
         else {
@@ -8903,7 +8886,7 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
         do {
           bVar6 = DMACONR._0_1_;
         } while ((bVar6 & 0x40) != 0);
-        DMACON = 0x400;
+        DMACON = DMACON_BLT_OFF;
         iVar8 = iVar7;
       }
       DAT_00dff054 = DAT_00dff048;
@@ -9030,14 +9013,14 @@ BlitGlyphToSpriteBitmap
     do {
       bVar4 = DMACONR._0_1_;
     } while ((bVar4 & 0x40) != 0);
-    DMACON = 0x400;
+    DMACON = DMACON_BLT_OFF;
     DAT_00dff046 = 0;
-    uVar8 = *(ushort *)((int)piVar1 + 10) & 0xf;
+    uVar8 = *(ushort *)((int)piVar1 + 10) & TILE_MASK;
     if (uVar8 == 0) {
       uVar8 = 0x10;
     }
     sVar9 = *(short *)((int)piVar1 + 0xe) + 1;
-    if ((ushort)(uVar8 + (xOff & 0xf)) < 0x11) {
+    if ((ushort)(uVar8 + (xOff & TILE_MASK)) < 0x11) {
       DAT_00dff046 = 0xffff;
       sVar9 = *(short *)((int)piVar1 + 0xe);
     }
@@ -9067,12 +9050,12 @@ BlitGlyphToSpriteBitmap
         do {
           bVar4 = DMACONR._0_1_;
         } while ((bVar4 & 0x40) != 0);
-        DMACON = 0x400;
+        DMACON = DMACON_BLT_OFF;
         DAT_00dff048 = iVar5 + DAT_00dff048;
         sVar7 = sVar7 + -1;
       } while (sVar7 != -1);
       if ((planeMask & 1) == 0) {
-        DAT_00dff040 = bltconShiftBase_glyph + 0xfca;
+        DAT_00dff040 = bltconShiftBase_glyph + BLTCON0_BASE_LINKED;
         DAT_00dff04c = (int)sVar6 + blitSrcB_GlyphPtr_glyph + (int)sVar6;
       }
       else {
@@ -9126,8 +9109,7 @@ ushort __usercall LoadRNCToBufferNoBlit(char *filename,void *dst)
   bVar2 = false;
   uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
   if (bVar2) {
-                    // WARNING: Load size is inaccurate
-    if (*dst != 0x524e4301) {
+    if (*(int *)dst != 0x524e4301) {
       panicReasonCode = 0xe002;
       PanicHaltLoop();
       src = (undefined1 *)frontbufferBasePtr;
@@ -9251,7 +9233,7 @@ ushort __usercall LoadFile(char *filename,void *dst)
         AssetCacheStoreFromMemory(filename,src,unaff_D1);
       }
     }
-    if (0xbbb0 < unaff_D1) {
+    if (FRONTBUFFER_SIZE_TOTAL_BYTES < unaff_D1) {
       panicReasonCode = 0xe000;
       PanicHaltLoop();
       if (g_assetCurrentIndex == 4) {
@@ -9843,8 +9825,7 @@ void __usercall AssetCacheStoreFromMemory(char *name,void *src,uint size)
   if (bVar3) {
     pcVar2 = name + 0x30;
     do {
-                    // WARNING: Load size is inaccurate
-      *pcVar2 = *src;
+      *pcVar2 = *(char *)src;
       size = size - 1;
       src = (char *)((int)src + 1);
       pcVar2 = pcVar2 + 1;
@@ -9865,260 +9846,257 @@ void __usercall AssetCacheStoreFromMemory(char *name,void *src,uint size)
 void __usercall RncDecompressV2(void *src,void *dst)
 
 {
-  short sVar1;
-  ushort uVar2;
-  short sVar3;
-  ushort uVar5;
-  uint uVar4;
-  byte bVar6;
+  byte bVar1;
+  short sVar2;
+  ushort uVar3;
+  short sVar4;
+  ushort uVar6;
+  uint uVar5;
   byte bVar7;
-  byte *pbVar8;
+  byte bVar8;
   byte *pbVar9;
   byte *pbVar10;
   byte *pbVar11;
-  bool bVar12;
+  byte *pbVar12;
   bool bVar13;
+  bool bVar14;
   
-  pbVar8 = (byte *)((int)src + 0x13);
-  bVar6 = (*(char *)((int)src + 0x12) * '\x02' + '\x01') * '\x02';
+  pbVar9 = (byte *)((int)src + 0x13);
+  bVar7 = (*(char *)((int)src + 0x12) * '\x02' + '\x01') * '\x02';
 LAB_00106c7e:
-  while( true ) {
-    bVar12 = CARRY1(bVar6,bVar6);
-    bVar7 = bVar6 * '\x02';
-    if (bVar12) break;
-    pbVar9 = pbVar8 + 1;
-    pbVar10 = (byte *)((int)dst + 1);
-    *(byte *)dst = *pbVar8;
-    bVar12 = CARRY1(bVar7,bVar7);
-    bVar6 = bVar6 << 2;
-    pbVar8 = pbVar9;
-    dst = pbVar10;
-    bVar7 = bVar6;
-    if (bVar12) break;
+  while (bVar8 = bVar7 * '\x02', bVar1 = bVar8, !CARRY1(bVar7,bVar7)) {
+    pbVar10 = pbVar9 + 1;
+    pbVar11 = (byte *)((int)dst + 1);
+    *(byte *)dst = *pbVar9;
+    bVar7 = bVar7 << 2;
+    pbVar9 = pbVar10;
+    dst = pbVar11;
+    bVar1 = bVar7;
+    if (CARRY1(bVar8,bVar8)) break;
 LAB_00106c7c:
-    pbVar8 = pbVar9 + 1;
-    dst = pbVar10 + 1;
-    *pbVar10 = *pbVar9;
+    pbVar9 = pbVar10 + 1;
+    dst = pbVar11 + 1;
+    *pbVar11 = *pbVar10;
   }
-  bVar6 = bVar7;
-  pbVar9 = pbVar8;
-  if (bVar6 == 0) {
-    pbVar9 = pbVar8 + 1;
-    bVar7 = *pbVar8;
-    bVar6 = bVar7 * '\x02' + bVar12;
-    pbVar10 = (byte *)dst;
-    if (!CARRY1(bVar7,bVar7) && !CARRY1(bVar7 * '\x02',bVar12)) goto LAB_00106c7c;
-  }
-  uVar2 = 2;
-  uVar4 = 0;
-  bVar13 = CARRY1(bVar6,bVar6);
-  bVar7 = bVar6 * '\x02';
-  pbVar8 = pbVar9;
-  bVar12 = bVar13;
+  bVar7 = bVar1;
+  pbVar10 = pbVar9;
   if (bVar7 == 0) {
-    pbVar8 = pbVar9 + 1;
-    bVar6 = *pbVar9;
-    bVar12 = CARRY1(bVar6,bVar6) || CARRY1(bVar6 * '\x02',bVar13);
-    bVar7 = bVar6 * '\x02' + bVar13;
+    pbVar10 = pbVar9 + 1;
+    bVar8 = *pbVar9;
+    bVar7 = bVar8 * '\x02' + 1;
+    pbVar11 = dst;
+    if (!CARRY1(bVar8,bVar8) && (byte)(bVar8 * '\x02') != -1) goto LAB_00106c7c;
   }
-  if (bVar12) {
-    bVar13 = CARRY1(bVar7,bVar7);
-    bVar6 = bVar7 * '\x02';
-    pbVar9 = pbVar8;
-    bVar12 = bVar13;
-    if (bVar6 == 0) {
-      pbVar9 = pbVar8 + 1;
-      bVar6 = *pbVar8;
-      bVar12 = CARRY1(bVar6,bVar6) || CARRY1(bVar6 * '\x02',bVar13);
-      bVar6 = bVar6 * '\x02' + bVar13;
+  uVar3 = 2;
+  uVar5 = 0;
+  bVar14 = CARRY1(bVar7,bVar7);
+  bVar8 = bVar7 * '\x02';
+  pbVar9 = pbVar10;
+  bVar13 = bVar14;
+  if (bVar8 == 0) {
+    pbVar9 = pbVar10 + 1;
+    bVar7 = *pbVar10;
+    bVar13 = CARRY1(bVar7,bVar7) || CARRY1(bVar7 * '\x02',bVar14);
+    bVar8 = bVar7 * '\x02' + bVar14;
+  }
+  if (bVar13) {
+    bVar14 = CARRY1(bVar8,bVar8);
+    bVar7 = bVar8 * '\x02';
+    pbVar10 = pbVar9;
+    bVar13 = bVar14;
+    if (bVar7 == 0) {
+      pbVar10 = pbVar9 + 1;
+      bVar7 = *pbVar9;
+      bVar13 = CARRY1(bVar7,bVar7) || CARRY1(bVar7 * '\x02',bVar14);
+      bVar7 = bVar7 * '\x02' + bVar14;
     }
-    if (!bVar12) {
+    if (!bVar13) {
 LAB_00106c4c:
-      pbVar8 = pbVar9 + 1;
-      sVar1 = (short)CONCAT31((int3)(uVar4 >> 8),*pbVar9);
-      pbVar10 = (byte *)((int)dst + -(int)sVar1);
-      pbVar9 = pbVar10 + -1;
-      if ((uVar2 & 1) != 0) {
-        *(byte *)dst = pbVar10[-1];
+      pbVar9 = pbVar10 + 1;
+      sVar2 = (short)CONCAT31((int3)(uVar5 >> 8),*pbVar10);
+      pbVar11 = (byte *)((int)dst + -(int)sVar2);
+      pbVar10 = pbVar11 + -1;
+      if ((uVar3 & 1) != 0) {
+        *(byte *)dst = pbVar11[-1];
         dst = (byte *)((int)dst + 1);
-        pbVar9 = pbVar10;
+        pbVar10 = pbVar11;
       }
-      sVar3 = (uVar2 >> 1) - 1;
-      if (sVar1 == 0) {
-        bVar7 = *pbVar9;
+      sVar4 = (uVar3 >> 1) - 1;
+      if (sVar2 == 0) {
+        bVar8 = *pbVar10;
         do {
-          pbVar9 = (byte *)((int)dst + 1);
-          *(byte *)dst = bVar7;
+          pbVar10 = (byte *)((int)dst + 1);
+          *(byte *)dst = bVar8;
           dst = (void *)((int)dst + 2);
-          *pbVar9 = bVar7;
-          sVar3 = sVar3 + -1;
-        } while (sVar3 != -1);
+          *pbVar10 = bVar8;
+          sVar4 = sVar4 + -1;
+        } while (sVar4 != -1);
       }
       else {
         do {
-          pbVar11 = pbVar9 + 1;
-          pbVar10 = (byte *)((int)dst + 1);
-          *(byte *)dst = *pbVar9;
-          pbVar9 = pbVar9 + 2;
+          pbVar12 = pbVar10 + 1;
+          pbVar11 = (byte *)((int)dst + 1);
+          *(byte *)dst = *pbVar10;
+          pbVar10 = pbVar10 + 2;
           dst = (void *)((int)dst + 2);
-          *pbVar10 = *pbVar11;
-          sVar3 = sVar3 + -1;
-        } while (sVar3 != -1);
+          *pbVar11 = *pbVar12;
+          sVar4 = sVar4 + -1;
+        } while (sVar4 != -1);
       }
       goto LAB_00106c7e;
     }
-    uVar2 = 3;
-    bVar13 = CARRY1(bVar6,bVar6);
-    bVar6 = bVar6 * '\x02';
-    pbVar11 = pbVar9;
-    bVar12 = bVar13;
-    if (bVar6 == 0) {
-      pbVar11 = pbVar9 + 1;
-      bVar6 = *pbVar9;
-      bVar12 = CARRY1(bVar6,bVar6) || CARRY1(bVar6 * '\x02',bVar13);
-      bVar6 = bVar6 * '\x02' + bVar13;
+    uVar3 = 3;
+    bVar14 = CARRY1(bVar7,bVar7);
+    bVar7 = bVar7 * '\x02';
+    pbVar12 = pbVar10;
+    bVar13 = bVar14;
+    if (bVar7 == 0) {
+      pbVar12 = pbVar10 + 1;
+      bVar7 = *pbVar10;
+      bVar13 = CARRY1(bVar7,bVar7) || CARRY1(bVar7 * '\x02',bVar14);
+      bVar7 = bVar7 * '\x02' + bVar14;
     }
-    pbVar10 = pbVar11;
-    if (bVar12) {
-      pbVar10 = pbVar11 + 1;
-      if (*pbVar11 != 0) {
-        uVar2 = *pbVar11 + 8;
+    pbVar11 = pbVar12;
+    if (bVar13) {
+      pbVar11 = pbVar12 + 1;
+      if (*pbVar12 != 0) {
+        uVar3 = *pbVar12 + 8;
         goto LAB_00106c2c;
       }
-      bVar13 = CARRY1(bVar6,bVar6);
-      bVar6 = bVar6 * '\x02';
-      pbVar8 = pbVar10;
-      bVar12 = bVar13;
-      if (bVar6 == 0) {
-        pbVar8 = pbVar11 + 2;
-        bVar6 = *pbVar10;
-        bVar12 = CARRY1(bVar6,bVar6) || CARRY1(bVar6 * '\x02',bVar13);
-        bVar6 = bVar6 * '\x02' + bVar13;
+      bVar14 = CARRY1(bVar7,bVar7);
+      bVar7 = bVar7 * '\x02';
+      pbVar9 = pbVar11;
+      bVar13 = bVar14;
+      if (bVar7 == 0) {
+        pbVar9 = pbVar12 + 2;
+        bVar7 = *pbVar11;
+        bVar13 = CARRY1(bVar7,bVar7) || CARRY1(bVar7 * '\x02',bVar14);
+        bVar7 = bVar7 * '\x02' + bVar14;
       }
-      if (!bVar12) {
+      if (!bVar13) {
         return;
       }
       goto LAB_00106c7e;
     }
   }
   else {
-    bVar6 = bVar7 * '\x02';
-    pbVar9 = pbVar8;
-    if (bVar6 == 0) {
-      pbVar9 = pbVar8 + 1;
-      bVar6 = *pbVar8 * '\x02' + CARRY1(bVar7,bVar7);
-    }
-    uVar5 = (ushort)CARRY1(bVar7,bVar7);
-    uVar2 = uVar5 + 4;
-    bVar13 = CARRY1(bVar6,bVar6);
-    bVar6 = bVar6 * '\x02';
+    bVar7 = bVar8 * '\x02';
     pbVar10 = pbVar9;
-    bVar12 = bVar13;
-    if (bVar6 == 0) {
+    if (bVar7 == 0) {
       pbVar10 = pbVar9 + 1;
-      bVar6 = *pbVar9;
-      bVar12 = CARRY1(bVar6,bVar6) || CARRY1(bVar6 * '\x02',bVar13);
-      bVar6 = bVar6 * '\x02' + bVar13;
+      bVar7 = *pbVar9 * '\x02' + CARRY1(bVar8,bVar8);
     }
-    if (bVar12) {
-      bVar12 = CARRY1(bVar6,bVar6);
-      bVar6 = bVar6 * '\x02';
-      if (bVar6 == 0) {
-        bVar6 = *pbVar10 * '\x02' + bVar12;
-        pbVar10 = pbVar10 + 1;
+    uVar6 = (ushort)CARRY1(bVar8,bVar8);
+    uVar3 = uVar6 + 4;
+    bVar14 = CARRY1(bVar7,bVar7);
+    bVar7 = bVar7 * '\x02';
+    pbVar11 = pbVar10;
+    bVar13 = bVar14;
+    if (bVar7 == 0) {
+      pbVar11 = pbVar10 + 1;
+      bVar7 = *pbVar10;
+      bVar13 = CARRY1(bVar7,bVar7) || CARRY1(bVar7 * '\x02',bVar14);
+      bVar7 = bVar7 * '\x02' + bVar14;
+    }
+    if (bVar13) {
+      bVar13 = CARRY1(bVar7,bVar7);
+      bVar7 = bVar7 * '\x02';
+      if (bVar7 == 0) {
+        bVar7 = *pbVar11 * '\x02' + bVar13;
+        pbVar11 = pbVar11 + 1;
       }
-      uVar2 = (uVar5 + 3) * 2 + (ushort)bVar12;
-      if ((char)uVar2 != '\t') goto LAB_00106c2c;
-      sVar1 = 3;
+      uVar3 = (uVar6 + 3) * 2 + (ushort)bVar13;
+      if ((char)uVar3 != '\t') goto LAB_00106c2c;
+      sVar2 = 3;
       do {
-        bVar12 = CARRY1(bVar6,bVar6);
-        bVar6 = bVar6 * '\x02';
-        pbVar8 = pbVar10;
-        if (bVar6 == 0) {
-          pbVar8 = pbVar10 + 1;
-          bVar6 = *pbVar10 * '\x02' + bVar12;
+        bVar13 = CARRY1(bVar7,bVar7);
+        bVar7 = bVar7 * '\x02';
+        pbVar9 = pbVar11;
+        if (bVar7 == 0) {
+          pbVar9 = pbVar11 + 1;
+          bVar7 = *pbVar11 * '\x02' + bVar13;
         }
-        uVar2 = (short)uVar4 * 2 + (ushort)bVar12;
-        uVar4 = (uint)uVar2;
-        sVar1 = sVar1 + -1;
-        pbVar10 = pbVar8;
-      } while (sVar1 != -1);
-      sVar1 = uVar2 + 2;
+        uVar3 = (short)uVar5 * 2 + (ushort)bVar13;
+        uVar5 = (uint)uVar3;
+        sVar2 = sVar2 + -1;
+        pbVar11 = pbVar9;
+      } while (sVar2 != -1);
+      sVar2 = uVar3 + 2;
       do {
-        *(byte *)dst = *pbVar8;
-        *(byte *)((int)dst + 1) = pbVar8[1];
-        pbVar9 = pbVar8 + 3;
-        pbVar10 = (byte *)((int)dst + 3);
-        *(byte *)((int)dst + 2) = pbVar8[2];
-        pbVar8 = pbVar8 + 4;
+        *(byte *)dst = *pbVar9;
+        *(byte *)((int)dst + 1) = pbVar9[1];
+        pbVar10 = pbVar9 + 3;
+        pbVar11 = (byte *)((int)dst + 3);
+        *(byte *)((int)dst + 2) = pbVar9[2];
+        pbVar9 = pbVar9 + 4;
         dst = (void *)((int)dst + 4);
-        *pbVar10 = *pbVar9;
-        sVar1 = sVar1 + -1;
-      } while (sVar1 != -1);
+        *pbVar11 = *pbVar10;
+        sVar2 = sVar2 + -1;
+      } while (sVar2 != -1);
       goto LAB_00106c7e;
     }
   }
 LAB_00106c2c:
-  bVar13 = CARRY1(bVar6,bVar6);
-  bVar6 = bVar6 * '\x02';
-  pbVar9 = pbVar10;
-  bVar12 = bVar13;
-  if (bVar6 == 0) {
-    pbVar9 = pbVar10 + 1;
-    bVar6 = *pbVar10;
-    bVar12 = CARRY1(bVar6,bVar6) || CARRY1(bVar6 * '\x02',bVar13);
-    bVar6 = bVar6 * '\x02' + bVar13;
+  bVar14 = CARRY1(bVar7,bVar7);
+  bVar7 = bVar7 * '\x02';
+  pbVar10 = pbVar11;
+  bVar13 = bVar14;
+  if (bVar7 == 0) {
+    pbVar10 = pbVar11 + 1;
+    bVar7 = *pbVar11;
+    bVar13 = CARRY1(bVar7,bVar7) || CARRY1(bVar7 * '\x02',bVar14);
+    bVar7 = bVar7 * '\x02' + bVar14;
   }
-  if (bVar12) {
-    bVar7 = bVar6 * '\x02';
-    pbVar8 = pbVar9;
+  if (bVar13) {
+    bVar8 = bVar7 * '\x02';
+    pbVar9 = pbVar10;
+    if (bVar8 == 0) {
+      pbVar9 = pbVar10 + 1;
+      bVar8 = *pbVar10 * '\x02' + CARRY1(bVar7,bVar7);
+    }
+    uVar6 = (ushort)CARRY1(bVar7,bVar7);
+    bVar14 = CARRY1(bVar8,bVar8);
+    bVar7 = bVar8 * '\x02';
+    pbVar10 = pbVar9;
+    bVar13 = bVar14;
     if (bVar7 == 0) {
-      pbVar8 = pbVar9 + 1;
-      bVar7 = *pbVar9 * '\x02' + CARRY1(bVar6,bVar6);
+      pbVar10 = pbVar9 + 1;
+      bVar7 = *pbVar9;
+      bVar13 = CARRY1(bVar7,bVar7) || CARRY1(bVar7 * '\x02',bVar14);
+      bVar7 = bVar7 * '\x02' + bVar14;
     }
-    uVar5 = (ushort)CARRY1(bVar6,bVar6);
-    bVar13 = CARRY1(bVar7,bVar7);
-    bVar6 = bVar7 * '\x02';
-    pbVar9 = pbVar8;
-    bVar12 = bVar13;
-    if (bVar6 == 0) {
-      pbVar9 = pbVar8 + 1;
-      bVar6 = *pbVar8;
-      bVar12 = CARRY1(bVar6,bVar6) || CARRY1(bVar6 * '\x02',bVar13);
-      bVar6 = bVar6 * '\x02' + bVar13;
-    }
-    if (bVar12) {
-      bVar7 = bVar6 * '\x02';
-      pbVar8 = pbVar9;
+    if (bVar13) {
+      bVar8 = bVar7 * '\x02';
+      pbVar9 = pbVar10;
+      if (bVar8 == 0) {
+        pbVar9 = pbVar10 + 1;
+        bVar8 = *pbVar10 * '\x02' + CARRY1(bVar7,bVar7);
+      }
+      uVar6 = uVar6 * 2 + (ushort)CARRY1(bVar7,bVar7) | 4;
+      bVar14 = CARRY1(bVar8,bVar8);
+      bVar7 = bVar8 * '\x02';
+      pbVar10 = pbVar9;
+      bVar13 = bVar14;
       if (bVar7 == 0) {
-        pbVar8 = pbVar9 + 1;
-        bVar7 = *pbVar9 * '\x02' + CARRY1(bVar6,bVar6);
+        pbVar10 = pbVar9 + 1;
+        bVar7 = *pbVar9;
+        bVar13 = CARRY1(bVar7,bVar7) || CARRY1(bVar7 * '\x02',bVar14);
+        bVar7 = bVar7 * '\x02' + bVar14;
       }
-      uVar5 = uVar5 * 2 + (ushort)CARRY1(bVar6,bVar6) | 4;
-      bVar13 = CARRY1(bVar7,bVar7);
-      bVar6 = bVar7 * '\x02';
-      pbVar9 = pbVar8;
-      bVar12 = bVar13;
-      if (bVar6 == 0) {
-        pbVar9 = pbVar8 + 1;
-        bVar6 = *pbVar8;
-        bVar12 = CARRY1(bVar6,bVar6) || CARRY1(bVar6 * '\x02',bVar13);
-        bVar6 = bVar6 * '\x02' + bVar13;
-      }
-      if (!bVar12) goto LAB_00106c44;
+      if (!bVar13) goto LAB_00106c44;
     }
-    else if (uVar5 == 0) {
-      uVar5 = 1;
+    else if (uVar6 == 0) {
+      uVar6 = 1;
 LAB_00106c44:
-      bVar12 = CARRY1(bVar6,bVar6);
-      bVar6 = bVar6 * '\x02';
-      if (bVar6 == 0) {
-        bVar6 = *pbVar9 * '\x02' + bVar12;
-        pbVar9 = pbVar9 + 1;
+      bVar13 = CARRY1(bVar7,bVar7);
+      bVar7 = bVar7 * '\x02';
+      if (bVar7 == 0) {
+        bVar7 = *pbVar10 * '\x02' + bVar13;
+        pbVar10 = pbVar10 + 1;
       }
-      uVar5 = uVar5 * 2 + (ushort)bVar12;
+      uVar6 = uVar6 * 2 + (ushort)bVar13;
     }
-    uVar4 = (uint)(ushort)(uVar5 << 8);
+    uVar5 = (uint)(ushort)(uVar6 << 8);
   }
   goto LAB_00106c4c;
 }
@@ -10164,14 +10142,14 @@ int __usercall RncDecompressV1(void *src,void *dst,uint expectedSize)
   PanicHaltLoop();
   outTab = (ushort *)auStack_1bc;
   uStack_1c0 = 0x1069b2;
-  uVar4 = RncReadU32((uchar **)src);
+  uVar4 = RncReadU32(src);
   if (uVar4 == 0x524e4301) {
     uStack_1c0 = 0x1069c2;
-    uStack_3c = RncReadU32((uchar **)src);
+    uStack_3c = RncReadU32(src);
     pbVar17 = (byte *)((int)src + 10);
     pbVar1 = (byte *)((int)dst + uStack_3c);
     uStack_1c0 = 0x1069d4;
-    uVar4 = RncReadU32((uchar **)src);
+    uVar4 = RncReadU32(src);
     pbVar18 = pbVar17 + uVar4;
     uStack_1c0 = uStack_1c0 & 0xffff0000;
     puVar21 = (ushort *)((int)&uStack_1c0 + 2);
@@ -10242,7 +10220,7 @@ int __usercall RncDecompressV1(void *src,void *dst,uint expectedSize)
         iVar6 = RncDecodeSymbol(outTab);
         sVar8 = (short)iVar6 + -1;
         pbVar18 = pbVar17;
-        pbVar16 = (byte *)dst;
+        pbVar16 = dst;
         if (-1 < sVar8) {
           do {
             pbVar17 = pbVar18 + 1;
@@ -10250,7 +10228,7 @@ int __usercall RncDecompressV1(void *src,void *dst,uint expectedSize)
             *pbVar16 = *pbVar18;
             sVar8 = sVar8 + -1;
             pbVar18 = pbVar17;
-            pbVar16 = (byte *)dst;
+            pbVar16 = dst;
           } while (sVar8 != -1);
         }
         sVar13 = sVar13 + -1;
@@ -10270,7 +10248,7 @@ int __usercall RncDecompressV1(void *src,void *dst,uint expectedSize)
           *pbVar16 = *pbVar18;
           uVar7 = (short)uVar4 - 1;
           uVar4 = (uint)uVar7;
-          pbVar16 = (byte *)dst;
+          pbVar16 = dst;
         } while (uVar7 != 0xffff);
       }
     } while (dst < pbVar1);
@@ -10321,26 +10299,26 @@ int __usercall RncDecodeBlock(void *src,void *dst)
   ushort *puVar20;
   ushort *puVar21;
   ushort *outTab;
-  undefined4 uStack_1c0;
-  undefined1 local_1bc [128];
-  undefined1 local_13c [128];
-  undefined1 local_bc [128];
+  undefined4 local_1c0;
+  undefined1 auStack_1bc [128];
+  undefined1 auStack_13c [128];
+  undefined1 auStack_bc [128];
   
-  outTab = (ushort *)local_1bc;
-  uStack_1c0 = 0x1069b2;
-  uVar4 = RncReadU32((uchar **)src);
+  outTab = (ushort *)auStack_1bc;
+  local_1c0 = 0x1069b2;
+  uVar4 = RncReadU32(src);
   if (uVar4 == 0x524e4301) {
-    uStack_1c0 = 0x1069c2;
-    uVar4 = RncReadU32((uchar **)src);
+    local_1c0 = 0x1069c2;
+    uVar4 = RncReadU32(src);
     pbVar17 = (byte *)((int)src + 10);
     pbVar1 = (byte *)((int)dst + uVar4);
-    uStack_1c0 = 0x1069d4;
-    uVar4 = RncReadU32((uchar **)src);
+    local_1c0 = 0x1069d4;
+    uVar4 = RncReadU32(src);
     pbVar18 = pbVar17 + uVar4;
-    uStack_1c0 = uStack_1c0 & 0xffff0000;
-    puVar21 = (ushort *)((int)&uStack_1c0 + 2);
+    local_1c0 = local_1c0 & 0xffff0000;
+    puVar21 = (ushort *)((int)&local_1c0 + 2);
     if ((dst < pbVar18) &&
-       (pbVar16 = pbVar1 + *(byte *)((int)src + 8), puVar21 = (ushort *)((int)&uStack_1c0 + 2),
+       (pbVar16 = pbVar1 + *(byte *)((int)src + 8), puVar21 = (ushort *)((int)&local_1c0 + 2),
        pbVar18 < pbVar16)) {
       if (((uint)pbVar18 & 1) != 0) {
         pbVar18 = pbVar18 + 1;
@@ -10392,10 +10370,10 @@ int __usercall RncDecodeBlock(void *src,void *dst)
       RncBuildTable(outTab);
       puVar21[-0xffffffff00000002] = 0x10;
       puVar21[-0xffffffff00000001] = 0x6a4a;
-      RncBuildTable(local_13c);
+      RncBuildTable(auStack_13c);
       puVar21[-0xffffffff00000002] = 0x10;
       puVar21[-0xffffffff00000001] = 0x6a52;
-      RncBuildTable(local_bc);
+      RncBuildTable(auStack_bc);
       puVar21[-0xffffffff00000002] = 0x10;
       puVar21[-0xffffffff00000001] = 0x6a5a;
       iVar6 = RncGetBits(0xffffffff,0x10);
@@ -10406,7 +10384,7 @@ int __usercall RncDecodeBlock(void *src,void *dst)
         iVar6 = RncDecodeSymbol(outTab);
         sVar8 = (short)iVar6 + -1;
         pbVar18 = pbVar17;
-        pbVar16 = (byte *)dst;
+        pbVar16 = dst;
         if (-1 < sVar8) {
           do {
             pbVar17 = pbVar18 + 1;
@@ -10414,18 +10392,18 @@ int __usercall RncDecodeBlock(void *src,void *dst)
             *pbVar16 = *pbVar18;
             sVar8 = sVar8 + -1;
             pbVar18 = pbVar17;
-            pbVar16 = (byte *)dst;
+            pbVar16 = dst;
           } while (sVar8 != -1);
         }
         sVar13 = sVar13 + -1;
         if (sVar13 == -1) break;
         puVar21[-0xffffffff00000002] = 0x10;
         puVar21[-0xffffffff00000001] = 0x6a68;
-        iVar6 = RncDecodeSymbol(local_13c);
+        iVar6 = RncDecodeSymbol(auStack_13c);
         pbVar18 = (byte *)((int)dst + (-1 - iVar6));
         puVar21[-0xffffffff00000002] = 0x10;
         puVar21[-0xffffffff00000001] = 0x6a74;
-        uVar4 = RncDecodeSymbol(local_bc);
+        uVar4 = RncDecodeSymbol(auStack_bc);
         *(byte *)dst = *pbVar18;
         pbVar16 = (byte *)((int)dst + 1);
         do {
@@ -10434,7 +10412,7 @@ int __usercall RncDecodeBlock(void *src,void *dst)
           *pbVar16 = *pbVar18;
           uVar7 = (short)uVar4 - 1;
           uVar4 = (uint)uVar7;
-          pbVar16 = (byte *)dst;
+          pbVar16 = dst;
         } while (uVar7 != 0xffff);
       }
     } while (dst < pbVar1);
@@ -10474,7 +10452,7 @@ int __usercall RncDecodeSymbol(void *tab)
   ushort *puVar9;
   
   do {
-    puVar9 = (ushort *)tab;
+    puVar9 = tab;
     uVar7 = (undefined2)((uint)unaff_D0 >> 0x10);
     sVar6 = ((ushort)unaff_D6 & *puVar9) - puVar9[1];
     unaff_D0 = CONCAT22(uVar7,sVar6);
@@ -10557,14 +10535,14 @@ void __usercall RncBuildTable(void *outTab)
   short *psVar12;
   char *pcVar13;
   bool bVar14;
-  char local_10 [12];
+  char acStack_10 [12];
   undefined4 uStack_4;
   
   uStack_4 = 0x106b2e;
   iVar4 = RncGetBits(0x1f,5);
   sVar2 = (short)iVar4 + -1;
   if (-1 < sVar2) {
-    pcVar13 = local_10;
+    pcVar13 = acStack_10;
     sVar9 = sVar2;
     do {
       iVar4 = RncGetBits(0xf,4);
@@ -10576,11 +10554,11 @@ void __usercall RncBuildTable(void *outTab)
     uVar6 = 1;
     uVar8 = 0;
     sVar9 = sVar2;
-    pcVar13 = local_10;
+    pcVar13 = acStack_10;
     do {
       do {
         cVar7 = (char)uVar6;
-        psVar12 = (short *)outTab;
+        psVar12 = outTab;
         if (cVar7 == *pcVar13) {
           *(short *)outTab = (1 << (uVar6 & 0x3f)) + -1;
           uVar10 = uVar8 >> 0x10;
@@ -10609,7 +10587,7 @@ void __usercall RncBuildTable(void *outTab)
       uVar5 = uVar5 >> 1;
       uVar6 = (uint)(byte)(cVar7 + 1U);
       sVar9 = sVar2;
-      pcVar13 = local_10;
+      pcVar13 = acStack_10;
     } while ((byte)(cVar7 + 1U) != 0x11);
   }
   return;
@@ -10620,260 +10598,257 @@ void __usercall RncBuildTable(void *outTab)
 void __usercall RncDecodeV2Body(void *src,void *dst)
 
 {
-  short sVar1;
-  ushort uVar2;
-  short sVar3;
-  ushort uVar5;
-  uint uVar4;
-  byte bVar6;
+  byte bVar1;
+  short sVar2;
+  ushort uVar3;
+  short sVar4;
+  ushort uVar6;
+  uint uVar5;
   byte bVar7;
-  byte *pbVar8;
+  byte bVar8;
   byte *pbVar9;
   byte *pbVar10;
   byte *pbVar11;
-  bool bVar12;
+  byte *pbVar12;
   bool bVar13;
+  bool bVar14;
   
-  pbVar8 = (byte *)((int)src + 0x13);
-  bVar6 = (*(char *)((int)src + 0x12) * '\x02' + '\x01') * '\x02';
+  pbVar9 = (byte *)((int)src + 0x13);
+  bVar7 = (*(char *)((int)src + 0x12) * '\x02' + '\x01') * '\x02';
 LAB_00106c7e:
-  while( true ) {
-    bVar12 = CARRY1(bVar6,bVar6);
-    bVar7 = bVar6 * '\x02';
-    if (bVar12) break;
-    pbVar9 = pbVar8 + 1;
-    pbVar10 = (byte *)((int)dst + 1);
-    *(byte *)dst = *pbVar8;
-    bVar12 = CARRY1(bVar7,bVar7);
-    bVar6 = bVar6 << 2;
-    pbVar8 = pbVar9;
-    dst = pbVar10;
-    bVar7 = bVar6;
-    if (bVar12) break;
+  while (bVar8 = bVar7 * '\x02', bVar1 = bVar8, !CARRY1(bVar7,bVar7)) {
+    pbVar10 = pbVar9 + 1;
+    pbVar11 = (byte *)((int)dst + 1);
+    *(byte *)dst = *pbVar9;
+    bVar7 = bVar7 << 2;
+    pbVar9 = pbVar10;
+    dst = pbVar11;
+    bVar1 = bVar7;
+    if (CARRY1(bVar8,bVar8)) break;
 LAB_00106c7c:
-    pbVar8 = pbVar9 + 1;
-    dst = pbVar10 + 1;
-    *pbVar10 = *pbVar9;
+    pbVar9 = pbVar10 + 1;
+    dst = pbVar11 + 1;
+    *pbVar11 = *pbVar10;
   }
-  bVar6 = bVar7;
-  pbVar9 = pbVar8;
-  if (bVar6 == 0) {
-    pbVar9 = pbVar8 + 1;
-    bVar7 = *pbVar8;
-    bVar6 = bVar7 * '\x02' + bVar12;
-    pbVar10 = (byte *)dst;
-    if (!CARRY1(bVar7,bVar7) && !CARRY1(bVar7 * '\x02',bVar12)) goto LAB_00106c7c;
-  }
-  uVar2 = 2;
-  uVar4 = 0;
-  bVar13 = CARRY1(bVar6,bVar6);
-  bVar7 = bVar6 * '\x02';
-  pbVar8 = pbVar9;
-  bVar12 = bVar13;
+  bVar7 = bVar1;
+  pbVar10 = pbVar9;
   if (bVar7 == 0) {
-    pbVar8 = pbVar9 + 1;
-    bVar6 = *pbVar9;
-    bVar12 = CARRY1(bVar6,bVar6) || CARRY1(bVar6 * '\x02',bVar13);
-    bVar7 = bVar6 * '\x02' + bVar13;
+    pbVar10 = pbVar9 + 1;
+    bVar8 = *pbVar9;
+    bVar7 = bVar8 * '\x02' + 1;
+    pbVar11 = dst;
+    if (!CARRY1(bVar8,bVar8) && (byte)(bVar8 * '\x02') != -1) goto LAB_00106c7c;
   }
-  if (bVar12) {
-    bVar13 = CARRY1(bVar7,bVar7);
-    bVar6 = bVar7 * '\x02';
-    pbVar9 = pbVar8;
-    bVar12 = bVar13;
-    if (bVar6 == 0) {
-      pbVar9 = pbVar8 + 1;
-      bVar6 = *pbVar8;
-      bVar12 = CARRY1(bVar6,bVar6) || CARRY1(bVar6 * '\x02',bVar13);
-      bVar6 = bVar6 * '\x02' + bVar13;
+  uVar3 = 2;
+  uVar5 = 0;
+  bVar14 = CARRY1(bVar7,bVar7);
+  bVar8 = bVar7 * '\x02';
+  pbVar9 = pbVar10;
+  bVar13 = bVar14;
+  if (bVar8 == 0) {
+    pbVar9 = pbVar10 + 1;
+    bVar7 = *pbVar10;
+    bVar13 = CARRY1(bVar7,bVar7) || CARRY1(bVar7 * '\x02',bVar14);
+    bVar8 = bVar7 * '\x02' + bVar14;
+  }
+  if (bVar13) {
+    bVar14 = CARRY1(bVar8,bVar8);
+    bVar7 = bVar8 * '\x02';
+    pbVar10 = pbVar9;
+    bVar13 = bVar14;
+    if (bVar7 == 0) {
+      pbVar10 = pbVar9 + 1;
+      bVar7 = *pbVar9;
+      bVar13 = CARRY1(bVar7,bVar7) || CARRY1(bVar7 * '\x02',bVar14);
+      bVar7 = bVar7 * '\x02' + bVar14;
     }
-    if (!bVar12) {
+    if (!bVar13) {
 LAB_00106c4c:
-      pbVar8 = pbVar9 + 1;
-      sVar1 = (short)CONCAT31((int3)(uVar4 >> 8),*pbVar9);
-      pbVar10 = (byte *)((int)dst + -(int)sVar1);
-      pbVar9 = pbVar10 + -1;
-      if ((uVar2 & 1) != 0) {
-        *(byte *)dst = pbVar10[-1];
+      pbVar9 = pbVar10 + 1;
+      sVar2 = (short)CONCAT31((int3)(uVar5 >> 8),*pbVar10);
+      pbVar11 = (byte *)((int)dst + -(int)sVar2);
+      pbVar10 = pbVar11 + -1;
+      if ((uVar3 & 1) != 0) {
+        *(byte *)dst = pbVar11[-1];
         dst = (byte *)((int)dst + 1);
-        pbVar9 = pbVar10;
+        pbVar10 = pbVar11;
       }
-      sVar3 = (uVar2 >> 1) - 1;
-      if (sVar1 == 0) {
-        bVar7 = *pbVar9;
+      sVar4 = (uVar3 >> 1) - 1;
+      if (sVar2 == 0) {
+        bVar8 = *pbVar10;
         do {
-          pbVar9 = (byte *)((int)dst + 1);
-          *(byte *)dst = bVar7;
+          pbVar10 = (byte *)((int)dst + 1);
+          *(byte *)dst = bVar8;
           dst = (void *)((int)dst + 2);
-          *pbVar9 = bVar7;
-          sVar3 = sVar3 + -1;
-        } while (sVar3 != -1);
+          *pbVar10 = bVar8;
+          sVar4 = sVar4 + -1;
+        } while (sVar4 != -1);
       }
       else {
         do {
-          pbVar11 = pbVar9 + 1;
-          pbVar10 = (byte *)((int)dst + 1);
-          *(byte *)dst = *pbVar9;
-          pbVar9 = pbVar9 + 2;
+          pbVar12 = pbVar10 + 1;
+          pbVar11 = (byte *)((int)dst + 1);
+          *(byte *)dst = *pbVar10;
+          pbVar10 = pbVar10 + 2;
           dst = (void *)((int)dst + 2);
-          *pbVar10 = *pbVar11;
-          sVar3 = sVar3 + -1;
-        } while (sVar3 != -1);
+          *pbVar11 = *pbVar12;
+          sVar4 = sVar4 + -1;
+        } while (sVar4 != -1);
       }
       goto LAB_00106c7e;
     }
-    uVar2 = 3;
-    bVar13 = CARRY1(bVar6,bVar6);
-    bVar6 = bVar6 * '\x02';
-    pbVar11 = pbVar9;
-    bVar12 = bVar13;
-    if (bVar6 == 0) {
-      pbVar11 = pbVar9 + 1;
-      bVar6 = *pbVar9;
-      bVar12 = CARRY1(bVar6,bVar6) || CARRY1(bVar6 * '\x02',bVar13);
-      bVar6 = bVar6 * '\x02' + bVar13;
+    uVar3 = 3;
+    bVar14 = CARRY1(bVar7,bVar7);
+    bVar7 = bVar7 * '\x02';
+    pbVar12 = pbVar10;
+    bVar13 = bVar14;
+    if (bVar7 == 0) {
+      pbVar12 = pbVar10 + 1;
+      bVar7 = *pbVar10;
+      bVar13 = CARRY1(bVar7,bVar7) || CARRY1(bVar7 * '\x02',bVar14);
+      bVar7 = bVar7 * '\x02' + bVar14;
     }
-    pbVar10 = pbVar11;
-    if (bVar12) {
-      pbVar10 = pbVar11 + 1;
-      if (*pbVar11 != 0) {
-        uVar2 = *pbVar11 + 8;
+    pbVar11 = pbVar12;
+    if (bVar13) {
+      pbVar11 = pbVar12 + 1;
+      if (*pbVar12 != 0) {
+        uVar3 = *pbVar12 + 8;
         goto LAB_00106c2c;
       }
-      bVar13 = CARRY1(bVar6,bVar6);
-      bVar6 = bVar6 * '\x02';
-      pbVar8 = pbVar10;
-      bVar12 = bVar13;
-      if (bVar6 == 0) {
-        pbVar8 = pbVar11 + 2;
-        bVar6 = *pbVar10;
-        bVar12 = CARRY1(bVar6,bVar6) || CARRY1(bVar6 * '\x02',bVar13);
-        bVar6 = bVar6 * '\x02' + bVar13;
+      bVar14 = CARRY1(bVar7,bVar7);
+      bVar7 = bVar7 * '\x02';
+      pbVar9 = pbVar11;
+      bVar13 = bVar14;
+      if (bVar7 == 0) {
+        pbVar9 = pbVar12 + 2;
+        bVar7 = *pbVar11;
+        bVar13 = CARRY1(bVar7,bVar7) || CARRY1(bVar7 * '\x02',bVar14);
+        bVar7 = bVar7 * '\x02' + bVar14;
       }
-      if (!bVar12) {
+      if (!bVar13) {
         return;
       }
       goto LAB_00106c7e;
     }
   }
   else {
-    bVar6 = bVar7 * '\x02';
-    pbVar9 = pbVar8;
-    if (bVar6 == 0) {
-      pbVar9 = pbVar8 + 1;
-      bVar6 = *pbVar8 * '\x02' + CARRY1(bVar7,bVar7);
-    }
-    uVar5 = (ushort)CARRY1(bVar7,bVar7);
-    uVar2 = uVar5 + 4;
-    bVar13 = CARRY1(bVar6,bVar6);
-    bVar6 = bVar6 * '\x02';
+    bVar7 = bVar8 * '\x02';
     pbVar10 = pbVar9;
-    bVar12 = bVar13;
-    if (bVar6 == 0) {
+    if (bVar7 == 0) {
       pbVar10 = pbVar9 + 1;
-      bVar6 = *pbVar9;
-      bVar12 = CARRY1(bVar6,bVar6) || CARRY1(bVar6 * '\x02',bVar13);
-      bVar6 = bVar6 * '\x02' + bVar13;
+      bVar7 = *pbVar9 * '\x02' + CARRY1(bVar8,bVar8);
     }
-    if (bVar12) {
-      bVar12 = CARRY1(bVar6,bVar6);
-      bVar6 = bVar6 * '\x02';
-      if (bVar6 == 0) {
-        bVar6 = *pbVar10 * '\x02' + bVar12;
-        pbVar10 = pbVar10 + 1;
+    uVar6 = (ushort)CARRY1(bVar8,bVar8);
+    uVar3 = uVar6 + 4;
+    bVar14 = CARRY1(bVar7,bVar7);
+    bVar7 = bVar7 * '\x02';
+    pbVar11 = pbVar10;
+    bVar13 = bVar14;
+    if (bVar7 == 0) {
+      pbVar11 = pbVar10 + 1;
+      bVar7 = *pbVar10;
+      bVar13 = CARRY1(bVar7,bVar7) || CARRY1(bVar7 * '\x02',bVar14);
+      bVar7 = bVar7 * '\x02' + bVar14;
+    }
+    if (bVar13) {
+      bVar13 = CARRY1(bVar7,bVar7);
+      bVar7 = bVar7 * '\x02';
+      if (bVar7 == 0) {
+        bVar7 = *pbVar11 * '\x02' + bVar13;
+        pbVar11 = pbVar11 + 1;
       }
-      uVar2 = (uVar5 + 3) * 2 + (ushort)bVar12;
-      if ((char)uVar2 != '\t') goto LAB_00106c2c;
-      sVar1 = 3;
+      uVar3 = (uVar6 + 3) * 2 + (ushort)bVar13;
+      if ((char)uVar3 != '\t') goto LAB_00106c2c;
+      sVar2 = 3;
       do {
-        bVar12 = CARRY1(bVar6,bVar6);
-        bVar6 = bVar6 * '\x02';
-        pbVar8 = pbVar10;
-        if (bVar6 == 0) {
-          pbVar8 = pbVar10 + 1;
-          bVar6 = *pbVar10 * '\x02' + bVar12;
+        bVar13 = CARRY1(bVar7,bVar7);
+        bVar7 = bVar7 * '\x02';
+        pbVar9 = pbVar11;
+        if (bVar7 == 0) {
+          pbVar9 = pbVar11 + 1;
+          bVar7 = *pbVar11 * '\x02' + bVar13;
         }
-        uVar2 = (short)uVar4 * 2 + (ushort)bVar12;
-        uVar4 = (uint)uVar2;
-        sVar1 = sVar1 + -1;
-        pbVar10 = pbVar8;
-      } while (sVar1 != -1);
-      sVar1 = uVar2 + 2;
+        uVar3 = (short)uVar5 * 2 + (ushort)bVar13;
+        uVar5 = (uint)uVar3;
+        sVar2 = sVar2 + -1;
+        pbVar11 = pbVar9;
+      } while (sVar2 != -1);
+      sVar2 = uVar3 + 2;
       do {
-        *(byte *)dst = *pbVar8;
-        *(byte *)((int)dst + 1) = pbVar8[1];
-        pbVar9 = pbVar8 + 3;
-        pbVar10 = (byte *)((int)dst + 3);
-        *(byte *)((int)dst + 2) = pbVar8[2];
-        pbVar8 = pbVar8 + 4;
+        *(byte *)dst = *pbVar9;
+        *(byte *)((int)dst + 1) = pbVar9[1];
+        pbVar10 = pbVar9 + 3;
+        pbVar11 = (byte *)((int)dst + 3);
+        *(byte *)((int)dst + 2) = pbVar9[2];
+        pbVar9 = pbVar9 + 4;
         dst = (void *)((int)dst + 4);
-        *pbVar10 = *pbVar9;
-        sVar1 = sVar1 + -1;
-      } while (sVar1 != -1);
+        *pbVar11 = *pbVar10;
+        sVar2 = sVar2 + -1;
+      } while (sVar2 != -1);
       goto LAB_00106c7e;
     }
   }
 LAB_00106c2c:
-  bVar13 = CARRY1(bVar6,bVar6);
-  bVar6 = bVar6 * '\x02';
-  pbVar9 = pbVar10;
-  bVar12 = bVar13;
-  if (bVar6 == 0) {
-    pbVar9 = pbVar10 + 1;
-    bVar6 = *pbVar10;
-    bVar12 = CARRY1(bVar6,bVar6) || CARRY1(bVar6 * '\x02',bVar13);
-    bVar6 = bVar6 * '\x02' + bVar13;
+  bVar14 = CARRY1(bVar7,bVar7);
+  bVar7 = bVar7 * '\x02';
+  pbVar10 = pbVar11;
+  bVar13 = bVar14;
+  if (bVar7 == 0) {
+    pbVar10 = pbVar11 + 1;
+    bVar7 = *pbVar11;
+    bVar13 = CARRY1(bVar7,bVar7) || CARRY1(bVar7 * '\x02',bVar14);
+    bVar7 = bVar7 * '\x02' + bVar14;
   }
-  if (bVar12) {
-    bVar7 = bVar6 * '\x02';
-    pbVar8 = pbVar9;
+  if (bVar13) {
+    bVar8 = bVar7 * '\x02';
+    pbVar9 = pbVar10;
+    if (bVar8 == 0) {
+      pbVar9 = pbVar10 + 1;
+      bVar8 = *pbVar10 * '\x02' + CARRY1(bVar7,bVar7);
+    }
+    uVar6 = (ushort)CARRY1(bVar7,bVar7);
+    bVar14 = CARRY1(bVar8,bVar8);
+    bVar7 = bVar8 * '\x02';
+    pbVar10 = pbVar9;
+    bVar13 = bVar14;
     if (bVar7 == 0) {
-      pbVar8 = pbVar9 + 1;
-      bVar7 = *pbVar9 * '\x02' + CARRY1(bVar6,bVar6);
+      pbVar10 = pbVar9 + 1;
+      bVar7 = *pbVar9;
+      bVar13 = CARRY1(bVar7,bVar7) || CARRY1(bVar7 * '\x02',bVar14);
+      bVar7 = bVar7 * '\x02' + bVar14;
     }
-    uVar5 = (ushort)CARRY1(bVar6,bVar6);
-    bVar13 = CARRY1(bVar7,bVar7);
-    bVar6 = bVar7 * '\x02';
-    pbVar9 = pbVar8;
-    bVar12 = bVar13;
-    if (bVar6 == 0) {
-      pbVar9 = pbVar8 + 1;
-      bVar6 = *pbVar8;
-      bVar12 = CARRY1(bVar6,bVar6) || CARRY1(bVar6 * '\x02',bVar13);
-      bVar6 = bVar6 * '\x02' + bVar13;
-    }
-    if (bVar12) {
-      bVar7 = bVar6 * '\x02';
-      pbVar8 = pbVar9;
+    if (bVar13) {
+      bVar8 = bVar7 * '\x02';
+      pbVar9 = pbVar10;
+      if (bVar8 == 0) {
+        pbVar9 = pbVar10 + 1;
+        bVar8 = *pbVar10 * '\x02' + CARRY1(bVar7,bVar7);
+      }
+      uVar6 = uVar6 * 2 + (ushort)CARRY1(bVar7,bVar7) | 4;
+      bVar14 = CARRY1(bVar8,bVar8);
+      bVar7 = bVar8 * '\x02';
+      pbVar10 = pbVar9;
+      bVar13 = bVar14;
       if (bVar7 == 0) {
-        pbVar8 = pbVar9 + 1;
-        bVar7 = *pbVar9 * '\x02' + CARRY1(bVar6,bVar6);
+        pbVar10 = pbVar9 + 1;
+        bVar7 = *pbVar9;
+        bVar13 = CARRY1(bVar7,bVar7) || CARRY1(bVar7 * '\x02',bVar14);
+        bVar7 = bVar7 * '\x02' + bVar14;
       }
-      uVar5 = uVar5 * 2 + (ushort)CARRY1(bVar6,bVar6) | 4;
-      bVar13 = CARRY1(bVar7,bVar7);
-      bVar6 = bVar7 * '\x02';
-      pbVar9 = pbVar8;
-      bVar12 = bVar13;
-      if (bVar6 == 0) {
-        pbVar9 = pbVar8 + 1;
-        bVar6 = *pbVar8;
-        bVar12 = CARRY1(bVar6,bVar6) || CARRY1(bVar6 * '\x02',bVar13);
-        bVar6 = bVar6 * '\x02' + bVar13;
-      }
-      if (!bVar12) goto LAB_00106c44;
+      if (!bVar13) goto LAB_00106c44;
     }
-    else if (uVar5 == 0) {
-      uVar5 = 1;
+    else if (uVar6 == 0) {
+      uVar6 = 1;
 LAB_00106c44:
-      bVar12 = CARRY1(bVar6,bVar6);
-      bVar6 = bVar6 * '\x02';
-      if (bVar6 == 0) {
-        bVar6 = *pbVar9 * '\x02' + bVar12;
-        pbVar9 = pbVar9 + 1;
+      bVar13 = CARRY1(bVar7,bVar7);
+      bVar7 = bVar7 * '\x02';
+      if (bVar7 == 0) {
+        bVar7 = *pbVar10 * '\x02' + bVar13;
+        pbVar10 = pbVar10 + 1;
       }
-      uVar5 = uVar5 * 2 + (ushort)bVar12;
+      uVar6 = uVar6 * 2 + (ushort)bVar13;
     }
-    uVar4 = (uint)(ushort)(uVar5 << 8);
+    uVar5 = (uint)(ushort)(uVar6 << 8);
   }
   goto LAB_00106c4c;
 }
@@ -12073,8 +12048,7 @@ uchar __usercall AudioIRQLoadAUDxPtrLenIfReloadNeeded(void *chan)
   bVar2 = *(byte *)((int)chan + 0x39);
   *(byte *)((int)chan + 0x39) = bVar2 & 0xfe;
   if ((bVar2 & 1) != 0) {
-                    // WARNING: Load size is inaccurate
-    piVar1 = *chan;
+    piVar1 = *(int **)chan;
     *piVar1 = (uint)*(ushort *)((int)chan + 0x16) * 2 + *(int *)((int)chan + 4);
     *(undefined2 *)(piVar1 + 1) = *(undefined2 *)((int)chan + 0x18);
   }
@@ -12886,28 +12860,25 @@ void __usercall AudioIRQBeepLFOAndPitchSlide(void *chan)
 {
   int iVar1;
   short sVar2;
-  short sVar3;
   
   if (*(int *)((int)chan + 8) != 0) {
-    sVar2 = (short)((int)(short)*(char *)(*(int *)((int)chan + 8) + *(int *)((int)chan + 0x20)) *
-                    (int)*(short *)((int)chan + 0x34) >> 7);
-    sVar3 = -sVar2;
-    if (0 < sVar2) {
-      sVar3 = sVar3 >> 1;
+    sVar2 = -(short)((int)(short)*(char *)(*(int *)((int)chan + 8) + *(int *)((int)chan + 0x20)) *
+                     (int)*(short *)((int)chan + 0x34) >> 7);
+    if (sVar2 < 0) {
+      sVar2 = sVar2 >> 1;
     }
-    *(short *)((int)chan + 0x36) = *(short *)((int)chan + 0x34) + sVar3;
+    *(short *)((int)chan + 0x36) = *(short *)((int)chan + 0x34) + sVar2;
     iVar1 = *(int *)((int)chan + 0x20) + 1;
     if (iVar1 == *(int *)((int)chan + 0x1c)) {
       iVar1 = (uint)*(ushort *)((int)chan + 0x1a) * 2;
     }
     *(int *)((int)chan + 0x20) = iVar1;
   }
-                    // WARNING: Load size is inaccurate
   if (*(char *)((int)chan + 0x40) != '\0') {
     *(int *)((int)chan + 0x46) = *(int *)((int)chan + 0x42) + *(int *)((int)chan + 0x46);
     *(char *)((int)chan + 0x40) = *(char *)((int)chan + 0x40) + -1;
   }
-  *(short *)(*chan + 6) = *(short *)((int)chan + 0x36) + *(short *)((int)chan + 0x46);
+  *(short *)(*(int *)chan + 6) = *(short *)((int)chan + 0x36) + *(short *)((int)chan + 0x46);
   return;
 }
 
@@ -12938,8 +12909,7 @@ void __usercall AudioIRQNoteOnInitChannel(void *chan,uint amigaPeriod)
   *(char *)((int)chan + 0x3c) = cVar3;
   *(undefined1 *)((int)chan + 0x3a) = 4;
   *(undefined2 *)(unaff_A6 + 0x96) = *(undefined2 *)((int)chan + 0x2e);
-                    // WARNING: Load size is inaccurate
-  puVar1 = *chan;
+  puVar1 = *(undefined4 **)chan;
   puVar5 = (undefined2 *)((uint)*(ushort *)(iVar2 + 0x10) + *(int *)((int)chan + 4));
   *puVar5 = 0;
   *puVar1 = puVar5;
@@ -12990,8 +12960,7 @@ uchar __usercall AudioIRQLoadAUDxPtrLenIfReloadNeeded2(void *chan)
   bVar2 = *(byte *)((int)chan + 0x91);
   *(byte *)((int)chan + 0x91) = bVar2 & 0xfe;
   if ((bVar2 & 1) != 0) {
-                    // WARNING: Load size is inaccurate
-    piVar1 = *chan;
+    piVar1 = *(int **)chan;
     *piVar1 = (uint)*(ushort *)((int)chan + 0x6e) * 2 + *(int *)((int)chan + 0x5c);
     *(undefined2 *)(piVar1 + 1) = *(undefined2 *)((int)chan + 0x70);
   }
@@ -13076,7 +13045,7 @@ modcmd_fetch_or_dispatch:
     pbVar3 = (byte *)(uint)bVar5;
     bVar14 = (int)((uint)bVar5 << 0x18) < 0;
     bVar15 = bVar5 == 0;
-    puVar6 = (uint *)chan;
+    puVar6 = chan;
     pbVar9 = pbVar8;
     puVar10 = unaff_A2;
     puVar11 = unaff_A3;
@@ -13186,8 +13155,7 @@ switchD_00107bec_caseD_2a:
       goto switchD_00107bec_caseD_32;
     case 0x36:
       puVar6 = (uint *)((int)chan + 4);
-                    // WARNING: Load size is inaccurate
-      *(uint *)chan = *chan | 0x1159009a;
+      *(uint *)chan = *(uint *)chan | 0x1159009a;
       goto switchD_00107bec_caseD_3c;
     case 0x38:
       goto switchD_00107bec_caseD_38;
@@ -13223,8 +13191,7 @@ switchD_00107bec_caseD_2a:
     case 0x58:
       *(undefined1 *)((int)unaff_A4 + -0x6e) = *(undefined1 *)((int)unaff_A4 + -0x6e);
 AudioIRQServiceVolume:
-                    // WARNING: Load size is inaccurate
-      unaff_A2 = *chan;
+      unaff_A2 = *(uint **)chan;
 switchD_00107bec_caseD_60:
       AudioIRQVolumeEnvStep(chan);
 switchD_00107bec_caseD_62:
@@ -13299,9 +13266,8 @@ switchD_00107bec_caseD_8e:
     case 0x72:
       goto switchD_00107bec_caseD_72;
     case 0x74:
-                    // WARNING: Load size is inaccurate
       chan = (void *)((int)chan + -1);
-      *(byte *)chan = *chan | 0x40;
+      *(byte *)chan = *(byte *)chan | 0x40;
       goto switchD_00107bec_caseD_78;
     case 0x76:
       goto switchD_00107bec_caseD_76;
@@ -13605,8 +13571,7 @@ void __usercall AudioIRQServiceVolume(void *chan)
 {
   void *audxRegs;
   
-                    // WARNING: Load size is inaccurate
-  audxRegs = *chan;
+  audxRegs = *(void **)chan;
   AudioIRQVolumeEnvStep(chan);
   AudioIRQVolumeLfoStep(chan);
   AudioIRQApplyVolumeAndWriteAUDxVOL(chan,audxRegs);
@@ -13665,11 +13630,12 @@ void __usercall AudioIRQVolumeEnvStep(void *chan)
   void *extraout_A0;
   
   if (*(char *)((int)chan + 0x92) == '\0') goto LAB_00107d22;
-  cVar1 = *(char *)((int)chan + 0x93);
-  if (cVar1 != '\0') {
+  cVar1 = '\0';
+  if (*(char *)((int)chan + 0x93) != '\0') {
     if (*(byte *)((int)chan + 0x94) != 0) {
       if (*(byte *)((int)chan + 0x95) != 0) {
-        cVar1 = (char)(((int)(short)cVar1 * (int)(short)(ushort)*(byte *)((int)chan + 0x94)) /
+        cVar1 = (char)(((int)(short)*(char *)((int)chan + 0x93) *
+                       (int)(short)(ushort)*(byte *)((int)chan + 0x94)) /
                       (int)(short)(ushort)*(byte *)((int)chan + 0x95));
         goto switchD_00107bec_caseD_e8;
       }
@@ -13715,28 +13681,25 @@ void __usercall AudioIRQLFOAndPitchSlide(void *chan)
 {
   int iVar1;
   short sVar2;
-  short sVar3;
   
   if (*(int *)((int)chan + 0x60) != 0) {
-    sVar2 = (short)((int)(short)*(char *)(*(int *)((int)chan + 0x60) + *(int *)((int)chan + 0x78)) *
-                    (int)*(short *)((int)chan + 0x8c) >> 7);
-    sVar3 = -sVar2;
-    if (0 < sVar2) {
-      sVar3 = sVar3 >> 1;
+    sVar2 = -(short)((int)(short)*(char *)(*(int *)((int)chan + 0x60) + *(int *)((int)chan + 0x78))
+                     * (int)*(short *)((int)chan + 0x8c) >> 7);
+    if (sVar2 < 0) {
+      sVar2 = sVar2 >> 1;
     }
-    *(short *)((int)chan + 0x8e) = *(short *)((int)chan + 0x8c) + sVar3;
+    *(short *)((int)chan + 0x8e) = *(short *)((int)chan + 0x8c) + sVar2;
     iVar1 = *(int *)((int)chan + 0x78) + 1;
     if (iVar1 == *(int *)((int)chan + 0x74)) {
       iVar1 = (uint)*(ushort *)((int)chan + 0x72) * 2;
     }
     *(int *)((int)chan + 0x78) = iVar1;
   }
-                    // WARNING: Load size is inaccurate
   if (*(char *)((int)chan + 0x98) != '\0') {
     *(int *)((int)chan + 0x9e) = *(int *)((int)chan + 0x9a) + *(int *)((int)chan + 0x9e);
     *(char *)((int)chan + 0x98) = *(char *)((int)chan + 0x98) + -1;
   }
-  *(short *)(*chan + 6) = *(short *)((int)chan + 0x8e) + *(short *)((int)chan + 0x9e);
+  *(short *)(*(int *)chan + 6) = *(short *)((int)chan + 0x8e) + *(short *)((int)chan + 0x9e);
   return;
 }
 
@@ -13767,8 +13730,7 @@ void __usercall AudioIRQInitPitchEnv(void *chan,uint amigaPeriod)
   *(char *)((int)chan + 0x94) = cVar3;
   *(undefined1 *)((int)chan + 0x92) = 4;
   *(undefined2 *)(unaff_A6 + 0x96) = *(undefined2 *)((int)chan + 0x86);
-                    // WARNING: Load size is inaccurate
-  puVar1 = *chan;
+  puVar1 = *(undefined4 **)chan;
   puVar5 = (undefined2 *)((uint)*(ushort *)(iVar2 + 0x10) + *(int *)((int)chan + 0x5c));
   *puVar5 = 0;
   *puVar1 = puVar5;
@@ -13833,17 +13795,17 @@ short __usercall CalculateDeltaXAndY(short speed,short destX,short destY,short c
   short sVar1;
   ushort uVar2;
   ushort uVar3;
-  bool bVar4;
+  char cVar4;
   bool bVar5;
   
   uVar2 = destX - curX;
   uVar3 = destY - curY;
-  bVar4 = (short)uVar2 < 0;
-  if (bVar4) {
+  bVar5 = (short)uVar2 < 0;
+  if (bVar5) {
     uVar2 = -uVar2;
   }
-  bVar5 = (short)uVar3 < 0;
-  if (bVar5) {
+  cVar4 = -((short)uVar3 < 0);
+  if ((short)uVar3 < 0) {
     uVar3 = -uVar3;
   }
   for (; 0x1f < (short)uVar2; uVar2 = uVar2 >> 1) {
@@ -13856,8 +13818,8 @@ short __usercall CalculateDeltaXAndY(short speed,short destX,short destY,short c
                     // D0 < 0 means dx = dy = 0 
   sVar1 = *(short *)((int)kAngleCoeficients + (int)(short)((uVar3 << 5 | uVar2) << 1));
   if (-1 < sVar1) {
-    if (bVar4) {
-      if (bVar5) {
+    if ((char)-bVar5 < '\0') {
+      if (cVar4 < '\0') {
         uVar2 = sVar1 * -2 + 0x180;
       }
       else {
@@ -13865,7 +13827,7 @@ short __usercall CalculateDeltaXAndY(short speed,short destX,short destY,short c
         uVar2 = sVar1 * 2 + 0x180;
       }
     }
-    else if (bVar5) {
+    else if (cVar4 < '\0') {
       uVar2 = sVar1 * 2 + 0x80;
     }
     else {
@@ -14426,8 +14388,8 @@ offset_and_clamp_to_view:
     if (iVar1 < 0) {
       sVar6 = 0;
     }
-    if (0x14f < sVar6) {
-      sVar6 = 0x150;
+    if (SCREEN_WIDTH - 1 < sVar6) {
+      sVar6 = SCREEN_WIDTH;
     }
     if (iVar2 < 0x100000) {
       sVar10 = 0x10;
@@ -14551,7 +14513,7 @@ LAB_00109572:
     FVar6.raw = 0;
   }
   else {
-    FVar6 = ballSprite.deltaZ;
+    FVar6.raw = 0;
     if (ballSprite.deltaZ.raw != 0) {
       FVar6.raw = ballSprite.deltaZ.raw - kGravityConstant | 1;
 LAB_00109538:
@@ -15687,7 +15649,7 @@ MakePlayerNameSprite(ushort playerNumber,uchar *shortName,ushort spriteIndex,uch
   
   Int2Ascii((short)(char)playerNumber,numberBuffer);
   numberBuffer[0] = ' ';
-  HWSprite_LoadFromSpriteGraphics();
+  HWSprite_LoadFromSpriteGraphics(spriteIndex);
                     // copy surname only, 11 characters max. 
   src = ExtractSurname((char *)shortName,0x400b);
   StringCopy(src,numberBuffer + 1);
@@ -15758,11 +15720,11 @@ void __usercall InitGameSaveTeams(void *leftTeamInGame,void *rightTeamInGame)
     pTVar4 = (TeamGame *)((int)&pTVar4->prShirtType + 1);
     pTVar5 = (TeamGame *)((int)&pTVar5->prShirtType + 1);
   } while (sVar1 != -1);
-  topTeamPtr = (TeamGame *)leftTeamInGame;
-  bottomTeamPtr = (TeamGame *)rightTeamInGame;
+  topTeamPtr = leftTeamInGame;
+  bottomTeamPtr = rightTeamInGame;
   LoadPitchMap(pitchNumberAndType >> 8);
   FixupAndColorPitchFile();
-  ConvertColorsAndTextSprites((TeamGame *)leftTeamInGame,(TeamGame *)rightTeamInGame);
+  ConvertColorsAndTextSprites(leftTeamInGame,rightTeamInGame);
   do {
     do {
       Player1StatusProc();
@@ -15770,7 +15732,7 @@ void __usercall InitGameSaveTeams(void *leftTeamInGame,void *rightTeamInGame)
     Player2StatusProc();
   } while (pl2Fire != 0);
   FadeOutToBlack();
-  paletteBankIndex = 2;
+  paletteIndex = 2;
   InitGameRestoreTeams(leftTeamInGame,rightTeamInGame);
   return;
 }
@@ -15788,7 +15750,7 @@ void __usercall InitGameRestoreTeams(void *leftTeamInGame,void *rightTeamInGame)
 
 {
   int iVar1;
-  word *pwVar2;
+  ushort *puVar2;
   ushort uVar3;
   short sVar4;
   TeamGame *pTVar5;
@@ -15820,7 +15782,7 @@ void __usercall InitGameRestoreTeams(void *leftTeamInGame,void *rightTeamInGame)
   gameRandValue = Rand();
   ApplyTeamTactics(&topTeamInGame);
   ApplyTeamTactics(&bottomTeamInGame);
-  paletteBankIndex = 2;
+  paletteIndex = 2;
   nullsub_5();
   CrowdResetMatchState();
   uVar3 = Rand();
@@ -15829,11 +15791,11 @@ void __usercall InitGameRestoreTeams(void *leftTeamInGame,void *rightTeamInGame)
   teamStarting = (uVar3 & 1) + 1;
   timeDelta = *(word *)((int)gameLenSecondsTable + (int)(short)(gameLengthInGame << 1));
   uVar3 = (pitchNumberAndType & 0xff) << 2;
-  pwVar2 = *(word **)((int)kPaletteTripletPtrs + (int)(short)uVar3);
-  currentCopperList[0] = (undefined *)g_copperList;
-  g_copperList[0] = *pwVar2;
-  g_copperList[7] = pwVar2[1];
-  g_copperList[9] = pwVar2[2];
+  puVar2 = *(ushort **)((int)pitchPalettePtrs + (int)(short)uVar3);
+  paletteTable[2] = (undefined *)gamePalette;
+  gamePalette[0] = *puVar2;
+  gamePalette[7] = puVar2[1];
+  gamePalette[9] = puVar2[2];
   uVar3 = uVar3 >> 1;
   pitchBallSpeedFactor = *(word *)((int)kPitchBallSpeedInfluence + (int)(short)uVar3);
   ballSpeedBounceFactor = *(word *)((int)kBallSpeedBounceFactorTable + (int)(short)uVar3);
@@ -15923,7 +15885,7 @@ char __usercall ConvertColorsAndTextSprites(TeamGame *team1,TeamGame *team2)
   
   team1Filename = *(dword *)((int)&teamFilenamesTable + (int)(short)(team1->prShirtType << 2));
   team2Filename = *(dword *)((int)&teamFilenamesTable + (int)(short)(team2->prShirtType << 2));
-  ProcessImageCommandStream();
+  ProcessImageCommandStream(menuColorAndTextScript,(uchar *)menuImageStreamBaseEnd);
   CopyAdvertisementsData();
   MakeSpritesFromPlayerNames(team1,team2);
   bigNumbersColorConversionTable[0xb] = 2;
@@ -15939,10 +15901,10 @@ char __usercall ConvertColorsAndTextSprites(TeamGame *team1,TeamGame *team2)
     ConvertSpriteColors(uVar3,bigNumbersColorConversionTable);
     uVar3 = uVar3 + 1;
   } while (uVar3 != SPR_EDIT_TEAMS_PRIMARY_SHIRT);
-  HWSprite_LoadFromSpriteGraphics();
+  HWSprite_LoadFromSpriteGraphics(SPR_EDIT_TEAMS_PRIMARY_SHIRT);
   Text2Sprite(0,0,SPR_EDIT_TEAMS_PRIMARY_SHIRT,(char *)team1->teamName,&bigCharsTable);
   team1NameLength = 0;
-  HWSprite_LoadFromSpriteGraphics();
+  HWSprite_LoadFromSpriteGraphics(SPR_EDIT_TEAMS_SHORTS);
   Text2Sprite(0,0,SPR_EDIT_TEAMS_SHORTS,(char *)team2->teamName,&bigCharsTable);
   team2NameLength = 0;
   colorTableReserves[0xf] = team1->prShirtCol;
@@ -16017,12 +15979,12 @@ char __usercall ConvertColorsAndTextSprites(TeamGame *team1,TeamGame *team2)
   if (useIndividualPlayerSkinColor != 0) {
     ConvertColorTableToSkinColor(uVar3 & 0xff00,team1PlayersColorTable);
   }
-  uVar2 = 0xe3;
+  uVar3 = 0xe3;
   do {
-    ConvertSpriteColors((ushort)uVar2,team1PlayersColorTable);
-    uVar3 = (ushort)uVar2 + 1;
-    uVar2 = (uint)uVar3;
+    ConvertSpriteColors(uVar3,team1PlayersColorTable);
+    uVar3 = uVar3 + 1;
   } while (uVar3 != 0x148);
+  uVar2 = 0x148;
   if (useIndividualPlayerSkinColor != 0) {
     ConvertColorTableToSkinColor(0x101,team1PlayersColorTable);
     uVar2 = 0x148;
@@ -16071,12 +16033,12 @@ char __usercall ConvertColorsAndTextSprites(TeamGame *team1,TeamGame *team2)
   if (useIndividualPlayerSkinColor != 0) {
     ConvertColorTableToSkinColor(uVar3 & 0xff00,team2PlayersColorTable);
   }
-  uVar2 = 0x212;
+  uVar3 = 0x212;
   do {
-    ConvertSpriteColors((ushort)uVar2,team2PlayersColorTable);
-    uVar3 = (ushort)uVar2 + 1;
-    uVar2 = (uint)uVar3;
+    ConvertSpriteColors(uVar3,team2PlayersColorTable);
+    uVar3 = uVar3 + 1;
   } while (uVar3 != 0x277);
+  uVar2 = 0x277;
   if (useIndividualPlayerSkinColor != 0) {
     ConvertColorTableToSkinColor(0x201,team2PlayersColorTable);
     uVar2 = 0x277;
@@ -17907,7 +17869,7 @@ select_scorer_sprite_block:
   pcVar12[sVar3 + 10] = (code)((char)pcVar12[sVar3 + 10] + '0');
   pcVar12[sVar3 + 0xb] = (code)((char)pcVar12[sVar3 + 0xb] + '0');
   dstSpriteIndex = pSVar15->imageIndex;
-  HWSprite_LoadFromSpriteGraphics();
+  HWSprite_LoadFromSpriteGraphics(dstSpriteIndex);
   text = pTVar9->unk4 +
          *(short *)((int)ingameTeamPlayerOffsets +
                    (int)(short)((scorerSprite->playerOrdinal - 1) * 2)) + 0xc;
@@ -17972,7 +17934,7 @@ select_scorer_sprite_block:
         dstSpriteIndex = pSVar15[1].imageIndex;
       }
       pSVar15 = pSVar15 + 1;
-      HWSprite_LoadFromSpriteGraphics();
+      HWSprite_LoadFromSpriteGraphics(dstSpriteIndex);
                     // reset x coordinate, start from left edge 
       xOff = 0;
     }
@@ -18769,10 +18731,11 @@ void __usercall BenchMenuHandleControls(void)
     }
     return;
   }
+  wVar7 = bench2Called;
   if ((TeamGeneralInfo *)benchTeam == &topTeamData) {
-    if (bench1Called != 0) goto LeaveSubsMenu;
+    wVar7 = bench1Called;
   }
-  else if (bench2Called != 0) goto LeaveSubsMenu;
+  if (wVar7 != 0) goto LeaveSubsMenu;
   if ((g_trainingGame == 0) || (subsTrainingTopTeam == 0)) {
     if (subsDirection == 0) goto LAB_0010d0fc;
     if (subsDirection != 4) goto LAB_0010d096;
@@ -19719,7 +19682,8 @@ DrawBenchPlayersAndCoach(TeamGame *requestingTeam,TeamGeneralInfo *team,ushort x
     DrawSpriteHotspotInCameraView();
   }
   pbVar2 = requestingTeam->unk4 + 0x275;
-  if ((g_trainingGame != 0) && (drawTrainingTopHalfOfTheBench != 0)) {
+  if ((g_trainingGame != 0) &&
+     (pbVar2 = requestingTeam->unk4 + 0x275, drawTrainingTopHalfOfTheBench != 0)) {
     pbVar2 = requestingTeam->unk4 + 0x369;
   }
   sVar1 = 1;
@@ -19859,8 +19823,7 @@ DrawSubstitutesMenuEntry
   FillRectangle();
   FillRectangle();
   if ((g_subsState == 4) && (selectedIndex == -1)) {
-    DrawMenuTextCentered
-              ((subsMenuX - g_cameraX._0_2_) + 0x3f,y + 1,2,aFormation,(CharTable *)charsTable);
+    DrawMenuTextCentered((subsMenuX - g_cameraX._0_2_) + 0x3f,y + 1,2,aFormation,charsTable);
     return;
   }
   sVar2 = *(short *)((int)playerOffsets + (int)(short)(selectedIndex << 1));
@@ -19889,7 +19852,7 @@ DrawSubstitutesMenuEntry
     *pcVar5 = *pcVar5 + 0x30;
     ((byte *)pcVar5)[1] = 0;
     y_00 = y + 1;
-    DrawMenuTextCentered(uVar4,y_00,2,playerNumberString,(CharTable *)charsTable);
+    DrawMenuTextCentered(uVar4,y_00,2,playerNumberString,charsTable);
     if (((ushort)selectedIndex < 0xb) &&
        ((psVar1 = (short *)(*(int *)(*(int *)(benchTeam + 0x14) + (int)(short)(selectedIndex << 2))
                            + 0x66), *psVar1 < 0 || (*psVar1 != 0)))) {
@@ -19901,12 +19864,12 @@ DrawSubstitutesMenuEntry
   if (useIndividualPlayerSkinColor != 0) {
     uVar4 = (subsMenuX - g_cameraX._0_2_) + 0x12;
   }
-  DrawMenuText(uVar4,y_00,2,(char *)((int)teamGame + sVar2 + 0x36),(CharTable *)charsTable);
+  DrawMenuText(uVar4,y_00,2,(char *)((int)teamGame + sVar2 + 0x36),charsTable);
   DrawMenuTextCentered
             ((subsMenuX - g_cameraX._0_2_) + 0x74,y_00,2,
              *(char **)((int)playerPositionsStringTable +
-                       (int)(short)((short)*(char *)((int)teamGame + sVar2 + 0x2e) << 2)),
-             (CharTable *)charsTable);
+                       (int)(short)((short)*(char *)((int)teamGame + sVar2 + 0x2e) << 2)),charsTable
+            );
   bVar3 = *(byte *)((int)teamGame + sVar2 + 0x4d);
   if ((bVar3 != 0) && ((bVar3 == 0x20 || ((frameCount & 7) <= (ushort)(bVar3 >> 5))))) {
     DrawSprite16Pixels();
@@ -20055,9 +20018,9 @@ void main(void)
   InitDisplayAndCopper();
   AssetSys_InitDiskImageSources();
   InitSkinAndDefaultPointers();
-  BuildNibbleMaskLine();
-  BuildNibbleMaskLine();
-  BuildNibbleMaskLine();
+  BuildPaletteFromColors(kTitleLogoColors);
+  BuildPaletteFromColors(kTitleScreenColors);
+  BuildPaletteFromColors(kTitleTextColors);
   bootTemp0 = 1;
   bootTemp1 = 0;
   bootTemp2 = 0;
@@ -20073,12 +20036,12 @@ void main(void)
   FadeOutToBlack();
   loaderModeFlag = 0;
   DoubleBufferSwapSequence();
-  paletteBankIndex = 0;
+  paletteIndex = 0;
   LoadOverlayToFrontbuffer(aGrafsOlddisk1R);
   BlitterCopyPanelToScreen2();
   WaitForVSync();
   LoadOverlayToFrontbuffer(aGrafsDisk22Raw);
-  paletteBankIndex = 0;
+  paletteIndex = 0;
   FadeIn();
   do {
   } while( true );
@@ -20358,7 +20321,7 @@ wait_for_vblank_sync:
     do {
       bVar7 = DMACONR._0_1_;
     } while ((bVar7 & 0x40) != 0);
-    DMACON = 0x400;
+    DMACON = DMACON_BLT_OFF;
     uVar2 = g_irqCookieObfuscated ^ 0xcfd1f9bd;
     if (uVar2 != 0x165a) {
       *(undefined1 *)(unaff_A2 + -0x80 + (short)unaff_D4w * 4) =
@@ -20582,7 +20545,7 @@ void __usercall ViewHighLightsMain(void *leftTeam,void *rightTeam)
     do {
       bVar3 = DMACONR._0_1_;
     } while ((bVar3 & 0x40) != 0);
-    DMACON = 0x400;
+    DMACON = DMACON_BLT_OFF;
     if ((g_irqCookieObfuscated ^ 0xcfd1f96b) != 0x168c) break;
     waitingInterrupt = 1;
     do {
@@ -20714,7 +20677,7 @@ fade_out_and_cleanup_then_return:
     do {
       bVar5 = DMACONR._0_1_;
     } while ((bVar5 & 0x40) != 0);
-    DMACON = 0x400;
+    DMACON = DMACON_BLT_OFF;
     if (g_irqCookieObfuscated != 0xcfd1efe7) {
       WriteStatsNumber(*(ushort *)(unaff_A6 + 4),0x100,unaff_D2w,unaff_D3w);
       uVar1 = unaff_D2w + 0x12;
@@ -20810,7 +20773,7 @@ stop_replay_and_return:
     do {
       bVar4 = DMACONR._0_1_;
     } while ((bVar4 & 0x40) != 0);
-    DMACON = 0x400;
+    DMACON = DMACON_BLT_OFF;
     if (g_irqCookieObfuscated != 0xcfd1efe7) {
                     // WARNING: Bad instruction - Truncating control flow here
       halt_baddata();
@@ -21204,14 +21167,16 @@ void __usercall AssetPrecacheOneCore(char *assetName)
 
 {
   int iVar1;
-  undefined1 uVar2;
+  bool bVar2;
   
   iVar1 = AssetCacheFindByName(assetName);
-  uVar2 = iVar1 == -1;
-  if ((bool)uVar2) {
-    do {
+  bVar2 = true;
+  if (iVar1 == -1) {
+    while( true ) {
       AssetCacheLoadFromAssetSys(assetName);
-    } while (!(bool)uVar2);
+      if (bVar2) break;
+      bVar2 = false;
+    }
   }
   return;
 }
@@ -21240,14 +21205,16 @@ void __usercall AssetPrecacheOneMenu(char *assetName)
 
 {
   int iVar1;
-  undefined1 uVar2;
+  bool bVar2;
   
   iVar1 = AssetCacheFindByName(assetName);
-  uVar2 = iVar1 == -1;
-  if ((bool)uVar2) {
-    do {
+  bVar2 = true;
+  if (iVar1 == -1) {
+    while( true ) {
       AssetCacheLoadFromAssetSys(assetName);
-    } while (!(bool)uVar2);
+      if (bVar2) break;
+      bVar2 = false;
+    }
   }
   return;
 }
@@ -21270,7 +21237,7 @@ void __usercall ReplayExitMenuAfterFriendly(void)
   SwapBuffersAndCameraViewState();
   UpdatePlanePtrsAndBlitParams();
   replaySelected = 1;
-  paletteBankIndex = 0;
+  paletteIndex = 0;
   DrawReplayOrExitMenu();
   FadeIn();
 replay_exit_loop_draw_menu:
@@ -21379,24 +21346,24 @@ void __usercall ShowLoaderIntroSequence(void)
   UpdatePlanePtrsAndBlitParams();
   Player1StatusProc();
   if (pl1Fire != 0) {
-    paletteBankIndex = 3;
+    paletteIndex = 3;
     LoaderIntroLoadFrameToFrontbufferAlt();
     FadeIn();
     return;
   }
   LoaderIntroLoadHeroAudioBank();
-  paletteBankIndex = 6;
+  paletteIndex = 6;
   bVar1 = false;
   LoaderIntroShowFrameFadeInOut();
   if (bVar1) {
     bVar1 = false;
     LoaderIntroShowFrameFadeInOut();
     if (bVar1) {
-      paletteBankIndex = 3;
+      paletteIndex = 3;
       bVar1 = false;
       LoaderIntroShowFrameWithMusic();
       if (bVar1) {
-        paletteBankIndex = 5;
+        paletteIndex = 5;
         bVar1 = false;
         LoaderIntroShowFrameFadeInOut();
         if (bVar1) {
@@ -21427,7 +21394,7 @@ void __usercall ShowLoaderIntroSequence(void)
                           bVar1 = false;
                           LoaderIntroShowFrameFadeInOut();
                           if (bVar1) {
-                            paletteBankIndex = 3;
+                            paletteIndex = 3;
                             LoaderIntroShowFrameFadeInOut();
                             goto loader_intro_exit_cleanup;
                           }
@@ -21441,7 +21408,7 @@ void __usercall ShowLoaderIntroSequence(void)
           }
         }
         FadeOutToBlack();
-        paletteBankIndex = 3;
+        paletteIndex = 3;
         LoaderIntroLoadFrameToFrontbufferAlt();
         FadeIn();
       }
@@ -21451,7 +21418,7 @@ loader_intro_exit_cleanup:
     }
   }
   FadeOutToBlack();
-  paletteBankIndex = 3;
+  paletteIndex = 3;
   LoaderIntroLoadFrameToFrontbufferAlt();
   FadeIn();
   return;
@@ -22410,7 +22377,7 @@ store_next_xy_and_return:
 
 
 
-void __usercall PositionAndClipSprite(void *sprite,ushort x,ushort y)
+void __usercall QueueMaskedSpriteBlitClipped(void *sprite,ushort x,ushort y)
 
 {
   ushort uVar1;
@@ -22421,40 +22388,40 @@ void __usercall PositionAndClipSprite(void *sprite,ushort x,ushort y)
   
   dVar5 = frontbufferBasePtr;
   if ((((*(short *)((int)sprite + 0xc) == 0xf) && (*(ushort *)((int)sprite + 10) < 0x11)) &&
-      (*(short *)((int)sprite + 8) != 0)) && ((-1 < (short)y && ((short)y < 0x102)))) {
+      (*(short *)((int)sprite + 8) != 0)) && ((-1 < (short)y && ((short)y < SPRITE_MAX_Y_DRAW + 1)))
+     ) {
     uVar1 = cameraXMod320 + x;
     spriteClippedY = cameraYMod320 + y;
-    if (0x10f < (short)spriteClippedY) {
-      spriteClippedY = spriteClippedY - 0x110;
+    if (SCREEN_HEIGHT - 1 < (short)spriteClippedY) {
+      spriteClippedY = spriteClippedY + -SCREEN_HEIGHT;
     }
-    if ((short)spriteClippedY < 0x102) {
-      if ((ushort)(*(short *)((int)sprite + 10) + (uVar1 & 0xf)) < 0x11) {
+    if ((short)spriteClippedY < SPRITE_MAX_Y_DRAW + 1) {
+      if ((ushort)(*(short *)((int)sprite + 10) + (uVar1 & TILE_MASK)) < 0x11) {
         DAT_00dff042 = uVar1 * 0x1000;
         DMACON = 0x8400;
         uVar3 = DMACONR._0_1_;
         do {
           bVar4 = DMACONR._0_1_;
         } while ((bVar4 & 0x40) != 0);
-        DMACON = 0x400;
-        DAT_00dff040 = DAT_00dff042 + 0xfca;
+        DMACON = DMACON_BLT_OFF;
+        DAT_00dff040 = DAT_00dff042 + BLTCON0_BASE_LINKED;
         iVar2 = frontbufferBasePtr +
-                (uint)spriteClippedY * 0xb0 + (int)(short)(((short)uVar1 >> 4) << 1);
+                (uint)spriteClippedY * ROW_STRIDE_BYTES + (int)(short)(((short)uVar1 >> 4) << 1);
         DAT_00dff048 = iVar2;
         DAT_00dff054 = iVar2;
         *(int *)(spriteBlitQueue + 4) = iVar2;
         *(byte **)spriteBlitQueue = frontbufferMaskBuffer + (iVar2 - dVar5);
         DAT_00dff064 = 0;
         DAT_00dff062 = 0;
-        DAT_00dff060 = 0x2a;
-        DAT_00dff066 = 0x2a;
-        *(undefined2 *)(spriteBlitQueue + 8) = 0x2a;
-                    // WARNING: Load size is inaccurate
-        DAT_00dff04c = *sprite;
+        DAT_00dff060 = PLANE_STRIDE_MINUS2;
+        DAT_00dff066 = PLANE_STRIDE_MINUS2;
+        *(undefined2 *)(spriteBlitQueue + 8) = PLANE_STRIDE_MINUS2;
+        DAT_00dff04c = *(undefined4 *)sprite;
         DAT_00dff050 = *(undefined4 *)((int)sprite + 4);
         DAT_00dff044 = 0xffff;
         DAT_00dff046 = 0xffff;
-        DAT_00dff058 = 0xf01;
-        *(undefined2 *)(spriteBlitQueue + 10) = 0xf01;
+        DAT_00dff058 = SPRITE_BLTSIZE_W1;
+        *(undefined2 *)(spriteBlitQueue + 10) = SPRITE_BLTSIZE_W1;
         *(undefined4 *)(spriteBlitQueue + 0xc) = 0xffffffff;
         spriteBlitQueue = spriteBlitQueue + 0xc;
         return;
@@ -22465,26 +22432,25 @@ void __usercall PositionAndClipSprite(void *sprite,ushort x,ushort y)
       do {
         bVar4 = DMACONR._0_1_;
       } while ((bVar4 & 0x40) != 0);
-      DMACON = 0x400;
-      DAT_00dff040 = DAT_00dff042 + 0xfca;
+      DMACON = DMACON_BLT_OFF;
+      DAT_00dff040 = DAT_00dff042 + BLTCON0_BASE_LINKED;
       iVar2 = frontbufferBasePtr +
-              (uint)spriteClippedY * 0xb0 + (int)(short)(((short)uVar1 >> 4) << 1);
+              (uint)spriteClippedY * ROW_STRIDE_BYTES + (int)(short)(((short)uVar1 >> 4) << 1);
       DAT_00dff048 = iVar2;
       DAT_00dff054 = iVar2;
       *(int *)(spriteBlitQueue + 4) = iVar2;
       *(byte **)spriteBlitQueue = frontbufferMaskBuffer + (iVar2 - dVar5);
       DAT_00dff064 = 0xfffe;
       DAT_00dff062 = 0xfffe;
-      DAT_00dff060 = 0x28;
-      DAT_00dff066 = 0x28;
-      *(undefined2 *)(spriteBlitQueue + 8) = 0x28;
-                    // WARNING: Load size is inaccurate
-      DAT_00dff04c = *sprite;
+      DAT_00dff060 = PLANE_STRIDE_MINUS4;
+      DAT_00dff066 = PLANE_STRIDE_MINUS4;
+      *(undefined2 *)(spriteBlitQueue + 8) = PLANE_STRIDE_MINUS4;
+      DAT_00dff04c = *(undefined4 *)sprite;
       DAT_00dff050 = *(undefined4 *)((int)sprite + 4);
       DAT_00dff044 = 0xffff;
       DAT_00dff046 = 0;
-      DAT_00dff058 = 0xf02;
-      *(undefined2 *)(spriteBlitQueue + 10) = 0xf02;
+      DAT_00dff058 = SPRITE_BLTSIZE_W2;
+      *(undefined2 *)(spriteBlitQueue + 10) = SPRITE_BLTSIZE_W2;
       *(undefined4 *)(spriteBlitQueue + 0xc) = 0xffffffff;
       spriteBlitQueue = spriteBlitQueue + 0xc;
       return;
@@ -23817,7 +23783,8 @@ ushort __usercall TryBookingThePlayer(Sprite *player,TeamGeneralInfo *team)
   TeamStatisticsData *pTVar2;
   word *pwVar3;
   short sVar4;
-  byte *pbVar5;
+  word wVar5;
+  byte *pbVar6;
   
   if (plg_D3_param == 0) {
     if ((team->playerNumber == 0) && (team->playerCoachNumber == 0)) {
@@ -23828,23 +23795,22 @@ ushort __usercall TryBookingThePlayer(Sprite *player,TeamGeneralInfo *team)
     return 1;
   }
   if (player->cards != 0) {
+    wVar5 = team2NumAllowedInjuries;
     if (team->teamNumber == 1) {
-      if (team1NumAllowedInjuries == 0) {
-        return 1;
-      }
+      wVar5 = team1NumAllowedInjuries;
     }
-    else if (team2NumAllowedInjuries == 0) {
+    if (wVar5 == 0) {
       return 1;
     }
   }
   pTVar1 = team->inGameTeamPtr;
   sVar4 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)((player->playerOrdinal - 1) * 2));
   if (plg_D3_param == 0) {
-    pbVar5 = cardAnimStatesNoFlag;
+    pbVar6 = cardAnimStatesNoFlag;
     if (pTVar1->unk4[sVar4 + 9] != 0) {
-      pbVar5 = cardAnimStatesWithFlag;
+      pbVar6 = cardAnimStatesWithFlag;
     }
-    pTVar1->unk4[sVar4 + 10] = pbVar5[(short)(player->cards + 1)];
+    pTVar1->unk4[sVar4 + 10] = pbVar6[(short)(player->cards + 1)];
   }
   else if (pTVar1->unk4[sVar4 + 10] == 0) {
     pTVar1->unk4[sVar4 + 10] = 1;
@@ -23890,49 +23856,49 @@ ushort __usercall TrySendingOffThePlayer(Sprite *player,TeamGeneralInfo *team)
   TeamStatisticsData *pTVar2;
   word *pwVar3;
   short sVar4;
-  byte *pbVar5;
+  word wVar5;
+  byte *pbVar6;
   
-  if ((team->playerNumber == 0) && (team->playerCoachNumber == 0)) {
-    return 1;
-  }
-  if (team->teamNumber == 1) {
-    if (team1NumAllowedInjuries == 0) {
-      return 1;
+  if ((team->playerNumber != 0) || (team->playerCoachNumber != 0)) {
+    wVar5 = team2NumAllowedInjuries;
+    if (team->teamNumber == 1) {
+      wVar5 = team1NumAllowedInjuries;
+    }
+    if (wVar5 != 0) {
+      pTVar1 = team->inGameTeamPtr;
+      sVar4 = *(short *)((int)ingameTeamPlayerOffsets +
+                        (int)(short)((player->playerOrdinal - 1) * 2));
+      if (plg_D3_param == 0) {
+        pbVar6 = cardAnimStatesNoFlag;
+        if (pTVar1->unk4[sVar4 + 9] != 0) {
+          pbVar6 = cardAnimStatesWithFlag;
+        }
+        pTVar1->unk4[sVar4 + 10] = pbVar6[(short)((player->cards ^ 1) + 3)];
+      }
+      else {
+        pTVar1->unk4[sVar4 + 10] = 3;
+      }
+      refTimer = 0;
+      whichCard = CARD_RED;
+      pTVar2 = team->teamStatsPtr;
+      bookedPlayer = player;
+      lastTeamBooked = team;
+      if (player->cards == 1) {
+        pwVar3 = &pTVar2->bookings;
+        *pwVar3 = *pwVar3 - 1;
+      }
+      pwVar3 = &pTVar2->sendingsOff;
+      *pwVar3 = *pwVar3 + 1;
+      if (team->teamNumber == 1) {
+        team1NumAllowedInjuries = team1NumAllowedInjuries - 1;
+      }
+      else {
+        team2NumAllowedInjuries = team2NumAllowedInjuries - 1;
+      }
+      return 0;
     }
   }
-  else if (team2NumAllowedInjuries == 0) {
-    return 1;
-  }
-  pTVar1 = team->inGameTeamPtr;
-  sVar4 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)((player->playerOrdinal - 1) * 2));
-  if (plg_D3_param == 0) {
-    pbVar5 = cardAnimStatesNoFlag;
-    if (pTVar1->unk4[sVar4 + 9] != 0) {
-      pbVar5 = cardAnimStatesWithFlag;
-    }
-    pTVar1->unk4[sVar4 + 10] = pbVar5[(short)((player->cards ^ 1) + 3)];
-  }
-  else {
-    pTVar1->unk4[sVar4 + 10] = 3;
-  }
-  refTimer = 0;
-  whichCard = CARD_RED;
-  pTVar2 = team->teamStatsPtr;
-  bookedPlayer = player;
-  lastTeamBooked = team;
-  if (player->cards == 1) {
-    pwVar3 = &pTVar2->bookings;
-    *pwVar3 = *pwVar3 - 1;
-  }
-  pwVar3 = &pTVar2->sendingsOff;
-  *pwVar3 = *pwVar3 + 1;
-  if (team->teamNumber == 1) {
-    team1NumAllowedInjuries = team1NumAllowedInjuries - 1;
-  }
-  else {
-    team2NumAllowedInjuries = team2NumAllowedInjuries - 1;
-  }
-  return 0;
+  return 1;
 }
 
 
@@ -27311,8 +27277,10 @@ choose_turn_right_for_dive:
 return_last_player_block:
             uVar24 = (ushort)((uint)pbVar25 >> 0x10);
             if (gameStatePl != ST_GAME_IN_PROGRESS) goto not_controlled_player;
-            pTVar10 = (TeamGame *)(uint)(frameCount & 0xe);
-            if ((frameCount & 0xe) == 0) goto idle_player_common_path;
+            if ((frameCount & 0xe) == 0) {
+              pTVar10 = (TeamGame *)0x0;
+              goto idle_player_common_path;
+            }
           }
           if ((short)pSVar2->destY < 0x81) {
             pSVar2->destY = 0x81;
@@ -28388,8 +28356,7 @@ no_player_facing:
       return;
     }
     if ((short)team->spinTimer < 0) {
-      bVar15 = team->plVeryCloseToBall == 0;
-      if ((bVar15) && (bVar15 = team->plCloseToBall == 0, bVar15)) {
+      if ((team->plVeryCloseToBall == 0) && (bVar15 = team->plCloseToBall == 0, bVar15)) {
         AI_DecideWhetherToTriggerFire(pSVar1,team,uVar5);
         if (bVar15) {
           return;
@@ -28435,6 +28402,7 @@ derive_allowed_dir_from_full_angle:
         }
         goto set_allowed_dir_from_angle_bucket;
       }
+      bVar15 = false;
       AI_DecideWhetherToTriggerFire(pSVar1,team,uVar5);
       if (bVar15) {
         return;
@@ -28963,8 +28931,7 @@ LAB_00120054:
   menuY = 0;
   unaff_A4 = &templateMenuEntry;
   InitMenuEntry(&templateMenuEntry);
-                    // WARNING: Load size is inaccurate
-  dstMenu->initFunc = *staticMenu;
+  dstMenu->initFunc = *(void **)staticMenu;
   dstMenu->onReturn = *(void **)((int)staticMenu + 4);
   dstMenu->onDraw = *(void **)((int)staticMenu + 8);
   pwVar3 = (word *)((int)staticMenu + 0x10);
@@ -29061,7 +29028,7 @@ LAB_0011fd04:
         UnpackMenu(&g_currentMenu,staticMenu_00);
         g_currentMenu.selectedEntry = pMVar5;
         if (g_currentMenu.onReturn != (void *)0x0) {
-          (*(code *)g_currentMenu.onReturn)(&g_currentMenu);
+          (*g_currentMenu.onReturn)(&g_currentMenu);
         }
         return;
       }
@@ -29141,7 +29108,7 @@ void __usercall MenuProc(void)
     MenuCheckControls();
     pMVar7 = g_currentMenu.selectedEntry;
     controlMask = 0;
-    if ((code *)(g_currentMenu.selectedEntry)->onSelect != (code *)0x0) {
+    if ((g_currentMenu.selectedEntry)->onSelect != (code *)0x0) {
       uVar4 = 0;
       if (shortFire != 0) {
                     // short fire 
@@ -29190,7 +29157,7 @@ void __usercall MenuProc(void)
       if (((g_currentMenu.selectedEntry)->controlMask == 0xffff) ||
          (uVar4 = (g_currentMenu.selectedEntry)->controlMask & uVar4, uVar4 != 0)) {
         controlMask = uVar4;
-        (*(code *)(g_currentMenu.selectedEntry)->onSelect)(wVar2);
+        (*(g_currentMenu.selectedEntry)->onSelect)(wVar2);
       }
     }
     if ((fire == 0) && (-1 < (short)menuControlsDirection)) {
@@ -29215,7 +29182,7 @@ void __usercall MenuProc(void)
                 sVar5 = sVar5 + -1;
               } while (sVar5 != -1);
               if (g_currentMenu.onDraw != (void *)0x0) {
-                (*(code *)g_currentMenu.onDraw)();
+                (*g_currentMenu.onDraw)();
               }
               pMVar7 = g_menuEntries;
               sVar5 = g_currentMenu.numEntries - 1;
@@ -29464,7 +29431,7 @@ void __usercall PrepareMenuForFadeIn(void)
 void __usercall PrepareMenuBackground(void)
 
 {
-  ProcessImageCommandStream();
+  ProcessImageCommandStream(menuBGImageCmdStream,(uchar *)menuImageStreamBaseEnd);
   LoadOverlayToFrontbuffer(aGrafsMenubgRaw);
   return;
 }
@@ -29497,7 +29464,7 @@ void __usercall FrontEndMainLoop(void)
 void __usercall DoubleBufferSwapSequence(void)
 
 {
-  paletteBankIndex = 0;
+  paletteIndex = 0;
   SetCameraCoordinates(0,0);
   SwapBuffersAndCameraViewState();
   UpdatePlanePtrsAndBlitParams();
@@ -29754,11 +29721,11 @@ void __usercall BlitterCopyPanelToScreen2(void)
   do {
     bVar2 = DMACONR._0_1_;
   } while ((bVar2 & 0x40) != 0);
-  DMACON = 0x400;
+  DMACON = DMACON_BLT_OFF;
   DAT_00dff046 = 0xffff;
   DAT_00dff044 = 0xffff;
   DAT_00dff042 = 0;
-  DAT_00dff040 = 0x9f0;
+  DAT_00dff040 = BLTCON0_USEA_USED_LF_F0;
   DAT_00dff064 = 0;
   DAT_00dff066 = 0;
   DAT_00dff050 = frontbufferMaskBuffer;
@@ -29768,7 +29735,7 @@ void __usercall BlitterCopyPanelToScreen2(void)
   do {
     bVar2 = DMACONR._0_1_;
   } while ((bVar2 & 0x40) != 0);
-  DMACON = 0x400;
+  DMACON = DMACON_BLT_OFF;
   DAT_00dff058 = 0x16;
   return;
 }
@@ -30343,7 +30310,7 @@ void __usercall DrawMenuItem(MenuEntry *item)
                     // check invisible flag again, beforeDraw func
                     // might decide not to draw the item 
   if ((item->beforeDraw != (void *)0x0) &&
-     (unaff_D0w = (*(code *)item->beforeDraw)(), item->isInvisible != 0)) {
+     (unaff_D0w = (*item->beforeDraw)(), item->isInvisible != 0)) {
     return;
   }
   if (deadVar03 != 0) goto post_draw_callback;
@@ -30490,17 +30457,18 @@ panic_unknown_entry_type:
   pCVar3 = *(CharTable **)
             ((int)&charTables + (int)(short)((item->stringFlags & STR_FLAGS_MASK) >> 2));
   sVar11 = item->dwHeight - pCVar3->charHeight;
+  sVar12 = 1;
   if (sVar11 != 1) {
     if (sVar11 == 3) {
-      sVar11 = 2;
+      sVar12 = 2;
     }
     else {
-      sVar11 = sVar11 >> 1;
+      sVar12 = sVar11 >> 1;
     }
   }
                     // (height - chars_h) / 2 + y
                     // D2 = text start y 
-  uVar4 = item->y + sVar11;
+  uVar4 = item->y + sVar12;
   if ((item->stringFlags & 0x8000) == 0) {
     if ((item->stringFlags & 0x4000) == 0) {
       uVar9 = item->stringFlags & STR_COLOR_MASK;
@@ -30536,7 +30504,7 @@ panic_unknown_entry_type:
   }
 post_draw_callback:
   if (item->afterDraw != (void *)0x0) {
-    (*(code *)item->afterDraw)(item);
+    (*item->afterDraw)(item);
   }
   return;
 }
@@ -30631,7 +30599,7 @@ void __usercall DrawMenu(void)
     sVar1 = sVar1 + -1;
   } while (sVar1 != -1);
   if (g_currentMenu.onDraw != (void *)0x0) {
-    (*(code *)g_currentMenu.onDraw)();
+    (*g_currentMenu.onDraw)();
   }
   pMVar2 = g_menuEntries;
   sVar1 = g_currentMenu.numEntries - 1;
@@ -30662,7 +30630,7 @@ void __usercall ShowMenu(void *packedMenu)
   oldSelectedEntry = g_currentMenu.selectedEntry;
   menuStatus = 0;
   g_exitMenu = 0;
-  ActivateMenu((Menu *)packedMenu);
+  ActivateMenu(packedMenu);
   while (g_exitMenu == 0) {
     MenuProc();
   }
@@ -30684,11 +30652,11 @@ void __usercall RestorePreviousMenu(void *oldSelectedEntry,void *oldPackedMenu)
   MenuEntry *pMVar1;
   
   g_currentMenuPtr = (dword)oldPackedMenu;
-  pMVar1 = (MenuEntry *)oldSelectedEntry;
+  pMVar1 = oldSelectedEntry;
   UnpackMenu(&g_currentMenu,oldPackedMenu);
   g_currentMenu.selectedEntry = pMVar1;
   if (g_currentMenu.onReturn != (void *)0x0) {
-    (*(code *)g_currentMenu.onReturn)(&g_currentMenu);
+    (*g_currentMenu.onReturn)(&g_currentMenu);
   }
   return;
 }
@@ -30720,7 +30688,7 @@ short __usercall ActivateMenu(Menu *menu)
     g_currentMenu.selectedEntry = CalcMenuEntryAddress((ushort)g_currentMenu.selectedEntry);
   }
   if (g_currentMenu.initFunc != (void *)0x0) {
-    pMVar1 = (MenuEntry *)(*(code *)g_currentMenu.initFunc)(&g_currentMenu);
+    pMVar1 = (MenuEntry *)(*g_currentMenu.initFunc)(&g_currentMenu);
   }
   if (g_exitMenu == 0) {
     DrawMenu();
@@ -30755,8 +30723,7 @@ short __usercall CalcTeamPriceRankPercentOffset(void *team,void *info)
   ushort uVar1;
   short sVar2;
   
-                    // WARNING: Load size is inaccurate
-  if (*team == 0) {
+  if (*(short *)team == 0) {
     if (*(char *)((int)info + 4) == '\x01') {
       if (*(ushort *)((int)team + 0x2b8) < 3) {
         return 0;
@@ -30765,10 +30732,9 @@ short __usercall CalcTeamPriceRankPercentOffset(void *team,void *info)
     else if (*(ushort *)((int)team + 0x2b8) < 10) {
       return 0;
     }
-                    // WARNING: Load size is inaccurate
-    uVar1 = *info;
+    uVar1 = *(ushort *)info;
     FindTeamInDIY();
-    uVar1 = GetMoreExpensiveTeamsCount(uVar1,(DIY_Competition *)team);
+    uVar1 = GetMoreExpensiveTeamsCount(uVar1,team);
     sVar2 = *(short *)((int)team + 0x32) + -1;
     if (sVar2 != 0) {
       sVar2 = (short)(((short)(uVar1 - unaff_D1w) * 100) / (int)sVar2);
@@ -30999,7 +30965,7 @@ CalculateViewResult(void *ctx,ushort arg0,ushort team1Goals,ushort team2Goals,us
   word_122ACE = team2Goals;
   dword_122AD0 = (dword)p1;
   dword_122AD4 = (dword)p2;
-  sub_122858((TeamFile *)p1,byte_122AEE);
+  sub_122858(p1,byte_122AEE);
   dword_122B2E = unaff_D7;
   word_122B36 = unaff_D6w;
   sub_122858((TeamFile *)dword_122AD4,byte_122B0E);
@@ -31315,6 +31281,7 @@ void __usercall sub_12223A(TeamFile *team,uchar *map1,uchar *map2,uchar *counter
   short sVar7;
   word *pwVar8;
   bool bVar9;
+  bool bVar10;
   
   if ((g_trainingGame == 0) && (team->teamControls != 1)) {
     GetNumberOfAvailablePlayers(team,-1,0);
@@ -31349,10 +31316,11 @@ LAB_001222da:
               if (0x1c < uVar2) {
                 if (uVar2 < 0x1e) {
                   if (inEditTactics == 0) {
-                    bVar9 = (bVar1 & 0x1c) == 0;
-                    if (bVar9) {
+                    bVar10 = (bVar1 & 0x1c) == 0;
+                    bVar9 = false;
+                    if (bVar10) {
                       sub_1259EE();
-                      if (!bVar9) {
+                      if (!bVar10) {
                         bVar3 = 0xc;
                         goto LAB_00122396;
                       }
@@ -31362,8 +31330,10 @@ LAB_001222da:
                   }
                 }
                 else if (uVar2 < 0x1f) {
-                  bVar9 = inEditTactics == 0;
-                  if (bVar9) goto LAB_00122384;
+                  if (inEditTactics == 0) {
+                    bVar9 = true;
+                    goto LAB_00122384;
+                  }
                 }
                 else if (inEditTactics == 0) {
                   bVar9 = (bVar1 & 0x1c) == 0;
@@ -32137,13 +32107,13 @@ void __usercall sub_124914(void *team,void *teamRef,short p1,short p2)
   
   if (isNationalSelector == 0) {
     pbVar11 = byte_122B3A;
-    if ((byte *)teamRef != careerTeam) {
+    if (teamRef != careerTeam) {
       pbVar11 = byte_122B5A;
       p2 = p1;
     }
     mode = *(short *)((int)team + 0x3c);
     wVar9 = diyPointsForAWin;
-    if ((word *)team != &DIY_competitionStart) {
+    if (team != &DIY_competitionStart) {
       wVar9 = *(word *)((int)team + 0x66);
     }
     uVar4 = GetAveragePlayerPrice(careerTeam);
@@ -32460,8 +32430,7 @@ LAB_00125114:
     uVar8 = sub_125344(team,unaff_A2);
     uVar6 = (uint)uVar8;
     if (*(short *)((int)ctx + 0x48) == 0) {
-                    // WARNING: Load size is inaccurate
-      if (*ctx != 0) {
+      if (*(short *)ctx != 0) {
         panicReasonCode = 0x9235;
         PanicHaltLoop();
       }
@@ -32524,10 +32493,8 @@ LAB_001252ee:
       uVar8 = sub_1253AE(team,unaff_A2);
       uVar6 = (uint)uVar8;
       if (*(short *)((int)ctx + 0x48) == 0) {
-                    // WARNING: Load size is inaccurate
-        if (*ctx != 0) {
-                    // WARNING: Load size is inaccurate
-          if (*ctx == 1) {
+        if (*(short *)ctx != 0) {
+          if (*(short *)ctx == 1) {
             uVar6 = ((uint)uVar8 *
                     (uint)*(ushort *)
                            (&LAB_00125426 +
@@ -32552,8 +32519,7 @@ LAB_001252ee:
       goto LAB_001252ee;
     }
     uVar8 = sub_1253AE(team,unaff_A2);
-                    // WARNING: Load size is inaccurate
-    if (*ctx != 1) {
+    if (*(short *)ctx != 1) {
       panicReasonCode = 0x9236;
       PanicHaltLoop();
     }
@@ -32591,16 +32557,14 @@ ushort __usercall sub_125344(void *team1,void *team2)
   void *pvVar3;
   
   dVar1 = dword_164A1C;
-  if ((byte *)team1 != careerTeam) {
-                    // WARNING: Load size is inaccurate
-    pvVar3 = VerifyTeamLoaded(*team1);
+  if (team1 != careerTeam) {
+    pvVar3 = VerifyTeamLoaded(*(ushort *)team1);
     GetAveragePlayerPrice(pvVar3);
     dVar1 = sub_14B3DE();
   }
   dVar2 = dword_164A1C;
-  if ((byte *)team2 != careerTeam) {
-                    // WARNING: Load size is inaccurate
-    pvVar3 = VerifyTeamLoaded(*team2);
+  if (team2 != careerTeam) {
+    pvVar3 = VerifyTeamLoaded(*(ushort *)team2);
     GetAveragePlayerPrice(pvVar3);
     dVar2 = sub_14B3DE();
   }
@@ -32626,16 +32590,14 @@ ushort __usercall sub_1253AE(void *team1,void *team2)
   void *pvVar3;
   
   dVar1 = dword_164A1C;
-  if ((byte *)team1 != careerTeam) {
-                    // WARNING: Load size is inaccurate
-    pvVar3 = VerifyTeamLoaded(*team1);
+  if (team1 != careerTeam) {
+    pvVar3 = VerifyTeamLoaded(*(ushort *)team1);
     GetAveragePlayerPrice(pvVar3);
     dVar1 = sub_14B3DE();
   }
   dVar2 = dword_164A1C;
-  if ((byte *)team2 != careerTeam) {
-                    // WARNING: Load size is inaccurate
-    pvVar3 = VerifyTeamLoaded(*team2);
+  if (team2 != careerTeam) {
+    pvVar3 = VerifyTeamLoaded(*(ushort *)team2);
     GetAveragePlayerPrice(pvVar3);
     dVar2 = sub_14B3DE();
   }
@@ -33563,10 +33525,8 @@ ushort __usercall GetTeamValueBase(ushort avgPrice)
 ushort __usercall IsTeamNational(void *teamGeneral)
 
 {
-                    // WARNING: Load size is inaccurate
-                    // WARNING: Load size is inaccurate
   if ((g_gameType == GAME_TYPE_CAREER) &&
-     ((*teamGeneral < CN_EUROPE || (CN_OCEANIA < *teamGeneral)))) {
+     ((*(byte *)teamGeneral < CN_EUROPE || (CN_OCEANIA < *(byte *)teamGeneral)))) {
     return 0;
   }
   return 1;
@@ -33622,7 +33582,7 @@ ushort __usercall sub_126550(void *ptr)
   if (((ptr < &currentTeam) || ((void *)0x1669bd < ptr)) &&
      ((ptr < careerTeam || (careerTeam + 0x50b < ptr)))) {
     cVar1 = *(char *)((int)ptr + 0x6c);
-    GetPlayerRandomNum((PlayerFile *)ptr);
+    GetPlayerRandomNum(ptr);
     uVar3 = CONCAT11(cVar1 >> 7,avgTeamValues[(short)cVar1]);
     if (0 < (short)uVar3) {
       if (0x50 < uVar3) {
@@ -33697,25 +33657,23 @@ void __usercall sub_126766(void *team1,void *team2)
   bool bVar1;
   word p1;
   word p2;
-  bool bVar2;
   
   p2 = diyLeagueMaxSubstitutes;
   p1 = diyLeagueMinSubstitutes;
   sub_126A54(team1,team2);
-  bVar2 = p2 != p1;
   bVar1 = (byte)p1 < (byte)p2;
-  if ((word_12F6E0 == 0) && (((byte *)team1 == careerTeam || ((byte *)team2 == careerTeam)))) {
+  if ((word_12F6E0 == 0) && ((team1 == careerTeam || (team2 == careerTeam)))) {
     sub_124914(&DIY_competitionStart,team1,p1,p2);
     sub_1263F0();
     word_1649DE = 0;
-    if (bVar2) {
-      if ((byte *)team1 == careerTeam) {
-        if (bVar2 && bVar1) {
+    if (p2 != p1) {
+      if (team1 == careerTeam) {
+        if (p2 != p1 && bVar1) {
           word_1649DE = 0;
           return;
         }
       }
-      else if (!bVar2 || !bVar1) {
+      else if (!bVar1) {
         word_1649DE = 0;
         return;
       }
@@ -33765,13 +33723,11 @@ LAB_001269bc:
           sVar2 = unaff_D5w + p1;
           sVar3 = unaff_D6w + p2;
           if (sVar3 != sVar2) goto LAB_00126918;
-          if ((diyLeaguePlayEachTeam != 0) && (p2 != unaff_D5w)) {
-            if (p2 <= unaff_D5w) goto LAB_001269ca;
-            goto LAB_001269d0;
-          }
+          if ((diyLeaguePlayEachTeam != 0) && (p2 != unaff_D5w)) goto joined_r0x001268bc;
         }
         goto LAB_00126992;
       }
+joined_r0x001268bc:
       if (p2 <= unaff_D5w) goto LAB_001269ca;
     }
     else {
@@ -33805,12 +33761,12 @@ LAB_001269ca:
   }
   bVar4 = true;
 LAB_001269dc:
-  if ((word_12F6E0 == 0) && (((byte *)team1 == careerTeam || ((byte *)team2 == careerTeam)))) {
+  if ((word_12F6E0 == 0) && ((team1 == careerTeam || (team2 == careerTeam)))) {
     sub_124914(&DIY_competitionStart,team1,p1,p2);
     sub_1263F0();
     word_1649DE = 0;
     if (bVar4) {
-      if ((byte *)team1 == careerTeam) {
+      if (team1 == careerTeam) {
         if (bVar5) {
           word_1649DE = 0;
           return;
@@ -33891,7 +33847,7 @@ void __usercall ApplyTeamTactics(void *playerInfos)
   teamFile = gameTeam1;
   oppTeamFile = gameTeam2;
   wVar2 = pl1Tactics;
-  if ((TeamGame *)playerInfos != &topTeamInGame) {
+  if (playerInfos != &topTeamInGame) {
     teamFile = gameTeam2;
     oppTeamFile = gameTeam1;
     wVar2 = pl2Tactics;
@@ -33899,18 +33855,17 @@ void __usercall ApplyTeamTactics(void *playerInfos)
   bVar1 = teamFile->tactics;
   teamFile->tactics = (byte)wVar2;
   playerIndex = 0;
-  playerInfoHeader = (PlayerInfoHeader *)playerInfos;
+  playerInfoHeader = playerInfos;
   do {
     uVar3._0_1_ = teamFile->countryNumber;
     uVar3._1_1_ = teamFile->teamOrdinal;
-    playerFile = (PlayerFile *)GetPlayer(uVar3,(short)(char)playerInfoHeader->playerIndex);
+    playerFile = GetPlayer(uVar3,(short)(char)playerInfoHeader->playerIndex);
     SaveRand2State();
                     // playerFile 
     cVar4 = GetPlayerRandomNum(playerFile);
     uVar3 = CONCAT11(uVar3._0_1_,cVar4);
     Randomize2(gameRandValue ^ uVar3);
-    AdjustPlayerSkills(playerIndex,teamFile,oppTeamFile,(TeamGame *)playerInfos,playerFile,
-                       playerInfoHeader);
+    AdjustPlayerSkills(playerIndex,teamFile,oppTeamFile,playerInfos,playerFile,playerInfoHeader);
     RestoreRand2State();
     playerInfoHeader = (PlayerInfoHeader *)(playerInfoHeader->shortName + 7);
     playerIndex = playerIndex + 1;
@@ -34026,7 +33981,7 @@ short __usercall GetPlayerPricePercentageChange(short factor,void *team)
   
   if ((isGameFriendly == 0) && (*(char *)((int)team + 4) != TEAM_PLAYER_COACH)) {
                     // teamFile 
-    CalcTeamViewOffset((TeamFile *)team);
+    CalcTeamViewOffset(team);
     sVar1 = CalcTeamPriceRankPercentOffset(&DIY_competitionStart,team);
     factor = sVar1 + unaff_D0w + factor;
   }
@@ -34053,7 +34008,7 @@ ushort __usercall ScaleSkill(ushort skill,ushort factor,void *whichSide)
     factor = 0x7d;
   }
   wVar3 = team1AppPercent;
-  if ((TeamGame *)whichSide != &topTeamInGame) {
+  if (whichSide != &topTeamInGame) {
     wVar3 = team2AppPercent;
   }
   uVar1 = (uint)skill * (((uint)factor * (uint)wVar3) / 100 & 0xffff);
@@ -34813,7 +34768,7 @@ ushort __usercall sub_127520(void *key)
     }
     puVar1 = *ppuVar2;
     ppuVar2 = ppuVar2 + 1;
-  } while ((undefined *)key != puVar1);
+  } while (key != puVar1);
   return unaff_D0w;
 }
 
@@ -34849,11 +34804,10 @@ void __usercall sub_12753A(ushort index,void *rec)
       if (*ppuVar9 == (undefined *)0xffffffff) goto LAB_001275a4;
       puVar1 = *ppuVar9;
       ppuVar9 = ppuVar9 + 1;
-    } while ((undefined *)rec != puVar1);
+    } while (rec != puVar1);
     word_2DF2C = 0;
 LAB_001275a4:
-                    // WARNING: Load size is inaccurate
-    DAT_0002df1e = *rec;
+    DAT_0002df1e = *(undefined1 *)rec;
     diyLeagueStartMonth = *(byte *)((int)rec + 3);
     diyLeagueEndMonth = *(byte *)((int)rec + 4);
     if (*(short *)((int)rec + 10) < 0) {
@@ -34928,11 +34882,10 @@ LAB_001275a4:
     if (*ppuVar9 == (undefined *)0xffffffff) goto LAB_00127706;
     puVar1 = *ppuVar9;
     ppuVar9 = ppuVar9 + 1;
-  } while ((undefined *)rec != puVar1);
+  } while (rec != puVar1);
   word_2DF2C = 0;
 LAB_00127706:
-                    // WARNING: Load size is inaccurate
-  DAT_0002df1e = *rec;
+  DAT_0002df1e = *(undefined1 *)rec;
   word_2DF4C = (word)*(char *)((int)rec + 0xd);
   diyLeagueStartMonth = *(byte *)((int)rec + 3);
   diyLeagueEndMonth = *(byte *)((int)rec + 4);
@@ -35021,11 +34974,10 @@ void __usercall sub_127552(ushort idx,void *table)
     if (*ppuVar6 == (undefined *)0xffffffff) goto LAB_001275a4;
     puVar1 = *ppuVar6;
     ppuVar6 = ppuVar6 + 1;
-  } while ((undefined *)table != puVar1);
+  } while (table != puVar1);
   word_2DF2C = 0;
 LAB_001275a4:
-                    // WARNING: Load size is inaccurate
-  DAT_0002df1e = *table;
+  DAT_0002df1e = *(undefined1 *)table;
   diyLeagueStartMonth = *(byte *)((int)table + 3);
   diyLeagueEndMonth = *(byte *)((int)table + 4);
   if (*(short *)((int)table + 10) < 0) {
@@ -35116,11 +35068,10 @@ void __usercall sub_1276BE(void *cupRec)
     if (*ppuVar8 == (undefined *)0xffffffff) goto LAB_00127706;
     puVar1 = *ppuVar8;
     ppuVar8 = ppuVar8 + 1;
-  } while ((undefined *)cupRec != puVar1);
+  } while (cupRec != puVar1);
   word_2DF2C = 0;
 LAB_00127706:
-                    // WARNING: Load size is inaccurate
-  DAT_0002df1e = *cupRec;
+  DAT_0002df1e = *(undefined1 *)cupRec;
   word_2DF4C = (word)*(char *)((int)cupRec + 0xd);
   diyLeagueStartMonth = *(byte *)((int)cupRec + 3);
   diyLeagueEndMonth = *(byte *)((int)cupRec + 4);
@@ -35213,11 +35164,10 @@ void __usercall sub_127822(void *leagueRec)
     if (*ppuVar9 == (undefined *)0xffffffff) goto LAB_00127854;
     puVar1 = *ppuVar9;
     ppuVar9 = ppuVar9 + 1;
-  } while ((undefined *)leagueRec != puVar1);
+  } while (leagueRec != puVar1);
   word_2DB0C = 0;
 LAB_00127854:
-                    // WARNING: Load size is inaccurate
-  DAT_0002dafe = *leagueRec;
+  DAT_0002dafe = *(undefined1 *)leagueRec;
   DAT_0002db20 = 0;
   if (*(char *)((int)leagueRec + 8) != '\0') {
     DAT_0002db20 = 1;
@@ -35232,7 +35182,7 @@ LAB_00127854:
           pcVar11 = aCareerPrompt;
         }
         bVar16 = false;
-        DoContinueAbortMenu((char *)leagueRec,(uchar *)pcVar11,aContinue,aAbort,1);
+        DoContinueAbortMenu(leagueRec,(uchar *)pcVar11,aContinue,aAbort,1);
         if (bVar16) {
           InitCareerVariables(0);
         }
@@ -35868,10 +35818,12 @@ void __usercall SetupPlayers(TeamFile *team1,TeamFile *team2)
   bool bVar4;
   
   careerTeamCoachOnly = 0;
-  if ((isCareer == 0) &&
-     (((bVar4 = team1 == (TeamFile *)careerTeam, bVar4 ||
-       (bVar4 = team2 == (TeamFile *)careerTeam, bVar4)) && (unaff_D0w = sub_125A12(), bVar4)))) {
-    sub_1225CE((TeamFile *)careerTeam,(uchar *)0x0);
+  if ((isCareer == 0) && ((team1 == (TeamFile *)careerTeam || (team2 == (TeamFile *)careerTeam)))) {
+    bVar4 = true;
+    unaff_D0w = sub_125A12();
+    if (bVar4) {
+      sub_1225CE((TeamFile *)careerTeam,(uchar *)0x0);
+    }
   }
   isCareer = 0;
   g_exitGameFlag = 0;
@@ -36270,13 +36222,13 @@ void __usercall InitInGameTeamStructure(TeamFile *teamFile,TeamGame *teamGame,sh
     if (((g_trainingGame != 0) && (teamFile == &currentTeam)) && (0xc < uVar1)) {
       uVar2 = 0;
     }
-    pPVar4 = (PlayerFile *)GetPlayerAtIndex(teamNumber,uVar2);
+    pPVar4 = GetPlayerAtIndex(teamNumber,uVar2);
     InitInGamePlayer(uVar2,pPVar4,(PlayerInfoHeader *)playerGame);
     uVar2 = uVar1;
     if (((g_trainingGame != 0) && (teamFile == &currentTeam)) && (0xc < uVar1)) {
       uVar2 = 0;
     }
-    pPVar4 = (PlayerFile *)GetPlayerInfoBreakPosition(teamFile,uVar2);
+    pPVar4 = GetPlayerInfoBreakPosition(teamFile,uVar2);
     wVar3 = team1SelectedPlayerIndex;
     if (teamGame != &topTeamInGame) {
       wVar3 = team2SelectedPlayerIndex;
@@ -38845,7 +38797,14 @@ void __usercall sub_12A5D8(ushort mode)
   }
   if ((word_2DF44 != 0) && ((word_2E03C != 2 || (word_2E03A == 1)))) {
     uVar6 = word_2DF38 == 0;
-    if ((!(bool)uVar6) || (uVar6 = (word)(word_2DF48 + 1) == word_2DF4A, (bool)uVar6)) {
+    if (((bool)uVar6) && (uVar6 = true, (word)(word_2DF48 + 1) != word_2DF4A)) {
+      sub_12A4A6();
+      sub_12A32A();
+      if (WORD_0002e220 == 0) {
+        sub_12A0AC();
+      }
+    }
+    else {
       sub_12A4A6();
       sub_12A32A();
       if (((bool)uVar6) &&
@@ -38855,13 +38814,6 @@ void __usercall sub_12A5D8(ushort mode)
           cVar4 = (char)word_2E1BE;
         }
         word_2DF2A = *(word *)((int)&word_2E13E + (int)(short)((short)cVar4 << 1));
-      }
-    }
-    else {
-      sub_12A4A6();
-      sub_12A32A();
-      if (WORD_0002e220 == 0) {
-        sub_12A0AC();
       }
     }
   }
@@ -39536,7 +39488,7 @@ void __usercall sub_12B00C(void)
                     if (bVar4 < bVar5) goto LAB_0012b09a;
                     pbVar15 = pbVar15 + 1;
                     pbVar16 = pbVar16 + 1;
-                  } while (bVar4 <= bVar5);
+                  } while (bVar4 == bVar5);
                 }
               }
             }
@@ -39620,8 +39572,7 @@ ushort __usercall sub_12B100(ushort count,void *table)
   sVar3 = count - 1;
   sVar2 = 0;
   do {
-                    // WARNING: Load size is inaccurate
-    pvVar4 = VerifyTeamLoaded(*table);
+    pvVar4 = VerifyTeamLoaded(*(ushort *)table);
     sVar1 = 0xf;
     do {
       sVar2 = (ushort)*(byte *)((int)pvVar4 + 0x6c) + sVar2;
@@ -39732,7 +39683,7 @@ void __usercall sub_12B236(void)
     teamNumber = *(ushort *)
                   ((int)&word_2E01E + (int)(short)((short)((uint)(int)(short)*pwVar8 / 0x12) << 1));
     *pwVar7 = teamNumber;
-    pwVar4 = (word *)VerifyTeamLoaded(teamNumber);
+    pwVar4 = VerifyTeamLoaded(teamNumber);
     sVar1 = 0x155;
     pwVar6 = pwVar5;
     do {
@@ -39771,7 +39722,7 @@ void __usercall sub_12B282(void)
   do {
     teamNumber = *(ushort *)((int)&word_2E13E + (int)(short)((short)*(char *)pwVar7 << 1));
     *pwVar6 = teamNumber;
-    pwVar3 = (word *)VerifyTeamLoaded(teamNumber);
+    pwVar3 = VerifyTeamLoaded(teamNumber);
     sVar1 = 0x155;
     pwVar5 = pwVar4;
     do {
@@ -39799,7 +39750,7 @@ void __usercall sub_12B2CA(void)
   
   sub_12A416();
   word_12B160 = *(ushort *)((int)&word_2E13E + (int)(short)((short)word_2E1BE._0_1_ << 1));
-  pwVar2 = (word *)VerifyTeamLoaded(word_12B160);
+  pwVar2 = VerifyTeamLoaded(word_12B160);
   sVar1 = 0x155;
   pwVar3 = &word_695C;
   do {
@@ -40065,7 +40016,7 @@ void __usercall sub_12B580(void *competition,ushort count,void *out)
     sub_12EC1C(euroCupCopy);
     sub_12A416();
     word_12B142 = *(ushort *)((int)&word_2E13E + (int)(short)((short)word_2E1BE._0_1_ << 1));
-    puVar3 = (undefined2 *)VerifyTeamLoaded(word_12B142);
+    puVar3 = VerifyTeamLoaded(word_12B142);
     sVar1 = 0x155;
     pbVar4 = &byte_6C08;
     do {
@@ -40152,7 +40103,7 @@ void __usercall sub_12B6C8(void)
     sub_12EC1C(euroCupCopy);
     sub_12A416();
     word_12B142 = *(ushort *)((int)&word_2E13E + (int)(short)((short)word_2E1BE._0_1_ << 1));
-    puVar2 = (undefined2 *)VerifyTeamLoaded(word_12B142);
+    puVar2 = VerifyTeamLoaded(word_12B142);
     sVar1 = 0x155;
     pbVar3 = &byte_6C08;
     do {
@@ -40182,7 +40133,7 @@ void __usercall sub_12B70E(void)
   
   sub_12A416();
   word_12B142 = *(ushort *)((int)&word_2E13E + (int)(short)((short)word_2E1BE._0_1_ << 1));
-  puVar2 = (undefined2 *)VerifyTeamLoaded(word_12B142);
+  puVar2 = VerifyTeamLoaded(word_12B142);
   sVar1 = 0x155;
   pbVar3 = &byte_6C08;
   do {
@@ -40207,7 +40158,7 @@ void __usercall sub_12B74C(void)
     sub_12EB6A(cupWinnersCupCopy);
     sub_12A416();
     word_12B144 = *(ushort *)((int)&word_2E13E + (int)(short)((short)word_2E1BE._0_1_ << 1));
-    puVar2 = (undefined2 *)VerifyTeamLoaded(word_12B144);
+    puVar2 = VerifyTeamLoaded(word_12B144);
     sVar1 = 0x155;
     pbVar3 = &byte_6EB4;
     do {
@@ -40237,7 +40188,7 @@ void __usercall sub_12B794(void)
   
   sub_12A416();
   word_12B144 = *(ushort *)((int)&word_2E13E + (int)(short)((short)word_2E1BE._0_1_ << 1));
-  puVar2 = (undefined2 *)VerifyTeamLoaded(word_12B144);
+  puVar2 = VerifyTeamLoaded(word_12B144);
   sVar1 = 0x155;
   pbVar3 = &byte_6EB4;
   do {
@@ -40262,7 +40213,7 @@ void __usercall sub_12B7D2(void)
     sub_12EB6A(uefaCupCopy);
     sub_12A416();
     word_12B146 = *(ushort *)((int)&word_2E13E + (int)(short)((short)word_2E1BE._0_1_ << 1));
-    puVar2 = (undefined2 *)VerifyTeamLoaded(word_12B146);
+    puVar2 = VerifyTeamLoaded(word_12B146);
     sVar1 = 0x155;
     pbVar3 = &byte_7160;
     do {
@@ -40292,7 +40243,7 @@ void __usercall sub_12B81A(void)
   
   sub_12A416();
   word_12B146 = *(ushort *)((int)&word_2E13E + (int)(short)((short)word_2E1BE._0_1_ << 1));
-  puVar2 = (undefined2 *)VerifyTeamLoaded(word_12B146);
+  puVar2 = VerifyTeamLoaded(word_12B146);
   sVar1 = 0x155;
   pbVar3 = &byte_7160;
   do {
@@ -40901,9 +40852,8 @@ void __usercall sub_12BF5C(void *weights)
   do {
     cVar1 = *(char *)((int)weights + (int)(short)*(char *)pwVar4);
     if (cVar1 != '\0') {
-      pbVar3 = (byte *)VerifyTeamLoaded(*(ushort *)
-                                         ((int)&word_2E13E +
-                                         (int)(short)((short)*(char *)pwVar4 << 1)));
+      pbVar3 = VerifyTeamLoaded(*(ushort *)
+                                 ((int)&word_2E13E + (int)(short)((short)*(char *)pwVar4 << 1)));
       diyLeagueScratchBuffer[*(short *)(pbVar3 + 2)] =
            cVar1 + diyLeagueScratchBuffer[*(short *)(pbVar3 + 2)];
       if (pbVar3 == careerTeam) {
@@ -40939,8 +40889,7 @@ void __usercall sub_12BFCE(ushort count,void *table,uchar *out)
   
   uVar2 = selTeamNumber._0_1_;
   while( true ) {
-                    // WARNING: Load size is inaccurate
-    puVar9 = *table;
+    puVar9 = *(uchar **)table;
     if (puVar9 == (uchar *)0xffffffff) break;
     psVar7 = (short *)((int)table + 6);
     sVar6 = *(short *)((int)table + 4);
@@ -42095,8 +42044,7 @@ void __usercall sub_12CED8(void *comp,ushort slot,ushort hasSelectedTeams)
 LAB_0012d01e:
       panicReasonCode = 0x4459;
       PanicHaltLoop();
-                    // WARNING: Load size is inaccurate
-      if (*comp == 0) {
+      if (*(short *)comp == 0) {
         if (g_gameType == GAME_TYPE_CAREER) {
           uVar5 = 0x16;
         }
@@ -42124,8 +42072,7 @@ LAB_0012d01e:
         } while (sVar4 != -1);
         return;
       }
-                    // WARNING: Load size is inaccurate
-      if (*comp == 1) {
+      if (*(short *)comp == 1) {
         uVar5 = *(ushort *)((int)comp + 0x2c);
         puVar10 = (uchar *)((int)comp + 0x338);
         idx = 0;
@@ -42223,8 +42170,7 @@ void __usercall sub_12D02C(void *blk)
   uchar *out;
   uchar *puVar6;
   
-                    // WARNING: Load size is inaccurate
-  if (*blk == 0) {
+  if (*(short *)blk == 0) {
     if (g_gameType == GAME_TYPE_CAREER) {
       uVar1 = 0x16;
     }
@@ -42252,8 +42198,7 @@ void __usercall sub_12D02C(void *blk)
     } while (sVar4 != -1);
     return;
   }
-                    // WARNING: Load size is inaccurate
-  if (*blk == 1) {
+  if (*(short *)blk == 1) {
     uVar1 = *(ushort *)((int)blk + 0x2c);
     puVar6 = (uchar *)((int)blk + 0x338);
     idx = 0;
@@ -42426,8 +42371,7 @@ void __usercall sub_12D260(void *blk)
   
   wVar5 = word_2DF1C;
   wVar4 = word_2DB24;
-                    // WARNING: Load size is inaccurate
-  if (*blk == 0) {
+  if (*(short *)blk == 0) {
     if (diyMinSubstitutes == 0) {
       return;
     }
@@ -42485,8 +42429,7 @@ LAB_0012d33e:
       }
     } while( true );
   }
-                    // WARNING: Load size is inaccurate
-  if (*blk != 1) {
+  if (*(short *)blk != 1) {
     FUN_0012d4b0();
     return;
   }
@@ -42556,10 +42499,8 @@ LAB_0012d450:
         pbVar8[10] = 1;
       }
 LAB_0012d454:
-                    // WARNING: Load size is inaccurate
-      *(undefined2 *)(pbVar8 + 0xe) = *blk;
-                    // WARNING: Load size is inaccurate
-      *(undefined2 *)(pbVar8 + 0xc) = *blk;
+      *(undefined2 *)(pbVar8 + 0xe) = *(undefined2 *)blk;
+      *(undefined2 *)(pbVar8 + 0xc) = *(undefined2 *)blk;
       pbVar8[0xb] = 0;
       pbVar9[5] = pbVar9[5] + 1;
       pbVar9[6] = pbVar9[6] + 1;
@@ -43131,26 +43072,22 @@ void __usercall sub_12DA14(void *src)
   short sVar1;
   word *pwVar2;
   
-                    // WARNING: Load size is inaccurate
-  if (*src == 0) {
+  if (*(short *)src == 0) {
     sVar1 = 0x399;
     pwVar2 = &DIY_competitionStart;
     do {
-                    // WARNING: Load size is inaccurate
-      *pwVar2 = *src;
+      *pwVar2 = *(word *)src;
       sVar1 = sVar1 + -1;
       src = (word *)((int)src + 2);
       pwVar2 = pwVar2 + 1;
     } while (sVar1 != -1);
     return;
   }
-                    // WARNING: Load size is inaccurate
-  if (*src == 1) {
+  if (*(short *)src == 1) {
     sVar1 = 0x221;
     pwVar2 = &DIY_competitionStart;
     do {
-                    // WARNING: Load size is inaccurate
-      *pwVar2 = *src;
+      *pwVar2 = *(word *)src;
       sVar1 = sVar1 + -1;
       src = (word *)((int)src + 2);
       pwVar2 = pwVar2 + 1;
@@ -43160,8 +43097,7 @@ void __usercall sub_12DA14(void *src)
   sVar1 = 0x5a9;
   pwVar2 = &diyFileBufferCopy;
   do {
-                    // WARNING: Load size is inaccurate
-    *pwVar2 = *src;
+    *pwVar2 = *(word *)src;
     sVar1 = sVar1 + -1;
     src = (word *)((int)src + 2);
     pwVar2 = pwVar2 + 1;
@@ -43177,8 +43113,7 @@ void __usercall sub_12DA54(void *dst)
   short sVar1;
   word *pwVar2;
   
-                    // WARNING: Load size is inaccurate
-  if (*dst == 0) {
+  if (*(short *)dst == 0) {
     sVar1 = 0x399;
     pwVar2 = &DIY_competitionStart;
     do {
@@ -43189,8 +43124,7 @@ void __usercall sub_12DA54(void *dst)
     } while (sVar1 != -1);
     return;
   }
-                    // WARNING: Load size is inaccurate
-  if (*dst == 1) {
+  if (*(short *)dst == 1) {
     sVar1 = 0x221;
     pwVar2 = &DIY_competitionStart;
     do {
@@ -43293,7 +43227,7 @@ LAB_0012db58:
       panicReasonCode = 0x8341;
       PanicHaltLoop();
       word_164AF4 = 0;
-      pcVar3 = (char *)sub_12DE32();
+      pcVar3 = sub_12DE32();
       viewRandomPhase = pcVar3[1];
       psVar1 = *(short **)((int)arrayOfPointers + (int)(short)((short)*pcVar3 << 2));
       sub_12DA14(psVar1);
@@ -43326,7 +43260,7 @@ LAB_0012db58:
       }
       return;
     }
-    pcVar3 = (char *)sub_12DE32();
+    pcVar3 = sub_12DE32();
     psVar1 = *(short **)((int)arrayOfPointers + (int)(short)((short)*pcVar3 << 2));
   } while ((*psVar1 == 0) && (psVar1[0x34] != 0));
   sub_12DBE8();
@@ -43387,7 +43321,7 @@ LAB_0012db58:
       panicReasonCode = 0x8341;
       PanicHaltLoop();
       word_164AF4 = 0;
-      pcVar3 = (char *)sub_12DE32();
+      pcVar3 = sub_12DE32();
       viewRandomPhase = pcVar3[1];
       psVar1 = *(short **)((int)arrayOfPointers + (int)(short)((short)*pcVar3 << 2));
       sub_12DA14(psVar1);
@@ -43420,7 +43354,7 @@ LAB_0012db58:
       }
       return;
     }
-    pcVar3 = (char *)sub_12DE32();
+    pcVar3 = sub_12DE32();
     psVar1 = *(short **)((int)arrayOfPointers + (int)(short)((short)*pcVar3 << 2));
   } while ((*psVar1 == 0) && (psVar1[0x34] != 0));
   sub_12DBE8();
@@ -43456,7 +43390,7 @@ void __usercall sub_12DB78(void)
       panicReasonCode = 0x8341;
       PanicHaltLoop();
       word_164AF4 = 0;
-      pcVar2 = (char *)sub_12DE32();
+      pcVar2 = sub_12DE32();
       viewRandomPhase = pcVar2[1];
       psVar1 = *(short **)((int)arrayOfPointers + (int)(short)((short)*pcVar2 << 2));
       sub_12DA14(psVar1);
@@ -43489,7 +43423,7 @@ void __usercall sub_12DB78(void)
       }
       return;
     }
-    pcVar2 = (char *)sub_12DE32();
+    pcVar2 = sub_12DE32();
     psVar1 = *(short **)((int)arrayOfPointers + (int)(short)((short)*pcVar2 << 2));
     if ((*psVar1 != 0) || (psVar1[0x34] == 0)) break;
     if (careerFinished == 0) {
@@ -43546,7 +43480,7 @@ void __usercall sub_12DBE8(void)
   undefined1 uVar2;
   
   word_164AF4 = 0;
-  pcVar1 = (char *)sub_12DE32();
+  pcVar1 = sub_12DE32();
   viewRandomPhase = pcVar1[1];
   src = *(short **)((int)arrayOfPointers + (int)(short)((short)*pcVar1 << 2));
   sub_12DA14(src);
@@ -43588,7 +43522,7 @@ void __usercall sub_12DCDA(void)
   short *src;
   char *pcVar1;
   
-  pcVar1 = (char *)sub_12DE32();
+  pcVar1 = sub_12DE32();
   src = *(short **)((int)arrayOfPointers + (int)(short)((short)*pcVar1 << 2));
   sub_12DA14(src);
   if (*src == 1) {
@@ -43613,7 +43547,7 @@ void __usercall sub_12DD32(void)
   uint unaff_D0;
   char *pcVar1;
   
-  pcVar1 = (char *)sub_12DE32();
+  pcVar1 = sub_12DE32();
   if (word_169252 != 0) {
     panicReasonCode = 0x3490;
     PanicHaltLoop();
@@ -43862,7 +43796,7 @@ void __usercall sub_12E024(void)
   g_numSelectedTeams = 0;
   startingBalance = unaff_D1;
   careerTeamLeague = GetTeamLeague(unaff_D0w);
-  puVar5 = (undefined2 *)GetTeamPointer(unaff_D0w);
+  puVar5 = GetTeamPointer(unaff_D0w);
   sVar3 = 0x155;
   pbVar1 = careerTeam;
   pdVar2 = &selTeamsPtr;
@@ -44373,7 +44307,7 @@ void __usercall sub_12E9E0(void *comp,ushort sel)
   do {
     piVar1 = (int *)((int)puVar2 + 6);
     puVar2 = (undefined4 *)((int)puVar2 + 10);
-    contest = (byte *)comp;
+    contest = comp;
     if ((void *)*piVar1 == (void *)0xffffffff) goto LAB_0012e9fa;
   } while (comp != (void *)*piVar1);
   contest = (byte *)*puVar2;
@@ -44432,8 +44366,7 @@ void __usercall sub_12EAD2(void *contest)
   teamsLoaded = 0;
   SaveRand2State();
   uVar1 = _viewRandomPhase;
-                    // WARNING: Load size is inaccurate
-  Randomize2(CONCAT11(*contest,seasonPlaying));
+  Randomize2(CONCAT11(*(undefined1 *)contest,seasonPlaying));
   g_numSelectedTeams = 0;
   sub_151E60(contest,unaff_D0w);
   sub_141716();
@@ -44456,12 +44389,12 @@ void __usercall sub_12EB6A(void *contest)
   undefined2 uVar1;
   uchar *spec;
   
-  if ((uchar *)contest == englishCup) {
+  if (contest == englishCup) {
     spec = englishCup_1;
   }
   else {
-    spec = (uchar *)contest;
-    if ((uchar *)contest == englishLeagueCup) {
+    spec = contest;
+    if (contest == englishLeagueCup) {
       spec = englishLeagueCup_1;
     }
   }
@@ -44501,8 +44434,7 @@ void __usercall sub_12EC1C(void *contest)
   teamsLoaded = 0;
   SaveRand2State();
   uVar1 = _viewRandomPhase;
-                    // WARNING: Load size is inaccurate
-  Randomize2(CONCAT11(*contest,seasonPlaying));
+  Randomize2(CONCAT11(*(undefined1 *)contest,seasonPlaying));
   g_numSelectedTeams = 0;
   sub_151EC0(contest);
   sub_141716();
@@ -45150,15 +45082,13 @@ void __usercall sub_12F370(void)
 void __usercall sub_12F3EE(void *comp)
 
 {
-  if ((byte *)comp == worldCup2Copy) {
+  if (comp == worldCup2Copy) {
     return;
   }
-  if ((((byte *)comp != friendlyCopy) && ((byte *)comp != invitationTournamentCopy)) &&
-     ((byte *)comp != tourCopy)) {
-    if (((((byte *)comp != europeanChampionships2Copy) && ((byte *)comp != northAmericanCupCopy)) &&
-        (((byte *)comp != copaAmericaCopy &&
-         (((byte *)comp != africanNationsCupCopy && ((byte *)comp != asianCupCopy)))))) &&
-       ((byte *)comp != oceaniaCupCopy)) {
+  if (((comp != friendlyCopy) && (comp != invitationTournamentCopy)) && (comp != tourCopy)) {
+    if ((((comp != europeanChampionships2Copy) && (comp != northAmericanCupCopy)) &&
+        ((comp != copaAmericaCopy && ((comp != africanNationsCupCopy && (comp != asianCupCopy))))))
+       && (comp != oceaniaCupCopy)) {
       if ((worldCup2Copy + 0x6f < comp) && (comp < oceaniaWorldCupQualificationCopy + 1)) {
         return;
       }
@@ -45292,9 +45222,8 @@ void __usercall sub_12F5BA(void *team)
   byte *pbVar2;
   bool bVar3;
   
-                    // WARNING: Load size is inaccurate
-  bVar3 = *team == 0;
-  SearchTeamInTmdFile(*team);
+  bVar3 = *(ushort *)team == 0;
+  SearchTeamInTmdFile(*(ushort *)team);
   if (bVar3) {
     panicReasonCode = 0x3443;
     PanicHaltLoop();
@@ -45302,8 +45231,7 @@ void __usercall sub_12F5BA(void *team)
   sVar1 = 0x155;
   pbVar2 = tmdFileBuffer + (uint)careerFileBuffer * 0x2ac;
   do {
-                    // WARNING: Load size is inaccurate
-    *(undefined2 *)pbVar2 = *team;
+    *(undefined2 *)pbVar2 = *(undefined2 *)team;
     sVar1 = sVar1 + -1;
     team = (undefined2 *)((int)team + 2);
     pbVar2 = pbVar2 + 2;
@@ -45673,7 +45601,7 @@ void __usercall ResetAnimatedPatterns(void)
   do {
     uVar1 = *unaff_A0 - 0x2818;
     if (((uVar1 != 0) && (uVar1 < 0xb01)) && ((uVar1 & 0x80) == 0)) {
-      *unaff_A0 = *unaff_A0 + -0x80;
+      *unaff_A0 = *unaff_A0 + -TILE_SIZE;
     }
     unaff_D1w = unaff_D1w + -1;
     unaff_A0 = unaff_A0 + 1;
@@ -45722,7 +45650,7 @@ void __usercall DrawPatternFromIndex(ushort patternIndex)
   spriteGraphicsPtr[0x89]->sprData = *(void **)((short)(patternIndex << 2) + 0x400);
   sVar1 = (short)((uint)(int)(short)patternIndex % 0x2a) * 0x10 - g_cameraX._0_2_;
   sVar2 = (short)((uint)(int)(short)patternIndex / 0x2a) * 0x10 - g_cameraY._0_2_;
-  if ((((sVar1 < 0x150) && (sVar2 < 0x110)) && (-0x10 < sVar1)) && (-0x10 < sVar2)) {
+  if ((((sVar1 < 0x150) && (sVar2 < SCREEN_HEIGHT)) && (-0x10 < sVar1)) && (-0x10 < sVar2)) {
     DrawSprite16Pixels();
     dVar3 = frontbufferBasePtr;
     frontbufferBasePtr = (dword)frontbufferMaskBuffer;
@@ -46043,7 +45971,7 @@ void __usercall sub_12FFB8(void)
   uVar6 = careerNumPlayers - 1;
   pwVar14 = playerPositions;
   do {
-    pPVar11 = (PlayerFile *)GetPlayerAtIndex(selTeamNumber,uVar6);
+    pPVar11 = GetPlayerAtIndex(selTeamNumber,uVar6);
     bVar21 = true;
     IsPlayerInjured(pPVar11,0);
     pwVar19 = pwVar14;
@@ -46387,7 +46315,7 @@ void __usercall sub_1304A6(void *team,uchar *mods)
   short sVar3;
   short sVar4;
   
-  if ((isNationalSelector == 0) && ((byte *)team == careerTeam)) {
+  if ((isNationalSelector == 0) && (team == careerTeam)) {
     sVar4 = 10;
     do {
       cVar1 = *(char *)((int)currentMatchPlayers + (int)sVar4);
@@ -46609,7 +46537,7 @@ void __usercall ChooseTeamsFriendlyInitFinish(void)
           if (bVar1 < bVar2) goto LAB_00130b54;
           pbVar20 = pbVar20 + 1;
           pbVar16 = pbVar16 + 1;
-        } while (bVar1 <= bVar2);
+        } while (bVar1 == bVar2);
         bVar1 = *pbVar14;
         *pbVar14 = *pbVar17;
         *pbVar17 = bVar1;
@@ -48699,15 +48627,17 @@ void __usercall ShowCupInfo(void)
 void __usercall sub_133368(short a0,short a1,short a2)
 
 {
+  word wVar1;
+  
   writeOnlyVar01 = 1;
   word_1350B0 = a0;
-  word_1350B2 = a1;
   word_1350B4 = a0;
+  word_1350B2 = a1;
   word_1350B6 = a2;
-  if (word_1573FA != 0) {
-    do {
-      MenuCheckControls();
-    } while (fire != 0);
+  wVar1 = word_1573FA;
+  while (wVar1 != 0) {
+    MenuCheckControls();
+    wVar1 = fire;
   }
   ShowMenu(&DIY_cupMenu);
   writeOnlyVar01 = 0;
@@ -52244,51 +52174,53 @@ void __usercall sub_1383E8(short statIndex,void *team)
   int unaff_A3;
   bool bVar6;
   
-  if ((-1 < statIndex) ||
-     (((bVar6 = g_gameType == GAME_TYPE_SEASON, !bVar6 &&
-       (bVar6 = g_gameType == GAME_TYPE_CAREER, !bVar6)) || (sub_145AB4((short *)team), bVar6)))) {
-                    // WARNING: Load size is inaccurate
-    teamNumber = *team;
-    ordinal = 0xf;
-    if (teamNumber == selTeamNumber) {
-      ordinal = careerNumPlayers - 1;
+  if ((statIndex < 0) && ((g_gameType == GAME_TYPE_SEASON || (g_gameType == GAME_TYPE_CAREER)))) {
+    bVar6 = true;
+    sub_145AB4(team);
+    if (!bVar6) {
+      return;
     }
-    uVar4 = 0;
-    bVar3 = byte_996E6;
-    pvVar5 = team;
-    do {
-      if (teamNumber == selTeamNumber) {
-        pvVar5 = GetPlayerAtIndex(teamNumber,ordinal);
-        uVar4 = ordinal;
-      }
-      if (statIndex < 0) {
-        uVar1 = (ushort)*(byte *)((int)pvVar5 + 0x70) +
-                (ushort)*(byte *)((int)pvVar5 + 0x6f) +
-                (ushort)*(byte *)((int)pvVar5 + 0x6e) + (ushort)*(byte *)((int)pvVar5 + 0x6d);
-        if (0xff < uVar1) {
-          uVar1 = 0xff;
-        }
-        bVar2 = (byte)uVar1;
-      }
-      else {
-        bVar2 = *(byte *)((int)pvVar5 + statIndex + 0x6d);
-      }
-      if (((bVar2 != 0) && (bVar3 <= bVar2)) &&
-         ((bVar3 < bVar2 || (*(char *)((int)team + 4) != '\x01')))) {
-        sub_1384FC();
-        *(byte *)(unaff_A3 + 0x23) = bVar2;
-        *(char *)(unaff_A3 + 0x22) = (char)uVar4;
-        *(ushort *)(unaff_A3 + 0x20) = teamNumber;
-        if ((bVar2 != bVar3) &&
-           (DAT_000996e7._0_1_ = DAT_000996e7._0_1_ + -1, DAT_000996e7._0_1_ == '\0')) {
-          bVar3 = sub_1384C6();
-        }
-      }
-      pvVar5 = (void *)((int)pvVar5 + 0x26);
-      uVar4 = uVar4 + 1;
-      ordinal = ordinal - 1;
-    } while (ordinal != 0xffff);
   }
+  teamNumber = *(ushort *)team;
+  ordinal = 0xf;
+  if (teamNumber == selTeamNumber) {
+    ordinal = careerNumPlayers - 1;
+  }
+  uVar4 = 0;
+  bVar3 = byte_996E6;
+  pvVar5 = team;
+  do {
+    if (teamNumber == selTeamNumber) {
+      pvVar5 = GetPlayerAtIndex(teamNumber,ordinal);
+      uVar4 = ordinal;
+    }
+    if (statIndex < 0) {
+      uVar1 = (ushort)*(byte *)((int)pvVar5 + 0x70) +
+              (ushort)*(byte *)((int)pvVar5 + 0x6f) +
+              (ushort)*(byte *)((int)pvVar5 + 0x6e) + (ushort)*(byte *)((int)pvVar5 + 0x6d);
+      if (0xff < uVar1) {
+        uVar1 = 0xff;
+      }
+      bVar2 = (byte)uVar1;
+    }
+    else {
+      bVar2 = *(byte *)((int)pvVar5 + statIndex + 0x6d);
+    }
+    if (((bVar2 != 0) && (bVar3 <= bVar2)) &&
+       ((bVar3 < bVar2 || (*(char *)((int)team + 4) != '\x01')))) {
+      sub_1384FC();
+      *(byte *)(unaff_A3 + 0x23) = bVar2;
+      *(char *)(unaff_A3 + 0x22) = (char)uVar4;
+      *(ushort *)(unaff_A3 + 0x20) = teamNumber;
+      if ((bVar2 != bVar3) &&
+         (DAT_000996e7._0_1_ = DAT_000996e7._0_1_ + -1, DAT_000996e7._0_1_ == '\0')) {
+        bVar3 = sub_1384C6();
+      }
+    }
+    pvVar5 = (void *)((int)pvVar5 + 0x26);
+    uVar4 = uVar4 + 1;
+    ordinal = ordinal - 1;
+  } while (ordinal != 0xffff);
   return;
 }
 
@@ -52408,7 +52340,7 @@ LAB_0013859c:
             if (bVar4 < bVar5) goto LAB_001385a6;
             pbVar9 = pbVar9 + 1;
             pbVar10 = pbVar10 + 1;
-          } while (bVar4 <= bVar5);
+          } while (bVar4 == bVar5);
         }
         goto LAB_0013859c;
       }
@@ -53253,22 +53185,21 @@ short __usercall SquadAfterDrawCommon(void)
   ushort requestedSlot;
   undefined2 uVar3;
   entryType2Union eVar4;
-  uint uVar5;
-  ushort uVar6;
+  ushort uVar5;
   PlayerFile *player;
-  char *pcVar7;
+  char *pcVar6;
   int unaff_A5;
+  bool bVar7;
   bool bVar8;
-  bool bVar9;
   
   requestedSlot = *(short *)(unaff_A5 + 2) - 0x1c;
   if (requestedSlot == 0x10) {
-    bVar9 = true;
+    bVar8 = true;
     g_menuEntries[0x2e].bg._0_2_ = (g_menuEntries[0x2e].bg.backAndFrameColor & 0xfff0) + 8;
     g_menuEntries[0x30].bg._0_2_ = (g_menuEntries[0x30].bg.backAndFrameColor & 0xfff0) + 8;
   }
   else {
-    bVar9 = false;
+    bVar8 = false;
     if (requestedSlot < 0xb) {
       if (*(char *)(dword_13A6EA + 4) == '\x01') {
         g_menuEntries[0x2e].bg._0_2_ = (g_menuEntries[0x2e].bg.backAndFrameColor & 0xfff0) + 10;
@@ -53293,10 +53224,10 @@ short __usercall SquadAfterDrawCommon(void)
     }
   }
   uVar3 = g_menuEntries[0x30].bg.backAndFrameColor;
-  player = (PlayerFile *)GetPlayerInfoBreakPosition((void *)dword_13A6EA,requestedSlot);
-  bVar8 = word_13A6DE == 0;
+  player = GetPlayerInfoBreakPosition((void *)dword_13A6EA,requestedSlot);
+  bVar7 = word_13A6DE == 0;
   IsPlayerInjured(player,word_13A6DE);
-  if (!bVar8) {
+  if (!bVar7) {
     g_menuEntries[0x2e].bg._0_2_ = (g_menuEntries[0x2e].bg.backAndFrameColor & 0xfff0) + 10;
     g_menuEntries[0x30].bg._0_2_ = (g_menuEntries[0x30].bg.backAndFrameColor & 0xfff0) + 10;
   }
@@ -53319,10 +53250,10 @@ short __usercall SquadAfterDrawCommon(void)
       g_menuEntries[0x2e].fg.sprite2 = 0xd1;
     }
   }
-  if (!bVar9) {
+  if (!bVar8) {
     g_menuEntries[0x2f].fg._0_2_ = ZEXT12(player[2].shirtNumber);
   }
-  g_menuEntries[0x2f].isInvisible = (word)bVar9;
+  g_menuEntries[0x2f].isInvisible = (word)bVar8;
   g_menuEntries[0x30].fg.func2 = (dword)player[2].playerName;
   g_menuEntries[0x31].fg =
        *(entryType2Union *)
@@ -53342,9 +53273,9 @@ short __usercall SquadAfterDrawCommon(void)
   g_menuEntries[0x35].y = wVar2;
   if (((*(byte *)dword_13A6EA < 0x50) || (0x55 < *(byte *)dword_13A6EA)) && (word_13A6E0 == 0)) {
     iVar1 = (int)(short)((ushort)player[2].nationality * 3);
-    pcVar7 = (char *)(g_menuEntries[0x36].fg.func2 + 1);
+    pcVar6 = (char *)(g_menuEntries[0x36].fg.func2 + 1);
     *(undefined1 *)g_menuEntries[0x36].fg = 0x28;
-    *pcVar7 = shortCountryNames[iVar1];
+    *pcVar6 = shortCountryNames[iVar1];
     *(char *)(eVar4.func2 + 2) = shortCountryNames[iVar1 + 1];
     *(char *)(eVar4.func2 + 3) = shortCountryNames[iVar1 + 2];
     *(undefined1 *)(eVar4.func2 + 4) = 0x29;
@@ -53369,13 +53300,13 @@ LAB_0013a3da:
   }
   g_menuEntries[0x38].isInvisible = 1;
   g_menuEntries[0x39].isInvisible = 1;
-  bVar9 = word_13A6E0 == 0;
+  bVar8 = word_13A6E0 == 0;
   g_menuEntries[0x36].y = wVar2;
   g_menuEntries[0x37].y = wVar2;
   g_menuEntries[0x38].y = wVar2;
-  if (bVar9) {
+  if (bVar8) {
     IsTeamNational((void *)dword_13A6EA);
-    if (bVar9) {
+    if (bVar8) {
       sub_126504(player,(char *)fundsBuffer);
       g_menuEntries[0x39].fg.func2 = (dword)fundsBuffer;
     }
@@ -53383,22 +53314,22 @@ LAB_0013a3da:
       sub_1264E2(g_menuEntries + 0x39);
     }
     g_menuEntries[0x39].isInvisible = 0;
-    uVar6 = 0xd;
-    if (((player[2].someFlag != 0x9b) && (uVar6 = 1, player[2].someFlag != 0x9a)) &&
-       (uVar6 = 2, (player[2].positionAndFace & 2) != 0)) {
-      uVar6 = 0xf;
+    uVar5 = 0xd;
+    if (((player[2].someFlag != 0x9b) && (uVar5 = 1, player[2].someFlag != 0x9a)) &&
+       (uVar5 = 2, (player[2].positionAndFace & 2) != 0)) {
+      uVar5 = 0xf;
     }
-    g_menuEntries[0x39].stringFlags = uVar6 | g_menuEntries[0x39].stringFlags & 0xfff0;
+    g_menuEntries[0x39].stringFlags = uVar5 | g_menuEntries[0x39].stringFlags & 0xfff0;
   }
   g_menuEntries[0x3a].isInvisible = 1;
   g_menuEntries[0x39].y = wVar2;
   g_menuEntries[0x3a].y = wVar2;
   if ((isNationalSquad != 0) && (word_13A6E0 != 0)) {
-    pcVar7 = (char *)(g_menuEntries[0x3a].fg.func2 + 1);
+    pcVar6 = (char *)(g_menuEntries[0x3a].fg.func2 + 1);
     *(undefined1 *)g_menuEntries[0x3a].fg = 0x28;
-    pcVar7 = StringCopy((char *)(&byte_164E12 + (short)(requestedSlot * 0x11)),pcVar7);
-    *pcVar7 = ')';
-    pcVar7[1] = '\0';
+    pcVar6 = StringCopy((char *)(&byte_164E12 + (short)(requestedSlot * 0x11)),pcVar6);
+    *pcVar6 = ')';
+    pcVar6[1] = '\0';
     g_menuEntries[0x3a].isInvisible = 0;
   }
   if (isNationalSquad == 0) {
@@ -53406,28 +53337,24 @@ LAB_0013a3da:
   }
   else if (word_13A6E0 == 0) {
 LAB_0013a532:
-    uVar5 = dword_166B1C | dword_166B18 | dword_166B20;
-    bVar9 = uVar5 != 0;
-    if (bVar9) {
-      uVar5 = 0;
+    if (dword_166B1C != 0 || (dword_166B18 != 0 || dword_166B20 != 0)) {
       g_menuEntries[0x3b].fg._0_2_ = ZEXT12(player[2].field_21);
       g_menuEntries[0x3b].y = wVar2;
     }
-    g_menuEntries[0x3b].isInvisible = (word)!bVar9;
+    g_menuEntries[0x3b].isInvisible =
+         (word)(dword_166B1C == 0 && (dword_166B18 == 0 && dword_166B20 == 0));
     if (dword_166B18 != 0) {
-      uVar5 = CONCAT31((int3)(uVar5 >> 8),player[2].field_22);
-      g_menuEntries[0x3c].fg._0_2_ = (undefined2)uVar5;
+      g_menuEntries[0x3c].fg._0_2_ = ZEXT12(player[2].field_22);
       g_menuEntries[0x3c].y = wVar2;
     }
     g_menuEntries[0x3c].isInvisible = (word)(dword_166B18 == 0);
     if (dword_166B1C != 0) {
-      uVar5 = CONCAT31((int3)(uVar5 >> 8),player[2].field_23);
-      g_menuEntries[0x3d].fg._0_2_ = (undefined2)uVar5;
+      g_menuEntries[0x3d].fg._0_2_ = ZEXT12(player[2].field_23);
       g_menuEntries[0x3d].y = wVar2;
     }
     g_menuEntries[0x3d].isInvisible = (word)(dword_166B1C == 0);
     if (dword_166B20 != 0) {
-      g_menuEntries[0x3e].fg._0_2_ = (undefined2)CONCAT31((int3)(uVar5 >> 8),player[2].field_24);
+      g_menuEntries[0x3e].fg._0_2_ = ZEXT12(player[2].field_24);
       g_menuEntries[0x3e].y = wVar2;
     }
     g_menuEntries[0x3e].isInvisible = (word)(dword_166B20 == 0);
@@ -53712,20 +53639,20 @@ char * __usercall sub_13A90A(void *competition)
   char *pcVar1;
   
   pcVar1 = aFr;
-  if (((((competition != (void *)0x0) && (pcVar1 = aFr, (byte *)competition != friendlyCopy)) &&
-       (pcVar1 = aWc, (byte *)competition != worldCup2Copy)) &&
+  if (((((competition != (void *)0x0) && (pcVar1 = aFr, competition != friendlyCopy)) &&
+       (pcVar1 = aWc, competition != worldCup2Copy)) &&
       (((pcVar1 = aWcq, competition < world_cup_qualifying_group_1_copy ||
         (oceaniaWorldCupQualificationCopy < competition)) &&
-       ((pcVar1 = aEc, (byte *)competition != europeanChampionships2Copy &&
+       ((pcVar1 = aEc, competition != europeanChampionships2Copy &&
         ((pcVar1 = aEcq, competition < e_c_qualifying_group_1_copy ||
          (e_c_qualifying_group_8_copy < competition)))))))) &&
-     ((pcVar1 = aNac, (byte *)competition != northAmericanCupCopy &&
-      (((((pcVar1 = aCa, (byte *)competition != copaAmericaCopy &&
-          (pcVar1 = aAnc, (byte *)competition != africanNationsCupCopy)) &&
-         (pcVar1 = aAc, (byte *)competition != asianCupCopy)) &&
-        ((pcVar1 = aOc, (byte *)competition != oceaniaCupCopy &&
-         (pcVar1 = aTnm, (byte *)competition != invitationTournamentCopy)))) &&
-       (pcVar1 = aTr, (byte *)competition != tourCopy)))))) {
+     ((pcVar1 = aNac, competition != northAmericanCupCopy &&
+      (((((pcVar1 = aCa, competition != copaAmericaCopy &&
+          (pcVar1 = aAnc, competition != africanNationsCupCopy)) &&
+         (pcVar1 = aAc, competition != asianCupCopy)) &&
+        ((pcVar1 = aOc, competition != oceaniaCupCopy &&
+         (pcVar1 = aTnm, competition != invitationTournamentCopy)))) &&
+       (pcVar1 = aTr, competition != tourCopy)))))) {
     panicReasonCode = 0x2184;
     PanicHaltLoop();
   }
@@ -54390,18 +54317,14 @@ void __usercall ShowDiyCompetitionForSource(void *header)
 
 {
   sub_12DA14(header);
-                    // WARNING: Load size is inaccurate
-  if (*header == 0) {
+  if (*(short *)header == 0) {
     ShowDiyLeaguesTournamentMenu(1,1,0);
   }
+  else if (*(short *)header == 1) {
+    sub_133368(1,1,0);
+  }
   else {
-                    // WARNING: Load size is inaccurate
-    if (*header == 1) {
-      sub_133368(1,1,0);
-    }
-    else {
-      sub_1291AC(1,1,0);
-    }
+    sub_1291AC(1,1,0);
   }
   sub_12DA54(header);
   return;
@@ -56318,7 +56241,7 @@ void * __usercall ChooseTeamForEditTactics(char *menuName,ushort *teamIds,ushort
           if (bVar4 < bVar1) goto LAB_0013d814;
           pbVar7 = pbVar7 + 1;
           pbVar9 = pbVar9 + 1;
-        } while (bVar4 <= bVar1);
+        } while (bVar4 == bVar1);
         bVar4 = *pbVar11;
         *pbVar11 = *pbVar10;
         *pbVar10 = bVar4;
@@ -56368,7 +56291,7 @@ void __usercall SelTeamForTacticsInit(void)
       selTeamsColumn2 = selTeamsColumn3;
       if (sVar3 == 1) {
         if (numTeamsCountryBuffer == 0x40) {
-          selTeamsColumn1 = selTeamsColumn3 + 1;
+          selTeamsColumn1 = 0x16;
         }
         else {
           selTeamsColumn2 = selTeamsColumn3 + 1;
@@ -57225,7 +57148,7 @@ ushort __usercall sub_13E8B8(void *contest)
     }
     puVar1 = *ppuVar2;
     ppuVar2 = ppuVar2 + 1;
-  } while ((undefined *)contest != puVar1);
+  } while (contest != puVar1);
   return 0;
 }
 
@@ -57514,7 +57437,7 @@ void __usercall SelectTeamsReinit(void)
       numTeamsColumn2 = numTeamsColumn3;
       if (sVar6 == 1) {
         if (chooseTeamsNumTeams == 0x40) {
-          numTeamsColumn1 = numTeamsColumn3 + 1;
+          numTeamsColumn1 = 0x16;
         }
         else {
           numTeamsColumn2 = numTeamsColumn3 + 1;
@@ -58193,7 +58116,7 @@ void __usercall SelectFilesInit(void)
         pbVar11 = pbVar10 + 4;
         puVar13 = puVar12 + 1;
         if (*puVar13 <= *puVar12) {
-          if (*puVar12 <= *puVar13) {
+          if (*puVar12 == *puVar13) {
             pbVar8 = *(byte **)pbVar10;
             pbVar9 = *(byte **)pbVar11;
             do {
@@ -58203,7 +58126,7 @@ void __usercall SelectFilesInit(void)
               if (bVar3 < bVar4) goto LAB_0014020c;
               pbVar8 = pbVar8 + 1;
               pbVar9 = pbVar9 + 1;
-            } while (bVar3 <= bVar4);
+            } while (bVar3 == bVar4);
           }
           uVar1 = *(undefined4 *)pbVar10;
           *(undefined4 *)pbVar10 = *(undefined4 *)pbVar11;
@@ -59301,7 +59224,7 @@ void __usercall sub_141546(void)
   uVar2 = 0xf;
   do {
     teamNumber = selTeamNumber;
-    teamFile = (TeamFile *)GetPlayerAtIndex(selTeamNumber,uVar2);
+    teamFile = GetPlayerAtIndex(selTeamNumber,uVar2);
     pbVar5 = &teamFile->players[0].positionAndFace;
     *pbVar5 = *pbVar5 & 0xfd;
     teamFile->players[0].cardsInjuries = 0;
@@ -59491,8 +59414,7 @@ void __usercall sub_141798(void *teamPtr)
     sVar2 = numForeignMarketPlayers2 - 1;
     pMVar5 = careerForeignMarketPlayers;
     do {
-                    // WARNING: Load size is inaccurate
-      if ((*(char *)&pMVar5->teamId == *teamPtr) &&
+      if ((*(char *)&pMVar5->teamId == *(char *)teamPtr) &&
          ((char)pMVar5->teamId == *(char *)((int)teamPtr + 1))) {
         sVar1 = 0x12;
         pPVar3 = &pMVar5->player;
@@ -59578,20 +59500,22 @@ ushort __usercall sub_141870(ushort value)
 
 {
   word *pwVar1;
-  ushort *puVar2;
+  ushort uVar2;
+  ushort *puVar3;
   
+  uVar2 = 0;
   if (value != 0) {
     pwVar1 = avgTeamValueBases;
     do {
-      puVar2 = pwVar1;
-      pwVar1 = puVar2 + 1;
-    } while (*puVar2 < value);
-    if ((ushort)(puVar2[-1] + ((ushort)(*puVar2 - puVar2[-1]) >> 1)) <= value) {
-      return *puVar2;
+      puVar3 = pwVar1;
+      pwVar1 = puVar3 + 1;
+    } while (*puVar3 < value);
+    if ((ushort)(puVar3[-1] + ((ushort)(*puVar3 - puVar3[-1]) >> 1)) <= value) {
+      return *puVar3;
     }
-    value = puVar2[-1];
+    uVar2 = puVar3[-1];
   }
-  return value;
+  return uVar2;
 }
 
 
@@ -59600,17 +59524,19 @@ ushort __usercall sub_14189C(ushort value)
 
 {
   word *pwVar1;
-  ushort *puVar2;
+  ushort uVar2;
+  ushort *puVar3;
   
+  uVar2 = 0;
   if (value != 0) {
     pwVar1 = avgTeamValueBases;
     do {
-      puVar2 = pwVar1;
-      pwVar1 = puVar2 + 1;
-    } while (*puVar2 < value);
-    value = *puVar2;
+      puVar3 = pwVar1;
+      pwVar1 = puVar3 + 1;
+    } while (*puVar3 < value);
+    uVar2 = *puVar3;
   }
-  return value;
+  return uVar2;
 }
 
 
@@ -59803,7 +59729,7 @@ void __usercall sub_141BC4(ushort team,ushort arg)
   pvVar6 = GetPlayer(selTeamNumber,arg);
   pbVar11 = *(byte **)((int)&off_141CB0 + (int)(short)((*(byte *)((int)pvVar6 + 0x66) & 0xe0) >> 3))
   ;
-  pTVar7 = (TeamFile *)GetTeamPointer(team);
+  pTVar7 = GetTeamPointer(team);
   arg1 = arg;
   do {
     if ((char)*pbVar11 < '\0') {
@@ -59878,8 +59804,7 @@ void __usercall SetBenchPlayersNumbers(void *team)
   ushort ordinal;
   void *pvVar1;
   
-                    // WARNING: Load size is inaccurate
-  teamNumber = *team;
+  teamNumber = *(ushort *)team;
                     // players 11-16 
   ordinal = 0xb;
   do {
@@ -59908,7 +59833,7 @@ void __usercall sub_141D3C(ushort arg0,ushort arg1,void *team)
   
   if (isNationalSelector == 0) {
     if (g_trainingGame == 0) {
-      sub_124D28((TeamFile *)team,arg0);
+      sub_124D28(team,arg0);
       if (2 < unaff_D7w) {
         uVar2 = careerNumPlayers - 1;
         do {
@@ -59921,7 +59846,7 @@ void __usercall sub_141D3C(ushort arg0,ushort arg1,void *team)
           uVar2 = uVar2 - 1;
         } while (-1 < (short)uVar2);
       }
-      sub_124DD6((TeamFile *)team,arg0);
+      sub_124DD6(team,arg0);
       if (0x10 < unaff_D7w) {
         uVar2 = careerNumPlayers - 1;
         do {
@@ -59938,12 +59863,12 @@ void __usercall sub_141D3C(ushort arg0,ushort arg1,void *team)
     else {
       arg1 = arg1 << 1;
     }
-    while (((careerNumPlayers < 0x1e && (sub_124D28((TeamFile *)team,arg0), unaff_D7w < 2)) &&
+    while (((careerNumPlayers < 0x1e && (sub_124D28(team,arg0), unaff_D7w < 2)) &&
            ((unaff_D7w == 0 || (2 < (ushort)(arg1 - 0xb)))))) {
       sub_141EA8(0);
     }
     while (careerNumPlayers < 0x1e) {
-      sub_124DD6((TeamFile *)team,arg0);
+      sub_124DD6(team,arg0);
       sVar1 = 0xb;
       if (g_trainingGame != 0) {
         sVar1 = 0x16;
@@ -60271,7 +60196,7 @@ void __usercall sub_1422F6(ushort team,ushort playerIndex,char *srcName)
   TeamFile *teamFile;
   char *src;
   
-  teamFile = (TeamFile *)GetPlayer(team,playerIndex);
+  teamFile = GetPlayer(team,playerIndex);
   avoidTeamByte = (byte)(team >> 8);
   src = sub_14275A(avoidTeamByte,team);
   teamFile->players[0].nationality = avoidTeamByte;
@@ -60571,7 +60496,7 @@ void __usercall sub_142926(ushort teamNumber,ushort playerOrdinal)
   dword dVar1;
   word *pwVar2;
   
-  pwVar2 = (word *)GetTeamPointer(teamNumber);
+  pwVar2 = GetTeamPointer(teamNumber);
   teamOffering = *pwVar2;
   numExtraPlayersWanted = 0xffff;
   word_141538 = 0xffff;
@@ -61801,7 +61726,7 @@ void __usercall PlayerOffersOnSelect8(MenuEntry *entry)
   TeamFile *team;
   bool bVar2;
   
-  team = (TeamFile *)GetTeamPointer(teamOffering);
+  team = GetTeamPointer(teamOffering);
   if ((short)numExtraPlayersWanted < 0) {
     bVar2 = true;
     wVar1 = ShowSquad(team,aSelectPlayerTo,1 << (word_141534 & 0x1f),0,0,-1);
@@ -61840,7 +61765,7 @@ void __usercall PlayerOffersOnSelect10(MenuEntry *entry)
       }
       ordinal = ordinal - 1;
     } while (ordinal != 0xffff);
-    team = (TeamFile *)GetTeamPointer(selTeamNumber);
+    team = GetTeamPointer(selTeamNumber);
     bVar3 = true;
     wVar1 = ShowSquad(team,aSelectPlayerTo_0,maskLo,0,0,-1);
     if (!bVar3) {
@@ -61879,7 +61804,7 @@ void __usercall PlayerOffersOnSelect11(MenuEntry *entry)
       }
       ordinal = ordinal - 1;
     } while (ordinal != 0xffff);
-    team = (TeamFile *)GetTeamPointer(selTeamNumber);
+    team = GetTeamPointer(selTeamNumber);
     bVar3 = true;
     wVar1 = ShowSquad(team,aSelectPlayerTo_0,maskLo,0,0,-1);
     if (!bVar3) {
@@ -62662,7 +62587,7 @@ void __usercall PutPlayerOnMarketMenu(void)
         }
         uVar1 = uVar1 - 1;
       } while (uVar1 != 0xffff);
-      team = (TeamFile *)GetTeamPointer(selTeamNumber);
+      team = GetTeamPointer(selTeamNumber);
       maskHi = 0;
       if (numPlayersOnTransferMarket != 0) {
         sVar2 = numPlayersOnTransferMarket - 1;
@@ -62908,7 +62833,7 @@ sub_145B02(MenuEntry *item,void *player,ushort y,ushort idx,ushort style,char *e
       item[1].isInvisible = 0;
     }
     if (*(char *)((int)player + 0x4f) != -1) {
-      sub_13A8A8(item + 2,(PlayerFile *)player);
+      sub_13A8A8(item + 2,player);
       item[2].y = y;
       item[2].isInvisible = 0;
       sVar3 = 0x10;
@@ -62935,7 +62860,7 @@ sub_145B02(MenuEntry *item,void *player,ushort y,ushort idx,ushort style,char *e
                     (int)(short)((*(byte *)((int)player + 0x66) & 0xe0) >> 3));
       item[5].y = y;
       item[5].isInvisible = 0;
-      FormTopSkillsString((char *)item[6].fg,(PlayerFile *)player);
+      FormTopSkillsString((char *)item[6].fg,player);
       item[6].y = y;
       item[6].isInvisible = 0;
       item[7].isInvisible = 1;
@@ -63123,7 +63048,7 @@ void __usercall sub_145DF0(ushort playerIndex)
   
   word_141534 = playerIndex;
   word_1462D2 = sub_141852();
-  pPVar7 = (PlayerFile *)GetPlayer(selTeamNumber,playerIndex);
+  pPVar7 = GetPlayer(selTeamNumber,playerIndex);
   refSkill = pPVar7[2].price;
   bVar10 = false;
   IsPlayerInjured(pPVar7,-1);
@@ -63190,7 +63115,7 @@ void __usercall sub_145DF0(ushort playerIndex)
     else {
       uVar3 = sub_141852();
       word_1462D2 = uVar3 + word_1462D2;
-      pPVar7 = (PlayerFile *)GetPlayer(selTeamNumber,uVar2);
+      pPVar7 = GetPlayer(selTeamNumber,uVar2);
       word_1462CE = pPVar7[2].positionAndFace & 0xe0;
       bVar10 = false;
       IsPlayerInjured(pPVar7,-1);
@@ -63271,8 +63196,7 @@ void __usercall sub_146190(void *team,uchar refSkill)
   short sVar1;
   ushort uVar2;
   
-                    // WARNING: Load size is inaccurate
-  if ((*team != selTeamNumber) && (*(char *)((int)team + 0x19) != '\x04')) {
+  if ((*(word *)team != selTeamNumber) && (*(char *)((int)team + 0x19) != '\x04')) {
     uVar2 = 0;
     sVar1 = 0xf;
     do {
@@ -63427,7 +63351,7 @@ short __usercall sub_14633A(void)
   }
   SaveRand2State();
   wVar2 = teamOffering;
-  playerFile = (PlayerFile *)GetPlayer(teamOffering,word_141534);
+  playerFile = GetPlayer(teamOffering,word_141534);
   cVar6 = GetPlayerRandomNum(playerFile);
   uVar7 = CONCAT11((char)(wVar2 >> 8),cVar6);
   Randomize2(uVar7);
@@ -63663,7 +63587,7 @@ void * __usercall GetPlayer(ushort teamNumber,ushort playerFileIndex)
     pTVar1 = (TeamFile *)careerTeam;
   }
   else {
-    pTVar1 = (TeamFile *)GetTeamPointer(teamNumber);
+    pTVar1 = GetTeamPointer(teamNumber);
   }
   return pTVar1->teamName + (short)(playerFileIndex * 0x26) + -5;
 }
@@ -63724,7 +63648,7 @@ void * __usercall GetPlayerAtIndex(ushort teamNumber,ushort ordinal)
   else {
     pwVar4 = unaff_A0;
     if (ordinal < 0x10) {
-      pwVar4 = (word *)GetTeamPointer(teamNumber);
+      pwVar4 = GetTeamPointer(teamNumber);
       ordinal = 0;
       while (cVar1 != *(char *)((int)pwVar4 + (short)ordinal + 0x3c)) {
         ordinal = ordinal + 1;
@@ -63773,7 +63697,7 @@ ushort __usercall sub_146828(ushort teamNumber,ushort playerNumber)
     PanicHaltLoop();
   }
   else if (playerNumber < 0x10) {
-    unaff_A0 = (word *)GetTeamPointer(teamNumber);
+    unaff_A0 = GetTeamPointer(teamNumber);
     playerNumber = 0;
     while (cVar1 != *(char *)((int)unaff_A0 + (short)playerNumber + 0x3c)) {
       playerNumber = playerNumber + 1;
@@ -63818,8 +63742,7 @@ void * __usercall GetPlayerInfoBreakPosition(void *teamPtr,ushort requestedSlot)
                                                   int)teamPtr + 0x18) << 2)) + 0x171) << 2)) +
                            (int)(short)requestedSlot) + -1);
   }
-                    // WARNING: Load size is inaccurate
-  pvVar1 = GetPlayerAtIndex(*teamPtr,requestedSlot);
+  pvVar1 = GetPlayerAtIndex(*(ushort *)teamPtr,requestedSlot);
   return pvVar1;
 }
 
@@ -63929,10 +63852,8 @@ uchar __usercall AddInternationalPlayerAbroad(void *selectedTeam)
   byte *pbVar12;
   bool bVar13;
   
-                    // WARNING: Load size is inaccurate
-  word_1473FA = *selectedTeam;
-                    // WARNING: Load size is inaccurate
-  team = (TeamFile *)GetTeamPointer(*selectedTeam);
+  word_1473FA = *(word *)selectedTeam;
+  team = GetTeamPointer(*(ushort *)selectedTeam);
   bVar1 = byte_164B2A;
   sVar8._0_1_ = team->countryNumber;
   sVar8._1_1_ = team->teamOrdinal;
@@ -64050,10 +63971,8 @@ ushort __usercall sub_1469F8(void *selectedTeam,char *title)
   byte *pbVar12;
   bool bVar13;
   
-                    // WARNING: Load size is inaccurate
-  word_1473FA = *selectedTeam;
-                    // WARNING: Load size is inaccurate
-  team = (TeamFile *)GetTeamPointer(*selectedTeam);
+  word_1473FA = *(word *)selectedTeam;
+  team = GetTeamPointer(*(ushort *)selectedTeam);
   bVar1 = byte_164B2A;
   sVar8._0_1_ = team->countryNumber;
   sVar8._1_1_ = team->teamOrdinal;
@@ -64647,7 +64566,7 @@ short __usercall GetPlayerPosition(short playerIndex,void *team)
   ushort requestedSlot;
   
   wVar2 = careerNumPlayers;
-  if (((byte *)team != careerTeam) && (wVar2 = numPlayers, (TeamFile *)team != &currentTeam)) {
+  if ((team != careerTeam) && (wVar2 = numPlayers, team != &currentTeam)) {
     wVar2 = 0x10;
   }
                     // preserve team pointer in A1 
@@ -64688,8 +64607,8 @@ ShowPlayMatchMenu(short controlFlags,short maxSubstitutes,short excludeFlags,
   inEditTactics = excludeFlags;
   ::isFirstPlayerChoosingTeam = isFirstPlayerChoosingTeam;
   ::squadChangesAllowed = squadChangesAllowed;
-  playMatchTeam1Ptr = (TeamFile *)team1;
-  playMatchTeam2Ptr = (TeamFile *)team2;
+  playMatchTeam1Ptr = team1;
+  playMatchTeam2Ptr = team2;
   maxSubstitutesEntries = maxSubstitutes;
   playMatchControlFlags = controlFlags;
   playMatchExcludeFlags = excludeFlags;
@@ -64919,7 +64838,7 @@ void __usercall OnSwapPlayer(void *menuEntry)
   if (bVar3) {
     CallDrawMenuItem((MenuEntry *)item);
   }
-  CallDrawMenuItem((MenuEntry *)menuEntry);
+  CallDrawMenuItem(menuEntry);
   UpdateLittleCheckmark();
   RedrawPlayerNames();
   return;
@@ -65710,7 +65629,7 @@ void __usercall DrawPlayerEntries(MenuEntry *entry)
   if (viewingOpponentTeam != 0) {
     teamPtr = playMatchTeam2Ptr;
   }
-  player = (PlayerFile *)GetPlayerInfoBreakPosition(teamPtr,uVar4);
+  player = GetPlayerInfoBreakPosition(teamPtr,uVar4);
   if (viewingOpponentTeam == 0) {
     bVar5 = playMatchExcludeFlags == 0;
     IsPlayerInjured(player,playMatchExcludeFlags);
@@ -65988,7 +65907,7 @@ void __usercall sub_14922A(void)
       }
     }
     if ((((word_164B2C == 0) && (lastNationalityCall != 0xffff)) &&
-        ((bVar11 = word_1496F4 == 2, bVar11 || (bVar11 = word_164AD4 == 0, !bVar11)))) &&
+        ((bVar11 = true, word_1496F4 == 2 || (bVar11 = word_164AD4 == 0, !bVar11)))) &&
        (((IsNewJobOffer(lastNationalityCall), !bVar11 && (IsOldJobOffer(wVar1), !bVar11)) &&
         ((word_1496F4 == 2 || (sVar4 = sub_125B62(), 199 < sVar4)))))) {
       bVar11 = lastNationalityCall >> 8 == 0;
@@ -66336,7 +66255,7 @@ void __usercall sub_149B50(void)
   if (numNewJobOffers != 0) {
     index = numNewJobOffers - 1;
     do {
-      puVar1 = (ushort *)GetNewJobOfferPtr(index);
+      puVar1 = GetNewJobOfferPtr(index);
       if (*(char *)(puVar1 + 1) == -1) {
         pvVar2 = GetTeamPointer(*puVar1);
         StringCopy((char *)((int)pvVar2 + 5),(char *)(puVar1 + 1));
@@ -66360,7 +66279,7 @@ void __usercall sub_149B82(void)
   if (numJobOffers != 0) {
     uVar1 = numJobOffers - 1;
     do {
-      puVar2 = (ushort *)GetJobOfferPtr(uVar1);
+      puVar2 = GetJobOfferPtr(uVar1);
       if (*(int *)(puVar2 + 10) == 0) {
         sub_149C26(*puVar2);
       }
@@ -66370,7 +66289,7 @@ void __usercall sub_149B82(void)
   if (numNewJobOffers != 0) {
     uVar1 = numNewJobOffers - 1;
     do {
-      puVar2 = (ushort *)GetNewJobOfferPtr(uVar1);
+      puVar2 = GetNewJobOfferPtr(uVar1);
       if (*(int *)(puVar2 + 10) == 0) {
         RemoveJobOffer(*puVar2);
       }
@@ -66809,10 +66728,10 @@ void __usercall GotJobOfferInit(void)
   jobOfferFunds = teamFundsAccepted;
   if (teamNoOfferAccepted == 0xffff) {
     if ((short)jobOfferOrdinal < 0) {
-      pwVar1 = (word *)GetJobOfferPtr(oldJobOfferOrdinal);
+      pwVar1 = GetJobOfferPtr(oldJobOfferOrdinal);
     }
     else {
-      pwVar1 = (word *)GetNewJobOfferPtr(jobOfferOrdinal);
+      pwVar1 = GetNewJobOfferPtr(jobOfferOrdinal);
     }
     teamNoOfferingJob = *pwVar1;
     jobOfferFunds = *(dword *)(pwVar1 + 10);
@@ -66975,10 +66894,10 @@ void __usercall AcceptJobOffer(void)
   SeasonInformations *pSVar2;
   
   if ((short)jobOfferOrdinal < 0) {
-    pwVar1 = (word *)GetJobOfferPtr(oldJobOfferOrdinal);
+    pwVar1 = GetJobOfferPtr(oldJobOfferOrdinal);
   }
   else {
-    pwVar1 = (word *)GetNewJobOfferPtr(jobOfferOrdinal);
+    pwVar1 = GetNewJobOfferPtr(jobOfferOrdinal);
   }
   teamNoOfferAccepted = *pwVar1;
   teamFundsAccepted = *(dword *)(pwVar1 + 10);
@@ -67051,7 +66970,7 @@ void __usercall ConsiderJobOffer(void)
   ushort *puVar1;
   
   if (-1 < (short)jobOfferOrdinal) {
-    puVar1 = (ushort *)GetNewJobOfferPtr(jobOfferOrdinal);
+    puVar1 = GetNewJobOfferPtr(jobOfferOrdinal);
     sub_149BC4(*puVar1,*(uint *)(puVar1 + 10));
   }
   SetExitMenuFlag();
@@ -67568,9 +67487,9 @@ LAB_0014b532:
     } while (sVar2 != -1);
     if (teamCount != 0) {
       if ((teamCount != 1) &&
-         (selectedTeam = (byte *)ChooseTeamForEditTactics
-                                           (aEditTacticsSel,(ushort *)editTacticsCountryBuffer,
-                                            teamCount), (dword *)selectedTeam == (dword *)0x0)) {
+         (selectedTeam = ChooseTeamForEditTactics
+                                   (aEditTacticsSel,(ushort *)editTacticsCountryBuffer,teamCount),
+         (dword *)selectedTeam == (dword *)0x0)) {
         return;
       }
       goto LAB_0014b566;
@@ -67596,7 +67515,7 @@ LAB_0014b566:
 void __usercall ShowStandardChooseTacticsMenu(void *selectedTeam)
 
 {
-  chooseTacticsTeamPtr = (TeamFile *)selectedTeam;
+  chooseTacticsTeamPtr = selectedTeam;
                     // fill variable currentTactics 
   ShowMenu(&chooseTacticsMenu);
                     // chosenTactics = -1 if choose tactics menu aborted 
@@ -67872,7 +67791,7 @@ void __usercall EditTacticsPlayerNamesCommon(void *cur)
     if (bVar2) {
       CallDrawMenuItem((MenuEntry *)item);
     }
-    CallDrawMenuItem((MenuEntry *)cur);
+    CallDrawMenuItem(cur);
     EditTacticsMenuSavePlayerPositions();
     DrawPlayerNamesAndFaces();
   }
@@ -68246,7 +68165,7 @@ short __usercall EditTacticsAfterDrawPlayerNames(void *cur)
   uVar3 = g_menuEntries[0x29].bg.backAndFrameColor;
   bVar2 = chooseTacticsTeamPtr->tactics;
   chooseTacticsTeamPtr->tactics = editTacticsCurrentTactics.ballOutOfPlayTactics;
-  player = (PlayerFile *)GetPlayerInfoBreakPosition(teamPtr,uVar4);
+  player = GetPlayerInfoBreakPosition(teamPtr,uVar4);
   chooseTacticsTeamPtr->tactics = bVar2;
   bVar5 = inEditTactics == 0;
   IsPlayerInjured(player,inEditTactics);
@@ -68338,7 +68257,7 @@ void __usercall sub_14C372(short playerOrdinal,void *cur)
   uVar2 = g_menuEntries[0x27].bg.backAndFrameColor;
   bVar1 = chooseTacticsTeamPtr->tactics;
   chooseTacticsTeamPtr->tactics = editTacticsCurrentTactics.ballOutOfPlayTactics;
-  player = (PlayerFile *)GetPlayerInfoBreakPosition(teamPtr,playerOrdinal);
+  player = GetPlayerInfoBreakPosition(teamPtr,playerOrdinal);
   chooseTacticsTeamPtr->tactics = bVar1;
   if (((player[2].cardsInjuries & 0xe0) != 0) && ((player[2].cardsInjuries & 0xe0) != 0x20)) {
     g_menuEntries[0x27].bg._0_2_ = (g_menuEntries[0x27].bg.backAndFrameColor & 0xfff0) + COLOR_RED;
@@ -68593,26 +68512,26 @@ ushort __usercall sub_14C840(ushort col,ushort row)
   uint uVar1;
   short sVar2;
   ushort uVar3;
-  word wVar4;
+  ushort uVar4;
   word wVar5;
+  word wVar6;
   word unaff_D0w;
-  ushort uVar6;
-  word player;
-  word wVar7;
+  ushort uVar7;
   word wVar8;
-  short sVar10;
-  word wVar11;
-  uint uVar9;
-  short unaff_D3w;
+  word wVar9;
+  word wVar10;
   word wVar12;
+  uint uVar11;
+  short unaff_D3w;
+  word wVar13;
   short unaff_D4w;
-  uint uVar13;
+  uint uVar14;
   uint unaff_D7;
-  short sVar14;
+  short sVar15;
   
-  wVar5 = editTacticsBallLocation;
-  wVar7 = ballRow;
-  uVar9 = (uint)row;
+  wVar8 = editTacticsBallLocation;
+  uVar7 = ballColumn;
+  wVar9 = ballRow;
   if (editTacticsPitchStatus == 4) {
     if (fire == 0) {
       if ((fireCounter != 0) && ((short)fireCounter < 8)) {
@@ -68631,27 +68550,27 @@ ushort __usercall sub_14C840(ushort col,ushort row)
     }
     if (-1 < (short)menuControlsDirection) {
       sub_14D21E();
-      wVar7 = editTacticsBallLocation;
+      wVar9 = editTacticsBallLocation;
       GetPlayerQuadrant(markedPlayerNumber,editTacticsBallLocation);
-      uVar6 = unaff_D3w + wVar7;
-      if ((-1 < (int)((uint)uVar6 << 0x10)) && (uVar6 < 0xf)) {
-        wVar7 = uVar6;
+      uVar7 = unaff_D3w + wVar9;
+      if ((-1 < (int)((uint)uVar7 << 0x10)) && (uVar7 < 0xf)) {
+        wVar9 = uVar7;
       }
-      uVar6 = unaff_D4w + row;
-      if ((-1 < (int)((uint)uVar6 << 0x10)) && (uVar6 < 0x10)) {
-        row = uVar6;
+      uVar7 = unaff_D4w + row;
+      if ((-1 < (int)((uint)uVar7 << 0x10)) && (uVar7 < 0x10)) {
+        row = uVar7;
       }
-      uVar6 = 1;
+      uVar7 = 1;
       do {
-        wVar5 = editTacticsBallLocation;
-        GetPlayerQuadrant(uVar6,editTacticsBallLocation);
+        wVar8 = editTacticsBallLocation;
+        GetPlayerQuadrant(uVar7,editTacticsBallLocation);
         unaff_D0w = markedPlayerNumber;
-        if (wVar7 == wVar5) {
-          return uVar6;
+        if (wVar9 == wVar8) {
+          return uVar7;
         }
-        uVar6 = uVar6 + 1;
-      } while (uVar6 != 0xb);
-      sub_14D064(markedPlayerNumber,wVar7,row,editTacticsBallLocation);
+        uVar7 = uVar7 + 1;
+      } while (uVar7 != 0xb);
+      sub_14D064(markedPlayerNumber,wVar9,row,editTacticsBallLocation);
       sub_14D5BE(editTacticsBallLocation);
     }
   }
@@ -68675,104 +68594,104 @@ ushort __usercall sub_14C840(ushort col,ushort row)
         }
         return unaff_D0w;
       }
-      wVar12 = markedPlayerNumber;
+      wVar13 = markedPlayerNumber;
       if (-1 < (short)menuControlsDirection) {
         if (markedPlayerNumber == 0) {
-          uVar9 = (uint)ballColumn;
           GetBallXYPositionFromQuadrant(ballRow,ballColumn);
         }
         else {
           GetPlayerXYPositionFromQuadrant(markedPlayerNumber,editTacticsBallLocation);
-          wVar7 = wVar5;
+          wVar9 = wVar8;
+          uVar7 = row;
         }
-        sVar10 = (short)uVar9;
-        wVar12 = 0xffff;
-        uVar13 = 0xffffffff;
+        uVar11 = (uint)uVar7;
+        wVar13 = 0xffff;
+        uVar14 = 0xffffffff;
         pitchWidth = 0x180;
-        wVar5 = pitchWidth;
+        wVar8 = pitchWidth;
         do {
           do {
-            pitchWidth = wVar5;
-            player = 0;
+            pitchWidth = wVar8;
+            wVar8 = 0;
             do {
-              wVar8 = editTacticsBallLocation;
-              wVar4 = ballColumn;
+              wVar10 = editTacticsBallLocation;
+              wVar6 = ballColumn;
               wVar5 = ballRow;
-              wVar11 = (word)uVar9;
-              if (player != markedPlayerNumber) {
-                if (player == 0) {
+              wVar12 = (word)uVar11;
+              if (wVar8 != markedPlayerNumber) {
+                if (wVar8 == 0) {
                   GetBallXYPositionFromQuadrant(ballRow,ballColumn);
-                  wVar8 = wVar5;
-                  wVar11 = wVar4;
+                  wVar10 = wVar5;
+                  wVar12 = wVar6;
                 }
                 else {
-                  GetPlayerXYPositionFromQuadrant(player,editTacticsBallLocation);
+                  GetPlayerXYPositionFromQuadrant(wVar8,editTacticsBallLocation);
                 }
-                sVar2 = wVar8 - wVar7;
-                uVar6 = wVar11 - sVar10;
-                uVar9 = (uint)uVar6;
+                sVar2 = wVar10 - wVar9;
+                uVar3 = wVar12 - uVar7;
+                uVar11 = (uint)uVar3;
                 unaff_D7 = menuControlsDirection & 0xffff0006;
                 if ((menuControlsDirection & 6) == 0) {
-                  if ((short)uVar6 < 0) {
-                    unaff_D7 = (uint)((int)(short)uVar6 * (int)(short)pitchWidth) >> 8;
-                    sVar14 = (short)((uint)((int)(short)uVar6 * (int)(short)pitchWidth) >> 8);
-                    if ((sVar14 <= sVar2) &&
-                       (uVar3 = -sVar14, unaff_D7 = (uint)uVar3, sVar2 <= (short)uVar3))
+                  if ((short)uVar3 < 0) {
+                    unaff_D7 = (uint)((int)(short)uVar3 * (int)(short)pitchWidth) >> 8;
+                    sVar15 = (short)((uint)((int)(short)uVar3 * (int)(short)pitchWidth) >> 8);
+                    if ((sVar15 <= sVar2) &&
+                       (uVar4 = -sVar15, unaff_D7 = (uint)uVar4, sVar2 <= (short)uVar4))
                     goto LAB_0014d1b6;
                   }
                 }
                 else if ((menuControlsDirection & 6) == 4) {
-                  if (-1 < (short)uVar6) {
-                    unaff_D7 = (uint)((int)(short)uVar6 * (int)(short)pitchWidth) >> 8;
-                    sVar14 = (short)((uint)((int)(short)uVar6 * (int)(short)pitchWidth) >> 8);
-                    if ((sVar2 <= sVar14) &&
-                       (uVar3 = -sVar14, unaff_D7 = (uint)uVar3, (short)uVar3 <= sVar2))
+                  if (-1 < (short)uVar3) {
+                    unaff_D7 = (uint)((int)(short)uVar3 * (int)(short)pitchWidth) >> 8;
+                    sVar15 = (short)((uint)((int)(short)uVar3 * (int)(short)pitchWidth) >> 8);
+                    if ((sVar2 <= sVar15) &&
+                       (uVar4 = -sVar15, unaff_D7 = (uint)uVar4, (short)uVar4 <= sVar2))
                     goto LAB_0014d1b6;
                   }
                 }
                 else if ((menuControlsDirection & 6) == 6) {
                   if (sVar2 < 0) {
                     unaff_D7 = (uint)((int)sVar2 * (int)(short)pitchWidth) >> 8;
-                    sVar14 = (short)((uint)((int)sVar2 * (int)(short)pitchWidth) >> 8);
-                    if ((sVar14 <= (short)uVar6) &&
-                       (uVar3 = -sVar14, unaff_D7 = (uint)uVar3, (short)uVar6 <= (short)uVar3))
+                    sVar15 = (short)((uint)((int)sVar2 * (int)(short)pitchWidth) >> 8);
+                    if ((sVar15 <= (short)uVar3) &&
+                       (uVar4 = -sVar15, unaff_D7 = (uint)uVar4, (short)uVar3 <= (short)uVar4))
                     goto LAB_0014d1b6;
                   }
                 }
                 else if (-1 < sVar2) {
                   unaff_D7 = (uint)((int)sVar2 * (int)(short)pitchWidth) >> 8;
-                  sVar14 = (short)((uint)((int)sVar2 * (int)(short)pitchWidth) >> 8);
-                  if (((short)uVar6 <= sVar14) &&
-                     (uVar3 = -sVar14, unaff_D7 = (uint)uVar3, (short)uVar3 <= (short)uVar6)) {
+                  sVar15 = (short)((uint)((int)sVar2 * (int)(short)pitchWidth) >> 8);
+                  if (((short)uVar3 <= sVar15) &&
+                     (uVar4 = -sVar15, unaff_D7 = (uint)uVar4, (short)uVar4 <= (short)uVar3)) {
 LAB_0014d1b6:
-                    uVar9 = (int)(short)uVar6 * (int)(short)uVar6;
-                    uVar1 = uVar9 + (int)sVar2 * (int)sVar2;
-                    if (uVar1 < uVar13) {
-                      uVar13 = uVar1;
-                      wVar12 = player;
+                    uVar11 = (int)(short)uVar3 * (int)(short)uVar3;
+                    uVar1 = uVar11 + (int)sVar2 * (int)sVar2;
+                    if (uVar1 < uVar14) {
+                      uVar14 = uVar1;
+                      wVar13 = wVar8;
                     }
                   }
                 }
               }
-              player = player + 1;
-            } while (player != 0xb);
+              wVar8 = wVar8 + 1;
+            } while (wVar8 != 0xb);
             unaff_D0w = 0xb;
-            if (-1 < (short)wVar12) {
-              markedPlayerNumber = wVar12;
+            if (-1 < (short)wVar13) {
+              markedPlayerNumber = wVar13;
               return 0xb;
             }
-            wVar5 = pitchWidth + 0x40;
+            wVar8 = pitchWidth + 0x40;
           } while ((ushort)(pitchWidth + 0x40) < 0x500);
           pitchWidth = pitchWidth + 0x100;
-          wVar5 = pitchWidth;
+          wVar8 = pitchWidth;
         } while (pitchWidth < 0x1e00);
-        if ((((short)wVar12 < 0) && (wVar12 = markedPlayerNumber, 1 < (ushort)unaff_D7)) &&
+        if ((((short)wVar13 < 0) && (wVar13 = markedPlayerNumber, 1 < (ushort)unaff_D7)) &&
            ((ushort)unaff_D7 < 5)) {
           editTacticsPitchStatus = 0xffff;
-          return player;
+          return 0xb;
         }
       }
-      markedPlayerNumber = wVar12;
+      markedPlayerNumber = wVar13;
       return unaff_D0w;
     }
     if (((fire == 0) && (fireCounter != 0)) && ((short)fireCounter < 8)) {
@@ -68787,34 +68706,34 @@ LAB_0014d1b6:
             if (right == 0) {
               return unaff_D0w;
             }
-            uVar6 = editTacticsBallLocation - 1;
-            if ((short)uVar6 < 0) {
-              uVar6 = 0x22;
+            uVar7 = editTacticsBallLocation - 1;
+            if ((short)uVar7 < 0) {
+              uVar7 = 0x22;
             }
           }
           else {
-            uVar6 = editTacticsBallLocation + 1;
-            if (uVar6 == 0x23) {
-              uVar6 = 0;
+            uVar7 = editTacticsBallLocation + 1;
+            if (uVar7 == 0x23) {
+              uVar7 = 0;
             }
           }
         }
         else {
-          uVar6 = editTacticsBallLocation - 5;
-          if (((short)uVar6 < 0) && (uVar6 = editTacticsBallLocation + 0x1d, uVar6 == 0x1d)) {
-            uVar6 = 0x22;
+          uVar7 = editTacticsBallLocation - 5;
+          if (((short)uVar7 < 0) && (uVar7 = editTacticsBallLocation + 0x1d, uVar7 == 0x1d)) {
+            uVar7 = 0x22;
           }
         }
       }
       else {
-        uVar6 = editTacticsBallLocation + 5;
-        if ((0x22 < uVar6) && (uVar6 = editTacticsBallLocation - 0x1d, uVar6 == 5)) {
-          uVar6 = 0;
+        uVar7 = editTacticsBallLocation + 5;
+        if ((0x22 < uVar7) && (uVar7 = editTacticsBallLocation - 0x1d, uVar7 == 5)) {
+          uVar7 = 0;
         }
       }
-      editTacticsBallLocation = uVar6;
-      ballColumn = (word)((uint)(int)(short)uVar6 / 5);
-      ballRow = (word)((uint)(int)(short)uVar6 % 5);
+      editTacticsBallLocation = uVar7;
+      ballColumn = (word)((uint)(int)(short)uVar7 / 5);
+      ballRow = (word)((uint)(int)(short)uVar7 % 5);
       return ballRow;
     }
   }
@@ -70074,10 +69993,9 @@ void __usercall SetTeamGlobalNumbers(ushort numTeams,void *firstTeam)
   sVar1 = numTeams - 1;
   if (-1 < sVar1) {
     do {
-                    // WARNING: Load size is inaccurate
       *(ushort *)((int)firstTeam + 2) =
            (ushort)*(byte *)((int)firstTeam + 1) +
-           *(short *)((int)teamsCountryNumbers + (int)(short)((ushort)*firstTeam << 1));
+           *(short *)((int)teamsCountryNumbers + (int)(short)((ushort)*(byte *)firstTeam << 1));
       firstTeam = (void *)((int)firstTeam + 0x2ac);
       sVar1 = sVar1 + -1;
     } while (sVar1 != -1);
@@ -70167,9 +70085,8 @@ void __usercall LoadSomeEuroCup(void *whichCup)
   char *filename;
   
   filename = aDataEurocupTmd;
-  if ((((uchar *)whichCup == euroCup) ||
-      (filename = aDataEurocwcTmd, (uchar *)whichCup == cupWinnersCup)) ||
-     (filename = aDataUefacupTmd, (uchar *)whichCup == uefaCup)) {
+  if (((whichCup == euroCup) || (filename = aDataEurocwcTmd, whichCup == cupWinnersCup)) ||
+     (filename = aDataUefacupTmd, whichCup == uefaCup)) {
     uVar1 = (uint)careerFileBuffer;
     LoadFile(filename,tmdFileBuffer + uVar1 * 0x2ac);
     numTeams = (ushort)(unaff_D1 / 0x2ac);
@@ -70482,7 +70399,7 @@ void __usercall sub_151736(ushort *listOut,void *selTeamsOut,ushort remaining,us
           sVar5 = 0x155;
           puVar6 = (ushort *)(teamFileBuffer + iVar2 + 2);
           do {
-            puVar7 = (ushort *)selTeamsOut;
+            puVar7 = selTeamsOut;
             *puVar7 = *puVar6;
             sVar5 = sVar5 + -1;
             puVar6 = puVar6 + 1;
@@ -70508,7 +70425,7 @@ uint __usercall sub_15178A(ushort teamId,void *endPtr)
   
   pwVar2 = &word_2E13E;
   do {
-    if (pwVar2 == (word *)endPtr) {
+    if (pwVar2 == endPtr) {
       return CONCAT22(unaff_D0u,teamId) | 0x10000;
     }
     uVar1 = *pwVar2;
@@ -70622,7 +70539,7 @@ uint __usercall sub_1518B0(ushort teamId,void *endPtr)
   
   puVar2 = (ushort *)&byte_2DB6A;
   do {
-    if (puVar2 == (ushort *)endPtr) {
+    if (puVar2 == endPtr) {
       return CONCAT22(unaff_D0u,teamId) | 0x10000;
     }
     uVar1 = *puVar2;

@@ -1,3 +1,45 @@
+#define FRONTBUFFER_SIZE_TOTAL_BYTES 0xbbb0
+#define DMACON_BLT_OFF 0x400
+#define DMACONR_BLTBUSY_BIT 0x6
+#define COPPERLIST_SIZE_BYTES_MINUS_ONE 0x13f
+#define PITCH_DEST_MOD_ALIGNED 0x86
+#define PITCH_DEST_MOD_UNALIGNED 0x84
+#define ROW_STRIDE_BYTES 0xb0
+#define NUM_PLANES_MINUS1 0x3
+#define PLANE_STRIDE 0x2c
+#define SCREEN_HEIGHT 0x110
+#define BLTCON0_USEA_USED_LF_F0 0x9f0
+#define PITCHFILE_MAX_SIZE 0xb220
+#define SCROLL_RIGHT_EDGE_X 0x14f
+#define TILE_SHIFT_X 0x4
+#define PITCH_PTR_ROW_BYTES 0xa8
+#define WORD_ALIGN_EVEN_MASK 0xfffe
+#define BLTDMOD_PLANE_STEP 0x2a
+#define TILE_MASK 0xf
+#define TILE_HEIGHT 0x10
+#define NUM_PLANES_SHIFT_PLUS1 0x3
+#define BLTSIZE_TILE_COL 0x1001
+#define NUM_PLANES 0x4
+#define SRC_SCANLINE_BYTES 0x8
+#define TILE_SIZE 0x80
+#define FRONTBUFFER_SIZE_VISIBLE_BYTES 0xbb00
+#define PLANE_STRIDE_DIV2 0x16
+#define FB_COPY_WORDS_MINUS1 0x5dd7
+#define IMAGE_ROW_STRIDE_BYTES 0xa0
+#define BITPLANE_ROW_BYTES 0x28
+#define NUM_PLANES_MINUS2 0x2
+#define BLTCON0_USEA_LF_FC 0x8fc
+#define BLTCON0_USED_LF_00 0x100
+#define BLTCON0_USEA_USED_LF_FC 0x9fc
+#define BLTCON0_USED_LF_FF 0x1ff
+#define FB_BLT_MOD_AFTER_1_WORD 0xae
+#define BLTCON0_USEA_USEB_USED_LF_FC 0xdfc
+#define BLTSIZE_OVERLAY_PANEL 0x1116
+#define BLTCON0_USED_LF_F0 0x1f0
+#define BLTCON0_BASE_LINKED 0xfca
+#define BLTCON0_BASE_SINGLE 0x7ca
+#define NUM_PLANES_SHIFT 0x2
+#define SCREEN_WIDTH 0x150
 #define ASSET_OP_INIT_CONTEXT 0x0
 #define ASSET_OP_INIT_SOURCE0 0x2
 #define FPS_50HZ 0x31
@@ -71,6 +113,11 @@
 #define SPR_FORMATION 0x497
 #define SPR_SQUARE_GRID 0x445
 #define TS_GOOD_TACKLE 0x2
+#define SPRITE_MAX_Y_DRAW 0x101
+#define PLANE_STRIDE_MINUS2 0x2a
+#define SPRITE_BLTSIZE_W1 0xf01
+#define PLANE_STRIDE_MINUS4 0x28
+#define SPRITE_BLTSIZE_W2 0xf02
 #define PL_TACKLED 0x3
 #define ST_PLAYERS_TO_INITIAL_POSITIONS 0x0
 #define PL_TACKLING 0x1
@@ -771,12 +818,30 @@ struct TeamGame {
     byte unk4[976];
 };
 
+typedef enum Frontbuffer {
+    FB_BLT_MOD_AFTER_1_WORD=174,
+    FRONTBUFFER_ROW_STRIDE_BYTES=176,
+    FRONTBUFFER_VISIBLE_LINES=272,
+    FRONTBUFFER_TOTAL_LINES=273,
+    FB_COPY_WORDS_MINUS1=24023,
+    FRONTBUFFER_SIZE_VISIBLE_BYTES=47872,
+    FRONTBUFFER_SIZE_TOTAL_BYTES=48048
+} Frontbuffer;
+
 typedef struct GoalInfo GoalInfo, *PGoalInfo;
 
 struct GoalInfo {
     word goalType;
     dword time;
 };
+
+typedef enum DisplayGeometry {
+    WORD_ALIGN_MASK=15,
+    SPRITE_MAX_Y_DRAW=257,
+    SCREEN_HEIGHT=272,
+    SCROLL_RIGHT_EDGE_X=335,
+    SCREEN_WIDTH=336
+} DisplayGeometry;
 
 typedef enum MenuEntryColors {
     PINK_TO_BROWN_0=0,
@@ -961,6 +1026,11 @@ struct TeamStatisticsData {
     word onTarget;
 };
 
+typedef enum ImageStreamLayout {
+    BITPLANE_ROW_BYTES=40,
+    IMAGE_ROW_STRIDE_BYTES=160
+} ImageStreamLayout;
+
 typedef struct PlayerPositions PlayerPositions, *PPlayerPositions;
 
 struct PlayerPositions {
@@ -1086,6 +1156,18 @@ typedef enum Cards {
     CARD_RED=2,
     CARD_SECOND_YELLOW=3
 } Cards;
+
+typedef enum BitplaneLayout {
+    NUM_PLANES_MINUS2=2,
+    NUM_PLANES_MINUS1=3,
+    NUM_PLANES=4,
+    SRC_SCANLINE_BYTES=8,
+    PLANE_STRIDE_DIV2=22,
+    PLANE_STRIDE_MINUS4=40,
+    PLANE_STRIDE_MINUS2=42,
+    PLANE_STRIDE=44,
+    ROW_STRIDE_BYTES=176
+} BitplaneLayout;
 
 typedef struct SeasonInformations SeasonInformations, *PSeasonInformations;
 
@@ -1264,6 +1346,25 @@ struct ScorerInfo {
     struct GoalInfo goals[10];
 };
 
+typedef enum ScrollBlit {
+    TILE_SHIFT_X=4,
+    DMACONR_BLTBUSY_BIT=6,
+    TILE_STRIDE=14,
+    TILE_MASK=15,
+    TILE_HEIGHT=16,
+    BLTDMOD_PLANE_STEP=42,
+    TILE_SIZE=128,
+    PITCH_DEST_MOD_UNALIGNED=132,
+    PITCH_DEST_MOD_ALIGNED=134,
+    PITCH_PTR_ROW_BYTES=168,
+    DMACON_BLT_OFF=1024,
+    BLTSIZE_COL_16LINES_ALLPLANES=4097,
+    BLTSIZE_TILE_COL=4097,
+    BLTSIZE_OVERLAY_PANEL=4374,
+    DMACON_BLT_ON=33792,
+    WORD_ALIGN_EVEN_MASK=65534
+} ScrollBlit;
+
 typedef enum Seasons {
     SEASON_JAN=0,
     SEASON_FEB=1,
@@ -1287,6 +1388,11 @@ struct MarketPlayer {
     byte padding;
     struct PlayerFile player;
 };
+
+typedef enum SpriteBlit {
+    SPRITE_BLTSIZE_W1=3841,
+    SPRITE_BLTSIZE_W2=3842
+} SpriteBlit;
 
 typedef enum Positions {
     POS_GOALKEEPER=0,
@@ -1317,6 +1423,63 @@ typedef enum DiyCompetitionTypes {
     DIY_TOURNAMENT=2
 } DiyCompetitionTypes;
 
+typedef enum BlitCon {
+    BLTCON0_ASH_SHIFT=12,
+    BLTCON0=64,
+    BLTCON1=66,
+    BLTAFWM=68,
+    BLTALWM=70,
+    BLTCPT=72,
+    BLTBPT=76,
+    BLTAPT=80,
+    BLTDPT=84,
+    BLTSIZE=88,
+    BLTCMOD=96,
+    BLTBMOD=98,
+    BLTAMOD=100,
+    BLTDMOD=102,
+    BLTCDAT=112,
+    BLTBDAT=114,
+    BLTADAT=116,
+    BLT_LF_A=240,
+    BLT_LF_A_OR_B=252,
+    BLTCON0_USED=256,
+    BLTCON0_USEC=512,
+    BLTCON0_USEB=1024,
+    BLT_BATCH_MAX=1024,
+    BLTCON0_BASE_SINGLE=1994,
+    BLTCON0_USEA=2048,
+    BLTCON0_BASE_LINKED=4042,
+    BLT_ADAT_ALL_ONE=65535,
+    BLT_FWM_ALL=65535,
+    BLT_LWM_ALL=65535,
+    BLT_BLITQ_END=4294967295
+} BlitCon;
+
+typedef enum BitplaneLayout_BitShift {
+    NUM_PLANES_SHIFT=2,
+    NUM_PLANES_SHIFT_PLUS1=3
+} BitplaneLayout_BitShift;
+
+typedef enum CopperList {
+    COPPERLIST_SIZE_BYTES_MINUS_ONE=319,
+    COPPERLIST_SIZE_BYTES=320
+} CopperList;
+
+typedef enum FileInfo {
+    PITCHFILE_MAX_SIZE=45600
+} FileInfo;
+
+typedef enum BlitUse {
+    BLTCON0_USED_LF_00=256,
+    BLTCON0_USED_LF_F0=496,
+    BLTCON0_USED_LF_FF=511,
+    BLTCON0_USEA_LF_FC=2300,
+    BLTCON0_USEA_USED_LF_F0=2544,
+    BLTCON0_USEA_USED_LF_FC=2556,
+    BLTCON0_USEA_USEB_USED_LF_FC=3580
+} BlitUse;
+
 typedef enum TeamTypes {
     NATIONAL_TEAMS=0,
     CLUB_TEAMS=1,
@@ -1335,6 +1498,15 @@ typedef enum MenuBackgroundColors {
     COLOR_GREEN=14,
     COLOR_YELLOW=15
 } MenuBackgroundColors;
+
+typedef enum BitplaneLayout_Times {
+    PLANE_STRIDE_TIMES2=88,
+    PLANE_STRIDE_TIMES3=132,
+    PLANE_STRIDE_TIMES4=176,
+    PLANE_STRIDE_TIMES5=220,
+    PLANE_STRIDE_TIMES6=264,
+    PLANE_STRIDE_TIMES7=308
+} BitplaneLayout_Times;
 
 typedef struct TeamFile TeamFile, *PTeamFile;
 
@@ -1362,6 +1534,13 @@ struct TeamFile {
     byte someFlag;
     byte playerNumbers[16];
     struct PlayerFile players[16];
+};
+
+typedef struct AnimTable_20 AnimTable_20, *PAnimTable_20;
+
+struct AnimTable_20 {
+    word frameDelay;
+    short *animFrames[20];
 };
 
 typedef enum TeamControls {
@@ -1528,7 +1707,7 @@ void __usercall FadeInTick(void);
 void __usercall FadeIn(void);
 void __usercall FadeOutToBlack(void);
 void __usercall FadeOutAndIn(void);
-void __usercall ProcessImageCommandStream(void);
+void __usercall ProcessImageCommandStream(ushort *cmdBuffer,uchar *workBuffer);
 void __usercall BlitDispatch(ushort spriteIndex,ushort xOffset,ushort yOffset,ushort width,ushort height,ushort maskSel,ushort dstX,ushort dstY,void *src,void *planesFlag);
 void __usercall nullsub_2(void);
 void __usercall nullsub_3(void);
@@ -1543,10 +1722,10 @@ void __usercall BlitterSpan4Planes(void);
 void __usercall BlitterSpanCoreMasked(void);
 void align_and_prepare_left_mask(void);
 void blitter_rectrow_masked(void);
-void __usercall BuildNibbleMaskLine(void);
+void __usercall BuildPaletteFromColors(uchar *palette);
 void __usercall BlitterCopyOverlayToScreen(void);
 void __usercall BlitterCopyPanelToScreen(void);
-void __usercall HWSprite_LoadFromSpriteGraphics(void);
+void __usercall HWSprite_LoadFromSpriteGraphics(short spriteIndex);
 void __usercall BlitSpritePlanar_Word(void);
 void __usercall BlitSpritePlanar_Word_StridedDest(void);
 void __usercall BlitSpritePlanar_Long_StridedDest(void);
@@ -1559,9 +1738,9 @@ void __usercall DrawSpriteInCameraView(void);
 void __usercall DarkenRectangle(ushort spriteIndex,ushort x,ushort y);
 void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y);
 void __usercall DrawQueuedSprites(void);
-void __usercall DrawQueuedSpritesToPlanes(void);
-void __usercall EmitPlanePairWaitAndBlit(void);
-void __usercall BuildSpritePlaneStacks(void);
+void __usercall RenderSpriteBandsToCopperLists(void);
+void __usercall RenderSpriteBandPlanePair(void);
+void __usercall BuildSpriteBandAndGeneralRenderStacks(void);
 void __usercall InitDisplaySprites(void);
 void __usercall SortSprites(void);
 void __usercall DrawSprites(void);
@@ -1848,7 +2027,7 @@ void __usercall UpdatePlayerSpeed(Sprite *player,TeamGeneralInfo *team);
 void __usercall UpdatePlayerShotChanceTable(Sprite *player,TeamGeneralInfo *team);
 PlayerInfoHeader * __usercall GetPlayerPointerFromShirtNumber(Sprite *player,TeamGeneralInfo *team);
 void __usercall CalculateNextBallPosition(void);
-void __usercall PositionAndClipSprite(void *sprite,ushort x,ushort y);
+void __usercall QueueMaskedSpriteBlitClipped(void *sprite,ushort x,ushort y);
 void __usercall SetPlayerWithNoBallDestination(Sprite *player,TeamGeneralInfo *team);
 void __usercall PlayerTackled(Sprite *playerSprite,TeamGeneralInfo *team);
 void __usercall StartPenalties(void);

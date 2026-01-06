@@ -1,7 +1,7 @@
 /*
  * Auto-generated call graph export
  * Start: UpdatePlayers
- * Date : 2025-12-03 21:44:34
+ * Date : 2026-01-06 10:00:43
  */
 
 /* ===================== INCLUDES ===================== */
@@ -130,7 +130,7 @@ void __usercall PanicHaltLoop(void)
   } while ((pl2Fire == 0) || (pl2Direction != 0));
   DrawMenuTextCentered(0x98,0xe1,0xf,(char *)panicOutBuf,&bigCharsTable);
   WaitForVSync();
-  paletteBankIndex = 4;
+  paletteIndex = 4;
   FadeIn();
   do {
                     /* WARNING: Do nothing block with infinite loop */
@@ -470,14 +470,14 @@ short __usercall DrawMenuText(ushort x,ushort y,ushort color,char *text,CharTabl
       unaff_D0w = wVar1 + chars->conversionTable[(short)(ushort)(byte)(cVar3 - 0x20)];
       x = wVar2 + x_00 + *(short *)(*(int *)((int)ppSVar4 + (int)(short)(unaff_D0w * 4)) + 10);
       if (-1 < (short)x_00) {
-        if (0x14f < x) {
+        if (SCREEN_WIDTH - 1 < x) {
           return unaff_D0w;
         }
         BlitStringToFrontBuffer(unaff_D0w,x_00,y,color);
       }
     }
     x = x_00 + chars->spaceWidth;
-  } while (((short)x_00 < 0) || (x < 0x150));
+  } while (((short)x_00 < 0) || (x < SCREEN_WIDTH));
   return unaff_D0w;
 }
 
@@ -545,15 +545,15 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
     uVar11 = *(ushort *)(pbVar1 + 0xc);
     x = cameraXMod320 + x;
     y = cameraYMod320 + y;
-    if (0x10f < (short)y) {
-      y = y - 0x110;
+    if (SCREEN_HEIGHT - 1 < (short)y) {
+      y = y + -SCREEN_HEIGHT;
     }
     DMACON = 0x8400;
     uVar5 = DMACONR._0_1_;
     do {
       bVar6 = DMACONR._0_1_;
     } while ((bVar6 & 0x40) != 0);
-    DMACON = 0x400;
+    DMACON = DMACON_BLT_OFF;
     DAT_00dff046 = 0;
     uVar9 = *(ushort *)(pbVar1 + 10) & 0xf;
     if (uVar9 == 0) {
@@ -569,9 +569,9 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
     DAT_00dff042 = uVar9;
     bltconShiftBase = uVar9;
     if (*(int *)(pbVar1 + 4) != 0) {
-      sVar16 = (uVar11 + y) - 0x110;
+      sVar16 = uVar11 + y + -SCREEN_HEIGHT;
       sVar12 = 0;
-      if (0x10f < (ushort)(uVar11 + y) && sVar16 != 0) {
+      if (SCREEN_HEIGHT - 1 < (ushort)(uVar11 + y) && sVar16 != 0) {
         uVar11 = uVar11 - sVar16;
         sVar12 = sVar16;
       }
@@ -589,7 +589,7 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
       dVar17 = (int)sVar10 + dVar18 + (int)sVar10;
       blitSrcA_MaskPtr = DAT_00dff050;
       blitSrcB_GlyphPtr = dVar18;
-      iVar8 = (uint)y * 0xb0 + iVar7;
+      iVar8 = (uint)y * ROW_STRIDE_BYTES + iVar7;
       while( true ) {
         DAT_00dff048 = frontbufferBasePtr + iVar8;
         sVar10 = 2;
@@ -605,12 +605,12 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
           do {
             bVar6 = DMACONR._0_1_;
           } while ((bVar6 & 0x40) != 0);
-          DMACON = 0x400;
-          DAT_00dff048 = DAT_00dff048 + 0x2c;
+          DMACON = DMACON_BLT_OFF;
+          DAT_00dff048 = DAT_00dff048 + PLANE_STRIDE;
           sVar10 = sVar10 + -1;
         } while (sVar10 != -1);
         if ((uVar13 & 1) == 0) {
-          DAT_00dff040 = uVar9 + 0xfca;
+          DAT_00dff040 = uVar9 + BLTCON0_BASE_LINKED;
           DAT_00dff04c = dVar17;
         }
         else {
@@ -629,7 +629,7 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
         do {
           bVar6 = DMACONR._0_1_;
         } while ((bVar6 & 0x40) != 0);
-        DMACON = 0x400;
+        DMACON = DMACON_BLT_OFF;
         iVar8 = iVar7;
       }
       DAT_00dff054 = DAT_00dff048;
@@ -943,17 +943,17 @@ short __usercall CalculateDeltaXAndY(short speed,short destX,short destY,short c
   short sVar1;
   ushort uVar2;
   ushort uVar3;
-  bool bVar4;
+  char cVar4;
   bool bVar5;
   
   uVar2 = destX - curX;
   uVar3 = destY - curY;
-  bVar4 = (short)uVar2 < 0;
-  if (bVar4) {
+  bVar5 = (short)uVar2 < 0;
+  if (bVar5) {
     uVar2 = -uVar2;
   }
-  bVar5 = (short)uVar3 < 0;
-  if (bVar5) {
+  cVar4 = -((short)uVar3 < 0);
+  if ((short)uVar3 < 0) {
     uVar3 = -uVar3;
   }
   for (; 0x1f < (short)uVar2; uVar2 = uVar2 >> 1) {
@@ -964,15 +964,15 @@ short __usercall CalculateDeltaXAndY(short speed,short destX,short destY,short c
   }
   sVar1 = *(short *)((int)kAngleCoeficients + (int)(short)((uVar3 << 5 | uVar2) << 1));
   if (-1 < sVar1) {
-    if (bVar4) {
-      if (bVar5) {
+    if ((char)-bVar5 < '\0') {
+      if (cVar4 < '\0') {
         uVar2 = sVar1 * -2 + 0x180;
       }
       else {
         uVar2 = sVar1 * 2 + 0x180;
       }
     }
-    else if (bVar5) {
+    else if (cVar4 < '\0') {
       uVar2 = sVar1 * 2 + 0x80;
     }
     else {
@@ -2208,7 +2208,8 @@ ushort __usercall TryBookingThePlayer(Sprite *player,TeamGeneralInfo *team)
   TeamStatisticsData *pTVar2;
   word *pwVar3;
   short sVar4;
-  byte *pbVar5;
+  word wVar5;
+  byte *pbVar6;
   
   if (plg_D3_param == 0) {
     if ((team->playerNumber == 0) && (team->playerCoachNumber == 0)) {
@@ -2219,23 +2220,22 @@ ushort __usercall TryBookingThePlayer(Sprite *player,TeamGeneralInfo *team)
     return 1;
   }
   if (player->cards != 0) {
+    wVar5 = team2NumAllowedInjuries;
     if (team->teamNumber == 1) {
-      if (team1NumAllowedInjuries == 0) {
-        return 1;
-      }
+      wVar5 = team1NumAllowedInjuries;
     }
-    else if (team2NumAllowedInjuries == 0) {
+    if (wVar5 == 0) {
       return 1;
     }
   }
   pTVar1 = team->inGameTeamPtr;
   sVar4 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)((player->playerOrdinal - 1) * 2));
   if (plg_D3_param == 0) {
-    pbVar5 = cardAnimStatesNoFlag;
+    pbVar6 = cardAnimStatesNoFlag;
     if (pTVar1->unk4[sVar4 + 9] != 0) {
-      pbVar5 = cardAnimStatesWithFlag;
+      pbVar6 = cardAnimStatesWithFlag;
     }
-    pTVar1->unk4[sVar4 + 10] = pbVar5[(short)(player->cards + 1)];
+    pTVar1->unk4[sVar4 + 10] = pbVar6[(short)(player->cards + 1)];
   }
   else if (pTVar1->unk4[sVar4 + 10] == 0) {
     pTVar1->unk4[sVar4 + 10] = 1;
@@ -2282,49 +2282,49 @@ ushort __usercall TrySendingOffThePlayer(Sprite *player,TeamGeneralInfo *team)
   TeamStatisticsData *pTVar2;
   word *pwVar3;
   short sVar4;
-  byte *pbVar5;
+  word wVar5;
+  byte *pbVar6;
   
-  if ((team->playerNumber == 0) && (team->playerCoachNumber == 0)) {
-    return 1;
-  }
-  if (team->teamNumber == 1) {
-    if (team1NumAllowedInjuries == 0) {
-      return 1;
+  if ((team->playerNumber != 0) || (team->playerCoachNumber != 0)) {
+    wVar5 = team2NumAllowedInjuries;
+    if (team->teamNumber == 1) {
+      wVar5 = team1NumAllowedInjuries;
+    }
+    if (wVar5 != 0) {
+      pTVar1 = team->inGameTeamPtr;
+      sVar4 = *(short *)((int)ingameTeamPlayerOffsets +
+                        (int)(short)((player->playerOrdinal - 1) * 2));
+      if (plg_D3_param == 0) {
+        pbVar6 = cardAnimStatesNoFlag;
+        if (pTVar1->unk4[sVar4 + 9] != 0) {
+          pbVar6 = cardAnimStatesWithFlag;
+        }
+        pTVar1->unk4[sVar4 + 10] = pbVar6[(short)((player->cards ^ 1) + 3)];
+      }
+      else {
+        pTVar1->unk4[sVar4 + 10] = 3;
+      }
+      refTimer = 0;
+      whichCard = CARD_RED;
+      pTVar2 = team->teamStatsPtr;
+      bookedPlayer = player;
+      lastTeamBooked = team;
+      if (player->cards == 1) {
+        pwVar3 = &pTVar2->bookings;
+        *pwVar3 = *pwVar3 - 1;
+      }
+      pwVar3 = &pTVar2->sendingsOff;
+      *pwVar3 = *pwVar3 + 1;
+      if (team->teamNumber == 1) {
+        team1NumAllowedInjuries = team1NumAllowedInjuries - 1;
+      }
+      else {
+        team2NumAllowedInjuries = team2NumAllowedInjuries - 1;
+      }
+      return 0;
     }
   }
-  else if (team2NumAllowedInjuries == 0) {
-    return 1;
-  }
-  pTVar1 = team->inGameTeamPtr;
-  sVar4 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)((player->playerOrdinal - 1) * 2));
-  if (plg_D3_param == 0) {
-    pbVar5 = cardAnimStatesNoFlag;
-    if (pTVar1->unk4[sVar4 + 9] != 0) {
-      pbVar5 = cardAnimStatesWithFlag;
-    }
-    pTVar1->unk4[sVar4 + 10] = pbVar5[(short)((player->cards ^ 1) + 3)];
-  }
-  else {
-    pTVar1->unk4[sVar4 + 10] = 3;
-  }
-  refTimer = 0;
-  whichCard = CARD_RED;
-  pTVar2 = team->teamStatsPtr;
-  bookedPlayer = player;
-  lastTeamBooked = team;
-  if (player->cards == 1) {
-    pwVar3 = &pTVar2->bookings;
-    *pwVar3 = *pwVar3 - 1;
-  }
-  pwVar3 = &pTVar2->sendingsOff;
-  *pwVar3 = *pwVar3 + 1;
-  if (team->teamNumber == 1) {
-    team1NumAllowedInjuries = team1NumAllowedInjuries - 1;
-  }
-  else {
-    team2NumAllowedInjuries = team2NumAllowedInjuries - 1;
-  }
-  return 0;
+  return 1;
 }
 
 
@@ -4828,8 +4828,10 @@ choose_turn_right_for_dive:
 return_last_player_block:
             uVar24 = (ushort)((uint)pbVar25 >> 0x10);
             if (gameStatePl != ST_GAME_IN_PROGRESS) goto not_controlled_player;
-            pTVar10 = (TeamGame *)(uint)(frameCount & 0xe);
-            if ((frameCount & 0xe) == 0) goto idle_player_common_path;
+            if ((frameCount & 0xe) == 0) {
+              pTVar10 = (TeamGame *)0x0;
+              goto idle_player_common_path;
+            }
           }
           if ((short)pSVar2->destY < 0x81) {
             pSVar2->destY = 0x81;
@@ -5862,8 +5864,7 @@ no_player_facing:
       return;
     }
     if ((short)team->spinTimer < 0) {
-      bVar15 = team->plVeryCloseToBall == 0;
-      if ((bVar15) && (bVar15 = team->plCloseToBall == 0, bVar15)) {
+      if ((team->plVeryCloseToBall == 0) && (bVar15 = team->plCloseToBall == 0, bVar15)) {
         AI_DecideWhetherToTriggerFire(pSVar1,team,uVar5);
         if (bVar15) {
           return;
@@ -5906,6 +5907,7 @@ derive_allowed_dir_from_full_angle:
         }
         goto set_allowed_dir_from_angle_bucket;
       }
+      bVar15 = false;
       AI_DecideWhetherToTriggerFire(pSVar1,team,uVar5);
       if (bVar15) {
         return;

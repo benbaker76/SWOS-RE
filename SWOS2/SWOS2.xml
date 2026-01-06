@@ -2,7 +2,7 @@
 <?program_dtd version="1"?>
 
 <PROGRAM NAME="SWOS2" EXE_PATH=".\SWOS2" EXE_FORMAT="Binary file" INPUT_MD5="u&#xa7;&#xdd;E&#xcf;&#xe6;&#xeb;&#xe1;?|&#xa8;(&#xe0;&#xa3;">
-    <INFO_SOURCE TOOL="IDA-Pro 9.0 XML plugin v5.0.2 (Python) SDK 900" USER="headk" FILE="C:\Projects\Amiga\SWOS-IDA\SWOS2.i64" TIMESTAMP="2025-12-03 21:29" />
+    <INFO_SOURCE TOOL="IDA-Pro 9.0 XML plugin v5.0.2 (Python) SDK 900" USER="headk" FILE="C:\Projects\Amiga\SWOS-IDA\SWOS2.i64" TIMESTAMP="2026-01-06 09:18" />
     <PROCESSOR NAME="68000" ENDIAN="big" ADDRESS_MODEL="32-bit" />
     <COMPILER NAME="Unknown" />
     <DATATYPES>
@@ -1192,6 +1192,14 @@
                 <REPEATABLE_CMT></REPEATABLE_CMT>
             </MEMBER>
         </STRUCTURE>
+        <STRUCTURE NAME="AnimTable_20" SIZE="0x52">
+            <MEMBER OFFSET="0x0" NAME="frameDelay" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x2" NAME="animFrames" DATATYPE="short *[20]" SIZE="0x50">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+        </STRUCTURE>
         <ENUM NAME="PlayerStates" SIZE="4">
             <DISPLAY_SETTINGS FORMAT="decimal" SIGNED="yes" />
             <ENUM_ENTRY NAME="PL_NORMAL" VALUE="0">
@@ -2351,6 +2359,220 @@
             <ENUM_ENTRY NAME="FPS_50HZ" VALUE="0x31">
             </ENUM_ENTRY>
         </ENUM>
+        <ENUM NAME="DisplayGeometry" SIZE="4">
+            <DISPLAY_SETTINGS SIGNED="yes" />
+            <ENUM_ENTRY NAME="SCREEN_WIDTH" VALUE="0x150">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="SCREEN_HEIGHT" VALUE="0x110">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="WORD_ALIGN_MASK" VALUE="0xF">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="SCROLL_RIGHT_EDGE_X" VALUE="0x14F">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="SPRITE_MAX_Y_DRAW" VALUE="0x101">
+            </ENUM_ENTRY>
+        </ENUM>
+        <ENUM NAME="BitplaneLayout" SIZE="4">
+            <DISPLAY_SETTINGS SIGNED="yes" />
+            <ENUM_ENTRY NAME="NUM_PLANES" VALUE="0x4">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="NUM_PLANES_MINUS1" VALUE="0x3">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="NUM_PLANES_MINUS2" VALUE="0x2">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="PLANE_STRIDE" VALUE="0x2C">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="PLANE_STRIDE_MINUS2" VALUE="0x2A">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="PLANE_STRIDE_MINUS4" VALUE="0x28">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="PLANE_STRIDE_DIV2" VALUE="0x16">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="ROW_STRIDE_BYTES" VALUE="0xB0">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="SRC_SCANLINE_BYTES" VALUE="0x8">
+            </ENUM_ENTRY>
+        </ENUM>
+        <ENUM NAME="ScrollBlit" SIZE="8">
+            <DISPLAY_SETTINGS SIGNED="yes" />
+            <ENUM_ENTRY NAME="TILE_STRIDE" VALUE="0xE">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="TILE_SHIFT_X" VALUE="0x4">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="TILE_HEIGHT" VALUE="0x10">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="TILE_SIZE" VALUE="0x80">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="TILE_MASK" VALUE="0xF">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="PITCH_PTR_ROW_BYTES" VALUE="0xA8">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="PITCH_DEST_MOD_UNALIGNED" VALUE="0x84">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="PITCH_DEST_MOD_ALIGNED" VALUE="0x86">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTDMOD_PLANE_STEP" VALUE="0x2A">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTSIZE_TILE_COL" VALUE="0x1001">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTSIZE_COL_16LINES_ALLPLANES" VALUE="0x1001">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTSIZE_OVERLAY_PANEL" VALUE="0x1116">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="DMACON_BLT_ON" VALUE="0x8400">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="DMACON_BLT_OFF" VALUE="0x400">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="DMACONR_BLTBUSY_BIT" VALUE="0x6">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="WORD_ALIGN_EVEN_MASK" VALUE="0xFFFE">
+            </ENUM_ENTRY>
+        </ENUM>
+        <ENUM NAME="Frontbuffer" SIZE="4">
+            <DISPLAY_SETTINGS SIGNED="yes" />
+            <ENUM_ENTRY NAME="FRONTBUFFER_ROW_STRIDE_BYTES" VALUE="0xB0">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="FRONTBUFFER_VISIBLE_LINES" VALUE="0x110">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="FRONTBUFFER_TOTAL_LINES" VALUE="0x111">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="FRONTBUFFER_SIZE_VISIBLE_BYTES" VALUE="0xBB00">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="FRONTBUFFER_SIZE_TOTAL_BYTES" VALUE="0xBBB0">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="FB_COPY_WORDS_MINUS1" VALUE="0x5DD7">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="FB_BLT_MOD_AFTER_1_WORD" VALUE="0xAE">
+            </ENUM_ENTRY>
+        </ENUM>
+        <ENUM NAME="CopperList" SIZE="4">
+            <DISPLAY_SETTINGS SIGNED="yes" />
+            <ENUM_ENTRY NAME="COPPERLIST_SIZE_BYTES" VALUE="0x140">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="COPPERLIST_SIZE_BYTES_MINUS_ONE" VALUE="0x13F">
+            </ENUM_ENTRY>
+        </ENUM>
+        <ENUM NAME="FileInfo" SIZE="4">
+            <DISPLAY_SETTINGS SIGNED="yes" />
+            <ENUM_ENTRY NAME="PITCHFILE_MAX_SIZE" VALUE="0xB220">
+            </ENUM_ENTRY>
+        </ENUM>
+        <ENUM NAME="BitplaneLayout_BitShift" SIZE="4">
+            <DISPLAY_SETTINGS SIGNED="yes" />
+            <ENUM_ENTRY NAME="NUM_PLANES_SHIFT" VALUE="0x2">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="NUM_PLANES_SHIFT_PLUS1" VALUE="0x3">
+            </ENUM_ENTRY>
+        </ENUM>
+        <ENUM NAME="ImageStreamLayout" SIZE="4">
+            <DISPLAY_SETTINGS SIGNED="yes" />
+            <ENUM_ENTRY NAME="IMAGE_ROW_STRIDE_BYTES" VALUE="0xA0">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BITPLANE_ROW_BYTES" VALUE="0x28">
+            </ENUM_ENTRY>
+        </ENUM>
+        <ENUM NAME="BitplaneLayout_Times" SIZE="4">
+            <DISPLAY_SETTINGS SIGNED="yes" />
+            <ENUM_ENTRY NAME="PLANE_STRIDE_TIMES2" VALUE="0x58">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="PLANE_STRIDE_TIMES3" VALUE="0x84">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="PLANE_STRIDE_TIMES4" VALUE="0xB0">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="PLANE_STRIDE_TIMES5" VALUE="0xDC">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="PLANE_STRIDE_TIMES6" VALUE="0x108">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="PLANE_STRIDE_TIMES7" VALUE="0x134">
+            </ENUM_ENTRY>
+        </ENUM>
+        <ENUM NAME="SpriteBlit" SIZE="4">
+            <DISPLAY_SETTINGS SIGNED="yes" />
+            <ENUM_ENTRY NAME="SPRITE_BLTSIZE_W1" VALUE="0xF01">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="SPRITE_BLTSIZE_W2" VALUE="0xF02">
+            </ENUM_ENTRY>
+        </ENUM>
+        <ENUM NAME="BlitCon" SIZE="8">
+            <DISPLAY_SETTINGS SIGNED="yes" />
+            <ENUM_ENTRY NAME="BLTCON0" VALUE="0x40">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTCON1" VALUE="0x42">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTAFWM" VALUE="0x44">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTALWM" VALUE="0x46">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTAPT" VALUE="0x50">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTSIZE" VALUE="0x58">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTCPT" VALUE="0x48">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTBPT" VALUE="0x4C">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTDPT" VALUE="0x54">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTCMOD" VALUE="0x60">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTBMOD" VALUE="0x62">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTAMOD" VALUE="0x64">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTDMOD" VALUE="0x66">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTCDAT" VALUE="0x70">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTBDAT" VALUE="0x72">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTADAT" VALUE="0x74">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTCON0_BASE_LINKED" VALUE="0xFCA">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTCON0_BASE_SINGLE" VALUE="0x7CA">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLT_BATCH_MAX" VALUE="0x400">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLT_FWM_ALL" VALUE="0xFFFF">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLT_LWM_ALL" VALUE="0xFFFF">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLT_ADAT_ALL_ONE" VALUE="0xFFFF">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLT_BLITQ_END" VALUE="0xFFFFFFFF">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTCON0_ASH_SHIFT" VALUE="0xC">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTCON0_USEA" VALUE="0x800">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTCON0_USEB" VALUE="0x400">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTCON0_USEC" VALUE="0x200">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTCON0_USED" VALUE="0x100">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLT_LF_A" VALUE="0xF0">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLT_LF_A_OR_B" VALUE="0xFC">
+            </ENUM_ENTRY>
+        </ENUM>
+        <ENUM NAME="BlitUse" SIZE="4">
+            <DISPLAY_SETTINGS SIGNED="yes" />
+            <ENUM_ENTRY NAME="BLTCON0_USEA_LF_FC" VALUE="0x8FC">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTCON0_USEA_USED_LF_F0" VALUE="0x9F0">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTCON0_USEA_USED_LF_FC" VALUE="0x9FC">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTCON0_USEA_USEB_USED_LF_FC" VALUE="0xDFC">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTCON0_USED_LF_00" VALUE="0x100">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTCON0_USED_LF_F0" VALUE="0x1F0">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="BLTCON0_USED_LF_FF" VALUE="0x1FF">
+            </ENUM_ENTRY>
+        </ENUM>
     </DATATYPES>
     <MEMORY_MAP>
         <MEMORY_SECTION NAME="CHIP_RAM" START_ADDR="0x0" LENGTH="0x200000" PERMISSIONS="rwx">
@@ -2831,28 +3053,28 @@
         <DEFINED_DATA ADDRESS="0x1E35A" DATATYPE="byte[48048]" SIZE="0xBBB0">
             <TYPEINFO_CMT>frontbufferBaseAlt</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x29F0C" DATATYPE="uint[2][4][225]" SIZE="0x384">
+        <DEFINED_DATA ADDRESS="0x29F0C" DATATYPE="uint[225]" SIZE="0x384">
             <TYPEINFO_CMT>bitPlane0Base</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x2A290" DATATYPE="uint[2][4][225]" SIZE="0x384">
+        <DEFINED_DATA ADDRESS="0x2A290" DATATYPE="uint[225]" SIZE="0x384">
             <TYPEINFO_CMT>bitPlane1Base</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x2A614" DATATYPE="uint[2][4][225]" SIZE="0x384">
+        <DEFINED_DATA ADDRESS="0x2A614" DATATYPE="uint[225]" SIZE="0x384">
             <TYPEINFO_CMT>bitPlane2Base</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x2A998" DATATYPE="uint[2][4][225]" SIZE="0x384">
+        <DEFINED_DATA ADDRESS="0x2A998" DATATYPE="uint[225]" SIZE="0x384">
             <TYPEINFO_CMT>bitPlane3Base</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x2AD1C" DATATYPE="uint[2][4][225]" SIZE="0x384">
+        <DEFINED_DATA ADDRESS="0x2AD1C" DATATYPE="uint[225]" SIZE="0x384">
             <TYPEINFO_CMT>bitPlane0BaseAlt</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x2B0A0" DATATYPE="uint[2][4][225]" SIZE="0x384">
+        <DEFINED_DATA ADDRESS="0x2B0A0" DATATYPE="uint[225]" SIZE="0x384">
             <TYPEINFO_CMT>bitPlane1BaseAlt</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x2B424" DATATYPE="uint[2][4][225]" SIZE="0x384">
+        <DEFINED_DATA ADDRESS="0x2B424" DATATYPE="uint[225]" SIZE="0x384">
             <TYPEINFO_CMT>bitPlane2BaseAlt</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x2B7A8" DATATYPE="uint[2][4][225]" SIZE="0x384">
+        <DEFINED_DATA ADDRESS="0x2B7A8" DATATYPE="uint[225]" SIZE="0x384">
             <TYPEINFO_CMT>bitPlane3BaseAlt</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x2BB2C" DATATYPE="uint *" SIZE="0x4">
@@ -2918,13 +3140,13 @@
         <DEFINED_DATA ADDRESS="0x2C044" DATATYPE="dword" SIZE="0x4">
             <TYPEINFO_CMT>dword_2C044</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x2C048" DATATYPE="byte" SIZE="0x1">
+        <DEFINED_DATA ADDRESS="0x2C048" DATATYPE="byte[360]" SIZE="0x168">
             <TYPEINFO_CMT>plane01RenderStackBase</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x2C1B0" DATATYPE="dword" SIZE="0x4">
             <TYPEINFO_CMT>plane23RenderStackPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x2C1B4" DATATYPE="byte" SIZE="0x1">
+        <DEFINED_DATA ADDRESS="0x2C1B4" DATATYPE="byte[360]" SIZE="0x168">
             <TYPEINFO_CMT>plane23RenderStackBase</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x2C31C" DATATYPE="word" SIZE="0x2">
@@ -3182,13 +3404,10 @@
         <DEFINED_DATA ADDRESS="0x2E4B8" DATATYPE="dword" SIZE="0x4">
             <TYPEINFO_CMT>dword_2E4B8</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x2E624" DATATYPE="byte[2250]" SIZE="0x8CA">
-            <TYPEINFO_CMT>imageCmdWorkbuf</TYPEINFO_CMT>
+        <DEFINED_DATA ADDRESS="0x2E624" DATATYPE="byte[65500]" SIZE="0xFFDC">
+            <TYPEINFO_CMT>imageCmdWorkBuf</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x2EEEE" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x2F9B8" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x30111" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x3E600" DATATYPE="word" SIZE="0x2">
+        <DEFINED_DATA ADDRESS="0x3E600" DATATYPE="dword" SIZE="0x4">
             <TYPEINFO_CMT>g_menuInsBank</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x40000" DATATYPE="byte" SIZE="0x1" />
@@ -3453,32 +3672,32 @@
         <DEFINED_DATA ADDRESS="0x1016AA" DATATYPE="byte[8]" SIZE="0x8">
             <TYPEINFO_CMT>byte_1016AA</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x1016B2" DATATYPE="word[16]" SIZE="0x20">
-            <TYPEINFO_CMT>g_copperList</TYPEINFO_CMT>
+        <DEFINED_DATA ADDRESS="0x1016B2" DATATYPE="ushort[16]" SIZE="0x20">
+            <TYPEINFO_CMT>gamePalette</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x1016D2" DATATYPE="byte[48]" SIZE="0x30">
-            <TYPEINFO_CMT>kNibbleMaskSeedA</TYPEINFO_CMT>
+            <TYPEINFO_CMT>kTitleLogoColors</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x101702" DATATYPE="byte[48]" SIZE="0x30">
-            <TYPEINFO_CMT>kNibbleMaskSeedB</TYPEINFO_CMT>
+            <TYPEINFO_CMT>kTitleScreenColors</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x101732" DATATYPE="byte[48]" SIZE="0x30">
-            <TYPEINFO_CMT>kNibbleMaskSeedC</TYPEINFO_CMT>
+            <TYPEINFO_CMT>kTitleTextColors</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x101762" DATATYPE="byte[32]" SIZE="0x20">
-            <TYPEINFO_CMT>paletteBankBlack16</TYPEINFO_CMT>
+        <DEFINED_DATA ADDRESS="0x101762" DATATYPE="word[16]" SIZE="0x20">
+            <TYPEINFO_CMT>blackPalette</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x101782" DATATYPE="byte[32]" SIZE="0x20">
-            <TYPEINFO_CMT>kNibbleMaskLineA</TYPEINFO_CMT>
+        <DEFINED_DATA ADDRESS="0x101782" DATATYPE="word[16]" SIZE="0x20">
+            <TYPEINFO_CMT>titleLogoPalette</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x1017A2" DATATYPE="byte[32]" SIZE="0x20">
-            <TYPEINFO_CMT>kNibbleMaskLineB</TYPEINFO_CMT>
+        <DEFINED_DATA ADDRESS="0x1017A2" DATATYPE="word[16]" SIZE="0x20">
+            <TYPEINFO_CMT>titleScreenPalette</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x1017C2" DATATYPE="byte[32]" SIZE="0x20">
-            <TYPEINFO_CMT>kNibbleMaskLineC</TYPEINFO_CMT>
+        <DEFINED_DATA ADDRESS="0x1017C2" DATATYPE="word[16]" SIZE="0x20">
+            <TYPEINFO_CMT>titleTextPalette</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x1017E2" DATATYPE="byte[32]" SIZE="0x20">
-            <TYPEINFO_CMT>kNibbleMaskLineD</TYPEINFO_CMT>
+        <DEFINED_DATA ADDRESS="0x1017E2" DATATYPE="word[16]" SIZE="0x20">
+            <TYPEINFO_CMT>panicPalette</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x101802" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>fadeStep</TYPEINFO_CMT>
@@ -3661,19 +3880,19 @@
             <TYPEINFO_CMT>pitchFansConvertTable</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x103284" DATATYPE="word" SIZE="0x2">
-            <TYPEINFO_CMT>word_103284</TYPEINFO_CMT>
+            <TYPEINFO_CMT>blitWordCount</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x103286" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>dword_103286</TYPEINFO_CMT>
+            <TYPEINFO_CMT>maskBlitDestPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x10328A" DATATYPE="word" SIZE="0x2">
-            <TYPEINFO_CMT>word_10328A</TYPEINFO_CMT>
+            <TYPEINFO_CMT>maskBlitPendingBytesA</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x10328C" DATATYPE="dword" SIZE="0x4">
-            <TYPEINFO_CMT>dword_10328C</TYPEINFO_CMT>
+            <TYPEINFO_CMT>maskBlitSecondStreamPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x103290" DATATYPE="word" SIZE="0x2">
-            <TYPEINFO_CMT>word_103290</TYPEINFO_CMT>
+            <TYPEINFO_CMT>maskBlitPendingBytesB</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x1032E4" DATATYPE="dword[5]" SIZE="0x14" />
         <DEFINED_DATA ADDRESS="0x103354" DATATYPE="char[20]" SIZE="0x14">
@@ -3960,29 +4179,29 @@
         <DEFINED_DATA ADDRESS="0x10A3B8" DATATYPE="char[16]" SIZE="0x10">
             <TYPEINFO_CMT>numberBuffer</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x10A3F0" DATATYPE="short[3]" SIZE="0x6">
-            <TYPEINFO_CMT>paletteTriplet1</TYPEINFO_CMT>
+        <DEFINED_DATA ADDRESS="0x10A3F0" DATATYPE="ushort[3]" SIZE="0x6">
+            <TYPEINFO_CMT>normalPalette</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x10A3F6" DATATYPE="short[3]" SIZE="0x6">
-            <TYPEINFO_CMT>paletteTriplet2</TYPEINFO_CMT>
+        <DEFINED_DATA ADDRESS="0x10A3F6" DATATYPE="ushort[3]" SIZE="0x6">
+            <TYPEINFO_CMT>dryPalette</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x10A3FC" DATATYPE="short[3]" SIZE="0x6">
-            <TYPEINFO_CMT>paletteTriplet3</TYPEINFO_CMT>
+        <DEFINED_DATA ADDRESS="0x10A3FC" DATATYPE="ushort[3]" SIZE="0x6">
+            <TYPEINFO_CMT>wetPalette</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x10A402" DATATYPE="short[3]" SIZE="0x6">
-            <TYPEINFO_CMT>paletteTriplet4</TYPEINFO_CMT>
+        <DEFINED_DATA ADDRESS="0x10A402" DATATYPE="ushort[3]" SIZE="0x6">
+            <TYPEINFO_CMT>softPalette</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x10A408" DATATYPE="short[3]" SIZE="0x6">
-            <TYPEINFO_CMT>paletteTriplet5</TYPEINFO_CMT>
+        <DEFINED_DATA ADDRESS="0x10A408" DATATYPE="ushort[3]" SIZE="0x6">
+            <TYPEINFO_CMT>hardPalette</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x10A40E" DATATYPE="short[3]" SIZE="0x6">
-            <TYPEINFO_CMT>paletteTriplet6</TYPEINFO_CMT>
+        <DEFINED_DATA ADDRESS="0x10A40E" DATATYPE="ushort[3]" SIZE="0x6">
+            <TYPEINFO_CMT>frozenPalette</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x10A414" DATATYPE="short[3]" SIZE="0x6">
-            <TYPEINFO_CMT>paletteTriplet7</TYPEINFO_CMT>
+        <DEFINED_DATA ADDRESS="0x10A414" DATATYPE="ushort[3]" SIZE="0x6">
+            <TYPEINFO_CMT>muddyPalette</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x10A41A" DATATYPE="short *[7]" SIZE="0x1C">
-            <TYPEINFO_CMT>kPaletteTripletPtrs</TYPEINFO_CMT>
+        <DEFINED_DATA ADDRESS="0x10A41A" DATATYPE="ushort *[7]" SIZE="0x1C">
+            <TYPEINFO_CMT>pitchPalettePtrs</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x10A436" DATATYPE="uchar[84]" SIZE="0x54">
             <TYPEINFO_CMT>pitchTypeSeasonalProbabilities</TYPEINFO_CMT>
@@ -4839,14 +5058,10 @@
             <TYPEINFO_CMT>fadeInitFlag</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x10F1B0" DATATYPE="word" SIZE="0x2">
-            <TYPEINFO_CMT>paletteBankIndex</TYPEINFO_CMT>
+            <TYPEINFO_CMT>paletteIndex</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x10F1B2" DATATYPE="pointer" SIZE="0x4">
-            <TYPEINFO_CMT>paletteBankTable</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x10F1B6" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x10F1BA" DATATYPE="pointer[5]" SIZE="0x14">
-            <TYPEINFO_CMT>currentCopperList</TYPEINFO_CMT>
+        <DEFINED_DATA ADDRESS="0x10F1B2" DATATYPE="pointer[7]" SIZE="0x1C">
+            <TYPEINFO_CMT>paletteTable</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x10F1CE" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>word_10F1CE</TYPEINFO_CMT>
@@ -6352,51 +6567,12 @@
         <DEFINED_DATA ADDRESS="0x11C31A" DATATYPE="AnimTable" SIZE="0x82">
             <TYPEINFO_CMT>plTacklingAnimTable</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x11C39C" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x11C39E" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3A2" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3A6" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3AA" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3AE" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3B2" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3B6" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3BA" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3BE" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3C2" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3C6" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3CA" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3CE" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3D2" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3D6" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3DA" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3DE" DATATYPE="dword" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3E2" DATATYPE="dword" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3E6" DATATYPE="dword" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3EA" DATATYPE="dword" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3EE" DATATYPE="byte" SIZE="0x1">
+        <DEFINED_DATA ADDRESS="0x11C39C" DATATYPE="AnimTable_20" SIZE="0x52">
+            <TYPEINFO_CMT>plTacklingAnimTable_2</TYPEINFO_CMT>
+        </DEFINED_DATA>
+        <DEFINED_DATA ADDRESS="0x11C3EE" DATATYPE="AnimTable_20" SIZE="0x52">
             <TYPEINFO_CMT>playerTackledAnimTable</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x11C3EF" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x11C3F0" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3F4" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3F8" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C3FC" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C400" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C404" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C408" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C40C" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C410" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C414" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C418" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C41C" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C420" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C424" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C428" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C42C" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C430" DATATYPE="dword" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C434" DATATYPE="dword" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C438" DATATYPE="dword" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x11C43C" DATATYPE="dword" SIZE="0x4" />
         <DEFINED_DATA ADDRESS="0x11C440" DATATYPE="AnimTable" SIZE="0x82">
             <TYPEINFO_CMT>goalieCatchingBallAnimTable</TYPEINFO_CMT>
         </DEFINED_DATA>
@@ -30590,8 +30766,8 @@
         <DEFINED_DATA ADDRESS="0x15354C" DATATYPE="word[8]" SIZE="0x10">
             <TYPEINFO_CMT>kColorTableShine</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x15355C" DATATYPE="byte[32]" SIZE="0x20">
-            <TYPEINFO_CMT>paletteBankDefault16</TYPEINFO_CMT>
+        <DEFINED_DATA ADDRESS="0x15355C" DATATYPE="ushort[16]" SIZE="0x20">
+            <TYPEINFO_CMT>menuPalette</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x15357C" DATATYPE="string" SIZE="0xD">
             <TYPEINFO_CMT>aResigned</TYPEINFO_CMT>
@@ -34225,7 +34401,7 @@
             <TYPEINFO_CMT>CIAA_CRA</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0xDFF000" DATATYPE="volatile ushort" SIZE="0x2">
-            <TYPEINFO_CMT>BLTDDAT</TYPEINFO_CMT>
+            <TYPEINFO_CMT>CUSTOM</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0xDFF002" DATATYPE="volatile ushort" SIZE="0x2">
             <TYPEINFO_CMT>DMACONR</TYPEINFO_CMT>
@@ -53109,7 +53285,7 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x2DF52" NAME="diyPointsForAWin" />
         <SYMBOL ADDRESS="0x2DF54" NAME="diyLeagueMinSubstitutes" />
         <SYMBOL ADDRESS="0x2DF56" NAME="diyLeagueMaxSubstitutes" />
-        <SYMBOL ADDRESS="0x2E624" NAME="imageCmdWorkbuf" />
+        <SYMBOL ADDRESS="0x2E624" NAME="imageCmdWorkBuf" />
         <SYMBOL ADDRESS="0x3E600" NAME="g_menuInsBank" />
         <SYMBOL ADDRESS="0x49132" NAME="g_menuSongData" />
         <SYMBOL ADDRESS="0x4999E" NAME="numberOfFiles" />
@@ -53374,15 +53550,15 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x101682" NAME="FloppyTimer_WaitIfRunning" />
         <SYMBOL ADDRESS="0x101690" NAME="FloppyTimer_StartCiaB" />
         <SYMBOL ADDRESS="0x1016A8" NAME="timer_return" />
-        <SYMBOL ADDRESS="0x1016B2" NAME="g_copperList" />
-        <SYMBOL ADDRESS="0x1016D2" NAME="kNibbleMaskSeedA" />
-        <SYMBOL ADDRESS="0x101702" NAME="kNibbleMaskSeedB" />
-        <SYMBOL ADDRESS="0x101732" NAME="kNibbleMaskSeedC" />
-        <SYMBOL ADDRESS="0x101762" NAME="paletteBankBlack16" />
-        <SYMBOL ADDRESS="0x101782" NAME="kNibbleMaskLineA" />
-        <SYMBOL ADDRESS="0x1017A2" NAME="kNibbleMaskLineB" />
-        <SYMBOL ADDRESS="0x1017C2" NAME="kNibbleMaskLineC" />
-        <SYMBOL ADDRESS="0x1017E2" NAME="kNibbleMaskLineD" />
+        <SYMBOL ADDRESS="0x1016B2" NAME="gamePalette" />
+        <SYMBOL ADDRESS="0x1016D2" NAME="kTitleLogoColors" />
+        <SYMBOL ADDRESS="0x101702" NAME="kTitleScreenColors" />
+        <SYMBOL ADDRESS="0x101732" NAME="kTitleTextColors" />
+        <SYMBOL ADDRESS="0x101762" NAME="blackPalette" />
+        <SYMBOL ADDRESS="0x101782" NAME="titleLogoPalette" />
+        <SYMBOL ADDRESS="0x1017A2" NAME="titleScreenPalette" />
+        <SYMBOL ADDRESS="0x1017C2" NAME="titleTextPalette" />
+        <SYMBOL ADDRESS="0x1017E2" NAME="panicPalette" />
         <SYMBOL ADDRESS="0x101802" NAME="fadeStep" />
         <SYMBOL ADDRESS="0x101804" NAME="aSoundMenuSng" />
         <SYMBOL ADDRESS="0x101813" NAME="aSoundMenuIns" />
@@ -53538,10 +53714,48 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x102CB8" NAME="x_scroll_moved_right" TYPE="local" />
         <SYMBOL ADDRESS="0x102CEA" NAME="x_scroll_moved_left" TYPE="local" />
         <SYMBOL ADDRESS="0x102D12" NAME="x_scroll_crossed_tile_boundary" TYPE="local" />
-        <SYMBOL ADDRESS="0x102E0E" NAME="blit_loop_top_segment" TYPE="local" />
-        <SYMBOL ADDRESS="0x102E98" NAME="blit_loop_bottom_segment" TYPE="local" />
+        <SYMBOL ADDRESS="0x102D80" NAME="wait_blitter_idle_for_dest_setup" TYPE="local" />
+        <SYMBOL ADDRESS="0x102DF0" NAME="wait_blitter_idle_for_top_remainder_blit" TYPE="local" />
+        <SYMBOL ADDRESS="0x102E0E" NAME="blit_top_segments_loop" TYPE="local" />
+        <SYMBOL ADDRESS="0x102E26" NAME="wait_blitter_idle_for_top_segment_blit" TYPE="local" />
+        <SYMBOL ADDRESS="0x102E46" NAME="top_segments_loop_check" TYPE="local" />
+        <SYMBOL ADDRESS="0x102E74" NAME="wait_blitter_idle_for_second_dest_setup" TYPE="local" />
+        <SYMBOL ADDRESS="0x102E98" NAME="blit_bottom_segments_loop" TYPE="local" />
+        <SYMBOL ADDRESS="0x102EB0" NAME="wait_blitter_idle_for_bottom_segment_blit" TYPE="local" />
+        <SYMBOL ADDRESS="0x102ED6" NAME="blit_bottom_remainder_or_exit" TYPE="local" />
+        <SYMBOL ADDRESS="0x102EF2" NAME="wait_blitter_idle_for_bottom_remainder_blit" TYPE="local" />
+        <SYMBOL ADDRESS="0x102F0C" NAME="setup_mask_copy_blit" TYPE="local" />
+        <SYMBOL ADDRESS="0x102F32" NAME="wait_blitter_idle_for_mask_copy_setup" TYPE="local" />
+        <SYMBOL ADDRESS="0x102F74" NAME="wait_blitter_idle_for_final_1word_blit" TYPE="local" />
+        <SYMBOL ADDRESS="0x102F8C" NAME="scroll_x_update_return" TYPE="local" />
         <SYMBOL ADDRESS="0x102F8E" NAME="ScrollYUpdateRowsAndBlit" />
-        <SYMBOL ADDRESS="0x10302C" NAME="choose_column_wordcount_and_stride" TYPE="local" />
+        <SYMBOL ADDRESS="0x102FAA" NAME="y_scroll_moved_down_compute_visible_height" TYPE="local" />
+        <SYMBOL ADDRESS="0x102FB0" NAME="y_scroll_prepare_pitch_ptr_and_dest_base" TYPE="local" />
+        <SYMBOL ADDRESS="0x10300E" NAME="wrap_camera_y_to_visible_range" TYPE="local" />
+        <SYMBOL ADDRESS="0x10302C" NAME="choose_row_wordcount_and_dest_stride" TYPE="local" />
+        <SYMBOL ADDRESS="0x103036" NAME="init_dest_plane_ptrs_and_row_state" TYPE="local" />
+        <SYMBOL ADDRESS="0x103056" NAME="init_blit_accumulators_and_src_row_offset" TYPE="local" />
+        <SYMBOL ADDRESS="0x10308C" NAME="copy_row_words_loop" TYPE="local" />
+        <SYMBOL ADDRESS="0x103090" NAME="copy_row_words_inner" TYPE="local" />
+        <SYMBOL ADDRESS="0x1030C0" NAME="advance_dest_ptrs_and_handle_wrap" TYPE="local" />
+        <SYMBOL ADDRESS="0x1030F8" NAME="next_row_or_finish_copy" TYPE="local" />
+        <SYMBOL ADDRESS="0x103112" NAME="wait_blitter_idle_for_mod_setup" TYPE="local" />
+        <SYMBOL ADDRESS="0x103162" NAME="adjust_pending_counts_for_wrap_case" TYPE="local" />
+        <SYMBOL ADDRESS="0x103172" NAME="wait_blitter_idle_for_mask_ptr_setup" TYPE="local" />
+        <SYMBOL ADDRESS="0x10319E" NAME="mask_blit_batch_loop_a" TYPE="local" />
+        <SYMBOL ADDRESS="0x1031B2" NAME="mask_blit_issue_batch_a" TYPE="local" />
+        <SYMBOL ADDRESS="0x1031D0" NAME="wait_blitter_idle_for_batch_a" TYPE="local" />
+        <SYMBOL ADDRESS="0x1031E8" NAME="maybe_do_second_mask_blit_stream" TYPE="local" />
+        <SYMBOL ADDRESS="0x10320C" NAME="wait_blitter_idle_for_second_stream_ptr_setu" TYPE="local" />
+        <SYMBOL ADDRESS="0x103238" NAME="mask_blit_batch_loop_b" TYPE="local" />
+        <SYMBOL ADDRESS="0x10324C" NAME="mask_blit_issue_batch_b" TYPE="local" />
+        <SYMBOL ADDRESS="0x10326A" NAME="wait_blitter_idle_for_batch_b" TYPE="local" />
+        <SYMBOL ADDRESS="0x103282" NAME="scroll_y_update_return" TYPE="local" />
+        <SYMBOL ADDRESS="0x103284" NAME="blitWordCount" />
+        <SYMBOL ADDRESS="0x103286" NAME="maskBlitDestPtr" />
+        <SYMBOL ADDRESS="0x10328A" NAME="maskBlitPendingBytesA" />
+        <SYMBOL ADDRESS="0x10328C" NAME="maskBlitSecondStreamPtr" />
+        <SYMBOL ADDRESS="0x103290" NAME="maskBlitPendingBytesB" />
         <SYMBOL ADDRESS="0x103292" NAME="ApplyFadeStep" />
         <SYMBOL ADDRESS="0x1032D0" NAME="fade_write_palette_loop" TYPE="local" />
         <SYMBOL ADDRESS="0x1032E4" NAME="kFadeShiftMaskTable" TYPE="local" />
@@ -53649,7 +53863,7 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x103E46" NAME="wait_blitter_ready" TYPE="local" />
         <SYMBOL ADDRESS="0x103E98" NAME="firstWordMaskTable" />
         <SYMBOL ADDRESS="0x103EB8" NAME="lastWordMaskTable" />
-        <SYMBOL ADDRESS="0x103ED8" NAME="BuildNibbleMaskLine" />
+        <SYMBOL ADDRESS="0x103ED8" NAME="BuildPaletteFromColors" />
         <SYMBOL ADDRESS="0x103EDC" NAME="build_triplet_loop" TYPE="local" />
         <SYMBOL ADDRESS="0x103EFC" NAME="BlitterCopyOverlayToScreen" />
         <SYMBOL ADDRESS="0x103F12" NAME="_103F12_wait_blitter_idle_pre_copy" TYPE="local" />
@@ -53740,7 +53954,7 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x104B4E" NAME="call_DrawSpriteClipped" TYPE="local" />
         <SYMBOL ADDRESS="0x104B52" NAME="loop_next" TYPE="local" />
         <SYMBOL ADDRESS="0x104B54" NAME="_104B54_exit_rts" TYPE="local" />
-        <SYMBOL ADDRESS="0x104B56" NAME="DrawQueuedSpritesToPlanes" />
+        <SYMBOL ADDRESS="0x104B56" NAME="RenderSpriteBandsToCopperLists" />
         <SYMBOL ADDRESS="0x104B6C" NAME="_104B6C_wait_blitter_idle" TYPE="local" />
         <SYMBOL ADDRESS="0x104BB0" NAME="draw_loop_planes01" TYPE="local" />
         <SYMBOL ADDRESS="0x104BD0" NAME="blit_entry_planes01" TYPE="local" />
@@ -53748,13 +53962,13 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x104BF4" NAME="draw_loop_planes23" TYPE="local" />
         <SYMBOL ADDRESS="0x104C14" NAME="blit_entry_planes23" TYPE="local" />
         <SYMBOL ADDRESS="0x104C1A" NAME="seal_planes23" TYPE="local" />
-        <SYMBOL ADDRESS="0x104C28" NAME="EmitPlanePairWaitAndBlit" />
+        <SYMBOL ADDRESS="0x104C28" NAME="RenderSpriteBandPlanePair" />
         <SYMBOL ADDRESS="0x104C62" NAME="apply_vpos_carry_to_mask_left" TYPE="local" />
         <SYMBOL ADDRESS="0x104C6C" NAME="apply_vpos_carry_to_mask_right" TYPE="local" />
         <SYMBOL ADDRESS="0x104C76" NAME="apply_hpos_odd_to_mask" TYPE="local" />
         <SYMBOL ADDRESS="0x104C90" NAME="wait_blitter_idle_first" TYPE="local" />
         <SYMBOL ADDRESS="0x104CC4" NAME="wait_blitter_idle_second" TYPE="local" />
-        <SYMBOL ADDRESS="0x104CF4" NAME="BuildSpritePlaneStacks" />
+        <SYMBOL ADDRESS="0x104CF4" NAME="BuildSpriteBandAndGeneralRenderStacks" />
         <SYMBOL ADDRESS="0x104DB8" NAME="loop_next_sorted_sprite" TYPE="local" />
         <SYMBOL ADDRESS="0x104E30" NAME="occl_bucket_range_from_x" TYPE="local" />
         <SYMBOL ADDRESS="0x104E42" NAME="occl_bucket_update_loop" TYPE="local" />
@@ -54325,14 +54539,14 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x10A358" NAME="MakePlayerNameSprite" />
         <SYMBOL ADDRESS="0x10A3B8" NAME="numberBuffer" />
         <SYMBOL ADDRESS="0x10A3C8" NAME="CopyPlayerNameLengths" />
-        <SYMBOL ADDRESS="0x10A3F0" NAME="paletteTriplet1" />
-        <SYMBOL ADDRESS="0x10A3F6" NAME="paletteTriplet2" />
-        <SYMBOL ADDRESS="0x10A3FC" NAME="paletteTriplet3" />
-        <SYMBOL ADDRESS="0x10A402" NAME="paletteTriplet4" />
-        <SYMBOL ADDRESS="0x10A408" NAME="paletteTriplet5" />
-        <SYMBOL ADDRESS="0x10A40E" NAME="paletteTriplet6" />
-        <SYMBOL ADDRESS="0x10A414" NAME="paletteTriplet7" />
-        <SYMBOL ADDRESS="0x10A41A" NAME="kPaletteTripletPtrs" />
+        <SYMBOL ADDRESS="0x10A3F0" NAME="normalPalette" />
+        <SYMBOL ADDRESS="0x10A3F6" NAME="dryPalette" />
+        <SYMBOL ADDRESS="0x10A3FC" NAME="wetPalette" />
+        <SYMBOL ADDRESS="0x10A402" NAME="softPalette" />
+        <SYMBOL ADDRESS="0x10A408" NAME="hardPalette" />
+        <SYMBOL ADDRESS="0x10A40E" NAME="frozenPalette" />
+        <SYMBOL ADDRESS="0x10A414" NAME="muddyPalette" />
+        <SYMBOL ADDRESS="0x10A41A" NAME="pitchPalettePtrs" />
         <SYMBOL ADDRESS="0x10A436" NAME="pitchTypeSeasonalProbabilities" />
         <SYMBOL ADDRESS="0x10A48A" NAME="pitchTypeProbabilities" />
         <SYMBOL ADDRESS="0x10A492" NAME="InitGameSaveTeams" />
@@ -54865,9 +55079,8 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x10F1AA" NAME="fadeState" />
         <SYMBOL ADDRESS="0x10F1AC" NAME="fadeCommand" />
         <SYMBOL ADDRESS="0x10F1AE" NAME="fadeInitFlag" />
-        <SYMBOL ADDRESS="0x10F1B0" NAME="paletteBankIndex" />
-        <SYMBOL ADDRESS="0x10F1B2" NAME="paletteBankTable" />
-        <SYMBOL ADDRESS="0x10F1BA" NAME="currentCopperList" />
+        <SYMBOL ADDRESS="0x10F1B0" NAME="paletteIndex" />
+        <SYMBOL ADDRESS="0x10F1B2" NAME="paletteTable" />
         <SYMBOL ADDRESS="0x10F1D0" NAME="cameraSnapToPlayerCount" />
         <SYMBOL ADDRESS="0x10F1D2" NAME="turnDirCopiedFromCameraCount" />
         <SYMBOL ADDRESS="0x10F1D4" NAME="deadCameraBreakVar04" />
@@ -55119,7 +55332,7 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x110FE6" NAME="integrate_loop_scale_2" TYPE="local" />
         <SYMBOL ADDRESS="0x110FF2" NAME="integrate_loop_scale_1" TYPE="local" />
         <SYMBOL ADDRESS="0x110FFC" NAME="store_next_xy_and_return" TYPE="local" />
-        <SYMBOL ADDRESS="0x11100E" NAME="PositionAndClipSprite" />
+        <SYMBOL ADDRESS="0x11100E" NAME="QueueMaskedSpriteBlitClipped" />
         <SYMBOL ADDRESS="0x111040" NAME="set_clipped_y_position" TYPE="local" />
         <SYMBOL ADDRESS="0x11105A" NAME="skip_sprite_draw" TYPE="local" />
         <SYMBOL ADDRESS="0x111060" NAME="check_x_overlap_and_setup" TYPE="local" />
@@ -56233,6 +56446,7 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x11C216" NAME="playerRunningAnimTable" />
         <SYMBOL ADDRESS="0x11C298" NAME="playerNormalStandingAnimTable" />
         <SYMBOL ADDRESS="0x11C31A" NAME="plTacklingAnimTable" />
+        <SYMBOL ADDRESS="0x11C39C" NAME="plTacklingAnimTable_2" />
         <SYMBOL ADDRESS="0x11C3EE" NAME="playerTackledAnimTable" />
         <SYMBOL ADDRESS="0x11C440" NAME="goalieCatchingBallAnimTable" />
         <SYMBOL ADDRESS="0x11C4C2" NAME="aboutToThrowInAnimTable" />
@@ -58161,7 +58375,7 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x15351C" NAME="teamFilenamesTable" />
         <SYMBOL ADDRESS="0x15352C" NAME="ingameTeamPlayerOffsets" />
         <SYMBOL ADDRESS="0x15354C" NAME="kColorTableShine" />
-        <SYMBOL ADDRESS="0x15355C" NAME="paletteBankDefault16" />
+        <SYMBOL ADDRESS="0x15355C" NAME="menuPalette" />
         <SYMBOL ADDRESS="0x15357C" NAME="aResigned" />
         <SYMBOL ADDRESS="0x153589" NAME="aRetired" />
         <SYMBOL ADDRESS="0x153595" NAME="aNational" />
@@ -59191,7 +59405,7 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0xBFEC01" NAME="CIAA_SDR" />
         <SYMBOL ADDRESS="0xBFED01" NAME="CIAA_ICR" />
         <SYMBOL ADDRESS="0xBFEE01" NAME="CIAA_CRA" />
-        <SYMBOL ADDRESS="0xDFF000" NAME="BLTDDAT" />
+        <SYMBOL ADDRESS="0xDFF000" NAME="CUSTOM" />
         <SYMBOL ADDRESS="0xDFF002" NAME="DMACONR" />
         <SYMBOL ADDRESS="0xDFF004" NAME="VPOSR" />
         <SYMBOL ADDRESS="0xDFF00A" NAME="JOY0DAT" />
@@ -59981,6 +60195,8 @@ out:
         <FUNCTION ENTRY_POINT="0x103464" NAME="ProcessImageCommandStream" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x103464" END="0x103715" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="cmdBuffer" REGISTER="A0" DATATYPE="const ushort *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="workBuffer" REGISTER="A3" DATATYPE="uchar *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>ProcessImageCommandStream</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x103716" NAME="BlitDispatch" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -60043,10 +60259,13 @@ out:
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>BlitterSpanCoreMasked</TYPEINFO_CMT>
         </FUNCTION>
-        <FUNCTION ENTRY_POINT="0x103ED8" NAME="BuildNibbleMaskLine" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
+        <FUNCTION ENTRY_POINT="0x103ED8" NAME="BuildPaletteFromColors" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x103ED8" END="0x103EFB" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <TYPEINFO_CMT>BuildNibbleMaskLine</TYPEINFO_CMT>
+            <REGISTER_VAR NAME="palette" REGISTER="A0" DATATYPE="uchar *" DATATYPE_NAMESPACE="/" />
+            <REGULAR_CMT>in:  A0 = color table (48 bytes = 16*(R,G,B) bytes; uses high nibbles only)
+out: A1 = palette (16 words, $0RGB)</REGULAR_CMT>
+            <TYPEINFO_CMT>BuildPaletteFromColors</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x103EFC" NAME="BlitterCopyOverlayToScreen" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x103EFC" END="0x103F95" />
@@ -60061,6 +60280,7 @@ out:
         <FUNCTION ENTRY_POINT="0x10401E" NAME="HWSprite_LoadFromSpriteGraphics" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x10401E" END="0x104083" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="spriteIndex" REGISTER="D0W" DATATYPE="short" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>HWSprite_LoadFromSpriteGraphics</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x104084" NAME="BlitSpritePlanar_Word" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -60166,20 +60386,20 @@ Saves sprite area unconditionally.</REGULAR_CMT>
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>DrawQueuedSprites</TYPEINFO_CMT>
         </FUNCTION>
-        <FUNCTION ENTRY_POINT="0x104B56" NAME="DrawQueuedSpritesToPlanes" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
+        <FUNCTION ENTRY_POINT="0x104B56" NAME="RenderSpriteBandsToCopperLists" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x104B56" END="0x104C27" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <TYPEINFO_CMT>DrawQueuedSpritesToPlanes</TYPEINFO_CMT>
+            <TYPEINFO_CMT>RenderSpriteBandsToCopperLists</TYPEINFO_CMT>
         </FUNCTION>
-        <FUNCTION ENTRY_POINT="0x104C28" NAME="EmitPlanePairWaitAndBlit" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
+        <FUNCTION ENTRY_POINT="0x104C28" NAME="RenderSpriteBandPlanePair" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x104C28" END="0x104CF3" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <TYPEINFO_CMT>EmitPlanePairWaitAndBlit</TYPEINFO_CMT>
+            <TYPEINFO_CMT>RenderSpriteBandPlanePair</TYPEINFO_CMT>
         </FUNCTION>
-        <FUNCTION ENTRY_POINT="0x104CF4" NAME="BuildSpritePlaneStacks" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
+        <FUNCTION ENTRY_POINT="0x104CF4" NAME="BuildSpriteBandAndGeneralRenderStacks" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x104CF4" END="0x104F0D" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <TYPEINFO_CMT>BuildSpritePlaneStacks</TYPEINFO_CMT>
+            <TYPEINFO_CMT>BuildSpriteBandAndGeneralRenderStacks</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x104F54" NAME="InitDisplaySprites" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x104F54" END="0x104F85" />
@@ -62188,13 +62408,13 @@ out:
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>CalculateNextBallPosition</TYPEINFO_CMT>
         </FUNCTION>
-        <FUNCTION ENTRY_POINT="0x11100E" NAME="PositionAndClipSprite" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
+        <FUNCTION ENTRY_POINT="0x11100E" NAME="QueueMaskedSpriteBlitClipped" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x11100E" END="0x1111F5" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="sprite" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="x" REGISTER="D1W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="y" REGISTER="D2W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
-            <TYPEINFO_CMT>PositionAndClipSprite</TYPEINFO_CMT>
+            <TYPEINFO_CMT>QueueMaskedSpriteBlitClipped</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x111258" NAME="SetPlayerWithNoBallDestination" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x111258" END="0x111387" />
@@ -70473,8 +70693,11 @@ out: D0 = 0 - success
         </FUNCTION>
     </FUNCTIONS>
     <MARKUP>
+        <EQUATE_REFERENCE ADDRESS="0x2BB3C" OPERAND_INDEX="0" />
         <MEMORY_REFERENCE ADDRESS="0x1000C4" OPERAND_INDEX="0" TO_ADDRESS="0x1000D0" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1000E6" OPERAND_INDEX="0" TO_ADDRESS="0x17FFF6" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x10013A" OPERAND_INDEX="0" VALUE="0xBBB0" NAME="FRONTBUFFER_SIZE_TOTAL_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x100158" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
         <MEMORY_REFERENCE ADDRESS="0x100160" OPERAND_INDEX="0" TO_ADDRESS="0x101B2C" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x100168" OPERAND_INDEX="0" TO_ADDRESS="0x101BCE" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x100170" OPERAND_INDEX="0" TO_ADDRESS="0x107446" PRIMARY="y" />
@@ -70482,15 +70705,30 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x10026C" OPERAND_INDEX="0" TO_ADDRESS="0x10027D" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x100270" OPERAND_INDEX="0" TO_ADDRESS="0x100282" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x100274" OPERAND_INDEX="0" TO_ADDRESS="0x100287" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x10141E" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
         <MEMORY_REFERENCE ADDRESS="0x101DAE" OPERAND_INDEX="0" TO_ADDRESS="0x127A8" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x101DB8" OPERAND_INDEX="0" TO_ADDRESS="0x1E35A" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x101DE6" OPERAND_INDEX="0" VALUE="0x13F" NAME="COPPERLIST_SIZE_BYTES_MINUS_ONE" />
         <MEMORY_REFERENCE ADDRESS="0x101E22" OPERAND_INDEX="0" TO_ADDRESS="0x2BC7C" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x101E62" OPERAND_INDEX="0" TO_ADDRESS="0x29F0C" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x101E6C" OPERAND_INDEX="0" TO_ADDRESS="0x2A290" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x101E76" OPERAND_INDEX="0" TO_ADDRESS="0x2A614" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x101E80" OPERAND_INDEX="0" TO_ADDRESS="0x2A998" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x101ED0" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x101ED8" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x101EE0" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x101EEA" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x101F6C" OPERAND_INDEX="0" VALUE="0x86" NAME="PITCH_DEST_MOD_ALIGNED" />
+        <EQUATE_REFERENCE ADDRESS="0x101F74" OPERAND_INDEX="0" VALUE="0x86" NAME="PITCH_DEST_MOD_ALIGNED" />
+        <EQUATE_REFERENCE ADDRESS="0x101F94" OPERAND_INDEX="0" VALUE="0x84" NAME="PITCH_DEST_MOD_UNALIGNED" />
+        <EQUATE_REFERENCE ADDRESS="0x101F9C" OPERAND_INDEX="0" VALUE="0x84" NAME="PITCH_DEST_MOD_UNALIGNED" />
+        <EQUATE_REFERENCE ADDRESS="0x101FD4" OPERAND_INDEX="0" VALUE="0xB0" NAME="ROW_STRIDE_BYTES" />
         <MEMORY_REFERENCE ADDRESS="0x101FE0" OPERAND_INDEX="0" TO_ADDRESS="0x8DB14" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x102016" OPERAND_INDEX="0" TO_ADDRESS="0x8DB14" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x102024" OPERAND_INDEX="0" VALUE="0x3" NAME="NUM_PLANES_MINUS1" />
+        <EQUATE_REFERENCE ADDRESS="0x102040" OPERAND_INDEX="0" VALUE="0x2C" NAME="PLANE_STRIDE" />
+        <EQUATE_REFERENCE ADDRESS="0x102046" OPERAND_INDEX="0" VALUE="0x2C" NAME="PLANE_STRIDE" />
+        <EQUATE_REFERENCE ADDRESS="0x102054" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
         <MEMORY_REFERENCE ADDRESS="0x1021CC" OPERAND_INDEX="0" TO_ADDRESS="0x127A8" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1021DA" OPERAND_INDEX="0" TO_ADDRESS="0x29F0C" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1021E4" OPERAND_INDEX="0" TO_ADDRESS="0x2A290" PRIMARY="y" />
@@ -70507,10 +70745,192 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x10231E" OPERAND_INDEX="0" TO_ADDRESS="0x127A8" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x102328" OPERAND_INDEX="0" TO_ADDRESS="0x2CED4" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1023AC" OPERAND_INDEX="0" TO_ADDRESS="0xDFF000" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x102976" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10297E" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x102986" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x102990" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x102998" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x102998" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10299E" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10299E" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1029A4" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x1029A8" OPERAND_INDEX="0" VALUE="0x9F0" NAME="BLTCON0_USEA_USED_LF_F0" />
+        <EQUATE_REFERENCE ADDRESS="0x1029A8" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1029B4" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x1029BC" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x1029C4" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x1029CE" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x1029D6" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1029DC" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1029E2" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1029E8" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1029EE" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x102A20" OPERAND_INDEX="0" VALUE="0xB220" NAME="PITCHFILE_MAX_SIZE" />
         <MEMORY_REFERENCE ADDRESS="0x102A44" OPERAND_INDEX="0" TO_ADDRESS="0x2818" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x102CB8" OPERAND_INDEX="0" VALUE="0x14F" NAME="SCROLL_RIGHT_EDGE_X" />
+        <EQUATE_REFERENCE ADDRESS="0x102CC2" OPERAND_INDEX="0" VALUE="0x14F" NAME="SCROLL_RIGHT_EDGE_X" />
+        <EQUATE_REFERENCE ADDRESS="0x102CC6" OPERAND_INDEX="0" VALUE="0x4" NAME="TILE_SHIFT_X" />
+        <EQUATE_REFERENCE ADDRESS="0x102CCE" OPERAND_INDEX="0" VALUE="0x14F" NAME="SCROLL_RIGHT_EDGE_X" />
+        <EQUATE_REFERENCE ADDRESS="0x102CD2" OPERAND_INDEX="0" VALUE="0x4" NAME="TILE_SHIFT_X" />
+        <EQUATE_REFERENCE ADDRESS="0x102CF2" OPERAND_INDEX="0" VALUE="0x4" NAME="TILE_SHIFT_X" />
+        <EQUATE_REFERENCE ADDRESS="0x102CFA" OPERAND_INDEX="0" VALUE="0x4" NAME="TILE_SHIFT_X" />
+        <EQUATE_REFERENCE ADDRESS="0x102D2E" OPERAND_INDEX="0" VALUE="0x4" NAME="TILE_SHIFT_X" />
+        <EQUATE_REFERENCE ADDRESS="0x102D30" OPERAND_INDEX="0" VALUE="0xA8" NAME="PITCH_PTR_ROW_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x102D3C" OPERAND_INDEX="0" VALUE="0x4" NAME="TILE_SHIFT_X" />
+        <EQUATE_REFERENCE ADDRESS="0x102D5C" OPERAND_INDEX="0" VALUE="0xFFFE" NAME="WORD_ALIGN_EVEN_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x102D6A" OPERAND_INDEX="0" VALUE="0xB0" NAME="ROW_STRIDE_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x102D70" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x102D78" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x102D80" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x102D8A" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x102D92" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x102D96" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x102D9A" OPERAND_INDEX="0" VALUE="0x2A" NAME="BLTDMOD_PLANE_STEP" />
+        <EQUATE_REFERENCE ADDRESS="0x102D9A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x102DA0" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x102DA0" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x102DA6" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x102DA6" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x102DAC" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x102DB0" OPERAND_INDEX="0" VALUE="0x9F0" NAME="BLTCON0_USEA_USED_LF_F0" />
+        <EQUATE_REFERENCE ADDRESS="0x102DB0" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x102DBE" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x102DC6" OPERAND_INDEX="0" VALUE="0x10" NAME="TILE_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x102DCE" OPERAND_INDEX="0" VALUE="0x3" NAME="NUM_PLANES_SHIFT_PLUS1" />
+        <EQUATE_REFERENCE ADDRESS="0x102DD2" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x102DD4" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x102DD8" OPERAND_INDEX="0" VALUE="0xA8" NAME="PITCH_PTR_ROW_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x102DE0" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x102DE8" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x102DF0" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x102DFA" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x102E02" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x102E06" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x102E10" OPERAND_INDEX="0" VALUE="0xA8" NAME="PITCH_PTR_ROW_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x102E16" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x102E1E" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x102E26" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x102E30" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x102E38" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x102E3C" OPERAND_INDEX="0" VALUE="0x1001" NAME="BLTSIZE_TILE_COL" />
+        <EQUATE_REFERENCE ADDRESS="0x102E3C" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x102E42" OPERAND_INDEX="0" VALUE="0x10" NAME="TILE_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x102E46" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x102E5C" OPERAND_INDEX="0" VALUE="0xFFFE" NAME="WORD_ALIGN_EVEN_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x102E64" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x102E6C" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x102E74" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x102E7E" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x102E86" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x102E90" OPERAND_INDEX="0" VALUE="0x10" NAME="TILE_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x102E9A" OPERAND_INDEX="0" VALUE="0xA8" NAME="PITCH_PTR_ROW_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x102EA0" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x102EA8" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x102EB0" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x102EBA" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x102EC2" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x102EC6" OPERAND_INDEX="0" VALUE="0x1001" NAME="BLTSIZE_TILE_COL" />
+        <EQUATE_REFERENCE ADDRESS="0x102EC6" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x102ECC" OPERAND_INDEX="0" VALUE="0x10" NAME="TILE_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x102ED0" OPERAND_INDEX="0" VALUE="0x10" NAME="TILE_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x102EE2" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x102EEA" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x102EF2" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x102EFC" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x102F04" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x102F08" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x102F16" OPERAND_INDEX="0" VALUE="0xFFFE" NAME="WORD_ALIGN_EVEN_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x102F22" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x102F2A" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x102F32" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x102F3C" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x102F44" OPERAND_INDEX="1" />
         <MEMORY_REFERENCE ADDRESS="0x102F4E" OPERAND_INDEX="0" TO_ADDRESS="0x8DB14" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x102F54" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x102F58" OPERAND_INDEX="0" VALUE="0x2A" NAME="BLTDMOD_PLANE_STEP" />
+        <EQUATE_REFERENCE ADDRESS="0x102F58" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x102F5E" OPERAND_INDEX="0" VALUE="0x1001" NAME="BLTSIZE_TILE_COL" />
+        <EQUATE_REFERENCE ADDRESS="0x102F5E" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x102F64" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x102F6C" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x102F74" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x102F7E" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x102F86" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x102FAA" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x102FCE" OPERAND_INDEX="0" VALUE="0x4" NAME="TILE_SHIFT_X" />
+        <EQUATE_REFERENCE ADDRESS="0x102FD0" OPERAND_INDEX="0" VALUE="0xA8" NAME="PITCH_PTR_ROW_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x102FDC" OPERAND_INDEX="0" VALUE="0x4" NAME="TILE_SHIFT_X" />
+        <EQUATE_REFERENCE ADDRESS="0x102FF2" OPERAND_INDEX="0" VALUE="0xFFFE" NAME="WORD_ALIGN_EVEN_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x103002" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x10300A" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x10300E" OPERAND_INDEX="0" VALUE="0xB0" NAME="ROW_STRIDE_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x103024" OPERAND_INDEX="0" VALUE="0x84" NAME="PITCH_DEST_MOD_UNALIGNED" />
+        <EQUATE_REFERENCE ADDRESS="0x103030" OPERAND_INDEX="0" VALUE="0x86" NAME="PITCH_DEST_MOD_ALIGNED" />
+        <EQUATE_REFERENCE ADDRESS="0x103036" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10303A" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10303E" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10304A" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x103052" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x103082" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x103086" OPERAND_INDEX="0" VALUE="0x3" NAME="NUM_PLANES_SHIFT_PLUS1" />
+        <EQUATE_REFERENCE ADDRESS="0x1030A2" OPERAND_INDEX="0" VALUE="0x4" NAME="NUM_PLANES" />
+        <EQUATE_REFERENCE ADDRESS="0x1030A8" OPERAND_INDEX="0" VALUE="0x4" NAME="NUM_PLANES" />
+        <EQUATE_REFERENCE ADDRESS="0x1030AE" OPERAND_INDEX="0" VALUE="0x8" NAME="SRC_SCANLINE_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x1030B0" OPERAND_INDEX="0" VALUE="0x80" NAME="TILE_SIZE" />
+        <EQUATE_REFERENCE ADDRESS="0x1030B8" OPERAND_INDEX="0" VALUE="0xA8" NAME="PITCH_PTR_ROW_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x1030CA" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x1030D2" OPERAND_INDEX="0" VALUE="0xBB00" NAME="FRONTBUFFER_SIZE_VISIBLE_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x1030D8" OPERAND_INDEX="0" VALUE="0xBB00" NAME="FRONTBUFFER_SIZE_VISIBLE_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x1030DE" OPERAND_INDEX="0" VALUE="0xBB00" NAME="FRONTBUFFER_SIZE_VISIBLE_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x1030E4" OPERAND_INDEX="0" VALUE="0xBB00" NAME="FRONTBUFFER_SIZE_VISIBLE_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x103102" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10310A" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x103112" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10311C" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x103124" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103124" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10312A" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10312A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103130" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103134" OPERAND_INDEX="0" VALUE="0x9F0" NAME="BLTCON0_USEA_USED_LF_F0" />
+        <EQUATE_REFERENCE ADDRESS="0x103134" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10313A" OPERAND_INDEX="0" VALUE="0x16" NAME="PLANE_STRIDE_DIV2" />
+        <EQUATE_REFERENCE ADDRESS="0x103146" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10314A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103162" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10316A" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x103172" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10317C" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x10318A" OPERAND_INDEX="1" />
         <MEMORY_REFERENCE ADDRESS="0x103194" OPERAND_INDEX="0" TO_ADDRESS="0x8DB14" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x10319A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1031C0" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x1031C8" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x1031D0" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x1031DA" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x1031E2" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1031FC" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103204" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10320C" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x103216" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x103224" OPERAND_INDEX="1" />
         <MEMORY_REFERENCE ADDRESS="0x10322E" OPERAND_INDEX="0" TO_ADDRESS="0x8DB14" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x103234" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10325A" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103262" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10326A" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x103274" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x10327C" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10370A" OPERAND_INDEX="0" VALUE="0x5DD7" NAME="FB_COPY_WORDS_MINUS1" />
+        <EQUATE_REFERENCE ADDRESS="0x1037DC" OPERAND_INDEX="0" VALUE="0xA0" NAME="IMAGE_ROW_STRIDE_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x10380C" OPERAND_INDEX="0" VALUE="0x28" NAME="BITPLANE_ROW_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x103816" OPERAND_INDEX="0" VALUE="0x4" NAME="NUM_PLANES" />
+        <EQUATE_REFERENCE ADDRESS="0x10382C" OPERAND_INDEX="0" VALUE="0x28" NAME="BITPLANE_ROW_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x103836" OPERAND_INDEX="0" VALUE="0x4" NAME="NUM_PLANES" />
+        <EQUATE_REFERENCE ADDRESS="0x10389A" OPERAND_INDEX="0" VALUE="0x3" NAME="NUM_PLANES_MINUS1" />
+        <EQUATE_REFERENCE ADDRESS="0x1038B0" OPERAND_INDEX="0" VALUE="0x2" NAME="NUM_PLANES_MINUS2" />
+        <EQUATE_REFERENCE ADDRESS="0x1038CE" OPERAND_INDEX="0" VALUE="0x3" NAME="NUM_PLANES_SHIFT_PLUS1" />
+        <EQUATE_REFERENCE ADDRESS="0x1038F8" OPERAND_INDEX="0" VALUE="0x4" NAME="NUM_PLANES" />
         <MEMORY_REFERENCE ADDRESS="0x10392A" OPERAND_INDEX="0" TO_ADDRESS="0x3E600" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x103938" OPERAND_INDEX="0" TO_ADDRESS="0x3E600" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x10394C" OPERAND_INDEX="0" TO_ADDRESS="0x67640" PRIMARY="y" />
@@ -70518,24 +70938,518 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x10399C" OPERAND_INDEX="0" TO_ADDRESS="0x1039B8" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1039A4" OPERAND_INDEX="0" TO_ADDRESS="0x1039DE" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x103A3C" OPERAND_INDEX="0" TO_ADDRESS="0x103BD2" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x103BDC" OPERAND_INDEX="0" VALUE="0xB0" NAME="ROW_STRIDE_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x103BE6" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103BEC" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x103BF0" OPERAND_INDEX="0" VALUE="0x8FC" NAME="BLTCON0_USEA_LF_FC" />
+        <EQUATE_REFERENCE ADDRESS="0x103BF4" OPERAND_INDEX="0" VALUE="0x100" NAME="BLTCON0_USED_LF_00" />
+        <EQUATE_REFERENCE ADDRESS="0x103C10" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103C20" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103C30" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103C54" OPERAND_INDEX="0" VALUE="0x9F0" NAME="BLTCON0_USEA_USED_LF_F0" />
+        <EQUATE_REFERENCE ADDRESS="0x103C58" OPERAND_INDEX="0" VALUE="0x100" NAME="BLTCON0_USED_LF_00" />
+        <EQUATE_REFERENCE ADDRESS="0x103C60" OPERAND_INDEX="0" VALUE="0x9FC" NAME="BLTCON0_USEA_USED_LF_FC" />
+        <EQUATE_REFERENCE ADDRESS="0x103C64" OPERAND_INDEX="0" VALUE="0x1FF" NAME="BLTCON0_USED_LF_FF" />
+        <EQUATE_REFERENCE ADDRESS="0x103C88" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103C90" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x103C98" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x103CA2" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x103CAA" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103CAE" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103CB4" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103CB8" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103CBC" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103CC0" OPERAND_INDEX="0" VALUE="0xAE" NAME="FB_BLT_MOD_AFTER_1_WORD" />
+        <EQUATE_REFERENCE ADDRESS="0x103CC0" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103CC6" OPERAND_INDEX="0" VALUE="0xAE" NAME="FB_BLT_MOD_AFTER_1_WORD" />
+        <EQUATE_REFERENCE ADDRESS="0x103CC6" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103CCC" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103CD0" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103CDE" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103D2E" OPERAND_INDEX="0" VALUE="0xB0" NAME="ROW_STRIDE_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x103D36" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103D3E" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x103D46" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x103D50" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x103D58" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103D5C" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103D60" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103D64" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103D70" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103D78" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x103D86" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103D8E" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x103D96" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x103DA0" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x103DA8" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103DAC" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103DB2" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103DB6" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103DBA" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103DBE" OPERAND_INDEX="0" VALUE="0xAE" NAME="FB_BLT_MOD_AFTER_1_WORD" />
+        <EQUATE_REFERENCE ADDRESS="0x103DBE" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103DC4" OPERAND_INDEX="0" VALUE="0xAE" NAME="FB_BLT_MOD_AFTER_1_WORD" />
+        <EQUATE_REFERENCE ADDRESS="0x103DC4" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103DCA" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103DCE" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103DDC" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103DF6" OPERAND_INDEX="0" VALUE="0x2C" NAME="PLANE_STRIDE" />
+        <EQUATE_REFERENCE ADDRESS="0x103E14" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x103E18" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x103E36" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103E3E" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x103E46" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x103E50" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x103E5A" OPERAND_INDEX="0" VALUE="0xDFC" NAME="BLTCON0_USEA_USEB_USED_LF_FC" />
+        <EQUATE_REFERENCE ADDRESS="0x103E5A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103E60" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103E66" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103E6A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103E6E" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103E72" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103E76" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103E7A" OPERAND_INDEX="0" VALUE="0x2C" NAME="PLANE_STRIDE" />
+        <EQUATE_REFERENCE ADDRESS="0x103E82" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103E86" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103E8A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103E92" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103F02" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103F0A" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x103F12" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x103F1C" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x103F24" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103F24" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103F2A" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103F2A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103F30" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103F34" OPERAND_INDEX="0" VALUE="0x9F0" NAME="BLTCON0_USEA_USED_LF_F0" />
+        <EQUATE_REFERENCE ADDRESS="0x103F34" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103F3A" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103F3E" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103F42" OPERAND_INDEX="1" />
         <MEMORY_REFERENCE ADDRESS="0x103F4A" OPERAND_INDEX="0" TO_ADDRESS="0x127A8" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x103F50" OPERAND_INDEX="0" TO_ADDRESS="0x1E35A" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x103F5C" OPERAND_INDEX="0" TO_ADDRESS="0x1E35A" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x103F62" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103F66" OPERAND_INDEX="0" VALUE="0x1116" NAME="BLTSIZE_OVERLAY_PANEL" />
+        <EQUATE_REFERENCE ADDRESS="0x103F66" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103F6C" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103F74" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x103F7C" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x103F86" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x103F8E" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103F9E" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103FA6" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x103FAE" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x103FB8" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x103FC0" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103FC0" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103FC6" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103FC6" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103FCC" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103FD0" OPERAND_INDEX="0" VALUE="0x9F0" NAME="BLTCON0_USEA_USED_LF_F0" />
+        <EQUATE_REFERENCE ADDRESS="0x103FD0" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103FD6" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103FDA" OPERAND_INDEX="0" />
         <MEMORY_REFERENCE ADDRESS="0x103FDE" OPERAND_INDEX="0" TO_ADDRESS="0x8DB14" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x103FDE" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103FE6" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103FEE" OPERAND_INDEX="0" VALUE="0x1116" NAME="BLTSIZE_OVERLAY_PANEL" />
+        <EQUATE_REFERENCE ADDRESS="0x103FEE" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x103FF4" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x103FFC" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x104004" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10400E" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x104016" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104030" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104038" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x104040" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10404A" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x104052" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104052" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104058" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104058" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10405E" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104062" OPERAND_INDEX="0" VALUE="0x1F0" NAME="BLTCON0_USED_LF_F0" />
+        <EQUATE_REFERENCE ADDRESS="0x104062" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104068" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10406C" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104070" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10407A" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10407E" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104324" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104336" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10433E" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x104346" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x104350" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x10435C" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x104364" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x104370" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104382" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104386" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104386" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10438E" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x104396" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1043A2" OPERAND_INDEX="0" VALUE="0xFCA" NAME="BLTCON0_BASE_LINKED" />
+        <EQUATE_REFERENCE ADDRESS="0x1043AA" OPERAND_INDEX="0" VALUE="0x7CA" NAME="BLTCON0_BASE_SINGLE" />
+        <EQUATE_REFERENCE ADDRESS="0x1043AE" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1043B4" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1043BC" OPERAND_INDEX="0" VALUE="0xFFFE" NAME="WORD_ALIGN_EVEN_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x1043C4" OPERAND_INDEX="0" VALUE="0x2" NAME="NUM_PLANES_SHIFT" />
+        <EQUATE_REFERENCE ADDRESS="0x1043C8" OPERAND_INDEX="0" VALUE="0x2" NAME="NUM_PLANES_SHIFT" />
+        <EQUATE_REFERENCE ADDRESS="0x1043CE" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1043D2" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1043E2" OPERAND_INDEX="0" VALUE="0x2" NAME="NUM_PLANES_SHIFT" />
+        <EQUATE_REFERENCE ADDRESS="0x1043EA" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x1043F2" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1043F6" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1043FC" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104400" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104404" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104408" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10440E" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10441E" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104422" OPERAND_INDEX="0" VALUE="0x3" NAME="NUM_PLANES_SHIFT_PLUS1" />
+        <EQUATE_REFERENCE ADDRESS="0x104426" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10442A" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104432" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104438" OPERAND_INDEX="0" VALUE="0x2" NAME="NUM_PLANES_SHIFT" />
+        <EQUATE_REFERENCE ADDRESS="0x10443C" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104440" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10444A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10444E" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104452" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104458" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104464" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10446C" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x104474" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10447E" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x104486" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10448A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10448E" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104492" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104496" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10449E" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x1044A6" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x1044AE" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x1044B8" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x1044C0" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1044C4" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1044C8" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1044CC" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1044D0" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1044D8" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x1044E0" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x1044E8" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x1044F2" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x1044FA" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1044FE" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104502" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104506" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10450A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104542" OPERAND_INDEX="0" VALUE="0x150" NAME="SCREEN_WIDTH" />
+        <EQUATE_REFERENCE ADDRESS="0x10454A" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x1045B4" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x1045C8" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x1045CE" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x1045DC" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x1045E4" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x1045F0" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x1045FC" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104602" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10460A" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x104612" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10461C" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x104624" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104628" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104628" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104630" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x104638" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104644" OPERAND_INDEX="0" VALUE="0xFCA" NAME="BLTCON0_BASE_LINKED" />
+        <EQUATE_REFERENCE ADDRESS="0x10464C" OPERAND_INDEX="0" VALUE="0x7CA" NAME="BLTCON0_BASE_SINGLE" />
+        <EQUATE_REFERENCE ADDRESS="0x104656" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104660" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x104674" OPERAND_INDEX="0" VALUE="0x4" NAME="TILE_SHIFT_X" />
+        <EQUATE_REFERENCE ADDRESS="0x10467C" OPERAND_INDEX="0" VALUE="0xB0" NAME="ROW_STRIDE_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x104684" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104688" OPERAND_INDEX="1" />
         <MEMORY_REFERENCE ADDRESS="0x104694" OPERAND_INDEX="0" TO_ADDRESS="0x8DB14" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x10469E" OPERAND_INDEX="0" VALUE="0x2" NAME="NUM_PLANES_SHIFT" />
+        <EQUATE_REFERENCE ADDRESS="0x1046AE" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x1046B6" OPERAND_INDEX="0" VALUE="0x2" NAME="NUM_PLANES_SHIFT" />
+        <EQUATE_REFERENCE ADDRESS="0x1046BA" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1046C0" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1046C4" OPERAND_INDEX="0" VALUE="0x2C" NAME="PLANE_STRIDE" />
+        <EQUATE_REFERENCE ADDRESS="0x1046CE" OPERAND_INDEX="0" VALUE="0x84" NAME="PITCH_DEST_MOD_UNALIGNED" />
+        <EQUATE_REFERENCE ADDRESS="0x1046D2" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1046D6" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1046DE" OPERAND_INDEX="0" VALUE="0x2" NAME="NUM_PLANES_SHIFT" />
+        <EQUATE_REFERENCE ADDRESS="0x1046E0" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x1046EA" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1046F4" OPERAND_INDEX="0" VALUE="0x2" NAME="NUM_PLANES_SHIFT" />
+        <EQUATE_REFERENCE ADDRESS="0x1046F8" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104704" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104714" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10471C" OPERAND_INDEX="0" VALUE="0x2C" NAME="PLANE_STRIDE" />
+        <EQUATE_REFERENCE ADDRESS="0x104724" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10472C" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x104734" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10473E" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x104746" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10474A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10474E" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104752" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104756" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10475A" OPERAND_INDEX="0" VALUE="0x2C" NAME="PLANE_STRIDE" />
+        <EQUATE_REFERENCE ADDRESS="0x104762" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10476A" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x104772" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10477C" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x104784" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104788" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10478C" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104790" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104794" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104798" OPERAND_INDEX="0" VALUE="0x2C" NAME="PLANE_STRIDE" />
+        <EQUATE_REFERENCE ADDRESS="0x1047A0" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x1047A8" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x1047B0" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x1047BA" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x1047C2" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1047C6" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1047CA" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1047CE" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1047D2" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1047E2" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x1047F0" OPERAND_INDEX="0" VALUE="0x2" NAME="NUM_PLANES_SHIFT" />
+        <EQUATE_REFERENCE ADDRESS="0x1047F8" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104800" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x104808" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x104812" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x10481C" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104820" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104824" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104828" OPERAND_INDEX="1" />
         <MEMORY_REFERENCE ADDRESS="0x104834" OPERAND_INDEX="0" TO_ADDRESS="0x8DB14" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x104840" OPERAND_INDEX="0" VALUE="0x2" NAME="NUM_PLANES_SHIFT" />
+        <EQUATE_REFERENCE ADDRESS="0x10484E" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104852" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10485A" OPERAND_INDEX="0" VALUE="0x2C" NAME="PLANE_STRIDE" />
+        <EQUATE_REFERENCE ADDRESS="0x104862" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10486A" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x104872" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10487C" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x104884" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104888" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10488C" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104890" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104894" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104898" OPERAND_INDEX="0" VALUE="0x2C" NAME="PLANE_STRIDE" />
+        <EQUATE_REFERENCE ADDRESS="0x1048A0" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x1048A8" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x1048B0" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x1048BA" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x1048C2" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1048C6" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1048CA" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1048CE" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1048D2" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1048D6" OPERAND_INDEX="0" VALUE="0x2C" NAME="PLANE_STRIDE" />
+        <EQUATE_REFERENCE ADDRESS="0x1048DE" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x1048E6" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x1048EE" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x1048F8" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x104900" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104904" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104908" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10490C" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104910" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104920" OPERAND_INDEX="0" VALUE="0xFFFFFFFF" NAME="BLT_BLITQ_END" />
+        <EQUATE_REFERENCE ADDRESS="0x104962" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x104978" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x10497E" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x10498C" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x104994" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x1049B2" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x1049BA" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x1049C2" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x1049CC" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x1049D4" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1049D8" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x1049D8" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1049E0" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x1049E8" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1049F4" OPERAND_INDEX="0" VALUE="0xFCA" NAME="BLTCON0_BASE_LINKED" />
+        <EQUATE_REFERENCE ADDRESS="0x1049FC" OPERAND_INDEX="0" VALUE="0x7CA" NAME="BLTCON0_BASE_SINGLE" />
+        <EQUATE_REFERENCE ADDRESS="0x104A00" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104A06" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104A10" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x104A1E" OPERAND_INDEX="0" VALUE="0x4" NAME="TILE_SHIFT_X" />
+        <EQUATE_REFERENCE ADDRESS="0x104A26" OPERAND_INDEX="0" VALUE="0xB0" NAME="ROW_STRIDE_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x104A2E" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104A32" OPERAND_INDEX="1" />
         <MEMORY_REFERENCE ADDRESS="0x104A3C" OPERAND_INDEX="0" TO_ADDRESS="0x8DB14" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x104A44" OPERAND_INDEX="0" VALUE="0x2" NAME="NUM_PLANES_SHIFT" />
+        <EQUATE_REFERENCE ADDRESS="0x104A4C" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104A54" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104A58" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104A5C" OPERAND_INDEX="0" VALUE="0x2C" NAME="PLANE_STRIDE" />
+        <EQUATE_REFERENCE ADDRESS="0x104A62" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104A66" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104A72" OPERAND_INDEX="0" VALUE="0x2" NAME="NUM_PLANES_SHIFT" />
+        <EQUATE_REFERENCE ADDRESS="0x104A74" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104A7E" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104A88" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104A8C" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104AA4" OPERAND_INDEX="0" VALUE="0x2" NAME="NUM_PLANES_SHIFT" />
+        <EQUATE_REFERENCE ADDRESS="0x104AAE" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104AB6" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x104ABE" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x104AC8" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x104AD0" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104AD4" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104AD8" OPERAND_INDEX="1" />
         <MEMORY_REFERENCE ADDRESS="0x104ADE" OPERAND_INDEX="0" TO_ADDRESS="0x8DB14" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x104B0A" OPERAND_INDEX="0" TO_ADDRESS="0x2BCFC" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x104B2A" OPERAND_INDEX="0" TO_ADDRESS="0x11E84A" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x104B32" OPERAND_INDEX="0" TO_ADDRESS="0x11F1BE" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x104B5C" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104B64" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x104B6C" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x104B76" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x104B7E" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104B7E" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104B84" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104B84" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104B8A" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104B8E" OPERAND_INDEX="0" VALUE="0x9F0" NAME="BLTCON0_USEA_USED_LF_F0" />
+        <EQUATE_REFERENCE ADDRESS="0x104B8E" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104B94" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104B9A" OPERAND_INDEX="0" />
         <MEMORY_REFERENCE ADDRESS="0x104BB0" OPERAND_INDEX="0" TO_ADDRESS="0x2C048" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x104BF4" OPERAND_INDEX="0" TO_ADDRESS="0x2C1B4" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x104C80" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104C88" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x104C90" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x104C9A" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x104CA2" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104CA6" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104CAA" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104CB4" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x104CBC" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x104CC4" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x104CCE" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x104CD6" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104CDA" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x104CDE" OPERAND_INDEX="1" />
         <MEMORY_REFERENCE ADDRESS="0x104DB8" OPERAND_INDEX="0" TO_ADDRESS="0x9AADC" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x104DF8" OPERAND_INDEX="0" VALUE="0x150" NAME="SCREEN_WIDTH" />
+        <EQUATE_REFERENCE ADDRESS="0x104E00" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x1052A8" OPERAND_INDEX="0" VALUE="0x150" NAME="SCREEN_WIDTH" />
+        <EQUATE_REFERENCE ADDRESS="0x1053FA" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x105400" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x10540A" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x105412" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10541A" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x105424" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x105444" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x105456" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10545A" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10545A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105462" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x10546A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105482" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x10549E" OPERAND_INDEX="0" VALUE="0xB0" NAME="ROW_STRIDE_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x1054AE" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x1054B6" OPERAND_INDEX="0" VALUE="0x2" NAME="NUM_PLANES_SHIFT" />
+        <EQUATE_REFERENCE ADDRESS="0x1054BA" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1054C0" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1054C4" OPERAND_INDEX="0" VALUE="0x2C" NAME="PLANE_STRIDE" />
+        <EQUATE_REFERENCE ADDRESS="0x1054CA" OPERAND_INDEX="0" VALUE="0x84" NAME="PITCH_DEST_MOD_UNALIGNED" />
+        <EQUATE_REFERENCE ADDRESS="0x1054CE" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1054D2" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1054DC" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10550C" OPERAND_INDEX="0" VALUE="0xFCA" NAME="BLTCON0_BASE_LINKED" />
+        <EQUATE_REFERENCE ADDRESS="0x105510" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105514" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105518" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10551C" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105520" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105530" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105534" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105538" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10553C" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105540" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105544" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10554C" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x105554" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10555E" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x105566" OPERAND_INDEX="0" VALUE="0x2C" NAME="PLANE_STRIDE" />
+        <EQUATE_REFERENCE ADDRESS="0x10557E" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105582" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105586" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10558A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105596" OPERAND_INDEX="0" VALUE="0xFCA" NAME="BLTCON0_BASE_LINKED" />
+        <EQUATE_REFERENCE ADDRESS="0x10559A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10559E" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1055A2" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1055A6" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1055AA" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1055AE" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1055C6" OPERAND_INDEX="0" VALUE="0x2" NAME="NUM_PLANES_SHIFT" />
+        <EQUATE_REFERENCE ADDRESS="0x1055DA" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x1055E2" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x1055EA" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x1055F4" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x105642" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x105662" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10566A" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x105672" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10567C" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x105688" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x105690" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x1056AE" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1056B2" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x1056B2" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1056BA" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x1056C2" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1056EA" OPERAND_INDEX="0" VALUE="0x2" NAME="NUM_PLANES_SHIFT" />
+        <EQUATE_REFERENCE ADDRESS="0x105700" OPERAND_INDEX="0" VALUE="0x2" NAME="NUM_PLANES_SHIFT" />
+        <EQUATE_REFERENCE ADDRESS="0x105704" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10570A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105728" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10572C" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105766" OPERAND_INDEX="0" VALUE="0xFCA" NAME="BLTCON0_BASE_LINKED" />
+        <EQUATE_REFERENCE ADDRESS="0x10576A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10576E" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105772" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105776" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10577A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10578A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10578E" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105792" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105796" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10579A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x10579E" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x1057A6" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x1057AE" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x1057B8" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x1057D8" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1057DC" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1057E0" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1057E4" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1057F0" OPERAND_INDEX="0" VALUE="0xFCA" NAME="BLTCON0_BASE_LINKED" />
+        <EQUATE_REFERENCE ADDRESS="0x1057F4" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1057F8" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1057FC" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105800" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105804" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x105808" OPERAND_INDEX="1" />
         <EQUATE_REFERENCE ADDRESS="0x1058BC" OPERAND_INDEX="0" VALUE="0x0" NAME="ASSET_OP_INIT_CONTEXT" />
         <EQUATE_REFERENCE ADDRESS="0x1058D2" OPERAND_INDEX="0" VALUE="0x2" NAME="ASSET_OP_INIT_SOURCE0" />
         <EQUATE_REFERENCE ADDRESS="0x10595A" OPERAND_INDEX="0" VALUE="0x2" NAME="ASSET_OP_INIT_SOURCE0" />
         <EQUATE_REFERENCE ADDRESS="0x10597C" OPERAND_INDEX="0" VALUE="0x2" NAME="ASSET_OP_INIT_SOURCE0" />
+        <EQUATE_REFERENCE ADDRESS="0x10599C" OPERAND_INDEX="0" VALUE="0xBBB0" NAME="FRONTBUFFER_SIZE_TOTAL_BYTES" />
         <EQUATE_REFERENCE ADDRESS="0x105A18" OPERAND_INDEX="0" VALUE="0x31" NAME="FPS_50HZ" />
         <EQUATE_REFERENCE ADDRESS="0x105A50" OPERAND_INDEX="0" VALUE="0x2" NAME="ASSET_OP_INIT_SOURCE0" />
         <EQUATE_REFERENCE ADDRESS="0x105A6A" OPERAND_INDEX="0" VALUE="0x2" NAME="ASSET_OP_INIT_SOURCE0" />
@@ -70579,6 +71493,8 @@ out: D0 = 0 - success
         <EQUATE_REFERENCE ADDRESS="0x1091E0" OPERAND_INDEX="0" VALUE="0x17" NAME="ST_GOING_TO_HALFTIME" />
         <EQUATE_REFERENCE ADDRESS="0x1091EA" OPERAND_INDEX="0" VALUE="0x18" NAME="ST_PLAYERS_GOING_TO_SHOWER" />
         <EQUATE_REFERENCE ADDRESS="0x1091F4" OPERAND_INDEX="0" VALUE="0x1A" NAME="ST_RESULT_AFTER_THE_GAME" />
+        <EQUATE_REFERENCE ADDRESS="0x109312" OPERAND_INDEX="0" VALUE="0x150" NAME="SCREEN_WIDTH" />
+        <EQUATE_REFERENCE ADDRESS="0x109318" OPERAND_INDEX="0" VALUE="0x150" NAME="SCREEN_WIDTH" />
         <EQUATE_REFERENCE ADDRESS="0x1093A0" OPERAND_INDEX="0" VALUE="0x42D" NAME="SPR_BALL_SHADOW" />
         <MEMORY_REFERENCE ADDRESS="0x1093B4" OPERAND_INDEX="0" TO_ADDRESS="0x11D004" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1093BE" OPERAND_INDEX="0" TO_ADDRESS="0x11D004" PRIMARY="y" />
@@ -70716,16 +71632,30 @@ out: D0 = 0 - success
         <EQUATE_REFERENCE ADDRESS="0x10E46A" OPERAND_INDEX="0" VALUE="0x49D" NAME="SPR_BLACK_GUY_FACE" />
         <EQUATE_REFERENCE ADDRESS="0x10E7EA" OPERAND_INDEX="0" VALUE="0x31" NAME="FPS_50HZ" />
         <EQUATE_REFERENCE ADDRESS="0x10E83C" OPERAND_INDEX="0" VALUE="0x31" NAME="FPS_50HZ" />
+        <EQUATE_REFERENCE ADDRESS="0x10EB0A" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10EB12" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10EB1A" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10EB24" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x10ECA6" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10ECAE" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10ECB6" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10ECC0" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x10EE6E" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10EE76" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10EE7E" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10EE88" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
         <MEMORY_REFERENCE ADDRESS="0x10EFBA" OPERAND_INDEX="0" TO_ADDRESS="0x9B58C" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x10EFEA" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x10EFF2" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10EFFA" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x10F004" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
         <MEMORY_REFERENCE ADDRESS="0x10F18E" OPERAND_INDEX="0" TO_ADDRESS="0x1019D4" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x10F192" OPERAND_INDEX="0" TO_ADDRESS="0x1019E7" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x10F196" OPERAND_INDEX="0" TO_ADDRESS="0x1019FA" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x10F19A" OPERAND_INDEX="0" TO_ADDRESS="0x101A0D" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x10F19E" OPERAND_INDEX="0" TO_ADDRESS="0x101A20" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x10F1A2" OPERAND_INDEX="0" TO_ADDRESS="0x101A33" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x10F1B2" OPERAND_INDEX="0" TO_ADDRESS="0x15355C" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x10F1B6" OPERAND_INDEX="0" TO_ADDRESS="0x101762" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x10F1BA" OPERAND_INDEX="0" TO_ADDRESS="0x0" PRIMARY="y" />
+        <MEMORY_REFERENCE ADDRESS="0x10F1B2" OPERAND_INDEX="0" TO_ADDRESS="0x0" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x10F21A" OPERAND_INDEX="0" TO_ADDRESS="0x10F2F9" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x10F2E6" OPERAND_INDEX="0" TO_ADDRESS="0x10F2EA" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x10F48C" OPERAND_INDEX="0" VALUE="0x1A" NAME="ST_RESULT_AFTER_THE_GAME" />
@@ -70765,8 +71695,66 @@ out: D0 = 0 - success
         <EQUATE_REFERENCE ADDRESS="0x110E26" OPERAND_INDEX="0" VALUE="0x18" NAME="ST_PLAYERS_GOING_TO_SHOWER" />
         <MEMORY_REFERENCE ADDRESS="0x110E92" OPERAND_INDEX="0" TO_ADDRESS="0x110F10" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x110EB4" OPERAND_INDEX="0" TO_ADDRESS="0x0" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x111028" OPERAND_INDEX="0" VALUE="0x101" NAME="SPRITE_MAX_Y_DRAW" />
+        <EQUATE_REFERENCE ADDRESS="0x111036" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x11103C" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
+        <EQUATE_REFERENCE ADDRESS="0x111046" OPERAND_INDEX="0" VALUE="0x101" NAME="SPRITE_MAX_Y_DRAW" />
+        <EQUATE_REFERENCE ADDRESS="0x111062" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x111086" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x11108E" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x111096" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x11109E" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x1110A8" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x1110B0" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1110B4" OPERAND_INDEX="0" VALUE="0xFCA" NAME="BLTCON0_BASE_LINKED" />
+        <EQUATE_REFERENCE ADDRESS="0x1110B8" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1110C4" OPERAND_INDEX="0" VALUE="0xB0" NAME="ROW_STRIDE_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x1110CC" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1110D0" OPERAND_INDEX="1" />
         <MEMORY_REFERENCE ADDRESS="0x1110DA" OPERAND_INDEX="0" TO_ADDRESS="0x8DB14" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x1110E2" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1110E8" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1110EE" OPERAND_INDEX="0" VALUE="0x2A" NAME="PLANE_STRIDE_MINUS2" />
+        <EQUATE_REFERENCE ADDRESS="0x1110EE" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1110F4" OPERAND_INDEX="0" VALUE="0x2A" NAME="PLANE_STRIDE_MINUS2" />
+        <EQUATE_REFERENCE ADDRESS="0x1110F4" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1110FA" OPERAND_INDEX="0" VALUE="0x2A" NAME="PLANE_STRIDE_MINUS2" />
+        <EQUATE_REFERENCE ADDRESS="0x111100" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x111104" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x11110A" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x11110A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x111110" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x111110" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x111116" OPERAND_INDEX="0" VALUE="0xF01" NAME="SPRITE_BLTSIZE_W1" />
+        <EQUATE_REFERENCE ADDRESS="0x111116" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x11111C" OPERAND_INDEX="0" VALUE="0xF01" NAME="SPRITE_BLTSIZE_W1" />
+        <EQUATE_REFERENCE ADDRESS="0x111148" OPERAND_INDEX="0" VALUE="0xF" NAME="TILE_MASK" />
+        <EQUATE_REFERENCE ADDRESS="0x111150" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x111158" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x111160" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x11116A" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x111172" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x111176" OPERAND_INDEX="0" VALUE="0xFCA" NAME="BLTCON0_BASE_LINKED" />
+        <EQUATE_REFERENCE ADDRESS="0x11117A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x111186" OPERAND_INDEX="0" VALUE="0xB0" NAME="ROW_STRIDE_BYTES" />
+        <EQUATE_REFERENCE ADDRESS="0x11118E" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x111192" OPERAND_INDEX="1" />
         <MEMORY_REFERENCE ADDRESS="0x11119C" OPERAND_INDEX="0" TO_ADDRESS="0x8DB14" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x1111A4" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1111AA" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1111B0" OPERAND_INDEX="0" VALUE="0x28" NAME="PLANE_STRIDE_MINUS4" />
+        <EQUATE_REFERENCE ADDRESS="0x1111B0" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1111B6" OPERAND_INDEX="0" VALUE="0x28" NAME="PLANE_STRIDE_MINUS4" />
+        <EQUATE_REFERENCE ADDRESS="0x1111B6" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1111BC" OPERAND_INDEX="0" VALUE="0x28" NAME="PLANE_STRIDE_MINUS4" />
+        <EQUATE_REFERENCE ADDRESS="0x1111C2" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1111C6" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1111CC" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x1111CC" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1111D2" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1111D8" OPERAND_INDEX="0" VALUE="0xF02" NAME="SPRITE_BLTSIZE_W2" />
+        <EQUATE_REFERENCE ADDRESS="0x1111D8" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x1111DE" OPERAND_INDEX="0" VALUE="0xF02" NAME="SPRITE_BLTSIZE_W2" />
         <EQUATE_REFERENCE ADDRESS="0x111268" OPERAND_INDEX="0" VALUE="0x3" NAME="ST_KEEPER_HOLDS_BALL" />
         <EQUATE_REFERENCE ADDRESS="0x111272" OPERAND_INDEX="0" VALUE="0x1" NAME="ST_GOAL_OUT_LEFT" />
         <EQUATE_REFERENCE ADDRESS="0x11127C" OPERAND_INDEX="0" VALUE="0x2" NAME="ST_GOAL_OUT_RIGHT" />
@@ -71133,38 +72121,6 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x11AC56" OPERAND_INDEX="0" TO_ADDRESS="0x101AB7" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x11AE80" OPERAND_INDEX="0" TO_ADDRESS="0x1019A1" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x11B190" OPERAND_INDEX="0" TO_ADDRESS="0x1019B1" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C39E" OPERAND_INDEX="0" TO_ADDRESS="0x11B526" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C3A2" OPERAND_INDEX="0" TO_ADDRESS="0x11B536" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C3A6" OPERAND_INDEX="0" TO_ADDRESS="0x11B52E" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C3AA" OPERAND_INDEX="0" TO_ADDRESS="0x11B53E" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C3AE" OPERAND_INDEX="0" TO_ADDRESS="0x11B52A" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C3B2" OPERAND_INDEX="0" TO_ADDRESS="0x11B542" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C3B6" OPERAND_INDEX="0" TO_ADDRESS="0x11B532" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C3BA" OPERAND_INDEX="0" TO_ADDRESS="0x11B53A" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C3BE" OPERAND_INDEX="0" TO_ADDRESS="0x11B93A" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C3C2" OPERAND_INDEX="0" TO_ADDRESS="0x11B94A" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C3C6" OPERAND_INDEX="0" TO_ADDRESS="0x11B942" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C3CA" OPERAND_INDEX="0" TO_ADDRESS="0x11B952" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C3CE" OPERAND_INDEX="0" TO_ADDRESS="0x11B93E" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C3D2" OPERAND_INDEX="0" TO_ADDRESS="0x11B956" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C3D6" OPERAND_INDEX="0" TO_ADDRESS="0x11B946" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C3DA" OPERAND_INDEX="0" TO_ADDRESS="0x11B94E" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C3F0" OPERAND_INDEX="0" TO_ADDRESS="0x11B546" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C3F4" OPERAND_INDEX="0" TO_ADDRESS="0x11B556" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C3F8" OPERAND_INDEX="0" TO_ADDRESS="0x11B54E" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C3FC" OPERAND_INDEX="0" TO_ADDRESS="0x11B55E" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C400" OPERAND_INDEX="0" TO_ADDRESS="0x11B54A" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C404" OPERAND_INDEX="0" TO_ADDRESS="0x11B562" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C408" OPERAND_INDEX="0" TO_ADDRESS="0x11B552" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C40C" OPERAND_INDEX="0" TO_ADDRESS="0x11B55A" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C410" OPERAND_INDEX="0" TO_ADDRESS="0x11B95A" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C414" OPERAND_INDEX="0" TO_ADDRESS="0x11B96A" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C418" OPERAND_INDEX="0" TO_ADDRESS="0x11B962" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C41C" OPERAND_INDEX="0" TO_ADDRESS="0x11B972" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C420" OPERAND_INDEX="0" TO_ADDRESS="0x11B95E" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C424" OPERAND_INDEX="0" TO_ADDRESS="0x11B976" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C428" OPERAND_INDEX="0" TO_ADDRESS="0x11B966" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x11C42C" OPERAND_INDEX="0" TO_ADDRESS="0x11B96E" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x11CD66" OPERAND_INDEX="0" TO_ADDRESS="0x11BECE" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x11CD6A" OPERAND_INDEX="0" TO_ADDRESS="0x11BECE" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x11CD6E" OPERAND_INDEX="0" TO_ADDRESS="0x11BECE" PRIMARY="y" />
@@ -71276,7 +72232,29 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x1204B8" OPERAND_INDEX="0" TO_ADDRESS="0x120502" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1206A4" OPERAND_INDEX="0" TO_ADDRESS="0x2818" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1206AA" OPERAND_INDEX="0" TO_ADDRESS="0x2818" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x120B78" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x120B80" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x120B88" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x120B92" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x120B9A" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x120B9A" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x120BA0" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x120BA0" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x120BA6" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x120BAA" OPERAND_INDEX="0" VALUE="0x9F0" NAME="BLTCON0_USEA_USED_LF_F0" />
+        <EQUATE_REFERENCE ADDRESS="0x120BAA" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x120BB0" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x120BB4" OPERAND_INDEX="0" />
         <MEMORY_REFERENCE ADDRESS="0x120BB8" OPERAND_INDEX="0" TO_ADDRESS="0x8DB14" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x120BB8" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x120BC0" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x120BC8" OPERAND_INDEX="0" VALUE="0x1116" NAME="BLTSIZE_OVERLAY_PANEL" />
+        <EQUATE_REFERENCE ADDRESS="0x120BC8" OPERAND_INDEX="1" />
+        <EQUATE_REFERENCE ADDRESS="0x120BCE" OPERAND_INDEX="0" />
+        <EQUATE_REFERENCE ADDRESS="0x120BD6" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x120BDE" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
+        <EQUATE_REFERENCE ADDRESS="0x120BE8" OPERAND_INDEX="0" VALUE="0x400" NAME="DMACON_BLT_OFF" />
+        <EQUATE_REFERENCE ADDRESS="0x120BF0" OPERAND_INDEX="1" />
         <MEMORY_REFERENCE ADDRESS="0x120E8E" OPERAND_INDEX="0" TO_ADDRESS="0x99724" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x120EDE" OPERAND_INDEX="0" TO_ADDRESS="0x99724" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x1210B0" OPERAND_INDEX="0" VALUE="0x0" NAME="NO_BACKGROUND" />
@@ -71651,6 +72629,8 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x12FA52" OPERAND_INDEX="0" TO_ADDRESS="0x2818" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x12FA84" OPERAND_INDEX="0" TO_ADDRESS="0x2818" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x12FB4E" OPERAND_INDEX="0" TO_ADDRESS="0x2818" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x12FB64" OPERAND_INDEX="0" VALUE="0x80" NAME="TILE_SIZE" />
+        <EQUATE_REFERENCE ADDRESS="0x12FC08" OPERAND_INDEX="0" VALUE="0x110" NAME="SCREEN_HEIGHT" />
         <MEMORY_REFERENCE ADDRESS="0x12FC38" OPERAND_INDEX="0" TO_ADDRESS="0x8DB14" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x12FF42" OPERAND_INDEX="0" />
         <MEMORY_REFERENCE ADDRESS="0x1301EA" OPERAND_INDEX="0" TO_ADDRESS="0x0" PRIMARY="y" />
