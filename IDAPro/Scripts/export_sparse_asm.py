@@ -133,6 +133,65 @@ ENABLE_BSS_OFFSETS = True
 
 DEBUG_STR_WRAP = False
 
+def _collect_prefixed_c_string_allow_nonascii(ea: int, limit: int, max_prefix: int = 4) -> tuple[int, int]:
+    """
+    Accepts: [<=max_prefix bytes that are NOT ASCII-printable (including 0, <0x20, or >0x7E)]
+             + [ASCII-printable run (0x20..0x7E)]
+             + [NUL terminator]
+    Returns (prefix_len, total_len_including_nul) or (0, 0).
+    """
+    if limit <= 0 or not ida_bytes.is_loaded(ea):
+        return (0, 0)
+
+    # scan up to max_prefix bytes that are NOT printable ASCII (allow 0 and high-bit)
+    i = 0
+    while i < min(max_prefix, limit) and ida_bytes.is_loaded(ea + i):
+        b = ida_bytes.get_wide_byte(ea + i)
+        if b is None:
+            return (0, 0)
+        if 0x20 <= b <= 0x7E:
+            break
+        i += 1
+
+    prefix = i
+    if prefix >= limit or not ida_bytes.is_loaded(ea + prefix):
+        return (0, 0)
+
+    # require at least 1 printable ASCII char after prefix
+    b0 = ida_bytes.get_wide_byte(ea + prefix)
+    if b0 is None or not (0x20 <= b0 <= 0x7E):
+        return (0, 0)
+
+    j = 0
+    saw = False
+    while prefix + j < limit and ida_bytes.is_loaded(ea + prefix + j):
+        b = ida_bytes.get_wide_byte(ea + prefix + j)
+        if b is None:
+            return (0, 0)
+        if b == 0:
+            return (prefix, prefix + j + 1) if saw else (0, 0)
+        if not (0x20 <= b <= 0x7E):
+            return (0, 0)
+        saw = True
+        j += 1
+
+    return (0, 0)
+
+
+def _is_highbit_prefix_only_then_nul(raw: bytes) -> bool:
+    """
+    Matches the smallest special case like:
+        { 0x9C, 0 }   (and optionally trailing zeros if the array is slightly larger)
+    """
+    if not raw or len(raw) < 2:
+        return False
+    if raw[0] < 0x80:
+        return False
+    if raw[1] != 0:
+        return False
+    return all(b == 0 for b in raw[2:])
+
+
 def _reset_bss_chain():
     _BSS_CHAIN_STATE.clear()
 
@@ -595,6 +654,11 @@ def _emit_wrapped63_from_bytes(fh, blob: bytes):
     if not blob:
         return
 
+    # NEW: compress all-zero blobs and avoid emitting dc.b '' / huge token runs
+    if all(b == 0 for b in blob):
+        fh.write(col_indent(f"dcb.b ${len(blob):X},0") + "\n")
+        return
+
     # split at first NUL
     nul = blob.find(b"\x00")
     if nul == -1:
@@ -612,13 +676,11 @@ def _emit_wrapped63_from_bytes(fh, blob: bytes):
     # split prefix into 63-char chunks
     def _sq(s: str) -> str: return s.replace("'", "''")
     text = prefix.decode("latin-1", "ignore")
-    chunks = [text[i:i+WRAP_CHARS] for i in range(0, len(text), WRAP_CHARS)] or [""]
+    # IMPORTANT: do NOT force a dummy empty chunk; that causes dc.b '' when prefix is empty
+    chunks = [text[i:i+WRAP_CHARS] for i in range(0, len(text), WRAP_CHARS)]
 
     for c in chunks[:-1]:
         fh.write(col_indent(f"dc.b '{_sq(c)}'") + "\n")
-
-    # last line starts with last chunk
-    last = f"dc.b '{_sq(chunks[-1])}'"
 
     # tail tokens: include the 0 (if had NUL), then printable groups as quoted,
     # otherwise hex bytes
@@ -639,10 +701,77 @@ def _emit_wrapped63_from_bytes(fh, blob: bytes):
             tokens.append(f"${b:02X}")
             i += 1
 
-    if tokens:
-        fh.write(col_indent(last + "," + ",".join(tokens)) + "\n")
-    else:
-        fh.write(col_indent(last) + "\n")
+    # Emit final portion with a per-line cap (and without ever producing dc.b '')
+    per_line = 16
+    all_tokens: list[str] = []
+    if chunks:
+        all_tokens.append("'" + _sq(chunks[-1]) + "'")
+    all_tokens.extend(tokens)
+
+    if not all_tokens:
+        # Should be rare (e.g., weird empty blob), but keep output valid.
+        fh.write(col_indent("dc.b 0") + "\n")
+        return
+
+    for j in range(0, len(all_tokens), per_line):
+        chunk = all_tokens[j:j+per_line]
+        fh.write(col_indent("dc.b " + ",".join(chunk)) + "\n")
+
+def _collect_prefixed_c_string_nonprintable_prefix(ea: int, limit: int, max_prefix: int = 4) -> tuple[int, int]:
+    """
+    Accept layouts like:
+        [<=max_prefix bytes that are NON-printable and NON-zero] + (printable run + NUL | NUL)
+
+    This is intended for cases like Amiga-style currency prefix bytes, e.g.:
+        $9C,'%1K',0
+        $9C,0
+
+    Returns (prefix_len, total_len_including_nul) or (0, 0).
+    """
+    if limit <= 0 or not ida_bytes.is_loaded(ea):
+        return (0, 0)
+
+    # scan up to max_prefix bytes that are non-printable AND non-zero
+    i = 0
+    while i < min(max_prefix, limit) and ida_bytes.is_loaded(ea + i):
+        b = ida_bytes.get_wide_byte(ea + i)
+        if b is None:
+            return (0, 0)
+        # stop at NUL (terminator) or at first printable
+        if b == 0 or _is_printable(b):
+            break
+        i += 1
+
+    prefix = i
+    if prefix <= 0 or prefix >= limit or not ida_bytes.is_loaded(ea + prefix):
+        return (0, 0)
+
+    # If the next byte is NUL: accept "prefix + empty string"
+    b0 = ida_bytes.get_wide_byte(ea + prefix)
+    if b0 is None:
+        return (0, 0)
+    if b0 == 0:
+        return (prefix, prefix + 1)
+
+    # Otherwise require printable run then NUL
+    if not _is_printable(b0):
+        return (0, 0)
+
+    j = 0
+    saw = False
+    while prefix + j < limit and ida_bytes.is_loaded(ea + prefix + j):
+        b = ida_bytes.get_wide_byte(ea + prefix + j)
+        if b is None:
+            return (0, 0)
+        if b == 0:
+            return (prefix, prefix + j + 1) if saw else (0, 0)
+        if not _is_printable(b):
+            return (0, 0)
+        saw = True
+        j += 1
+
+    return (0, 0)
+
 
 def _collect_bytes_until_next_named_label(ea: int, seg_end_ea: int) -> tuple[bytes, int]:
     """Bytewise collect starting at ea until: next named label (exclusive), segment end, or non-loaded byte."""
@@ -710,61 +839,86 @@ def _emit_string_wrapped63_itemspan(fh, ea: int, total: int):
     if not raw:
         return
 
-    # split at first NUL (if any)
-    nul_pos = raw.find(b"\x00")
-    if nul_pos == -1:
-        prefix, has_nul, tail = raw, False, b""
-    else:
-        prefix, has_nul, tail = raw[:nul_pos], True, raw[nul_pos+1:]
-
-    # prefix must be clean printable to quote
-    if any((c < 0x20 or c > 0x7E) for c in prefix):
-        # if somehow not printable, fall back to your numeric byte emitter
-        emit_dc_b_numeric_by_tinfo(fh, ea, total)
+    # NEW: compress all-zero items (e.g., dcb.b $60,0) and avoid dc.b ''
+    if raw and all(b == 0 for b in raw):
+        line = f"dcb.b ${total:X},0"
+        eol = _eol_at(ea)
+        if eol:
+            line += f" ; {eol}"
+        fh.write(col_indent(line) + "\n")
         return
 
+    # UPDATED:
+    # Handle "control-prefix + string + 0 + string + 0" layouts like:
+    #   5,'ALGERIA',0,'ALGERIAN',0
+    # i.e., do NOT require the prefix (before first NUL) to be purely printable.
     def _sq(s: str) -> str:
         return s.replace("'", "''")
 
-    # emit 63-char quoted lines for prefix
-    text = prefix.decode("latin-1", "ignore")
-    chunks = [text[i:i+WRAP_CHARS] for i in range(0, len(text), WRAP_CHARS)]
-    for c in chunks[:-1]:
-        fh.write(col_indent(f"dc.b '{_sq(c)}'") + "\n")
-
-    # build the last line starting with the last quoted chunk (or empty if none)
-    last = f"dc.b '{_sq(chunks[-1])}'" if chunks else "dc.b ''"
-
-    # tail tokens (within the same item)
-    tail_tokens = []
-    if has_nul:
-        tail_tokens.append("0")
-
+    segments: list[str] = []
     i = 0
-    n = len(tail)
+    n = len(raw)
     while i < n:
-        b = tail[i]
+        b = raw[i]
         if 0x20 <= b <= 0x7E:
             j = i
-            while j < n and 0x20 <= tail[j] <= 0x7E:
+            while j < n and 0x20 <= raw[j] <= 0x7E:
                 j += 1
-            tail_tokens.append("'" + _sq(tail[i:j].decode("latin-1", "ignore")) + "'")
+            text = raw[i:j].decode("latin-1", "ignore")
+            # chunk long printable runs
+            for k in range(0, len(text), WRAP_CHARS):
+                segments.append("'" + _sq(text[k:k+WRAP_CHARS]) + "'")
             i = j
+            continue
+
+        # non-printable byte token
+        if b == 0:
+            segments.append("0")
+        elif b < 0x20:
+            # match IDA-style small control bytes as decimal (e.g., 5)
+            segments.append(str(b))
         else:
-            tail_tokens.append(f"${b:02X}")
-            i += 1
+            segments.append(f"${b:02X}")
+        i += 1
 
-    # after computing 'last' and 'tail_tokens'
-    out = last if not tail_tokens else last + "," + ",".join(tail_tokens)
+    if not segments:
+        emit_dc_b_numeric_by_tinfo(fh, ea, total)
+        return
 
-    # NEW: if the whole output is a single token (e.g., just "'#'"), keep that head's EOL inline
-    only_one = (("'" in out) and ("," not in out) and out.startswith("dc.b"))
-    if only_one:
-        eol = _eol_at(ea)
-        if eol:
-            out += f" ; {eol}"
+    # Emit wrapped printable chunks in the "classic" style:
+    #   dc.b 'chunk'
+    #   dc.b 'chunk'
+    #   ...
+    #   dc.b 'lastchunk',0,'tail',...         (tail tokens only on the last line)
+    #
+    # For mixed layouts (control bytes + strings, etc.), fall back to token-per-line grouping.
+    first_emitted = True
 
-    fh.write(col_indent(out) + "\n")
+    def _emit_line(tokens: list[str]):
+        nonlocal first_emitted
+        out = "dc.b " + ",".join(tokens)
+        if first_emitted:
+            eol = _eol_at(ea)
+            if eol:
+                out += f" ; {eol}"
+            first_emitted = False
+        fh.write(col_indent(out) + "\n")
+
+    # Count leading quoted chunks (i.e. long printable run that got chunked)
+    lead_q = 0
+    while lead_q < len(segments) and segments[lead_q].startswith("'") and segments[lead_q].endswith("'"):
+        lead_q += 1
+
+    if lead_q >= 2:
+        # Emit all but the last quoted chunk on their own lines
+        for s in segments[:lead_q-1]:
+            _emit_line([s])
+        segments = segments[lead_q-1:]  # keep last quoted chunk to carry tail tokens
+
+    # Now emit remaining tokens with a conservative per-line cap
+    per_line = 16
+    for j in range(0, len(segments), per_line):
+        _emit_line(segments[j:j+per_line])
 
 def _has_inner_label(ea: int, size: int) -> bool:
     # true if there is a label on any inner byte of the item
@@ -985,6 +1139,50 @@ def name_at(ea: int) -> str:
     return ""
 
 
+def _collect_prefixed_c_string_allow_zero(ea: int, limit: int, max_prefix: int = 4) -> tuple[int, int]:
+    """
+    Like _collect_prefixed_c_string(), but allows 0x00 in the prefix.
+    Accepts: [<=max_prefix bytes < 0x20 (including 0)] + printable run + NUL
+    Returns (prefix_len, total_len_including_nul) or (0, 0).
+    """
+    if limit <= 0 or not ida_bytes.is_loaded(ea):
+        return (0, 0)
+
+    # scan up to max_prefix control bytes (<0x20), allowing 0
+    i = 0
+    while i < min(max_prefix, limit) and ida_bytes.is_loaded(ea + i):
+        b = ida_bytes.get_wide_byte(ea + i)
+        if b is None:
+            return (0, 0)
+        if b >= 0x20:
+            break
+        i += 1
+
+    prefix = i
+    if prefix <= 0 or prefix >= limit or not ida_bytes.is_loaded(ea + prefix):
+        return (0, 0)
+
+    # require printable run
+    b0 = ida_bytes.get_wide_byte(ea + prefix)
+    if b0 is None or not _is_printable(b0):
+        return (0, 0)
+
+    j = 0
+    saw = False
+    while prefix + j < limit and ida_bytes.is_loaded(ea + prefix + j):
+        b = ida_bytes.get_wide_byte(ea + prefix + j)
+        if b is None:
+            return (0, 0)
+        if b == 0:
+            return (prefix, prefix + j + 1) if saw else (0, 0)
+        if not _is_printable(b):
+            return (0, 0)
+        saw = True
+        j += 1
+
+    return (0, 0)
+
+
 def _collect_prefixed_c_string(ea: int, limit: int, max_prefix: int = 4) -> tuple[int, int]:
     """
     If bytes look like: [<=max_prefix control bytes (<0x20, !=0)] + printable run + NUL,
@@ -1172,7 +1370,7 @@ def emit_dc_b_as_stringy_chunks(fh, ea: int, count: int):
         cur += 1
 
     # NEW: chunk into multiple dc.b lines (no token gets split)
-    per_line = 24  # tweak to taste (16/24/32)
+    per_line = 16  # tweak to taste (16/24/32)
     # when you build the per-line 'chunk' list:
     for j in range(0, len(parts), per_line):
         chunk = parts[j:j+per_line]
@@ -1244,12 +1442,20 @@ def _is_printable(b: int) -> bool:
 
 def _is_exact_decl_char_array(ea: int) -> bool:
     """
-    True only for exact 'char name[N]' (not pointer; not signed/unsigned; not __int8).
+    True only for exact 'char name[N]' (NOT pointer; NOT signed/unsigned char; NOT __int8),
+    allowing leading qualifiers like 'const'.
     """
-    cdecl = (idc.get_type(ea) or "").strip().lower().replace(" ", "")
+    cdecl = (idc.get_type(ea) or "").strip().lower()
+
+    # Strip common qualifiers anywhere in the decl
+    cdecl = re.sub(r'\b(const|volatile|restrict)\b', '', cdecl)
+
+    # Normalize whitespace
+    cdecl = cdecl.replace(" ", "")
+
     return (
         "[" in cdecl and "]" in cdecl and "*" not in cdecl
-        and cdecl.startswith("char")
+        and cdecl.startswith("char")               # now matches "const char" too after stripping
         and not cdecl.startswith("signedchar")
         and not cdecl.startswith("unsignedchar")
         and "__int8" not in cdecl
@@ -2362,11 +2568,20 @@ def emit_array_dc(fh, ea: int) -> bool:
     if _ap_signed_at(ea):
         signed_elem = False
 
-    # 1) true strings only: exact char[N] + looks_like_c_string guard
-    if _is_exact_decl_char_array(ea) and _is_plain_char_tinfo(elem) and _looks_like_c_string(ea):
+    # 1) true strings only: exact char[N] (including const char[N]) + string guards
+    if _is_exact_decl_char_array(ea):
         total = ida_bytes.get_item_size(ea) or (nelems * max(1, esz))
-        emit_dc_b_as_stringy_chunks(fh, ea, total)
-        return True
+        if _looks_like_c_string(ea):
+            emit_dc_b_as_stringy_chunks(fh, ea, total)
+            return True
+        # NEW: allow NON-printable, NON-zero prefix bytes (e.g. $9C) before a C-string (or empty string)
+        if _collect_prefixed_c_string_nonprintable_prefix(ea, total, max_prefix=4)[1]:
+            _emit_string_wrapped63_itemspan(fh, ea, total)
+            return True
+        # Existing: allow a small control-prefix (including 0) before a C-string
+        if _collect_prefixed_c_string_allow_zero(ea, total, max_prefix=4)[1]:
+            _emit_string_wrapped63_itemspan(fh, ea, total)
+            return True
 
     # 2) ENUM ARRAYS: emit enum member names
     if elem.is_enum():
@@ -2479,7 +2694,11 @@ def _emit_udt_instance(fh, base_ea: int, udt_ti: ida_typeinf.tinfo_t, off: int =
 
         sname = _asm_id(udt_ti.get_type_name() or udt_ti.dstr() or "")
         if indent_comment and sname:
-            fh.write(col_indent(f"; {sname} (union; showing '{mname}')") + "\n")
+            # Avoid redundant banners only when the EA has a *non-array* explicit decl.
+            # If the decl is an array (e.g., "Position[22]"), still print the per-element banner.
+            tdecl = (idc.get_type(base_ea + off) or "").strip()
+            if (not tdecl) or ("[" in tdecl and "]" in tdecl):
+                fh.write(col_indent(f"; {sname} (union; showing '{mname}')") + "\n")
 
         # If chosen member is an array/struct, emit that view; otherwise scalar
         try:
@@ -2503,7 +2722,11 @@ def _emit_udt_instance(fh, base_ea: int, udt_ti: ida_typeinf.tinfo_t, off: int =
 
     sname = _asm_id(udt_ti.get_type_name() or udt_ti.dstr() or "")
     if indent_comment and sname:
-        fh.write(col_indent(f"; {sname}") + "\n")
+        # Avoid redundant banners only when the EA has a *non-array* explicit decl.
+        # If the decl is an array (e.g., "Position[22]"), still print the per-element banner.
+        tdecl = (idc.get_type(base_ea + off) or "").strip()
+        if (not tdecl) or ("[" in tdecl and "]" in tdecl):
+            fh.write(col_indent(f"; {sname}") + "\n")
 
     # Struct (non-union): emit all members in order
     for m in udt:
@@ -2642,11 +2865,20 @@ def _emit_data_item_structured(fh, ea: int) -> bool:
         if cnt > 0 and item_bytes % cnt == 0 and (item_bytes // cnt) in (1, 2, 4):
             phys_stride = item_bytes // cnt
 
-        # exact char[N] + printable+NUL → quoted
-        if phys_stride == 1 and _is_exact_decl_char_array(ea) and _is_plain_char_tinfo(elem_t) and _looks_like_c_string(ea):
+        # exact char[N] (including const char[N]) + printable/prefixed-string → quoted
+        if phys_stride == 1 and _is_exact_decl_char_array(ea):
             total = item_bytes
-            emit_dc_b_as_stringy_chunks(fh, ea, total)
-            return True
+            if _looks_like_c_string(ea):
+                emit_dc_b_as_stringy_chunks(fh, ea, total)
+                return True
+            # NEW: allow NON-printable, NON-zero prefix bytes (e.g. $9C) before a C-string (or empty string)
+            if _collect_prefixed_c_string_nonprintable_prefix(ea, total, max_prefix=4)[1]:
+                _emit_string_wrapped63_itemspan(fh, ea, total)
+                return True
+            # Existing: allow a small control-prefix (including 0) before a C-string
+            if _collect_prefixed_c_string_allow_zero(ea, total, max_prefix=4)[1]:
+                _emit_string_wrapped63_itemspan(fh, ea, total)
+                return True
 
         # pointer arrays
         if elem_t.is_ptr():

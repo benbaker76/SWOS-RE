@@ -519,6 +519,33 @@ class XmlExporter(IdaXml):
         idc.msg('\nDatabase exported to: ' + self.filename + '\n')
         
 
+    def _insn_suffix_nbytes(self, ea: int) -> int:
+        """
+        Infer operand width from the instruction mnemonic suffix in the disasm:
+          move.b -> 1, move.w -> 2, move.l -> 4
+        Returns 0 if no suffix is present/recognized.
+        """
+        try:
+            line = idc.generate_disasm_line(ea, 0) or ""
+        except Exception:
+            line = ""
+
+        # First token is typically like "move.w" / "add.l" / "lea"
+        # We only care about ".b/.w/.l"
+        m = re.match(r"^\s*([A-Za-z0-9_]+)\.([bBwWlL])\b", line)
+        if not m:
+            return 0
+
+        suf = m.group(2).lower()
+        if suf == "b":
+            return 1
+        if suf == "w":
+            return 2
+        if suf == "l":
+            return 4
+        return 0
+
+
     # TODO: Test decompiler comments in batch and gui modes
     def check_and_load_decompiler(self):
         """
@@ -1023,44 +1050,188 @@ class XmlExporter(IdaXml):
                                ida_bytes.get_radix(eflags, 0),
                                self.is_signed_data(eflags))
 
+    def _mask_to_op_width(self, ea: int, insn: ida_ua.insn_t, op_index: int, value: int) -> int:
+        """
+        Mask/normalize operand value to its effective width.
+
+        Primary: use mnemonic suffix (.b/.w/.l) because IDA may sign-extend immediates.
+        Fallback: use operand dtype width (less reliable on 68k immediates).
+        """
+        if value is None:
+            return None
+
+        # Prefer explicit mnemonic suffix width (68k: move.w, etc.)
+        nbytes = self._insn_suffix_nbytes(ea)
+
+        # Fallback: operand dtype
+        if not nbytes:
+            try:
+                nbytes = ida_ua.get_dtype_size(insn.ops[op_index].dtyp)
+            except Exception:
+                nbytes = 0
+
+        if nbytes and 0 < nbytes < 8:
+            mask = (1 << (nbytes * 8)) - 1
+            return int(value) & mask
+
+        return int(value)
+
+
+    def _get_operand_value_for_enum(self, ea: int, insn: ida_ua.insn_t, op_index: int) -> int:
+        """
+        Robustly fetch operand value for enum/equate resolution.
+        Prefer idc.get_operand_value(), then normalize to effective width.
+        """
+        op = insn.ops[op_index]
+
+        try:
+            v = idc.get_operand_value(ea, op_index)
+        except Exception:
+            v = None
+
+        if v is None:
+            v = getattr(op, "addr", None)
+        if v is None:
+            v = getattr(op, "value", None)
+
+        if v is None:
+            return None
+
+        return self._mask_to_op_width(ea, insn, op_index, int(v))
+
 
     def export_enum_reference(self, addr: int, op: int) -> None:
         """
-        Exports the enum reference for an operand at an address.
-        
-        Args:
-            addr: Integer representing the instruction address.
-            op: Integer representing the operand index (0-based)
+        Exports the enum/equate reference for an operand at an address.
+
+        Fixes:
+          - word immediates sign-extended to 32-bit (e.g. 0xFFFFFFFF vs 0xFFFF)
+          - displacements like NAME(a6) where op.value isn’t the displacement
+          - avoids emitting empty EQUATE_REFERENCE tags when resolution fails
         """
-        (eid, serial) = ida_bytes.get_enum_id(addr, op)
-        insn = ida_ua.insn_t()
-        ida_ua.decode_insn(insn, addr)
-        value = insn.ops[op].value
-        cid = BADNODE
-        last = idc.get_last_bmask(eid)
-        if idc.is_bf(eid):
-            last = idc.get_last_bmask(eid)
-            mask = idc.get_first_bmask(eid)
-            while cid == BADNODE:
-                cid = idc.get_enum_member(eid, (value & mask), 0, mask)
-                if cid != BADNODE or mask == last:
-                    break
-                mask = idc.get_next_bmask(eid, mask)
-        else:
-            cid = idc.get_enum_member(eid, value, 0, last)
-        if cid == BADNODE:
+        try:
+            (eid, serial) = ida_bytes.get_enum_id(addr, op)
+        except Exception:
             return
+
+        # Sanity
+        if eid in (None, BADNODE, BADADDR, -1):
+            return
+
+        insn = ida_ua.insn_t()
+        if ida_ua.decode_insn(insn, addr) == 0:
+            return
+
+        value = self._get_operand_value_for_enum(addr, insn, op)
+        if value is None:
+            return
+
+        # Resolve enum member id
+        cid = BADNODE
+        enum_is_bf = False
+        try:
+            enum_is_bf = idc.is_bf(eid)
+        except Exception:
+            enum_is_bf = False
+
+        # Prefer a wide default mask for non-bitfield enums
+        DEFMASK = getattr(idc, "DEFMASK", 0xFFFFFFFFFFFFFFFF)
+
+        if enum_is_bf:
+            # If you have a per-operand mask API, use it; otherwise fall back to enum masks.
+            mask = None
+            try:
+                # Available in some IDA versions/builds
+                mask = ida_bytes.get_enum_bmask(addr, op)
+            except Exception:
+                mask = None
+
+            if mask is None or mask in (0, -1):
+                try:
+                    mask = idc.get_first_bmask(eid)
+                except Exception:
+                    mask = DEFMASK
+
+            # Try serial-aware first, then serial 0
+            try:
+                cid = idc.get_enum_member(eid, value & mask, serial if serial not in (None, -1) else 0, mask)
+            except Exception:
+                cid = BADNODE
+            if cid == BADNODE:
+                try:
+                    cid = idc.get_enum_member(eid, value & mask, 0, mask)
+                except Exception:
+                    cid = BADNODE
+        else:
+            # Non-bitfield enum: try serial-aware first
+            try:
+                cid = idc.get_enum_member(eid, value, serial if serial not in (None, -1) else 0, DEFMASK)
+            except Exception:
+                cid = BADNODE
+            if cid == BADNODE:
+                # Retry with serial 0 (common case)
+                try:
+                    cid = idc.get_enum_member(eid, value, 0, DEFMASK)
+                except Exception:
+                    cid = BADNODE
+
+        if cid == BADNODE:
+            # Last-resort: parse operand text and resolve by name
+            try:
+                op_txt = idc.print_operand(addr, op) or ""
+            except Exception:
+                op_txt = ""
+
+            # Examples:
+            #   "#BLT_FWM_ALL"     -> "BLT_FWM_ALL"
+            #   "BLTAFWM(a6)"      -> "BLTAFWM"
+            #   "(DMACONR).l"      -> "DMACONR"
+            token = op_txt.strip()
+            token = token.lstrip("#")
+            # strip outer parentheses for forms like "(DMACONR).l"
+            if token.startswith("(") and ")" in token:
+                token = token[1:token.index(")")]
+            # strip everything from first '(' (e.g., NAME(a6))
+            if "(" in token:
+                token = token.split("(", 1)[0]
+            # strip size suffix (.w/.l)
+            token = re.sub(r"\.(w|l|b)\b", "", token, flags=re.IGNORECASE).strip()
+
+            if token:
+                try:
+                    cid2 = idc.get_enum_member_by_name(token)
+                except Exception:
+                    cid2 = BADNODE
+                if cid2 not in (None, BADNODE, BADADDR, -1):
+                    cid = cid2
+
+        if cid == BADNODE:
+            # IMPORTANT: don’t emit empty EQUATE_REFERENCE elements
+            return
+
+        # Emit a complete EQUATE_REFERENCE
         self.start_element(EQUATE_REFERENCE)
         self.write_address_attribute(ADDRESS, addr)
         self.write_numeric_attribute(OPERAND_INDEX, op, 10)
-        self.write_numeric_attribute(VALUE, idc.get_enum_member_value(cid))
-        cname = idc.get_enum_member_name(cid)
-        if cname is not None and len(cname) > 0:
+
+        # IMPORTANT: use the masked operand value (fixes 0xFFFFFFFF... -> 0xFFFF for move.w)
+        self.write_numeric_attribute(VALUE, value)
+
+        try:
+            cname = idc.get_enum_member_name(cid)
+        except Exception:
+            cname = None
+        if cname:
             self.write_attribute(NAME, cname)
-        if idc.is_bf(eid):
-            self.write_numeric_attribute("BIT_MASK", mask)
+
+        if enum_is_bf:
+            try:
+                self.write_numeric_attribute("BIT_MASK", mask)
+            except Exception:
+                pass
+
         self.close_tag()
-        
+
 
     def export_enum_references(self, addr):
         """

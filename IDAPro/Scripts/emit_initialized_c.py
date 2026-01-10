@@ -41,15 +41,258 @@ FORMAT_POLICY = {
     # "cards": "dec",
 }
 
+HEX_MINIMAL = True   # True => 0x70, 0x20000, 0xA00; False => 0x0070, 0x00020000, 0x0A00
+
 # Only emit symbols that live in these segments.
 # Use an empty set/list to allow all segments.
 INCLUDE_SEGMENTS = {"CHIP_RAM"}
 
 STRUCT_COMMENT_AND_NEWLINE = False  # True => per-field lines + /* name @+offset */, False => compact inline
 
+EMIT_LEADING_COMMENTS = True
+
+PREFER_IDA_RADIX_FOR_UNTYPED_ARRAYS = True
+PREFER_IDA_RADIX_FOR_FALLBACK_SCALARS = True
+PREFER_IDA_RADIX_FOR_TYPED_UNSIGNED_INTS = True
+
+_HEX_TOKEN_RE = re.compile(r'(\$|0x|\b[0-9A-F]+h\b)', re.IGNORECASE)
+
+# Ordered longest-first to avoid partial matches
+_TYPE_REWRITES = [
+    # __intN (MSVC/IDA)
+    (r"\bunsigned\s+__int8\b",  "uint8_t"),
+    (r"\bsigned\s+__int8\b",    "int8_t"),
+    (r"\b__int8\b",             "int8_t"),
+
+    (r"\bunsigned\s+__int16\b", "uint16_t"),
+    (r"\bsigned\s+__int16\b",   "int16_t"),
+    (r"\b__int16\b",            "int16_t"),
+
+    (r"\bunsigned\s+__int32\b", "uint32_t"),
+    (r"\bsigned\s+__int32\b",   "int32_t"),
+    (r"\b__int32\b",            "int32_t"),
+
+    (r"\bunsigned\s+__int64\b", "uint64_t"),
+    (r"\bsigned\s+__int64\b",   "int64_t"),
+    (r"\b__int64\b",            "int64_t"),
+
+    # Sometimes shows up
+    (r"\bunsigned\s+__int128\b", "unsigned __int128"),  # keep unless you want __int128_t typedefs
+    (r"\b__int128\b",            "__int128"),
+]
+
 # ==============================
 # Endianness / basic helpers
 # ==============================
+
+def normalize_ida_cdecl_types(cdecl: str) -> str:
+    """
+    Rewrite IDA/MSVC integer base types in a C declarator to stdint.h types.
+    Intentionally does NOT rewrite 'char' or 'unsigned char' to avoid string/pointer heuristics side effects.
+    """
+    if not cdecl:
+        return cdecl
+
+    out = cdecl
+    for pat, repl in _TYPE_REWRITES:
+        out = re.sub(pat, repl, out, flags=re.IGNORECASE)
+    return out
+
+def _ida_decl_for_symbol(ea: int, name: str):
+    cdecl = (idc.get_type(ea) or "").strip()
+    if not cdecl:
+        return None
+
+    if cdecl.endswith(";"):
+        cdecl = cdecl[:-1].rstrip()
+
+    if name in cdecl:
+        return normalize_ida_cdecl_types(cdecl)
+
+    injected = re.sub(r"\(\s*\*\s*\)", f"(*{name})", cdecl, count=1)
+    if injected != cdecl:
+        return normalize_ida_cdecl_types(injected)
+
+    if "[" in cdecl or "]" in cdecl:
+        return None
+
+    return normalize_ida_cdecl_types(f"{cdecl} {name}")
+
+def _char_array_decl_prefix_from_cdecl(ea: int) -> str:
+    cdecl = (idc.get_type(ea) or "").lower()
+    return "const char" if "const" in cdecl else "char"
+
+def _array_elem_ctype_override_from_cdecl(ea: int):
+    """
+    If the *symbol's* C decl clearly indicates it's an array of (const) char*,
+    prefer that over tinfo-derived int8_t* etc.
+    Returns "const char *", "char *", or None.
+    """
+    cdecl = idc.get_type(ea) or ""
+    if not cdecl:
+        return None
+
+    lc = cdecl.lower()
+    # must look like an array-of-pointers declaration
+    if "[" not in lc or "]" not in lc or "*" not in lc:
+        return None
+
+    # Normalize common const char spellings: "const char", "char const"
+    if ("const char" in lc) or ("char const" in lc):
+        return "const char *"
+    if "char" in lc:
+        return "char *"
+
+    return None
+
+def _ptr_cast_for_tinfo(ptr_tif) -> str:
+    """
+    Return a cast string for a pointer tinfo, e.g. "(uint8_t*)".
+    Falls back safely to "(void*)".
+    """
+    try:
+        cty = _ctype_name_for_tinfo(ptr_tif)  # e.g. "uint8_t *"
+        return "(" + cty.replace(" ", "") + ")"  # "(uint8_t*)"
+    except Exception:
+        return "(void*)"
+
+def _ptr_literal(ptr_tif, v: int) -> str:
+    """
+    Format a raw 32-bit pointer value as a C pointer literal.
+    - If value is negative in signed 32-bit, emit cast + signed decimal (sentinels).
+    - Otherwise emit cast + hex address.
+    """
+    if v == 0:
+        return "0"
+
+    cast = _ptr_cast_for_tinfo(ptr_tif)
+
+    # Interpret as signed 32-bit if high bit is set (e.g. 0xFFFFFFFE -> -2)
+    if v & 0x80000000:
+        sv = be_signed(v, 32)
+        return f"{cast}{sv}"
+
+    return f"{cast}{fmt_hex(v, 4)}"
+
+def _symbol_is_array(ea: int) -> bool:
+    mt = tinfo_at(ea)
+    if mt and mt.is_array():
+        return True
+    cdecl = idc.get_type(ea) or ""
+    # crude but effective fallback
+    return ("[" in cdecl and "]" in cdecl and "*" not in cdecl)
+
+def _ida_line(ea: int) -> str:
+    try:
+        # Remove tags so regex won't get confused by color codes
+        s = idc.generate_disasm_line(ea, 0) or ""
+        return idaapi.tag_remove(s)
+    except Exception:
+        return ""
+
+def _ida_prefers_hex_at_ea(ea: int) -> bool:
+    line = _ida_line(ea)
+    # If IDA renders any obvious hex tokens on the line, assume hex.
+    return bool(_HEX_TOKEN_RE.search(line))
+
+def _preferred_unsigned_style_for_ea(ea: int) -> str:
+    # fall back to DEFAULT_UNSIGNED_STYLE if we can't confidently infer
+    try:
+        return "hex" if _ida_prefers_hex_at_ea(ea) else "dec"
+    except Exception:
+        return DEFAULT_UNSIGNED_STYLE
+
+def _infer_elem_size_from_flags(ea: int):
+    """
+    Infer the element width IDA assigned at EA (byte/word/dword/qword).
+    This works even when the item is an "array-sized" blob but lacks tinfo.
+    """
+    f = ida_bytes.get_flags(ea)
+    if ida_bytes.is_qword(f):
+        return 8
+    if ida_bytes.is_dword(f):
+        return 4
+    if ida_bytes.is_word(f):
+        return 2
+    if ida_bytes.is_byte(f):
+        return 1
+    return None
+
+def _ctype_for_inferred_elem_size(sz: int):
+    return {1: "uint8_t", 2: "uint16_t", 4: "uint32_t", 8: "uint64_t"}.get(sz)
+
+def _try_emit_untyped_numeric_array_by_flags(fh, ea: int, name: str, total: int) -> bool:
+    """
+    If there is no tinfo array type, but IDA's flags indicate word/dword/qword data,
+    emit a typed array rather than a uint8_t byte blob.
+    """
+    esz = _infer_elem_size_from_flags(ea)
+    if not esz:
+        return False
+    if total % esz != 0:
+        return False
+    count = total // esz
+    if count <= 1:
+        return False
+
+    cty = _ctype_for_inferred_elem_size(esz)
+    if not cty:
+        return False
+
+    style = DEFAULT_UNSIGNED_STYLE
+    if PREFER_IDA_RADIX_FOR_UNTYPED_ARRAYS:
+        style = _preferred_unsigned_style_for_ea(ea)
+
+    parts = []
+    cur = ea
+    for _ in range(count):
+        uv = be_bytes(cur, esz)
+        if uv is None:
+            uv = 0
+        parts.append(str(uv) if style == "dec" else fmt_hex(uv, esz))
+        cur += esz
+
+    fh.write(f"{cty} {name}[{count}] = {{ {', '.join(parts)} }};\n")
+    return True
+
+def _try_decl_untyped_numeric_array_by_flags(out_h, ea: int, name: str, total: int) -> bool:
+    esz = _infer_elem_size_from_flags(ea)
+    if not esz or total % esz != 0:
+        return False
+    count = total // esz
+    if count <= 1:
+        return False
+    cty = _ctype_for_inferred_elem_size(esz)
+    if not cty:
+        return False
+    out_h.write(f"extern {cty} {name}[{count}];\n")
+    return True
+
+def _write_leading_symbol_comments(fh, ea: int, name: str):
+    """
+    Emit only IDA comments (repeatable and non-repeatable) immediately above the declaration.
+    No location/banner line, and NO extra blank line.
+    """
+    if not EMIT_LEADING_COMMENTS:
+        return
+
+    wrote_any = False
+
+    for rep in (0, 1):
+        try:
+            cmt = idc.get_cmt(ea, rep)
+        except Exception:
+            cmt = None
+
+        if cmt:
+            for line in str(cmt).splitlines():
+                line = line.rstrip()
+                if line:
+                    fh.write(f"// {line}\n")
+                    wrote_any = True
+
+    # Important: do NOT write an extra '\n' here.
+    # If you want a separator between symbols, do it after the definition instead (optional).
 
 def collect_all_named_data(INCLUDE_SEGMENTS=None, include_auto=True):
     """
@@ -169,6 +412,14 @@ def hex_width_for_size(sz):
     return {1: 2, 2: 4, 4: 8, 8: 16}.get(sz, 0)
 
 def fmt_hex(uv, sz):
+    # uv is already unsigned from be_bytes(); mask anyway for safety.
+    if sz and sz > 0:
+        uv &= (1 << (sz * 8)) - 1
+
+    if HEX_MINIMAL:
+        return "0x%X" % uv
+
+    # legacy padded form
     w = hex_width_for_size(sz)
     return "0x%0*X" % (w, uv) if w else "0x%X" % uv
 
@@ -224,6 +475,7 @@ def tinfo_at(ea):
     mt = tif.tinfo_t()
     ok = ida_nalt.get_tinfo(mt, ea)
     return mt if ok else None
+
 def _ctype_name_for_tinfo(mtif):
     tn = ""
     try:
@@ -238,8 +490,11 @@ def _ctype_name_for_tinfo(mtif):
             pt = mtif.get_pointed_object()
         except Exception:
             pt = None
-        if pt and pt.is_int() and pt.get_size() == 1:
-            return "char *"                      # <- ensure char* not int8_t*
+
+        # Only force "char *" for real 'char' (not uint8_t/unsigned __int8)
+        if pt and pt.is_int() and pt.get_size() == 1 and _is_plain_char_tinfo(pt):
+            return "char *"
+
         base = _ctype_name_for_tinfo(pt) if pt else "void"
         return base + " *"
 
@@ -388,11 +643,16 @@ def int_literal_hex_or_signed(mtif, ea, member_name=None):
         if policy == "dec" or policy is None:
             return str(sv)
     else:
-        # unsigned: honor policy, default to global unsigned style
+        # unsigned: honor policy; otherwise follow IDA radix if enabled; else fall back to DEFAULT_UNSIGNED_STYLE
         if policy == "hex":
             return fmt_hex(uv, sz)
         if policy == "dec":
             return str(uv)
+
+        if PREFER_IDA_RADIX_FOR_TYPED_UNSIGNED_INTS:
+            style = _preferred_unsigned_style_for_ea(ea)
+            return str(uv) if style == "dec" else fmt_hex(uv, sz)
+
         return fmt_hex(uv, sz) if DEFAULT_UNSIGNED_STYLE == "hex" else str(uv)
 
 def _ida_thinks_string(tgt_ea: int) -> bool:
@@ -413,27 +673,29 @@ def read_value_as_c_literal(mtif, ea, member_name=None):
         v = be_bytes(ea, 4)
         if v is None:
             return "0"
-        try:
-            pto = mtif.get_pointed_object()
-            tname = pto.get_type_name() or "void"
-        except Exception:
-            pto = None
-            tname = "void"
 
         if v == 0:
-            return f"({tname}*)0"
-        if v == 0xFFFFFFFF:
-            return f"({tname}*)-1"
+            return "0"
 
         nm = resolve_name(v)
         if nm:
-            # Decay to plain symbol ONLY for real strings; otherwise take address.
+            # If it’s clearly a string pointer, emit symbol name directly
+            try:
+                pto = mtif.get_pointed_object()
+            except Exception:
+                pto = None
+
             base = (pto.get_type_name() or "").strip().lower() if pto else ""
             if base in ("char", "const char") or _ida_thinks_string(v):
                 return nm
+
+            # Arrays/functions decay naturally
+            if _symbol_is_array(v) or is_function(v):
+                return nm
             return f"&{nm}"
-        # No name: print a typed absolute pointer
-        return f"({tname}*)0x{v:08X}"
+
+        # IMPORTANT: unresolved pointer constant -> emit as pointer literal (NOT raw bytes)
+        return _ptr_literal(mtif, v)
 
     # arrays (including UDT arrays)
     if mtif.is_array():
@@ -505,18 +767,40 @@ def emit_instance_body(struct_name, ea):
     if not ti or not (ti.is_struct() or ti.is_udt()):
         raise RuntimeError("Type '%s' not found or not a UDT." % struct_name)
 
-    parts = []
-    for name, sub_tif, off_b in iter_struct_members(ti):
-        val = read_value_as_c_literal(sub_tif, ea + off_b, name)
+    # --- FIX: unions can only be initialized with ONE member ---
+    if ti.is_union():
+        first_member = None
+        for sub_name, sub_tif, sub_off in iter_struct_members(ti):
+            first_member = (sub_name, sub_tif, sub_off)
+            break
+
+        if not first_member:
+            # degenerate union; emit zero-init
+            body = "0" if not STRUCT_COMMENT_AND_NEWLINE else "    0"
+            return body, ti.get_size()
+
+        sub_name, sub_tif, sub_off = first_member
+        val = read_value_as_c_literal(sub_tif, ea + sub_off, sub_name)
+
         if STRUCT_COMMENT_AND_NEWLINE:
-            parts.append("    " + val + ", /* %s @+0x%X */" % (name if name else "", off_b))
+            body = "    " + val
+        else:
+            body = val
+
+        return body, ti.get_size()
+
+    # --- existing struct behavior ---
+    parts = []
+    for sub_name, sub_tif, sub_off in iter_struct_members(ti):
+        val = read_value_as_c_literal(sub_tif, ea + sub_off, sub_name or None)
+        if STRUCT_COMMENT_AND_NEWLINE:
+            parts.append("    " + val + ", /* %s @+0x%X */" % (sub_name if sub_name else "", sub_off))
         else:
             parts.append(val)
 
     if STRUCT_COMMENT_AND_NEWLINE:
         body = "\n".join(parts)
     else:
-        # compact single-line without per-field comments
         body = ", ".join(parts)
 
     return body, ti.get_size()
@@ -653,8 +937,14 @@ def emit_array_symbol(fh, ea, name, mt):
         total = ida_bytes.get_item_size(ea) or 0
         if total > 0 and region_is_loaded(ea, total):
             raw = ida_bytes.get_bytes(ea, total) or b""
-            text = c_escape(raw)  # emits octal for non-printables to avoid \x swallowing
-            fh.write(f'char {name}[{total}] = "{text}";\n')
+
+            # Option A (keep your current style): trim trailing NUL so implicit terminator recreates it
+            if raw and raw[-1] == 0:
+                raw = raw[:-1]
+            text = c_escape(raw)
+
+            prefix = _char_array_decl_prefix_from_cdecl(ea)
+            fh.write(f'{prefix} {name}[{total}] = "{text}";\n')
             return True
 
     atd = tif.array_type_data_t()
@@ -663,7 +953,7 @@ def emit_array_symbol(fh, ea, name, mt):
         if total <= 0:
             return False
         bs = ida_bytes.get_bytes(ea, total) or b""
-        vals = ", ".join("0x%02X" % b for b in bs)
+        vals = ", ".join(fmt_hex(b, 1) for b in bs)
         fh.write("uint8_t %s[%d] = { %s };\n" % (name, total, vals))
         return True
 
@@ -675,12 +965,16 @@ def emit_array_symbol(fh, ea, name, mt):
 
     if elem_tif.is_udt():
         struct_name = _ctype_name_for_tinfo(elem_tif)
-        decl = emit_variable(struct_name, name, nelems)  # returns a string
+        decl = emit_variable(struct_name, name, nelems)
         fh.write(decl)
         return True
 
     body = emit_array_initialized(ea, elem_tif, nelems)
-    elem_cty = _ctype_name_for_tinfo(elem_tif)
+
+    # >>> ADD THIS OVERRIDE <<<
+    override_elem_cty = _array_elem_ctype_override_from_cdecl(ea)
+    elem_cty = override_elem_cty or _ctype_name_for_tinfo(elem_tif)
+
     fh.write("%s %s[%d] = %s;\n" % (elem_cty, name, nelems, body))
     return True
 
@@ -688,28 +982,44 @@ def emit_scalar_or_ptr(fh, ea, name, mt):
     # pointer?
     if mt.is_ptr():
         v = be_bytes(ea, 4)
+        if v is None:
+            v = 0
+
+        # Compute initializer using your existing logic
+        if v == 0:
+            init = "0"
+        else:
+            nm = resolve_name(v)
+            try:
+                pto = mt.get_pointed_object()
+            except Exception:
+                pto = None
+
+            if nm:
+                tn = (pto.get_type_name() or "").strip().lower() if pto else ""
+                if tn in ("char", "const char") or _ida_thinks_string(v):
+                    init = nm
+                elif _symbol_is_array(v) or is_function(v):
+                    init = nm
+                else:
+                    init = f"&{nm}"
+            else:
+                init = _ptr_literal(mt, v)
+
+        # >>> NEW: use IDA's full declarator if available (handles pointer-to-array etc.)
+        decl = _ida_decl_for_symbol(ea, name)
+        if decl:
+            fh.write(f"{decl} = {init};\n")
+            return True
+
+        # Fallback to your previous behavior (simple pointers)
         try:
             pto = mt.get_pointed_object()
-            tname = pto.get_type_name() or "void"
+            tname = _ctype_name_for_tinfo(pto) if pto else "void"
         except Exception:
-            pto = None
             tname = "void"
 
-        if v is None or v == 0:
-            fh.write(f"{tname} * {name} = ({tname}*)0;\n"); return True
-        if v == 0xFFFFFFFF:
-            fh.write(f"{tname} * {name} = ({tname}*)-1;\n"); return True
-
-        nm = resolve_name(v)
-        if nm:
-            # Only decay to a plain name for *real* strings (typed/marked).
-            tn = (pto.get_type_name() or "").strip().lower() if pto else ""
-            if tn in ("char", "const char") or _ida_thinks_string(v):
-                fh.write(f"{tname} * {name} = {nm};\n")
-            else:
-                fh.write(f"{tname} * {name} = &{nm};\n")
-        else:
-            fh.write(f"{tname} * {name} = ({tname}*)0x{v:08X};\n")
+        fh.write(f"{tname} * {name} = {init};\n")
         return True
 
     # enum scalar
@@ -799,9 +1109,14 @@ def emit_one_symbol(fh, ea, name):
                 return emit_scalar_or_ptr(fh, ea, name, mt)
             else:
                 if mt.is_ptr():
+                    decl = _ida_decl_for_symbol(ea, name)
+                    if decl:
+                        fh.write(f"{decl};\n")
+                        return True
+
                     try:
                         pto = mt.get_pointed_object()
-                        tname = pto.get_type_name() or "void"
+                        tname = _ctype_name_for_tinfo(pto) if pto else "void"
                     except Exception:
                         tname = "void"
                     fh.write(f"{tname} * {name};\n")
@@ -827,6 +1142,9 @@ def emit_one_symbol(fh, ea, name):
             fh.write(f"uint64_t {name};\n"); return True
         fh.write(f"uint8_t {name}[{total}];\n"); return True
     else:
+        # --- NEW: if untyped but IDA flags indicate word/dword/qword array, emit typed array ---
+        if _try_emit_untyped_numeric_array_by_flags(fh, ea, name, total):
+            return True
         return emit_fallback_by_size(fh, ea, name)
 
 # ==============================
@@ -852,18 +1170,34 @@ def _write_header_prelude(out_h):
 
 def emit_fallback_by_size(fh, ea, name):
     n = ida_bytes.get_item_size(ea) or 0
+
+    # Prefer IDA radix for simple scalars if requested
+    style = DEFAULT_UNSIGNED_STYLE
+    if PREFER_IDA_RADIX_FOR_FALLBACK_SCALARS:
+        style = _preferred_unsigned_style_for_ea(ea)
+
     if n == 1:
         v = read_u8(ea)
-        fh.write(f"uint8_t {name}  = 0x{(v if v is not None else 0):02X};\n");  return True
+        uv = (v if v is not None else 0)
+        fh.write(f"uint8_t {name}  = {uv};\n" if style == "dec" else f"uint8_t {name}  = {fmt_hex(uv, 1)};\n")
+        return True
+
     if n == 2:
         v = read_u16(ea)
-        fh.write(f"uint16_t {name} = 0x{(v if v is not None else 0):04X};\n");  return True
+        uv = (v if v is not None else 0)
+        fh.write(f"uint16_t {name} = {uv};\n" if style == "dec" else f"uint16_t {name} = {fmt_hex(uv, 2)};\n")
+        return True
+
     if n == 4:
         v = read_u32(ea)
-        fh.write(f"uint32_t {name} = 0x{(v if v is not None else 0):08X};\n");  return True
+        uv = (v if v is not None else 0)
+        fh.write(f"uint32_t {name} = {uv};\n" if style == "dec" else f"uint32_t {name} = {fmt_hex(uv, 4)};\n")
+        return True
+
     if n == 8:
         uv = be_bytes(ea, 8) or 0
-        fh.write(f"uint64_t {name} = 0x{uv:016X};\n");                      return True
+        fh.write(f"uint64_t {name} = {uv};\n" if style == "dec" else f"uint64_t {name} = {fmt_hex(uv, 8)};\n")
+        return True
 
     if n > 0:
         # If it’s actually a string, prefer a char[] declaration.
@@ -878,7 +1212,7 @@ def emit_fallback_by_size(fh, ea, name):
             return True
 
         bs = ida_bytes.get_bytes(ea, n) or b""
-        vals = ", ".join(f"0x{b:02X}" for b in bs)
+        vals = ", ".join(fmt_hex(b, 1) for b in bs)
         fh.write(f"uint8_t {name}[{n}] = {{ {vals} }};\n")
         return True
     return False
@@ -893,35 +1227,45 @@ def _decl_array_symbol(out_h, ea, name, mt):
 
     atd = tif.array_type_data_t()
     if not mt.get_array_details(atd):
-        # fallback raw byte array (matches .c emission)
         total = ida_bytes.get_item_size(ea) or 0
         if total > 0:
             out_h.write(f"extern uint8_t {name}[{total}];\n")
         return True
+
     elem_tif = atd.elem_type
     nelems = atd.nelems
     if nelems <= 0:
         return False
-    # enum arrays: use enum type name or int
+
+    # >>> ADD THIS OVERRIDE <<<
+    override_elem_cty = _array_elem_ctype_override_from_cdecl(ea)
+    if override_elem_cty:
+        out_h.write(f"extern {override_elem_cty} {name}[{nelems}];\n")
+        return True
+
     if elem_tif.is_enum():
         etname = elem_tif.get_type_name() or "int"
         out_h.write(f"extern {etname} {name}[{nelems}];\n")
         return True
-    # UDT arrays
     if elem_tif.is_udt():
         struct_name = _ctype_name_for_tinfo(elem_tif)
         out_h.write(f"extern {struct_name} {name}[{nelems}];\n")
         return True
-    # other arrays
+
     elem_cty = _ctype_name_for_tinfo(elem_tif)
     out_h.write(f"extern {elem_cty} {name}[{nelems}];\n")
     return True
 
 def _decl_scalar_or_ptr(out_h, ea, name, mt):
     if mt.is_ptr():
+        decl = _ida_decl_for_symbol(ea, name)
+        if decl:
+            out_h.write(f"extern {decl};\n")
+            return True
+
         try:
             pto = mt.get_pointed_object()
-            tname = pto.get_type_name() or "void"
+            tname = _ctype_name_for_tinfo(pto) if pto else "void"
         except Exception:
             tname = "void"
         out_h.write(f"extern {tname} * {name};\n")
@@ -955,6 +1299,10 @@ def _decl_fallback_by_size_h(out_h, ea, name):
         out_h.write(f"extern uint8_t {name}[{n}];\n")
         return True
 
+    # --- NEW: inferred typed arrays for loaded, untyped items ---
+    if _try_decl_untyped_numeric_array_by_flags(out_h, ea, name, n):
+        return True
+
     if n == 4:
         out_h.write(f"extern uint32_t {name};\n"); return True
     if n == 2:
@@ -962,7 +1310,7 @@ def _decl_fallback_by_size_h(out_h, ea, name):
     if n == 1:
         out_h.write(f"extern uint8_t {name};\n");  return True
 
-    if looks_like_c_string(ea):
+    if looks_like_c_string(ea, maxlen=min(n, 256)):
         out_h.write(f'extern const char {name}[];\n')
         return True
 
@@ -971,7 +1319,9 @@ def _decl_fallback_by_size_h(out_h, ea, name):
 
 def _would_emit_as_c_string(ea, name, total):
     cdecl = idc.get_type(ea) or ''
-    return looks_like_c_string(ea) and (is_decl_stringy_char_array(cdecl) or not cdecl)
+    # IMPORTANT: only consider it a string if a NUL is found within THIS item
+    maxlen = min(max(1, total), 256)
+    return looks_like_c_string(ea, maxlen=maxlen) and (is_decl_stringy_char_array(cdecl) or not cdecl)
 
 def _decl_udt_variable(out_h, struct_name, name, ea):
     """
@@ -992,6 +1342,15 @@ def _decl_one_symbol(out_h, ea, name):
     total = ida_bytes.get_item_size(ea) or 0
     if total <= 0:
         return False
+
+    # Preserve exact typed char[N] (including const) in header
+    if _is_exact_decl_char_array(ea):
+        total = ida_bytes.get_item_size(ea) or 0
+        if total > 0:
+            cdecl = (idc.get_type(ea) or "").lower()
+            prefix = "const char" if "const" in cdecl else "char"
+            out_h.write(f"extern {prefix} {name}[{total}];\n")
+            return True
 
     # strings (typed char[] or untyped-but-looks-like string)
     if _would_emit_as_c_string(ea, name, total):
@@ -1065,6 +1424,7 @@ def main():
 
         for ea, nm in names:
             try:
+                _write_leading_symbol_comments(out, ea, nm)
                 if emit_one_symbol(out, ea, nm):
                     emitted += 1
                 else:

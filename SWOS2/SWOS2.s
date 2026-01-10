@@ -986,21 +986,6 @@ ST_GAME_IN_PROGRESS                     EQU 100
 ST_STOPPED                              EQU 101
 ST_WAITING_ON_PLAYER                    EQU 102
 
-; ==== STRUCT: MENU ====
-MENU_SIZE                               EQU 22
-MENU_INITFUNC                           EQU 0
-MENU_INITFUNC_SIZE                      EQU 4
-MENU_ONRETURN                           EQU 4
-MENU_ONRETURN_SIZE                      EQU 4
-MENU_ONDRAW                             EQU 8
-MENU_ONDRAW_SIZE                        EQU 4
-MENU_SELECTEDENTRY                      EQU 12
-MENU_SELECTEDENTRY_SIZE                 EQU 4
-MENU_NUMENTRIES                         EQU 16
-MENU_NUMENTRIES_SIZE                    EQU 2
-MENU_MENUENDPTR                         EQU 18
-MENU_MENUENDPTR_SIZE                    EQU 4
-
 ; ==== STRUCT: PLAYERPOSITIONS ====
 PLAYERPOSITIONS_SIZE                    EQU 35
 PLAYERPOSITIONS_POSITIONS               EQU 0
@@ -1432,41 +1417,6 @@ TEAMGENERALINFO_RESETCONTROLS_SIZE      EQU 2
 ; ==== ENUM: FPS ====
 FPS_50HZ                                EQU 49
 
-; ==== STRUCT: TEAMGAME ====
-TEAMGAME_SIZE                           EQU 1018
-TEAMGAME_PRSHIRTTYPE                    EQU 0
-TEAMGAME_PRSHIRTTYPE_SIZE               EQU 2
-TEAMGAME_PRSHIRTCOL                     EQU 2
-TEAMGAME_PRSHIRTCOL_SIZE                EQU 2
-TEAMGAME_PRSTRIPESCOL                   EQU 4
-TEAMGAME_PRSTRIPESCOL_SIZE              EQU 2
-TEAMGAME_PRSHORTSCOL                    EQU 6
-TEAMGAME_PRSHORTSCOL_SIZE               EQU 2
-TEAMGAME_PRSOCKSCOL                     EQU 8
-TEAMGAME_PRSOCKSCOL_SIZE                EQU 2
-TEAMGAME_SECSHIRTTYPE                   EQU 10
-TEAMGAME_SECSHIRTTYPE_SIZE              EQU 2
-TEAMGAME_SECSHIRTCOL                    EQU 12
-TEAMGAME_SECSHIRTCOL_SIZE               EQU 2
-TEAMGAME_SECSTRIPESCOL                  EQU 14
-TEAMGAME_SECSTRIPESCOL_SIZE             EQU 2
-TEAMGAME_SECSHORTSCOL                   EQU 16
-TEAMGAME_SECSHORTSCOL_SIZE              EQU 2
-TEAMGAME_SECSOCKSCOL                    EQU 18
-TEAMGAME_SECSOCKSCOL_SIZE               EQU 2
-TEAMGAME_MARKEDPLAYER                   EQU 20
-TEAMGAME_MARKEDPLAYER_SIZE              EQU 2
-TEAMGAME_TEAMNAME                       EQU 22
-TEAMGAME_TEAMNAME_SIZE                  EQU 17
-TEAMGAME_UNK1                           EQU 39
-TEAMGAME_UNK1_SIZE                      EQU 1
-TEAMGAME_NUMOWNGOALS                    EQU 40
-TEAMGAME_NUMOWNGOALS_SIZE               EQU 1
-TEAMGAME_UNK3                           EQU 41
-TEAMGAME_UNK3_SIZE                      EQU 1
-TEAMGAME_UNK4                           EQU 42
-TEAMGAME_UNK4_SIZE                      EQU 976
-
 ; ==== ENUM: ASSETSYSOP ====
 ASSET_OP_INIT_CONTEXT                   EQU 0
 ASSET_OP_INIT_SOURCE0                   EQU 2
@@ -1590,6 +1540,90 @@ PLANE_STRIDE_MINUS4                     EQU 40
 PLANE_STRIDE_DIV2                       EQU 22
 ROW_STRIDE_BYTES                        EQU 176
 SRC_SCANLINE_BYTES                      EQU 8
+
+; ==== STRUCT: ANIMTABLE_20 ====
+ANIMTABLE_20_SIZE                       EQU 82
+ANIMTABLE_20_FRAMEDELAY                 EQU 0
+ANIMTABLE_20_FRAMEDELAY_SIZE            EQU 2
+ANIMTABLE_20_ANIMFRAMES                 EQU 2
+ANIMTABLE_20_ANIMFRAMES_SIZE            EQU 80
+
+; ==== STRUCT: ANIMTABLE_8 ====
+ANIMTABLE_8_SIZE                        EQU 34
+ANIMTABLE_8_FRAMEDELAY                  EQU 0
+ANIMTABLE_8_FRAMEDELAY_SIZE             EQU 2
+ANIMTABLE_8_ANIMFRAMES                  EQU 2
+ANIMTABLE_8_ANIMFRAMES_SIZE             EQU 32
+
+; ==== STRUCT: ANIMTABLE_12 ====
+ANIMTABLE_12_SIZE                       EQU 50
+ANIMTABLE_12_FRAMEDELAY                 EQU 0
+ANIMTABLE_12_FRAMEDELAY_SIZE            EQU 2
+ANIMTABLE_12_ANIMFRAMES                 EQU 2
+ANIMTABLE_12_ANIMFRAMES_SIZE            EQU 48
+
+; ==== ENUM: SFX ====
+SFX_BACKGROUND_CROWD                    EQU 0
+SFX_BOUNCE                              EQU 1
+SFX_HOME_GOAL                           EQU 2
+SFX_KICK                                EQU 3
+SFX_WHISTLE                             EQU 4
+SFX_MISS_GOAL                           EQU 5
+SFX_ENDGAME_WHISTLE                     EQU 6
+SFX_FOUL_WHISTLE                        EQU 7
+SFX_CHANT_41                            EQU 8
+SFX_CHANT_101                           EQU 9
+SFX_CHANT_81                            EQU 10
+
+; ==== STRUCT: TEAMGAME ====
+TEAMGAME_SIZE                           EQU 1018
+TEAMGAME_PRSHIRTTYPE                    EQU 0
+TEAMGAME_PRSHIRTTYPE_SIZE               EQU 2
+TEAMGAME_PRSHIRTCOL                     EQU 2
+TEAMGAME_PRSHIRTCOL_SIZE                EQU 2
+TEAMGAME_PRSTRIPESCOL                   EQU 4
+TEAMGAME_PRSTRIPESCOL_SIZE              EQU 2
+TEAMGAME_PRSHORTSCOL                    EQU 6
+TEAMGAME_PRSHORTSCOL_SIZE               EQU 2
+TEAMGAME_PRSOCKSCOL                     EQU 8
+TEAMGAME_PRSOCKSCOL_SIZE                EQU 2
+TEAMGAME_SECSHIRTTYPE                   EQU 10
+TEAMGAME_SECSHIRTTYPE_SIZE              EQU 2
+TEAMGAME_SECSHIRTCOL                    EQU 12
+TEAMGAME_SECSHIRTCOL_SIZE               EQU 2
+TEAMGAME_SECSTRIPESCOL                  EQU 14
+TEAMGAME_SECSTRIPESCOL_SIZE             EQU 2
+TEAMGAME_SECSHORTSCOL                   EQU 16
+TEAMGAME_SECSHORTSCOL_SIZE              EQU 2
+TEAMGAME_SECSOCKSCOL                    EQU 18
+TEAMGAME_SECSOCKSCOL_SIZE               EQU 2
+TEAMGAME_MARKEDPLAYER                   EQU 20
+TEAMGAME_MARKEDPLAYER_SIZE              EQU 2
+TEAMGAME_TEAMNAME                       EQU 22
+TEAMGAME_TEAMNAME_SIZE                  EQU 17
+TEAMGAME_UNK1                           EQU 39
+TEAMGAME_UNK1_SIZE                      EQU 1
+TEAMGAME_NUMOWNGOALS                    EQU 40
+TEAMGAME_NUMOWNGOALS_SIZE               EQU 1
+TEAMGAME_UNK3                           EQU 41
+TEAMGAME_UNK3_SIZE                      EQU 1
+TEAMGAME_PLAYERS                        EQU 42
+TEAMGAME_PLAYERS_SIZE                   EQU 976
+
+; ==== STRUCT: MENU ====
+MENU_SIZE                               EQU 22
+MENU_ONINIT                             EQU 0
+MENU_ONINIT_SIZE                        EQU 4
+MENU_AFTERDRAW                          EQU 4
+MENU_AFTERDRAW_SIZE                     EQU 4
+MENU_ONDRAW                             EQU 8
+MENU_ONDRAW_SIZE                        EQU 4
+MENU_SELECTEDENTRY                      EQU 12
+MENU_SELECTEDENTRY_SIZE                 EQU 4
+MENU_NUMENTRIES                         EQU 16
+MENU_NUMENTRIES_SIZE                    EQU 2
+MENU_ENDOFMENUPTR                       EQU 18
+MENU_ENDOFMENUPTR_SIZE                  EQU 4
 
 ; ===== END TYPES / ENUMS =====
 
@@ -1738,9 +1772,9 @@ USER_F_Positions:
                 ds.b $B
 teamsTable:
                 ds.b $64
-teamNumbersIndices_:
+teamsIndex:
                 ds.b $64
-teamPointers_:
+teamsPtrTable:
                 ds.b $190
 ; TeamTactics
 editTacticsCurrentTactics:
@@ -1756,6 +1790,7 @@ byte_D556:
                 ds.b $100
 panicReasonCode:
                 ds.b $2
+; char*
 g_errorMessagePtr:
                 ds.b $4
 BSS_00_D666:
@@ -1772,10 +1807,12 @@ goalBase:
                 ds.b $4A38
 nextGoal:
                 ds.b $2
+; unsigned __int8[48048]
 frontbufferBase:
                 ds.b $BBB0
 BSS_00_1E35A:
                 ds.b $2
+; unsigned __int8[48048]
 frontbufferBaseAlt:
                 ds.b $BBB0
 BSS_00_29F0C:
@@ -1836,8 +1873,10 @@ bootTemp5:
                 ds.b $2
 bootTemp6:
                 ds.b $2
+; unsigned __int8*
 frontbufferBasePtr:
                 ds.b $4
+; unsigned __int8*
 frontbufferBaseAltPtr:
                 ds.b $4
 plOrdinalsTable:
@@ -1856,6 +1895,7 @@ dword_2C044:
                 ds.b $4
 plane01RenderStackBase:
                 ds.b $168
+; unsigned __int8*
 plane23RenderStackPtr:
                 ds.b $4
 plane23RenderStackBase:
@@ -2133,10 +2173,12 @@ userRequestedReplay:
                                         ; (when auto replays set to on); sticky
 throwInDeadVar:
                 ds.b $2
+; unsigned __int32*
 currentGoalPtr:
                 ds.b $4
                                         ; points to current goal in *.hil file that
                                         ; is being shown in highlights
+; unsigned __int32*
 currentHilPtr:
                 ds.b $4
 savedCameraX:
@@ -2199,6 +2241,7 @@ spriteGraphics:
 numSpritesToRender:
                 ds.b $2
                                         ; number of sprites in spritesPtrArray
+; Sprite*[78]
 sortedSprites:
                 ds.b $138
 fundsBuffer:
@@ -2250,7 +2293,7 @@ aCopyrightC1994_0:
 aSwosVersion152:
                 dc.b 'SWOS VERSION 152',0
 a0611961355Asm6:
-                dc.b '(06/11/96 13.55) ASM 6/11/1996',0,$00
+                dc.b '(06/11/96 13.55) ASM 6/11/1996',0,0
 aCj0611143807:
                 dc.b 'CJ0611143807'
 
@@ -2371,9 +2414,9 @@ store_source_entry:
                 clr.w   d0
                 movem.l (sp)+,d1-d7/a0-a6
                 rts
-; char *[4]
+; const char *[4]
 kDriveListPtrs:
-                ; char *[4]
+                ; const char *[4]
                 dc.l aDf0               ; element[0]
                 dc.l aDf1               ; element[1]
                 dc.l aDf2               ; element[2]
@@ -2650,8 +2693,10 @@ AssetSysPrepCopyParams:
                 rts
 g_assetSelect:
                 dc.w $0000
+; unsigned __int8 *
 g_assetBasePtr:
                 dc.l 0
+; unsigned __int8 *
 g_assetAltBasePtr:
                 dc.l 0
 g_assetSourceVec:
@@ -4664,7 +4709,7 @@ aGrafsDisk22Raw:
 aGrafsOlddisk1R:
                 dc.b 'grafs/olddisk1.raw',0
 aGrafsSocpicRaw:
-                dc.b 'grafs/socpic.raw',0,$00
+                dc.b 'grafs/socpic.raw',0,0
 team1Filename:
                 dc.l 0
 team2Filename:
@@ -5159,16 +5204,15 @@ wait_buttons:
                 jsr     FadeIn
 panic_spin_forever:
                 bra.s   panic_spin_forever
+; char[3]
 panicFormatStr:
-                dc.b "%a",0
+                dc.b '%a',0
+; char[96]
 panicOutBuf:
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-                dc.b $00,$00,$00,$00,$00,$C0,$FC,$00,$0A
+                dcb.b $60,0
+pad_102555:
+                dc.b $00,$00,$00,$00,$00
+                mulu.w  #$A,d0
 
 ; ===== FlashColor0Delay =====
 ; prototype: void __usercall FlashColor0Delay(unsigned __int32 loopCount, unsigned __int16 color)
@@ -6055,10 +6099,12 @@ scroll_y_update_return:
                 rts
 blitWordCount:
                 dc.w $0000
+; unsigned __int32 *
 maskBlitDestPtr:
                 dc.l 0
 maskBlitPendingBytesA:
                 dc.w $0000
+; unsigned __int32 *
 maskBlitSecondStreamPtr:
                 dc.l 0
 maskBlitPendingBytesB:
@@ -6726,8 +6772,10 @@ SetTempStackPtr:
                 movea.l (oldStackPtr).l,sp
                 movem.l (sp)+,d0-d7/a0-a6
                 rte
+; unsigned __int32 *
 oldStackPtr:
                 dc.l 0
+; unsigned __int32 *
 tmpStackPtr:
                 dc.l ReturnFromFunction
 isrTrampolineGuard:
@@ -8304,7 +8352,7 @@ plane01BandTopY:
                 dc.w $0000
 plane23BandTopY:
                 dc.w $0000
-padding_36:
+pad_104F12:
                 dc.b "ww"
 occlMinYBuckets:
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00
@@ -8313,7 +8361,7 @@ occlMinYBucketsActive:
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
                 dc.b $00,$00,$00,$00
-padding_37:
+pad_104F52:
                 dc.b 119,119
 
 ; ===== InitDisplaySprites =====
@@ -9039,8 +9087,10 @@ textBlitPlaneMask:
                 dc.w $0000
 textBlitHeightLines:
                 dc.w $0000
+; unsigned __int32 *
 blitSrcA_MaskPtr:
                 dc.l 0
+; unsigned __int32 *
 blitSrcB_GlyphPtr:
                 dc.l 0
 
@@ -9218,6 +9268,7 @@ aGrafsDisk2Raw:
                 dc.b 'grafs/disk2.raw',0
 g_assetLoaderCacheFlag:
                 dc.l 0
+; unsigned __int32 *
 g_assetLoaderWorkPtr:
                 dc.l 0
 g_assetLoaderAltPathReady:
@@ -10644,23 +10695,24 @@ goalCounter:
                                         ; probably something with patterns, or samples
 pendingSampleId3_4:
                 dc.w $0000
+; __int16
 g_crowdChantsOn:
-                dc.w $0001
+                dc.w 1
 cameraMoveToShowerLatch:
                 dc.w -1
-padding_02:
+pad_106CFE:
                 dc.b 0,0
 lastKickSampleTick:
                 dc.w -1
 audioDbgFlagA:
                 dc.b $00
-padding_03:
+pad_106D03:
                 dc.b $00
 g_audioActive:
                 dc.w $0000
 g_audioBankLoaded:
                 dc.w $0000
-padding_04:
+pad_106D08:
                 dc.b 0,0
 
 ; ===== CrowdResetMatchState =====
@@ -11069,7 +11121,7 @@ handle_goal_sfx_timer:
                 beq.s   handle_queued_sfx_timer
                 subq.w  #1,(goalCounter).l
                 bne.s   handle_queued_sfx_timer
-                bsr.w   PlaySample3
+                bsr.w   PlaySample4IfNotTraining
 handle_queued_sfx_timer:
                 tst.w   (sfxQueueWriteIdx).l
                 beq.s   handle_crowd_event_cooldown
@@ -11091,12 +11143,12 @@ crowd_tick_and_return:
                 rts
 
 ; ===== PlayPenaltySample =====
-; prototype: void __usercall PlayPenaltySample()
+; prototype: void __usercall PlayPenaltySample(unsigned int presetId@<d0>)
 PlayPenaltySample:
                 tst.w   (g_trainingGame).l
-                beq.s   play_penalty_sample
+                beq.s   loc_107246
                 rts
-play_penalty_sample:
+loc_107246:
                 move.w  #6,d0
                 bra.w   PlaySample
 
@@ -11104,9 +11156,9 @@ play_penalty_sample:
 ; prototype: void __usercall PlaySample7IfNotTraining()
 PlaySample7IfNotTraining:
                 tst.w   (g_trainingGame).l
-                beq.s   PlaySample7
+                beq.s   loc_107258
                 rts
-PlaySample7:
+loc_107258:
                 move.w  #7,d0
                 bra.w   PlaySample
 
@@ -11174,32 +11226,41 @@ PlaySample1IfNotTraining:
                 tst.w   (g_trainingGame).l
                 beq.s   PlaySample1
                 rts
+
+; ===== PlaySample1 =====
+; prototype: void __usercall PlaySample1()
 PlaySample1:
                 move.w  #1,d0
                 bra.w   PlaySample
-PlaySample3IfNotTraining:
+
+; ===== PlaySample2IfNotTraining =====
+; prototype: void __usercall PlaySample2IfNotTraining()
+PlaySample2IfNotTraining:
                 tst.w   (g_trainingGame).l
-                beq.s   PlaySample2
+                beq.s   PlaySample3
                 rts
-PlaySample2:
+PlaySample3:
                 move.w  #$3E8,(pendingSampleId3_4).l
                 move.w  #3,d0
                 bra.w   PlaySample
 
-; ===== PlaySample3 =====
-; prototype: void __usercall PlaySample3()
-PlaySample3:
+; ===== PlaySample4IfNotTraining =====
+; prototype: void __usercall PlaySample4IfNotTraining()
+PlaySample4IfNotTraining:
                 tst.w   (g_trainingGame).l
                 beq.s   PlaySample4
                 rts
+
+; ===== PlaySample4 =====
+; prototype: void __usercall PlaySample4()
 PlaySample4:
                 move.w  #$190,(pendingSampleId3_4).l
                 move.w  #4,d0
                 bra.w   PlaySample
 
-; ===== PlaySample5 =====
-; prototype: void __usercall PlaySample5()
-PlaySample5:
+; ===== PlaySample3IfNotTraining =====
+; prototype: void __usercall PlaySample3IfNotTraining()
+PlaySample3IfNotTraining:
                 tst.w   (g_trainingGame).l
                 beq.s   loc_10732C
                 rts
@@ -11256,7 +11317,7 @@ PlayGoalReplayBottomSample:
                 beq.s   call_play_sample3_if_not_training
                 rts
 call_play_sample3_if_not_training:
-                bra.w   PlaySample3IfNotTraining
+                bra.w   PlaySample2IfNotTraining
 
 ; ===== PlayGoalKickOffSample =====
 ; prototype: void __usercall PlayGoalKickOffSample()
@@ -11359,7 +11420,7 @@ StopAudio:
                 bra.w   StopAllAudioChannels
                 bra.w   AudioSetMode
 aCodedByAndiSmi:
-                dc.b 'CODED BY ANDI SMITHERS, VECTORDEAN (C) MILLENNIUM 1992',0,$00
+                dc.b 'CODED BY ANDI SMITHERS, VECTORDEAN (C) MILLENNIUM 1992',0,0
 
 ; ===== InitAudioState =====
 ; prototype: void __usercall InitAudioState(void *bankBase@<a0>, void *songPtr@<a1>)
@@ -12699,7 +12760,7 @@ kAngleCoeficients:
                 dc.w 56,55,54,53,52,51,50,49
                 dc.w 47,46,45,44,43,42,41,40
                 dc.w 39,38,37,36,35,34,33,32
-padding_46:
+pad_108CAA:
                 dc.w $1A00
 
 ; ===== MovePlayers =====
@@ -13675,7 +13736,7 @@ loc_109878:
                 addi.l  #(goalBase+$2292),d6
 loc_109886:
                 movem.l a0,-(sp)
-                bsr.w   PlaySample5
+                bsr.w   PlaySample3IfNotTraining
                 movem.l (sp)+,a0
                 move.w  SPRITE_SPEED(a0),d0
                 lsr.w   #2,d0
@@ -14486,8 +14547,9 @@ loc_10A310:
                 move.w  #10000,SPRITE_Z(a0)
 locret_10A316:
                 rts
+; __int16
 g_spinBigS:
-                dc.w $0000
+                dc.w 0
 big_S_index:
                 dc.w $0001              ; index of that annoying big S that keeps spining
                                         ; in the upper right corner during the game
@@ -15981,8 +16043,10 @@ gameSeconds:
                                         ; scaled as needed, so seconds in a 3 min. game go faster than in a 10 min. game
                                         ; -1 is special value when there is an overflow and we're switching to the next minute
                                         ; this allows prolonging last minute of the game
+; char[4]
 gameTime:
-                dc.l 0                  ; in BCD format:
+                dcb.b $4,0
+                                        ; in BCD format:
                                         ; +0 = not used
                                         ; +1 = first digit
                                         ; +2 = second digit
@@ -16443,12 +16507,16 @@ hilSceneNumber:
                                         ; init to -1
 goIntoHighlightsLoop:
                 dc.w $0000              ; set if we have some highlights to play
+; unsigned __int32 *
 savedCurrentHilPtr:
                 dc.l 0
+; unsigned __int32 *
 savedCurrentGoalPtr:
                 dc.l 0
+; unsigned __int32 *
 savedGoalBasePtr:
                 dc.l 0
+; unsigned __int32 *
 savedNextGoalPtr:
                 dc.l 0
 
@@ -17880,9 +17948,9 @@ loc_10D486:
                 move.b  #$FF,PLAYERINFOHEADER_POSITION(a0,d7.w)
                 move.w  #60,d1          ; sizeof(GamePlayer) - 1
 loc_10D4AC:
-                move.b  TEAMGAME_UNK4(a0,d6.w),d0 ; 42 = sizeof(TeamGameHeader)
-                move.b  TEAMGAME_UNK4(a0,d7.w),TEAMGAME_UNK4(a0,d6.w)
-                move.b  d0,TEAMGAME_UNK4(a0,d7.w)
+                move.b  TEAMGAME_PLAYERS+PLAYERINFO_SKIP(a0,d6.w),d0 ; 42 = sizeof(TeamGameHeader)
+                move.b  TEAMGAME_PLAYERS+PLAYERINFO_SKIP(a0,d7.w),TEAMGAME_PLAYERS+PLAYERINFO_SKIP(a0,d6.w)
+                move.b  d0,TEAMGAME_PLAYERS+PLAYERINFO_SKIP(a0,d7.w)
                 addq.l  #1,a0
                 dbf     d1,loc_10D4AC
                 bsr.w   InitializePlayerSpriteFrameIndices
@@ -19102,7 +19170,7 @@ select_formation_order:
                 lea     (a0,d1.w),a0
                 move.w  (sp)+,d1
                 rts
-padding_05:
+pad_10E512:
                 dc.b 1,0
 kGoalkeeperBurstSpeed:
                 dc.w 512,1024
@@ -19132,14 +19200,14 @@ kGoalKeeperRecoveryStepAlt:
                 dc.w $00C0              ; speed delta when goalie caught the ball on the ground
 kGoalKeeperRecoveryStepFar:
                 dc.w $0080              ; goalkeeper speed delta while diving for the ball
-padding_06:
+pad_10E53C:
                 dc.b 1,0
 kShotAtGoalMinumumSpeed:
                 dc.w $0200
 kGoalkeeperDiveDeltas:
                 dc.l $00030000,$00038000,$00040000,$00048000,$00050000,$00058000,$00060000,$00068000 ; fixed point values:
                                         ; 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6
-padding_07:
+pad_10E560:
                 dc.w $0000
 kKeeperEaseBallTable:
                 dc.w 1,4,3,3,3,2,2,2
@@ -19151,11 +19219,11 @@ kKeeperPenaltySaveDistanceNear:
                 dc.w 2560
 kSubstitutedPlayerSpeed:
                 dc.w $0600              ; =6.0
-padding_08:
+pad_10E598:
                 dc.w $0500
 kGoalkeeperSpeedWhenGameStopped:
                 dc.w $0400              ; =4.0
-padding_09:
+pad_10E59C:
                 dc.b 1,-128
 kBallGroundConstant:
                 dc.w $0010              ; applied when some player is controlling the ball
@@ -19185,7 +19253,7 @@ kPitchBallSpeedInfluence:
 kGravityConstant:
                 dc.l $00001200          ; = 0.0502166748046875 (~0.05)
                                         ; subtract from ball delta z
-padding_10:
+pad_10E5DE:
                 dc.w 0,6144,1089,1024,1089,1088,1216,1216
                 dc.w 1024,1089,1088,1216,1216,1216,1216,1216
                 dc.w 1216,1216,1216,0,0,0,0,0
@@ -20005,7 +20073,7 @@ subsDirection:
                                         ; Matches player directions.
 subsFire:
                 dc.b $00
-padding_11:
+pad_10F0D1:
                 dc.b $00
 subsFireTimer:
                 dc.w $0000              ; times how long fire is being pressed while in subs menu
@@ -20049,7 +20117,7 @@ pl1DownPress:
                 dc.b $00
 pl1ShortFire:
                 dc.b $00
-padding_12:
+pad_10F0E9:
                 dc.b $00
 pl1FireCounter:
                 dc.w $0000
@@ -20093,7 +20161,7 @@ pl2DownPress:
                 dc.b $00
 pl2ShortFire:
                 dc.b $00
-padding_13:
+pad_10F101:
                 dc.b $00
 pl2FireCounter:
                 dc.w $0000
@@ -20110,7 +20178,7 @@ currentTick:
                 dc.w 0
 lastFrameTicks:
                 dc.w $0000
-padding_14:
+pad_10F110:
                 dc.b $00
 keyIn:
                 dc.b $00
@@ -20133,12 +20201,10 @@ g_oldCameraY:
 ; FixedPoint_
 g_cameraX:
                 ; FixedPoint_
-                ; FIXEDPOINT_ (union; showing 'raw')
                 dc.l 0                  ; 0..352, coordinate of the left corner of the screen
 ; FixedPoint_
 g_cameraY:
                 ; FixedPoint_
-                ; FIXEDPOINT_ (union; showing 'raw')
                 dc.l 0                  ; 16..680, coordinate of the top corner of the screen
 dstXByteOffsetSaved0:
                 dc.w $0000
@@ -20178,7 +20244,7 @@ overlayFlagBackup:
                 dc.w $0000
 forceLeftTeam:
                 dc.w $0002
-padding_15:
+pad_10F14C:
                 dc.b 0,1
 currentPlayerIndicatorPosition:
                 dc.w $0004
@@ -20186,6 +20252,7 @@ hilLeftTeamGoals:
                 dc.w $0000
 hilRightTeamGoals:
                 dc.w $0000
+; TeamGame *
 winningTeamPtr:
                 dc.l 0
 statsTeam1GoalsCopy2:
@@ -20271,17 +20338,17 @@ deadCameraBreakVar04:
                 dc.w $0000
 deadThrowInDirectionVar:
                 dc.w $0000
-padding_16:
+pad_10F1D8:
                 dc.b 0,0
 initialKickWriteOnlyTicks:
                 dc.w $0000
 disallowedTurnFlagsCounter:
                 dc.w $0000
-padding_17:
+pad_10F1DE:
                 dc.b 0,0,0,0,0,0
 writeOnlyVar04:
                 dc.w $0000
-padding_18:
+pad_10F1E6:
                 dc.b 0,0
 deadCameraBreakVar01:
                 dc.w $0000
@@ -20289,11 +20356,11 @@ deadCameraBreakVar02:
                 dc.w $1234
 deadCameraBreakVar03:
                 dc.w $1234
-padding_19:
+pad_10F1EE:
                 dc.b 18,52
 AI_maxStoppageTime:
                 dc.w $0000
-padding_20:
+pad_10F1F2:
                 dc.b 0,0
 word_10F1F4:
                 dc.w $0000
@@ -20380,8 +20447,10 @@ loc_10F2CE:
                 addq.b  #1,(seed2).l
                 movem.l (sp)+,d1/a0
                 rts
+; unsigned __int8 (*)[15]
 savedRandStatePtr:
                 dc.l byte_10F2EA
+; unsigned __int8[15]
 byte_10F2EA:
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 ; __int8[257]
@@ -20433,7 +20502,7 @@ randXorIndex:
                 dc.b $00
 randXorKey:
                 dc.b $00
-padding_21:
+pad_10F441:
                 dc.b $00
 
 ; ===== MainKeysCheck =====
@@ -20957,7 +21026,7 @@ DrawReplayContinueShiningFrame:
 replayContTbl:
                 dc.w 0,1,2,3,4,5,6,7
                 dc.w 8,9,0,11,12,13,14,15
-padding_22:
+pad_10FBE2:
                 dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
                 dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
                 dc.b 0,0
@@ -22143,7 +22212,7 @@ finalize_ball_win:
                 bsr.w   ResetBothTeamSpinTimers
 _110BFC_exit_rts:
                 rts
-padding_23:
+pad_110BFE:
                 dc.w 3,3,0
 
 ; ===== PlayerTackledTheBallWeak =====
@@ -22396,7 +22465,6 @@ kGoalieSkillTables:
 ; GoalieSkill
 dseg_17EECC:
                 ; GoalieSkill
-                ; GOALIESKILL
                 dc.w $0001              ; field_0
                 dc.w $0400              ; field_2
                 dc.w $00B0              ; field_4
@@ -22430,7 +22498,6 @@ dseg_17EECC:
 ; GoalieSkill
 teamPlOfs24Table:
                 ; GoalieSkill
-                ; GOALIESKILL
                 dc.w $0008              ; field_0
                 dc.w $0400              ; field_2
                 dc.w $0070              ; field_4
@@ -22482,7 +22549,7 @@ ballNextX:
                 dc.w $0000
 ballNextY:
                 dc.w $0000
-padding_24:
+pad_110F6C:
                 dc.b 0,0,0,0
 
 ; ===== CalculateNextBallPosition =====
@@ -22690,7 +22757,7 @@ playerXQuadrantOffset:
                 dc.w $0000              ; offset inside quadrant, relative to quadrant center
 playerYQuadrantOffset:
                 dc.w $0000
-padding_25:
+pad_111202:
                 dc.b 0,81
 ballXQuadrantLimits:
                 dc.w $00B7,$011D,$0183,$01E9,$0081
@@ -22937,7 +23004,6 @@ kTackleInjuryProbabilityAlreadyInjured:
 ; TeamStatisticsData
 team1StatsData:
                 ; TeamStatisticsData
-                ; TEAMSTATISTICSDATA
                 dc.w $0000              ; ballPossession
                 dc.w $0000              ; cornersWon
                 dc.w $0000              ; foulsConceded
@@ -22948,7 +23014,6 @@ team1StatsData:
 ; TeamStatisticsData
 team2StatsData:
                 ; TeamStatisticsData
-                ; TEAMSTATISTICSDATA
                 dc.w $0000              ; ballPossession
                 dc.w $0000              ; cornersWon
                 dc.w $0000              ; foulsConceded
@@ -22959,7 +23024,6 @@ team2StatsData:
 ; TeamGeneralInfo
 topTeamData:
                 ; TeamGeneralInfo
-                ; TEAMGENERALINFO
                 dc.l 0                  ; opponentsTeam
                 dc.w $0000              ; playerNumber
                 dc.w $0000              ; playerCoachNumber
@@ -23033,7 +23097,6 @@ topTeamData:
 ; TeamGeneralInfo
 bottomTeamData:
                 ; TeamGeneralInfo
-                ; TEAMGENERALINFO
                 dc.l 0                  ; opponentsTeam
                 dc.w $0000              ; playerNumber
                 dc.w $0000              ; playerCoachNumber
@@ -23138,8 +23201,10 @@ goalCameraMode:
                 dc.w $0000              ; set when goal is scored, reset when camera is moved to the center
 teamNumThatScored:
                 dc.w $0000              ; number of team that scored (1 or 2) (sticky)
+; TeamGeneralInfo *
 teamScoredDataPtr:
                 dc.l 0
+; TeamGame *
 teamScoredGamePtr:
                 dc.l 0                  ; pointer to team that last scored
                                         ; not initialized at the beginning, check num. goals
@@ -23227,8 +23292,10 @@ cameraDirection:
                 dc.w $0000              ; shows direction in which camera should travel after the ball is out of play
                                         ; -1 when not playing (at the start before pressing fire, half-time, after game ends...)
 playerTurnFlags:
-                dc.w $0000              ; bit set represents allowed directions when the player puts
+                dc.b $00                ; bit set represents allowed directions when the player puts
                                         ; the ball back into play (throw in, penalty..) - bits 0..7
+pad_111673:
+                dc.b $00
 inGameCounter:
                 dc.w $0000              ; counts when the ball is in play
                                         ; halted when the game is stopped
@@ -27333,7 +27400,6 @@ kTeamsStartingCoordinates:
 ; GoalieSkill
 kGoalieSkill7Table:
                 ; GoalieSkill
-                ; GOALIESKILL
                 dc.w $0063              ; field_0
                 dc.w $0580              ; field_2
                 dc.w $00E2              ; field_4
@@ -27367,7 +27433,6 @@ kGoalieSkill7Table:
 ; GoalieSkill
 kGoalieSkill6Table:
                 ; GoalieSkill
-                ; GOALIESKILL
                 dc.w $0001              ; field_0
                 dc.w $0580              ; field_2
                 dc.w $00E2              ; field_4
@@ -27401,7 +27466,6 @@ kGoalieSkill6Table:
 ; GoalieSkill
 kGoalieSkill5Table:
                 ; GoalieSkill
-                ; GOALIESKILL
                 dc.w $0002              ; field_0
                 dc.w $04DC              ; field_2
                 dc.w $00B4              ; field_4
@@ -27435,7 +27499,6 @@ kGoalieSkill5Table:
 ; GoalieSkill
 kGoalieSkill4Table:
                 ; GoalieSkill
-                ; GOALIESKILL
                 dc.w $0003              ; field_0
                 dc.w $0438              ; field_2
                 dc.w $0086              ; field_4
@@ -27469,7 +27532,6 @@ kGoalieSkill4Table:
 ; GoalieSkill
 kGoalieSkill3Table:
                 ; GoalieSkill
-                ; GOALIESKILL
                 dc.w $0004              ; field_0
                 dc.w $0394              ; field_2
                 dc.w $0058              ; field_4
@@ -27503,7 +27565,6 @@ kGoalieSkill3Table:
 ; GoalieSkill
 kGoalieSkill2Table:
                 ; GoalieSkill
-                ; GOALIESKILL
                 dc.w $0005              ; field_0
                 dc.w $02F0              ; field_2
                 dc.w $002A              ; field_4
@@ -27537,7 +27598,6 @@ kGoalieSkill2Table:
 ; GoalieSkill
 kGoalieSkill1Table:
                 ; GoalieSkill
-                ; GOALIESKILL
                 dc.w $0006              ; field_0
                 dc.w $024C              ; field_2
                 dc.w -4                 ; field_4
@@ -27571,7 +27631,6 @@ kGoalieSkill1Table:
 ; GoalieSkill
 kGoalieSkill0Table:
                 ; GoalieSkill
-                ; GOALIESKILL
                 dc.w $0007              ; field_0
                 dc.w $01A8              ; field_2
                 dc.w -50                ; field_4
@@ -30300,6 +30359,7 @@ freeKickDestX:
                 dc.w $0000
 deadVarAlways0:
                 dc.w $0000
+; TeamGeneralInfo *
 playerKickerPtr:
                 dc.l 0
 
@@ -31261,7 +31321,7 @@ AI_resumePlayTimer:
                 dc.w $0000              ; when AI puts the ball back into play this counts down from 15 to 0
 AI_rand:
                 dc.w $0000              ; random number generated each time DoAI is called; 0..255
-padding_26:
+pad_11826C:
                 dc.b $00,$00
 ; __int16[2]
 AI_randomRotateTable:
@@ -33337,7 +33397,6 @@ staticHeaderAttemptAnimTable:
 ; AnimTable
 staticHeaderAimAnimTable:
                 ; AnimTable
-                ; ANIMTABLE
                 dc.w $0005              ; frameDelay
                 dc.l word_11B686        ; animFrames[0]
                 dc.l word_11B6CE        ; animFrames[1]
@@ -33374,7 +33433,6 @@ staticHeaderAimAnimTable:
 ; AnimTable
 staticHeaderHitAnimTable:
                 ; AnimTable
-                ; ANIMTABLE
                 dc.w $0005              ; frameDelay
                 dc.l word_11B686        ; animFrames[0]
                 dc.l word_11B6CE        ; animFrames[1]
@@ -33411,7 +33469,6 @@ staticHeaderHitAnimTable:
 ; AnimTable
 jumpHeaderAttemptAnimTable:
                 ; AnimTable
-                ; ANIMTABLE
                 dc.w $0005              ; frameDelay
                 dc.l word_11B32A        ; animFrames[0]
                 dc.l word_11B36A        ; animFrames[1]
@@ -33448,7 +33505,6 @@ jumpHeaderAttemptAnimTable:
 ; AnimTable
 jumpHeaderHitAnimTable:
                 ; AnimTable
-                ; ANIMTABLE
                 dc.w $0005              ; frameDelay
                 dc.l jumpHeaderTeam1UpFrames ; animFrames[0]
                 dc.l word_11B20A        ; animFrames[1]
@@ -33485,7 +33541,6 @@ jumpHeaderHitAnimTable:
 ; AnimTable
 playerRunningAnimTable:
                 ; AnimTable
-                ; ANIMTABLE
                 dc.w $0005              ; frameDelay
                 dc.l playerRunningUpTeam1 ; animFrames[0]
                 dc.l playerRunningUpRightTeam1 ; animFrames[1]
@@ -33522,7 +33577,6 @@ playerRunningAnimTable:
 ; AnimTable
 playerNormalStandingAnimTable:
                 ; AnimTable
-                ; ANIMTABLE
                 dc.w $0005              ; frameDelay
                 dc.l team1PlayerStandingFacingUpFrames ; animFrames[0]
                 dc.l team1PlayerStandingFacingUpRightFrames ; animFrames[1]
@@ -33559,7 +33613,6 @@ playerNormalStandingAnimTable:
 ; AnimTable
 plTacklingAnimTable:
                 ; AnimTable
-                ; ANIMTABLE
                 dc.w $0005              ; frameDelay
                 dc.l word_11B526        ; animFrames[0]
                 dc.l word_11B536        ; animFrames[1]
@@ -33593,54 +33646,57 @@ plTacklingAnimTable:
                 dc.l 0                  ; animFrames[29]
                 dc.l 0                  ; animFrames[30]
                 dc.l 0                  ; animFrames[31]
-                dc.w $0005
-                dc.l word_11B526
-                dc.l word_11B536
-                dc.l word_11B52E
-                dc.l word_11B53E
-                dc.l word_11B52A
-                dc.l word_11B542
-                dc.l word_11B532
-                dc.l word_11B53A
-                dc.l word_11B93A
-                dc.l word_11B94A
-                dc.l word_11B942
-                dc.l word_11B952
-                dc.l word_11B93E
-                dc.l word_11B956
-                dc.l word_11B946
-                dc.l word_11B94E
-                dc.l 0
-                dc.l 0
-                dc.l 0
-                dc.l 0
+; AnimTable_20
+plTacklingAnimTable_2:
+                ; AnimTable_20
+                dc.w $0005              ; frameDelay
+                dc.l word_11B526        ; animFrames[0]
+                dc.l word_11B536        ; animFrames[1]
+                dc.l word_11B52E        ; animFrames[2]
+                dc.l word_11B53E        ; animFrames[3]
+                dc.l word_11B52A        ; animFrames[4]
+                dc.l word_11B542        ; animFrames[5]
+                dc.l word_11B532        ; animFrames[6]
+                dc.l word_11B53A        ; animFrames[7]
+                dc.l word_11B93A        ; animFrames[8]
+                dc.l word_11B94A        ; animFrames[9]
+                dc.l word_11B942        ; animFrames[10]
+                dc.l word_11B952        ; animFrames[11]
+                dc.l word_11B93E        ; animFrames[12]
+                dc.l word_11B956        ; animFrames[13]
+                dc.l word_11B946        ; animFrames[14]
+                dc.l word_11B94E        ; animFrames[15]
+                dc.l 0                  ; animFrames[16]
+                dc.l 0                  ; animFrames[17]
+                dc.l 0                  ; animFrames[18]
+                dc.l 0                  ; animFrames[19]
+; AnimTable_20
 playerTackledAnimTable:
-                dc.b $00
-                dc.b $05
-                dc.l word_11B546
-                dc.l word_11B556
-                dc.l word_11B54E
-                dc.l word_11B55E
-                dc.l word_11B54A
-                dc.l word_11B562
-                dc.l word_11B552
-                dc.l word_11B55A
-                dc.l word_11B95A
-                dc.l word_11B96A
-                dc.l word_11B962
-                dc.l word_11B972
-                dc.l word_11B95E
-                dc.l word_11B976
-                dc.l word_11B966
-                dc.l word_11B96E
-                dc.l 0
-                dc.l 0
-                dc.l 0
-                dc.l 0
+                ; AnimTable_20
+                dc.w $0005              ; frameDelay
+                dc.l word_11B546        ; animFrames[0]
+                dc.l word_11B556        ; animFrames[1]
+                dc.l word_11B54E        ; animFrames[2]
+                dc.l word_11B55E        ; animFrames[3]
+                dc.l word_11B54A        ; animFrames[4]
+                dc.l word_11B562        ; animFrames[5]
+                dc.l word_11B552        ; animFrames[6]
+                dc.l word_11B55A        ; animFrames[7]
+                dc.l word_11B95A        ; animFrames[8]
+                dc.l word_11B96A        ; animFrames[9]
+                dc.l word_11B962        ; animFrames[10]
+                dc.l word_11B972        ; animFrames[11]
+                dc.l word_11B95E        ; animFrames[12]
+                dc.l word_11B976        ; animFrames[13]
+                dc.l word_11B966        ; animFrames[14]
+                dc.l word_11B96E        ; animFrames[15]
+                dc.l 0                  ; animFrames[16]
+                dc.l 0                  ; animFrames[17]
+                dc.l 0                  ; animFrames[18]
+                dc.l 0                  ; animFrames[19]
 ; AnimTable
 goalieCatchingBallAnimTable:
                 ; AnimTable
-                ; ANIMTABLE
                 dc.w $0005              ; frameDelay
                 dc.l 0                  ; animFrames[0]
                 dc.l 0                  ; animFrames[1]
@@ -33677,7 +33733,6 @@ goalieCatchingBallAnimTable:
 ; AnimTable
 aboutToThrowInAnimTable:
                 ; AnimTable
-                ; ANIMTABLE
                 dc.w $0005              ; frameDelay
                 dc.l word_11B7A6        ; animFrames[0]
                 dc.l word_11B7DE        ; animFrames[1]
@@ -33714,7 +33769,6 @@ aboutToThrowInAnimTable:
 ; AnimTable
 throwInPassAnimTable:
                 ; AnimTable
-                ; ANIMTABLE
                 dc.w $0005              ; frameDelay
                 dc.l word_11B816        ; animFrames[0]
                 dc.l word_11B836        ; animFrames[1]
@@ -33897,7 +33951,6 @@ leftGoalieJumpingHighAnimTable:
 ; AnimTable
 rightGoalieJumpingHighAnimTable:
                 ; AnimTable
-                ; ANIMTABLE
                 dc.w $0005              ; frameDelay
                 dc.l 0                  ; animFrames[0]
                 dc.l 0                  ; animFrames[1]
@@ -33934,7 +33987,6 @@ rightGoalieJumpingHighAnimTable:
 ; AnimTable
 leftGoalieJumpingLowAnimTable:
                 ; AnimTable
-                ; ANIMTABLE
                 dc.w $0005              ; frameDelay
                 dc.l 0                  ; animFrames[0]
                 dc.l 0                  ; animFrames[1]
@@ -34044,7 +34096,6 @@ rightGoalieJumpingLowAnimTable:
 ; AnimTable
 stru_11C9D6:
                 ; AnimTable
-                ; ANIMTABLE
                 dc.w $0005              ; frameDelay
                 dc.l 0                  ; animFrames[0]
                 dc.l 0                  ; animFrames[1]
@@ -34081,7 +34132,6 @@ stru_11C9D6:
 ; AnimTable
 plGettingYellowCardAnimTable:
                 ; AnimTable
-                ; ANIMTABLE
                 dc.w $0005              ; frameDelay
                 dc.l team1PlGettingYellowCardFrames ; animFrames[0]
                 dc.l team1PlGettingYellowCardFrames ; animFrames[1]
@@ -34118,7 +34168,6 @@ plGettingYellowCardAnimTable:
 ; AnimTable
 plGettingRedCardAnimTable:
                 ; AnimTable
-                ; ANIMTABLE
                 dc.w $0005              ; frameDelay
                 dc.l team1PlayerGettingRedCardFrames ; animFrames[0]
                 dc.l team1PlayerGettingRedCardFrames ; animFrames[1]
@@ -34155,7 +34204,6 @@ plGettingRedCardAnimTable:
 ; AnimTable
 plGetting2ndYellowCardAnimTable:
                 ; AnimTable
-                ; ANIMTABLE
                 dc.w $0005              ; frameDelay
                 dc.l team1PlGetting2ndYellowCardFrames ; animFrames[0]
                 dc.l team1PlGetting2ndYellowCardFrames ; animFrames[1]
@@ -34192,7 +34240,6 @@ plGetting2ndYellowCardAnimTable:
 ; AnimTable
 plInjuredAnimTable:
                 ; AnimTable
-                ; ANIMTABLE
                 dc.w $0005              ; frameDelay
                 dc.l team1InjuredPlayerTopLeftTable ; animFrames[0]
                 dc.l team1InjuredPlayerTopLeftTable ; animFrames[1]
@@ -34229,7 +34276,6 @@ plInjuredAnimTable:
 ; AnimTable
 playerLosingReactionAnimTable:
                 ; AnimTable
-                ; ANIMTABLE
                 dc.w $0005              ; frameDelay
                 dc.l word_11B42A        ; animFrames[0]
                 dc.l word_11B42A        ; animFrames[1]
@@ -34266,7 +34312,6 @@ playerLosingReactionAnimTable:
 ; AnimTable
 playerWinningReactionAnimTable:
                 ; AnimTable
-                ; ANIMTABLE
                 dc.w $0005              ; frameDelay
                 dc.l word_11B442        ; animFrames[0]
                 dc.l word_11B442        ; animFrames[1]
@@ -34300,64 +34345,73 @@ playerWinningReactionAnimTable:
                 dc.l 0                  ; animFrames[29]
                 dc.l 0                  ; animFrames[30]
                 dc.l 0                  ; animFrames[31]
+; AnimTable_8
 refComingAnimTable:
-                dc.w $0005
-                dc.l word_11BECE
-                dc.l word_11BECE
-                dc.l word_11BECE
-                dc.l word_11BED8
-                dc.l word_11BED8
-                dc.l word_11BED8
-                dc.l word_11BED8
-                dc.l word_11BECE
+                ; AnimTable_8
+                dc.w $0005              ; frameDelay
+                dc.l word_11BECE        ; animFrames[0]
+                dc.l word_11BECE        ; animFrames[1]
+                dc.l word_11BECE        ; animFrames[2]
+                dc.l word_11BED8        ; animFrames[3]
+                dc.l word_11BED8        ; animFrames[4]
+                dc.l word_11BED8        ; animFrames[5]
+                dc.l word_11BED8        ; animFrames[6]
+                dc.l word_11BECE        ; animFrames[7]
+; AnimTable_12
 refWaitingAnimTable:
-                dc.w $0005
-                dc.l word_11BEEA
-                dc.l word_11BEEA
-                dc.l word_11BEEA
-                dc.l word_11BEEA
-                dc.l word_11BEEA
-                dc.l word_11BEEA
-                dc.l word_11BEEA
-                dc.l word_11BEEA
-                dc.l word_11BEE6
-                dc.l word_11BEE6
-                dc.l word_11BEEA
-                dc.l word_11BEE2
+                ; AnimTable_12
+                dc.w $0005              ; frameDelay
+                dc.l word_11BEEA        ; animFrames[0]
+                dc.l word_11BEEA        ; animFrames[1]
+                dc.l word_11BEEA        ; animFrames[2]
+                dc.l word_11BEEA        ; animFrames[3]
+                dc.l word_11BEEA        ; animFrames[4]
+                dc.l word_11BEEA        ; animFrames[5]
+                dc.l word_11BEEA        ; animFrames[6]
+                dc.l word_11BEEA        ; animFrames[7]
+                dc.l word_11BEE6        ; animFrames[8]
+                dc.l word_11BEE6        ; animFrames[9]
+                dc.l word_11BEEA        ; animFrames[10]
+                dc.l word_11BEE2        ; animFrames[11]
+; AnimTable_8
 refYellowCardAnimTable:
-                dc.w $0005
-                dc.l word_11BEEE
-                dc.l word_11BEEE
-                dc.l word_11BEEE
-                dc.l word_11BEEE
-                dc.l word_11BEEE
-                dc.l word_11BEEE
-                dc.l word_11BEEE
-                dc.l word_11BEEE
+                ; AnimTable_8
+                dc.w $0005              ; frameDelay
+                dc.l word_11BEEE        ; animFrames[0]
+                dc.l word_11BEEE        ; animFrames[1]
+                dc.l word_11BEEE        ; animFrames[2]
+                dc.l word_11BEEE        ; animFrames[3]
+                dc.l word_11BEEE        ; animFrames[4]
+                dc.l word_11BEEE        ; animFrames[5]
+                dc.l word_11BEEE        ; animFrames[6]
+                dc.l word_11BEEE        ; animFrames[7]
+; AnimTable_8
 refRedCardAnimTable:
-                dc.w $0005
-                dc.l word_11BF20
-                dc.l word_11BF20
-                dc.l word_11BF20
-                dc.l word_11BF20
-                dc.l word_11BF20
-                dc.l word_11BF20
-                dc.l word_11BF20
-                dc.l word_11BF20
+                ; AnimTable_8
+                dc.w $0005              ; frameDelay
+                dc.l word_11BF20        ; animFrames[0]
+                dc.l word_11BF20        ; animFrames[1]
+                dc.l word_11BF20        ; animFrames[2]
+                dc.l word_11BF20        ; animFrames[3]
+                dc.l word_11BF20        ; animFrames[4]
+                dc.l word_11BF20        ; animFrames[5]
+                dc.l word_11BF20        ; animFrames[6]
+                dc.l word_11BF20        ; animFrames[7]
+; AnimTable_8
 refSecondYellowAnimTable:
-                dc.w $0005
-                dc.l refSecondYellowFrames
-                dc.l refSecondYellowFrames
-                dc.l refSecondYellowFrames
-                dc.l refSecondYellowFrames
-                dc.l refSecondYellowFrames
-                dc.l refSecondYellowFrames
-                dc.l refSecondYellowFrames
-                dc.l refSecondYellowFrames
+                ; AnimTable_8
+                dc.w $0005              ; frameDelay
+                dc.l refSecondYellowFrames ; animFrames[0]
+                dc.l refSecondYellowFrames ; animFrames[1]
+                dc.l refSecondYellowFrames ; animFrames[2]
+                dc.l refSecondYellowFrames ; animFrames[3]
+                dc.l refSecondYellowFrames ; animFrames[4]
+                dc.l refSecondYellowFrames ; animFrames[5]
+                dc.l refSecondYellowFrames ; animFrames[6]
+                dc.l refSecondYellowFrames ; animFrames[7]
 ; CharTable
 smallCharsTable:
                 ; CharTable
-                ; CHARTABLE
                 dc.w $0006              ; unk1
                 dc.w $0006              ; charHeight
                 dc.l $00050005          ; unk2
@@ -34591,7 +34645,6 @@ smallCharsTable:
 ; CharTable
 bigCharsTable:
                 ; CharTable
-                ; CHARTABLE
                 dc.w $0008              ; unk1
                 dc.w $0008              ; charHeight
                 dc.l $00070007          ; unk2
@@ -34830,14 +34883,13 @@ ballMovingFrameIndices:
 ballStaticFrameIndices:
                 ; __int16[3]
                 dc.w 1068,1068,-1
-padding_27:
+pad_11D00A:
                 dc.w $00E3,$00E4,$00E5,$00E6,$00E7,$00E8,$00E9,$00EA
                 dc.w $00EB,$00EC,$00ED,$00EE,$0212,$0213,$0214,$0215
                 dc.w $0216,$0217,$0218,$0219,$021A,$021B,$021C,$021D
 ; Sprite
 big_S_Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -34897,7 +34949,6 @@ big_S_Sprite:
 ; Sprite
 cornerFlagSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0003              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -35424,7 +35475,6 @@ advertInGameSprites:
 ; Sprite
 refereeSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0003              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -35484,7 +35534,6 @@ refereeSprite:
 ; Sprite
 currentTimeSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -35544,7 +35593,6 @@ currentTimeSprite:
 ; Sprite
 resultOnHalftimeSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -35604,7 +35652,6 @@ resultOnHalftimeSprite:
 ; Sprite
 resultAfterTheGameSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -35664,7 +35711,6 @@ resultAfterTheGameSprite:
 ; Sprite
 gridUpperRowLeftSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -35724,7 +35770,6 @@ gridUpperRowLeftSprite:
 ; Sprite
 gridUpperRowRightSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -35784,7 +35829,6 @@ gridUpperRowRightSprite:
 ; Sprite
 gridMiddleRowLeftSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -35844,7 +35888,6 @@ gridMiddleRowLeftSprite:
 ; Sprite
 gridMiddleRowRightSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -35904,7 +35947,6 @@ gridMiddleRowRightSprite:
 ; Sprite
 gridBottomRowLeftSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -35964,7 +36006,6 @@ gridBottomRowLeftSprite:
 ; Sprite
 gridBottomRowRightSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -36024,7 +36065,6 @@ gridBottomRowRightSprite:
 ; Sprite
 team1NameSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -36084,7 +36124,6 @@ team1NameSprite:
 ; Sprite
 team2NameSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -36144,7 +36183,6 @@ team2NameSprite:
 ; Sprite
 team1GoalsDigit2Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -36204,7 +36242,6 @@ team1GoalsDigit2Sprite:
 ; Sprite
 team1GoalsDigit1Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -36264,7 +36301,6 @@ team1GoalsDigit1Sprite:
 ; Sprite
 team2GoalsDigit2Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -36324,7 +36360,6 @@ team2GoalsDigit2Sprite:
 ; Sprite
 team2GoalsDigit1Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -36384,7 +36419,6 @@ team2GoalsDigit1Sprite:
 ; Sprite
 team1TotalGoalsDigit2Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -36444,7 +36478,6 @@ team1TotalGoalsDigit2Sprite:
 ; Sprite
 team1TotalGoalsDigit1Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -36504,7 +36537,6 @@ team1TotalGoalsDigit1Sprite:
 ; Sprite
 team2TotalGoalsDigit2Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -36564,7 +36596,6 @@ team2TotalGoalsDigit2Sprite:
 ; Sprite
 team2TotalGoalsDigit1Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -36624,7 +36655,6 @@ team2TotalGoalsDigit1Sprite:
 ; Sprite
 dashSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -36684,7 +36714,6 @@ dashSprite:
 ; Sprite
 team1Scorer1Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -36744,7 +36773,6 @@ team1Scorer1Sprite:
 ; Sprite
 team1Scorer2Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -36804,7 +36832,6 @@ team1Scorer2Sprite:
 ; Sprite
 team1Scorer3Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -36864,7 +36891,6 @@ team1Scorer3Sprite:
 ; Sprite
 team1Scorer4Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -36924,7 +36950,6 @@ team1Scorer4Sprite:
 ; Sprite
 team1Scorer5Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -36984,7 +37009,6 @@ team1Scorer5Sprite:
 ; Sprite
 team1Scorer6Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -37044,7 +37068,6 @@ team1Scorer6Sprite:
 ; Sprite
 team1Scorer7Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -37104,7 +37127,6 @@ team1Scorer7Sprite:
 ; Sprite
 team1Scorer8Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -37164,7 +37186,6 @@ team1Scorer8Sprite:
 ; Sprite
 team2Scorer1Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -37224,7 +37245,6 @@ team2Scorer1Sprite:
 ; Sprite
 team2Scorer2Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -37284,7 +37304,6 @@ team2Scorer2Sprite:
 ; Sprite
 team2Scorer3Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -37344,7 +37363,6 @@ team2Scorer3Sprite:
 ; Sprite
 team2Scorer4Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -37404,7 +37422,6 @@ team2Scorer4Sprite:
 ; Sprite
 team2Scorer5Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -37464,7 +37481,6 @@ team2Scorer5Sprite:
 ; Sprite
 team2Scorer6Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -37524,7 +37540,6 @@ team2Scorer6Sprite:
 ; Sprite
 team2Scorer7Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -37584,7 +37599,6 @@ team2Scorer7Sprite:
 ; Sprite
 team2Scorer8Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -37644,7 +37658,6 @@ team2Scorer8Sprite:
 ; Sprite
 goal1TopSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0003              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -37704,7 +37717,6 @@ goal1TopSprite:
 ; Sprite
 goal2BottomSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0003              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -37764,7 +37776,6 @@ goal2BottomSprite:
 ; Sprite
 ballSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0003              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -37824,7 +37835,6 @@ ballSprite:
 ; Sprite
 ballShadowSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0003              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -37884,7 +37894,6 @@ ballShadowSprite:
 ; Sprite
 playerMarkSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -37944,7 +37953,6 @@ playerMarkSprite:
 ; Sprite
 currentPlayerNameSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38004,7 +38012,6 @@ currentPlayerNameSprite:
 ; Sprite
 team1CurPlayerNumSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38064,7 +38071,6 @@ team1CurPlayerNumSprite:
 ; Sprite
 team2CurPlayerNumSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38124,7 +38130,6 @@ team2CurPlayerNumSprite:
 ; Sprite
 bookedPlayerCardOrNumberSprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0003              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38184,7 +38189,6 @@ bookedPlayerCardOrNumberSprite:
 ; Sprite
 goalie1Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0001              ; teamNumber
                 dc.w $0001              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38244,7 +38248,6 @@ goalie1Sprite:
 ; Sprite
 team1Player2Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0001              ; teamNumber
                 dc.w $0002              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38304,7 +38307,6 @@ team1Player2Sprite:
 ; Sprite
 team1Player3Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0001              ; teamNumber
                 dc.w $0003              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38364,7 +38366,6 @@ team1Player3Sprite:
 ; Sprite
 team1Player4Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0001              ; teamNumber
                 dc.w $0004              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38424,7 +38425,6 @@ team1Player4Sprite:
 ; Sprite
 team1Player5Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0001              ; teamNumber
                 dc.w $0005              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38484,7 +38484,6 @@ team1Player5Sprite:
 ; Sprite
 team1Player6Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0001              ; teamNumber
                 dc.w $0006              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38544,7 +38543,6 @@ team1Player6Sprite:
 ; Sprite
 team1Player7Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0001              ; teamNumber
                 dc.w $0007              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38604,7 +38602,6 @@ team1Player7Sprite:
 ; Sprite
 team1Player8Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0001              ; teamNumber
                 dc.w $0008              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38664,7 +38661,6 @@ team1Player8Sprite:
 ; Sprite
 team1Player9Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0001              ; teamNumber
                 dc.w $0009              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38724,7 +38720,6 @@ team1Player9Sprite:
 ; Sprite
 team1Player10Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0001              ; teamNumber
                 dc.w $000A              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38784,7 +38779,6 @@ team1Player10Sprite:
 ; Sprite
 team1Player11Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0001              ; teamNumber
                 dc.w $000B              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38844,7 +38838,6 @@ team1Player11Sprite:
 ; Sprite
 goalie2Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0002              ; teamNumber
                 dc.w $0001              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38904,7 +38897,6 @@ goalie2Sprite:
 ; Sprite
 team2Player2Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0002              ; teamNumber
                 dc.w $0002              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38964,7 +38956,6 @@ team2Player2Sprite:
 ; Sprite
 team2Player3Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0002              ; teamNumber
                 dc.w $0003              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -39024,7 +39015,6 @@ team2Player3Sprite:
 ; Sprite
 team2Player4Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0002              ; teamNumber
                 dc.w $0004              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -39084,7 +39074,6 @@ team2Player4Sprite:
 ; Sprite
 team2Player5Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0002              ; teamNumber
                 dc.w $0005              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -39144,7 +39133,6 @@ team2Player5Sprite:
 ; Sprite
 team2Player6Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0002              ; teamNumber
                 dc.w $0006              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -39204,7 +39192,6 @@ team2Player6Sprite:
 ; Sprite
 team2Player7Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0002              ; teamNumber
                 dc.w $0007              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -39264,7 +39251,6 @@ team2Player7Sprite:
 ; Sprite
 team2Player8Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0002              ; teamNumber
                 dc.w $0008              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -39324,7 +39310,6 @@ team2Player8Sprite:
 ; Sprite
 team2Player9Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0002              ; teamNumber
                 dc.w $0009              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -39384,7 +39369,6 @@ team2Player9Sprite:
 ; Sprite
 team2Player10Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0002              ; teamNumber
                 dc.w $000A              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -39444,7 +39428,6 @@ team2Player10Sprite:
 ; Sprite
 team2Player11Sprite:
                 ; Sprite
-                ; SPRITE
                 dc.w $0002              ; teamNumber
                 dc.w $000B              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -41724,6 +41707,7 @@ right:
                 dc.b $00
 fireResetFlag:
                 dc.w $0000
+; Menu *
 g_currentMenuPtr:
                 dc.l 0                  ; current menu, in packed form
 menuStatus:
@@ -41832,7 +41816,7 @@ loc_11FC7A:
 UnpackMenu:
                 clr.w   d2
                 move.l  a1,d0
-                addi.l  #MENU_SIZE+MENU_INITFUNC,d0
+                addi.l  #MENU_SIZE+MENU_ONINIT,d0
                 cmpi.l  #diyLeagueScratchBuffer,d0
                 bhi.w   loc_120038
                 clr.w   (menuX).l
@@ -41841,10 +41825,10 @@ UnpackMenu:
                 bsr.w   InitMenuEntry
                 movea.l a1,a6
                 move.l  (a0)+,(a1)
-                move.l  (a0)+,MENU_ONRETURN(a1)
+                move.l  (a0)+,MENU_AFTERDRAW(a1)
                 move.l  (a0)+,MENU_ONDRAW(a1)
                 move.l  (a0)+,MENU_SELECTEDENTRY(a1)
-                adda.l  #MENU_SIZE+MENU_INITFUNC,a1
+                adda.l  #MENU_SIZE+MENU_ONINIT,a1
                 clr.w   d7
 loc_11FCCA:
                 cmpi.w  #64537,(a0)
@@ -41959,7 +41943,7 @@ loc_11FE24:
 loc_11FE60:
                 adda.l  #$38,a0         ; '8'
                 dbf     d0,loc_11FE24
-                move.l  a1,MENU_MENUENDPTR(a6)
+                move.l  a1,MENU_ENDOFMENUPTR(a6)
                 move.l  #diyLeagueScratchBuffer,d0
                 sub.l   a1,d0
                 move.l  d0,(dword_9978C).l
@@ -42155,7 +42139,7 @@ MenuProc:
                 move.w  #$9999,(panicReasonCode).l
                 bra.s   fatal_stack_overflow
 aStackOverflow:
-                dc.b 'STACK OVERFLOW',0,$00
+                dc.b 'STACK OVERFLOW',0,0
 fatal_stack_overflow:
                 move.l  #aStackOverflow,(g_errorMessagePtr).l ; "STACK OVERFLOW" ...
                 jsr     PanicHaltLoop
@@ -42995,7 +42979,7 @@ SetCurrentEntry:
 ;      [ebp safe]
 CalcMenuEntryAddress:
                 lea     (g_currentMenu).l,a0
-                adda.l  #MENU_SIZE+MENU_INITFUNC,a0
+                adda.l  #MENU_SIZE+MENU_ONINIT,a0
                 mulu.w  #MENUENTRY_SIZE+MENUENTRY_ALREADYDRAWN,d0
                 adda.l  d0,a0
                 rts
@@ -43359,7 +43343,7 @@ loc_120F58:
                 jsr     PanicHaltLoop
 g_allowExtraCharsFlag:
                 dc.w $0000              ; if true, allows '.' when typing in... at least in theory
-padding_28:
+pad_120F68:
                 dc.b "S@"
 menu_mark_entries_active_loop:
                 move.w  #1,4(a5)
@@ -43860,7 +43844,7 @@ DrawMenu:
                 jsr BlitterCopyPanelToScreen2(pc)
                 jsr     DrawMenuPanelBackground
                 lea     (g_currentMenu).l,a6
-                lea     MENU_SIZE+MENU_INITFUNC(a6),a5
+                lea     MENU_SIZE+MENU_ONINIT(a6),a5
                 move.w  MENU_NUMENTRIES(a6),d7
                 subq.w  #1,d7
 init_entry_flags_loop:
@@ -43875,7 +43859,7 @@ init_entry_flags_loop:
                 jsr     (a0)
                 movem.l (sp)+,a6
 begin_draw_entries:
-                lea     MENU_SIZE+MENU_INITFUNC(a6),a5
+                lea     MENU_SIZE+MENU_ONINIT(a6),a5
                 move.w  MENU_NUMENTRIES(a6),d7
                 subq.w  #1,d7
 draw_entries_loop:
@@ -43888,7 +43872,7 @@ draw_entries_loop:
                 jmp     BlitterCopyOverlayToScreen
 aSwosDate0:
                 dc.b 'SWOS DATE: %0',0
-padding_29:
+pad_121558:
                 dc.b $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
                 dc.b $00,$00,$00,$00
 
@@ -43968,7 +43952,7 @@ ActivateMenu:
                 move.l  a0,MENU_SELECTEDENTRY(a6)
 resolve_selected_entry_ptr:
                 movea.l (a6),a0
-                cmpa.l  #MENU_INITFUNC,a0
+                cmpa.l  #MENU_ONINIT,a0
                 beq.s   after_init_check_exit
                 movem.l a6,-(sp)
                 jsr     (a0)
@@ -45783,7 +45767,6 @@ quadrantCoordinatesToBallQuadrant:
 ; TeamTactics
 tact_4_4_2:
                 ; TeamTactics
-                ; TEAMTACTICS
                 dc.b $34                ; tacticsName[0]
                 dc.b $34                ; tacticsName[1]
                 dc.b $32                ; tacticsName[2]
@@ -45817,7 +45800,6 @@ tact_4_4_2:
 ; TeamTactics
 tact_5_4_1:
                 ; TeamTactics
-                ; TEAMTACTICS
                 dc.b $35                ; tacticsName[0]
                 dc.b $34                ; tacticsName[1]
                 dc.b $31                ; tacticsName[2]
@@ -45851,7 +45833,6 @@ tact_5_4_1:
 ; TeamTactics
 tact_4_5_1:
                 ; TeamTactics
-                ; TEAMTACTICS
                 dc.b $34                ; tacticsName[0]
                 dc.b $35                ; tacticsName[1]
                 dc.b $31                ; tacticsName[2]
@@ -45885,7 +45866,6 @@ tact_4_5_1:
 ; TeamTactics
 tact_5_3_2:
                 ; TeamTactics
-                ; TEAMTACTICS
                 dc.b $35                ; tacticsName[0]
                 dc.b $33                ; tacticsName[1]
                 dc.b $32                ; tacticsName[2]
@@ -45919,7 +45899,6 @@ tact_5_3_2:
 ; TeamTactics
 tact_3_5_2:
                 ; TeamTactics
-                ; TEAMTACTICS
                 dc.b $33                ; tacticsName[0]
                 dc.b $35                ; tacticsName[1]
                 dc.b $32                ; tacticsName[2]
@@ -45953,7 +45932,6 @@ tact_3_5_2:
 ; TeamTactics
 tact_4_3_3:
                 ; TeamTactics
-                ; TEAMTACTICS
                 dc.b $34                ; tacticsName[0]
                 dc.b $33                ; tacticsName[1]
                 dc.b $33                ; tacticsName[2]
@@ -45987,7 +45965,6 @@ tact_4_3_3:
 ; TeamTactics
 tact_4_2_4:
                 ; TeamTactics
-                ; TEAMTACTICS
                 dc.b $34                ; tacticsName[0]
                 dc.b $32                ; tacticsName[1]
                 dc.b $34                ; tacticsName[2]
@@ -46021,7 +45998,6 @@ tact_4_2_4:
 ; TeamTactics
 tact_3_4_3:
                 ; TeamTactics
-                ; TEAMTACTICS
                 dc.b $33                ; tacticsName[0]
                 dc.b $34                ; tacticsName[1]
                 dc.b $33                ; tacticsName[2]
@@ -46055,7 +46031,6 @@ tact_3_4_3:
 ; TeamTactics
 tacticsSweep:
                 ; TeamTactics
-                ; TEAMTACTICS
                 dc.b $53                ; tacticsName[0]
                 dc.b $57                ; tacticsName[1]
                 dc.b $45                ; tacticsName[2]
@@ -46089,7 +46064,6 @@ tacticsSweep:
 ; TeamTactics
 tact_5_2_3:
                 ; TeamTactics
-                ; TEAMTACTICS
                 dc.b $35                ; tacticsName[0]
                 dc.b $32                ; tacticsName[1]
                 dc.b $33                ; tacticsName[2]
@@ -46123,7 +46097,6 @@ tact_5_2_3:
 ; TeamTactics
 tacticsAttack:
                 ; TeamTactics
-                ; TEAMTACTICS
                 dc.b $41                ; tacticsName[0]
                 dc.b $54                ; tacticsName[1]
                 dc.b $54                ; tacticsName[2]
@@ -46157,7 +46130,6 @@ tacticsAttack:
 ; TeamTactics
 tacticsDefend:
                 ; TeamTactics
-                ; TEAMTACTICS
                 dc.b $44                ; tacticsName[0]
                 dc.b $45                ; tacticsName[1]
                 dc.b $46                ; tacticsName[2]
@@ -46387,7 +46359,7 @@ plPricesIncreaseTable:
                 dc.b $09,$09,$09,$09,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A
                 dc.b $0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A
                 dc.b $0A,$0A
-padding_31:
+pad_12487C:
                 dc.l byte_122E85
 plPositions:
                 dc.l 0
@@ -47379,7 +47351,7 @@ loc_125426:
                 btst    d1,-(a0)
                 andi.w  #$190,(a0)+
                 btst    d0,$FA(a4)
-padding_32:
+pad_125430:
                 dc.b $00,$C8
 
 ; ===== sub_125432 =====
@@ -48608,7 +48580,7 @@ loc_12653A:
                 lea     (avgTeamValueBases).l,a0
                 move.w  (a0,d0.w),d0
                 bra.w   loc_127414
-padding_33:
+pad_12654E:
                 dc.b $00,$00
 
 ; ===== sub_126550 =====
@@ -49016,7 +48988,7 @@ word_126A8C:
                 dc.w -1
 word_126A8E:
                 dc.w $0000
-padding_34:
+pad_126A90:
                 dc.b $00,$00,$00,$00
 
 ; ===== sub_126A94 =====
@@ -49959,7 +49931,7 @@ GetBankBalance:
 ; Accepts only positive values.
 Int2Pounds:
                 bsr.w   nullsub_11
-                lea     (pound).l,a0    ; "�"
+                lea     (aPound).l,a0   ; "�"
                 jsr StringCopy(pc)
                 bsr.w   Int2StrWithCommas
                 lea     (nullString_0).l,a0
@@ -52127,7 +52099,7 @@ team1AppPercent:
                                         ; formula: sel. teams app * 100 / this team app + 6
 team2AppPercent:
                 dc.w $0000
-padding_35:
+pad_128EDC:
                 dc.b 'cd_dZdUdPdKdFdAdcd_dZdUdPdKdFdAd',0,$00
 
 ; ===== PlayFriendly =====
@@ -62269,8 +62241,8 @@ loc_130A82:
                 move.w  #1,MENUENTRY_ISINVISIBLE+$E0(a0)
                 move.w  #1,MENUENTRY_ISINVISIBLE+$118(a0)
 loc_130AB2:
-                lea     (teamNumbersIndices_).l,a4
-                lea     (teamPointers_).l,a5
+                lea     (teamsIndex).l,a4
+                lea     (teamsPtrTable).l,a5
                 move.w  (teamFileBuffer).l,d0
                 subq.w  #1,d0
                 lea     ((teamFileBuffer+2)).l,a0
@@ -62295,9 +62267,9 @@ loc_130AF2:
                 move.w  (word_13112A).l,d2
                 subq.w  #2,d2
                 bmi.w   loc_130B5C
-                lea     (teamPointers_).l,a3
+                lea     (teamsPtrTable).l,a3
 loc_130B14:
-                lea     (teamNumbersIndices_).l,a2
+                lea     (teamsIndex).l,a2
                 clr.w   d3
                 move.w  d2,d1
 loc_130B1E:
@@ -62360,42 +62332,42 @@ loc_130BBC:
 loc_130BC6:
                 cmpi.w  #$30,(word_13112A).l ; '0'
                 bcs.s   loc_130BEC
-                move.w  #$10,(viewTeamsColumn1_).l
-                move.w  #$10,(viewTeamsColumn2_).l
+                move.w  #$10,(word_131124).l
+                move.w  #$10,(word_131126).l
                 move.w  #$10,(word_131128).l
                 bra.w   loc_130C52
 loc_130BEC:
                 cmpi.w  #8,(word_13112A).l
                 bhi.s   loc_130C10
-                clr.w   (viewTeamsColumn1_).l
-                move.w  (word_13112A).l,(viewTeamsColumn2_).l
+                clr.w   (word_131124).l
+                move.w  (word_13112A).l,(word_131126).l
                 clr.w   (word_131128).l
                 bra.w   loc_130C52
 loc_130C10:
                 move.w  (word_13112A).l,d0
                 ext.l   d0
                 divu.w  #3,d0
-                move.w  d0,(viewTeamsColumn1_).l
-                move.w  d0,(viewTeamsColumn2_).l
+                move.w  d0,(word_131124).l
+                move.w  d0,(word_131126).l
                 move.w  d0,(word_131128).l
                 swap    d0
                 cmpi.w  #1,d0
                 bne.s   loc_130C40
-                addq.w  #1,(viewTeamsColumn2_).l
+                addq.w  #1,(word_131126).l
                 bra.w   loc_130C52
 loc_130C40:
                 cmpi.w  #2,d0
                 bne.s   loc_130C52
-                addq.w  #1,(viewTeamsColumn1_).l
-                addq.w  #1,(viewTeamsColumn2_).l
+                addq.w  #1,(word_131124).l
+                addq.w  #1,(word_131126).l
 loc_130C52:
                 bsr.w   sub_13105E
                 bsr.w   ChooseTeamsSetHeader
                 bsr.w   CheckNumTeamsAllowed
                 bra.w   *+4
 loc_130C62:
-                lea     (teamNumbersIndices_).l,a4
-                lea     (teamPointers_).l,a5
+                lea     (teamsIndex).l,a4
+                lea     (teamsPtrTable).l,a5
                 lea     (teamsTable).l,a3
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$188)).l,a2
                 clr.w   d6
@@ -62408,12 +62380,12 @@ loc_130C82:
                 ext.l   d0
                 divu.w  #$10,d0
                 bne.s   loc_130C98
-                move.w  (viewTeamsColumn1_).l,d1
+                move.w  (word_131124).l,d1
                 bra.s   loc_130CAE
 loc_130C98:
                 cmpi.w  #1,d0
                 bne.s   loc_130CA6
-                move.w  (viewTeamsColumn2_).l,d1
+                move.w  (word_131126).l,d1
                 bra.s   loc_130CAE
 loc_130CA6:
                 move.w  d2,d1
@@ -62434,8 +62406,8 @@ loc_130CCA:
                 move.w  #5,d2
 loc_130CDA:
                 clr.w   4(a2)
-                lea     (teamNumbersIndices_).l,a4
-                lea     (teamPointers_).l,a5
+                lea     (teamsIndex).l,a4
+                lea     (teamsPtrTable).l,a5
                 move.b  (a4,d5.w),d0
                 ext.w   d0
                 lsl.w   #2,d0
@@ -62515,16 +62487,16 @@ ChooseTeamsFriendlyCommon2:
                 cmpi.w  #32,d0
                 bcs.s   loc_130DFC
                 subi.w  #16,d0
-                add.w   (viewTeamsColumn2_).l,d0
+                add.w   (word_131126).l,d0
 loc_130DFC:
                 subi.w  #16,d0
-                add.w   (viewTeamsColumn1_).l,d0
+                add.w   (word_131124).l,d0
 loc_130E06:
-                lea     (teamNumbersIndices_).l,a0
+                lea     (teamsIndex).l,a0
                 move.b  (a0,d0.w),d0
                 ext.w   d0
                 lsl.w   #2,d0
-                lea     (teamPointers_).l,a0
+                lea     (teamsPtrTable).l,a0
                 movea.l (a0,d0.w),a0
                 move.l  a0,(selectedTeamPtr).l
                 move.w  (a0),(selectedTeamCountryNumber).l
@@ -62699,10 +62671,10 @@ sub_13105E:
                 move.w  d0,(word_13112C).l
                 lea     ((g_menuEntries+MENUENTRY_ALREADYDRAWN+$C40)).l,a0
                 move.w  MENUENTRY_Y(a0),(word_13112E).l
-                move.w  (viewTeamsColumn1_).l,d0
-                cmp.w   (viewTeamsColumn2_).l,d0
+                move.w  (word_131124).l,d0
+                cmp.w   (word_131126).l,d0
                 bhi.s   loc_131090
-                move.w  (viewTeamsColumn2_).l,d0
+                move.w  (word_131126).l,d0
 loc_131090:
                 cmp.w   (word_131128).l,d0
                 bhi.s   loc_13109E
@@ -62745,9 +62717,9 @@ loc_13110E:
                 dbf     d3,loc_13110E
                 dbf     d2,loc_131108
                 rts
-viewTeamsColumn1_:
+word_131124:
                 dc.w $0000
-viewTeamsColumn2_:
+word_131126:
                 dc.w $0000
 word_131128:
                 dc.w $0000
@@ -62758,17 +62730,20 @@ word_13112C:
 word_13112E:
                 dc.w $0000
 selectedTeamPtr:
-                dc.l 0
+                dc.l 0                  ; pointer to currently selected team
 selectedTeamCountryNumber:
-                dc.w $0000
+                dc.w $0000              ; country number of currently selected team
 chooseTeamsResult:
-                dc.w $0000
+                dc.w $0000              ; when loading team files, 0 means error
+                                        ; when selecting teams 0 means exiting, 1 = play match
+                                        ; in SelectTeamsFinalMenu: 0 = continue, !0 = abort
 changeTeams:
-                dc.w $0000
+                dc.w $0000              ; write only
 viewSelectedTeams:
-                dc.w $0000
+                dc.w $0000              ; these vars get set to 0 when selecting teams
+                                        ; from list just before the game
 abortSelectTeams:
-                dc.w $0000
+                dc.w $0000              ; = 1 when exit choose teams
 exitSelectTeams:
                 dc.w $0000
 
@@ -66393,7 +66368,7 @@ diyLeftTeamResult:
                 dc.w $0000
 diyRightTeamResult:
                 dc.w $0000
-padding_39:
+pad_133328:
                 dc.b 0,0
 
 ; ===== ShowDesignDIYCupMenu =====
@@ -69654,6 +69629,7 @@ optionsMenu:
                 dc.l aSwosVersion152    ; "SWOS VERSION 152"
                 dc.w $0000              ; -= end entry 14 =-
                 dc.w -999               ; -= end menu =-
+; void *
 pitchTypeStrTable:
                 dc.l g_pitchType
                 dc.w -2
@@ -69666,6 +69642,7 @@ pitchTypeStrTable:
                 dc.l aNormal            ; "NORMAL"
                 dc.l aDry               ; "DRY"
                 dc.l aHard              ; "HARD"
+; void *
 gameLengthStrTable:
                 dc.l g_gameLength
                 dc.w $0000
@@ -69673,21 +69650,25 @@ gameLengthStrTable:
                 dc.l a5Mins             ; "5 MINS"
                 dc.l a7Mins             ; "7 MINS"
                 dc.l a10Mins            ; "10 MINS"
+; void *
 autoReplaysStrTable:
                 dc.l g_autoReplays
                 dc.w $0000
                 dc.l aOff               ; "OFF"
                 dc.l aOn                ; "ON"
+; void *
 allPlTeamsEqualStrTable:
                 dc.l g_allPlayerTeamsEqual
                 dc.w $0000
                 dc.l aOff               ; "OFF"
                 dc.l aOn                ; "ON"
+; void *
 autoSaveHlStrTable:
                 dc.l g_autoSaveHighlights
                 dc.w $0000
                 dc.l aOff               ; "OFF"
                 dc.l aOn                ; "ON"
+; void *
 menuMusicStrTable:
                 dc.l g_menuMusic
                 dc.w $0000
@@ -72563,7 +72544,7 @@ diySelected:
                                         ; 1  - cup
                                         ; 2  - tournament
                                         ; -1 - leave DIY menu
-padding_40:
+pad_136DFA:
                 dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
                 dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
                 dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -79256,7 +79237,7 @@ j_SetExitMenuFlag2:
                 jmp     SetExitMenuFlag
 nationalityOrdinal:
                 dc.b $00
-padding_41:
+pad_13B35F:
                 dc.b $00
 viewCompetitionsMenu:
                 dc.l ViewCompetitionsInit ; on init function
@@ -93392,7 +93373,7 @@ word_1448EE:
                 dc.w $0000
 word_1448F0:
                 dc.w $0000
-padding_42:
+pad_1448F2:
                 dc.b 0,0
 word_1448F4:
                 dc.w $0000
@@ -94553,11 +94534,11 @@ word_14535C:
                 dc.w $0000
 word_14535E:
                 dc.w $0000
-padding_43:
+pad_145360:
                 dc.b 0,-1
 word_145362:
                 dc.w $0000
-padding_44:
+pad_145364:
                 dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
                 dc.b 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
                 dc.b 0,0,0,0,0,0
@@ -100617,42 +100598,60 @@ numNationalTeams:
 word_14978A:
                 dc.w $008E
 nationalTeams:
-                dc.b "P",0,$00,$00,$00,$13,$50,$02,$01,$01,$00,$18,$50,$04,$26,$4C,$00,$12,$50,$06,$03,$03,$00,$1C
-                dc.b $50,$08,$05,$05,$00,$10,$50,$0C,$09,$0A,$00,$0E,$50,$0D,$0A,$0B,$00,$0B,$50,$0E,$0B,$0C,$00,$15
-                dc.b $50,$12,$0E,$0F,$00,$18,$50,$15,$10,$11,$00,$11,$50,$16,$11,$13,$00,$12,$50,$18,$13,$15,$00,$0E
-                dc.b $50,$1A,$14,$16,$00,$12,$50,$1B,$15,$17,$00,$0E,$50,$1D,$16,$18,$00,$0F,$50,$1F,$18,$1A,$00,$14
-                dc.b $50,$20,$19,$1B,$00,$18,$50,$23,$2E,$12,$00,$1E,$50,$26,$1E,$20,$00,$0C,$50,$28,$27,$4E,$00,$17
-                dc.b $50,$29,$20,$22,$00,$13,$50,$2C,$2D,$25,$00,$1C,$50,$2D,$22,$26,$00,$17,$50,$2F,$24,$28,$00,$1C
-                dc.b $53,$03,$34,$33,$00,$0B,$53,$08,$38,$3C,$00,$13,$52,$01,$45,$2D,$00,$18,$52,$03,$47,$30,$00,$17
-                dc.b $52,$05,$49,$32,$00,$11,$52,$06,$4A,$40,$00,$10,$52,$07,$4F,$41,$00,$11,$53,$0C,$4B,$42,$00,$03
-                dc.b $52,$09,$4D,$4D,$00,$0A,$51,$00,$50,$2A,$00,$09,$51,$0B,$58,$4F,$00,$11,$51,$19,$51,$45,$00,$11
-                dc.b $54,$05,$78,$4B,$00,$09,$54,$09,$76,$37,$00,$0C,$54,$1B,$77,$43,$00,$09,$55,$00,$94,$2C,$00,$13
-                dc.b $55,$02,$95,$3E,$00,$0E,$50,$05,$02,$02,$00,$1E,$50,$09,$06,$06,$00,$1A,$50,$07,$04,$04,$00,$1D
-                dc.b $50,$0A,$07,$07,$00,$1C,$50,$0B,$08,$08,$00,$22,$50,$0F,$0C,$0D,$00,$20,$50,$11,$0D,$0E,$00,$23
-                dc.b $50,$13,$17,$19,$00,$21,$50,$14,$0F,$10,$00,$16,$50,$17,$12,$14,$00,$25,$50,$21,$1A,$1C,$00,$18
-                dc.b $50,$22,$1B,$1D,$00,$20,$50,$24,$1C,$1E,$00,$1F,$50,$25,$1D,$1F,$00,$1E,$50,$27,$1F,$21,$00,$1D
-                dc.b $50,$2A,$28,$23,$00,$21,$50,$2B,$21,$24,$00,$1E,$50,$2E,$23,$27,$00,$14,$52,$00,$44,$2B,$00,$20
-                dc.b $52,$02,$46,$2E,$00,$24,$52,$04,$48,$31,$00,$1C,$52,$08,$4C,$47,$00,$1C,$50,$01,$00,$00,$00,$0E
-                dc.b $50,$03,$00,$00,$00,$0E,$50,$10,$00,$00,$00,$13,$50,$19,$00,$00,$00,$0B,$50,$1C,$00,$00,$00,$14
-                dc.b $50,$1E,$00,$00,$00,$11,$53,$00,$00,$00,$00,$01,$53,$01,$00,$00,$00,$10,$53,$02,$00,$00,$00,$11
-                dc.b $53,$04,$00,$00,$00,$08,$53,$05,$00,$00,$00,$01,$53,$06,$00,$00,$00,$03,$53,$07,$00,$00,$00,$01
-                dc.b $53,$09,$00,$00,$00,$01,$53,$0A,$00,$00,$00,$09,$53,$0B,$00,$00,$00,$01,$53,$0C,$00,$00,$00,$03
-                dc.b $53,$0D,$00,$00,$00,$14,$51,$01,$00,$00,$00,$09,$51,$02,$00,$00,$00,$03,$51,$03,$00,$00,$00,$03
-                dc.b $51,$04,$00,$00,$00,$01,$51,$05,$00,$00,$00,$0B,$51,$06,$00,$00,$00,$11,$51,$07,$00,$00,$00,$06
-                dc.b $51,$08,$00,$00,$00,$11,$51,$09,$00,$00,$00,$09,$51,$0A,$00,$00,$00,$0E,$51,$0C,$00,$00,$00,$0E
-                dc.b $51,$0D,$00,$00,$00,$13,$51,$0E,$00,$00,$00,$08,$51,$0F,$00,$00,$00,$06,$51,$10,$00,$00,$00,$0E
-                dc.b $51,$11,$00,$00,$00,$0B,$51,$12,$00,$00,$00,$0E,$51,$13,$00,$00,$00,$10,$51,$14,$00,$00,$00,$09
-                dc.b $51,$15,$00,$00,$00,$01,$51,$16,$00,$00,$00,$13,$51,$17,$00,$00,$00,$17,$51,$18,$00,$00,$00,$06
-                dc.b $51,$1A,$00,$00,$00,$0B,$51,$1B,$00,$00,$00,$06,$51,$1C,$00,$00,$00,$08,$51,$1D,$00,$00,$00,$08
-                dc.b $51,$1E,$00,$00,$00,$01,$51,$1F,$00,$00,$00,$07,$51,$20,$00,$00,$00,$13,$51,$21,$00,$00,$00,$0B
-                dc.b $54,$00,$00,$00,$00,$06,$54,$01,$00,$00,$00,$02,$54,$02,$00,$00,$00,$05,$54,$03,$00,$00,$00,$0C
-                dc.b $54,$04,$00,$00,$00,$09,$54,$06,$00,$00,$00,$08,$54,$07,$00,$00,$00,$0B,$54,$08,$00,$00,$00,$09
-                dc.b $54,$0A,$00,$00,$00,$06,$54,$0B,$00,$00,$00,$0E,$54,$0C,$00,$00,$00,$01,$54,$0D,$00,$00,$00,$06
-                dc.b $54,$0E,$00,$00,$00,$09,$54,$0F,$00,$00,$00,$06,$54,$10,$00,$00,$00,$08,$54,$11,$00,$00,$00,$06
-                dc.b $54,$12,$00,$00,$00,$06,$54,$13,$00,$00,$00,$01,$54,$14,$00,$00,$00,$03,$54,$15,$00,$00,$00,$09
-                dc.b $54,$16,$00,$00,$00,$0F,$54,$17,$00,$00,$00,$09,$54,$18,$00,$00,$00,$11,$54,$19,$00,$00,$00,$03
-                dc.b $54,$1A,$00,$00,$00,$0B,$54,$1C,$00,$00,$00,$0E,$54,$1D,$00,$00,$00,$06,$54,$1E,$00,$00,$00,$05
-                dc.b $55,$01,$00,$00,$00,$01,$55,$03,$00,$00,$00,$01
+                dc.b "P",0,$00,$00,$00,$13,$50,$02,$01,$01,$00,$18,$50,$04,$26,$4C
+                dc.b $00,$12,$50,$06,$03,$03,$00,$1C,$50,$08,$05,$05,$00,$10,$50,$0C
+                dc.b $09,$0A,$00,$0E,$50,$0D,$0A,$0B,$00,$0B,$50,$0E,$0B,$0C,$00,$15
+                dc.b $50,$12,$0E,$0F,$00,$18,$50,$15,$10,$11,$00,$11,$50,$16,$11,$13
+                dc.b $00,$12,$50,$18,$13,$15,$00,$0E,$50,$1A,$14,$16,$00,$12,$50,$1B
+                dc.b $15,$17,$00,$0E,$50,$1D,$16,$18,$00,$0F,$50,$1F,$18,$1A,$00,$14
+                dc.b $50,$20,$19,$1B,$00,$18,$50,$23,$2E,$12,$00,$1E,$50,$26,$1E,$20
+                dc.b $00,$0C,$50,$28,$27,$4E,$00,$17,$50,$29,$20,$22,$00,$13,$50,$2C
+                dc.b $2D,$25,$00,$1C,$50,$2D,$22,$26,$00,$17,$50,$2F,$24,$28,$00,$1C
+                dc.b $53,$03,$34,$33,$00,$0B,$53,$08,$38,$3C,$00,$13,$52,$01,$45,$2D
+                dc.b $00,$18,$52,$03,$47,$30,$00,$17,$52,$05,$49,$32,$00,$11,$52,$06
+                dc.b $4A,$40,$00,$10,$52,$07,$4F,$41,$00,$11,$53,$0C,$4B,$42,$00,$03
+                dc.b $52,$09,$4D,$4D,$00,$0A,$51,$00,$50,$2A,$00,$09,$51,$0B,$58,$4F
+                dc.b $00,$11,$51,$19,$51,$45,$00,$11,$54,$05,$78,$4B,$00,$09,$54,$09
+                dc.b $76,$37,$00,$0C,$54,$1B,$77,$43,$00,$09,$55,$00,$94,$2C,$00,$13
+                dc.b $55,$02,$95,$3E,$00,$0E,$50,$05,$02,$02,$00,$1E,$50,$09,$06,$06
+                dc.b $00,$1A,$50,$07,$04,$04,$00,$1D,$50,$0A,$07,$07,$00,$1C,$50,$0B
+                dc.b $08,$08,$00,$22,$50,$0F,$0C,$0D,$00,$20,$50,$11,$0D,$0E,$00,$23
+                dc.b $50,$13,$17,$19,$00,$21,$50,$14,$0F,$10,$00,$16,$50,$17,$12,$14
+                dc.b $00,$25,$50,$21,$1A,$1C,$00,$18,$50,$22,$1B,$1D,$00,$20,$50,$24
+                dc.b $1C,$1E,$00,$1F,$50,$25,$1D,$1F,$00,$1E,$50,$27,$1F,$21,$00,$1D
+                dc.b $50,$2A,$28,$23,$00,$21,$50,$2B,$21,$24,$00,$1E,$50,$2E,$23,$27
+                dc.b $00,$14,$52,$00,$44,$2B,$00,$20,$52,$02,$46,$2E,$00,$24,$52,$04
+                dc.b $48,$31,$00,$1C,$52,$08,$4C,$47,$00,$1C,$50,$01,$00,$00,$00,$0E
+                dc.b $50,$03,$00,$00,$00,$0E,$50,$10,$00,$00,$00,$13,$50,$19,$00,$00
+                dc.b $00,$0B,$50,$1C,$00,$00,$00,$14,$50,$1E,$00,$00,$00,$11,$53,$00
+                dc.b $00,$00,$00,$01,$53,$01,$00,$00,$00,$10,$53,$02,$00,$00,$00,$11
+                dc.b $53,$04,$00,$00,$00,$08,$53,$05,$00,$00,$00,$01,$53,$06,$00,$00
+                dc.b $00,$03,$53,$07,$00,$00,$00,$01,$53,$09,$00,$00,$00,$01,$53,$0A
+                dc.b $00,$00,$00,$09,$53,$0B,$00,$00,$00,$01,$53,$0C,$00,$00,$00,$03
+                dc.b $53,$0D,$00,$00,$00,$14,$51,$01,$00,$00,$00,$09,$51,$02,$00,$00
+                dc.b $00,$03,$51,$03,$00,$00,$00,$03,$51,$04,$00,$00,$00,$01,$51,$05
+                dc.b $00,$00,$00,$0B,$51,$06,$00,$00,$00,$11,$51,$07,$00,$00,$00,$06
+                dc.b $51,$08,$00,$00,$00,$11,$51,$09,$00,$00,$00,$09,$51,$0A,$00,$00
+                dc.b $00,$0E,$51,$0C,$00,$00,$00,$0E,$51,$0D,$00,$00,$00,$13,$51,$0E
+                dc.b $00,$00,$00,$08,$51,$0F,$00,$00,$00,$06,$51,$10,$00,$00,$00,$0E
+                dc.b $51,$11,$00,$00,$00,$0B,$51,$12,$00,$00,$00,$0E,$51,$13,$00,$00
+                dc.b $00,$10,$51,$14,$00,$00,$00,$09,$51,$15,$00,$00,$00,$01,$51,$16
+                dc.b $00,$00,$00,$13,$51,$17,$00,$00,$00,$17,$51,$18,$00,$00,$00,$06
+                dc.b $51,$1A,$00,$00,$00,$0B,$51,$1B,$00,$00,$00,$06,$51,$1C,$00,$00
+                dc.b $00,$08,$51,$1D,$00,$00,$00,$08,$51,$1E,$00,$00,$00,$01,$51,$1F
+                dc.b $00,$00,$00,$07,$51,$20,$00,$00,$00,$13,$51,$21,$00,$00,$00,$0B
+                dc.b $54,$00,$00,$00,$00,$06,$54,$01,$00,$00,$00,$02,$54,$02,$00,$00
+                dc.b $00,$05,$54,$03,$00,$00,$00,$0C,$54,$04,$00,$00,$00,$09,$54,$06
+                dc.b $00,$00,$00,$08,$54,$07,$00,$00,$00,$0B,$54,$08,$00,$00,$00,$09
+                dc.b $54,$0A,$00,$00,$00,$06,$54,$0B,$00,$00,$00,$0E,$54,$0C,$00,$00
+                dc.b $00,$01,$54,$0D,$00,$00,$00,$06,$54,$0E,$00,$00,$00,$09,$54,$0F
+                dc.b $00,$00,$00,$06,$54,$10,$00,$00,$00,$08,$54,$11,$00,$00,$00,$06
+                dc.b $54,$12,$00,$00,$00,$06,$54,$13,$00,$00,$00,$01,$54,$14,$00,$00
+                dc.b $00,$03,$54,$15,$00,$00,$00,$09,$54,$16,$00,$00,$00,$0F,$54,$17
+                dc.b $00,$00,$00,$09,$54,$18,$00,$00,$00,$11,$54,$19,$00,$00,$00,$03
+                dc.b $54,$1A,$00,$00,$00,$0B,$54,$1C,$00,$00,$00,$0E,$54,$1D,$00,$00
+                dc.b $00,$06,$54,$1E,$00,$00,$00,$05,$55,$01,$00,$00,$00,$01,$55,$03
+                dc.b $00,$00,$00,$01
 
 ; ===== sub_149AE0 =====
 ; prototype: void __usercall sub_149AE0(unsigned __int16 teamNumber@<d0>, unsigned __int32 baseFunds@<d1>)
@@ -101371,7 +101370,7 @@ loc_14A1B6:
                 jsr     DrawMultipleItems
 locret_14A1D2:
                 rts
-padding_45:
+pad_14A1D4:
                 dc.b 0,0
 word_14A1D6:
                 dc.w $0000
@@ -107213,253 +107212,234 @@ teamsCountryNumbers:
                 dc.w 1730,1730,1730,1730,1730,1730,1730,1730
                 dc.w 1730,1730,1730,1730,1730,1730,1730,1730
                 dc.w 1730,1730,1730,1730,1730,1730,1730,1730
-; char[18]
+; const char[18]
 aAlbania:
-                dc.b '',0,'ALBANIA',$00,'ALBANIAN',$00
-; char[18]
+                dc.b 0,'ALBANIA',0,'ALBANIAN',0
+; const char[18]
 aAustria:
-                dc.b '',0,'AUSTRIA',$00,'AUSTRIAN',$00
-; char[17]
+                dc.b 0,'AUSTRIA',0,'AUSTRIAN',0
+; const char[17]
 aBelgium:
-                dc.b '',0,'BELGIUM',$00,'BELGIAN',$00
-; char[20]
+                dc.b 0,'BELGIUM',0,'BELGIAN',0
+; const char[20]
 aBulgaria:
-                dc.b '',0,'BULGARIA',$00,'BULGARIAN',$00
-; char[18]
+                dc.b 0,'BULGARIA',0,'BULGARIAN',0
+; const char[18]
 aCroatia:
-                dc.b '',0,'CROATIA',$00,'CROATIAN',$00
-; char[16]
+                dc.b 0,'CROATIA',0,'CROATIAN',0
+; const char[16]
 aCyprus:
-                dc.b '',0,'CYPRUS',$00,'CYPRIOT',$00
-; char[22]
+                dc.b 0,'CYPRUS',0,'CYPRIOT',0
+; const char[22]
 aCzechRepublic:
-                dc.b '',0,'CZECH REPUBLIC',$00,'CZECH',$00
-; char[16]
+                dc.b 0,'CZECH REPUBLIC',0,'CZECH',0
+; const char[16]
 aDenmark:
-                dc.b '',0,'DENMARK',$00,'DANISH',$00
-; char[17]
+                dc.b 0,'DENMARK',0,'DANISH',0
+; const char[17]
 aEngland:
-                dc.b '',0,'ENGLAND',$00,'ENGLISH',$00
-; char[17]
+                dc.b 0,'ENGLAND',0,'ENGLISH',0
+; const char[17]
 aEngland_0:
-                dc.b '',0,'ENGLAND',$00,'ENGLISH',$00
-; char[18]
+                dc.b 0,'ENGLAND',0,'ENGLISH',0
+; const char[18]
 aEstonia:
-                dc.b '',0,'ESTONIA',$00,'ESTONIAN',$00
-; char[27]
+                dc.b 0,'ESTONIA',0,'ESTONIAN',0
+; const char[27]
 aFaroeIslands:
-                dc.b '',0,'FAROE ISLANDS',$00,'FAROE ISLES',$00
-; char[17]
+                dc.b 0,'FAROE ISLANDS',0,'FAROE ISLES',0
+; const char[17]
 aFinland:
-                dc.b '',0,'FINLAND',$00,'FINNISH',$00
-; char[15]
+                dc.b 0,'FINLAND',0,'FINNISH',0
+; const char[15]
 aFrance:
-                dc.b '',0,'FRANCE',$00,'FRENCH',$00
-; char[16]
+                dc.b 0,'FRANCE',0,'FRENCH',0
+; const char[16]
 aGermany:
-                dc.b '',0,'GERMANY',$00,'GERMAN',$00
-; char[14]
+                dc.b 0,'GERMANY',0,'GERMAN',0
+; const char[14]
 aGreece:
-                dc.b '',0,'GREECE',$00,'GREEK',$00
-; char[19]
+                dc.b 0,'GREECE',0,'GREEK',0
+; const char[19]
 aHungary:
-                dc.b '',0,'HUNGARY',$00,'HUNGARIAN',$00
-; char[19]
+                dc.b 0,'HUNGARY',0,'HUNGARIAN',0
+; const char[19]
 aIceland:
-                dc.b '',0,'ICELAND',$00,'ICELANDIC',$00
-; char[24]
+                dc.b 0,'ICELAND',0,'ICELANDIC',0
+; const char[24]
 aRepublicIreland:
-                dc.b '',0,'REPUBLIC IRELAND',$00,'IRISH',$00
-; char[16]
+                dc.b 0,'REPUBLIC IRELAND',0,'IRISH',0
+; const char[16]
 aIsrael:
-                dc.b '',0,'ISRAEL',$00,'ISRAELI',$00
-; char[15]
+                dc.b 0,'ISRAEL',0,'ISRAELI',0
+; const char[15]
 aItaly:
-                dc.b '',0,'ITALY',$00,'ITALIAN',$00
-; char[16]
+                dc.b 0,'ITALY',0,'ITALIAN',0
+; const char[16]
 aLatvia:
-                dc.b '',0,'LATVIA',$00,'LATVIAN',$00
-; char[22]
+                dc.b 0,'LATVIA',0,'LATVIAN',0
+; const char[22]
 aLithuania:
-                dc.b '',0,'LITHUANIA',$00,'LITHUANIAN',$00
-; char[23]
+                dc.b 0,'LITHUANIA',0,'LITHUANIAN',0
+; const char[23]
 aLuxembourg:
-                dc.b '',0,'LUXEMBOURG',$00,'LUXEMBOURG',$00
-; char[15]
+                dc.b 0,'LUXEMBOURG',0,'LUXEMBOURG',0
+; const char[15]
 aMalta:
-                dc.b '',0,'MALTA',$00,'MALTESE',$00
-; char[15]
+                dc.b 0,'MALTA',0,'MALTESE',0
+; const char[15]
 aHolland:
-                dc.b '',0,'HOLLAND',$00,'DUTCH',$00
-; char[33]
+                dc.b 0,'HOLLAND',0,'DUTCH',0
+; const char[33]
 aNorthernIreland:
-                dc.b '',0,'NORTHERN IRELAND',$00,'NORTHERN IRISH',$00
-; char[18]
+                dc.b 0,'NORTHERN IRELAND',0,'NORTHERN IRISH',0
+; const char[18]
 aNorway:
-                dc.b '',0,'NORWAY',$00,'NORWEGIAN',$00
-; char[15]
+                dc.b 0,'NORWAY',0,'NORWEGIAN',0
+; const char[15]
 aPoland:
-                dc.b '',0,'POLAND',$00,'POLISH',$00
-; char[20]
+                dc.b 0,'POLAND',0,'POLISH',0
+; const char[20]
 aPortugal:
-                dc.b '',0,'PORTUGAL',$00,'PORTUGESE',$00
-; char[18]
+                dc.b 0,'PORTUGAL',0,'PORTUGESE',0
+; const char[18]
 aRomania:
-                dc.b '',0,'ROMANIA',$00,'ROMANIAN',$00
-; char[16]
+                dc.b 0,'ROMANIA',0,'ROMANIAN',0
+; const char[16]
 aRussia:
-                dc.b '',0,'RUSSIA',$00,'RUSSIAN',$00
-; char[23]
+                dc.b 0,'RUSSIA',0,'RUSSIAN',0
+; const char[23]
 aSanMarino:
-                dc.b '',0,'SAN MARINO',$00,'SAN MARINO',$00
-; char[19]
+                dc.b 0,'SAN MARINO',0,'SAN MARINO',0
+; const char[19]
 aScotland:
-                dc.b '',0,'SCOTLAND',$00,'SCOTTISH',$00
-; char[20]
+                dc.b 0,'SCOTLAND',0,'SCOTTISH',0
+; const char[20]
 aSlovenia:
-                dc.b '',0,'SLOVENIA',$00,'SLOVENIAN',$00
-; char[15]
+                dc.b 0,'SLOVENIA',0,'SLOVENIAN',0
+; const char[15]
 aSpain:
-                dc.b '',0,'SPAIN',$00,'SPANISH',$00
-; char[16]
+                dc.b 0,'SPAIN',0,'SPANISH',0
+; const char[16]
 aSweden:
-                dc.b '',0,'SWEDEN',$00,'SWEDISH',$00
-; char[19]
+                dc.b 0,'SWEDEN',0,'SWEDISH',0
+; const char[19]
 aSwitzerland:
-                dc.b '',0,'SWITZERLAND',$00,'SWISS',$00
-; char[16]
+                dc.b 0,'SWITZERLAND',0,'SWISS',0
+; const char[16]
 aTurkey:
-                dc.b '',0,'TURKEY',$00,'TURKISH',$00
-; char[19]
+                dc.b 0,'TURKEY',0,'TURKISH',0
+; const char[19]
 aUkraine:
-                dc.b '',0,'UKRAINE',$00,'UKRAINIAN',$00
-; char[13]
+                dc.b 0,'UKRAINE',0,'UKRAINIAN',0
+; const char[13]
 aWales:
-                dc.b '',0,'WALES',$00,'WELSH',$00
-; char[24]
+                dc.b 0,'WALES',0,'WELSH',0
+; const char[24]
 aYugoslavia:
-                dc.b '',0,'YUGOSLAVIA',$00,'YUGOSLAVIAN',$00
-; char[21]
+                dc.b 0,'YUGOSLAVIA',0,'YUGOSLAVIAN',0
+; const char[21]
 aBelarus:
-                dc.b '',0,'BELARUS',$00,'BELARUSSIAN',$00
-; char[20]
+                dc.b 0,'BELARUS',0,'BELARUSSIAN',0
+; const char[20]
 aSlovakia:
-                dc.b '',0,'SLOVAKIA',$00,'SLOVAKIAN',$00
-; char[18]
+                dc.b 0,'SLOVAKIA',0,'SLOVAKIAN',0
+; const char[18]
 aAlgeria:
-                dc.b 5,65,76,71,69,82,73,65,0,65,76,71,69,82,73,65
-                dc.b 78,0
-; char[28]
+                dc.b 5,'ALGERIA',0,'ALGERIAN',0
+; const char[28]
 aSouthAfrica:
-                dc.b 5,83,79,85,84,72,32,65,70,82,73,67,65,0,83,79
-                dc.b 85,84,72,32,65,70,82,73,67,65,78,0
-; char[13]
+                dc.b 5,'SOUTH AFRICA',0,'SOUTH AFRICAN',0
+; const char[13]
 aGhana:
-                dc.b 5,71,72,65,78,65,0,71,72,65,78,65,0
-; char[23]
+                dc.b 5,'GHANA',0,'GHANA',0
+; const char[23]
 aArgentina:
-                dc.b 2,65,82,71,69,78,84,73,78,65,0,65,82,71,69,78
-                dc.b 84,73,78,73,65,78,0
-; char[18]
+                dc.b 2,'ARGENTINA',0,'ARGENTINIAN',0
+; const char[18]
 aBolivia:
-                dc.b 2,66,79,76,73,86,73,65,0,66,79,76,73,86,73,65
-                dc.b 78,0
-; char[18]
+                dc.b 2,'BOLIVIA',0,'BOLIVIAN',0
+; const char[18]
 aBrazil:
-                dc.b 2,66,82,65,90,73,76,0,66,82,65,90,73,76,73,65
-                dc.b 78,0
-; char[15]
+                dc.b 2,'BRAZIL',0,'BRAZILIAN',0
+; const char[15]
 aChile:
-                dc.b 2,67,72,73,76,69,0,67,72,73,76,69,65,78,0
-; char[20]
+                dc.b 2,'CHILE',0,'CHILEAN',0
+; const char[20]
 aColombia:
-                dc.b 2,67,79,76,79,77,66,73,65,0,67,79,76,79,77,66
-                dc.b 73,65,78,0
-; char[17]
+                dc.b 2,'COLOMBIA',0,'COLOMBIAN',0
+; const char[17]
 aEcuador:
-                dc.b 2,69,67,85,65,68,79,82,0,69,67,85,65,68,79,82
-                dc.b 0
-; char[21]
+                dc.b 2,'ECUADOR',0,'ECUADOR',0
+; const char[21]
 aParaguay:
-                dc.b 2,80,65,82,65,71,85,65,89,0,80,65,82,65,71,85
-                dc.b 65,89,65,78,0
-; char[15]
+                dc.b 2,'PARAGUAY',0,'PARAGUAYAN',0
+; const char[15]
 aPeru:
-                dc.b 2,80,69,82,85,0,80,69,82,85,86,73,65,78,0
-; char[17]
+                dc.b 2,'PERU',0,'PERUVIAN',0
+; const char[17]
 aSurinam:
-                dc.b 2,83,85,82,73,78,65,77,0,83,85,82,73,78,65,77
-                dc.b 0
-; char[19]
+                dc.b 2,'SURINAM',0,'SURINAM',0
+; const char[19]
 aUruguay:
-                dc.b 2,85,82,85,71,85,65,89,0,85,82,85,71,85,65,89
-                dc.b 65,78,0
-; char[22]
+                dc.b 2,'URUGUAY',0,'URUGUAYAN',0
+; const char[22]
 aVenezuela:
-                dc.b 2,86,69,78,69,90,85,69,76,65,0,86,69,78,69,90
-                dc.b 85,69,76,65,78,0
-; char[25]
+                dc.b 2,'VENEZUELA',0,'VENEZUELAN',0
+; const char[25]
 aElSalvadore:
-                dc.b 1,69,76,32,83,65,76,86,65,68,79,82,0,69,76,32
-                dc.b 83,65,76,86,65,68,79,82,0
-; char[16]
+                dc.b 1,'EL SALVADOR',0,'EL SALVADOR',0
+; const char[16]
 aMexico:
-                dc.b 1,77,69,88,73,67,79,0,77,69,88,73,67,65,78,0
-; char[17]
+                dc.b 1,'MEXICO',0,'MEXICAN',0
+; const char[17]
 aUSA:
-                dc.b 1,85,46,83,46,65,46,0,65,77,69,82,73,67,65,78
-                dc.b 0
-; char[16]
+                dc.b 1,'U.S.A.',0,'AMERICAN',0
+; const char[16]
 aJapan:
-                dc.b 3,74,65,80,65,78,0,74,65,80,65,78,69,83,69,0
-; char[18]
+                dc.b 3,'JAPAN',0,'JAPANESE',0
+; const char[18]
 aTaiwan:
-                dc.b 3,84,65,73,87,65,78,0,84,65,73,87,65,78,69,83
-                dc.b 69,0
-; char[14]
+                dc.b 3,'TAIWAN',0,'TAIWANESE',0
+; const char[14]
 aIndia:
-                dc.b 3,73,78,68,73,65,0,73,78,68,73,65,78,0
-; char[22]
+                dc.b 3,'INDIA',0,'INDIAN',0
+; const char[22]
 aAustralia:
-                dc.b 4,65,85,83,84,82,65,76,73,65,0,65,85,83,84,82
-                dc.b 65,76,73,65,78,0
-; char[25]
+                dc.b 4,'AUSTRALIA',0,'AUSTRALIAN',0
+; const char[25]
 aNewZealand:
-                dc.b 4,78,69,87,32,90,69,65,76,65,78,68,0,78,69,87
-                dc.b 32,90,69,65,76,65,78,68,0
-; char[10]
+                dc.b 4,'NEW ZEALAND',0,'NEW ZEALAND',0
+; const char[10]
 aCustom:
-                dc.b '',0,'CUSTOM',$00,'-',$00
-; char[17]
+                dc.b 0,'CUSTOM',0,'-',0
+; const char[17]
 aEurope:
-                dc.b '',0,'EUROPE',$00,'EUROPEAN',$00
-; char[16]
+                dc.b 0,'EUROPE',0,'EUROPEAN',0
+; const char[16]
 aAfrica:
-                dc.b 5,65,70,82,73,67,65,0,65,70,82,73,67,65,78,0
-; char[30]
+                dc.b 5,'AFRICA',0,'AFRICAN',0
+; const char[30]
 aSouthAmerica:
-                dc.b 2,83,79,85,84,72,32,65,77,69,82,73,67,65,0,83
-                dc.b 79,85,84,72,32,65,77,69,82,73,67,65,78,0
-; char[30]
+                dc.b 2,'SOUTH AMERICA',0,'SOUTH AMERICAN',0
+; const char[30]
 aNorthAmerica:
-                dc.b 1,78,79,82,84,72,32,65,77,69,82,73,67,65,0,78
-                dc.b 79,82,84,72,32,65,77,69,82,73,67,65,78,0
-; char[12]
+                dc.b 1,'NORTH AMERICA',0,'NORTH AMERICAN',0
+; const char[12]
 aAsia:
-                dc.b 3,65,83,73,65,0,65,83,73,65,78,0
-; char[18]
+                dc.b 3,'ASIA',0,'ASIAN',0
+; const char[18]
 aOceania:
-                dc.b 4,79,67,69,65,78,73,65,0,79,67,69,65,78,73,65
-                dc.b 78,0
-; char[18]
+                dc.b 4,'OCEANIA',0,'OCEANIAN',0
+; const char[18]
 aEditedCustoms:
-                dc.b '',0,'EDITED CUSTOMS',$00,'-',$00
-; char[13]
+                dc.b 0,'EDITED CUSTOMS',0,'-',0
+; const char[13]
 aWorld_1:
-                dc.b -1,87,79,82,76,68,0,87,79,82,76,68,0
-; char *[262]
+                dc.b $FF,'WORLD',0,'WORLD',0
+; const char *[262]
 countriesTable:
-                ; char *[262]
+                ; const char *[262]
                 dc.l aAlbania           ; element[0]
                 dc.l aAustria           ; element[1]
                 dc.l aBelgium           ; element[2]
@@ -108102,7 +108082,7 @@ aDataEurocupTmd:
 aDataEurocwcTmd:
                 dc.b 'data/eurocwc.tmd',0
 aDataUefacupTmd:
-                dc.b 'data/uefacup.tmd',0,$00
+                dc.b 'data/uefacup.tmd',0,0
 ; unsigned __int8[78]
 euroCup:
                 dc.b $00,$02,$FF,$40,$20,$21,$00,$27,$01,$01,$01,$02,$03,$35,$04,$10
@@ -109073,9 +109053,9 @@ byte_1508D4:
 ; unsigned __int8[4]
 byte_1508D8:
                 dc.b $00,$02,$EE,$EE
-; __int8 *[256]
+; unsigned __int8 **[256]
 competitionsTable:
-                ; __int8 *[256]
+                ; unsigned __int8 **[256]
                 dc.l albaniaTable       ; element[0]
                 dc.l austriaTable       ; element[1]
                 dc.l belgiumTable       ; element[2]
@@ -109332,9 +109312,9 @@ competitionsTable:
                 dc.l ecQualifyingGroups ; element[253]
                 dc.l worldTable         ; element[254]
                 dc.l 0                  ; element[255]
-; __int8 *[9]
+; unsigned __int8 *[9]
 worldCupQualifyingGroups:
-                ; __int8 *[9]
+                ; unsigned __int8 *[9]
                 dc.l worldCupQualifyingGroup1 ; element[0]
                 dc.l worldCupQualifyingGroup2 ; element[1]
                 dc.l worldCupQualifyingGroup3 ; element[2]
@@ -109346,9 +109326,9 @@ worldCupQualifyingGroups:
                 dc.l $FFFFFFFF          ; element[8]
                 dc.b -1
                 dc.b $00
-; __int8 *[9]
+; unsigned __int8 *[9]
 ecQualifyingGroups:
-                ; __int8 *[9]
+                ; unsigned __int8 *[9]
                 dc.l ecQualifyingGroup1 ; element[0]
                 dc.l ecQualifyingGroup2 ; element[1]
                 dc.l ecQualifyingGroup3 ; element[2]
@@ -109360,23 +109340,23 @@ ecQualifyingGroups:
                 dc.l $FFFFFFFF          ; element[8]
                 dc.b -1
                 dc.b $00
-; __int8 *[3]
+; unsigned __int8 *[3]
 customsTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l customsLeague      ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
-; __int8 *[2]
+; unsigned __int8 *[2]
 worldTable:
-                ; __int8 *[2]
+                ; unsigned __int8 *[2]
                 dc.l worldCup           ; element[0]
                 dc.l $FFFFFFFF          ; element[1]
                 dc.b $50,$53,$52,$51,$54,$55
                 dc.b -1
                 dc.b $00
-; __int8 *[6]
+; unsigned __int8 *[6]
 europeTable:
-                ; __int8 *[6]
+                ; unsigned __int8 *[6]
                 dc.l $FC                ; element[0]
                 dc.l europeanChampionships ; element[1]
                 dc.l euroCup            ; element[2]
@@ -109387,25 +109367,25 @@ europeTable:
                 dc.b $19,$10,$11,$13,$14,$15,$16,$17,$18,$1A,$1B,$1C,$1D,$12,$1E,$1F
                 dc.b $20,$21,$4E,$22,$23,$24,$25,$26,$27,$28,$29
                 dc.b -1
-; __int8 *[3]
+; unsigned __int8 *[3]
 africaTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l africaWorldCupQualification ; element[0]
                 dc.l africanNationsCup  ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
                 dc.b $2A,$4F,$45
                 dc.b -1
-; __int8 *[3]
+; unsigned __int8 *[3]
 southAmericaTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l southAmericaWorldCupQualification ; element[0]
                 dc.l copaAmerica        ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
                 dc.b $2B,$2D,$2E,$30,$31,$32,$40,$41,$42,$47,$4D
                 dc.b -1
-; __int8 *[3]
+; unsigned __int8 *[3]
 northAmericaTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l northAmericaWorldCupQualification ; element[0]
                 dc.l northAmericanCup   ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
@@ -109413,9 +109393,9 @@ northAmericaTable:
                 dc.b $3C
                 dc.b $49
                 dc.b -1
-; __int8 *[3]
+; unsigned __int8 *[3]
 asiaTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l asiaWorldCupQualification ; element[0]
                 dc.l asianCup           ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
@@ -109423,9 +109403,9 @@ asiaTable:
                 dc.b $37
                 dc.b $43
                 dc.b -1
-; __int8 *[3]
+; unsigned __int8 *[3]
 oceaniaTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l oceaniaWorldCupQualification ; element[0]
                 dc.l oceaniaCup         ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
@@ -109433,444 +109413,444 @@ oceaniaTable:
                 dc.b $3E
                 dc.b -1
                 dc.b $00
-; __int8 *[4]
+; unsigned __int8 *[4]
 albaniaTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l albanianLeague     ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l albanianCup        ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 austriaTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l austrianLeague     ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l austrianCup        ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 belgiumTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l belgianLeague      ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l belgianCup         ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 belarusTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l belarussiaLleague  ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l belarussianCup     ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 bulgariaTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l bulgarianLeague    ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l bulgarianCup       ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 croatiaTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l croatianLeague     ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l croatianCup        ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 cyprusTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l cypriotLeague      ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l cypriotCup         ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 czechRepublicTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l czechLeague        ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l czechCup           ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 denmarkTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l danishLeague       ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l danishCup          ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[5]
+; unsigned __int8 *[5]
 englandTable:
-                ; __int8 *[5]
+                ; unsigned __int8 *[5]
                 dc.l englishLeagues     ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l englishCup         ; element[2]
                 dc.l englishLeagueCup   ; element[3]
                 dc.l $FFFFFFFF          ; element[4]
-; __int8 *[4]
+; unsigned __int8 *[4]
 estoniaTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l estonianLeague     ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l estonianCup        ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 faroeIslandsTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l faroeIslesLeague   ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l faroeIslesCup      ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 finlandTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l finnishLeague      ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l finnishCup         ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 franceTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l frenchLeague       ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l frenchCup          ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 germanyTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l germanLeague       ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l germanCup          ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 greeceTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l greekLeague        ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l greekCup           ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 hungaryTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l hungarianLeague    ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l hungarianCup       ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 icelandTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l icelandicLeague    ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l icelandicCup       ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 republicIrelandTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l irishLeague        ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l irishCup           ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 israelTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l israeliLeague      ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l israeliCup         ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 italyTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l italianLeague      ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l italianCup         ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 latviaTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l latvianLeague      ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l latvianCup         ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 lithuaniaTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l lithuanianLeague   ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l lithuanianCup      ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 luxembourgTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l luxembourgLeague   ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l luxembourgCup      ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 maltaTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l malteseLeague      ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l malteseCup         ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 hollandTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l dutchLeague        ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l dutchCup           ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 northernIrelandTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l northernIrishLeague ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l northernIrishCup   ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 norwayTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l norwegianLeague    ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l norwegianCup       ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 polandTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l polishLeague       ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l polishCup          ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 portugalTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l portugeseLeague    ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l portugeseCup       ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 romaniaTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l romanianLeague     ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l romanianCup        ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 russiaTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l russianLeague      ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l russianCup         ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 sanMarinoTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l sanMarinoLeague    ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l sanMarinoCup       ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[5]
+; unsigned __int8 *[5]
 scotlandTable:
-                ; __int8 *[5]
+                ; unsigned __int8 *[5]
                 dc.l scottishLeague     ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l scottishCup        ; element[2]
                 dc.l scottishLeagueCup  ; element[3]
                 dc.l $FFFFFFFF          ; element[4]
-; __int8 *[4]
+; unsigned __int8 *[4]
 slovakiaTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l slovakianLeague    ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l slovakianCup       ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 sloveniaTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l slovenianLeague    ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l slovenianCup       ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 spainTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l spanishLeague      ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l spanishCup         ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 swedenTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l swedishLeague      ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l swedishCup         ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 switzerlandTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l swissLeague        ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l swissCup           ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 turkeyTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l turkishLeague      ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l turkishCup         ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 ukraineTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l ukrainianLeague    ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l ukrainianCup       ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 walesTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l welshLeague        ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l welshCup           ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 yugoslaviaTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l yugoslavianLeague  ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l yugoslavianCup     ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[4]
+; unsigned __int8 *[4]
 algeriaTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l algerianLeague     ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l algerianCup        ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[3]
+; unsigned __int8 *[3]
 argentinaTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l argentinianLeague  ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
-; __int8 *[4]
+; unsigned __int8 *[4]
 australiaTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l australianLeague   ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l australianCup      ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[3]
+; unsigned __int8 *[3]
 boliviaTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l bolivianLeague     ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
-; __int8 *[3]
+; unsigned __int8 *[3]
 brasilTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l brasilianLeague    ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
-; __int8 *[3]
+; unsigned __int8 *[3]
 chileTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l chileanLeague      ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
-; __int8 *[3]
+; unsigned __int8 *[3]
 colombiaTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l colombianLeague    ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
-; __int8 *[3]
+; unsigned __int8 *[3]
 ecuadorTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l ecuadorLeague      ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
-; __int8 *[3]
+; unsigned __int8 *[3]
 elSalvadorTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l elSalvadorLeague   ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
-; __int8 *[3]
+; unsigned __int8 *[3]
 indiaTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l indianLeague       ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
-; __int8 *[5]
+; unsigned __int8 *[5]
 japanTable:
-                ; __int8 *[5]
+                ; unsigned __int8 *[5]
                 dc.l japaneseLeague     ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l japaneseCup        ; element[2]
                 dc.l japaneseEmperorsCup ; element[3]
                 dc.l $FFFFFFFF          ; element[4]
-; __int8 *[3]
+; unsigned __int8 *[3]
 mexicoTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l mexicanLeague      ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
-; __int8 *[3]
+; unsigned __int8 *[3]
 newZealandTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l newZealandLeague   ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
-; __int8 *[3]
+; unsigned __int8 *[3]
 paraguayTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l paraguayanLeague   ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
-; __int8 *[3]
+; unsigned __int8 *[3]
 peruTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l peruvianLeague     ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
-; __int8 *[4]
+; unsigned __int8 *[4]
 southAfricaTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l southAfricanLeague ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l southAfricanCup    ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[3]
+; unsigned __int8 *[3]
 surinamTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l surinamLeague      ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
-; __int8 *[4]
+; unsigned __int8 *[4]
 taiwanTable:
-                ; __int8 *[4]
+                ; unsigned __int8 *[4]
                 dc.l taiwaneseLeague    ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l taiwaneseCup       ; element[2]
                 dc.l $FFFFFFFF          ; element[3]
-; __int8 *[3]
+; unsigned __int8 *[3]
 uruguayTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l uruguayanLeague    ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
-; __int8 *[3]
+; unsigned __int8 *[3]
 usaTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l americanLeague     ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
-; __int8 *[3]
+; unsigned __int8 *[3]
 venezuelaTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l venezuelanLeague   ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
-; __int8 *[3]
+; unsigned __int8 *[3]
 ghanaTable:
-                ; __int8 *[3]
+                ; unsigned __int8 *[3]
                 dc.l ghanaLeague        ; element[0]
                 dc.l $FFFFFFFE          ; element[1]
                 dc.l $FFFFFFFF          ; element[2]
@@ -110917,9 +110897,9 @@ aLoadLiverpool:
                 dc.b 'LOAD LIVERPOOL',0
 aError:
                 dc.b "ERROR",0,$00
-; char *[18]
+; unsigned __int8 *[18]
 positionsTable:
-                ; char *[18]
+                ; unsigned __int8 *[18]
                 dc.l defaultPositions   ; element[0]
                 dc.l positions_5_4_1    ; element[1]
                 dc.l positions_4_5_1    ; element[2]
@@ -110938,40 +110918,52 @@ positionsTable:
                 dc.l defaultPositions   ; element[15]
                 dc.l defaultPositions   ; element[16]
                 dc.l defaultPositions   ; element[17]
+; unsigned __int8[11]
 defaultPositions:
                 dc.b $01,$02,$03,$04,$05,$06,$07,$08,$09,$0A,$0B
+; unsigned __int8[11]
 positions_5_4_1:
                 dc.b $01,$02,$03,$04,$07,$05,$06,$08,$0A,$09,$0B
+; unsigned __int8[11]
 positions_4_5_1:
                 dc.b $01,$02,$03,$04,$05,$06,$07,$08,$0A,$09,$0B
+; unsigned __int8[11]
 positions_5_3_2:
                 dc.b $01,$02,$03,$04,$07,$05,$06,$08,$09,$0A,$0B
+; unsigned __int8[11]
 positions_3_5_2:
                 dc.b $01,$02,$03,$05,$06,$04,$07,$08,$09,$0A,$0B
+; unsigned __int8[11]
 positions_4_3_3:
                 dc.b $01,$02,$03,$04,$05,$06,$07,$09,$08,$0A,$0B
+; unsigned __int8[11]
 positions_4_2_4:
                 dc.b $01,$02,$03,$04,$05,$07,$08,$06,$0A,$0B,$09
+; unsigned __int8[11]
 positions_3_4_3:
                 dc.b $01,$02,$03,$05,$06,$04,$07,$09,$08,$0A,$0B
+; unsigned __int8[11]
 positions_sweep:
                 dc.b $01,$02,$03,$04,$05,$06,$07,$08,$09,$0A,$0B
+; unsigned __int8[11]
 positions_5_2_3:
                 dc.b $01,$02,$03,$04,$07,$05,$08,$0A,$06,$0B,$09
+; unsigned __int8[11]
 positions_atack:
                 dc.b $01,$02,$03,$05,$04,$07,$06,$08,$0A,$0B,$09
+; unsigned __int8[11]
 positions_defend:
                 dc.b $01,$06,$02,$03,$04,$05,$09,$07,$08,$0A,$0B
-; char *[4]
+; const char *[4]
 divisionsTable:
-                ; char *[4]
+                ; const char *[4]
                 dc.l aPremierDivisio    ; element[0]
                 dc.l aDivision1_0       ; element[1]
                 dc.l aDivision2_0       ; element[2]
                 dc.l aDivision3_0       ; element[3]
-; char *[16]
+; const char *[16]
 off_151FE0:
-                ; char *[16]
+                ; const char *[16]
                 dc.l aPremDiv           ; element[0]
                 dc.l aDiv1              ; element[1]
                 dc.l aDiv2              ; element[2]
@@ -110988,9 +110980,9 @@ off_151FE0:
                 dc.l aOct               ; element[13]
                 dc.l aNov               ; element[14]
                 dc.l aDec               ; element[15]
-; char *[12]
+; const char *[12]
 off_152020:
-                ; char *[12]
+                ; const char *[12]
                 dc.l aFirstRound        ; element[0]
                 dc.l aSecondRound       ; element[1]
                 dc.l aThirdRound        ; element[2]
@@ -111003,9 +110995,9 @@ off_152020:
                 dc.l aFinalGroup        ; element[9]
                 dc.l aThirdPlacePlay    ; element[10]
                 dc.l aFinalGroups       ; element[11]
-; char *[12]
+; const char *[12]
 off_152050:
-                ; char *[12]
+                ; const char *[12]
                 dc.l aRound1            ; element[0]
                 dc.l aRound2            ; element[1]
                 dc.l aRound3            ; element[2]
@@ -111018,9 +111010,9 @@ off_152050:
                 dc.l aFinalGroup_0      ; element[9]
                 dc.l a3rdPlayOff        ; element[10]
                 dc.l aFinalGroups_0     ; element[11]
-; char *[15]
+; const char *[15]
 off_152080:
-                ; char *[15]
+                ; const char *[15]
                 dc.l aRnd1              ; element[0]
                 dc.l aRnd2              ; element[1]
                 dc.l aRnd3              ; element[2]
@@ -111036,15 +111028,15 @@ off_152080:
                 dc.l aReplay            ; element[12]
                 dc.l a2ndReplay         ; element[13]
                 dc.l a3rdReplay         ; element[14]
-; char *[3]
+; const char *[3]
 off_1520BC:
-                ; char *[3]
+                ; const char *[3]
                 dc.l aReplays           ; element[0]
                 dc.l a2ndReplays        ; element[1]
                 dc.l a3rdReplays        ; element[2]
-; char *[20]
+; const char *[20]
 playerPositionsStringTable:
-                ; char *[20]
+                ; const char *[20]
                 dc.l aG                 ; element[0]
                 dc.l aRb                ; element[1]
                 dc.l aLb                ; element[2]
@@ -111065,9 +111057,9 @@ playerPositionsStringTable:
                 dc.l aAsi_0             ; element[17]
                 dc.l aOce_0             ; element[18]
                 dc.l aAfr_0             ; element[19]
-; char *[18]
+; const char *[18]
 tacticsStringTable:
-                ; char *[18]
+                ; const char *[18]
                 dc.l a442               ; element[0]
                 dc.l a541               ; element[1]
                 dc.l a451               ; element[2]
@@ -111860,8 +111852,10 @@ aStartCareerAs:
                 dc.b 'START CAREER AS',0
 aPlayer_0:
                 dc.b "PLAYER:",0
+; const char[8]
 aCoach_1:
                 dc.b 1,'COACH:',0
+; const char[8]
 aPlayer_1:
                 dc.b 2,'PLAYER',0
 aCoach_2:
@@ -111988,14 +111982,18 @@ aViewOppo:
                 dc.b "VIEW OPPO",0
 aViewCompetitio:
                 dc.b 'VIEW COMPETITIONS',0
-pound:
+; const char[2]
+aPound:
                 dc.b $9C,0
 nullString_0:
                 dc.b $00
+; const char[5]
 a1k:
                 dc.b $9C,'%1K',0
+; const char[5]
 a0m:
                 dc.b $9C,'%0M',0
+; const char[8]
 a01m:
                 dc.b $9C,'%0.%1M',0
 aSorryAButTheCl:
@@ -113110,16 +113108,22 @@ aOce:
                 dc.b "OCE",0
 aAfr:
                 dc.b "AFR",0
+; const char[9]
 aEuro:
                 dc.b 4,'E',0,'U',0,'R',0,'O',0
+; const char[9]
 aNam_0:
                 dc.b 4,'N',0,'A',0,'M',0,' ',0
+; const char[9]
 aSam_0:
                 dc.b 4,'S',0,'A',0,'M',0,' ',0
+; const char[9]
 aAsi_0:
                 dc.b 4,'A',0,'S',0,'I',0,' ',0
+; const char[9]
 aOce_0:
                 dc.b 4,'O',0,'C',0,'E',0,' ',0
+; const char[9]
 aAfr_0:
                 dc.b 4,'A',0,'F',0,'R',0,' ',0
 aWorldClubChamp:
@@ -113140,18 +113144,25 @@ aEuroCwCup:
                 dc.b "EURO CW CUP",0
 aSouthAmericanC:
                 dc.b 'SOUTH AMERICAN CUP',0
+; const char[9]
 aLge_0:
                 dc.b 4,'L',0,'G',0,'E',0,' ',0
+; const char[9]
 aCup_10:
                 dc.b 4,'C',0,'U',0,'P',0,' ',0
+; const char[9]
 aCup1:
                 dc.b 4,'C',0,'U',0,'P',0,'1',0
+; const char[9]
 aCup2:
                 dc.b 4,'C',0,'U',0,'P',0,'2',0
+; const char[9]
 aEuro_0:
                 dc.b 4,'E',0,'U',0,'R',0,'O',0
+; const char[9]
 aInt_0:
                 dc.b 4,'I',0,'N',0,'T',0,' ',0
+; const char[9]
 aTot_0:
                 dc.b 4,'T',0,'O',0,'T',0,' ',0
 aReplay_0:
@@ -113240,11 +113251,13 @@ InitSkinAndDefaultPointers:
                 move.l  #spriteGraphics,(spriteGraphicsPtr).l
                 rts
                 rts
+; unsigned __int32 *
 goalBasePtr:
                 dc.l 0                  ; pointer to current goal in highlight file
+; unsigned __int32 *
 nextGoalPtr:
                 dc.l 0                  ; pointer to next goal
-; SpriteGraphics **
+; SpriteGraphics *(*)[]
 spriteGraphicsPtr:
                 dc.l 0
 useIndividualPlayerSkinColor:
@@ -113930,6 +113943,7 @@ BSS_01_16E082:
                 ds.b $D20
 word_16E082:
                 ds.b $2
+; __int8[2]
 competitionFileBuffer:
                 ds.b $2
 competitionOver:
@@ -114034,18 +114048,24 @@ USER_E:
 ; TeamTactics
 USER_F:
                 ds.b $172
+; __int16
 g_gameLength:
                 ds.b $2
                                         ; 0 = 3 min, 1 = 5 min, 2 = 7 min, 3 = 10 min
+; __int16
 g_autoReplays:
                 ds.b $2
+; __int16
 g_menuMusic:
                 ds.b $2
                                         ; 0 = no music
+; __int16
 g_autoSaveHighlights:
                 ds.b $2
+; __int16
 g_allPlayerTeamsEqual:
                 ds.b $2
+; __int16
 g_pitchType:
                 ds.b $2
                                         ; -2 = seasonal

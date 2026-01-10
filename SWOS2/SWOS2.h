@@ -8,17 +8,26 @@
 #define NUM_PLANES_MINUS1 0x3
 #define PLANE_STRIDE 0x2c
 #define SCREEN_HEIGHT 0x110
+#define BLTAFWM 0x44
+#define BLTALWM 0x46
+#define BLTCON1 0x42
 #define BLTCON0_USEA_USED_LF_F0 0x9f0
+#define BLTCON0 0x40
+#define BLTAPT 0x50
+#define BLTDPT 0x54
+#define BLTAMOD 0x64
+#define BLTDMOD 0x66
+#define BLTSIZE 0x58
 #define PITCHFILE_MAX_SIZE 0xb220
 #define SCROLL_RIGHT_EDGE_X 0x14f
 #define TILE_SHIFT_X 0x4
 #define PITCH_PTR_ROW_BYTES 0xa8
-#define WORD_ALIGN_EVEN_MASK 0xfffe
 #define BLTDMOD_PLANE_STEP 0x2a
 #define TILE_MASK 0xf
 #define TILE_HEIGHT 0x10
 #define NUM_PLANES_SHIFT_PLUS1 0x3
 #define BLTSIZE_TILE_COL 0x1001
+#define PLANE_STRIDE_TIMES2 0x58
 #define NUM_PLANES 0x4
 #define SRC_SCANLINE_BYTES 0x8
 #define TILE_SIZE 0x80
@@ -32,13 +41,20 @@
 #define BLTCON0_USED_LF_00 0x100
 #define BLTCON0_USEA_USED_LF_FC 0x9fc
 #define BLTCON0_USED_LF_FF 0x1ff
+#define BLTBDAT 0x72
 #define FB_BLT_MOD_AFTER_1_WORD 0xae
 #define BLTCON0_USEA_USEB_USED_LF_FC 0xdfc
+#define BLTBPT 0x4c
+#define BLTBMOD 0x62
 #define BLTSIZE_OVERLAY_PANEL 0x1116
 #define BLTCON0_USED_LF_F0 0x1f0
+#define BLTADAT 0x74
+#define TILE_STRIDE 0xe
 #define BLTCON0_BASE_LINKED 0xfca
 #define BLTCON0_BASE_SINGLE 0x7ca
 #define NUM_PLANES_SHIFT 0x2
+#define BLTCPT 0x48
+#define BLTCMOD 0x60
 #define SCREEN_WIDTH 0x150
 #define ASSET_OP_INIT_CONTEXT 0x0
 #define ASSET_OP_INIT_SOURCE0 0x2
@@ -78,23 +94,25 @@
 #define SPR_CORNER_FLAG_FRAME_0 0x42e
 #define BIG_S_FRAME_00 0x467
 #define SPR_TEAM1_PLAYER_NAMES_START 0x8d
-#define SPR_EDIT_TEAMS_SOCKS 0xc3
+#define SPR_BIG_DASH 0xc3
 #define SPR_BIG_0 0xad
-#define SPR_SCROLL_ARROW_UP 0xb7
-#define SPR_EDIT_TEAMS_PRIMARY_SHIRT 0xc1
-#define SPR_EDIT_TEAMS_SHORTS 0xc2
+#define SPR_RESULT_BIG_0 0xb7
+#define SPR_TEAM1_NAME 0xc1
+#define SPR_TEAM2_NAME 0xc2
 #define PL_BOOKED 0xc
 #define CARD_YELLOW 0x1
 #define SPR_CORNER_FLAG_FRAME_3 0x431
 #define SPR_YELLOW_CARD 0x49a
 #define SPR_RED_CARD 0x499
-#define SPR_NOT_PLAYING_2_GAMES 0x9d
-#define SPR_LITTLE_PLAYER_GENERIC 0xd6
+#define SPR_TEAM2_PLAYER_NAMES_START 0x9d
+#define SPR_8_MINS 0xd6
 #define SPR_INVITATION_TOURNAMENT 0xd8
+#define SPR_LITTLE_PLAYER_GENERIC 0xd6
 #define SPR_PREMIERE_DIVISION_WINNER 0xd7
 #define SPR_CUP_WINNER 0xd9
 #define ST_RESULT_ON_HALFTIME 0x19
 #define SPR_SMALL_ZERO 0x8
+#define SPR_SCROLL_ARROW_UP 0xb7
 #define SPR_REPLAY_FRAME_00 0x447
 #define GT_OWN_GOAL 0x2
 #define GT_PENALTY 0x1
@@ -262,6 +280,12 @@
 #define SPR_EDIT_TACTICS_SMALL_PL_WHITE_GUY 0x7c
 #define SPR_NOT_PLAYING_WHOLE_SEASON 0xa1
 #define SPR_LITTLE_PLAYER_GOALIE 0xd5
+#define DMACON_BLT_ON -0x7c00
+#define BLT_FWM_ALL -0x1
+#define BLT_BLITQ_END -0x1
+#define RANDOM -0x1
+#define SEASONAL -0x2
+#define WORD_ALIGN_EVEN_MASK 0xfffe
 
 typedef unsigned char   undefined;
 
@@ -741,21 +765,6 @@ struct PlayerFile {
     byte someFlag;
 };
 
-typedef struct SpriteGraphics SpriteGraphics, *PSpriteGraphics;
-
-struct SpriteGraphics {
-    void *sprData;
-    byte unknown[6];
-    word pixWidth;
-    word nlines;
-    word wquads;
-    word centerX;
-    word centerY;
-    byte unkFlags;
-    byte nlinesDiv4;
-    word ordinal;
-};
-
 typedef enum ClubMessages {
     CLUB_UNWILLING_TO_PURCHASE_PLAYERS=1,
     TOO_LARGE_SQUAD=2,
@@ -799,6 +808,36 @@ typedef enum ClubMessages {
 
 typedef struct TeamGame TeamGame, *PTeamGame;
 
+typedef struct PlayerInfo PlayerInfo, *PPlayerInfo;
+
+struct PlayerInfo {
+    byte skip;
+    byte playerIndex;
+    byte goalsScored;
+    byte shirtNumber;
+    byte position;
+    byte face;
+    byte isInjured;
+    byte field_7;
+    byte field_8;
+    byte previousCards;
+    byte numYellowCards;
+    byte field_B;
+    byte shortName[15];
+    byte passing;
+    byte shooting;
+    byte heading;
+    byte tackling;
+    byte ballControl;
+    byte speed;
+    byte finishing;
+    byte goalieSkill;
+    byte injuriesBitfield;
+    byte halfPlayed;
+    byte face2;
+    byte fullName[23];
+};
+
 struct TeamGame {
     word prShirtType;
     word prShirtCol;
@@ -815,7 +854,7 @@ struct TeamGame {
     byte unk1;
     byte numOwnGoals;
     byte unk3;
-    byte unk4[976];
+    struct PlayerInfo players[16];
 };
 
 typedef enum Frontbuffer {
@@ -834,6 +873,20 @@ struct GoalInfo {
     word goalType;
     dword time;
 };
+
+typedef enum Sfx {
+    SFX_BACKGROUND_CROWD=0,
+    SFX_BOUNCE=1,
+    SFX_HOME_GOAL=2,
+    SFX_KICK=3,
+    SFX_WHISTLE=4,
+    SFX_MISS_GOAL=5,
+    SFX_ENDGAME_WHISTLE=6,
+    SFX_FOUL_WHISTLE=7,
+    SFX_CHANT_41=8,
+    SFX_CHANT_101=9,
+    SFX_CHANT_81=10
+} Sfx;
 
 typedef enum DisplayGeometry {
     WORD_ALIGN_MASK=15,
@@ -1261,42 +1314,12 @@ struct DIY_Competition {
 typedef struct Menu Menu, *PMenu;
 
 struct Menu {
-    void *initFunc;
-    void *onReturn;
+    void *onInit;
+    void *afterDraw;
     void *onDraw;
     struct MenuEntry *selectedEntry;
     word numEntries;
-    struct MenuEntry *menuEndPtr;
-};
-
-typedef struct PlayerInfo PlayerInfo, *PPlayerInfo;
-
-struct PlayerInfo {
-    byte skip;
-    byte playerIndex;
-    byte goalsScored;
-    byte shirtNumber;
-    byte position;
-    byte face;
-    byte isInjured;
-    byte field_7;
-    byte field_8;
-    byte previousCards;
-    byte numYellowCards;
-    byte field_B;
-    byte shortName[15];
-    byte passing;
-    byte shooting;
-    byte heading;
-    byte tackling;
-    byte ballControl;
-    byte speed;
-    byte finishing;
-    byte goalieSkill;
-    byte injuriesBitfield;
-    byte halfPlayed;
-    byte face2;
-    byte fullName[23];
+    struct MenuEntry *endOfMenuPtr;
 };
 
 typedef enum GoalTypes {
@@ -1488,6 +1511,13 @@ typedef enum TeamTypes {
     NONE=4294967295
 } TeamTypes;
 
+typedef struct AnimTable_12 AnimTable_12, *PAnimTable_12;
+
+struct AnimTable_12 {
+    word frameDelay;
+    short *animFrames[12];
+};
+
 typedef enum MenuBackgroundColors {
     COLOR_ORANGE=6,
     COLOR_DARK_BLUE=8,
@@ -1507,6 +1537,13 @@ typedef enum BitplaneLayout_Times {
     PLANE_STRIDE_TIMES6=264,
     PLANE_STRIDE_TIMES7=308
 } BitplaneLayout_Times;
+
+typedef struct AnimTable_8 AnimTable_8, *PAnimTable_8;
+
+struct AnimTable_8 {
+    word frameDelay;
+    short *animFrames[8];
+};
 
 typedef struct TeamFile TeamFile, *PTeamFile;
 
@@ -1541,6 +1578,21 @@ typedef struct AnimTable_20 AnimTable_20, *PAnimTable_20;
 struct AnimTable_20 {
     word frameDelay;
     short *animFrames[20];
+};
+
+typedef struct SpriteGraphics SpriteGraphics, *PSpriteGraphics;
+
+struct SpriteGraphics {
+    void *sprData;
+    byte unknown[6];
+    word pixWidth;
+    word nlines;
+    word wquads;
+    word centerX;
+    word centerY;
+    byte unkFlags;
+    byte nlinesDiv4;
+    word ordinal;
 };
 
 typedef enum TeamControls {
@@ -1821,13 +1873,13 @@ void __usercall PlayRefereeWhistleSample(void);
 void __usercall PlayFoulWhistleSample(void);
 void __usercall PlayEndGameWhistleSample(void);
 void __usercall PlaySample1IfNotTraining(void);
-void PlaySample3IfNotTraining(void);
+void FUN_001072ee(void);
+void __usercall PlaySample2(void);
 void __usercall PlaySample3(void);
-void __usercall PlaySample5(void);
 void __usercall PlayMissGoalSample(void);
 void __usercall PlayPenalty(void);
 void __usercall PlayGameStateWhistleSample(void);
-void __usercall PlayGoalReplayBottomSample(void);
+void PlayGoalReplayBottomSample(void);
 void __usercall PlayGoalKickOffSample(void);
 void __usercall PlayCornerKickSample(void);
 void __usercall nullsub_6(void);
