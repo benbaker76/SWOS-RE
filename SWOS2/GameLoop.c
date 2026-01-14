@@ -1,7 +1,7 @@
 /*
  * Auto-generated call graph export
  * Start: GameLoop
- * Date : 2026-01-08 19:23:11
+ * Date : 2026-01-13 11:18:38
  */
 
 /* ===================== INCLUDES ===================== */
@@ -396,7 +396,7 @@ ushort __usercall GetKey(void)
       currentKey = keyCount;
       return uVar10;
     }
-    REG_POTINP = 8;
+    REG_INTENA = 8;
     keyBuffer[1] = keyBuffer[2];
     keyBuffer[2] = keyBuffer[3];
     keyBuffer[3] = keyBuffer[4];
@@ -406,7 +406,7 @@ ushort __usercall GetKey(void)
     keyBuffer[7] = keyBuffer[8];
     keyBuffer[8] = keyBuffer[9];
     keyCount = keyCount - 1;
-    REG_POTINP = 0x8008;
+    REG_INTENA = 0x8008;
     bVar2 = keycodeLut[(short)(ushort)keyBuffer[0]];
     uVar10 = (ushort)bVar2;
     keyBuffer[0] = bVar1;
@@ -752,7 +752,7 @@ void __usercall ProcessSpriteBlitQueue(void)
 {
   undefined1 uVar1;
   byte bVar2;
-  int *piVar3;
+  undefined4 *puVar3;
   
   REG_DMACON = DMACON_BLT_ON;
   uVar1 = REG_DMACONR._0_1_;
@@ -764,7 +764,7 @@ void __usercall ProcessSpriteBlitQueue(void)
   REG_BLTALWM = BLT_FWM_ALL;
   REG_BLTCON1 = 0;
   REG_BLTCON0 = BLTCON0_USEA_USED_LF_F0;
-  piVar3 = (int *)spriteBlitQueue;
+  puVar3 = (undefined4 *)spriteBlitQueue;
   while( true ) {
     REG_DMACON = DMACON_BLT_ON;
     uVar1 = REG_DMACONR._0_1_;
@@ -772,13 +772,13 @@ void __usercall ProcessSpriteBlitQueue(void)
       bVar2 = REG_DMACONR._0_1_;
     } while ((bVar2 & 0x40) != 0);
     REG_DMACON = DMACON_BLT_OFF;
-    REG_BLTAPTH = *piVar3;
-    if (REG_BLTAPTH < 0) break;
-    REG_BLTDPTH = piVar3[1];
-    REG_BLTAMOD = *(undefined2 *)(piVar3 + 2);
-    REG_BLTDMOD = *(undefined2 *)(piVar3 + 2);
-    REG_BLTSIZE = *(undefined2 *)((int)piVar3 + 10);
-    piVar3 = piVar3 + 3;
+    REG_BLTAPTH = (void *)*puVar3;
+    if ((int)*puVar3 < 0) break;
+    REG_BLTDPTH = (void *)puVar3[1];
+    REG_BLTAMOD = *(ushort *)(puVar3 + 2);
+    REG_BLTDMOD = *(ushort *)(puVar3 + 2);
+    REG_BLTSIZE = *(ushort *)((int)puVar3 + 10);
+    puVar3 = puVar3 + 3;
   }
   *(undefined4 *)spriteBlitQueue = 0xffffffff;
   return;
@@ -922,14 +922,19 @@ void __usercall ScrollToCurrent(void)
 void __usercall ScrollXUpdateColumnsAndBlit(void)
 
 {
-  undefined1 uVar1;
-  byte bVar2;
-  ushort uVar3;
-  short sVar4;
+  int iVar1;
+  int iVar2;
+  void *pvVar3;
+  ushort uVar4;
+  undefined1 uVar5;
+  byte bVar6;
+  ushort uVar7;
+  short sVar8;
+  int *piVar9;
   
   if (g_cameraX.s.i != g_oldCameraX) {
     if ((short)(g_cameraX.s.i - g_oldCameraX) < 0) {
-      sVar4 = 0;
+      sVar8 = 0;
       if ((short)g_cameraX.s.i >> TILE_SHIFT_X == (short)g_oldCameraX >> TILE_SHIFT_X) {
         g_oldCameraX = g_cameraX.s.i;
         cameraCoordinatesValid = 0;
@@ -937,7 +942,7 @@ void __usercall ScrollXUpdateColumnsAndBlit(void)
       }
     }
     else {
-      sVar4 = SCROLL_RIGHT_EDGE_X;
+      sVar8 = SCROLL_RIGHT_EDGE_X;
       if ((short)(g_cameraX.s.i + SCROLL_RIGHT_EDGE_X) >> TILE_SHIFT_X ==
           (short)(g_oldCameraX + SCROLL_RIGHT_EDGE_X) >> TILE_SHIFT_X) {
         g_oldCameraX = g_cameraX.s.i;
@@ -947,71 +952,97 @@ void __usercall ScrollXUpdateColumnsAndBlit(void)
     }
     cameraCoordinatesValid = 0;
     g_oldCameraX = g_cameraX.s.i;
+    iVar1 = (int)(short)(((ushort)(sVar8 + g_cameraX.s.i) >> TILE_SHIFT_X) * 4 +
+                        (g_cameraY.s.i >> TILE_SHIFT_X) * PITCH_PTR_ROW_BYTES);
+    piVar9 = (int *)(iVar1 + 0x400);
     REG_DMACON = DMACON_BLT_ON;
-    uVar1 = REG_DMACONR._0_1_;
+    uVar5 = REG_DMACONR._0_1_;
     do {
-      bVar2 = REG_DMACONR._0_1_;
-    } while ((bVar2 & 0x40) != 0);
+      bVar6 = REG_DMACONR._0_1_;
+    } while ((bVar6 & 0x40) != 0);
     REG_DMACON = DMACON_BLT_OFF;
+    REG_BLTDPTH = frontbufferBasePtr +
+                  (uint)cameraYMod320 * ROW_STRIDE_BYTES +
+                  ((ushort)(sVar8 + cameraXMod320) >> 3 & 0xfffe);
+    REG_BLTAMOD = 0;
     REG_BLTDMOD = BLTDMOD_PLANE_STEP;
     REG_BLTAFWM = BLT_FWM_ALL;
     REG_BLTALWM = BLT_FWM_ALL;
     REG_BLTCON1 = 0;
     REG_BLTCON0 = BLTCON0_USEA_USED_LF_F0;
-    uVar3 = cameraYMod320;
-    if ((cameraYMod320 & TILE_MASK) != 0) {
-      uVar3 = (TILE_HEIGHT - (cameraYMod320 & TILE_MASK)) + cameraYMod320;
+    uVar4 = cameraYMod320 & TILE_MASK;
+    uVar7 = cameraYMod320;
+    if (uVar4 != 0) {
+      uVar7 = (TILE_HEIGHT - uVar4) + cameraYMod320;
+      iVar2 = *piVar9;
+      piVar9 = (int *)(iVar1 + 0x4a8);
       REG_DMACON = DMACON_BLT_ON;
-      uVar1 = REG_DMACONR._0_1_;
+      uVar5 = REG_DMACONR._0_1_;
       do {
-        bVar2 = REG_DMACONR._0_1_;
-      } while ((bVar2 & 0x40) != 0);
+        bVar6 = REG_DMACONR._0_1_;
+      } while ((bVar6 & 0x40) != 0);
       REG_DMACON = DMACON_BLT_OFF;
+      REG_BLTAPTH = (void *)((short)(uVar4 << NUM_PLANES_SHIFT_PLUS1) + iVar2);
+      REG_BLTSIZE = (TILE_HEIGHT - uVar4) * 0x100 + 1;
     }
-    for (; uVar3 < SCREEN_HEIGHT; uVar3 = uVar3 + TILE_HEIGHT) {
+    for (; uVar7 < SCREEN_HEIGHT; uVar7 = uVar7 + TILE_HEIGHT) {
+      pvVar3 = (void *)*piVar9;
+      piVar9 = piVar9 + 0x2a;
       REG_DMACON = DMACON_BLT_ON;
-      uVar1 = REG_DMACONR._0_1_;
+      uVar5 = REG_DMACONR._0_1_;
       do {
-        bVar2 = REG_DMACONR._0_1_;
-      } while ((bVar2 & 0x40) != 0);
+        bVar6 = REG_DMACONR._0_1_;
+      } while ((bVar6 & 0x40) != 0);
       REG_DMACON = DMACON_BLT_OFF;
+      REG_BLTAPTH = pvVar3;
+      REG_BLTSIZE = BLTSIZE_TILE_COL;
     }
     REG_DMACON = DMACON_BLT_ON;
-    uVar1 = REG_DMACONR._0_1_;
+    uVar5 = REG_DMACONR._0_1_;
     do {
-      bVar2 = REG_DMACONR._0_1_;
-    } while ((bVar2 & 0x40) != 0);
+      bVar6 = REG_DMACONR._0_1_;
+    } while ((bVar6 & 0x40) != 0);
     REG_DMACON = DMACON_BLT_OFF;
-    for (uVar3 = cameraYMod320; TILE_HEIGHT - 1 < uVar3; uVar3 = uVar3 + -TILE_HEIGHT) {
+    REG_BLTDPTH = frontbufferBasePtr + ((ushort)(sVar8 + cameraXMod320) >> 3 & 0xfffe);
+    for (uVar7 = cameraYMod320; TILE_HEIGHT - 1 < uVar7; uVar7 = uVar7 + -TILE_HEIGHT) {
+      pvVar3 = (void *)*piVar9;
+      piVar9 = piVar9 + 0x2a;
       REG_DMACON = DMACON_BLT_ON;
-      uVar1 = REG_DMACONR._0_1_;
+      uVar5 = REG_DMACONR._0_1_;
       do {
-        bVar2 = REG_DMACONR._0_1_;
-      } while ((bVar2 & 0x40) != 0);
+        bVar6 = REG_DMACONR._0_1_;
+      } while ((bVar6 & 0x40) != 0);
       REG_DMACON = DMACON_BLT_OFF;
+      REG_BLTAPTH = pvVar3;
+      REG_BLTSIZE = BLTSIZE_TILE_COL;
     }
-    if (uVar3 != 0) {
+    if (uVar7 != 0) {
       REG_DMACON = DMACON_BLT_ON;
-      uVar1 = REG_DMACONR._0_1_;
+      uVar5 = REG_DMACONR._0_1_;
       do {
-        bVar2 = REG_DMACONR._0_1_;
-      } while ((bVar2 & 0x40) != 0);
+        bVar6 = REG_DMACONR._0_1_;
+      } while ((bVar6 & 0x40) != 0);
       REG_DMACON = DMACON_BLT_OFF;
+      REG_BLTAPTH = (void *)*piVar9;
+      REG_BLTSIZE = uVar7 * 0x100 + 1;
     }
-    REG_BLTAPTH = frontbufferBasePtr + ((ushort)(sVar4 + cameraXMod320) >> 3 & 0xfffe);
     REG_DMACON = DMACON_BLT_ON;
-    uVar1 = REG_DMACONR._0_1_;
+    uVar5 = REG_DMACONR._0_1_;
     do {
-      bVar2 = REG_DMACONR._0_1_;
-    } while ((bVar2 & 0x40) != 0);
+      bVar6 = REG_DMACONR._0_1_;
+    } while ((bVar6 & 0x40) != 0);
     REG_DMACON = DMACON_BLT_OFF;
-    REG_BLTDPTH = frontbufferMaskBuffer + ((int)REG_BLTAPTH - (int)frontbufferBasePtr);
+    REG_BLTAPTH = frontbufferBasePtr + ((ushort)(sVar8 + cameraXMod320) >> 3 & 0xfffe);
+    REG_BLTDPTH = frontbufferMaskBuffer +
+                  ((int)(frontbufferBasePtr + ((ushort)(sVar8 + cameraXMod320) >> 3 & 0xfffe)) -
+                  (int)frontbufferBasePtr);
     REG_BLTAMOD = BLTDMOD_PLANE_STEP;
+    REG_BLTSIZE = BLTSIZE_TILE_COL;
     REG_DMACON = DMACON_BLT_ON;
-    uVar1 = REG_DMACONR._0_1_;
+    uVar5 = REG_DMACONR._0_1_;
     do {
-      bVar2 = REG_DMACONR._0_1_;
-    } while ((bVar2 & 0x40) != 0);
+      bVar6 = REG_DMACONR._0_1_;
+    } while ((bVar6 & 0x40) != 0);
     REG_DMACON = DMACON_BLT_OFF;
     REG_BLTSIZE = 1;
   }
@@ -1026,8 +1057,8 @@ void __usercall ScrollYUpdateRowsAndBlit(void)
 {
   undefined1 uVar1;
   byte bVar2;
-  word wVar3;
-  ushort uVar4;
+  ushort uVar3;
+  word wVar4;
   short sVar5;
   int iVar6;
   ushort uVar7;
@@ -1046,14 +1077,14 @@ void __usercall ScrollYUpdateRowsAndBlit(void)
   uint *puVar20;
   uint *puVar21;
   
-  uVar4 = g_cameraY.s.i - g_oldCameraY;
-  if (uVar4 != 0) {
-    if ((int)((uint)uVar4 << 0x10) < 0) {
+  uVar3 = g_cameraY.s.i - g_oldCameraY;
+  if (uVar3 != 0) {
+    if ((int)((uint)uVar3 << 0x10) < 0) {
       sVar8 = 0;
-      uVar4 = -uVar4;
+      uVar3 = -uVar3;
     }
     else {
-      sVar8 = SCREEN_HEIGHT - uVar4;
+      sVar8 = SCREEN_HEIGHT - uVar3;
     }
     g_oldCameraY = g_cameraY.s.i;
     cameraCoordinatesValid = 0;
@@ -1086,7 +1117,7 @@ void __usercall ScrollYUpdateRowsAndBlit(void)
     maskBlitPendingBytesB = 0;
     maskBlitSecondStreamPtr = (uint *)0x0;
     iVar6 = (int)(short)((sVar8 + g_cameraY.s.i & TILE_MASK) << NUM_PLANES_SHIFT_PLUS1);
-    sVar8 = uVar4 - 1;
+    sVar8 = uVar3 - 1;
     sVar5 = sVar9;
     piVar13 = piVar12;
     maskBlitDestPtr = puVar14;
@@ -1143,7 +1174,9 @@ void __usercall ScrollYUpdateRowsAndBlit(void)
     REG_BLTALWM = BLT_FWM_ALL;
     REG_BLTCON1 = 0;
     REG_BLTCON0 = BLTCON0_USEA_USED_LF_F0;
-    REG_BLTAMOD = (PLANE_STRIDE_DIV2 - blitWordCount) * 2;
+    uVar3 = (PLANE_STRIDE_DIV2 - blitWordCount) * 2;
+    REG_BLTAMOD = uVar3;
+    REG_BLTDMOD = uVar3;
     if (maskBlitSecondStreamPtr != (uint *)0x0) {
       maskBlitPendingBytesA = maskBlitPendingBytesA - maskBlitPendingBytesB;
     }
@@ -1156,20 +1189,19 @@ void __usercall ScrollYUpdateRowsAndBlit(void)
     REG_BLTAPTH = maskBlitDestPtr;
     REG_BLTDPTH = frontbufferMaskBuffer + ((int)maskBlitDestPtr - (int)frontbufferBasePtr);
     while (maskBlitPendingBytesA != 0) {
-      wVar3 = maskBlitPendingBytesA;
+      wVar4 = maskBlitPendingBytesA;
       if (0x400 < maskBlitPendingBytesA) {
-        wVar3 = 0x400;
+        wVar4 = 0x400;
       }
-      maskBlitPendingBytesA = maskBlitPendingBytesA - wVar3;
-      REG_BLTSIZE = blitWordCount + wVar3 * 0x40;
+      maskBlitPendingBytesA = maskBlitPendingBytesA - wVar4;
       REG_DMACON = DMACON_BLT_ON;
       uVar1 = REG_DMACONR._0_1_;
       do {
         bVar2 = REG_DMACONR._0_1_;
       } while ((bVar2 & 0x40) != 0);
       REG_DMACON = DMACON_BLT_OFF;
+      REG_BLTSIZE = blitWordCount + wVar4 * 0x40;
     }
-    REG_BLTDMOD = REG_BLTAMOD;
     if ((maskBlitSecondStreamPtr != (uint *)0x0) && (maskBlitPendingBytesB != 0)) {
       REG_DMACON = DMACON_BLT_ON;
       uVar1 = REG_DMACONR._0_1_;
@@ -1181,18 +1213,18 @@ void __usercall ScrollYUpdateRowsAndBlit(void)
       REG_BLTDPTH = frontbufferMaskBuffer + ((int)maskBlitSecondStreamPtr - (int)frontbufferBasePtr)
       ;
       while (maskBlitPendingBytesB != 0) {
-        wVar3 = maskBlitPendingBytesB;
+        wVar4 = maskBlitPendingBytesB;
         if (0x400 < maskBlitPendingBytesB) {
-          wVar3 = 0x400;
+          wVar4 = 0x400;
         }
-        maskBlitPendingBytesB = maskBlitPendingBytesB - wVar3;
-        REG_BLTSIZE = blitWordCount + wVar3 * 0x40;
+        maskBlitPendingBytesB = maskBlitPendingBytesB - wVar4;
         REG_DMACON = DMACON_BLT_ON;
         uVar1 = REG_DMACONR._0_1_;
         do {
           bVar2 = REG_DMACONR._0_1_;
         } while ((bVar2 & 0x40) != 0);
         REG_DMACON = DMACON_BLT_OFF;
+        REG_BLTSIZE = blitWordCount + wVar4 * 0x40;
       }
     }
   }
@@ -1487,12 +1519,13 @@ void blitter_rectrow_masked(void)
   short unaff_D3w;
   int in_A0;
   int in_A1;
+  void *pvVar7;
   
   BlitterSpan4Planes();
   iVar6 = (uint)(ushort)(in_D1w << 2) * PLANE_STRIDE;
   uVar1 = unaff_D2w + -1 + in_D0w;
   sVar5 = (in_D0w >> 4) * 2;
-  REG_BLTBPTH = (int)sVar5 + iVar6 + in_A1;
+  pvVar7 = (void *)((int)sVar5 + iVar6 + in_A1);
   REG_DMACON = DMACON_BLT_ON;
   uVar3 = REG_DMACONR._0_1_;
   do {
@@ -1502,13 +1535,15 @@ void blitter_rectrow_masked(void)
   uVar2 = ((uVar1 >> 4) - (in_D0w >> 4)) + 1;
   REG_BLTCON0 = BLTCON0_USEA_USEB_USED_LF_FC;
   REG_BLTCON1 = 0;
-  REG_BLTAFWM = *(undefined2 *)((int)firstWordMaskTable + (int)(short)((in_D0w & TILE_MASK) * 2));
-  REG_BLTALWM = *(undefined2 *)((int)lastWordMaskTable + (int)(short)((uVar1 & TILE_MASK) * 2));
-  REG_BLTAPTH = (int)sVar5 + iVar6 + in_A0;
-  REG_BLTDPTH = REG_BLTBPTH;
-  REG_BLTAMOD = uVar2 * -2 + PLANE_STRIDE;
-  REG_BLTBMOD = REG_BLTAMOD;
-  REG_BLTDMOD = REG_BLTAMOD;
+  REG_BLTAFWM = *(ushort *)((int)firstWordMaskTable + (int)(short)((in_D0w & TILE_MASK) * 2));
+  REG_BLTALWM = *(ushort *)((int)lastWordMaskTable + (int)(short)((uVar1 & TILE_MASK) * 2));
+  REG_BLTAPTH = (void *)((int)sVar5 + iVar6 + in_A0);
+  REG_BLTBPTH = pvVar7;
+  REG_BLTDPTH = pvVar7;
+  uVar1 = uVar2 * -2 + PLANE_STRIDE;
+  REG_BLTAMOD = uVar1;
+  REG_BLTBMOD = uVar1;
+  REG_BLTDMOD = uVar1;
   REG_BLTSIZE = uVar2 | unaff_D3w << 8;
   return;
 }
@@ -1521,6 +1556,7 @@ void __usercall BlitterCopyOverlayToScreen(void)
 {
   undefined1 uVar1;
   byte bVar2;
+  uchar *puVar3;
   
   REG_DMACON = DMACON_BLT_ON;
   uVar1 = REG_DMACONR._0_1_;
@@ -1535,10 +1571,12 @@ void __usercall BlitterCopyOverlayToScreen(void)
   REG_BLTAMOD = 0;
   REG_BLTDMOD = 0;
   REG_BLTDPTH = frontbufferBasePtr;
-  REG_BLTAPTH = frontbufferBase;
+  puVar3 = frontbufferBase;
   if (frontbufferBasePtr != frontbufferBaseAlt) {
-    REG_BLTAPTH = frontbufferBaseAlt;
+    puVar3 = frontbufferBaseAlt;
   }
+  REG_BLTAPTH = puVar3;
+  REG_BLTSIZE = BLTSIZE_OVERLAY_PANEL;
   REG_DMACON = DMACON_BLT_ON;
   uVar1 = REG_DMACONR._0_1_;
   do {
@@ -1572,6 +1610,7 @@ void __usercall BlitterCopyPanelToScreen(void)
   REG_BLTDMOD = 0;
   REG_BLTAPTH = frontbufferMaskBuffer;
   REG_BLTDPTH = frontbufferBasePtr;
+  REG_BLTSIZE = BLTSIZE_OVERLAY_PANEL;
   REG_DMACON = DMACON_BLT_ON;
   uVar1 = REG_DMACONR._0_1_;
   do {
@@ -1605,7 +1644,7 @@ void __usercall HWSprite_LoadFromSpriteGraphics(short spriteIndex)
   REG_BLTCON0 = BLTCON0_USED_LF_F0;
   REG_BLTADAT = 0;
   REG_BLTDMOD = 0;
-  REG_BLTDPTH = *puVar1;
+  REG_BLTDPTH = (void *)*puVar1;
   REG_BLTSIZE = *(short *)((int)puVar1 + TILE_STRIDE) + *(short *)(puVar1 + 3) * 0x100;
   return;
 }
@@ -1837,83 +1876,118 @@ void __usercall DrawSprite16Pixels(void)
 uchar __usercall CopySprite(ushort srcSprite,ushort xOffset,ushort yOffset,ushort dstSprite)
 
 {
-  int *piVar1;
+  void *pvVar1;
   int *piVar2;
-  undefined1 uVar3;
-  byte bVar4;
-  ushort uVar5;
+  undefined4 *puVar3;
+  void *pvVar4;
+  void *pvVar5;
   ushort uVar6;
-  short sVar7;
+  undefined1 uVar7;
+  byte bVar8;
+  ushort uVar10;
+  int iVar9;
+  int iVar11;
+  ushort uVar12;
+  short sVar13;
   
-  piVar1 = *(int **)(spriteGraphicsPtr + (short)(dstSprite << 2));
-  piVar2 = *(int **)(spriteGraphicsPtr + (short)(srcSprite << 2));
+  piVar2 = *(int **)(spriteGraphicsPtr + (short)(dstSprite << 2));
+  puVar3 = *(undefined4 **)(spriteGraphicsPtr + (short)(srcSprite << 2));
   REG_DMACON = DMACON_BLT_ON;
-  uVar3 = REG_DMACONR._0_1_;
+  uVar7 = REG_DMACONR._0_1_;
   do {
-    bVar4 = REG_DMACONR._0_1_;
-  } while ((bVar4 & 0x40) != 0);
+    bVar8 = REG_DMACONR._0_1_;
+  } while ((bVar8 & 0x40) != 0);
   REG_DMACON = DMACON_BLT_OFF;
-  REG_BLTALWM = 0;
-  uVar6 = *(ushort *)((int)piVar2 + 10) & TILE_MASK;
-  if (uVar6 == 0) {
-    uVar6 = 0x10;
+  uVar10 = 0;
+  uVar12 = *(ushort *)((int)puVar3 + 10) & TILE_MASK;
+  if (uVar12 == 0) {
+    uVar12 = 0x10;
   }
-  sVar7 = *(short *)((int)piVar2 + TILE_STRIDE) + 1;
-  if ((ushort)(uVar6 + (xOffset & TILE_MASK)) < 0x11) {
-    REG_BLTALWM = 0xffff;
-    sVar7 = *(short *)((int)piVar2 + TILE_STRIDE);
+  sVar13 = *(short *)((int)puVar3 + TILE_STRIDE) + 1;
+  if ((ushort)(uVar12 + (xOffset & TILE_MASK)) < 0x11) {
+    uVar10 = 0xffff;
+    sVar13 = *(short *)((int)puVar3 + TILE_STRIDE);
   }
+  REG_BLTALWM = uVar10;
   REG_BLTAFWM = BLT_FWM_ALL;
-  REG_BLTCON1 = xOffset * 0x1000;
-  if (piVar2[1] == 0) {
-    REG_BLTCON0 = REG_BLTCON1 + BLTCON0_BASE_SINGLE;
+  uVar12 = xOffset * 0x1000;
+  REG_BLTCON1 = uVar12;
+  if (puVar3[1] == 0) {
+    uVar12 = uVar12 + BLTCON0_BASE_SINGLE;
     REG_BLTADAT = 0xffff;
   }
   else {
-    REG_BLTCON0 = REG_BLTCON1 + BLTCON0_BASE_LINKED;
+    uVar12 = uVar12 + BLTCON0_BASE_LINKED;
   }
-  uVar6 = *(short *)((int)piVar1 + TILE_STRIDE) << 3;
-  uVar5 = uVar6 >> NUM_PLANES_SHIFT;
-  REG_BLTCPTH = *piVar1 + (uint)yOffset * (uint)uVar6 + (xOffset >> 3 & WORD_ALIGN_EVEN_MASK);
-  REG_BLTDPTH = REG_BLTCPTH;
-  if (*(short *)(piVar2 + 2) != 0) {
-    REG_BLTAMOD = *(short *)((int)piVar2 + TILE_STRIDE) * 2 + sVar7 * -2;
-    REG_BLTBMOD = REG_BLTAMOD;
-    REG_BLTCMOD = uVar5 + sVar7 * -2;
-    REG_BLTDMOD = REG_BLTCMOD;
-    REG_BLTBPTH = *piVar2;
-    REG_BLTAPTH = piVar2[1];
-    REG_BLTSIZE = sVar7 + *(short *)(piVar2 + 3) * 0x100;
-    return (uchar)REG_BLTAMOD;
+  REG_BLTCON0 = uVar12;
+  uVar10 = *(short *)((int)piVar2 + TILE_STRIDE) << 3;
+  uVar12 = uVar10 >> NUM_PLANES_SHIFT;
+  pvVar4 = (void *)(*piVar2 + (uint)yOffset * (uint)uVar10 + (xOffset >> 3 & WORD_ALIGN_EVEN_MASK));
+  REG_BLTCPTH = pvVar4;
+  REG_BLTDPTH = pvVar4;
+  if (*(short *)(puVar3 + 2) != 0) {
+    uVar10 = *(short *)((int)puVar3 + TILE_STRIDE) * 2 + sVar13 * -2;
+    REG_BLTAMOD = uVar10;
+    REG_BLTBMOD = uVar10;
+    uVar12 = uVar12 + sVar13 * -2;
+    REG_BLTCMOD = uVar12;
+    REG_BLTDMOD = uVar12;
+    REG_BLTBPTH = (void *)*puVar3;
+    REG_BLTAPTH = (void *)puVar3[1];
+    REG_BLTSIZE = sVar13 + *(short *)(puVar3 + 3) * 0x100;
+    return (uchar)uVar10;
   }
-  REG_BLTBMOD = *(short *)((int)piVar2 + TILE_STRIDE) * 8 + sVar7 * -2;
-  REG_BLTAMOD = *(short *)((int)piVar2 + TILE_STRIDE) * 2 + sVar7 * -2;
-  REG_BLTCMOD = uVar5 * 4 + sVar7 * -2;
-  REG_BLTDMOD = REG_BLTCMOD;
-  REG_BLTCPTH = (short)uVar5 * 3 + REG_BLTCPTH;
+  uVar10 = sVar13 + *(short *)(puVar3 + 3) * 0x40;
+  REG_BLTBMOD = *(short *)((int)puVar3 + TILE_STRIDE) * 8 + sVar13 * -2;
+  REG_BLTAMOD = *(short *)((int)puVar3 + TILE_STRIDE) * 2 + sVar13 * -2;
+  uVar6 = uVar12 * 4 + sVar13 * -2;
+  REG_BLTCMOD = uVar6;
+  REG_BLTDMOD = uVar6;
+  pvVar1 = (void *)puVar3[1];
+  REG_BLTBPTH = (void *)*puVar3;
+  REG_BLTAPTH = pvVar1;
+  REG_BLTSIZE = uVar10;
+  iVar9 = (int)(short)uVar12;
+  iVar11 = (int)(short)(*(short *)((int)puVar3 + TILE_STRIDE) << 1);
+  pvVar4 = (void *)(iVar9 + (int)pvVar4);
+  pvVar5 = (void *)(iVar11 + (int)*puVar3);
   REG_DMACON = DMACON_BLT_ON;
-  uVar3 = REG_DMACONR._0_1_;
+  uVar7 = REG_DMACONR._0_1_;
   do {
-    bVar4 = REG_DMACONR._0_1_;
-  } while ((bVar4 & 0x40) != 0);
+    bVar8 = REG_DMACONR._0_1_;
+  } while ((bVar8 & 0x40) != 0);
   REG_DMACON = DMACON_BLT_OFF;
+  REG_BLTCPTH = pvVar4;
+  REG_BLTDPTH = pvVar4;
+  REG_BLTBPTH = pvVar5;
+  REG_BLTAPTH = pvVar1;
+  REG_BLTSIZE = uVar10;
+  pvVar4 = (void *)(iVar9 + (int)pvVar4);
+  pvVar5 = (void *)(iVar11 + (int)pvVar5);
   REG_DMACON = DMACON_BLT_ON;
-  uVar3 = REG_DMACONR._0_1_;
+  uVar7 = REG_DMACONR._0_1_;
   do {
-    bVar4 = REG_DMACONR._0_1_;
-  } while ((bVar4 & 0x40) != 0);
+    bVar8 = REG_DMACONR._0_1_;
+  } while ((bVar8 & 0x40) != 0);
   REG_DMACON = DMACON_BLT_OFF;
+  REG_BLTCPTH = pvVar4;
+  REG_BLTDPTH = pvVar4;
+  REG_BLTBPTH = pvVar5;
+  REG_BLTAPTH = pvVar1;
+  REG_BLTSIZE = uVar10;
+  pvVar4 = (void *)(iVar9 + (int)pvVar4);
   REG_DMACON = DMACON_BLT_ON;
-  uVar3 = REG_DMACONR._0_1_;
+  uVar7 = REG_DMACONR._0_1_;
   do {
-    bVar4 = REG_DMACONR._0_1_;
-  } while ((bVar4 & 0x40) != 0);
+    bVar8 = REG_DMACONR._0_1_;
+  } while ((bVar8 & 0x40) != 0);
   REG_DMACON = DMACON_BLT_OFF;
-  REG_BLTDPTH = REG_BLTCPTH;
-  REG_BLTBPTH = (short)(*(short *)((int)piVar2 + TILE_STRIDE) << 1) * 3 + *piVar2;
-  REG_BLTAPTH = piVar2[1];
-  REG_BLTSIZE = sVar7 + *(short *)(piVar2 + 3) * 0x40;
-  return (uchar)REG_BLTCPTH;
+  REG_BLTCPTH = pvVar4;
+  REG_BLTDPTH = pvVar4;
+  REG_BLTBPTH = (void *)(iVar11 + (int)pvVar5);
+  REG_BLTAPTH = pvVar1;
+  REG_BLTSIZE = uVar10;
+  return (uchar)pvVar4;
 }
 
 
@@ -1985,48 +2059,52 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
 
 {
   uchar *puVar1;
-  ushort uVar2;
-  short sVar3;
+  void *pvVar2;
+  ushort uVar3;
   undefined1 uVar4;
   byte bVar5;
   uchar *puVar6;
   int iVar7;
   ushort uVar8;
-  short sVar9;
+  word wVar9;
   short sVar10;
+  short sVar11;
   short sVar12;
-  int iVar11;
-  ushort uVar13;
-  ushort uVar14;
-  int *piVar15;
+  int iVar13;
+  short sVar14;
+  ushort uVar15;
+  ushort uVar16;
+  ushort uVar17;
+  int *piVar18;
+  void *pvVar19;
   
   puVar6 = frontbufferBasePtr;
   if ((*(short *)((int)sprite + 8) == 0) && (*(short *)((int)sprite + 8) == 0)) {
-    sVar9 = *(short *)((int)sprite + 0xc);
-    sVar12 = 0;
+    wVar9 = *(word *)((int)sprite + 0xc);
+    sVar10 = 0;
     if ((short)y < 0) {
-      sVar12 = -y;
-      sVar9 = y + sVar9;
+      sVar10 = -y;
+      wVar9 = y + wVar9;
       y = 0;
     }
-    uVar2 = sVar9 + y + -SCREEN_HEIGHT;
-    if (-1 < (int)((uint)uVar2 << 0x10)) {
-      sVar9 = sVar9 - uVar2;
+    uVar3 = wVar9 + y + -SCREEN_HEIGHT;
+    if (-1 < (int)((uint)uVar3 << 0x10)) {
+      wVar9 = wVar9 - uVar3;
     }
-    uVar2 = cameraXMod320 + x;
+    uVar3 = cameraXMod320 + x;
     uVar8 = cameraYMod320 + y;
     if (SCREEN_HEIGHT - 1 < (short)uVar8) {
       uVar8 = uVar8 + -SCREEN_HEIGHT;
     }
-    REG_BLTALWM = 0;
-    uVar13 = *(ushort *)((int)sprite + 10) & TILE_MASK;
-    if (uVar13 == 0) {
-      uVar13 = 0x10;
+    uVar15 = 0;
+    uVar16 = *(ushort *)((int)sprite + 10) & TILE_MASK;
+    if (uVar16 == 0) {
+      uVar16 = 0x10;
     }
-    uVar14 = *(ushort *)((int)sprite + TILE_STRIDE) + 1;
-    if ((ushort)(uVar13 + (uVar2 & TILE_MASK)) < 0x11) {
-      REG_BLTALWM = BLT_FWM_ALL;
-      uVar14 = *(ushort *)((int)sprite + TILE_STRIDE);
+    uVar17 = *(ushort *)((int)sprite + TILE_STRIDE) + 1;
+    if ((ushort)(uVar16 + (uVar3 & TILE_MASK)) < 0x11) {
+      uVar15 = BLT_FWM_ALL;
+      uVar17 = *(ushort *)((int)sprite + TILE_STRIDE);
     }
     REG_DMACON = DMACON_BLT_ON;
     uVar4 = REG_DMACONR._0_1_;
@@ -2034,51 +2112,76 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
       bVar5 = REG_DMACONR._0_1_;
     } while ((bVar5 & 0x40) != 0);
     REG_DMACON = DMACON_BLT_OFF;
+    REG_BLTALWM = uVar15;
     REG_BLTAFWM = BLT_FWM_ALL;
-    REG_BLTCON1 = uVar2 * 0x1000;
+    uVar16 = uVar3 * 0x1000;
+    REG_BLTCON1 = uVar16;
     if (*(int *)((int)sprite + 4) == 0) {
-      REG_BLTCON0 = REG_BLTCON1 + BLTCON0_BASE_SINGLE;
+      uVar16 = uVar16 + BLTCON0_BASE_SINGLE;
       REG_BLTADAT = 0xffff;
     }
     else {
-      REG_BLTCON0 = REG_BLTCON1 + BLTCON0_BASE_LINKED;
+      uVar16 = uVar16 + BLTCON0_BASE_LINKED;
     }
-    sVar3 = sVar9 + uVar8 + -SCREEN_HEIGHT;
-    sVar10 = 0;
-    if (SCREEN_HEIGHT - 1 < (ushort)(sVar9 + uVar8) && sVar3 != 0) {
-      sVar9 = sVar9 - sVar3;
-      sVar10 = sVar3;
+    REG_BLTCON0 = uVar16;
+    sVar14 = wVar9 + uVar8 + -SCREEN_HEIGHT;
+    sVar11 = 0;
+    if (SCREEN_HEIGHT - 1 < (ushort)(wVar9 + uVar8) && sVar14 != 0) {
+      wVar9 = wVar9 - sVar14;
+      sVar11 = sVar14;
     }
-                    /* WARNING: Read-only address (ram,0x00104932) is written */
-    iVar7 = (int)(short)(((short)uVar2 >> TILE_SHIFT_X) << 1);
+    iVar7 = (int)(short)(((short)uVar3 >> TILE_SHIFT_X) << 1);
     puVar1 = frontbufferBasePtr + (uint)uVar8 * ROW_STRIDE_BYTES + iVar7;
-    sRam00104932 = sVar9;
+    REG_BLTCPTH = puVar1;
+    REG_BLTDPTH = puVar1;
+    queuedLineCount = wVar9;
     *(uchar **)(spriteBlitQueue + 4) = puVar1;
     *(byte **)spriteBlitQueue = frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6);
-    *(ushort *)(spriteBlitQueue + 10) = uVar14 + sVar9 * 0x100;
-    REG_BLTSIZE = uVar14 + sVar9 * 0x40;
-    REG_BLTAMOD = *(short *)((int)sprite + TILE_STRIDE) * 2 + uVar14 * -2;
-    REG_BLTBMOD = *(short *)((int)sprite + TILE_STRIDE) * 8 + uVar14 * -2;
-    *(ushort *)(spriteBlitQueue + 8) = uVar14 * -2 + PLANE_STRIDE;
-    REG_BLTCMOD = uVar14 * -2 + 0xb0;
-    iVar11 = 0;
-    if (sVar12 != 0) {
-      iVar11 = (uint)(ushort)(sVar12 << NUM_PLANES_SHIFT) *
+    *(ushort *)(spriteBlitQueue + 10) = uVar17 + wVar9 * 0x100;
+    uVar3 = uVar17 + wVar9 * 0x40;
+    REG_BLTAMOD = *(short *)((int)sprite + TILE_STRIDE) * 2 + uVar17 * -2;
+    REG_BLTBMOD = *(short *)((int)sprite + TILE_STRIDE) * 8 + uVar17 * -2;
+    *(ushort *)(spriteBlitQueue + 8) = uVar17 * -2 + PLANE_STRIDE;
+    uVar8 = uVar17 * -2 + 0xb0;
+    REG_BLTCMOD = uVar8;
+    REG_BLTDMOD = uVar8;
+    iVar13 = 0;
+    if (sVar10 != 0) {
+      iVar13 = (uint)(ushort)(sVar10 << NUM_PLANES_SHIFT) *
                (uint)*(ushort *)((int)sprite + TILE_STRIDE) * 2;
     }
-    iRam00104938 = iVar11 + *(int *)sprite;
-    iRam00104934 = CONCAT22((short)((uint)iVar11 >> 0x10),(ushort)iVar11 >> NUM_PLANES_SHIFT) +
-                   *(int *)((int)sprite + 4);
-    piVar15 = (int *)(spriteBlitQueue + 0xc);
-                    /* WARNING: Read-only address (ram,0x00104934) is written */
-                    /* WARNING: Read-only address (ram,0x00104938) is written */
-    REG_BLTBPTH = (short)(*(short *)((int)sprite + TILE_STRIDE) << 1) * 3 + iRam00104938;
+    savedSrcPlaneA = iVar13 + *(int *)sprite;
+    REG_BLTBPTH = (void *)savedSrcPlaneA;
+    savedSrcPlaneB =
+         CONCAT22((short)((uint)iVar13 >> 0x10),(ushort)iVar13 >> NUM_PLANES_SHIFT) +
+         *(int *)((int)sprite + 4);
+    REG_BLTAPTH = (void *)savedSrcPlaneB;
+    piVar18 = (int *)(spriteBlitQueue + 0xc);
+    REG_BLTSIZE = uVar3;
+    iVar13 = (int)(short)(*(short *)((int)sprite + TILE_STRIDE) << 1);
     REG_DMACON = DMACON_BLT_ON;
     uVar4 = REG_DMACONR._0_1_;
     do {
       bVar5 = REG_DMACONR._0_1_;
     } while ((bVar5 & 0x40) != 0);
     REG_DMACON = DMACON_BLT_OFF;
+    REG_BLTCPTH = puVar1 + PLANE_STRIDE;
+    REG_BLTDPTH = puVar1 + PLANE_STRIDE;
+    REG_BLTAPTH = (void *)savedSrcPlaneB;
+    REG_BLTBPTH = (void *)(iVar13 + savedSrcPlaneA);
+    REG_BLTSIZE = uVar3;
+    pvVar19 = (void *)(iVar13 + (int)(iVar13 + savedSrcPlaneA));
+    REG_DMACON = DMACON_BLT_ON;
+    uVar4 = REG_DMACONR._0_1_;
+    do {
+      bVar5 = REG_DMACONR._0_1_;
+    } while ((bVar5 & 0x40) != 0);
+    REG_DMACON = DMACON_BLT_OFF;
+    REG_BLTCPTH = puVar1 + 0x58;
+    REG_BLTDPTH = puVar1 + 0x58;
+    REG_BLTAPTH = (void *)savedSrcPlaneB;
+    REG_BLTBPTH = pvVar19;
+    REG_BLTSIZE = uVar3;
     REG_DMACON = DMACON_BLT_ON;
     uVar4 = REG_DMACONR._0_1_;
     do {
@@ -2086,16 +2189,14 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
     } while ((bVar5 & 0x40) != 0);
     REG_DMACON = DMACON_BLT_OFF;
     REG_BLTCPTH = puVar1 + 0x84;
-    REG_DMACON = DMACON_BLT_ON;
-    uVar4 = REG_DMACONR._0_1_;
-    do {
-      bVar5 = REG_DMACONR._0_1_;
-    } while ((bVar5 & 0x40) != 0);
-    REG_DMACON = DMACON_BLT_OFF;
-    REG_BLTAPTH = iRam00104934;
-    REG_BLTDPTH = REG_BLTCPTH;
-    REG_BLTDMOD = REG_BLTCMOD;
-    if (sVar10 != 0) {
+    REG_BLTDPTH = puVar1 + 0x84;
+    REG_BLTAPTH = (void *)savedSrcPlaneB;
+    REG_BLTBPTH = (void *)(iVar13 + (int)pvVar19);
+    REG_BLTSIZE = uVar3;
+    if (sVar11 != 0) {
+      iVar13 = (uint)queuedLineCount * (uint)*(ushort *)((int)sprite + TILE_STRIDE);
+      pvVar19 = (void *)(iVar13 * 2 + savedSrcPlaneB);
+      pvVar2 = (void *)(savedSrcPlaneA + iVar13 * 8);
       REG_DMACON = DMACON_BLT_ON;
       uVar4 = REG_DMACONR._0_1_;
       do {
@@ -2103,16 +2204,40 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
       } while ((bVar5 & 0x40) != 0);
       REG_DMACON = DMACON_BLT_OFF;
       puVar1 = puVar6 + iVar7;
+      REG_BLTCPTH = puVar1;
+      REG_BLTDPTH = puVar1;
+      REG_BLTAPTH = pvVar19;
+      REG_BLTBPTH = pvVar2;
       *(uchar **)(spriteBlitQueue + 0x10) = puVar1;
-      *piVar15 = (int)(frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6));
-      *(ushort *)(spriteBlitQueue + 0x16) = (uVar14 & 0x7fff) + sVar10 * 0x100;
-      REG_BLTSIZE = (uVar14 & 0x7fff) + sVar10 * 0x40;
+      *piVar18 = (int)(frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6));
+      *(ushort *)(spriteBlitQueue + 0x16) = (uVar17 & 0x7fff) + sVar11 * 0x100;
+      uVar3 = (uVar17 & 0x7fff) + sVar11 * 0x40;
+      REG_BLTSIZE = uVar3;
+      iVar13 = (int)(short)(*(short *)((int)sprite + TILE_STRIDE) << 1);
+      pvVar2 = (void *)(iVar13 + (int)pvVar2);
       REG_DMACON = DMACON_BLT_ON;
       uVar4 = REG_DMACONR._0_1_;
       do {
         bVar5 = REG_DMACONR._0_1_;
       } while ((bVar5 & 0x40) != 0);
       REG_DMACON = DMACON_BLT_OFF;
+      REG_BLTCPTH = puVar1 + PLANE_STRIDE;
+      REG_BLTDPTH = puVar1 + PLANE_STRIDE;
+      REG_BLTAPTH = pvVar19;
+      REG_BLTBPTH = pvVar2;
+      REG_BLTSIZE = uVar3;
+      pvVar2 = (void *)(iVar13 + (int)pvVar2);
+      REG_DMACON = DMACON_BLT_ON;
+      uVar4 = REG_DMACONR._0_1_;
+      do {
+        bVar5 = REG_DMACONR._0_1_;
+      } while ((bVar5 & 0x40) != 0);
+      REG_DMACON = DMACON_BLT_OFF;
+      REG_BLTCPTH = puVar1 + 0x58;
+      REG_BLTDPTH = puVar1 + 0x58;
+      REG_BLTAPTH = pvVar19;
+      REG_BLTBPTH = pvVar2;
+      REG_BLTSIZE = uVar3;
       REG_DMACON = DMACON_BLT_ON;
       uVar4 = REG_DMACONR._0_1_;
       do {
@@ -2120,109 +2245,110 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
       } while ((bVar5 & 0x40) != 0);
       REG_DMACON = DMACON_BLT_OFF;
       REG_BLTCPTH = puVar1 + 0x84;
-      REG_BLTBPTH = (short)(*(short *)((int)sprite + TILE_STRIDE) << 1) * 3;
-      REG_DMACON = DMACON_BLT_ON;
-      uVar4 = REG_DMACONR._0_1_;
-      do {
-        bVar5 = REG_DMACONR._0_1_;
-      } while ((bVar5 & 0x40) != 0);
-      REG_DMACON = DMACON_BLT_OFF;
-      REG_BLTAPTH = 0;
-      REG_BLTDPTH = REG_BLTCPTH;
+      REG_BLTDPTH = puVar1 + 0x84;
+      REG_BLTAPTH = pvVar19;
+      REG_BLTBPTH = (void *)(iVar13 + (int)pvVar2);
+      REG_BLTSIZE = uVar3;
       *(undefined2 *)(spriteBlitQueue + 0x14) = *(undefined2 *)(spriteBlitQueue + 8);
-      piVar15 = (int *)(spriteBlitQueue + 0x18);
+      piVar18 = (int *)(spriteBlitQueue + 0x18);
     }
-    *piVar15 = BLT_BLITQ_END;
-    spriteBlitQueue = (dword)piVar15;
+    *piVar18 = BLT_BLITQ_END;
+    spriteBlitQueue = (dword)piVar18;
     return;
   }
-  sVar9 = *(short *)((int)sprite + 0xc);
-  sVar12 = 0;
+  sVar10 = *(short *)((int)sprite + 0xc);
+  sVar14 = 0;
   if ((short)y < 0) {
-    sVar12 = -y;
-    sVar9 = y + sVar9;
+    sVar14 = -y;
+    sVar10 = y + sVar10;
     y = 0;
   }
-  uVar2 = sVar9 + y + -SCREEN_HEIGHT;
-  if (-1 < (int)((uint)uVar2 << 0x10)) {
-    sVar9 = sVar9 - uVar2;
+  uVar3 = (sVar10 + y) - 0x110;
+  if (-1 < (int)((uint)uVar3 << 0x10)) {
+    sVar10 = sVar10 - uVar3;
   }
-  uVar2 = cameraXMod320 + x;
+  uVar3 = cameraXMod320 + x;
   uVar8 = cameraYMod320 + y;
-  if (SCREEN_HEIGHT - 1 < (short)uVar8) {
-    uVar8 = uVar8 + -SCREEN_HEIGHT;
+  if (0x10f < (short)uVar8) {
+    uVar8 = uVar8 - 0x110;
   }
-  REG_BLTALWM = 0;
-  uVar13 = *(ushort *)((int)sprite + 10) & TILE_MASK;
-  if (uVar13 == 0) {
-    uVar13 = 0x10;
+  uVar15 = 0;
+  uVar16 = *(ushort *)((int)sprite + 10) & 0xf;
+  if (uVar16 == 0) {
+    uVar16 = 0x10;
   }
-  uVar14 = *(ushort *)((int)sprite + 0xe) + 1;
-  if ((ushort)(uVar13 + (uVar2 & TILE_MASK)) < 0x11) {
-    REG_BLTALWM = 0xffff;
-    uVar14 = *(ushort *)((int)sprite + 0xe);
+  uVar17 = *(ushort *)((int)sprite + 0xe) + 1;
+  if ((ushort)(uVar16 + (uVar3 & 0xf)) < 0x11) {
+    uVar15 = 0xffff;
+    uVar17 = *(ushort *)((int)sprite + 0xe);
   }
-  REG_DMACON = DMACON_BLT_ON;
+  REG_DMACON = 0x8400;
   uVar4 = REG_DMACONR._0_1_;
   do {
     bVar5 = REG_DMACONR._0_1_;
   } while ((bVar5 & 0x40) != 0);
-  REG_DMACON = DMACON_BLT_OFF;
-  REG_BLTAFWM = BLT_FWM_ALL;
-  REG_BLTCON1 = uVar2 * 0x1000;
+  REG_DMACON = 0x400;
+  REG_BLTALWM = uVar15;
+  REG_BLTAFWM = 0xffff;
+  uVar16 = uVar3 * 0x1000;
+  REG_BLTCON1 = uVar16;
   if (*(int *)((int)sprite + 4) == 0) {
-    REG_BLTCON0 = REG_BLTCON1 + BLTCON0_BASE_SINGLE;
+    uVar16 = uVar16 + 0x7ca;
     REG_BLTADAT = 0xffff;
   }
   else {
-    REG_BLTCON0 = REG_BLTCON1 + BLTCON0_BASE_LINKED;
+    uVar16 = uVar16 + 0xfca;
   }
-  sVar3 = sVar9 + uVar8 + -SCREEN_HEIGHT;
-  sVar10 = 0;
-  if (SCREEN_HEIGHT - 1 < (ushort)(sVar9 + uVar8) && sVar3 != 0) {
-    sVar9 = sVar9 - sVar3;
-    sVar10 = sVar3;
+  REG_BLTCON0 = uVar16;
+  sVar11 = (sVar10 + uVar8) - 0x110;
+  sVar12 = 0;
+  if (0x10f < (ushort)(sVar10 + uVar8) && sVar11 != 0) {
+    sVar10 = sVar10 - sVar11;
+    sVar12 = sVar11;
   }
-  iVar7 = (int)(short)(((short)uVar2 >> TILE_SHIFT_X) << 1);
-  puVar1 = frontbufferBasePtr + (uint)uVar8 * ROW_STRIDE_BYTES + iVar7;
+  iVar7 = (int)(short)(((short)uVar3 >> 4) << 1);
+  puVar1 = frontbufferBasePtr + (uint)uVar8 * 0xb0 + iVar7;
   REG_BLTCPTH = puVar1;
   REG_BLTDPTH = puVar1;
   *(uchar **)(spriteBlitQueue + 4) = puVar1;
   *(byte **)spriteBlitQueue = frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6);
-  REG_BLTSIZE = uVar14 + sVar9 * 0x100;
-  REG_BLTBMOD = *(short *)((int)sprite + TILE_STRIDE) * 2 + uVar14 * -2;
-  REG_BLTCMOD = uVar14 * -2 + PLANE_STRIDE;
-  REG_BLTAMOD = REG_BLTBMOD;
-  REG_BLTDMOD = REG_BLTCMOD;
-  *(short *)(spriteBlitQueue + 8) = REG_BLTCMOD;
-  iVar11 = 0;
-  if (sVar12 != 0) {
-    iVar11 = (uint)(ushort)(sVar12 << NUM_PLANES_SHIFT) *
-             (uint)*(ushort *)((int)sprite + TILE_STRIDE) * 2;
+  uVar3 = uVar17 + sVar10 * 0x100;
+  uVar8 = *(short *)((int)sprite + 0xe) * 2 + uVar17 * -2;
+  REG_BLTAMOD = uVar8;
+  REG_BLTBMOD = uVar8;
+  uVar8 = uVar17 * -2 + 0x2c;
+  REG_BLTCMOD = uVar8;
+  REG_BLTDMOD = uVar8;
+  *(ushort *)(spriteBlitQueue + 8) = uVar8;
+  iVar13 = 0;
+  if (sVar14 != 0) {
+    iVar13 = (uint)(ushort)(sVar14 << 2) * (uint)*(ushort *)((int)sprite + 0xe) * 2;
   }
-  REG_BLTBPTH = iVar11 + *(int *)sprite;
-  REG_BLTAPTH = iVar11 + *(int *)((int)sprite + 4);
-  *(short *)(spriteBlitQueue + 10) = REG_BLTSIZE;
-  piVar15 = (int *)(spriteBlitQueue + 0xc);
-  if (sVar10 != 0) {
-    REG_BLTCPTH = puVar6 + iVar7;
-    sVar9 = (uVar14 & 0x7fff) + sVar10 * 0x100;
-    *(uchar **)(spriteBlitQueue + 0x10) = REG_BLTCPTH;
-    REG_DMACON = DMACON_BLT_ON;
+  REG_BLTBPTH = (void *)(iVar13 + *(int *)sprite);
+  REG_BLTAPTH = (void *)(iVar13 + *(int *)((int)sprite + 4));
+  REG_BLTSIZE = uVar3;
+  *(ushort *)(spriteBlitQueue + 10) = uVar3;
+  piVar18 = (int *)(spriteBlitQueue + 0xc);
+  if (sVar12 != 0) {
+    puVar1 = puVar6 + iVar7;
+    uVar3 = (uVar17 & 0x7fff) + sVar12 * 0x100;
+    *(uchar **)(spriteBlitQueue + 0x10) = puVar1;
+    REG_DMACON = 0x8400;
     uVar4 = REG_DMACONR._0_1_;
     do {
       bVar5 = REG_DMACONR._0_1_;
     } while ((bVar5 & 0x40) != 0);
-    REG_DMACON = DMACON_BLT_OFF;
-    REG_BLTDPTH = REG_BLTCPTH;
-    REG_BLTSIZE = sVar9;
-    *piVar15 = (int)(frontbufferMaskBuffer + ((int)REG_BLTCPTH - (int)puVar6));
+    REG_DMACON = 0x400;
+    REG_BLTCPTH = puVar1;
+    REG_BLTDPTH = puVar1;
+    REG_BLTSIZE = uVar3;
+    *piVar18 = (int)(frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6));
     *(undefined2 *)(spriteBlitQueue + 0x14) = *(undefined2 *)(spriteBlitQueue + 8);
-    *(short *)(spriteBlitQueue + 0x16) = sVar9;
-    piVar15 = (int *)(spriteBlitQueue + 0x18);
+    *(ushort *)(spriteBlitQueue + 0x16) = uVar3;
+    piVar18 = (int *)(spriteBlitQueue + 0x18);
   }
-  *piVar15 = -1;
-  spriteBlitQueue = (dword)piVar15;
+  *piVar18 = -1;
+  spriteBlitQueue = (dword)piVar18;
   return;
 }
 
@@ -2682,26 +2808,21 @@ char __usercall ConvertSpriteColors(ushort spriteNumber,ushort *colorConvTable)
   
   if (*colorConvTable != 0) {
     piVar1 = *(int **)(spriteGraphicsPtr + (short)(spriteNumber << 2));
-    iRam0010510c = (int)(short)((*(short *)((int)piVar1 + 0xe) * 4 - *(short *)((int)piVar1 + 0xe))
-                               * 2);
-                    /* WARNING: Read-only address (ram,0x0010510c) is written */
+    dword_10510C = (dword)(short)((*(short *)((int)piVar1 + 0xe) * 4 - *(short *)((int)piVar1 + 0xe)
+                                  ) * 2);
     iVar7 = (int)(short)(*(short *)((int)piVar1 + 0xe) << 1);
-    puVar16 = (ushort *)*piVar1;
-    puVar18 = (ushort *)(iVar7 + (int)puVar16);
+    puVar17 = (ushort *)*piVar1;
+    puVar18 = (ushort *)(iVar7 + (int)puVar17);
     puVar20 = (ushort *)(iVar7 + (int)puVar18);
     puVar22 = (ushort *)(iVar7 + (int)puVar20);
     sVar15 = *(short *)(piVar1 + 3) + -1;
     do {
       sVar13 = *(short *)((int)piVar1 + 0xe) + -1;
-      puVar17 = puVar16;
-      puVar19 = puVar18;
-      puVar21 = puVar20;
-      puVar23 = puVar22;
       do {
         uVar9 = *puVar17;
-        uVar10 = *puVar19;
-        uVar11 = *puVar21;
-        uVar12 = *puVar23;
+        uVar10 = *puVar18;
+        uVar11 = *puVar20;
+        uVar12 = *puVar22;
         sVar14 = 0xf;
         do {
           bVar3 = (short)uVar12 < 0;
@@ -2732,18 +2853,22 @@ char __usercall ConvertSpriteColors(ushort spriteNumber,ushort *colorConvTable)
         } while (sVar14 != -1);
         puVar16 = puVar17 + 1;
         *puVar17 = uVar9;
-        puVar18 = puVar19 + 1;
-        *puVar19 = uVar10;
-        puVar20 = puVar21 + 1;
-        *puVar21 = uVar11;
-        puVar22 = puVar23 + 1;
-        *puVar23 = uVar12;
+        puVar19 = puVar18 + 1;
+        *puVar18 = uVar10;
+        puVar21 = puVar20 + 1;
+        *puVar20 = uVar11;
+        puVar23 = puVar22 + 1;
+        *puVar22 = uVar12;
         sVar13 = sVar13 + -1;
         puVar17 = puVar16;
-        puVar19 = puVar18;
-        puVar21 = puVar20;
-        puVar23 = puVar22;
+        puVar18 = puVar19;
+        puVar20 = puVar21;
+        puVar22 = puVar23;
       } while (sVar13 != -1);
+      puVar17 = (ushort *)(dword_10510C + (int)puVar16);
+      puVar18 = (ushort *)(dword_10510C + (int)puVar19);
+      puVar20 = (ushort *)(dword_10510C + (int)puVar21);
+      puVar22 = (ushort *)(dword_10510C + (int)puVar23);
       sVar15 = sVar15 + -1;
     } while (sVar15 != -1);
     return (char)(uVar2 >> 4);
@@ -2754,29 +2879,24 @@ char __usercall ConvertSpriteColors(ushort spriteNumber,ushort *colorConvTable)
     panicReasonCode = 0x982;
     PanicHaltLoop();
   }
-  iRam0010510c = (int)(short)((uVar9 * 4 - *(short *)((int)piVar1 + 0xe)) * 2);
-                    /* WARNING: Read-only address (ram,0x0010510c) is written */
-  if (iRam0010510c < 0) {
+  dword_10510C = (dword)(short)((uVar9 * 4 - *(short *)((int)piVar1 + 0xe)) * 2);
+  if ((int)dword_10510C < 0) {
     panicReasonCode = 0x987;
     PanicHaltLoop();
   }
   iVar7 = (int)(short)(*(short *)((int)piVar1 + 0xe) << 1);
-  puVar16 = (ushort *)*piVar1;
-  puVar18 = (ushort *)(iVar7 + (int)puVar16);
+  puVar17 = (ushort *)*piVar1;
+  puVar18 = (ushort *)(iVar7 + (int)puVar17);
   puVar20 = (ushort *)(iVar7 + (int)puVar18);
   puVar22 = (ushort *)(iVar7 + (int)puVar20);
   sVar15 = *(short *)(piVar1 + 3) + -1;
   do {
     sVar13 = *(short *)((int)piVar1 + 0xe) + -1;
-    puVar17 = puVar16;
-    puVar19 = puVar18;
-    puVar21 = puVar20;
-    puVar23 = puVar22;
     do {
       uVar9 = *puVar17;
-      uVar10 = *puVar19;
-      uVar11 = *puVar21;
-      uVar12 = *puVar23;
+      uVar10 = *puVar18;
+      uVar11 = *puVar20;
+      uVar12 = *puVar22;
       sVar14 = 0xf;
       do {
         bVar3 = (short)uVar12 < 0;
@@ -2809,18 +2929,22 @@ char __usercall ConvertSpriteColors(ushort spriteNumber,ushort *colorConvTable)
       } while (sVar14 != -1);
       puVar16 = puVar17 + 1;
       *puVar17 = uVar9;
-      puVar18 = puVar19 + 1;
-      *puVar19 = uVar10;
-      puVar20 = puVar21 + 1;
-      *puVar21 = uVar11;
-      puVar22 = puVar23 + 1;
-      *puVar23 = uVar12;
+      puVar19 = puVar18 + 1;
+      *puVar18 = uVar10;
+      puVar21 = puVar20 + 1;
+      *puVar20 = uVar11;
+      puVar23 = puVar22 + 1;
+      *puVar22 = uVar12;
       sVar13 = sVar13 + -1;
       puVar17 = puVar16;
-      puVar19 = puVar18;
-      puVar21 = puVar20;
-      puVar23 = puVar22;
+      puVar18 = puVar19;
+      puVar20 = puVar21;
+      puVar22 = puVar23;
     } while (sVar13 != -1);
+    puVar17 = (ushort *)(dword_10510C + (int)puVar16);
+    puVar18 = (ushort *)(dword_10510C + (int)puVar19);
+    puVar20 = (ushort *)(dword_10510C + (int)puVar21);
+    puVar22 = (ushort *)(dword_10510C + (int)puVar23);
     sVar15 = sVar15 + -1;
   } while (sVar15 != -1);
   return cVar8;
@@ -2867,17 +2991,14 @@ void __usercall FillRectangle(void)
 
 // --- WaitForVSync @ 00105238 ---
 
+/* WARNING: Removing unreachable block (ram,0x00105248) */
+
 void __usercall WaitForVSync(void)
 
 {
-  short sVar1;
-  
-  waitingInterrupt = 1;
+                    /* WARNING: Do nothing block with infinite loop */
   do {
-    sVar1 = waitingInterrupt;
-    sVar1 = waitingInterrupt;
-  } while (sVar1 != 0);
-  return;
+  } while( true );
 }
 
 
@@ -3099,21 +3220,24 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
   int iVar7;
   short sVar10;
   int iVar8;
-  ushort uVar11;
-  short unaff_D4w;
-  short sVar12;
+  short sVar11;
+  ushort uVar12;
   ushort uVar13;
-  word wVar14;
+  short unaff_D4w;
+  short sVar14;
   ushort uVar15;
-  short sVar16;
-  uint *puVar17;
-  uint *puVar18;
+  word wVar16;
+  ushort uVar17;
+  uchar *puVar18;
+  void *pvVar19;
+  uint *puVar20;
+  uint *puVar21;
   
   textBlitPlaneMask = planeMask;
   uVar9 = spriteIndex << 2;
   pbVar1 = *(byte **)(spriteGraphicsPtr + (short)uVar9);
   if (*(short *)(pbVar1 + 8) == 0) {
-    uVar11 = *(ushort *)(pbVar1 + 0xc);
+    uVar12 = *(ushort *)(pbVar1 + 0xc);
     x = cameraXMod320 + x;
     y = cameraYMod320 + y;
     if (SCREEN_HEIGHT - 1 < (short)y) {
@@ -3125,76 +3249,96 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
       bVar6 = REG_DMACONR._0_1_;
     } while ((bVar6 & 0x40) != 0);
     REG_DMACON = DMACON_BLT_OFF;
-    REG_BLTALWM = 0;
+    uVar13 = 0;
     uVar9 = *(ushort *)(pbVar1 + 10) & 0xf;
     if (uVar9 == 0) {
       uVar9 = 0x10;
     }
     sVar10 = *(short *)(pbVar1 + TILE_STRIDE) + 1;
     if ((ushort)(uVar9 + (x & 0xf)) < 0x11) {
-      REG_BLTALWM = 0xffff;
+      uVar13 = 0xffff;
       sVar10 = *(short *)(pbVar1 + TILE_STRIDE);
     }
+    REG_BLTALWM = uVar13;
     REG_BLTAFWM = BLT_FWM_ALL;
     uVar9 = x * 0x1000;
     REG_BLTCON1 = uVar9;
     bltconShiftBase = uVar9;
     if (*(int *)(pbVar1 + 4) != 0) {
-      sVar16 = uVar11 + y + -SCREEN_HEIGHT;
-      sVar12 = 0;
-      if (SCREEN_HEIGHT - 1 < (ushort)(uVar11 + y) && sVar16 != 0) {
-        uVar11 = uVar11 - sVar16;
-        sVar12 = sVar16;
+      sVar11 = uVar12 + y + -SCREEN_HEIGHT;
+      sVar14 = 0;
+      if (SCREEN_HEIGHT - 1 < (ushort)(uVar12 + y) && sVar11 != 0) {
+        uVar12 = uVar12 - sVar11;
+        sVar14 = sVar11;
       }
-      textBlitHeightLines = uVar11;
+      textBlitHeightLines = uVar12;
       iVar7 = (int)(short)(((short)x >> 4) << 1);
-      REG_BLTSIZE = sVar10 + uVar11 * 0x40;
-      uVar15 = sVar10 * 2;
+      uVar13 = sVar10 + uVar12 * 0x40;
+      uVar17 = sVar10 * 2;
       REG_BLTAMOD = *(short *)(pbVar1 + TILE_STRIDE) * 2 + sVar10 * -2;
       REG_BLTBMOD = *(short *)(pbVar1 + TILE_STRIDE) * 8 + sVar10 * -2;
-      REG_BLTCMOD = sVar10 * -2 + 0xb0;
-      REG_BLTDMOD = REG_BLTCMOD;
-      REG_BLTAPTH = *(uint **)(pbVar1 + 4);
+      uVar15 = sVar10 * -2 + 0xb0;
+      REG_BLTCMOD = uVar15;
+      REG_BLTDMOD = uVar15;
+      puVar20 = *(uint **)(pbVar1 + 4);
       sVar10 = *(short *)(pbVar1 + TILE_STRIDE) << 1;
-      puVar18 = (uint *)((int)sVar10 + *(int *)pbVar1);
-      puVar17 = (uint *)((int)puVar18 + (int)sVar10 + (int)sVar10);
-      blitSrcA_MaskPtr = REG_BLTAPTH;
-      blitSrcB_GlyphPtr = puVar18;
+      puVar21 = (uint *)((int)sVar10 + *(int *)pbVar1);
+      pvVar19 = (void *)((int)puVar21 + (int)sVar10 + (int)sVar10);
+      blitSrcA_MaskPtr = puVar20;
+      blitSrcB_GlyphPtr = puVar21;
       iVar8 = (uint)y * ROW_STRIDE_BYTES + iVar7;
       while( true ) {
-        REG_BLTCPTH = frontbufferBasePtr + iVar8;
+        puVar18 = frontbufferBasePtr + iVar8;
         sVar10 = 2;
-        uVar13 = planeMask;
+        uVar15 = planeMask;
         do {
-          uVar4 = uVar13 & 1;
-          uVar13 = uVar13 >> 1;
-          if (uVar4 != 0) {
-            REG_BLTBPTH = puVar18;
+          uVar4 = uVar15 & 1;
+          uVar15 = uVar15 >> 1;
+          if (uVar4 == 0) {
+            REG_BLTCON0 = uVar9 + 0xb0a;
+            REG_BLTAPTH = puVar20;
+            REG_BLTCPTH = puVar18;
+            REG_BLTDPTH = puVar18;
           }
+          else {
+            REG_BLTCON0 = uVar9 + BLTCON0_BASE_LINKED;
+            REG_BLTAPTH = puVar20;
+            REG_BLTBPTH = puVar21;
+            REG_BLTCPTH = puVar18;
+            REG_BLTDPTH = puVar18;
+          }
+          REG_BLTSIZE = uVar13;
           REG_DMACON = DMACON_BLT_ON;
           uVar5 = REG_DMACONR._0_1_;
           do {
             bVar6 = REG_DMACONR._0_1_;
           } while ((bVar6 & 0x40) != 0);
           REG_DMACON = DMACON_BLT_OFF;
-          REG_BLTCPTH = REG_BLTCPTH + PLANE_STRIDE;
+          puVar18 = puVar18 + PLANE_STRIDE;
           sVar10 = sVar10 + -1;
         } while (sVar10 != -1);
-        if ((uVar13 & 1) == 0) {
+        if ((uVar15 & 1) == 0) {
           REG_BLTCON0 = uVar9 + BLTCON0_BASE_LINKED;
-          REG_BLTBPTH = puVar17;
+          REG_BLTAPTH = puVar20;
+          REG_BLTBPTH = pvVar19;
+          REG_BLTCPTH = puVar18;
+          REG_BLTDPTH = puVar18;
         }
         else {
           REG_BLTCON0 = uVar9 + 0xbfa;
+          REG_BLTAPTH = puVar20;
+          REG_BLTCPTH = puVar18;
+          REG_BLTDPTH = puVar18;
         }
-        if (sVar12 == 0) break;
-        iVar8 = (uint)uVar11 * (uint)*(ushort *)(pbVar1 + 0xe);
-        REG_BLTAPTH = (uint *)(iVar8 * 2 + (int)REG_BLTAPTH);
-        puVar17 = puVar17 + iVar8 * 2;
-        puVar18 = puVar18 + iVar8 * 2;
-        uVar15 = uVar15 >> 1;
-        REG_BLTSIZE = uVar15 + sVar12 * 0x40;
-        sVar12 = 0;
+        REG_BLTSIZE = uVar13;
+        if (sVar14 == 0) break;
+        iVar8 = (uint)uVar12 * (uint)*(ushort *)(pbVar1 + 0xe);
+        puVar20 = (uint *)(iVar8 * 2 + (int)puVar20);
+        pvVar19 = (void *)(iVar8 * 8 + (int)pvVar19);
+        puVar21 = puVar21 + iVar8 * 2;
+        uVar17 = uVar17 >> 1;
+        uVar13 = uVar17 + sVar14 * 0x40;
+        sVar14 = 0;
         REG_DMACON = DMACON_BLT_ON;
         uVar5 = REG_DMACONR._0_1_;
         do {
@@ -3203,7 +3347,6 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
         REG_DMACON = DMACON_BLT_OFF;
         iVar8 = iVar7;
       }
-      REG_BLTDPTH = REG_BLTCPTH;
       return;
     }
   }
@@ -3226,58 +3369,76 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
       bVar6 = REG_DMACONR._0_1_;
     } while ((bVar6 & 0x40) != 0);
     REG_DMACON = 0x400;
-    REG_BLTALWM = 0;
+    uVar12 = 0;
     uVar9 = *(ushort *)((int)piVar2 + 10) & 0xf;
     if (uVar9 == 0) {
       uVar9 = 0x10;
     }
-    sVar16 = *(short *)((int)piVar2 + 0xe) + 1;
+    sVar11 = *(short *)((int)piVar2 + 0xe) + 1;
     if ((ushort)(uVar9 + (x & 0xf)) < 0x11) {
-      REG_BLTALWM = 0xffff;
-      sVar16 = *(short *)((int)piVar2 + 0xe);
+      uVar12 = 0xffff;
+      sVar11 = *(short *)((int)piVar2 + 0xe);
     }
+    REG_BLTALWM = uVar12;
     REG_BLTAFWM = 0xffff;
     bltconShiftBase_glyph = x * 0x1000;
     REG_BLTCON1 = bltconShiftBase_glyph;
     if (piVar2[1] != 0) {
       glyphHeightLinesCache = *(word *)(piVar2 + 3);
-      REG_BLTCPTH = (uchar *)(*piVar3 +
-                             (uint)y * (uint)dstRowBytesPerPlane * 4 +
-                             (int)(short)(((short)x >> 4) << 1));
-      REG_BLTAMOD = *(short *)((int)piVar2 + 0xe) * 2 + sVar16 * -2;
-      REG_BLTBMOD = *(short *)((int)piVar2 + 0xe) * 8 + sVar16 * -2;
-      REG_BLTCMOD = sVar10 * 8 + sVar16 * -2;
-      REG_BLTDMOD = REG_BLTCMOD;
+      pvVar19 = (void *)(*piVar3 +
+                        (uint)y * (uint)dstRowBytesPerPlane * 4 + (int)(short)(((short)x >> 4) << 1)
+                        );
+      uVar9 = sVar11 + *(word *)(piVar2 + 3) * 0x40;
+      REG_BLTAMOD = *(short *)((int)piVar2 + 0xe) * 2 + sVar11 * -2;
+      REG_BLTBMOD = *(short *)((int)piVar2 + 0xe) * 8 + sVar11 * -2;
+      uVar12 = sVar10 * 8 + sVar11 * -2;
+      REG_BLTCMOD = uVar12;
+      REG_BLTDMOD = uVar12;
+      blitSrcA_MaskPtr_glyph = piVar2[1];
       sVar10 = *(short *)((int)piVar2 + 0xe) << 1;
       blitSrcB_GlyphPtr_glyph = (int)sVar10 + *piVar2;
-      blitSrcA_MaskPtr_glyph = piVar2[1];
-      sVar12 = 2;
-      wVar14 = glyphBlitPlaneMask;
+      sVar11 = 2;
+      wVar16 = glyphBlitPlaneMask;
       do {
-        uVar9 = wVar14 & 1;
-        wVar14 = wVar14 >> 1;
-        if (uVar9 != 0) {
-          REG_BLTBPTH = (uint *)blitSrcB_GlyphPtr_glyph;
+        uVar12 = wVar16 & 1;
+        wVar16 = wVar16 >> 1;
+        if (uVar12 == 0) {
+          REG_BLTCON0 = bltconShiftBase_glyph + 0xb0a;
+          REG_BLTAPTH = (void *)blitSrcA_MaskPtr_glyph;
+          REG_BLTCPTH = pvVar19;
+          REG_BLTDPTH = pvVar19;
         }
+        else {
+          REG_BLTCON0 = bltconShiftBase_glyph + 0xfca;
+          REG_BLTAPTH = (void *)blitSrcA_MaskPtr_glyph;
+          REG_BLTBPTH = (void *)blitSrcB_GlyphPtr_glyph;
+          REG_BLTCPTH = pvVar19;
+          REG_BLTDPTH = pvVar19;
+        }
+        REG_BLTSIZE = uVar9;
         REG_DMACON = 0x8400;
         uVar5 = REG_DMACONR._0_1_;
         do {
           bVar6 = REG_DMACONR._0_1_;
         } while ((bVar6 & 0x40) != 0);
         REG_DMACON = 0x400;
-        REG_BLTCPTH = (uchar *)(iVar8 + (int)REG_BLTCPTH);
-        sVar12 = sVar12 + -1;
-      } while (sVar12 != -1);
-      if ((wVar14 & 1) == 0) {
+        pvVar19 = (void *)(iVar8 + (int)pvVar19);
+        sVar11 = sVar11 + -1;
+      } while (sVar11 != -1);
+      if ((wVar16 & 1) == 0) {
         REG_BLTCON0 = bltconShiftBase_glyph + 0xfca;
-        REG_BLTBPTH = (uint *)(blitSrcB_GlyphPtr_glyph + (int)sVar10 + (int)sVar10);
+        REG_BLTAPTH = (void *)blitSrcA_MaskPtr_glyph;
+        REG_BLTBPTH = (void *)(blitSrcB_GlyphPtr_glyph + (int)sVar10 + (int)sVar10);
+        REG_BLTCPTH = pvVar19;
+        REG_BLTDPTH = pvVar19;
       }
       else {
         REG_BLTCON0 = bltconShiftBase_glyph + 0xbfa;
+        REG_BLTAPTH = (void *)blitSrcA_MaskPtr_glyph;
+        REG_BLTCPTH = pvVar19;
+        REG_BLTDPTH = pvVar19;
       }
-      REG_BLTAPTH = (uint *)piVar2[1];
-      REG_BLTSIZE = sVar16 + *(word *)(piVar2 + 3) * 0x40;
-      REG_BLTDPTH = (uchar *)(int)REG_BLTCPTH;
+      REG_BLTSIZE = uVar9;
       return;
     }
   }
@@ -3311,7 +3472,8 @@ BlitGlyphToSpriteBitmap
   short sVar6;
   short sVar7;
   ushort uVar8;
-  short sVar9;
+  ushort uVar9;
+  void *pvVar10;
   
   glyphBlitPlaneMask = planeMask;
   piVar1 = *(int **)(spriteGraphicsPtr + (short)(glyphIndex << 2));
@@ -3330,56 +3492,75 @@ BlitGlyphToSpriteBitmap
       bVar4 = REG_DMACONR._0_1_;
     } while ((bVar4 & 0x40) != 0);
     REG_DMACON = DMACON_BLT_OFF;
-    REG_BLTALWM = 0;
-    uVar8 = *(ushort *)((int)piVar1 + 10) & TILE_MASK;
-    if (uVar8 == 0) {
-      uVar8 = 0x10;
+    uVar8 = 0;
+    uVar9 = *(ushort *)((int)piVar1 + 10) & TILE_MASK;
+    if (uVar9 == 0) {
+      uVar9 = 0x10;
     }
-    sVar9 = *(short *)((int)piVar1 + 0xe) + 1;
-    if ((ushort)(uVar8 + (xOff & TILE_MASK)) < 0x11) {
-      REG_BLTALWM = 0xffff;
-      sVar9 = *(short *)((int)piVar1 + 0xe);
+    sVar7 = *(short *)((int)piVar1 + 0xe) + 1;
+    if ((ushort)(uVar9 + (xOff & TILE_MASK)) < 0x11) {
+      uVar8 = 0xffff;
+      sVar7 = *(short *)((int)piVar1 + 0xe);
     }
+    REG_BLTALWM = uVar8;
     REG_BLTAFWM = BLT_FWM_ALL;
     bltconShiftBase_glyph = xOff * 0x1000;
     REG_BLTCON1 = bltconShiftBase_glyph;
     if (piVar1[1] != 0) {
       glyphHeightLinesCache = *(word *)(piVar1 + 3);
-      REG_BLTCPTH = *piVar2 + (uint)yOff * (uint)dstRowBytesPerPlane * 4 +
-                              (int)(short)(((short)xOff >> 4) << 1);
-      REG_BLTAMOD = *(short *)((int)piVar1 + 0xe) * 2 + sVar9 * -2;
-      REG_BLTBMOD = *(short *)((int)piVar1 + 0xe) * 8 + sVar9 * -2;
-      REG_BLTCMOD = sVar6 * 8 + sVar9 * -2;
-      REG_BLTDMOD = REG_BLTCMOD;
+      pvVar10 = (void *)(*piVar2 +
+                        (uint)yOff * (uint)dstRowBytesPerPlane * 4 +
+                        (int)(short)(((short)xOff >> 4) << 1));
+      uVar9 = sVar7 + *(word *)(piVar1 + 3) * 0x40;
+      REG_BLTAMOD = *(short *)((int)piVar1 + 0xe) * 2 + sVar7 * -2;
+      REG_BLTBMOD = *(short *)((int)piVar1 + 0xe) * 8 + sVar7 * -2;
+      uVar8 = sVar6 * 8 + sVar7 * -2;
+      REG_BLTCMOD = uVar8;
+      REG_BLTDMOD = uVar8;
+      blitSrcA_MaskPtr_glyph = piVar1[1];
       sVar6 = *(short *)((int)piVar1 + 0xe) << 1;
       blitSrcB_GlyphPtr_glyph = (int)sVar6 + *piVar1;
-      blitSrcA_MaskPtr_glyph = piVar1[1];
       sVar7 = 2;
       do {
         uVar8 = planeMask & 1;
         planeMask = planeMask >> 1;
-        if (uVar8 != 0) {
-          REG_BLTBPTH = blitSrcB_GlyphPtr_glyph;
+        if (uVar8 == 0) {
+          REG_BLTCON0 = bltconShiftBase_glyph + 0xb0a;
+          REG_BLTAPTH = (void *)blitSrcA_MaskPtr_glyph;
+          REG_BLTCPTH = pvVar10;
+          REG_BLTDPTH = pvVar10;
         }
+        else {
+          REG_BLTCON0 = bltconShiftBase_glyph + BLTCON0_BASE_LINKED;
+          REG_BLTAPTH = (void *)blitSrcA_MaskPtr_glyph;
+          REG_BLTBPTH = (void *)blitSrcB_GlyphPtr_glyph;
+          REG_BLTCPTH = pvVar10;
+          REG_BLTDPTH = pvVar10;
+        }
+        REG_BLTSIZE = uVar9;
         REG_DMACON = DMACON_BLT_ON;
         uVar3 = REG_DMACONR._0_1_;
         do {
           bVar4 = REG_DMACONR._0_1_;
         } while ((bVar4 & 0x40) != 0);
         REG_DMACON = DMACON_BLT_OFF;
-        REG_BLTCPTH = iVar5 + REG_BLTCPTH;
+        pvVar10 = (void *)(iVar5 + (int)pvVar10);
         sVar7 = sVar7 + -1;
       } while (sVar7 != -1);
       if ((planeMask & 1) == 0) {
         REG_BLTCON0 = bltconShiftBase_glyph + BLTCON0_BASE_LINKED;
-        REG_BLTBPTH = (int)sVar6 + blitSrcB_GlyphPtr_glyph + (int)sVar6;
+        REG_BLTAPTH = (void *)blitSrcA_MaskPtr_glyph;
+        REG_BLTBPTH = (void *)(blitSrcB_GlyphPtr_glyph + (int)sVar6 + (int)sVar6);
+        REG_BLTCPTH = pvVar10;
+        REG_BLTDPTH = pvVar10;
       }
       else {
         REG_BLTCON0 = bltconShiftBase_glyph + 0xbfa;
+        REG_BLTAPTH = (void *)blitSrcA_MaskPtr_glyph;
+        REG_BLTCPTH = pvVar10;
+        REG_BLTDPTH = pvVar10;
       }
-      REG_BLTAPTH = piVar1[1];
-      REG_BLTSIZE = sVar9 + *(word *)(piVar1 + 3) * 0x40;
-      REG_BLTDPTH = REG_BLTCPTH;
+      REG_BLTSIZE = uVar9;
       return;
     }
   }
@@ -4450,28 +4631,25 @@ void __usercall PlayCrowdChants(void)
 
 {
   word wVar1;
-  short sVar2;
-  undefined2 uVar3;
+  undefined2 uVar2;
   undefined4 unaff_D0;
-  ushort uVar4;
+  ushort uVar3;
   uint channelOrAll;
-  undefined2 uVar5;
+  undefined2 uVar4;
   uint unaff_D1;
   
   if (g_trainingGame != 0) {
     return;
   }
-  sVar2 = g_crowdChantsOn;
-  sVar2 = g_crowdChantsOn;
-  if (sVar2 == 0) {
+  if (g_crowdChantsOn == 0) {
     return;
   }
-  uVar3 = (undefined2)((uint)unaff_D0 >> 0x10);
-  uVar5 = (undefined2)(unaff_D1 >> 0x10);
+  uVar2 = (undefined2)((uint)unaff_D0 >> 0x10);
+  uVar4 = (undefined2)(unaff_D1 >> 0x10);
   if (fadeInChantTimer != 0) {
     fadeInChantTimer = fadeInChantTimer - 1;
     crowdChantVolume = (ushort)(0x80 - fadeInChantTimer) >> 1;
-    SetVolumeOrStopChants(CONCAT22(uVar3,2),CONCAT22(uVar5,crowdChantVolume));
+    SetVolumeOrStopChants(CONCAT22(uVar2,2),CONCAT22(uVar4,crowdChantVolume));
     return;
   }
   if (nextChantTimer != 0) {
@@ -4481,34 +4659,34 @@ void __usercall PlayCrowdChants(void)
   if (fadeOutChantTimer != 0) {
     fadeOutChantTimer = fadeOutChantTimer - 1;
     crowdChantVolume = fadeOutChantTimer >> 1;
-    SetVolumeOrStopChants(CONCAT22(uVar3,2),CONCAT22(uVar5,crowdChantVolume));
+    SetVolumeOrStopChants(CONCAT22(uVar2,2),CONCAT22(uVar4,crowdChantVolume));
     return;
   }
-  uVar4 = Rand();
-  if (0x7f < uVar4) {
-    uVar4 = Rand();
-    nextChantTimer = uVar4 * 4 + 500;
+  uVar3 = Rand();
+  if (0x7f < uVar3) {
+    uVar3 = Rand();
+    nextChantTimer = uVar3 * 4 + 500;
     return;
   }
-  channelOrAll = CONCAT22(uVar3,2);
+  channelOrAll = CONCAT22(uVar2,2);
   crowdChantVolume = 0;
   SetVolumeOrStopChants(channelOrAll,unaff_D1 & 0xffff0000);
   wVar1 = currentCrowdSample;
   if (currentCrowdSample != 0xffff) {
-    uVar4 = Rand();
-    channelOrAll = CONCAT22(uVar3,uVar4);
-    if (uVar4 < 0x80) goto LAB_00106e24;
+    uVar3 = Rand();
+    channelOrAll = CONCAT22(uVar2,uVar3);
+    if (uVar3 < 0x80) goto LAB_00106e24;
   }
-  uVar3 = (undefined2)(channelOrAll >> 0x10);
-  uVar4 = Rand();
-  wVar1 = *(word *)((int)crowdSamples + (int)(short)(uVar4 & 6));
+  uVar2 = (undefined2)(channelOrAll >> 0x10);
+  uVar3 = Rand();
+  wVar1 = *(word *)((int)crowdSamples + (int)(short)(uVar3 & 6));
   currentCrowdSample = wVar1;
 LAB_00106e24:
-  CrowdTickJump(CONCAT22(uVar3,2),CONCAT22(uVar5,wVar1));
+  CrowdTickJump(CONCAT22(uVar2,2),CONCAT22(uVar4,wVar1));
   fadeInChantTimer = 0x80;
-  uVar4 = Rand();
+  uVar3 = Rand();
   fadeOutChantTimer = 0x80;
-  nextChantTimer = uVar4 * 2 + 500;
+  nextChantTimer = uVar3 * 2 + 500;
   return;
 }
 
@@ -6818,12 +6996,8 @@ void __usercall UpdateCornerFlagSprite(void)
 void __usercall SpinBig_S_Sprite(void)
 
 {
-  short sVar1;
-  
   big_S_Sprite.imageIndex = 0xffff;
-  sVar1 = g_spinBigS;
-  sVar1 = g_spinBigS;
-  if (sVar1 != 0) {
+  if (g_spinBigS != 0) {
     if ((((g_inSubstitutesMenu == 0) || (g_subsState == 0)) && (showingUserStats == 0)) &&
        (statsTimer == 0)) {
       big_S_index = lastFrameTicks + big_S_index & 0x3f;
@@ -9526,6 +9700,8 @@ DrawBenchPlayersAndCoach(TeamGame *requestingTeam,TeamGeneralInfo *team,ushort x
 
 // --- GameLoop @ 0010e8d6 ---
 
+/* WARNING: Removing unreachable block (ram,0x0010e96a) */
+/* WARNING: Removing unreachable block (ram,0x0010e96e) */
 /* in:
         A5 -> left team in-game struct
         A6 -> right team in-game struct */
@@ -9536,15 +9712,12 @@ void __usercall GameLoop(void)
   bool bVar1;
   uint uVar2;
   word wVar3;
-  short sVar4;
-  short sVar5;
-  undefined1 uVar6;
-  byte bVar7;
+  undefined1 uVar4;
+  byte bVar5;
   undefined2 y;
-  short sVar8;
   undefined2 unaff_D4w;
   int unaff_A0;
-  TeamStatisticsData *pTVar9;
+  TeamStatisticsData *pTVar6;
   int unaff_A2;
   void *unaff_A5;
   void *unaff_A6;
@@ -9567,10 +9740,10 @@ void __usercall GameLoop(void)
     } while (currentKey != 0);
 wait_for_vblank_sync:
     REG_DMACON = DMACON_BLT_ON;
-    uVar6 = REG_DMACONR._0_1_;
+    uVar4 = REG_DMACONR._0_1_;
     do {
-      bVar7 = REG_DMACONR._0_1_;
-    } while ((bVar7 & 0x40) != 0);
+      bVar5 = REG_DMACONR._0_1_;
+    } while ((bVar5 & 0x40) != 0);
     REG_DMACON = DMACON_BLT_OFF;
     uVar2 = g_irqCookieObfuscated ^ 0xcfd1f9bd;
     if (uVar2 != 0x165a) {
@@ -9579,17 +9752,17 @@ wait_for_vblank_sync:
       if ((((0 < (int)uVar2) && ((TeamGeneralInfo *)(unaff_A0 + -1) == lastTeamPlayed)) &&
           (*(short *)(unaff_A0 + 0x27) == 0)) && ((0xef < strikeDestX && (strikeDestX < 0x1b0)))) {
         if ((0x12e < strikeDestX) && (strikeDestX < 0x170)) {
-          pTVar9 = topTeamData.teamStatsPtr;
+          pTVar6 = topTeamData.teamStatsPtr;
           if (ballSprite.y.s.i < 0x1c2) {
-            pTVar9 = bottomTeamData.teamStatsPtr;
+            pTVar6 = bottomTeamData.teamStatsPtr;
           }
-          pTVar9->onTarget = pTVar9->onTarget + 1;
+          pTVar6->onTarget = pTVar6->onTarget + 1;
         }
-        pTVar9 = topTeamData.teamStatsPtr;
+        pTVar6 = topTeamData.teamStatsPtr;
         if (ballSprite.y.s.i < 0x1c2) {
-          pTVar9 = bottomTeamData.teamStatsPtr;
+          pTVar6 = bottomTeamData.teamStatsPtr;
         }
-        pTVar9->goalAttempts = pTVar9->goalAttempts + 1;
+        pTVar6->goalAttempts = pTVar6->goalAttempts + 1;
         isGoalAttempt = 1;
       }
       if (showStats != 0) {
@@ -9598,7 +9771,7 @@ wait_for_vblank_sync:
       }
       if (statsTimer != 0) {
         if ((short)statsTimer < 0) {
-UpdateAndDrawStatistics_turn_off_statistics:
+turn_off_statistics:
           StatisticsOff();
           return;
         }
@@ -9610,7 +9783,7 @@ UpdateAndDrawStatistics_turn_off_statistics:
           wVar3 = statsTimer - lastFrameTicks;
           bVar1 = (short)statsTimer < (short)lastFrameTicks;
           statsTimer = wVar3;
-          if (wVar3 == 0 || bVar1) goto UpdateAndDrawStatistics_turn_off_statistics;
+          if (wVar3 == 0 || bVar1) goto turn_off_statistics;
         }
         DrawStatistics();
       }
@@ -9620,25 +9793,11 @@ UpdateAndDrawStatistics_turn_off_statistics:
     nullsub_5();
     nullsub_4();
     do {
-      sVar8 = waitingInterrupt;
-      sVar8 = waitingInterrupt;
-    } while (sVar8 != 0);
+    } while (waitingInterrupt != 0);
     ReadTimerDelta();
-    while (paused != 0) {
-      sVar8 = 0;
+    if (paused != 0) {
       do {
-        sVar4 = currentTick;
-        do {
-          sVar5 = currentTick;
-        } while (sVar4 == sVar5);
-        sVar8 = sVar8 + -1;
-      } while (sVar8 != -1);
-      GetKey();
-      MainKeysCheck(currentKey);
-      nullsub_10();
-      PlayEnqueuedSamples();
-      nullsub_5();
-      nullsub_4();
+      } while( true );
     }
     if (showingUserStats != 0) {
       KeepStatisticsOnScreen();
@@ -9737,36 +9896,25 @@ UpdateAndDrawStatistics_turn_off_statistics:
 
 // --- KeepStatisticsOnScreen @ 0010ebc4 ---
 
+/* WARNING: Removing unreachable block (ram,0x0010ebda) */
+/* WARNING: Removing unreachable block (ram,0x0010ebde) */
+/* WARNING: Removing unreachable block (ram,0x0010ec1a) */
+
 void __usercall KeepStatisticsOnScreen(void)
 
 {
-  short sVar1;
-  short sVar2;
-  short sVar3;
-  
+                    /* WARNING: Do nothing block with infinite loop */
   do {
-    sVar3 = 0;
-    do {
-      sVar1 = currentTick;
-      do {
-        sVar2 = currentTick;
-      } while (sVar1 == sVar2);
-      sVar3 = sVar3 + -1;
-    } while (sVar3 != -1);
-    GetKey();
-    MainKeysCheck(currentKey);
-    nullsub_10();
-    PlayEnqueuedSamples();
-    nullsub_5();
-    nullsub_4();
-    UpdateAndDrawStatistics();
-  } while (showingUserStats != 0);
-  return;
+  } while( true );
 }
 
 
 // --- PlayInstantReplayLoop @ 0010ecfa ---
 
+/* WARNING: Removing unreachable block (ram,0x0010ed1c) */
+/* WARNING: Removing unreachable block (ram,0x0010ed20) */
+/* WARNING: Removing unreachable block (ram,0x0010ed32) */
+/* WARNING: Removing unreachable block (ram,0x0010eeb6) */
 /* Plays an instant replay when player presses 'R' during the game.
    Doesn't return until it's either played fully or aborted. */
 
@@ -9774,87 +9922,66 @@ void __usercall PlayInstantReplayLoop(void)
 
 {
   ushort uVar1;
-  short sVar2;
-  short sVar3;
-  undefined1 uVar4;
-  byte bVar5;
-  short sVar6;
+  undefined1 uVar2;
+  byte bVar3;
   ushort unaff_D2w;
   ushort unaff_D3w;
   CharTable *unaff_A1;
   int unaff_A5;
   int unaff_A6;
   
-  do {
-    ReadTimerDelta();
-    while (paused != 0) {
-      sVar6 = 0;
-      do {
-        sVar2 = currentTick;
-        do {
-          sVar3 = currentTick;
-        } while (sVar2 == sVar3);
-        sVar6 = sVar6 + -1;
-      } while (sVar6 != -1);
-      GetKey();
-      if (fadeState == 0) break;
-      MainKeysCheck(currentKey);
-      PlayEnqueuedSamples();
-      nullsub_5();
-      nullsub_4();
-    }
-    ProcessSpriteBlitQueue();
-    GetKey();
-    if (fadeState != 0) {
-      MainKeysCheck(currentKey);
-      nullsub_10();
-      nullsub_9();
-    }
-    if (replayState == 0) {
-      return;
-    }
-    PlayEnqueuedSamples();
-    if (fadeState != 0) {
-      if (userRequestedReplay != 0) {
+  ReadTimerDelta();
+  if (paused != 0) {
+    do {
+    } while( true );
+  }
+  ProcessSpriteBlitQueue();
+  GetKey();
+  if (fadeState != 0) {
+    MainKeysCheck(currentKey);
+    nullsub_10();
+    nullsub_9();
+  }
+  if (replayState == 0) {
+    return;
+  }
+  PlayEnqueuedSamples();
+  if (fadeState != 0) {
+    if (userRequestedReplay != 0) {
 multiplayer_read_joys:
-        Player1StatusProc();
-        if (pl1Fire == 0) {
-          Player2StatusProc();
-          bVar5 = pl2Fire;
-joined_r0x0010ee02:
-          if (bVar5 == 0) goto draw_replay_frame_and_handle_fade;
-        }
-abort_replay_and_block_fire:
-        fireBlocked = 1;
-        replayState = 0;
-        goto fade_out_and_cleanup_then_return;
-      }
-      if (teamScoredDataPtr != (TeamGeneralInfo *)0x0) {
-        if (teamScoredDataPtr->playerNumber == 1) {
-single_read_joy1:
-          Player1StatusProc();
-          bVar5 = pl1Fire;
-          goto joined_r0x0010ee02;
-        }
-        if (teamScoredDataPtr->playerNumber != 2) {
-          if (teamScoredDataPtr->playerCoachNumber == 1) goto single_read_joy1;
-          if (teamScoredDataPtr->playerCoachNumber != 2) goto multiplayer_read_joys;
-        }
+      Player1StatusProc();
+      if (pl1Fire == 0) {
         Player2StatusProc();
-        if (pl2Fire != 0) goto abort_replay_and_block_fire;
+        bVar3 = pl2Fire;
+joined_r0x0010ee02:
+        if (bVar3 == 0) goto draw_replay_frame_and_handle_fade;
       }
+abort_replay_and_block_fire:
+      fireBlocked = 1;
+      replayState = 0;
+      goto fade_out_and_cleanup_then_return;
     }
+    if (teamScoredDataPtr != (TeamGeneralInfo *)0x0) {
+      if (teamScoredDataPtr->playerNumber == 1) {
+single_read_joy1:
+        Player1StatusProc();
+        bVar3 = pl1Fire;
+        goto joined_r0x0010ee02;
+      }
+      if (teamScoredDataPtr->playerNumber != 2) {
+        if (teamScoredDataPtr->playerCoachNumber == 1) goto single_read_joy1;
+        if (teamScoredDataPtr->playerCoachNumber != 2) goto multiplayer_read_joys;
+      }
+      Player2StatusProc();
+      if (pl2Fire != 0) goto abort_replay_and_block_fire;
+    }
+  }
 draw_replay_frame_and_handle_fade:
-    DrawReplayFrame();
-    if ((fadeState == 0) && (fadeInitFlag == 999)) {
-      fadeInitFlag = 0xffff;
-    }
-    if (replayState == 0) {
-fade_out_and_cleanup_then_return:
-      FadeOutToBlack();
-      RestoreCameraPosition();
-      return;
-    }
+  DrawReplayFrame();
+  if ((fadeState == 0) && (fadeInitFlag == 999)) {
+    fadeInitFlag = 0xffff;
+  }
+  if (replayState != 0) {
     if (fadeAndSaveHighlightScene != 0) {
       FadeAndSaveHighlightScene();
       fadeAndSaveHighlightScene = 0;
@@ -9864,10 +9991,10 @@ fade_out_and_cleanup_then_return:
       instantReplayFlag = 0;
     }
     REG_DMACON = DMACON_BLT_ON;
-    uVar4 = REG_DMACONR._0_1_;
+    uVar2 = REG_DMACONR._0_1_;
     do {
-      bVar5 = REG_DMACONR._0_1_;
-    } while ((bVar5 & 0x40) != 0);
+      bVar3 = REG_DMACONR._0_1_;
+    } while ((bVar3 & 0x40) != 0);
     REG_DMACON = DMACON_BLT_OFF;
     if (g_irqCookieObfuscated != 0xcfd1efe7) {
       WriteStatsNumber(*(ushort *)(unaff_A6 + 4),0x100,unaff_D2w,unaff_D3w);
@@ -9881,101 +10008,84 @@ fade_out_and_cleanup_then_return:
       WriteStatsNumber(*(ushort *)(unaff_A6 + 8),0x100,uVar1,unaff_D3w);
       return;
     }
-    waitingInterrupt = 1;
     do {
-      sVar6 = waitingInterrupt;
-      sVar6 = waitingInterrupt;
-    } while (sVar6 != 0);
-  } while( true );
+    } while( true );
+  }
+fade_out_and_cleanup_then_return:
+  FadeOutToBlack();
+  RestoreCameraPosition();
+  return;
 }
 
 
 // --- PlayHighlightsLoop @ 0010eebc ---
 
 /* WARNING: Control flow encountered bad instruction data */
+/* WARNING: Removing unreachable block (ram,0x0010eee0) */
+/* WARNING: Removing unreachable block (ram,0x0010eee4) */
+/* WARNING: Removing unreachable block (ram,0x0010f032) */
 /* Doesn't return until the playback is done, either by playing all scenes
    or user aborting by pressing fire. */
 
 void __usercall PlayHighlightsLoop(void)
 
 {
-  short sVar1;
-  short sVar2;
-  undefined1 uVar3;
-  byte bVar4;
-  int iVar5;
-  short sVar6;
+  undefined1 uVar1;
+  byte bVar2;
+  int iVar3;
   
-  do {
-    ReadTimerDelta();
-    while (paused != 0) {
-      sVar6 = 0;
-      do {
-        sVar1 = currentTick;
-        do {
-          sVar2 = currentTick;
-        } while (sVar1 == sVar2);
-        sVar6 = sVar6 + -1;
-      } while (sVar6 != -1);
-      GetKey();
-      MainKeysCheck(currentKey);
-      PlayEnqueuedSamples();
-    }
-    ProcessSpriteBlitQueue();
-    GetKey();
-    MainKeysCheck(currentKey);
-    nullsub_10();
-    nullsub_9();
-    if (replayState == 0) {
-advance_to_next_highlight:
-      hilSceneNumber = hilSceneNumber + 1;
-      if (numScenesInHilFile == hilSceneNumber) {
-stop_replay_and_return:
-        RestoreHighlightPointers();
-        return;
-      }
-      iVar5 = (uint)hilSceneNumber * 19000;
-      goalBasePtr = (uint *)(hilStartOfGoalsBuffer + iVar5);
-      currentHilPtr = (uint *)(&hilPitchNumber + (uint)hilSceneNumber * 0x251c);
-      nextGoalPtr = (uint *)(inGameHilBuffer + iVar5);
-      HandleInstantReplayStateSwitch();
-    }
-    else {
-      PlayEnqueuedSamples();
-      if ((fadeState != 0) &&
-         ((Player1StatusProc(), pl1Fire != 0 || (Player2StatusProc(), pl2Fire != 0)))) {
-        fireBlocked = 1;
-        replayState = 0;
-        FadeOutToBlack();
-        RestoreCameraPosition();
-        goto stop_replay_and_return;
-      }
-      DrawReplayFrame();
-      if ((fadeState == 0) && (fadeInitFlag == 999)) {
-        fadeInitFlag = 0xffff;
-      }
-      if (replayState == 0) {
-        FadeOutToBlack();
-        RestoreCameraPosition();
-        goto advance_to_next_highlight;
-      }
-    }
-    REG_DMACON = DMACON_BLT_ON;
-    uVar3 = REG_DMACONR._0_1_;
+  ReadTimerDelta();
+  if (paused != 0) {
     do {
-      bVar4 = REG_DMACONR._0_1_;
-    } while ((bVar4 & 0x40) != 0);
+    } while( true );
+  }
+  ProcessSpriteBlitQueue();
+  GetKey();
+  MainKeysCheck(currentKey);
+  nullsub_10();
+  nullsub_9();
+  if (replayState != 0) {
+    PlayEnqueuedSamples();
+    if ((fadeState != 0) &&
+       ((Player1StatusProc(), pl1Fire != 0 || (Player2StatusProc(), pl2Fire != 0)))) {
+      fireBlocked = 1;
+      replayState = 0;
+      FadeOutToBlack();
+      RestoreCameraPosition();
+      goto stop_replay_and_return;
+    }
+    DrawReplayFrame();
+    if ((fadeState == 0) && (fadeInitFlag == 999)) {
+      fadeInitFlag = 0xffff;
+    }
+    if (replayState != 0) goto vblank_irq_wait_gate;
+    FadeOutToBlack();
+    RestoreCameraPosition();
+  }
+  hilSceneNumber = hilSceneNumber + 1;
+  if (numScenesInHilFile != hilSceneNumber) {
+    iVar3 = (uint)hilSceneNumber * 19000;
+    goalBasePtr = (uint *)(hilStartOfGoalsBuffer + iVar3);
+    currentHilPtr = (uint *)(&hilPitchNumber + (uint)hilSceneNumber * 0x251c);
+    nextGoalPtr = (uint *)(inGameHilBuffer + iVar3);
+    HandleInstantReplayStateSwitch();
+vblank_irq_wait_gate:
+    REG_DMACON = DMACON_BLT_ON;
+    uVar1 = REG_DMACONR._0_1_;
+    do {
+      bVar2 = REG_DMACONR._0_1_;
+    } while ((bVar2 & 0x40) != 0);
     REG_DMACON = DMACON_BLT_OFF;
     if (g_irqCookieObfuscated != 0xcfd1efe7) {
                     /* WARNING: Bad instruction - Truncating control flow here */
       halt_baddata();
     }
-    waitingInterrupt = 1;
     do {
-      sVar6 = waitingInterrupt;
-      sVar6 = waitingInterrupt;
-    } while (sVar6 != 0);
-  } while( true );
+    } while( true );
+  }
+stop_replay_and_return:
+  RestoreHighlightPointers();
+  return;
 }
 
 
@@ -10093,10 +10203,8 @@ void __usercall MainKeysCheck(ushort key)
 
 {
   word wVar1;
-  short sVar2;
-  ushort uVar3;
-  TeamGeneralInfo *pTVar4;
-  TeamGeneralInfo *pTVar5;
+  TeamGeneralInfo *pTVar2;
+  TeamGeneralInfo *pTVar3;
   
   if (key == 0) {
     return;
@@ -10142,8 +10250,7 @@ void __usercall MainKeysCheck(ushort key)
         return;
       }
       if (key == 0x88) {
-        uVar3 = g_spinBigS;
-        g_spinBigS = uVar3 ^ 1;
+        g_spinBigS = g_spinBigS ^ 1;
         return;
       }
       if (key == 0x87) {
@@ -10155,9 +10262,7 @@ void __usercall MainKeysCheck(ushort key)
       }
       if (key == 0x89) {
         FadeOutAndIn();
-        sVar2 = g_crowdChantsOn;
-        sVar2 = g_crowdChantsOn;
-        if (sVar2 == 0) {
+        if (g_crowdChantsOn == 0) {
           TurnCrowdChantsOn();
         }
         else {
@@ -10228,15 +10333,15 @@ void __usercall MainKeysCheck(ushort key)
             return;
           }
         }
-        pTVar4 = &topTeamData;
-        pTVar5 = &bottomTeamData;
+        pTVar2 = &topTeamData;
+        pTVar3 = &bottomTeamData;
         if (topTeamData.teamNumber != 1) {
-          pTVar4 = &bottomTeamData;
-          pTVar5 = &topTeamData;
+          pTVar2 = &bottomTeamData;
+          pTVar3 = &topTeamData;
         }
-        if (pTVar4->playerNumber == 0) {
-          if (pTVar4->isPlCoach == 0) {
-            if ((pTVar5->playerNumber == 0) && (pTVar5->isPlCoach == 0)) {
+        if (pTVar2->playerNumber == 0) {
+          if (pTVar2->isPlCoach == 0) {
+            if ((pTVar3->playerNumber == 0) && (pTVar3->isPlCoach == 0)) {
               writeOnly01 = 1;
               overlayActiveFlag = 0;
               playGame = 0;
@@ -10266,7 +10371,7 @@ void __usercall MainKeysCheck(ushort key)
             penaltiesState = 0;
             return;
           }
-          if (pTVar5->playerNumber != 0) {
+          if (pTVar3->playerNumber != 0) {
             writeOnly01 = 1;
             overlayActiveFlag = 0;
             playGame = 0;
@@ -10275,10 +10380,10 @@ void __usercall MainKeysCheck(ushort key)
             penaltiesState = 0;
             return;
           }
-          wVar1 = pTVar5->isPlCoach;
+          wVar1 = pTVar3->isPlCoach;
         }
         else {
-          if (pTVar5->playerNumber != 0) {
+          if (pTVar3->playerNumber != 0) {
             writeOnly01 = 1;
             overlayActiveFlag = 0;
             playGame = 0;
@@ -10287,7 +10392,7 @@ void __usercall MainKeysCheck(ushort key)
             penaltiesState = 0;
             return;
           }
-          wVar1 = pTVar5->isPlCoach;
+          wVar1 = pTVar3->isPlCoach;
         }
         if ((wVar1 == 0) && (gameTime != (char  [4])0x0)) {
           statsTeam2Goals = statsTeam2Goals + 5;
@@ -10333,11 +10438,21 @@ void __usercall MainKeysCheck(ushort key)
 
 // --- ReplayExitMenuAfterFriendly @ 0010f8dc ---
 
+/* WARNING: Removing unreachable block (ram,0x0010f95e) */
+/* WARNING: Removing unreachable block (ram,0x0010f974) */
+/* WARNING: Removing unreachable block (ram,0x0010f966) */
+/* WARNING: Removing unreachable block (ram,0x0010f980) */
+/* WARNING: Removing unreachable block (ram,0x0010f9a0) */
+/* WARNING: Removing unreachable block (ram,0x0010f9aa) */
+/* WARNING: Removing unreachable block (ram,0x0010f9b2) */
+/* WARNING: Removing unreachable block (ram,0x0010f9ba) */
+/* WARNING: Removing unreachable block (ram,0x0010f9c2) */
+/* WARNING: Removing unreachable block (ram,0x0010f98e) */
+/* WARNING: Removing unreachable block (ram,0x0010f996) */
+
 void __usercall ReplayExitMenuAfterFriendly(void)
 
 {
-  short sVar1;
-  
   LoadFile(aGrafsMenubg2Ra,frontbufferMaskBuffer);
   ProcessSpriteBlitQueue();
   BlitterCopyPanelToScreen();
@@ -10352,64 +10467,26 @@ void __usercall ReplayExitMenuAfterFriendly(void)
   paletteIndex = 0;
   DrawReplayOrExitMenu();
   FadeIn();
-replay_exit_loop_draw_menu:
+  DrawReplayOrExitMenu();
   do {
-    DrawReplayOrExitMenu();
-    do {
-      while( true ) {
-        while( true ) {
-          waitingInterrupt = 1;
-          do {
-            sVar1 = waitingInterrupt;
-            sVar1 = waitingInterrupt;
-          } while (sVar1 != 0);
-          if (replaySelected == 0) {
-            DrawReplayContinueShiningFrame(0x65,0x88);
-          }
-          else {
-            DrawReplayContinueShiningFrame(0x65,0x6a);
-          }
-          MenuCheckControls();
-          if (menuControlsDirection != 0) break;
-          if (replaySelected == 0) {
-            replaySelected = 1;
-            goto replay_exit_loop_draw_menu;
-          }
-        }
-        if (menuControlsDirection == 4) break;
-        if (fire != 0) {
-          FadeOutToBlack();
-          return;
-        }
-      }
-    } while (replaySelected == 0);
-    replaySelected = 0;
   } while( true );
 }
 
 
 // --- DrawReplayOrExitMenu @ 0010f9ca ---
 
+/* WARNING: Removing unreachable block (ram,0x0010fa5a) */
+/* WARNING: Removing unreachable block (ram,0x0010fa5e) */
+
 void __usercall DrawReplayOrExitMenu(void)
 
 {
-  short sVar1;
-  short sVar2;
-  
-  sVar2 = 1;
+  DrawMenuBack150x20(0xe,0x65,0x6a);
+  DrawMenuBack150x20(0xc,0x65,0x88);
+  DrawMenuTextCentered(0xb0,0x70,2,aReplay,&bigCharsTable);
+  DrawMenuTextCentered(0xb0,0x8e,2,aExit,&bigCharsTable);
   do {
-    DrawMenuBack150x20(0xe,0x65,0x6a);
-    DrawMenuBack150x20(0xc,0x65,0x88);
-    DrawMenuTextCentered(0xb0,0x70,2,aReplay,&bigCharsTable);
-    DrawMenuTextCentered(0xb0,0x8e,2,aExit,&bigCharsTable);
-    waitingInterrupt = 1;
-    do {
-      sVar1 = waitingInterrupt;
-      sVar1 = waitingInterrupt;
-    } while (sVar1 != 0);
-    sVar2 = sVar2 + -1;
-  } while (sVar2 != -1);
-  return;
+  } while( true );
 }
 
 
@@ -11265,14 +11342,14 @@ void __usercall QueueMaskedSpriteBlitClipped(void *sprite,ushort x,ushort y)
     }
     if ((short)spriteClippedY < SPRITE_MAX_Y_DRAW + 1) {
       if ((ushort)(*(short *)((int)sprite + 10) + (uVar1 & TILE_MASK)) < 0x11) {
-        REG_BLTCON1 = uVar1 * 0x1000;
         REG_DMACON = DMACON_BLT_ON;
         uVar3 = REG_DMACONR._0_1_;
         do {
           bVar4 = REG_DMACONR._0_1_;
         } while ((bVar4 & 0x40) != 0);
         REG_DMACON = DMACON_BLT_OFF;
-        REG_BLTCON0 = REG_BLTCON1 + BLTCON0_BASE_LINKED;
+        REG_BLTCON1 = uVar1 * 0x1000;
+        REG_BLTCON0 = uVar1 * 0x1000 + BLTCON0_BASE_LINKED;
         puVar2 = frontbufferBasePtr +
                  (uint)spriteClippedY * ROW_STRIDE_BYTES + (int)(short)(((short)uVar1 >> 4) << 1);
         REG_BLTCPTH = puVar2;
@@ -11284,8 +11361,8 @@ void __usercall QueueMaskedSpriteBlitClipped(void *sprite,ushort x,ushort y)
         REG_BLTCMOD = PLANE_STRIDE_MINUS2;
         REG_BLTDMOD = PLANE_STRIDE_MINUS2;
         *(undefined2 *)(spriteBlitQueue + 8) = PLANE_STRIDE_MINUS2;
-        REG_BLTBPTH = *(undefined4 *)sprite;
-        REG_BLTAPTH = *(undefined4 *)((int)sprite + 4);
+        REG_BLTBPTH = *(void **)sprite;
+        REG_BLTAPTH = *(void **)((int)sprite + 4);
         REG_BLTAFWM = BLT_FWM_ALL;
         REG_BLTALWM = BLT_FWM_ALL;
         REG_BLTSIZE = SPRITE_BLTSIZE_W1;
@@ -11294,14 +11371,14 @@ void __usercall QueueMaskedSpriteBlitClipped(void *sprite,ushort x,ushort y)
         spriteBlitQueue = spriteBlitQueue + 0xc;
         return;
       }
-      REG_BLTCON1 = uVar1 * 0x1000;
       REG_DMACON = DMACON_BLT_ON;
       uVar3 = REG_DMACONR._0_1_;
       do {
         bVar4 = REG_DMACONR._0_1_;
       } while ((bVar4 & 0x40) != 0);
       REG_DMACON = DMACON_BLT_OFF;
-      REG_BLTCON0 = REG_BLTCON1 + BLTCON0_BASE_LINKED;
+      REG_BLTCON1 = uVar1 * 0x1000;
+      REG_BLTCON0 = uVar1 * 0x1000 + BLTCON0_BASE_LINKED;
       puVar2 = frontbufferBasePtr +
                (uint)spriteClippedY * ROW_STRIDE_BYTES + (int)(short)(((short)uVar1 >> 4) << 1);
       REG_BLTCPTH = puVar2;
@@ -11313,8 +11390,8 @@ void __usercall QueueMaskedSpriteBlitClipped(void *sprite,ushort x,ushort y)
       REG_BLTCMOD = PLANE_STRIDE_MINUS4;
       REG_BLTDMOD = PLANE_STRIDE_MINUS4;
       *(undefined2 *)(spriteBlitQueue + 8) = PLANE_STRIDE_MINUS4;
-      REG_BLTBPTH = *(undefined4 *)sprite;
-      REG_BLTAPTH = *(undefined4 *)((int)sprite + 4);
+      REG_BLTBPTH = *(void **)sprite;
+      REG_BLTAPTH = *(void **)((int)sprite + 4);
       REG_BLTAFWM = BLT_FWM_ALL;
       REG_BLTALWM = 0;
       REG_BLTSIZE = SPRITE_BLTSIZE_W2;
@@ -11969,14 +12046,10 @@ void __usercall UpdateGameTimersAndCameraBreakMode(TeamGeneralInfo *team)
         }
         else if (breakCameraMode == 1) {
           if ((playingPenalties == 0) && (goalCameraMode != 0)) {
-            sVar3 = g_autoSaveHighlights;
-            sVar3 = g_autoSaveHighlights;
-            if (sVar3 != 0) {
+            if (g_autoSaveHighlights != 0) {
               saveHighlightScene = 1;
             }
-            sVar3 = g_autoReplays;
-            sVar3 = g_autoReplays;
-            if (sVar3 != 0) {
+            if (g_autoReplays != 0) {
               userRequestedReplay = 0;
               instantReplayFlag = 1;
             }
@@ -12807,49 +12880,47 @@ short __usercall ShouldGoalkeeperDive(Sprite *goalie,Sprite *ball,TeamGeneralInf
 
 {
   short sVar1;
-  short sVar2;
-  ushort uVar3;
-  word wVar4;
-  ushort uVar5;
+  ushort uVar2;
+  word wVar3;
+  ushort uVar4;
   
-  wVar4 = kKeeperPenaltySaveDistanceFar;
-  sVar2 = (ball->y).s.i - (goalie->y).s.i;
+  wVar3 = kKeeperPenaltySaveDistanceFar;
+  sVar1 = (ball->y).s.i - (goalie->y).s.i;
   if (team != &topTeamData) {
-    sVar2 = -sVar2;
+    sVar1 = -sVar1;
   }
-  if (sVar2 < 0) {
-    if (-0xb < sVar2) {
+  if (sVar1 < 0) {
+    if (-0xb < sVar1) {
       return 1;
     }
   }
-  else if (-1 < sVar2) {
+  else if (-1 < sVar1) {
     if ((playingPenalties == 0) && (penalty == 0)) {
-      sVar1 = kKeeperSaveDistance;
-      if (sVar2 <= sVar1) {
-        uVar3 = (ball->y).s.i - (goalie->y).s.i;
-        if ((short)uVar3 < 0) {
-          uVar3 = -uVar3;
+      if (sVar1 <= kKeeperSaveDistance) {
+        uVar2 = (ball->y).s.i - (goalie->y).s.i;
+        if ((short)uVar2 < 0) {
+          uVar2 = -uVar2;
         }
-        uVar3 = GetFramesNeededToCoverDistance((ball->deltaY).raw,uVar3);
-        if (uVar3 != 0) {
-          uVar5 = ballDefensiveX - (goalie->x).s.i;
-          if ((short)uVar5 < 0) {
-            uVar5 = -uVar5;
+        uVar2 = GetFramesNeededToCoverDistance((ball->deltaY).raw,uVar2);
+        if (uVar2 != 0) {
+          uVar4 = ballDefensiveX - (goalie->x).s.i;
+          if ((short)uVar4 < 0) {
+            uVar4 = -uVar4;
           }
-          uVar5 = GetFramesNeededToCoverDistance((goalie->deltaX).raw,uVar5);
-          if ((uVar5 != 0) && (uVar3 < uVar5)) {
-            uVar5 = ballDefensiveX - (goalie->x).s.i;
-            if ((short)uVar5 < 0) {
-              uVar5 = -uVar5;
+          uVar4 = GetFramesNeededToCoverDistance((goalie->deltaX).raw,uVar4);
+          if ((uVar4 != 0) && (uVar2 < uVar4)) {
+            uVar4 = ballDefensiveX - (goalie->x).s.i;
+            if ((short)uVar4 < 0) {
+              uVar4 = -uVar4;
             }
             dseg_114EB0 = dseg_114EB0 + 1;
-            uVar5 = GetFramesNeededToCoverDistance
+            uVar4 = GetFramesNeededToCoverDistance
                               (*(int *)((int)kGoalkeeperDiveDeltas +
                                        (int)(short)(*(short *)((int)team->shotChanceTable->
                                                                     index_dseg_11061B +
                                                               (int)(short)((currentGameTick & 0x3c)
-                                                                          >> 1)) << 2)),uVar5);
-            if ((uVar5 != 0) && (uVar3 <= uVar5)) {
+                                                                          >> 1)) << 2)),uVar4);
+            if ((uVar4 != 0) && (uVar2 <= uVar4)) {
               return 1;
             }
           }
@@ -12857,11 +12928,11 @@ short __usercall ShouldGoalkeeperDive(Sprite *goalie,Sprite *ball,TeamGeneralInf
       }
     }
     else {
-      uVar3 = Rand();
-      if ((uVar3 & 0x18) != 0) {
-        wVar4 = kKeeperPenaltySaveDistanceNear[0];
+      uVar2 = Rand();
+      if ((uVar2 & 0x18) != 0) {
+        wVar3 = kKeeperPenaltySaveDistanceNear[0];
       }
-      if (sVar2 <= (short)wVar4) {
+      if (sVar1 <= (short)wVar3) {
         return 1;
       }
     }
@@ -13458,19 +13529,14 @@ GoalkeeperJumping(short direction,short farJumpVariant,short dir2,Sprite *player
                  TeamGeneralInfo *team)
 
 {
-  word wVar1;
-  short sVar2;
-  
   if (player->ballDistance < 0x81) {
-    wVar1 = kGoalkeeperNearJumpSpeed;
-    player->speed = wVar1;
+    player->speed = kGoalkeeperNearJumpSpeed;
   }
   else {
     player->speed = kGoalkeeperFarJumpSpeed;
     if ((farJumpVariant != 0) &&
        (player->speed = kGoalkeeperFarJumpSlowerSpeed, farJumpVariant != 1)) {
-      sVar2 = kGoalkeeperNearJumpSpeed;
-      player->speed = sVar2 + (currentGameTick & 0xff);
+      player->speed = kGoalkeeperNearJumpSpeed + (currentGameTick & 0xff);
     }
   }
   *(undefined1 *)&team->field_46 = 0;
@@ -15193,10 +15259,7 @@ tackle_edge_generic_slowdown:
                    (pSVar2->ballDistance < 0x41)) &&
                   ((teamInfo->ballLessEqual4 != 0 || (teamInfo->ball4To8 != 0)))) {
             penalty = 0;
-            playerHadBall = 0;
-            if (teamInfo->opponentsTeam->playerHasBall != 0) {
-              playerHadBall = 1;
-            }
+            playerHadBall = (short)(teamInfo->opponentsTeam->playerHasBall != 0);
             if (pSVar2->tacklingTimer == 0xffff) {
               lastTeamPlayed = teamInfo;
               lastPlayerPlayed = pSVar2;
@@ -15745,83 +15808,7 @@ player_goalkeeper:
             }
             if (teamInfo == &bottomTeamData) goto return_last_player_block;
 goalkeeper_in_upper_half:
-            if (pSVar2->playerState == PL_GOALIE_CATCHING_BALL) {
-              bVar7 = pSVar2->playerDownTimer - 1;
-              pSVar2->playerDownTimer = bVar7;
-              if (bVar7 == 0) {
-                pSVar2->playerState = PL_NORMAL;
-                SetPlayerAnimationTable(&playerNormalStandingAnimTable,pSVar2);
-                goto goalie_not_catching_the_ball;
-              }
-              pSVar2->destX = ballSprite.x.s.i;
-              pSVar2->destY = ballSprite.y.s.i;
-              if (teamInfo == &bottomTeamData) {
-                pSVar2->destY = pSVar2->destY + 1;
-              }
-              else {
-                pSVar2->destY = pSVar2->destY - 1;
-              }
-goalie_can_catch_checks:
-              uVar24 = (ushort)((uint)pbVar25 >> 0x10);
-              if (teamInfo == lastTeamPlayed) {
-                sVar21 = playerHadBall;
-                sVar21 = playerHadBall;
-                if (sVar21 != 0) goto if_opponent_last_touched;
-              }
-              else {
-if_opponent_last_touched:
-                if ((((((ballInGoalkeeperArea != 0) ||
-                       ((currentGameTick & 0xf0) >> 4 < teamInfo->shotChanceTable->field_3A)) &&
-                      (-1 < (short)ballNextGroundX)) &&
-                     (((short)ballDefensiveZ < 0x17 && (0xc < (short)ballDefensiveZ)))) &&
-                    (pSVar2->ballDistance < 0x845)) &&
-                   (((sVar21 = (pSVar2->x).s.i - ballDefensiveX, sVar21 < 0xd && (-0xd < sVar21)) &&
-                    ((sVar21 = (pSVar2->y).s.i - ballDefensiveY, sVar21 < 0xd && (-0xd < sVar21)))))
-                   ) {
-                  GoalkeeperCaughtTheBall(pSVar2,teamInfo);
-                }
-              }
-              if ((((pSVar2 != lastPlayerPlayed) && (pSVar2->ballDistance < 0x49)) &&
-                  (teamInfo->ballAbove17 == 0)) &&
-                 ((pSVar2->playerState == PL_GOALIE_CATCHING_BALL || (teamInfo->ball12To17 == 0))))
-              {
-                pSVar2->destX = (pSVar2->x).s.i;
-                pSVar2->destY = (pSVar2->y).s.i;
-                if (teamInfo == lastTeamPlayed) {
-                  sVar21 = playerHadBall;
-                  sVar21 = playerHadBall;
-                  if (sVar21 == 0) {
-                    UpdateBallWithControllingGoalkeeper(pSVar2);
-                    teamInfo->controlledPlayer = pSVar2;
-                    teamInfo->passToPlayerPtr = (Sprite *)0x0;
-                    teamInfo->playerSwitchTimer = 0x19;
-                    teamInfo->passingBall = 0;
-                    teamInfo->passingToPlayer = 0;
-                    pSVar2->destX = (pSVar2->x).s.i;
-                    pSVar2->destY = (pSVar2->y).s.i;
-                    penalty = 0;
-                    playerHadBall = 0;
-                    lastTeamPlayed = teamInfo;
-                    lastPlayerPlayed = pSVar2;
-                    teamInfo->passKickTimer = 0;
-                    teamInfo->passingKickingPlayer = (Sprite *)0x0;
-                    teamInfo->field_74 = 0;
-                    teamInfo->goalkeeperPlaying = 1;
-                    *(undefined1 *)&teamInfo->goaliePlayingOrOut = 1;
-                    *(undefined1 *)&teamInfo->ballOutOfPlayOrKeeper = 1;
-                    goto finalize_control_and_speed;
-                  }
-                }
-                lastKeeperPlayed = lastPlayerPlayed;
-                penalty = 0;
-                playerHadBall = 0;
-                lastTeamPlayed = teamInfo;
-                lastPlayerPlayed = pSVar2;
-                UpdateBallWithControllingGoalkeeper(pSVar2);
-                GoalkeeperClaimedTheBall(pSVar2,&ballSprite,teamInfo);
-              }
-            }
-            else {
+            if (pSVar2->playerState != PL_GOALIE_CATCHING_BALL) {
 goalie_not_catching_the_ball:
               if (pSVar2 == teamInfo->controlledPlayer) goto its_controlled_player;
               if (pSVar2 == teamInfo->passToPlayerPtr) goto receiver_expect_pass_tick;
@@ -15841,219 +15828,278 @@ goalie_not_catching_the_ball:
                   teamInfo->passingBall = 0;
                   teamInfo->passingToPlayer = 0;
                 }
-                goto return_last_player_block;
               }
-              if (pSVar2 == lastPlayerPlayed) goto return_last_player_block;
-              UpdateBallVariables(pSVar2,&ballSprite,teamInfo);
-              uVar12 = CalculateBallNextGroundXYPositions(&ballSprite);
-              pTVar10 = (TeamGame *)(uint)uVar12;
-              if (((ballInGoalkeeperArea != 0) ||
-                  (uVar12 = (currentGameTick & 0xf0) >> 4, pTVar10 = (TeamGame *)(uint)uVar12,
-                  uVar12 < teamInfo->shotChanceTable->field_3A)) && (-1 < (short)ballNextGroundX)) {
-                puVar18 = (undefined1 *)CONCAT22(uVar14,ballNextGroundX);
-                pbVar25 = (byte *)CONCAT22(uVar24,ballNextYGroundY);
-                if (teamInfo == &bottomTeamData) {
-                  if ((0x2a9 < (short)ballNextYGroundY) && ((short)ballNextYGroundY < 0x2fa))
-                  goto joined_r0x00115332;
-                }
-                else if ((0x88 < (short)ballNextYGroundY) && ((short)ballNextYGroundY < 0xd9)) {
+              else if (pSVar2 != lastPlayerPlayed) {
+                UpdateBallVariables(pSVar2,&ballSprite,teamInfo);
+                uVar12 = CalculateBallNextGroundXYPositions(&ballSprite);
+                pTVar10 = (TeamGame *)(uint)uVar12;
+                if (((ballInGoalkeeperArea != 0) ||
+                    (uVar12 = (currentGameTick & 0xf0) >> 4, pTVar10 = (TeamGame *)(uint)uVar12,
+                    uVar12 < teamInfo->shotChanceTable->field_3A)) && (-1 < (short)ballNextGroundX))
+                {
+                  puVar18 = (undefined1 *)CONCAT22(uVar14,ballNextGroundX);
+                  pbVar25 = (byte *)CONCAT22(uVar24,ballNextYGroundY);
+                  if (teamInfo == &bottomTeamData) {
+                    if ((0x2a9 < (short)ballNextYGroundY) && ((short)ballNextYGroundY < 0x2fa))
+                    goto joined_r0x00115332;
+                  }
+                  else if ((0x88 < (short)ballNextYGroundY) && ((short)ballNextYGroundY < 0xd9)) {
 joined_r0x00115332:
-                  if ((0xc0 < (short)ballNextGroundX) && ((short)ballNextGroundX < 0x1df)) {
-                    sVar21 = ballNextGroundX - (pSVar2->x).s.i;
-                    sVar27 = ballNextYGroundY - (pSVar2->y).s.i;
-                    pTVar10 = (TeamGame *)
-                              ((int)(short)(ballNextGroundX - ballSprite.x._0_2_) *
-                              (int)(short)(ballNextGroundX - ballSprite.x._0_2_));
-                    pbVar25 = pTVar10->teamName +
-                              (int)(short)(ballNextYGroundY - ballSprite.y._0_2_) *
-                              (int)(short)(ballNextYGroundY - ballSprite.y._0_2_) + -0x16;
-                    puVar18 = (undefined1 *)
-                              (((int)sVar21 * (int)sVar21 + (int)sVar27 * (int)sVar27) * 4);
-                    if (puVar18 <= pbVar25) {
-                      pSVar2->destX = ballNextGroundX;
-                      pSVar2->destY = ballNextYGroundY;
-                      pSVar2->speed = kGoalkeeperMoveToBallSpeed;
-                      goto goalie_can_catch_checks;
-                    }
-                  }
-                }
-              }
-              uVar24 = (ushort)((uint)pbVar25 >> 0x10);
-              if (gameStatePl != ST_GAME_IN_PROGRESS) goto return_last_player_block;
-              if ((strikeDestX < 0x127) || (0x178 < strikeDestX)) {
-                if ((pSVar2->ballDistance < 0x200) && (teamInfo->ballAbove17 == 0)) {
-                  pSVar2->destX = ballSprite.x.s.i;
-                  pSVar2->destY = ballSprite.y.s.i;
-                  goto goalie_can_catch_checks;
-                }
-                if (teamInfo->ballAbove17 != 0) goto evaluate_catchability_and_nearest_owner;
-                if (ballInGoalkeeperArea == 0) {
-                  if (ballSprite.y.s.i < 0x1c1) {
-                    if (-1 < (int)ballSprite.deltaY.raw)
-                    goto evaluate_catchability_and_nearest_owner;
-                  }
-                  else if ((int)ballSprite.deltaY.raw < 1) {
-evaluate_catchability_and_nearest_owner:
-                    if ((ballSprite.z.s.i < 0x11) && (-1 < (short)ballDefensiveX)) {
-                      pTVar10 = (TeamGame *)pSVar2->ballDistance;
-                      if (((((teamInfo->controlledPlayer == (Sprite *)0x0) ||
-                            (pTVar10 <= (TeamGame *)teamInfo->controlledPlayer->ballDistance)) &&
-                           ((teamInfo->passToPlayerPtr == (Sprite *)0x0 ||
-                            (pTVar10 <= (TeamGame *)teamInfo->passToPlayerPtr->ballDistance)))) &&
-                          ((pSVar3 = teamInfo->opponentsTeam->controlledPlayer,
-                           pSVar3 == (Sprite *)0x0 || (pTVar10 <= (TeamGame *)pSVar3->ballDistance))
-                          )) && ((pSVar3 = teamInfo->opponentsTeam->passToPlayerPtr,
-                                 pSVar3 == (Sprite *)0x0 ||
-                                 (pTVar10 <= (TeamGame *)pSVar3->ballDistance)))) {
-                        pSVar2->destX = ballDefensiveX;
-                        pSVar2->destY = ballDefensiveY;
+                    if ((0xc0 < (short)ballNextGroundX) && ((short)ballNextGroundX < 0x1df)) {
+                      sVar21 = ballNextGroundX - (pSVar2->x).s.i;
+                      sVar27 = ballNextYGroundY - (pSVar2->y).s.i;
+                      pTVar10 = (TeamGame *)
+                                ((int)(short)(ballNextGroundX - ballSprite.x._0_2_) *
+                                (int)(short)(ballNextGroundX - ballSprite.x._0_2_));
+                      pbVar25 = pTVar10->teamName +
+                                (int)(short)(ballNextYGroundY - ballSprite.y._0_2_) *
+                                (int)(short)(ballNextYGroundY - ballSprite.y._0_2_) + -0x16;
+                      puVar18 = (undefined1 *)
+                                (((int)sVar21 * (int)sVar21 + (int)sVar27 * (int)sVar27) * 4);
+                      if (puVar18 <= pbVar25) {
+                        pSVar2->destX = ballNextGroundX;
+                        pSVar2->destY = ballNextYGroundY;
+                        pSVar2->speed = kGoalkeeperMoveToBallSpeed;
                         goto goalie_can_catch_checks;
                       }
                     }
-                    goto return_last_player_block;
                   }
-                  pSVar2->destX = ((short)(ballSprite.x.s.i - 0x150) >> 1) + 0x150;
                 }
-                else {
-                  pSVar2->destX = ballSprite.x.s.i;
-                }
-                if (ballSprite.y.s.i < 0x1c1) {
-                  wVar13 = ((ushort)(ballSprite.y.s.i - 0x81) >> 1) + 0x81;
-                }
-                else {
-                  wVar13 = ballSprite.y.s.i + ((ushort)(0x301 - ballSprite.y._0_2_) >> 1);
-                }
-                pSVar2->destY = wVar13;
-                pSVar2->speed = teamInfo->shotChanceTable->speed_unk;
-                goto goalie_can_catch_checks;
-              }
-              if (teamInfo == lastTeamPlayed) {
-                sVar21 = playerHadBall;
-                sVar21 = playerHadBall;
-                if (sVar21 != 0) goto pre_save_possession_distance_gate;
-save_attempted_set_burst_speed:
-                pSVar2->speed = kGoalkeeperBurstSpeed[0];
-chase_ball_set_dest_from_ball_flat:
-                pSVar2->destX = ballNotHighX;
-                pSVar2->destY = ballNotHighY;
-                goto goalie_can_catch_checks;
-              }
-pre_save_possession_distance_gate:
-              if ((0x1ff < pSVar2->ballDistance) || (teamInfo->ballAbove17 != 0)) {
-                if ((pSVar2->ballDistance < 0x801) && (teamInfo->ballAbove17 == 0)) {
-                  pSVar2->destX = ((short)(ballSprite.x.s.i - 0x150) >> 1) + 0x150;
-                  if (ballSprite.y.s.i < 0x1c1) {
-                    wVar13 = ((ushort)(ballSprite.y.s.i - 0x81) >> 1) + 0x81;
-                  }
-                  else {
-                    wVar13 = ballSprite.y.s.i + ((ushort)(0x301 - ballSprite.y._0_2_) >> 1);
-                  }
-                  pSVar2->destY = wVar13;
-                  pSVar2->speed = teamInfo->shotChanceTable->speed_unk;
-                  goto shot_at_goal;
-                }
-                if (((teamInfo->opponentsTeam->playerHasBall == 0) && (teamInfo->playerHasBall == 0)
-                    ) && (teamInfo->plVeryCloseToBall == 0)) {
-                  if (teamInfo == lastTeamPlayed) {
-                    sVar21 = playerHadBall;
-                    sVar21 = playerHadBall;
-                    if (sVar21 == 0) goto save_attempted_set_burst_speed;
-                  }
-                  if (kShotAtGoalMinumumSpeed < ballSprite.speed) goto shot_at_goal;
-                  if (((pSVar2->ballDistance < 0x1389) && (ballSprite.z.s.i < 0xd)) &&
-                     (((int)ballSprite.deltaZ.raw < 0x8001 && (-0x8001 < (int)ballSprite.deltaZ.raw)
-                      ))) goto mark_opponent_and_chase;
-                }
-                else {
-mark_opponent_and_chase:
-                  if (teamInfo->ballAbove17 == 0) {
-                    pSVar2->destX = ballSprite.x.s.i;
-                    pSVar2->destY = ballSprite.y.s.i;
+                uVar24 = (ushort)((uint)pbVar25 >> 0x10);
+                if (gameStatePl == ST_GAME_IN_PROGRESS) {
+                  if ((strikeDestX < 0x127) || (0x178 < strikeDestX)) {
+                    if ((pSVar2->ballDistance < 0x200) && (teamInfo->ballAbove17 == 0)) {
+                      pSVar2->destX = ballSprite.x.s.i;
+                      pSVar2->destY = ballSprite.y.s.i;
+                      goto goalie_can_catch_checks;
+                    }
+                    if (teamInfo->ballAbove17 != 0) goto evaluate_catchability_and_nearest_owner;
+                    if (ballInGoalkeeperArea == 0) {
+                      if (ballSprite.y.s.i < 0x1c1) {
+                        if (-1 < (int)ballSprite.deltaY.raw)
+                        goto evaluate_catchability_and_nearest_owner;
+                      }
+                      else if ((int)ballSprite.deltaY.raw < 1) {
+evaluate_catchability_and_nearest_owner:
+                        if ((ballSprite.z.s.i < 0x11) && (-1 < (short)ballDefensiveX)) {
+                          pTVar10 = (TeamGame *)pSVar2->ballDistance;
+                          if ((((teamInfo->controlledPlayer == (Sprite *)0x0) ||
+                               (pTVar10 <= (TeamGame *)teamInfo->controlledPlayer->ballDistance)) &&
+                              ((teamInfo->passToPlayerPtr == (Sprite *)0x0 ||
+                               (pTVar10 <= (TeamGame *)teamInfo->passToPlayerPtr->ballDistance))))
+                             && (((pSVar3 = teamInfo->opponentsTeam->controlledPlayer,
+                                  pSVar3 == (Sprite *)0x0 ||
+                                  (pTVar10 <= (TeamGame *)pSVar3->ballDistance)) &&
+                                 ((pSVar3 = teamInfo->opponentsTeam->passToPlayerPtr,
+                                  pSVar3 == (Sprite *)0x0 ||
+                                  (pTVar10 <= (TeamGame *)pSVar3->ballDistance)))))) {
+                            pSVar2->destX = ballDefensiveX;
+                            pSVar2->destY = ballDefensiveY;
+                            goto goalie_can_catch_checks;
+                          }
+                        }
+                        goto return_last_player_block;
+                      }
+                      pSVar2->destX = ((short)(ballSprite.x.s.i - 0x150) >> 1) + 0x150;
+                    }
+                    else {
+                      pSVar2->destX = ballSprite.x.s.i;
+                    }
+                    if (ballSprite.y.s.i < 0x1c1) {
+                      wVar13 = ((ushort)(ballSprite.y.s.i - 0x81) >> 1) + 0x81;
+                    }
+                    else {
+                      wVar13 = ballSprite.y.s.i + ((ushort)(0x301 - ballSprite.y._0_2_) >> 1);
+                    }
+                    pSVar2->destY = wVar13;
                     pSVar2->speed = teamInfo->shotChanceTable->speed_unk;
                     goto goalie_can_catch_checks;
                   }
-                }
+                  if ((teamInfo == lastTeamPlayed) && (playerHadBall == 0)) {
+save_attempted_set_burst_speed:
+                    pSVar2->speed = kGoalkeeperBurstSpeed[0];
+chase_ball_set_dest_from_ball_flat:
+                    pSVar2->destX = ballNotHighX;
+                    pSVar2->destY = ballNotHighY;
+                    goto goalie_can_catch_checks;
+                  }
+                  if ((0x1ff < pSVar2->ballDistance) || (teamInfo->ballAbove17 != 0)) {
+                    if ((pSVar2->ballDistance < 0x801) && (teamInfo->ballAbove17 == 0)) {
+                      pSVar2->destX = ((short)(ballSprite.x.s.i - 0x150) >> 1) + 0x150;
+                      if (ballSprite.y.s.i < 0x1c1) {
+                        wVar13 = ((ushort)(ballSprite.y.s.i - 0x81) >> 1) + 0x81;
+                      }
+                      else {
+                        wVar13 = ballSprite.y.s.i + ((ushort)(0x301 - ballSprite.y._0_2_) >> 1);
+                      }
+                      pSVar2->destY = wVar13;
+                      pSVar2->speed = teamInfo->shotChanceTable->speed_unk;
+                      goto shot_at_goal;
+                    }
+                    if (((teamInfo->opponentsTeam->playerHasBall == 0) &&
+                        (teamInfo->playerHasBall == 0)) && (teamInfo->plVeryCloseToBall == 0)) {
+                      if ((teamInfo == lastTeamPlayed) && (playerHadBall == 0))
+                      goto save_attempted_set_burst_speed;
+                      if (kShotAtGoalMinumumSpeed < ballSprite.speed) goto shot_at_goal;
+                      if (((pSVar2->ballDistance < 0x1389) && (ballSprite.z.s.i < 0xd)) &&
+                         (((int)ballSprite.deltaZ.raw < 0x8001 &&
+                          (-0x8001 < (int)ballSprite.deltaZ.raw)))) goto mark_opponent_and_chase;
+                    }
+                    else {
+mark_opponent_and_chase:
+                      if (teamInfo->ballAbove17 == 0) {
+                        pSVar2->destX = ballSprite.x.s.i;
+                        pSVar2->destY = ballSprite.y.s.i;
+                        pSVar2->speed = teamInfo->shotChanceTable->speed_unk;
+                        goto goalie_can_catch_checks;
+                      }
+                    }
 save_not_attempted_set_run_speed:
-                pSVar2->speed = teamInfo->shotChanceTable->speed_unk2;
-                goto chase_ball_set_dest_from_ball_flat;
-              }
-              pSVar2->destX = ballSprite.x.s.i;
-              pSVar2->destY = ballSprite.y.s.i;
+                    pSVar2->speed = teamInfo->shotChanceTable->speed_unk2;
+                    goto chase_ball_set_dest_from_ball_flat;
+                  }
+                  pSVar2->destX = ballSprite.x.s.i;
+                  pSVar2->destY = ballSprite.y.s.i;
 shot_at_goal:
-              if (0x10 < ballSprite.z.s.i) goto save_not_attempted_set_run_speed;
-              if (((((short)teamInfo->goalkeeperSavedCommentTimer < 1) &&
-                   (pSVar2->ballDistance < 0x81)) &&
-                  ((teamInfo->ballAbove17 == 0 &&
-                   (pTVar1 = teamInfo->opponentsTeam, pTVar1->firePressed != 0)))) &&
-                 ((pTVar1->playerHasBall != 0 || (0x15 < pTVar1->passKickTimer)))) {
-                uVar11 = (uint)puVar18 & 0xffff0000;
-                pSVar3 = teamInfo->opponentsTeam->lastHeadingTacklingPlayer;
-                if (pSVar3 != (Sprite *)0x0) {
-                  pPVar32 = GetPlayerPointerFromShirtNumber(pSVar3,teamInfo);
-                  uVar11 = CONCAT31((int3)(uVar11 >> 8),pPVar32->finishing);
-                }
-                pPVar32 = GetPlayerPointerFromShirtNumber(pSVar2,teamInfo);
-                uVar15 = (undefined2)(uVar11 >> 0x10);
-                sVar21 = (char)((char)uVar11 - pPVar32->goalieSkill) + 7;
-                puVar18 = (undefined1 *)CONCAT22(uVar15,sVar21);
-                if ((byte)goalScoredChances[sVar21] <= ((byte)(currentGameTick >> 1) & 0xf)) {
-                  teamInfo->goalkeeperSavedCommentTimer = 5;
-                  goto goalie_save_attempt_entry;
-                }
-                teamInfo->goalkeeperSavedCommentTimer = 0xfffb;
-                puVar18 = (undefined1 *)CONCAT22(uVar15,2);
-                if (ballSprite.x.s.i < (pSVar2->x).s.i) {
-                  wVar13 = 6;
-                  unaff_D3 = CONCAT22(uVar28,6);
-                }
-                else {
-                  wVar13 = 2;
-                  unaff_D3 = CONCAT22(uVar28,2);
-                }
-                pSVar2->direction = wVar13;
-                ballSpeed = ballSprite.speed;
-                teamInfo->opponentsTeam->spinTimer = 0xffff;
-                if (0x600 < ballSprite.speed) {
-                  ballSprite.speed = 0x600;
-                }
-                GoalkeeperJumping(wVar13,2,(short)unaff_D3,pSVar2,&ballSprite,teamInfo);
-                dseg_114EA6 = ballSprite.speed;
-                teamInfo->passKickTimer = 0;
-                teamInfo->passingKickingPlayer = (Sprite *)0x0;
-              }
-              else {
+                  if (0x10 < ballSprite.z.s.i) goto save_not_attempted_set_run_speed;
+                  if ((((((short)teamInfo->goalkeeperSavedCommentTimer < 1) &&
+                        (pSVar2->ballDistance < 0x81)) && (teamInfo->ballAbove17 == 0)) &&
+                      (pTVar1 = teamInfo->opponentsTeam, pTVar1->firePressed != 0)) &&
+                     ((pTVar1->playerHasBall != 0 || (0x15 < pTVar1->passKickTimer)))) {
+                    uVar11 = (uint)puVar18 & 0xffff0000;
+                    pSVar3 = teamInfo->opponentsTeam->lastHeadingTacklingPlayer;
+                    if (pSVar3 != (Sprite *)0x0) {
+                      pPVar32 = GetPlayerPointerFromShirtNumber(pSVar3,teamInfo);
+                      uVar11 = CONCAT31((int3)(uVar11 >> 8),pPVar32->finishing);
+                    }
+                    pPVar32 = GetPlayerPointerFromShirtNumber(pSVar2,teamInfo);
+                    uVar15 = (undefined2)(uVar11 >> 0x10);
+                    sVar21 = (char)((char)uVar11 - pPVar32->goalieSkill) + 7;
+                    puVar18 = (undefined1 *)CONCAT22(uVar15,sVar21);
+                    if ((byte)goalScoredChances[sVar21] <= ((byte)(currentGameTick >> 1) & 0xf)) {
+                      teamInfo->goalkeeperSavedCommentTimer = 5;
+                      goto goalie_save_attempt_entry;
+                    }
+                    teamInfo->goalkeeperSavedCommentTimer = 0xfffb;
+                    puVar18 = (undefined1 *)CONCAT22(uVar15,2);
+                    if (ballSprite.x.s.i < (pSVar2->x).s.i) {
+                      wVar13 = 6;
+                      unaff_D3 = CONCAT22(uVar28,6);
+                    }
+                    else {
+                      wVar13 = 2;
+                      unaff_D3 = CONCAT22(uVar28,2);
+                    }
+                    pSVar2->direction = wVar13;
+                    ballSpeed = ballSprite.speed;
+                    teamInfo->opponentsTeam->spinTimer = 0xffff;
+                    if (0x600 < ballSprite.speed) {
+                      ballSprite.speed = 0x600;
+                    }
+                    GoalkeeperJumping(wVar13,2,(short)unaff_D3,pSVar2,&ballSprite,teamInfo);
+                    dseg_114EA6 = ballSprite.speed;
+                    teamInfo->passKickTimer = 0;
+                    teamInfo->passingKickingPlayer = (Sprite *)0x0;
+                  }
+                  else {
 goalie_save_attempt_entry:
-                sVar21 = ShouldGoalkeeperDive(pSVar2,&ballSprite,teamInfo);
-                if (sVar21 == 0) goto save_not_attempted_set_run_speed;
-                uVar14 = (ushort)((uint)puVar18 >> 0x10);
-                if (ballDefensiveX < (pSVar2->x).s.i) {
-                  puVar18 = (undefined1 *)((uint)uVar14 << 0x10);
-                  if ((playingPenalties != 0) || (penalty != 0)) {
-                    puVar18 = (undefined1 *)CONCAT22(uVar14,1);
-                    if ((currentGameTick & 0xc) == 0) goto choose_turn_right_for_dive;
-                    puVar18 = (undefined1 *)((uint)uVar14 << 0x10);
-                  }
+                    sVar21 = ShouldGoalkeeperDive(pSVar2,&ballSprite,teamInfo);
+                    if (sVar21 == 0) goto save_not_attempted_set_run_speed;
+                    uVar14 = (ushort)((uint)puVar18 >> 0x10);
+                    if (ballDefensiveX < (pSVar2->x).s.i) {
+                      puVar18 = (undefined1 *)((uint)uVar14 << 0x10);
+                      if ((playingPenalties != 0) || (penalty != 0)) {
+                        puVar18 = (undefined1 *)CONCAT22(uVar14,1);
+                        if ((currentGameTick & 0xc) == 0) goto choose_turn_right_for_dive;
+                        puVar18 = (undefined1 *)((uint)uVar14 << 0x10);
+                      }
 choose_turn_left_for_dive:
-                  wVar13 = 6;
-                  unaff_D3 = CONCAT22(uVar28,6);
-                }
-                else {
-                  puVar18 = (undefined1 *)((uint)uVar14 << 0x10);
-                  if ((playingPenalties != 0) || (penalty != 0)) {
-                    puVar18 = (undefined1 *)CONCAT22(uVar14,1);
-                    if ((currentGameTick & 6) == 0) goto choose_turn_left_for_dive;
-                    puVar18 = (undefined1 *)((uint)uVar14 << 0x10);
-                  }
+                      wVar13 = 6;
+                      unaff_D3 = CONCAT22(uVar28,6);
+                    }
+                    else {
+                      puVar18 = (undefined1 *)((uint)uVar14 << 0x10);
+                      if ((playingPenalties != 0) || (penalty != 0)) {
+                        puVar18 = (undefined1 *)CONCAT22(uVar14,1);
+                        if ((currentGameTick & 6) == 0) goto choose_turn_left_for_dive;
+                        puVar18 = (undefined1 *)((uint)uVar14 << 0x10);
+                      }
 choose_turn_right_for_dive:
-                  wVar13 = 2;
-                  unaff_D3 = CONCAT22(uVar28,2);
+                      wVar13 = 2;
+                      unaff_D3 = CONCAT22(uVar28,2);
+                    }
+                    pSVar2->direction = wVar13;
+                    GoalkeeperJumping(wVar13,(short)puVar18,(short)unaff_D3,pSVar2,&ballSprite,
+                                      teamInfo);
+                    teamInfo->passKickTimer = 0;
+                    teamInfo->passingKickingPlayer = (Sprite *)0x0;
+                  }
+                  goto clamp_keeper_y_min;
                 }
-                pSVar2->direction = wVar13;
-                GoalkeeperJumping(wVar13,(short)puVar18,(short)unaff_D3,pSVar2,&ballSprite,teamInfo)
-                ;
+              }
+              goto return_last_player_block;
+            }
+            bVar7 = pSVar2->playerDownTimer - 1;
+            pSVar2->playerDownTimer = bVar7;
+            if (bVar7 == 0) {
+              pSVar2->playerState = PL_NORMAL;
+              SetPlayerAnimationTable(&playerNormalStandingAnimTable,pSVar2);
+              goto goalie_not_catching_the_ball;
+            }
+            pSVar2->destX = ballSprite.x.s.i;
+            pSVar2->destY = ballSprite.y.s.i;
+            if (teamInfo == &bottomTeamData) {
+              pSVar2->destY = pSVar2->destY + 1;
+            }
+            else {
+              pSVar2->destY = pSVar2->destY - 1;
+            }
+goalie_can_catch_checks:
+            uVar24 = (ushort)((uint)pbVar25 >> 0x10);
+            if ((((((teamInfo != lastTeamPlayed) || (playerHadBall != 0)) &&
+                  ((ballInGoalkeeperArea != 0 ||
+                   ((currentGameTick & 0xf0) >> 4 < teamInfo->shotChanceTable->field_3A)))) &&
+                 ((((-1 < (short)ballNextGroundX && ((short)ballDefensiveZ < 0x17)) &&
+                   (0xc < (short)ballDefensiveZ)) &&
+                  ((pSVar2->ballDistance < 0x845 &&
+                   (sVar21 = (pSVar2->x).s.i - ballDefensiveX, sVar21 < 0xd)))))) && (-0xd < sVar21)
+                ) && ((sVar21 = (pSVar2->y).s.i - ballDefensiveY, sVar21 < 0xd && (-0xd < sVar21))))
+            {
+              GoalkeeperCaughtTheBall(pSVar2,teamInfo);
+            }
+            if ((((pSVar2 != lastPlayerPlayed) && (pSVar2->ballDistance < 0x49)) &&
+                (teamInfo->ballAbove17 == 0)) &&
+               ((pSVar2->playerState == PL_GOALIE_CATCHING_BALL || (teamInfo->ball12To17 == 0)))) {
+              pSVar2->destX = (pSVar2->x).s.i;
+              pSVar2->destY = (pSVar2->y).s.i;
+              if ((teamInfo == lastTeamPlayed) && (playerHadBall == 0)) {
+                UpdateBallWithControllingGoalkeeper(pSVar2);
+                teamInfo->controlledPlayer = pSVar2;
+                teamInfo->passToPlayerPtr = (Sprite *)0x0;
+                teamInfo->playerSwitchTimer = 0x19;
+                teamInfo->passingBall = 0;
+                teamInfo->passingToPlayer = 0;
+                pSVar2->destX = (pSVar2->x).s.i;
+                pSVar2->destY = (pSVar2->y).s.i;
+                penalty = 0;
+                playerHadBall = 0;
+                lastTeamPlayed = teamInfo;
+                lastPlayerPlayed = pSVar2;
                 teamInfo->passKickTimer = 0;
                 teamInfo->passingKickingPlayer = (Sprite *)0x0;
+                teamInfo->field_74 = 0;
+                teamInfo->goalkeeperPlaying = 1;
+                *(undefined1 *)&teamInfo->goaliePlayingOrOut = 1;
+                *(undefined1 *)&teamInfo->ballOutOfPlayOrKeeper = 1;
+                goto finalize_control_and_speed;
               }
+              lastKeeperPlayed = lastPlayerPlayed;
+              penalty = 0;
+              playerHadBall = 0;
+              lastTeamPlayed = teamInfo;
+              lastPlayerPlayed = pSVar2;
+              UpdateBallWithControllingGoalkeeper(pSVar2);
+              GoalkeeperClaimedTheBall(pSVar2,&ballSprite,teamInfo);
             }
           }
           else {
@@ -16065,6 +16111,7 @@ return_last_player_block:
               goto idle_player_common_path;
             }
           }
+clamp_keeper_y_min:
           if ((short)pSVar2->destY < 0x81) {
             pSVar2->destY = 0x81;
           }
@@ -16147,13 +16194,13 @@ flip_time_and_result_timers:
                 uVar28 = teamInfo->currentAllowedDirection;
                 uVar11 = (uint)uVar28;
                 if ((short)uVar28 < 0) {
-                  if (((((teamInfo->playerNumber != 0) && (pSVar2->playerOrdinal != 1)) &&
-                       (teamInfo->fireThisFrame != 0)) &&
-                      ((short)teamInfo->currentAllowedDirection < 0)) &&
-                     ((((teamInfo->plVeryCloseToBall != 0 || (teamInfo->plCloseToBall != 0)) ||
-                       (teamInfo->plNotFarFromBall != 0)) &&
-                      (((teamInfo->ball8To12 != 0 || (teamInfo->ball12To17 != 0)) ||
-                       (teamInfo->ballAbove17 != 0)))))) {
+                  if ((((((teamInfo->playerNumber != 0) && (pSVar2->playerOrdinal != 1)) &&
+                        (teamInfo->fireThisFrame != 0)) &&
+                       ((short)teamInfo->currentAllowedDirection < 0)) &&
+                      (((teamInfo->plVeryCloseToBall != 0 || (teamInfo->plCloseToBall != 0)) ||
+                       (teamInfo->plNotFarFromBall != 0)))) &&
+                     (((teamInfo->ball8To12 != 0 || (teamInfo->ball12To17 != 0)) ||
+                      (teamInfo->ballAbove17 != 0)))) {
                     teamInfo->headerOrTackle = 1;
                     AttemptStaticHeader(pSVar2,pSVar2->direction);
                     teamInfo->lastHeadingTacklingPlayer = pSVar2;
@@ -16176,10 +16223,7 @@ flip_time_and_result_timers:
                     teamInfo->ballCanBeControlled = teamInfo->ballCanBeControlled + 1;
                     teamInfo->ballControllingPlayerDirection = uVar28;
                     penalty = 0;
-                    playerHadBall = 0;
-                    if (teamInfo->opponentsTeam->playerHasBall != 0) {
-                      playerHadBall = 1;
-                    }
+                    playerHadBall = (short)(teamInfo->opponentsTeam->playerHasBall != 0);
                     lastTeamPlayed = teamInfo;
                     lastPlayerPlayed = pSVar2;
                     CalculateIfPlayerWinsBall(uVar28,pSVar2,teamInfo);
@@ -16235,20 +16279,20 @@ attempt_quick_pass:
                       ((gameStatePl != ST_GAME_IN_PROGRESS &&
                        ((playerTurnFlags & '\x01' << (teamInfo->currentAllowedDirection & 7)) == 0))
                       )) || ((pSVar2->playerOrdinal != 1 && (teamInfo->ballLessEqual4 == 0)))) {
-                    if (((((pSVar2->playerOrdinal == 1) || (teamInfo->fireThisFrame == 0)) ||
-                         ((short)teamInfo->currentAllowedDirection < 0)) ||
-                        (teamInfo->plNotFarFromBall == 0)) ||
-                       (((teamInfo->ballLessEqual4 == 0 && (teamInfo->ball4To8 == 0)) ||
-                        ((teamInfo->passToPlayerPtr != (Sprite *)0x0 &&
-                         (puVar18 = (undefined1 *)teamInfo->passToPlayerPtr->ballDistance,
-                         puVar18 < (undefined1 *)pSVar2->ballDistance)))))) {
+                    if ((((((pSVar2->playerOrdinal == 1) || (teamInfo->fireThisFrame == 0)) ||
+                          ((short)teamInfo->currentAllowedDirection < 0)) ||
+                         (teamInfo->plNotFarFromBall == 0)) ||
+                        ((teamInfo->ballLessEqual4 == 0 && (teamInfo->ball4To8 == 0)))) ||
+                       ((teamInfo->passToPlayerPtr != (Sprite *)0x0 &&
+                        (puVar18 = (undefined1 *)teamInfo->passToPlayerPtr->ballDistance,
+                        puVar18 < (undefined1 *)pSVar2->ballDistance)))) {
                       uVar14 = (ushort)((uint)puVar18 >> 0x10);
-                      if (((pSVar2->playerOrdinal == 1) || (teamInfo->fireThisFrame == 0)) ||
-                         (((short)teamInfo->currentAllowedDirection < 0 ||
-                          ((((teamInfo->plVeryCloseToBall == 0 && (teamInfo->plCloseToBall == 0)) &&
-                            (teamInfo->plNotFarFromBall == 0)) ||
-                           (((teamInfo->ball8To12 == 0 && (teamInfo->ball12To17 == 0)) &&
-                            (teamInfo->ballAbove17 == 0)))))))) {
+                      if (((((pSVar2->playerOrdinal == 1) || (teamInfo->fireThisFrame == 0)) ||
+                           ((short)teamInfo->currentAllowedDirection < 0)) ||
+                          (((teamInfo->plVeryCloseToBall == 0 && (teamInfo->plCloseToBall == 0)) &&
+                           (teamInfo->plNotFarFromBall == 0)))) ||
+                         (((teamInfo->ball8To12 == 0 && (teamInfo->ball12To17 == 0)) &&
+                          (teamInfo->ballAbove17 == 0)))) {
                         if ((gameStatePl == ST_GAME_IN_PROGRESS) &&
                            (uVar11 = (uint)teamInfo->currentAllowedDirection,
                            -1 < (short)teamInfo->currentAllowedDirection))
@@ -16351,10 +16395,10 @@ receiver_expect_pass_tick:
             teamInfo->passingBall = 0;
             goto snap_dest_to_current_pos;
           }
-          if (((teamInfo->playerNumber != 0) &&
-              (((iVar5._0_2_ = teamInfo->longPass, iVar5._2_2_ = teamInfo->longSpinPass, iVar5 != 0
-                || (teamInfo->leftSpin != 0)) || (teamInfo->rightSpin != 0)))) &&
-             ((0x1ff < ballSprite.speed && (teamInfo->passingToPlayer != 0)))) {
+          if ((teamInfo->playerNumber != 0) &&
+             ((((iVar5._0_2_ = teamInfo->longPass, iVar5._2_2_ = teamInfo->longSpinPass, iVar5 != 0
+                || (teamInfo->leftSpin != 0)) || (teamInfo->rightSpin != 0)) &&
+              ((0x1ff < ballSprite.speed && (teamInfo->passingToPlayer != 0)))))) {
             if ((short)ballSprite.direction < 0) {
 pass_assist_set_landing_to_player_xy:
               teamInfo->ballX = (pSVar2->x).s.i;
@@ -16391,10 +16435,10 @@ pass_assist_set_landing_to_player_xy:
             AI_Kick(pSVar2,teamInfo);
           }
           if (gameStatePl == ST_GAME_IN_PROGRESS) {
-            if (((((pSVar2->playerOrdinal == 1) || (teamInfo->fireThisFrame == 0)) ||
-                 ((short)teamInfo->currentAllowedDirection < 0)) ||
-                (teamInfo->plNotFarFromBall == 0)) ||
-               (((teamInfo->ballLessEqual4 == 0 && (teamInfo->ball4To8 == 0)) ||
+            if ((((pSVar2->playerOrdinal == 1) || (teamInfo->fireThisFrame == 0)) ||
+                ((short)teamInfo->currentAllowedDirection < 0)) ||
+               (((teamInfo->plNotFarFromBall == 0 ||
+                 ((teamInfo->ballLessEqual4 == 0 && (teamInfo->ball4To8 == 0)))) ||
                 ((teamInfo->controlledPlayer != (Sprite *)0x0 &&
                  (puVar18 = (undefined1 *)teamInfo->controlledPlayer->ballDistance,
                  puVar18 < (undefined1 *)pSVar2->ballDistance)))))) {
@@ -16420,19 +16464,15 @@ pass_assist_set_landing_to_player_xy:
               teamInfo->passingKickingPlayer = (Sprite *)0x0;
               teamInfo->field_74 = 0;
               if (pSVar2->playerOrdinal == 1) {
-                if (teamInfo == lastTeamPlayed) {
-                  sVar21 = playerHadBall;
-                  sVar21 = playerHadBall;
-                  if (sVar21 == 0) {
-                    teamInfo->goalkeeperPlaying = 1;
-                    *(undefined1 *)&teamInfo->goaliePlayingOrOut = 1;
-                    *(undefined1 *)&teamInfo->ballOutOfPlayOrKeeper = 1;
-                    goto autoswitch_finish_bookkeeping;
-                  }
+                if ((teamInfo == lastTeamPlayed) && (playerHadBall == 0)) {
+                  teamInfo->goalkeeperPlaying = 1;
+                  *(undefined1 *)&teamInfo->goaliePlayingOrOut = 1;
+                  *(undefined1 *)&teamInfo->ballOutOfPlayOrKeeper = 1;
                 }
-                GoalkeeperClaimedTheBall(pSVar2,&ballSprite,teamInfo);
+                else {
+                  GoalkeeperClaimedTheBall(pSVar2,&ballSprite,teamInfo);
+                }
               }
-autoswitch_finish_bookkeeping:
               penalty = 0;
               playerHadBall = 0;
               lastTeamPlayed = teamInfo;
@@ -16514,8 +16554,8 @@ joined_r0x00116e9a:
                   teamInfo->passingToPlayer = 0;
                   goto snap_dest_to_current_pos;
                 }
-                if ((((goalOut != 0) && (pSVar2->playerOrdinal != 1)) && (0xb6 < (short)wVar13)) &&
-                   (((short)wVar13 < 0x1e9 && (((short)wVar20 < 0xe3 || (0x29f < (short)wVar20))))))
+                if (((((goalOut != 0) && (pSVar2->playerOrdinal != 1)) && (0xb6 < (short)wVar13)) &&
+                    ((short)wVar13 < 0x1e9)) && (((short)wVar20 < 0xe3 || (0x29f < (short)wVar20))))
                 goto snap_dest_to_current_pos;
               }
             }
@@ -16838,29 +16878,25 @@ void __usercall AI_SetControlsDirection(TeamGeneralInfo *team)
   Sprite *pSVar1;
   uchar *puVar2;
   char cVar3;
-  short sVar4;
+  ushort uVar4;
   ushort uVar5;
-  ushort uVar6;
   undefined4 unaff_D1;
-  byte bVar8;
-  word wVar7;
-  char cVar9;
-  short sVar10;
-  char cVar11;
-  uint uVar12;
-  Sprite *pSVar13;
-  short *psVar14;
+  byte bVar7;
+  word wVar6;
+  char cVar8;
+  short sVar9;
+  char cVar10;
+  uint uVar11;
+  Sprite *pSVar12;
+  short *psVar13;
   int unaff_A2;
-  bool bVar15;
+  bool bVar14;
   
   if (team->resetControls != 0) {
     return;
   }
-  sVar10 = AI_counter;
-  sVar10 = AI_counter;
-  if (sVar10 != 0) {
-    sVar10 = AI_counter;
-    AI_counter = sVar10 + -1;
+  if (AI_counter != 0) {
+    AI_counter = AI_counter + -1;
   }
   if (AI_resumePlayTimer != 0) {
     AI_resumePlayTimer = AI_resumePlayTimer - 1;
@@ -16875,29 +16911,28 @@ void __usercall AI_SetControlsDirection(TeamGeneralInfo *team)
   if (g_inSubstitutesMenu != 0) {
     return;
   }
-  uVar12 = 0xffff;
+  uVar11 = 0xffff;
   pSVar1 = team->controlledPlayer;
-  pSVar13 = team->passToPlayerPtr;
+  pSVar12 = team->passToPlayerPtr;
   if (pSVar1 != (Sprite *)0x0) {
-    uVar12 = (uint)pSVar1->direction;
+    uVar11 = (uint)pSVar1->direction;
   }
   if (team == &bottomTeamData) {
-    sVar10 = 0x81;
+    sVar9 = 0x81;
   }
   else {
-    sVar10 = 0x301;
+    sVar9 = 0x301;
   }
-  puVar2 = (uchar *)((int)(short)(ballSprite.y.s.i - sVar10) *
-                     (int)(short)(ballSprite.y.s.i - sVar10) +
-                    (int)(short)(ballSprite.x.s.i - 0x150) * (int)(short)(ballSprite.x.s.i - 0x150))
-  ;
-  bVar15 = false;
-  sVar10 = CalculateDeltaXAndY(0x100,0x150,sVar10,ballSprite.x.s.i,ballSprite.y.s.i);
-  if (bVar15) {
-    sVar10 = 0;
+  puVar2 = (uchar *)((int)(short)(ballSprite.y.s.i - sVar9) * (int)(short)(ballSprite.y.s.i - sVar9)
+                    + (int)(short)(ballSprite.x.s.i - 0x150) *
+                      (int)(short)(ballSprite.x.s.i - 0x150));
+  bVar14 = false;
+  sVar9 = CalculateDeltaXAndY(0x100,0x150,sVar9,ballSprite.x.s.i,ballSprite.y.s.i);
+  if (bVar14) {
+    sVar9 = 0;
   }
-  cVar11 = (char)sVar10;
-  uVar5 = (ushort)uVar12;
+  cVar10 = (char)sVar9;
+  uVar4 = (ushort)uVar11;
   if (gameStatePl != ST_GAME_IN_PROGRESS) {
     if (team != lastTeamPlayedBeforeBreak) {
       return;
@@ -16930,7 +16965,7 @@ void __usercall AI_SetControlsDirection(TeamGeneralInfo *team)
             return;
           }
         }
-        team->currentAllowedDirection = (sVar10 + 0x10U & 0xff) >> 5;
+        team->currentAllowedDirection = (sVar9 + 0x10U & 0xff) >> 5;
         return;
       }
       goto no_player_facing;
@@ -16951,11 +16986,11 @@ void __usercall AI_SetControlsDirection(TeamGeneralInfo *team)
     if (((gameState == ST_KEEPER_HOLDS_BALL) || (gameState == ST_GOAL_OUT_LEFT)) ||
        (gameState == ST_GOAL_OUT_RIGHT)) {
       if ((AI_rand & 1) != 0) {
-        if (uVar5 == cameraDirection) goto apply_turn_delta_from_angle;
+        if (uVar4 == cameraDirection) goto apply_turn_delta_from_angle;
         if ((ushort)ballSprite.x._0_2_ < 0x151) {
-          if ((uVar5 == 1) || (uVar5 == 3)) goto apply_turn_delta_from_angle;
+          if ((uVar4 == 1) || (uVar4 == 3)) goto apply_turn_delta_from_angle;
         }
-        else if ((uVar5 == 5) || (uVar5 == 7)) goto apply_turn_delta_from_angle;
+        else if ((uVar4 == 5) || (uVar4 == 7)) goto apply_turn_delta_from_angle;
       }
     }
     else {
@@ -16965,26 +17000,26 @@ void __usercall AI_SetControlsDirection(TeamGeneralInfo *team)
             if (gameState == ST_FOUL) goto foul;
           }
           else {
-            bVar8 = AI_throwInDirections[(short)(gameState + -ST_THROW_IN_FORWARD_RIGHT)];
+            bVar7 = AI_throwInDirections[(short)(gameState + -ST_THROW_IN_FORWARD_RIGHT)];
             if (team != &bottomTeamData) {
-              bVar8 = bVar8 << 4 | bVar8 >> 4;
+              bVar7 = bVar7 << 4 | bVar7 >> 4;
             }
             if (((AI_rand & 0xf) != 0) ||
                ((CONCAT31((int3)(CONCAT22((short)((uint)unaff_D1 >> 0x10),
-                                          gameState + -ST_THROW_IN_FORWARD_RIGHT) >> 8),bVar8) &
-                1 << (uVar12 & 0x1f)) == 0)) goto check_closest_player_facing;
+                                          gameState + -ST_THROW_IN_FORWARD_RIGHT) >> 8),bVar7) &
+                1 << (uVar11 & 0x1f)) == 0)) goto check_closest_player_facing;
           }
         }
         else {
 foul:
           if ((AI_rand & 0xf) == 0) goto check_closest_player_facing;
-          if ((sVar10 + 0x10U & 0xff) >> 5 != uVar5) {
-            team->currentAllowedDirection = (sVar10 + 0x10U & 0xff) >> 5;
+          if ((sVar9 + 0x10U & 0xff) >> 5 != uVar4) {
+            team->currentAllowedDirection = (sVar9 + 0x10U & 0xff) >> 5;
             return;
           }
         }
 apply_turn_delta_from_angle:
-        if ((short)uVar5 < 0) {
+        if ((short)uVar4 < 0) {
           return;
         }
         if (AI_maxStoppageTime <= stoppageTimerActive) {
@@ -17012,7 +17047,7 @@ aftertouch_by_distance:
           team->AI_afterTouchStrength = 2;
         }
 apply_dir_and_normal_fire:
-        team->currentAllowedDirection = uVar5;
+        team->currentAllowedDirection = uVar4;
         team->normalFire = 1;
         if ((gameState == ST_PENALTY) || (gameState == ST_PENALTIES)) {
 zero_turn_and_return:
@@ -17021,44 +17056,44 @@ zero_turn_and_return:
         }
         if ((gameState == ST_CORNER_LEFT) || (gameState == ST_CORNER_RIGHT)) {
           if ((AI_rand & 7) < 3) {
-            wVar7 = 1;
-            uVar5 = uVar5 + 1;
+            wVar6 = 1;
+            uVar4 = uVar4 + 1;
           }
           else {
             if (5 < (AI_rand & 7)) goto zero_turn_and_return;
-            wVar7 = 0xffff;
-            uVar5 = uVar5 - 1;
+            wVar6 = 0xffff;
+            uVar4 = uVar4 - 1;
           }
-          if ((playerTurnFlags & '\x01' << (uVar5 & 7)) != 0) {
-            team->AI_ballSpinDirection = wVar7;
+          if ((playerTurnFlags & '\x01' << (uVar4 & 7)) != 0) {
+            team->AI_ballSpinDirection = wVar6;
             return;
           }
           goto zero_turn_and_return;
         }
         AI_resumePlayTimer = 0xf;
-        team->currentAllowedDirection = uVar5;
+        team->currentAllowedDirection = uVar4;
         team->normalFire = 1;
-        wVar7 = 0;
+        wVar6 = 0;
         if (gameState == ST_FOUL) {
           if (team == &topTeamData) {
             if (0x2a9 < *(short *)(unaff_A2 + 0x22)) goto apply_turn_and_return;
           }
           else if (*(short *)(unaff_A2 + 0x22) < 0xd9) goto apply_turn_and_return;
         }
-        wVar7 = 0xffff;
-        if ((char)((char)(uVar5 << 5) - cVar11) < '\0') {
-          wVar7 = 1;
+        wVar6 = 0xffff;
+        if ((char)((char)(uVar4 << 5) - cVar10) < '\0') {
+          wVar6 = 1;
         }
 apply_turn_and_return:
-        team->AI_ballSpinDirection = wVar7;
+        team->AI_ballSpinDirection = wVar6;
         return;
       }
-      if ((0x95 < stoppageTimerActive) && (uVar5 == cameraDirection))
+      if ((0x95 < stoppageTimerActive) && (uVar4 == cameraDirection))
       goto apply_turn_delta_from_angle;
     }
 check_closest_player_facing:
-    pSVar13 = FindClosestPlayerToBallFacing(uVar5 << 5,team);
-    if ((pSVar13 == (Sprite *)0xffffffff) || (pSVar1->teamNumber != pSVar13->teamNumber)) {
+    pSVar12 = FindClosestPlayerToBallFacing(uVar4 << 5,team);
+    if ((pSVar12 == (Sprite *)0xffffffff) || (pSVar1->teamNumber != pSVar12->teamNumber)) {
 no_player_facing:
       if ((currentGameTick & 0xe) != 0) {
         return;
@@ -17068,81 +17103,79 @@ no_player_facing:
            (AI_turnDirection = AI_turnDirection + 1, AI_turnDirection != 0xffff)) {
           return;
         }
-        wVar7 = 1;
+        wVar6 = 1;
       }
       else {
         if ((AI_turnDirection != 1) &&
            (AI_turnDirection = AI_turnDirection - 1, AI_turnDirection != 1)) {
           return;
         }
-        wVar7 = 0xffff;
+        wVar6 = 0xffff;
       }
-      uVar5 = AI_turnDirection + uVar5 & 7;
-      if ((playerTurnFlags & '\x01' << uVar5) != 0) {
-        team->currentAllowedDirection = uVar5;
+      uVar4 = AI_turnDirection + uVar4 & 7;
+      if ((playerTurnFlags & '\x01' << uVar4) != 0) {
+        team->currentAllowedDirection = uVar4;
         return;
       }
-      AI_turnDirection = wVar7;
+      AI_turnDirection = wVar6;
       return;
     }
     goto our_player_closest;
   }
   if (((playingPenalties == 0) && (penalty == 0)) || ((short)team->spinTimer < 0)) {
-    sVar4 = AI_counter;
-    sVar4 = AI_counter;
-    if (sVar4 != 0) {
+    if (AI_counter != 0) {
       AI_SetDirectionTowardOpponentsGoal(team);
     }
     if (pSVar1 == (Sprite *)0x0) {
       return;
     }
     if ((short)team->spinTimer < 0) {
-      if ((team->plVeryCloseToBall == 0) && (bVar15 = team->plCloseToBall == 0, bVar15)) {
-        AI_DecideWhetherToTriggerFire(pSVar1,team,uVar5);
-        if (bVar15) {
+      if ((team->plVeryCloseToBall == 0) && (bVar14 = team->plCloseToBall == 0, bVar14)) {
+        AI_DecideWhetherToTriggerFire(pSVar1,team,uVar4);
+        if (bVar14) {
           return;
         }
-        if ((pSVar13 != (Sprite *)0x0) &&
-           (0x31 < (int)(pSVar13->ballDistance - pSVar1->ballDistance))) {
+        if ((pSVar12 != (Sprite *)0x0) &&
+           (0x31 < (int)(pSVar12->ballDistance - pSVar1->ballDistance))) {
           pSVar1 = team->passToPlayerPtr;
           team->passToPlayerPtr = team->controlledPlayer;
           team->controlledPlayer = pSVar1;
           return;
         }
-        if (pSVar13 == (Sprite *)0x0) {
+        if (pSVar12 == (Sprite *)0x0) {
 derive_allowed_dir_from_full_angle:
-          uVar5 = ((byte)((char)pSVar1->fullDirection + 0x80) + 0x10 & 0xff) >> 5;
-          if (((uVar5 != pSVar1->direction) && (799 < pSVar1->ballDistance)) &&
+          uVar4 = ((byte)((char)pSVar1->fullDirection + 0x80) + 0x10 & 0xff) >> 5;
+          if (((uVar4 != pSVar1->direction) && (799 < pSVar1->ballDistance)) &&
              ((currentGameTick & 0xe) != 0)) {
             team->currentAllowedDirection = pSVar1->direction;
             return;
           }
-          team->currentAllowedDirection = uVar5;
+          team->currentAllowedDirection = uVar4;
           return;
         }
         if (deadVarAlways0 == 0) {
           if ((topTeamData.playerNumber == 0) && (bottomTeamData.playerNumber == 0)) {
-            uVar6 = 0xffff;
+            uVar5 = 0xffff;
             if ((((short)(pSVar1->x).s.i < 0x111) || (0x18e < (short)(pSVar1->x).s.i)) ||
                ((0x9e < (short)(pSVar1->y).s.i && ((short)(pSVar1->y).s.i < 0x2e4)))) {
               if ((currentGameTick & 0x18) != 0) {
-                team->currentAllowedDirection = uVar5;
+                team->currentAllowedDirection = uVar4;
                 return;
               }
-              uVar6 = ((byte)((char)(pSVar1->fullDirection +
+              uVar5 = ((byte)((char)(pSVar1->fullDirection +
                                     *(short *)((int)AI_randomRotateTable + (int)(short)(AI_rand & 2)
                                               )) + 0x80) + 0x10 & 0xff) >> 5;
             }
-            team->currentAllowedDirection = uVar6;
+            team->currentAllowedDirection = uVar5;
             return;
           }
           goto derive_allowed_dir_from_full_angle;
         }
         goto set_allowed_dir_from_angle_bucket;
       }
-      bVar15 = false;
-      AI_DecideWhetherToTriggerFire(pSVar1,team,uVar5);
-      if (bVar15) {
+      bVar14 = false;
+      AI_DecideWhetherToTriggerFire(pSVar1,team,uVar4);
+      if (bVar14) {
         return;
       }
       if (((deadVarAlways0 != 0) && (team->opponentsTeam == playerKickerPtr)) &&
@@ -17158,64 +17191,64 @@ derive_allowed_dir_from_full_angle:
       else {
 distance_and_random_fire_gate:
         if ((puVar2 < (uchar *)0x7081) && ((puVar2 < (uchar *)0x3200 || ((AI_rand & 3) == 0)))) {
-          cVar9 = '\x0f';
+          cVar8 = '\x0f';
           if (puVar2 < (uchar *)0xc81) {
-            cVar9 = '2';
+            cVar8 = '2';
           }
           if (((-1 < (short)pSVar1->direction) &&
-              (cVar3 = (char)(pSVar1->direction << 5) - cVar11, cVar3 <= cVar9)) && (-cVar9 < cVar3)
+              (cVar3 = (char)(pSVar1->direction << 5) - cVar10, cVar3 <= cVar8)) && (-cVar8 < cVar3)
              ) {
-            bVar15 = false;
+            bVar14 = false;
             if (AI_resumePlayTimer != 0) {
               return;
             }
             AI_ResumeGameDelay(team);
-            if (!bVar15) {
+            if (!bVar14) {
               return;
             }
             team->AI_afterTouchStrength = 0;
             AI_resumePlayTimer = 0xf;
-            team->currentAllowedDirection = uVar5;
+            team->currentAllowedDirection = uVar4;
             team->normalFire = 1;
-            wVar7 = 0xffff;
+            wVar6 = 0xffff;
             if (cVar3 < '\0') {
-              wVar7 = 1;
+              wVar6 = 1;
             }
-            team->AI_ballSpinDirection = wVar7;
+            team->AI_ballSpinDirection = wVar6;
             return;
           }
         }
       }
       if (team->field_84 == 0) {
         if (((uchar *)0x2647 < puVar2) && (pSVar1 != (Sprite *)0x0)) {
-          pSVar13 = team->opponentsTeam->controlledPlayer;
-          if (pSVar13 == (Sprite *)0x0) {
+          pSVar12 = team->opponentsTeam->controlledPlayer;
+          if (pSVar12 == (Sprite *)0x0) {
 use_pass_target_if_valid:
-            pSVar13 = team->opponentsTeam->passToPlayerPtr;
-            if (pSVar13 != (Sprite *)0x0) {
-              if (pSVar13->ballDistance < 800) goto evaluate_closest_facing_player_midrange;
-              if (pSVar13->ballDistance < 5000) goto far_distance_decision_gate;
+            pSVar12 = team->opponentsTeam->passToPlayerPtr;
+            if (pSVar12 != (Sprite *)0x0) {
+              if (pSVar12->ballDistance < 800) goto evaluate_closest_facing_player_midrange;
+              if (pSVar12->ballDistance < 5000) goto far_distance_decision_gate;
             }
           }
           else {
-            if (pSVar13->ballDistance < 800) {
+            if (pSVar12->ballDistance < 800) {
 evaluate_closest_facing_player_midrange:
               if ((uchar *)0x2bf20 < puVar2) goto decide_immediate_turn_or_gate;
-              pSVar13 = FindClosestPlayerToBallFacing(uVar5 << 5,team);
-              if ((pSVar13 != (Sprite *)0xffffffff) && (pSVar1->teamNumber == pSVar13->teamNumber))
+              pSVar12 = FindClosestPlayerToBallFacing(uVar4 << 5,team);
+              if ((pSVar12 != (Sprite *)0xffffffff) && (pSVar1->teamNumber == pSVar12->teamNumber))
               {
 our_player_closest:
                 team->field_84 = 0;
-                bVar15 = false;
+                bVar14 = false;
                 if (AI_resumePlayTimer != 0) {
                   return;
                 }
                 AI_ResumeGameDelay(team);
-                if (!bVar15) {
+                if (!bVar14) {
                   return;
                 }
                 AI_resumePlayTimer = 0xf;
-                team->currentAllowedDirection = uVar5;
+                team->currentAllowedDirection = uVar4;
                 team->quickFire = 1;
                 if (stoppageTimerActive < AI_maxStoppageTime) {
                   return;
@@ -17225,53 +17258,53 @@ our_player_closest:
               }
             }
             else {
-              if (4999 < pSVar13->ballDistance) goto use_pass_target_if_valid;
+              if (4999 < pSVar12->ballDistance) goto use_pass_target_if_valid;
 far_distance_decision_gate:
               if ((AI_rand < 9) && ((uchar *)0xbd10 < puVar2)) {
 decide_immediate_turn_or_gate:
-                uVar6 = ((sVar10 + 0x10U & 0xff) >> 5) - uVar5 & 7;
-                if ((uVar6 == 0) || ((uVar6 == 1 || (uVar6 == 0xffff)))) {
+                uVar5 = ((sVar9 + 0x10U & 0xff) >> 5) - uVar4 & 7;
+                if ((uVar5 == 0) || ((uVar5 == 1 || (uVar5 == 0xffff)))) {
                   team->AI_afterTouchStrength = 2;
                   if (puVar2 < frontbufferBase + 0x9be9) {
                     team->AI_afterTouchStrength = 1;
                   }
-                  team->currentAllowedDirection = uVar5;
+                  team->currentAllowedDirection = uVar4;
                   team->normalFire = 1;
                   AI_resumePlayTimer = 0xf;
-                  wVar7 = 0xffff;
-                  if ((char)((char)(uVar5 << 5) - cVar11) < '\0') {
-                    wVar7 = 1;
+                  wVar6 = 0xffff;
+                  if ((char)((char)(uVar4 << 5) - cVar10) < '\0') {
+                    wVar6 = 1;
                   }
                   if ((int)ballSprite.deltaY.raw < 0) {
                     if (ballSprite.y.s.i < 0x156) goto commit_turn_to_ai_state;
                   }
                   else if (0x22b < ballSprite.y.s.i) goto commit_turn_to_ai_state;
-                  uVar5 = (currentGameTick & 0x1c) >> 2;
+                  uVar4 = (currentGameTick & 0x1c) >> 2;
                   if ((ballSprite.x.s.i < 0xc1) || (0x1dd < ballSprite.x.s.i)) {
                     if ((ballSprite.x.s.i < 0x76) || (0x229 < ballSprite.x.s.i)) {
-                      if (uVar5 < 4) goto commit_turn_to_ai_state;
+                      if (uVar4 < 4) goto commit_turn_to_ai_state;
                     }
                     else {
-                      if (uVar5 == 0) goto invert_turn;
-                      if (3 < uVar5) goto commit_turn_to_ai_state;
+                      if (uVar4 == 0) goto invert_turn;
+                      if (3 < uVar4) goto commit_turn_to_ai_state;
                     }
                   }
-                  else if (uVar5 != 0) {
-                    if (uVar5 < 5) goto commit_turn_to_ai_state;
+                  else if (uVar4 != 0) {
+                    if (uVar4 < 5) goto commit_turn_to_ai_state;
 invert_turn:
-                    wVar7 = -wVar7;
+                    wVar6 = -wVar6;
                     goto commit_turn_to_ai_state;
                   }
-                  wVar7 = 0;
+                  wVar6 = 0;
 commit_turn_to_ai_state:
-                  team->AI_ballSpinDirection = wVar7;
+                  team->AI_ballSpinDirection = wVar6;
                   return;
                 }
               }
               else {
                 if ((currentGameTick & 0xc) != 0) goto choose_dir_when_not_very_close;
-                pSVar13 = FindClosestPlayerToBallFacing(uVar5 << 5,team);
-                if ((pSVar13 != (Sprite *)0xffffffff) && (pSVar1->teamNumber == pSVar13->teamNumber)
+                pSVar12 = FindClosestPlayerToBallFacing(uVar4 << 5,team);
+                if ((pSVar12 != (Sprite *)0xffffffff) && (pSVar1->teamNumber == pSVar12->teamNumber)
                    ) goto our_player_closest;
               }
             }
@@ -17284,14 +17317,14 @@ commit_turn_to_ai_state:
 choose_dir_when_not_very_close:
         if (team->plVeryCloseToBall != 0) {
 set_allowed_dir_from_angle_bucket:
-          team->currentAllowedDirection = (sVar10 + 0x10U & 0xff) >> 5;
+          team->currentAllowedDirection = (sVar9 + 0x10U & 0xff) >> 5;
           return;
         }
       }
       else {
         team->field_84 = team->field_84 - 1;
-        pSVar13 = FindClosestPlayerToBallFacing(uVar5 << 5,team);
-        if ((pSVar13 != (Sprite *)0xffffffff) && (pSVar1->teamNumber == pSVar13->teamNumber))
+        pSVar12 = FindClosestPlayerToBallFacing(uVar4 << 5,team);
+        if ((pSVar12 != (Sprite *)0xffffffff) && (pSVar1->teamNumber == pSVar12->teamNumber))
         goto our_player_closest;
 closest_facing_player_not_ours:
         if (team->plVeryCloseToBall != 0) {
@@ -17309,11 +17342,11 @@ closest_facing_player_not_ours:
   }
   if (((playingPenalties == 0) && (penalty == 0)) && ((AI_rand & 1) != 0)) {
     if ((short)team->AI_ballSpinDirection < 0) {
-      psVar14 = AI_leftSpinTable;
+      psVar13 = AI_leftSpinTable;
       goto apply_spin_table_offset;
     }
     if (team->AI_ballSpinDirection != 0) {
-      psVar14 = AI_rotateRightTable;
+      psVar13 = AI_rotateRightTable;
       goto apply_spin_table_offset;
     }
   }
@@ -17321,10 +17354,10 @@ closest_facing_player_not_ours:
     team->currentAllowedDirection = 0xffff;
     return;
   }
-  psVar14 = AI_longKickTable;
+  psVar13 = AI_longKickTable;
 apply_spin_table_offset:
   team->currentAllowedDirection =
-       *(short *)((int)psVar14 + (int)(short)(team->AI_afterTouchStrength << 1)) +
+       *(short *)((int)psVar13 + (int)(short)(team->AI_afterTouchStrength << 1)) +
        team->controlledPlDirection & 7;
   return;
 }
@@ -17341,38 +17374,34 @@ apply_spin_table_offset:
 short __usercall AI_SetDirectionTowardOpponentsGoal(TeamGeneralInfo *team)
 
 {
-  short sVar1;
   short unaff_D0w;
+  word wVar1;
   word wVar2;
-  word wVar3;
   
-  sVar1 = AI_counter;
-  sVar1 = AI_counter;
-  if (sVar1 == 0) {
+  if (AI_counter == 0) {
     return unaff_D0w;
   }
-  wVar2 = ballSprite.x.s.i;
-  sVar1 = AI_attackHalf;
-  if (sVar1 == 1) {
+  wVar1 = ballSprite.x.s.i;
+  if (AI_attackHalf == 1) {
     if (team != &bottomTeamData) {
       return ballSprite.x.s.i;
     }
-    wVar3 = 1;
-    if ((299 < ballSprite.x.s.i) && (wVar3 = 7, ballSprite.x.s.i < 0x174)) {
-      wVar3 = 0;
+    wVar2 = 1;
+    if ((299 < ballSprite.x.s.i) && (wVar2 = 7, ballSprite.x.s.i < 0x174)) {
+      wVar2 = 0;
     }
   }
   else {
     if (team != &topTeamData) {
       return ballSprite.x.s.i;
     }
-    wVar3 = 3;
-    if ((299 < ballSprite.x.s.i) && (wVar3 = 5, ballSprite.x.s.i < 0x174)) {
-      wVar3 = 4;
+    wVar2 = 3;
+    if ((299 < ballSprite.x.s.i) && (wVar2 = 5, ballSprite.x.s.i < 0x174)) {
+      wVar2 = 4;
     }
   }
-  team->currentAllowedDirection = wVar3;
-  return wVar2;
+  team->currentAllowedDirection = wVar2;
+  return wVar1;
 }
 
 
@@ -18204,6 +18233,7 @@ void __usercall BlitterCopyPanelToScreen2(void)
   REG_BLTDMOD = 0;
   REG_BLTAPTH = frontbufferMaskBuffer;
   REG_BLTDPTH = frontbufferBasePtr;
+  REG_BLTSIZE = BLTSIZE_OVERLAY_PANEL;
   REG_DMACON = DMACON_BLT_ON;
   uVar1 = REG_DMACONR._0_1_;
   do {
@@ -19367,7 +19397,6 @@ ushort __usercall FindTeamInCache(ushort teamNumber)
 void * __usercall VerifyTeamLoaded(ushort teamNumber)
 
 {
-  undefined1 uVar1;
   void *unaff_A0;
   undefined1 in_ZF;
   
@@ -19377,7 +19406,6 @@ void * __usercall VerifyTeamLoaded(ushort teamNumber)
   }
   panicReasonCode = 0x8888;
   PanicHaltLoop();
-  uVar1 = DAT_0002df1e;
   return &DIY_competitionStart;
 }
 

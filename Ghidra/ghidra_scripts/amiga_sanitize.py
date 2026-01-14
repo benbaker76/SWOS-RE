@@ -1,55 +1,68 @@
 # -*- coding: utf-8 -*-
 # @category Amiga
-# @runtime Jython
 #
 # IDA XML -> Ghidra (Amiga):
 #   PASS 1) Apply __usercall + explicit register storage (RETURN_TYPE and REGISTER_VAR).
-#   PASS 2) Define DEFINED_DATA for MMIO registers, set label (TYPEINFO_CMT), and Mutability=volatile.
+#   PASS 2) Define DEFINED_DATA for MMIO/registers and set Mutability=volatile when needed.
+#   PASS 2b) Force all existing defined data units inside MMIO blocks to Mutability=volatile.
 #   PASS 3) Apply EQUATE_REFERENCE (immediate equates), handling 68k sign-extension correctly.
 #   PASS 4) Apply labels/functions from amiga-symbols.txt (next to this script).
+#   PASS 4b) Force mutability=volatile for addresses referenced by REG_* entries in amiga-symbols.txt
+#            by creating an EXACT 2-byte leaf data unit (Undefined2) at that address, then setting
+#            mutability=volatile on it. (This matches the proven Test.py behavior.)
+#   PASS 5) For CHIP_RAM: set defined data Mutability=WRITABLE, fix function-overrun into data.
+#   PASS 6) Apply XML SYMBOL_TABLE into Global namespace (RAM + MMIO).
+#   FINAL) Mark MMIO memory blocks volatile (Memory Map flag).
 #
-# Safe guards / intent:
-# - CIA ranges can be forced to 8-bit by your XML typing rules (this script preserves your existing logic).
-# - For volatile MMIO, we ensure an EXACT data unit exists at the address (clearing only the required range).
-# - For equates, validate by operand width (.b/.w/.l) but create equate using the scalar's signed value
-#   (since EquateTable matches the internal scalar value).
-# - PASS 4 is used as a workaround to keep labels stable across re-analysis (DAT_ relabeling).
+# IMPORTANT CHANGE:
+# - PASS 6 is now executed BEFORE PASS 4, so amiga-symbols.txt register naming (REG_*) wins.
+# - PASS 6 also skips MMIO renaming if a REG_* symbol already exists at that address.
 
 from javax.xml.parsers import DocumentBuilderFactory
 
 from ghidra.program.model.scalar import Scalar
 from ghidra.program.model.listing import Function, ParameterImpl, VariableStorage
+from ghidra.program.model.symbol import SourceType
+from ghidra.program.model.symbol import RefType
+from ghidra.program.model.data import (
+    CategoryPath, PointerDataType, VoidDataType,
+    CharDataType, ShortDataType, IntegerDataType, LongLongDataType,
+    UnsignedCharDataType, UnsignedShortDataType, UnsignedIntegerDataType, UnsignedLongLongDataType,
+    Undefined2DataType
+)
+from ghidra.program.model.address import AddressSet
+from java.io import File, FileReader, BufferedReader
+from java.lang import Long
 
 try:
     from ghidra.program.model.listing import FunctionUpdateType as FUpdate
 except ImportError:
     FUpdate = Function.FunctionUpdateType
 
-from ghidra.program.model.symbol import SourceType
-from ghidra.program.model.data import (
-    CategoryPath, PointerDataType, VoidDataType,
-    CharDataType, ShortDataType, IntegerDataType, LongLongDataType,
-    UnsignedCharDataType, UnsignedShortDataType, UnsignedIntegerDataType, UnsignedLongLongDataType
-)
-
-from java.io import File, FileReader, BufferedReader
-
 # ---------- env ----------
 prog = currentProgram
 fm   = prog.getFunctionManager()
 dtm  = prog.getDataTypeManager()
 lang = prog.getLanguage()
+mem  = prog.getMemory()
+listing = prog.getListing()
 
 def log(msg):
     print("[IDA-XML->Ghidra] " + msg)
 
+# ---------- MMIO blocks ----------
+MMIO_BLOCKS = set(["AMIGA_CUSTOM", "CIAA", "CIAB"])
+
+def is_mmio_addr(addr):
+    blk = mem.getBlock(addr)
+    return (blk is not None) and (blk.getName() in MMIO_BLOCKS)
 
 # ---------- registers ----------
 def norm_reg(rname):
     r = (rname or "").strip().lower()
     # Strip m68k size suffix if present (d0.w / a1.l etc)
-    if len(r) > 2 and r[-1] in ("b", "w", "l"):
-        r = r[:-1]
+    if len(r) > 2 and r[-2] == "." and r[-1] in ("b", "w", "l"):
+        r = r[:-2]
     return r
 
 def get_reg(regname):
@@ -57,7 +70,6 @@ def get_reg(regname):
     if reg is None:
         raise RuntimeError("Unknown register: %s" % regname)
     return reg
-
 
 # ---------- datatype lookup ----------
 BUILTIN = {
@@ -87,37 +99,23 @@ BUILTIN = {
 }
 
 def parse_hex_int(s):
-    if s is None:
-        return None
     t = str(s).strip().lower()
     if t.startswith("-0x"):
         return -int(t[3:], 16)
     if t.startswith("0x"):
         return int(t[2:], 16)
-    # allow plain hex digits too (IDA XML often uses that)
     return int(t, 16)
-
 
 # ---------- equate helpers ----------
 def mnemonic_size_bits(instr):
-    """
-    Best-effort: Ghidra 68k typically uses mnemonics like 'move.w'/'move.l'.
-    """
-    try:
-        m = instr.getMnemonicString() or ""
-    except:
-        return None
-    m = m.lower()
+    m = (instr.getMnemonicString() or "").lower()
     if ".b" in m: return 8
     if ".w" in m: return 16
     if ".l" in m: return 32
     return None
 
 def get_scalar_from_operand(instr, op_index):
-    try:
-        objs = instr.getOpObjects(op_index)
-    except:
-        return None
+    objs = instr.getOpObjects(op_index)
     if not objs:
         return None
     for o in objs:
@@ -126,40 +124,18 @@ def get_scalar_from_operand(instr, op_index):
     return None
 
 def clear_operand_refs(instr, op_index):
-    """
-    Ghidra will sometimes prefer a memory/symbol reference over an equate rendering.
-    Clearing operand refs for the immediate operand helps ensure the equate shows.
-    """
-    rm = currentProgram.getReferenceManager()
-    try:
-        refs = instr.getOperandReferences(op_index)
-    except:
-        refs = None
+    rm = prog.getReferenceManager()
+    refs = instr.getOperandReferences(op_index)
     if not refs:
         return
     for r in refs:
-        try:
-            rm.delete(r)
-        except:
-            pass
+        rm.delete(r)
 
 def apply_equate_at_operand(addr, op_index, xml_value, name):
-    """
-    Apply equate NAME to operand op_index at addr.
-
-    Correct 68k behavior:
-      - Validate match using operand width (.b/.w/.l) by truncating the operand scalar.
-      - Create the equate using the operand scalar's *signed* value (often sign-extended to 32-bit),
-        because EquateTable matches against that internal scalar value.
-
-    Returns True if reference was added, False otherwise.
-    """
-    listing = currentProgram.getListing()
     instr = listing.getInstructionAt(addr)
     if instr is None:
         return False
 
-    # Robust scalar fetch
     sc = get_scalar_from_operand(instr, op_index)
     if sc is None:
         try:
@@ -175,29 +151,14 @@ def apply_equate_at_operand(addr, op_index, xml_value, name):
         try:
             return int(x)
         except:
-            try:
-                return int(long(x))  # Jython compatibility
-            except:
-                return int(str(x))
+            return int(str(x))
 
-    # Unsigned view of scalar
-    try:
-        sc_u = _to_py_int(sc.getUnsignedValue())
-    except:
-        try:
-            sc_u = _to_py_int(sc.getValue())
-        except:
-            return False
-
-    # Signed view used for equate value matching
+    sc_u = _to_py_int(sc.getUnsignedValue())
     try:
         sc_s = _to_py_int(sc.getSignedValue())
     except:
-        try:
-            sc_s = _to_py_int(sc.getValue())
-        except:
-            v = sc_u & 0xFFFFFFFF
-            sc_s = v - 0x100000000 if (v & 0x80000000) else v
+        v = sc_u & 0xFFFFFFFF
+        sc_s = v - 0x100000000 if (v & 0x80000000) else v
 
     xml_v = int(xml_value)
 
@@ -208,7 +169,6 @@ def apply_equate_at_operand(addr, op_index, xml_value, name):
         m = _mask(bits)
         return ((sc_u & m) == (xml_v & m))
 
-    # Validate: prefer mnemonic width; else accept any common width match
     if op_bits in (8, 16, 32):
         if not _matches(op_bits):
             log("Equate value mismatch @ %s op%d: have 0x%X want 0x%X (%s) [op_bits=%d]" %
@@ -220,39 +180,16 @@ def apply_equate_at_operand(addr, op_index, xml_value, name):
                 (addr, op_index, (sc_u & 0xFFFFFFFF), (xml_v & 0xFFFFFFFF), name))
             return False
 
-    # Clear competing operand references (optional but helps)
-    try:
-        clear_operand_refs(instr, op_index)
-    except:
-        pass
+    clear_operand_refs(instr, op_index)
 
-    eqt = currentProgram.getEquateTable()
+    eqt = prog.getEquateTable()
     eq = eqt.getEquate(name)
 
-    # Ensure equate exists with exact scalar signed value
     if eq is not None:
         try:
             if int(eq.getValue()) != int(sc_s):
-                removed = False
-                try:
-                    eqt.removeEquate(name)
-                    removed = True
-                except:
-                    try:
-                        eqt.removeEquate(eq)
-                        removed = True
-                    except:
-                        removed = False
-
-                if removed:
-                    eq = None
-                else:
-                    # Can't remove -> deterministic alternate name
-                    alt = "%s__%X" % (name, (sc_s & 0xFFFFFFFFFFFFFFFF))
-                    eq = eqt.getEquate(alt)
-                    if eq is None:
-                        eq = eqt.createEquate(alt, sc_s)
-                    name = alt
+                eqt.removeEquate(name)
+                eq = None
         except:
             pass
 
@@ -264,14 +201,8 @@ def apply_equate_at_operand(addr, op_index, xml_value, name):
             eq = eqt.getEquate(alt) or eqt.createEquate(alt, sc_s)
             name = alt
 
-    try:
-        eq.addReference(addr, op_index)
-    except Exception as e:
-        log("Equate addReference failed @ %s op%d for %s: %s" % (addr, op_index, name, e))
-        return False
-
+    eq.addReference(addr, op_index)
     return True
-
 
 # ---------- datatype helpers ----------
 def dt_lookup(name):
@@ -281,10 +212,8 @@ def dt_lookup(name):
     nlow = n.lower()
     for q in ("const ", "volatile "):
         if nlow.startswith(q):
-            n = n[len(q):]
-            nlow = nlow[len(q):]
-            n = n.lstrip()
-            nlow = nlow.lstrip()
+            n = n[len(q):].lstrip()
+            nlow = n.lower()
             break
     if nlow in BUILTIN:
         return BUILTIN[nlow]
@@ -334,261 +263,342 @@ def choose_return_dt(type_str):
 def text_of_first(nodes):
     if not nodes or nodes.getLength() == 0:
         return None
+    return nodes.item(0).getTextContent()
+
+# ---------- Mutability ----------
+_MUT_KEY = "mutability"
+MUT_CODES = {"volatile": 1, "constant": 2, "writable": 3}  # proven in your setup
+log("Mutability mapping discovered: %s" % str(MUT_CODES))
+
+def set_data_mutability(data, kind):
+    if data is None:
+        return False
+    code = MUT_CODES.get(kind)
+    if code is None:
+        return False
+
+    # IMPORTANT: set on the *instance* settings, not the datatype default settings.
     try:
-        return nodes.item(0).getTextContent()
+        data.setLong(_MUT_KEY, Long(int(code)))
     except:
-        return None
+        try:
+            data.getDefaultSettings().setLong(_MUT_KEY, Long(int(code)))
+        except:
+            return False
 
-
-# ---------- Data helpers ----------
-def set_data_mutability_volatile(data):
     try:
-        settings = data.getDefaultSettings()
-        settings.setLong("mutability", 1)
+        if kind == "volatile":
+            return bool(data.isVolatile())
+        if kind == "constant":
+            return bool(data.isConstant())
+        if kind == "writable":
+            return bool(data.isWritable())
     except:
         pass
 
-def get_dt_len(dt):
-    try:
-        ln = dt.getLength()
-        return (ln if ln and ln > 0 else 1)
-    except:
-        return 1
+    return True
 
-def define_scalar_with_mutability(addr, dt, name=None, make_volatile=False,
-                                  force_overwrite=True, max_retries=2):
-    """
-    If make_volatile=True: ensure an EXACT data unit at (addr, dt.length).
-      - If a larger/other data overlaps, surgically clear just that range and create exact data.
-    If make_volatile=False: reuse existing exact if present, else create if free; never bulldoze.
-    """
-    listing = currentProgram.getListing()
+def get_dt_len(dt):
+    ln = dt.getLength()
+    return (ln if ln and ln > 0 else 1)
+
+def define_scalar_with_mutability(addr, dt, name=None, make_volatile=False, max_retries=2):
     target_len = get_dt_len(dt)
     end_addr   = addr.add(target_len - 1)
 
     exact = listing.getDataAt(addr)
     if exact is not None and exact.getLength() == target_len:
         if name:
-            try:
+            sym = getSymbolAt(addr)
+            if sym is None:
                 createLabel(addr, name, True)
-            except Exception as e:
-                log("Relabel failed at %s: %s" % (addr, e))
+            else:
+                if sym.getName() != name or sym.getSource() != SourceType.USER_DEFINED:
+                    sym.setName(name, SourceType.USER_DEFINED)
         if make_volatile:
-            set_data_mutability_volatile(exact)
+            set_data_mutability(exact, "volatile")
         return exact
-
-    container = listing.getDataContaining(addr)
 
     if make_volatile:
-        # Must ensure an exact typed unit exists
-        try:
-            clearListing(addr, end_addr)
-        except:
-            if container is not None:
-                try:
-                    clearListing(container.getMinAddress(), container.getMaxAddress())
-                except Exception as e:
-                    log("Clear container failed at %s: %s" % (addr, e))
-
+        clearListing(addr, end_addr)
         for _ in range(max_retries):
-            try:
-                createData(addr, dt)
-                data = listing.getDataAt(addr)
-                if data is None:
-                    raise RuntimeError("No Data after createData")
-                if name:
-                    try:
-                        createLabel(addr, name, True)
-                    except Exception as e:
-                        log("Label failed at %s: %s" % (addr, e))
-                set_data_mutability_volatile(data)
-                return data
-            except Exception as e:
-                log("CreateData (volatile) conflict at %s (%s): %s" % (addr, dt.getName(), e))
-                try:
-                    clearListing(addr, end_addr)
-                except:
-                    pass
-        return None
-
-    # Non-volatile: be conservative
-    if exact is not None:
-        if name:
-            try:
-                createLabel(addr, name, True)
-            except Exception as e:
-                log("Relabel failed at %s: %s" % (addr, e))
-        return exact
-
-    if container is not None:
-        if name and container.getMinAddress() == addr:
-            try:
-                createLabel(addr, name, True)
-            except Exception as e:
-                log("Relabel failed at %s: %s" % (addr, e))
-        return container
-
-    # Free → create
-    for _ in range(max_retries):
-        try:
             createData(addr, dt)
             data = listing.getDataAt(addr)
             if data is None:
-                raise RuntimeError("No Data after createData")
+                clearListing(addr, end_addr)
+                continue
             if name:
-                try:
+                sym = getSymbolAt(addr)
+                if sym is None:
                     createLabel(addr, name, True)
-                except Exception as e:
-                    log("Label failed at %s: %s" % (addr, e))
+                else:
+                    if sym.getName() != name or sym.getSource() != SourceType.USER_DEFINED:
+                        sym.setName(name, SourceType.USER_DEFINED)
+            set_data_mutability(data, "volatile")
             return data
-        except Exception as e:
-            log("CreateData conflict at %s (%s): %s" % (addr, dt.getName(), e))
+        return None
+
+    if exact is not None:
+        if name:
+            sym = getSymbolAt(addr)
+            if sym is None:
+                createLabel(addr, name, True)
+            else:
+                if sym.getName() != name or sym.getSource() != SourceType.USER_DEFINED:
+                    sym.setName(name, SourceType.USER_DEFINED)
+        return exact
+
+    container = listing.getDataContaining(addr)
+    if container is not None:
+        if name and container.getMinAddress() == addr:
+            sym = getSymbolAt(addr)
+            if sym is None:
+                createLabel(addr, name, True)
+            else:
+                if sym.getName() != name or sym.getSource() != SourceType.USER_DEFINED:
+                    sym.setName(name, SourceType.USER_DEFINED)
+        return container
+
+    for _ in range(max_retries):
+        createData(addr, dt)
+        data = listing.getDataAt(addr)
+        if data is None:
+            return None
+        if name:
+            sym = getSymbolAt(addr)
+            if sym is None:
+                createLabel(addr, name, True)
+            else:
+                if sym.getName() != name or sym.getSource() != SourceType.USER_DEFINED:
+                    sym.setName(name, SourceType.USER_DEFINED)
+        return data
+
+    return None
+
+# ---------- symbols file helpers ----------
+def get_script_dir_path():
+    # Ghidra scripts run under Jython; __file__ is not reliable.
+    # getSourceFile() returns a ghidra.framework.model.ResourceFile (NOT java.io.File).
+    try:
+        sf = getSourceFile()
+        if sf is not None:
+            pf = sf.getParentFile()
+            if pf is not None:
+                return str(pf.getAbsolutePath())
+            return str(sf.getAbsolutePath())
+    except:
+        pass
+
+    try:
+        d = getScriptDirectory()
+        if d is not None:
+            return str(d.getAbsolutePath())
+    except:
+        pass
+
+    try:
+        import java.lang.System as System
+        return str(System.getProperty("user.dir"))
+    except:
+        return None
+
+# ---------- PASS 4/4b: amiga-symbols.txt (registers + labels + functions) ----------
+
+def _parse_addr_any(addr_s):
+    s = str(addr_s).strip()
+    try:
+        if s.lower().startswith("0x"):
+            return toAddr(int(s[2:], 16))
+        return toAddr(int(s, 16))
+    except:
+        return toAddr(parse_hex_int(s))
+
+def _dt_from_token(tok):
+    """
+    New fixed-format tokens only:
+      byte, ushort, uint, addr
+    """
+    tl = str(tok).strip().lower()
+
+    if tl == "byte":
+        return (1, UnsignedCharDataType.dataType)
+
+    if tl == "ushort":
+        return (2, UnsignedShortDataType.dataType)
+
+    if tl == "uint":
+        return (4, UnsignedIntegerDataType.dataType)
+
+    if tl == "addr":
+        return (4, PointerDataType(VoidDataType.dataType))
+
+    return (0, None)
+
+def _add_label(addr, name):
+    try:
+        sym = getSymbolAt(addr)
+        if sym is not None:
+            if sym.getName() != name or sym.getSource() != SourceType.USER_DEFINED:
+                sym.setName(name, SourceType.USER_DEFINED)
+            return True
+    except:
+        pass
+    try:
+        createLabel(addr, name, False)
+        return True
+    except:
+        try:
+            createLabel(addr, name, True)
+            return True
+        except:
+            return False
+
+def _set_primary(addr, name):
+    st = prog.getSymbolTable()
+
+    try:
+        syms = st.getSymbols(addr)
+        if syms is not None:
+            it = syms.iterator()
+            while it.hasNext():
+                s = it.next()
+                if s is not None and s.getName() == name:
+                    try:
+                        s.setName(name, SourceType.USER_DEFINED)
+                    except:
+                        pass
+                    try:
+                        s.setPrimary()
+                    except:
+                        pass
+                    return True
+    except:
+        pass
+
+    try:
+        ps = st.getPrimarySymbol(addr)
+    except:
+        ps = None
+
+    if ps is not None:
+        try:
+            ps.setName(name, SourceType.USER_DEFINED)
+            try:
+                ps.setPrimary()
+            except:
+                pass
+            return True
+        except:
+            pass
+
+    try:
+        s = st.createLabel(addr, name, prog.getGlobalNamespace(), SourceType.USER_DEFINED)
+        try:
+            s.setPrimary()
+        except:
+            pass
+        return True
+    except:
+        try:
+            createLabel(addr, name, True)
+            return True
+        except:
+            return False
+
+def _ensure_data_at(addr, size, dt):
+    """
+    Ensure an *exact* leaf data unit at addr of length=size/type=dt.
+
+    IMPORTANT CHANGE:
+    - If there's a containing data/structure that starts earlier, we still force creation
+      for MMIO addresses by clearing the desired range. This is necessary when a big
+      register-struct exists at DFF000 and would otherwise block leaf overrides.
+    """
+    end_addr = addr.add(size - 1)
+
+    d = listing.getDataAt(addr)
+    if d is not None and d.getLength() == size:
+        # If type differs (e.g., uint -> pointer), recreate.
+        try:
+            if dt is not None and d.getDataType() is not None and str(d.getDataType()) != str(dt):
+                clearListing(addr, end_addr)
+                createData(addr, dt)
+                return listing.getDataAt(addr)
+        except:
+            pass
+        return d
+
+    cont = listing.getDataContaining(addr)
+    if cont is not None and cont.getMinAddress() != addr:
+        # Old behavior returned None here.
+        # New behavior: if this is MMIO, forcibly clear and create the leaf.
+        if not is_mmio_addr(addr):
             return None
 
-    return None
-
-
-def _dirpath_from_obj(obj):
-    """
-    Return a directory path (string) from:
-      - java.io.File
-      - Ghidra ResourceFile (getAbsolutePath/getParentFile)
-      - plain string
-    Returns None if it cannot be determined.
-    """
-    if obj is None:
-        return None
-
-    # Already a java.io.File
-    if isinstance(obj, File):
-        try:
-            return obj.getAbsolutePath()
-        except:
-            return str(obj)
-
-    # Ghidra ResourceFile-ish: has getAbsolutePath()
     try:
-        ap = obj.getAbsolutePath()
-        if ap:
-            # Some objects return a java.io.File, some return a string
-            return ap.getAbsolutePath() if isinstance(ap, File) else str(ap)
+        clearListing(addr, end_addr)
     except:
         pass
 
-    # Ghidra ResourceFile-ish: has getParentFile()
     try:
-        parent = obj.getParentFile()
-        if parent is not None:
-            return _dirpath_from_obj(parent)
+        createData(addr, dt)
     except:
         pass
 
-    # Fallback: string
-    try:
-        return str(obj)
-    except:
-        return None
+    return listing.getDataAt(addr)
 
-
-def get_script_dir_path():
-    """
-    Best-effort: return the directory containing this running script as a string path.
-    """
-    # 1) getScriptDirectory() if present
-    try:
-        gsd = globals().get("getScriptDirectory", None)
-        if gsd is not None:
-            d = gsd()
-            p = _dirpath_from_obj(d)
-            if p:
-                return p
-    except:
-        pass
-
-    # 2) getSourceFile() if present
-    try:
-        gsf = globals().get("getSourceFile", None)
-        if gsf is not None:
-            sf = gsf()
-            # Parent directory of the source file
-            try:
-                parent = sf.getParentFile()
-            except:
-                parent = None
-            p = _dirpath_from_obj(parent if parent is not None else sf)
-            if p:
-                return p
-    except:
-        pass
-
-    return None
-
-
-def get_script_dir_file():
-    """
-    Return java.io.File for the directory containing this running script.
-
-    Works across Ghidra versions:
-      1) getScriptDirectory() (if provided)
-      2) getSourceFile().getParentFile() (most reliable)
-    Returns None if neither is available.
-    """
-    # 1) Some Ghidra versions expose getScriptDirectory()
-    try:
-        gsd = globals().get("getScriptDirectory", None)
-        if gsd is not None:
-            d = gsd()
-            if d is not None:
-                return d
-    except:
-        pass
-
-    # 2) Common: getSourceFile() gives you the script file
-    try:
-        gsf = globals().get("getSourceFile", None)
-        if gsf is not None:
-            sf = gsf()
-            if sf is not None:
-                return sf.getParentFile()
-    except:
-        pass
-
-    return None
-
-
-def apply_symbols_file(filename="amiga-symbols.txt"):
-    fm = currentProgram.getFunctionManager()
-
-    script_dir_path = get_script_dir_path()
-    if not script_dir_path:
+def apply_amiga_symbols_txt(filename="amiga-symbols.txt"):
+    script_dir = get_script_dir_path()
+    if not script_dir:
         log("PASS 4: Cannot determine script directory; skipping %s." % filename)
-        return (0, 0, 0, 0, 0, 0)
+        return {
+            "file_found": False,
+            "total_lines": 0,
+            "reg_lines": 0,
+            "reg_unique_addrs": 0,
+            "reg_data_defs": 0,
+            "reg_primary": 0,
+            "reg_alias": 0,
+            "reg_volatile_set": 0,
+            "labels": 0,
+            "funcs": 0,
+            "skipped": 0,
+        }
 
-    # Force (String, String) ctor to avoid File-type coercion issues
-    sym_file = File(str(script_dir_path), str(filename))
+    sym_file = File(str(script_dir), str(filename))
     if not sym_file.exists():
-        log("PASS 4: '%s' not found in %s; skipping." % (filename, sym_file.getParent()))
-        return (0, 0, 0, 0, 0, 0)
+        log("PASS 4: '%s' not found next to script (%s); skipping." % (filename, sym_file.getAbsolutePath()))
+        return {
+            "file_found": False,
+            "total_lines": 0,
+            "reg_lines": 0,
+            "reg_unique_addrs": 0,
+            "reg_data_defs": 0,
+            "reg_primary": 0,
+            "reg_alias": 0,
+            "reg_volatile_set": 0,
+            "labels": 0,
+            "funcs": 0,
+            "skipped": 0,
+        }
 
-    total = 0
-    lbl_created = 0
-    lbl_renamed = 0
-    fun_created = 0
-    fun_renamed = 0
+    total_lines = 0
     skipped = 0
+    labels = 0
+    funcs = 0
 
-    br = None
+    reg_lines = 0
+    # by_addr[off] = {"defs":[(name,sz,dt)], "labels":[name..], "want_ptr":bool}
+    by_addr = {}
+
+    br = BufferedReader(FileReader(sym_file))
     try:
-        br = BufferedReader(FileReader(sym_file))
         while True:
             line = br.readLine()
             if line is None:
                 break
-
             line = line.strip()
-            if not line:
-                continue
-            if line.startswith("#") or line.startswith(";") or line.startswith("//"):
+            if (not line) or line.startswith("#") or line.startswith(";") or line.startswith("//"):
                 continue
 
             parts = line.split()
@@ -596,78 +606,215 @@ def apply_symbols_file(filename="amiga-symbols.txt"):
                 skipped += 1
                 continue
 
-            name = parts[0]
-            addr_s = parts[1]
-            kind = parts[2].lower() if len(parts) >= 3 else "l"
+            total_lines += 1
+            name = parts[0].strip()
+            addr = _parse_addr_any(parts[1])
 
-            # Address parsing: allow toAddr("0x...") or fallback to numeric parse
-            try:
-                addr = toAddr(addr_s)
-            except:
-                try:
-                    addr = toAddr(parse_hex_int(addr_s))
-                except:
-                    log("PASS 4: Bad address '%s' for symbol '%s' (line: %s)" % (addr_s, name, line))
+            # New register format (fixed):
+            #   REG_NAME 0xADDR byte|ushort|uint|addr D|L
+            if len(parts) >= 4 and name.startswith("REG_"):
+                typ = parts[2].strip().lower()
+                kind = parts[3].strip().upper()
+                (sz, dt) = _dt_from_token(typ)
+                if sz == 0 or kind not in ("D", "L"):
                     skipped += 1
                     continue
 
-            total += 1
+                reg_lines += 1
+                off = int(addr.getOffset())
+                b = by_addr.get(off)
+                if b is None:
+                    b = {"defs": [], "labels": [], "want_ptr": False}
+                    by_addr[off] = b
 
-            if kind == "f":
-                try:
-                    func = fm.getFunctionAt(addr)
-                    if func is not None:
-                        old = func.getName()
-                        if old != name or func.getSymbol().getSource() != SourceType.USER_DEFINED:
-                            func.setName(name, SourceType.USER_DEFINED)
-                            fun_renamed += 1
-                    else:
-                        nf = createFunction(addr, name)
-                        if nf is not None:
-                            try:
-                                nf.setName(name, SourceType.USER_DEFINED)
-                            except:
-                                pass
-                            fun_created += 1
-                        else:
-                            skipped += 1
-                except Exception as e:
-                    log("PASS 4: Failed function '%s' @ %s: %s" % (name, addr, e))
-                    skipped += 1
+                # addr acts as a "pointer hint" even if it's L
+                if typ == "addr":
+                    b["want_ptr"] = True
+
+                b["labels"].append(name)
+                if kind == "D":
+                    b["defs"].append((name, sz, dt))
                 continue
 
-            # Label create/rename (default)
-            try:
-                sym = getSymbolAt(addr)
-                if sym is not None:
-                    if sym.getName() != name or sym.getSource() != SourceType.USER_DEFINED:
-                        sym.setName(name, SourceType.USER_DEFINED)
-                        lbl_renamed += 1
-                else:
+            # Legacy function format: NAME ADDR f
+            if len(parts) >= 3 and parts[2].strip().lower() == "f":
+                f = fm.getFunctionAt(addr)
+                if f is not None:
                     try:
-                        createLabel(addr, name, True)
+                        f.setName(name, SourceType.USER_DEFINED)
+                        funcs += 1
                     except:
-                        createLabel(addr, name, False)
-                    lbl_created += 1
-            except Exception as e:
-                log("PASS 4: Failed label '%s' @ %s: %s" % (name, addr, e))
+                        skipped += 1
+                else:
+                    nf = createFunction(addr, name)
+                    if nf is not None:
+                        try:
+                            nf.setName(name, SourceType.USER_DEFINED)
+                        except:
+                            pass
+                        funcs += 1
+                    else:
+                        skipped += 1
+                continue
+
+            # Legacy label
+            if _add_label(addr, name):
+                labels += 1
+            else:
                 skipped += 1
-
     finally:
-        try:
-            if br is not None:
-                br.close()
-        except:
-            pass
+        br.close()
 
-    return (total, lbl_created, lbl_renamed, fun_created, fun_renamed, skipped)
+    reg_unique = len(by_addr)
+    reg_data_defs = 0
+    reg_primary = 0
+    reg_alias = 0
+    reg_volatile_set = 0
 
+    # PASS A: define data for D entries (largest-first)
+    defs_flat = []
+    for off, b in by_addr.items():
+        for (n, sz, dt) in b["defs"]:
+            defs_flat.append((toAddr(off), n, sz, dt, b["want_ptr"]))
+
+    defs_flat.sort(key=lambda e: (-e[2], int(e[0].getOffset())))
+
+    for (addr, name, sz, dt, want_ptr) in defs_flat:
+        if not is_mmio_addr(addr):
+            continue
+
+        # If any symbol at this address is marked "addr", force the *32-bit container*
+        # to be a pointer, even if the D line says "uint".
+        if want_ptr and sz == 4:
+            dt = PointerDataType(VoidDataType.dataType)
+
+        d = _ensure_data_at(addr, sz, dt)
+        if d is None or d.getLength() != sz:
+            continue
+
+        reg_data_defs += 1
+        if set_data_mutability(d, "volatile"):
+            reg_volatile_set += 1
+
+    # PASS B: primary symbol + aliases
+    for off, b in by_addr.items():
+        addr = toAddr(off)
+        if not is_mmio_addr(addr):
+            continue
+
+        primary = b["defs"][0][0] if b["defs"] else (b["labels"][0] if b["labels"] else None)
+        if primary and _set_primary(addr, primary):
+            reg_primary += 1
+
+        for n in b["labels"]:
+            if n == primary:
+                continue
+            if _add_label(addr, n):
+                reg_alias += 1
+
+    return {
+        "file_found": True,
+        "total_lines": total_lines,
+        "reg_lines": reg_lines,
+        "reg_unique_addrs": reg_unique,
+        "reg_data_defs": reg_data_defs,
+        "reg_primary": reg_primary,
+        "reg_alias": reg_alias,
+        "reg_volatile_set": reg_volatile_set,
+        "labels": labels,
+        "funcs": funcs,
+        "skipped": skipped,
+    }
+
+# ---------- PASS 6 helpers: skip clobbering MMIO REG_* ----------
+def has_reg_symbol(addr):
+    st = prog.getSymbolTable()
+    try:
+        syms = st.getSymbols(addr)
+        if syms is None:
+            return False
+        it = syms.iterator()
+        while it.hasNext():
+            s = it.next()
+            if s is None:
+                continue
+            n = s.getName()
+            if n and n.startswith("REG_"):
+                return True
+    except:
+        pass
+    return False
+
+def apply_memory_references_from_xml(doc):
+    mr_nodes = doc.getElementsByTagName("MEMORY_REFERENCE")
+    rm = prog.getReferenceManager()
+
+    applied = 0
+    skipped = 0
+
+    tx = prog.startTransaction("PASS 3b: apply MEMORY_REFERENCE")
+    try:
+        for i in range(mr_nodes.getLength()):
+            mn = mr_nodes.item(i)
+            at = mn.getAttributes()
+
+            a_node = at.getNamedItem("ADDRESS")
+            o_node = at.getNamedItem("OPERAND_INDEX")
+            t_node = at.getNamedItem("TO_ADDRESS")
+
+            if a_node is None or o_node is None or t_node is None:
+                skipped += 1
+                continue
+
+            addr_s = a_node.getNodeValue()
+            op_s   = o_node.getNodeValue()
+            to_s   = t_node.getNodeValue()
+
+            try:
+                ea = toAddr(int(addr_s, 16))
+            except:
+                ea = toAddr(parse_hex_int(addr_s))
+
+            try:
+                to_ea = toAddr(int(to_s, 16))
+            except:
+                to_ea = toAddr(parse_hex_int(to_s))
+
+            try:
+                op_index = int(op_s)
+            except:
+                skipped += 1
+                continue
+
+            instr = listing.getInstructionAt(ea)
+            if instr is None:
+                skipped += 1
+                continue
+
+            # Clear existing operand refs so we don’t accumulate stale/incorrect ones
+            try:
+                clear_operand_refs(instr, op_index)
+            except:
+                pass
+
+            # Create a memory reference on that operand
+            try:
+                rm.addMemoryReference(ea, to_ea, RefType.DATA, SourceType.USER_DEFINED, op_index)
+                applied += 1
+            except:
+                # Duplicate ref or unsupported operand—don’t fail the run
+                skipped += 1
+                continue
+    finally:
+        prog.endTransaction(tx, True)
+
+    log("PASS 3b: MEMORY_REFERENCE applied: %d, skipped: %d." % (applied, skipped))
+    return (applied, skipped)
 
 # ---------- Load XML ----------
 xml_file = askFile("Select IDA XML file", "Apply")
 doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xml_file)
 doc.getDocumentElement().normalize()
-
 
 # ================= PASS 1: FUNCTIONS =================
 func_nodes = doc.getElementsByTagName("FUNCTION")
@@ -685,8 +832,7 @@ for i in range(func_nodes.getLength()):
     ea_hex = ep.getNodeValue()
     try:
         ea = toAddr(int(ea_hex, 16))
-    except Exception as e:
-        log("Bad ENTRY_POINT '%s': %s" % (ea_hex, e))
+    except:
         f_skipped += 1
         continue
 
@@ -701,7 +847,6 @@ for i in range(func_nodes.getLength()):
         p_type = at.getNamedItem("DATATYPE").getNodeValue() if at.getNamedItem("DATATYPE") else "unsigned int"
         p_regn = at.getNamedItem("REGISTER").getNodeValue() if at.getNamedItem("REGISTER") else None
         if not p_regn:
-            log("No REGISTER= for %s.%s @ %s; skipping param" % (name or "func", p_name, ea_hex))
             continue
         params.append((p_name, p_type, p_regn))
 
@@ -719,17 +864,13 @@ for i in range(func_nodes.getLength()):
 
     f = fm.getFunctionAt(ea) or fm.createFunction(name, ea, None, SourceType.USER_DEFINED)
     if name and f.getName() != name:
-        try:
-            f.setName(name, SourceType.USER_DEFINED)
-        except:
-            pass
+        f.setName(name, SourceType.USER_DEFINED)
 
     gh_params = []
     for (pname, ptype, preg) in params:
         try:
             vs = VariableStorage(prog, get_reg(preg))
-        except Exception as e:
-            log("Skip param %s @ %s: %s" % (pname, ea_hex, e))
+        except:
             continue
         p_dt = sanitize_param_dt(ptype, "%s.%s" % (name or "func", pname))
         gh_params.append(ParameterImpl(pname, p_dt, vs, prog, SourceType.USER_DEFINED))
@@ -745,32 +886,19 @@ for i in range(func_nodes.getLength()):
         f.replaceParameters(FUpdate.CUSTOM_STORAGE, True, SourceType.USER_DEFINED, gh_params)
 
         if is_void_ret:
-            try:
-                f.setReturnType(VoidDataType.dataType, SourceType.USER_DEFINED)
-            except:
-                pass
+            f.setReturnType(VoidDataType.dataType, SourceType.USER_DEFINED)
         else:
             if ret_reg:
                 try:
                     ret_vs = VariableStorage(prog, get_reg(ret_reg))
                     f.setReturn(ret_dt, ret_vs, SourceType.USER_DEFINED)
-                except Exception as e:
-                    log("Return reg not applied for %s @ %s: %s" % (name or "func", ea_hex, e))
-                    try:
-                        f.setReturnType(ret_dt, SourceType.USER_DEFINED)
-                    except:
-                        pass
-            else:
-                try:
-                    f.setReturnType(ret_dt, SourceType.USER_DEFINED)
                 except:
-                    pass
+                    f.setReturnType(ret_dt, SourceType.USER_DEFINED)
+            else:
+                f.setReturnType(ret_dt, SourceType.USER_DEFINED)
 
         if reg_cmt:
-            try:
-                f.setComment(reg_cmt)
-            except:
-                pass
+            f.setComment(reg_cmt)
 
         try:
             f.setSignatureLocked(True)
@@ -786,8 +914,7 @@ for i in range(func_nodes.getLength()):
 
 log("Functions updated: %d, skipped: %d (from %s)" % (f_updated, f_skipped, xml_file.getName()))
 
-
-# ================= PASS 2: DEFINED_DATA (MMIO) =================
+# ================= PASS 2: DEFINED_DATA (MMIO + typing) =================
 dd_nodes = doc.getElementsByTagName("DEFINED_DATA")
 d_updated = 0
 d_skipped = 0
@@ -806,19 +933,21 @@ for i in range(dd_nodes.getLength()):
 
     try:
         ea = toAddr(int(addr_hex, 16))
-    except Exception as e:
-        log("Bad DEFINED_DATA ADDRESS '%s': %s" % (addr_hex, e))
+    except:
         d_skipped += 1
         continue
 
     dd_name = text_of_first(dn.getElementsByTagName("TYPEINFO_CMT"))
-    is_volatile = type_str.lower().startswith("volatile ")
+
+    xml_volatile  = type_str.lower().startswith("volatile ")
+    mmio_volatile = is_mmio_addr(ea)
+    is_volatile = xml_volatile or mmio_volatile
+
     base_type_str = type_str
     for q in ("volatile ", "const "):
         if base_type_str.lower().startswith(q):
             base_type_str = base_type_str[len(q):].lstrip()
 
-    # Your existing rule-set:
     dt = dt_lookup(base_type_str)
     if dt is None:
         bl = base_type_str.lower()
@@ -833,14 +962,13 @@ for i in range(dd_nodes.getLength()):
         elif bl in ("uint", "unsigned int", "dword", "undefined4", "int32_t", "uint32_t"):
             dt = UnsignedIntegerDataType.dataType
         else:
-            dt = UnsignedShortDataType.dataType  # fallback for unknown Custom regs
+            dt = UnsignedShortDataType.dataType
 
     tx = prog.startTransaction("PASS 2: apply DEFINED_DATA @ %s" % addr_hex)
     try:
         data = define_scalar_with_mutability(
             ea, dt, dd_name,
             make_volatile=is_volatile,
-            force_overwrite=True,
             max_retries=2
         )
         prog.endTransaction(tx, True)
@@ -855,6 +983,33 @@ for i in range(dd_nodes.getLength()):
 
 log("DEFINED_DATA applied: %d, skipped: %d." % (d_updated, d_skipped))
 
+# ================= PASS 2b: FORCE existing MMIO data units to VOLATILE =================
+def force_block_data_mutability(block_name, kind):
+    blk = mem.getBlock(block_name)
+    if blk is None:
+        return 0
+
+    it = listing.getDefinedData(blk.getStart(), True)
+    changed = 0
+    while it.hasNext():
+        d = it.next()
+        if d is None:
+            continue
+        if d.getAddress().compareTo(blk.getEnd()) > 0:
+            break
+        set_data_mutability(d, kind)
+        changed += 1
+    return changed
+
+tx = prog.startTransaction("PASS 2b: force MMIO data volatile")
+try:
+    c1 = force_block_data_mutability("AMIGA_CUSTOM", "volatile")
+    c2 = force_block_data_mutability("CIAA", "volatile")
+    c3 = force_block_data_mutability("CIAB", "volatile")
+finally:
+    prog.endTransaction(tx, True)
+
+log("PASS 2b: forced volatile data units in MMIO blocks: AMIGA_CUSTOM=%d CIAA=%d CIAB=%d" % (c1, c2, c3))
 
 # ================= PASS 3: EQUATE_REFERENCE =================
 eq_nodes = doc.getElementsByTagName("EQUATE_REFERENCE")
@@ -884,25 +1039,10 @@ try:
         try:
             ea = toAddr(int(addr_hex, 16))
         except:
-            try:
-                ea = toAddr(parse_hex_int(addr_hex))
-            except:
-                log("Bad EQUATE_REFERENCE ADDRESS '%s'" % addr_hex)
-                eq_skipped += 1
-                continue
+            ea = toAddr(parse_hex_int(addr_hex))
 
-        try:
-            op_index = int(op_idx_s)
-        except:
-            eq_skipped += 1
-            continue
-
-        try:
-            value = parse_hex_int(val_hex)
-        except:
-            log("Bad EQUATE_REFERENCE VALUE '%s' @ %s" % (val_hex, addr_hex))
-            eq_skipped += 1
-            continue
+        op_index = int(op_idx_s)
+        value = parse_hex_int(val_hex)
 
         if apply_equate_at_operand(ea, op_index, value, eq_name):
             eq_applied += 1
@@ -912,14 +1052,160 @@ finally:
     prog.endTransaction(tx, True)
 
 log("EQUATE_REFERENCE applied: %d, skipped: %d." % (eq_applied, eq_skipped))
+apply_memory_references_from_xml(doc)
 
+# ================= PASS 6: Apply XML SYMBOL_TABLE into Global namespace =================
+def ensure_global_label(addr, name):
+    # Do not let XML SYMBOL_TABLE clobber MMIO register naming if REG_* is already present
+    if is_mmio_addr(addr) and has_reg_symbol(addr):
+        return
 
-# ================= PASS 4: APPLY amiga-symbols.txt =================
-tx = prog.startTransaction("PASS 4: apply amiga-symbols.txt")
+    symtab = prog.getSymbolTable()
+    global_ns = prog.getGlobalNamespace()
+
+    f = fm.getFunctionAt(addr)
+    if f is not None:
+        try:
+            f.setName(name, SourceType.USER_DEFINED)
+        except:
+            pass
+        return
+
+    try:
+        ps = symtab.getPrimarySymbol(addr)
+        if ps is not None and ps.getName() == name and ps.getParentNamespace() == global_ns:
+            return
+    except:
+        ps = None
+
+    if ps is not None:
+        try:
+            ps.setNameAndNamespace(name, global_ns, SourceType.USER_DEFINED)
+            try:
+                ps.setPrimary()
+            except:
+                pass
+            return
+        except:
+            pass
+
+    try:
+        s = symtab.createLabel(addr, name, global_ns, SourceType.USER_DEFINED)
+        try:
+            s.setPrimary()
+        except:
+            pass
+    except:
+        pass
+
+sym_nodes = doc.getElementsByTagName("SYMBOL")
+applied = 0
+skipped = 0
+
+tx = prog.startTransaction("PASS 6: apply XML SYMBOL_TABLE")
 try:
-    (total, lbl_c, lbl_r, fun_c, fun_r, sk) = apply_symbols_file("amiga-symbols.txt")
+    for i in range(sym_nodes.getLength()):
+        sn = sym_nodes.item(i)
+        at = sn.getAttributes()
+        a_node = at.getNamedItem("ADDRESS")
+        n_node = at.getNamedItem("NAME")
+        if a_node is None or n_node is None:
+            skipped += 1
+            continue
+
+        addr_hex = a_node.getNodeValue()
+        name = n_node.getNodeValue()
+        addr = toAddr(int(addr_hex, 16))
+
+        blk = mem.getBlock(addr)
+        if blk is None:
+            skipped += 1
+            continue
+
+        blkname = blk.getName()
+        if blkname in ("CHIP_RAM", "AMIGA_CUSTOM", "CIAA", "CIAB"):
+            ensure_global_label(addr, name)
+            applied += 1
+        else:
+            skipped += 1
 finally:
     prog.endTransaction(tx, True)
 
-log("amiga-symbols.txt applied: total=%d, labels(created=%d renamed=%d), funcs(created=%d renamed=%d), skipped=%d."
-    % (total, lbl_c, lbl_r, fun_c, fun_r, sk))
+log("PASS 6: XML SYMBOL_TABLE applied: %d, skipped: %d" % (applied, skipped))
+
+# ================= PASS 4: APPLY amiga-symbols.txt (registers + labels + functions) =================
+tx = prog.startTransaction("PASS 4: apply amiga-symbols.txt (merged)")
+try:
+    r = apply_amiga_symbols_txt("amiga-symbols.txt")
+finally:
+    prog.endTransaction(tx, True)
+
+if not r["file_found"]:
+    log("PASS 4: amiga-symbols.txt not applied (missing).")
+else:
+    log("PASS 4: amiga-symbols.txt applied: total_lines=%d skipped=%d labels=%d funcs=%d" %
+        (r["total_lines"], r["skipped"], r["labels"], r["funcs"]))
+    log("PASS 4: REG_* applied: reg_lines=%d unique_addrs=%d data_defs=%d primary=%d aliases=%d volatile_set=%d" %
+        (r["reg_lines"], r["reg_unique_addrs"], r["reg_data_defs"], r["reg_primary"], r["reg_alias"], r["reg_volatile_set"]))
+
+# ================= PASS 5: CHIP_RAM -> WRITABLE + FIX FUNCTION OVERRUN =================
+def is_terminal_instruction(ins):
+    ft = ins.getFlowType()
+    return ft is not None and ft.isTerminal()
+
+def shrink_function_tail_at(func, cut_addr):
+    body = func.getBody()
+    maxa = body.getMaxAddress()
+    if maxa is None or cut_addr.compareTo(maxa) > 0:
+        return False
+    aset = AddressSet(body)
+    aset.deleteRange(cut_addr, maxa)
+    func.setBody(aset)
+    return True
+
+chip = mem.getBlock("CHIP_RAM")
+changed = 0
+scanned = 0
+fixed_funcs = 0
+
+if chip is None:
+    log("PASS 5: CHIP_RAM block not found; skipping.")
+else:
+    start = chip.getStart()
+    end   = chip.getEnd()
+
+    data_iter = listing.getDefinedData(start, True)
+    tx = prog.startTransaction("PASS 5: CHIP_RAM mutability+overrun fixes")
+    try:
+        while data_iter.hasNext():
+            d = data_iter.next()
+            if d is None:
+                continue
+            a = d.getAddress()
+            if a.compareTo(end) > 0:
+                break
+
+            scanned += 1
+            set_data_mutability(d, "writable")
+            changed += 1
+
+            func = fm.getFunctionContaining(a)
+            if func is not None:
+                prev_ins = listing.getInstructionBefore(a)
+                if prev_ins is not None and func.getBody().contains(prev_ins.getAddress()) and is_terminal_instruction(prev_ins):
+                    if shrink_function_tail_at(func, a):
+                        fixed_funcs += 1
+    finally:
+        prog.endTransaction(tx, True)
+
+    log("PASS 5: CHIP_RAM defined data mutability set to WRITABLE: changed=%d, scanned=%d" % (changed, scanned))
+    log("PASS 5: Function tails shrunk at terminal->data boundaries: %d" % fixed_funcs)
+
+# ---------- FINAL: Mark MMIO blocks as volatile in the Memory Map ----------
+for name in ["AMIGA_CUSTOM", "CIAA", "CIAB"]:
+    blk = mem.getBlock(name)
+    if blk is None:
+        print("Missing block:", name)
+        continue
+    blk.setVolatile(True)
+    print("Set volatile:", name, blk.getStart(), blk.getEnd())

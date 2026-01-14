@@ -1,7 +1,7 @@
 /*
  * Auto-generated call graph export
  * Start: StartMatchSequence
- * Date : 2026-01-08 19:41:42
+ * Date : 2026-01-13 11:10:51
  */
 
 /* ===================== INCLUDES ===================== */
@@ -219,7 +219,7 @@ ushort __usercall GetKey(void)
       currentKey = keyCount;
       return uVar10;
     }
-    REG_POTINP = 8;
+    REG_INTENA = 8;
     keyBuffer[1] = keyBuffer[2];
     keyBuffer[2] = keyBuffer[3];
     keyBuffer[3] = keyBuffer[4];
@@ -229,7 +229,7 @@ ushort __usercall GetKey(void)
     keyBuffer[7] = keyBuffer[8];
     keyBuffer[8] = keyBuffer[9];
     keyCount = keyCount - 1;
-    REG_POTINP = 0x8008;
+    REG_INTENA = 0x8008;
     bVar2 = keycodeLut[(short)(ushort)keyBuffer[0]];
     uVar10 = (ushort)bVar2;
     keyBuffer[0] = bVar1;
@@ -1069,12 +1069,13 @@ void blitter_rectrow_masked(void)
   short unaff_D3w;
   int in_A0;
   int in_A1;
+  void *pvVar7;
   
   BlitterSpan4Planes();
   iVar6 = (uint)(ushort)(in_D1w << 2) * PLANE_STRIDE;
   uVar1 = unaff_D2w + -1 + in_D0w;
   sVar5 = (in_D0w >> 4) * 2;
-  REG_BLTBPTH = (int)sVar5 + iVar6 + in_A1;
+  pvVar7 = (void *)((int)sVar5 + iVar6 + in_A1);
   REG_DMACON = DMACON_BLT_ON;
   uVar3 = REG_DMACONR._0_1_;
   do {
@@ -1084,13 +1085,15 @@ void blitter_rectrow_masked(void)
   uVar2 = ((uVar1 >> 4) - (in_D0w >> 4)) + 1;
   REG_BLTCON0 = BLTCON0_USEA_USEB_USED_LF_FC;
   REG_BLTCON1 = 0;
-  REG_BLTAFWM = *(undefined2 *)((int)firstWordMaskTable + (int)(short)((in_D0w & TILE_MASK) * 2));
-  REG_BLTALWM = *(undefined2 *)((int)lastWordMaskTable + (int)(short)((uVar1 & TILE_MASK) * 2));
-  REG_BLTAPTH = (int)sVar5 + iVar6 + in_A0;
-  REG_BLTDPTH = REG_BLTBPTH;
-  REG_BLTAMOD = uVar2 * -2 + PLANE_STRIDE;
-  REG_BLTBMOD = REG_BLTAMOD;
-  REG_BLTDMOD = REG_BLTAMOD;
+  REG_BLTAFWM = *(ushort *)((int)firstWordMaskTable + (int)(short)((in_D0w & TILE_MASK) * 2));
+  REG_BLTALWM = *(ushort *)((int)lastWordMaskTable + (int)(short)((uVar1 & TILE_MASK) * 2));
+  REG_BLTAPTH = (void *)((int)sVar5 + iVar6 + in_A0);
+  REG_BLTBPTH = pvVar7;
+  REG_BLTDPTH = pvVar7;
+  uVar1 = uVar2 * -2 + PLANE_STRIDE;
+  REG_BLTAMOD = uVar1;
+  REG_BLTBMOD = uVar1;
+  REG_BLTDMOD = uVar1;
   REG_BLTSIZE = uVar2 | unaff_D3w << 8;
   return;
 }
@@ -1103,6 +1106,7 @@ void __usercall BlitterCopyOverlayToScreen(void)
 {
   undefined1 uVar1;
   byte bVar2;
+  uchar *puVar3;
   
   REG_DMACON = DMACON_BLT_ON;
   uVar1 = REG_DMACONR._0_1_;
@@ -1117,10 +1121,12 @@ void __usercall BlitterCopyOverlayToScreen(void)
   REG_BLTAMOD = 0;
   REG_BLTDMOD = 0;
   REG_BLTDPTH = frontbufferBasePtr;
-  REG_BLTAPTH = frontbufferBase;
+  puVar3 = frontbufferBase;
   if (frontbufferBasePtr != frontbufferBaseAlt) {
-    REG_BLTAPTH = frontbufferBaseAlt;
+    puVar3 = frontbufferBaseAlt;
   }
+  REG_BLTAPTH = puVar3;
+  REG_BLTSIZE = BLTSIZE_OVERLAY_PANEL;
   REG_DMACON = DMACON_BLT_ON;
   uVar1 = REG_DMACONR._0_1_;
   do {
@@ -1154,7 +1160,7 @@ void __usercall HWSprite_LoadFromSpriteGraphics(short spriteIndex)
   REG_BLTCON0 = BLTCON0_USED_LF_F0;
   REG_BLTADAT = 0;
   REG_BLTDMOD = 0;
-  REG_BLTDPTH = *puVar1;
+  REG_BLTDPTH = (void *)*puVar1;
   REG_BLTSIZE = *(short *)((int)puVar1 + TILE_STRIDE) + *(short *)(puVar1 + 3) * 0x100;
   return;
 }
@@ -1288,83 +1294,118 @@ void __usercall DrawSprite16Pixels(void)
 uchar __usercall CopySprite(ushort srcSprite,ushort xOffset,ushort yOffset,ushort dstSprite)
 
 {
-  int *piVar1;
+  void *pvVar1;
   int *piVar2;
-  undefined1 uVar3;
-  byte bVar4;
-  ushort uVar5;
+  undefined4 *puVar3;
+  void *pvVar4;
+  void *pvVar5;
   ushort uVar6;
-  short sVar7;
+  undefined1 uVar7;
+  byte bVar8;
+  ushort uVar10;
+  int iVar9;
+  int iVar11;
+  ushort uVar12;
+  short sVar13;
   
-  piVar1 = *(int **)(spriteGraphicsPtr + (short)(dstSprite << 2));
-  piVar2 = *(int **)(spriteGraphicsPtr + (short)(srcSprite << 2));
+  piVar2 = *(int **)(spriteGraphicsPtr + (short)(dstSprite << 2));
+  puVar3 = *(undefined4 **)(spriteGraphicsPtr + (short)(srcSprite << 2));
   REG_DMACON = DMACON_BLT_ON;
-  uVar3 = REG_DMACONR._0_1_;
+  uVar7 = REG_DMACONR._0_1_;
   do {
-    bVar4 = REG_DMACONR._0_1_;
-  } while ((bVar4 & 0x40) != 0);
+    bVar8 = REG_DMACONR._0_1_;
+  } while ((bVar8 & 0x40) != 0);
   REG_DMACON = DMACON_BLT_OFF;
-  REG_BLTALWM = 0;
-  uVar6 = *(ushort *)((int)piVar2 + 10) & TILE_MASK;
-  if (uVar6 == 0) {
-    uVar6 = 0x10;
+  uVar10 = 0;
+  uVar12 = *(ushort *)((int)puVar3 + 10) & TILE_MASK;
+  if (uVar12 == 0) {
+    uVar12 = 0x10;
   }
-  sVar7 = *(short *)((int)piVar2 + TILE_STRIDE) + 1;
-  if ((ushort)(uVar6 + (xOffset & TILE_MASK)) < 0x11) {
-    REG_BLTALWM = 0xffff;
-    sVar7 = *(short *)((int)piVar2 + TILE_STRIDE);
+  sVar13 = *(short *)((int)puVar3 + TILE_STRIDE) + 1;
+  if ((ushort)(uVar12 + (xOffset & TILE_MASK)) < 0x11) {
+    uVar10 = 0xffff;
+    sVar13 = *(short *)((int)puVar3 + TILE_STRIDE);
   }
+  REG_BLTALWM = uVar10;
   REG_BLTAFWM = BLT_FWM_ALL;
-  REG_BLTCON1 = xOffset * 0x1000;
-  if (piVar2[1] == 0) {
-    REG_BLTCON0 = REG_BLTCON1 + BLTCON0_BASE_SINGLE;
+  uVar12 = xOffset * 0x1000;
+  REG_BLTCON1 = uVar12;
+  if (puVar3[1] == 0) {
+    uVar12 = uVar12 + BLTCON0_BASE_SINGLE;
     REG_BLTADAT = 0xffff;
   }
   else {
-    REG_BLTCON0 = REG_BLTCON1 + BLTCON0_BASE_LINKED;
+    uVar12 = uVar12 + BLTCON0_BASE_LINKED;
   }
-  uVar6 = *(short *)((int)piVar1 + TILE_STRIDE) << 3;
-  uVar5 = uVar6 >> NUM_PLANES_SHIFT;
-  REG_BLTCPTH = *piVar1 + (uint)yOffset * (uint)uVar6 + (xOffset >> 3 & WORD_ALIGN_EVEN_MASK);
-  REG_BLTDPTH = REG_BLTCPTH;
-  if (*(short *)(piVar2 + 2) != 0) {
-    REG_BLTAMOD = *(short *)((int)piVar2 + TILE_STRIDE) * 2 + sVar7 * -2;
-    REG_BLTBMOD = REG_BLTAMOD;
-    REG_BLTCMOD = uVar5 + sVar7 * -2;
-    REG_BLTDMOD = REG_BLTCMOD;
-    REG_BLTBPTH = *piVar2;
-    REG_BLTAPTH = piVar2[1];
-    REG_BLTSIZE = sVar7 + *(short *)(piVar2 + 3) * 0x100;
-    return (uchar)REG_BLTAMOD;
+  REG_BLTCON0 = uVar12;
+  uVar10 = *(short *)((int)piVar2 + TILE_STRIDE) << 3;
+  uVar12 = uVar10 >> NUM_PLANES_SHIFT;
+  pvVar4 = (void *)(*piVar2 + (uint)yOffset * (uint)uVar10 + (xOffset >> 3 & WORD_ALIGN_EVEN_MASK));
+  REG_BLTCPTH = pvVar4;
+  REG_BLTDPTH = pvVar4;
+  if (*(short *)(puVar3 + 2) != 0) {
+    uVar10 = *(short *)((int)puVar3 + TILE_STRIDE) * 2 + sVar13 * -2;
+    REG_BLTAMOD = uVar10;
+    REG_BLTBMOD = uVar10;
+    uVar12 = uVar12 + sVar13 * -2;
+    REG_BLTCMOD = uVar12;
+    REG_BLTDMOD = uVar12;
+    REG_BLTBPTH = (void *)*puVar3;
+    REG_BLTAPTH = (void *)puVar3[1];
+    REG_BLTSIZE = sVar13 + *(short *)(puVar3 + 3) * 0x100;
+    return (uchar)uVar10;
   }
-  REG_BLTBMOD = *(short *)((int)piVar2 + TILE_STRIDE) * 8 + sVar7 * -2;
-  REG_BLTAMOD = *(short *)((int)piVar2 + TILE_STRIDE) * 2 + sVar7 * -2;
-  REG_BLTCMOD = uVar5 * 4 + sVar7 * -2;
-  REG_BLTDMOD = REG_BLTCMOD;
-  REG_BLTCPTH = (short)uVar5 * 3 + REG_BLTCPTH;
+  uVar10 = sVar13 + *(short *)(puVar3 + 3) * 0x40;
+  REG_BLTBMOD = *(short *)((int)puVar3 + TILE_STRIDE) * 8 + sVar13 * -2;
+  REG_BLTAMOD = *(short *)((int)puVar3 + TILE_STRIDE) * 2 + sVar13 * -2;
+  uVar6 = uVar12 * 4 + sVar13 * -2;
+  REG_BLTCMOD = uVar6;
+  REG_BLTDMOD = uVar6;
+  pvVar1 = (void *)puVar3[1];
+  REG_BLTBPTH = (void *)*puVar3;
+  REG_BLTAPTH = pvVar1;
+  REG_BLTSIZE = uVar10;
+  iVar9 = (int)(short)uVar12;
+  iVar11 = (int)(short)(*(short *)((int)puVar3 + TILE_STRIDE) << 1);
+  pvVar4 = (void *)(iVar9 + (int)pvVar4);
+  pvVar5 = (void *)(iVar11 + (int)*puVar3);
   REG_DMACON = DMACON_BLT_ON;
-  uVar3 = REG_DMACONR._0_1_;
+  uVar7 = REG_DMACONR._0_1_;
   do {
-    bVar4 = REG_DMACONR._0_1_;
-  } while ((bVar4 & 0x40) != 0);
+    bVar8 = REG_DMACONR._0_1_;
+  } while ((bVar8 & 0x40) != 0);
   REG_DMACON = DMACON_BLT_OFF;
+  REG_BLTCPTH = pvVar4;
+  REG_BLTDPTH = pvVar4;
+  REG_BLTBPTH = pvVar5;
+  REG_BLTAPTH = pvVar1;
+  REG_BLTSIZE = uVar10;
+  pvVar4 = (void *)(iVar9 + (int)pvVar4);
+  pvVar5 = (void *)(iVar11 + (int)pvVar5);
   REG_DMACON = DMACON_BLT_ON;
-  uVar3 = REG_DMACONR._0_1_;
+  uVar7 = REG_DMACONR._0_1_;
   do {
-    bVar4 = REG_DMACONR._0_1_;
-  } while ((bVar4 & 0x40) != 0);
+    bVar8 = REG_DMACONR._0_1_;
+  } while ((bVar8 & 0x40) != 0);
   REG_DMACON = DMACON_BLT_OFF;
+  REG_BLTCPTH = pvVar4;
+  REG_BLTDPTH = pvVar4;
+  REG_BLTBPTH = pvVar5;
+  REG_BLTAPTH = pvVar1;
+  REG_BLTSIZE = uVar10;
+  pvVar4 = (void *)(iVar9 + (int)pvVar4);
   REG_DMACON = DMACON_BLT_ON;
-  uVar3 = REG_DMACONR._0_1_;
+  uVar7 = REG_DMACONR._0_1_;
   do {
-    bVar4 = REG_DMACONR._0_1_;
-  } while ((bVar4 & 0x40) != 0);
+    bVar8 = REG_DMACONR._0_1_;
+  } while ((bVar8 & 0x40) != 0);
   REG_DMACON = DMACON_BLT_OFF;
-  REG_BLTDPTH = REG_BLTCPTH;
-  REG_BLTBPTH = (short)(*(short *)((int)piVar2 + TILE_STRIDE) << 1) * 3 + *piVar2;
-  REG_BLTAPTH = piVar2[1];
-  REG_BLTSIZE = sVar7 + *(short *)(piVar2 + 3) * 0x40;
-  return (uchar)REG_BLTCPTH;
+  REG_BLTCPTH = pvVar4;
+  REG_BLTDPTH = pvVar4;
+  REG_BLTBPTH = (void *)(iVar11 + (int)pvVar5);
+  REG_BLTAPTH = pvVar1;
+  REG_BLTSIZE = uVar10;
+  return (uchar)pvVar4;
 }
 
 
@@ -1374,48 +1415,52 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
 
 {
   uchar *puVar1;
-  ushort uVar2;
-  short sVar3;
+  void *pvVar2;
+  ushort uVar3;
   undefined1 uVar4;
   byte bVar5;
   uchar *puVar6;
   int iVar7;
   ushort uVar8;
-  short sVar9;
+  word wVar9;
   short sVar10;
+  short sVar11;
   short sVar12;
-  int iVar11;
-  ushort uVar13;
-  ushort uVar14;
-  int *piVar15;
+  int iVar13;
+  short sVar14;
+  ushort uVar15;
+  ushort uVar16;
+  ushort uVar17;
+  int *piVar18;
+  void *pvVar19;
   
   puVar6 = frontbufferBasePtr;
   if ((*(short *)((int)sprite + 8) == 0) && (*(short *)((int)sprite + 8) == 0)) {
-    sVar9 = *(short *)((int)sprite + 0xc);
-    sVar12 = 0;
+    wVar9 = *(word *)((int)sprite + 0xc);
+    sVar10 = 0;
     if ((short)y < 0) {
-      sVar12 = -y;
-      sVar9 = y + sVar9;
+      sVar10 = -y;
+      wVar9 = y + wVar9;
       y = 0;
     }
-    uVar2 = sVar9 + y + -SCREEN_HEIGHT;
-    if (-1 < (int)((uint)uVar2 << 0x10)) {
-      sVar9 = sVar9 - uVar2;
+    uVar3 = wVar9 + y + -SCREEN_HEIGHT;
+    if (-1 < (int)((uint)uVar3 << 0x10)) {
+      wVar9 = wVar9 - uVar3;
     }
-    uVar2 = cameraXMod320 + x;
+    uVar3 = cameraXMod320 + x;
     uVar8 = cameraYMod320 + y;
     if (SCREEN_HEIGHT - 1 < (short)uVar8) {
       uVar8 = uVar8 + -SCREEN_HEIGHT;
     }
-    REG_BLTALWM = 0;
-    uVar13 = *(ushort *)((int)sprite + 10) & TILE_MASK;
-    if (uVar13 == 0) {
-      uVar13 = 0x10;
+    uVar15 = 0;
+    uVar16 = *(ushort *)((int)sprite + 10) & TILE_MASK;
+    if (uVar16 == 0) {
+      uVar16 = 0x10;
     }
-    uVar14 = *(ushort *)((int)sprite + TILE_STRIDE) + 1;
-    if ((ushort)(uVar13 + (uVar2 & TILE_MASK)) < 0x11) {
-      REG_BLTALWM = BLT_FWM_ALL;
-      uVar14 = *(ushort *)((int)sprite + TILE_STRIDE);
+    uVar17 = *(ushort *)((int)sprite + TILE_STRIDE) + 1;
+    if ((ushort)(uVar16 + (uVar3 & TILE_MASK)) < 0x11) {
+      uVar15 = BLT_FWM_ALL;
+      uVar17 = *(ushort *)((int)sprite + TILE_STRIDE);
     }
     REG_DMACON = DMACON_BLT_ON;
     uVar4 = REG_DMACONR._0_1_;
@@ -1423,51 +1468,76 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
       bVar5 = REG_DMACONR._0_1_;
     } while ((bVar5 & 0x40) != 0);
     REG_DMACON = DMACON_BLT_OFF;
+    REG_BLTALWM = uVar15;
     REG_BLTAFWM = BLT_FWM_ALL;
-    REG_BLTCON1 = uVar2 * 0x1000;
+    uVar16 = uVar3 * 0x1000;
+    REG_BLTCON1 = uVar16;
     if (*(int *)((int)sprite + 4) == 0) {
-      REG_BLTCON0 = REG_BLTCON1 + BLTCON0_BASE_SINGLE;
+      uVar16 = uVar16 + BLTCON0_BASE_SINGLE;
       REG_BLTADAT = 0xffff;
     }
     else {
-      REG_BLTCON0 = REG_BLTCON1 + BLTCON0_BASE_LINKED;
+      uVar16 = uVar16 + BLTCON0_BASE_LINKED;
     }
-    sVar3 = sVar9 + uVar8 + -SCREEN_HEIGHT;
-    sVar10 = 0;
-    if (SCREEN_HEIGHT - 1 < (ushort)(sVar9 + uVar8) && sVar3 != 0) {
-      sVar9 = sVar9 - sVar3;
-      sVar10 = sVar3;
+    REG_BLTCON0 = uVar16;
+    sVar14 = wVar9 + uVar8 + -SCREEN_HEIGHT;
+    sVar11 = 0;
+    if (SCREEN_HEIGHT - 1 < (ushort)(wVar9 + uVar8) && sVar14 != 0) {
+      wVar9 = wVar9 - sVar14;
+      sVar11 = sVar14;
     }
-                    /* WARNING: Read-only address (ram,0x00104932) is written */
-    iVar7 = (int)(short)(((short)uVar2 >> TILE_SHIFT_X) << 1);
+    iVar7 = (int)(short)(((short)uVar3 >> TILE_SHIFT_X) << 1);
     puVar1 = frontbufferBasePtr + (uint)uVar8 * ROW_STRIDE_BYTES + iVar7;
-    sRam00104932 = sVar9;
+    REG_BLTCPTH = puVar1;
+    REG_BLTDPTH = puVar1;
+    queuedLineCount = wVar9;
     *(uchar **)(spriteBlitQueue + 4) = puVar1;
     *(byte **)spriteBlitQueue = frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6);
-    *(ushort *)(spriteBlitQueue + 10) = uVar14 + sVar9 * 0x100;
-    REG_BLTSIZE = uVar14 + sVar9 * 0x40;
-    REG_BLTAMOD = *(short *)((int)sprite + TILE_STRIDE) * 2 + uVar14 * -2;
-    REG_BLTBMOD = *(short *)((int)sprite + TILE_STRIDE) * 8 + uVar14 * -2;
-    *(ushort *)(spriteBlitQueue + 8) = uVar14 * -2 + PLANE_STRIDE;
-    REG_BLTCMOD = uVar14 * -2 + 0xb0;
-    iVar11 = 0;
-    if (sVar12 != 0) {
-      iVar11 = (uint)(ushort)(sVar12 << NUM_PLANES_SHIFT) *
+    *(ushort *)(spriteBlitQueue + 10) = uVar17 + wVar9 * 0x100;
+    uVar3 = uVar17 + wVar9 * 0x40;
+    REG_BLTAMOD = *(short *)((int)sprite + TILE_STRIDE) * 2 + uVar17 * -2;
+    REG_BLTBMOD = *(short *)((int)sprite + TILE_STRIDE) * 8 + uVar17 * -2;
+    *(ushort *)(spriteBlitQueue + 8) = uVar17 * -2 + PLANE_STRIDE;
+    uVar8 = uVar17 * -2 + 0xb0;
+    REG_BLTCMOD = uVar8;
+    REG_BLTDMOD = uVar8;
+    iVar13 = 0;
+    if (sVar10 != 0) {
+      iVar13 = (uint)(ushort)(sVar10 << NUM_PLANES_SHIFT) *
                (uint)*(ushort *)((int)sprite + TILE_STRIDE) * 2;
     }
-    iRam00104938 = iVar11 + *(int *)sprite;
-    iRam00104934 = CONCAT22((short)((uint)iVar11 >> 0x10),(ushort)iVar11 >> NUM_PLANES_SHIFT) +
-                   *(int *)((int)sprite + 4);
-    piVar15 = (int *)(spriteBlitQueue + 0xc);
-                    /* WARNING: Read-only address (ram,0x00104934) is written */
-                    /* WARNING: Read-only address (ram,0x00104938) is written */
-    REG_BLTBPTH = (short)(*(short *)((int)sprite + TILE_STRIDE) << 1) * 3 + iRam00104938;
+    savedSrcPlaneA = iVar13 + *(int *)sprite;
+    REG_BLTBPTH = (void *)savedSrcPlaneA;
+    savedSrcPlaneB =
+         CONCAT22((short)((uint)iVar13 >> 0x10),(ushort)iVar13 >> NUM_PLANES_SHIFT) +
+         *(int *)((int)sprite + 4);
+    REG_BLTAPTH = (void *)savedSrcPlaneB;
+    piVar18 = (int *)(spriteBlitQueue + 0xc);
+    REG_BLTSIZE = uVar3;
+    iVar13 = (int)(short)(*(short *)((int)sprite + TILE_STRIDE) << 1);
     REG_DMACON = DMACON_BLT_ON;
     uVar4 = REG_DMACONR._0_1_;
     do {
       bVar5 = REG_DMACONR._0_1_;
     } while ((bVar5 & 0x40) != 0);
     REG_DMACON = DMACON_BLT_OFF;
+    REG_BLTCPTH = puVar1 + PLANE_STRIDE;
+    REG_BLTDPTH = puVar1 + PLANE_STRIDE;
+    REG_BLTAPTH = (void *)savedSrcPlaneB;
+    REG_BLTBPTH = (void *)(iVar13 + savedSrcPlaneA);
+    REG_BLTSIZE = uVar3;
+    pvVar19 = (void *)(iVar13 + (int)(iVar13 + savedSrcPlaneA));
+    REG_DMACON = DMACON_BLT_ON;
+    uVar4 = REG_DMACONR._0_1_;
+    do {
+      bVar5 = REG_DMACONR._0_1_;
+    } while ((bVar5 & 0x40) != 0);
+    REG_DMACON = DMACON_BLT_OFF;
+    REG_BLTCPTH = puVar1 + 0x58;
+    REG_BLTDPTH = puVar1 + 0x58;
+    REG_BLTAPTH = (void *)savedSrcPlaneB;
+    REG_BLTBPTH = pvVar19;
+    REG_BLTSIZE = uVar3;
     REG_DMACON = DMACON_BLT_ON;
     uVar4 = REG_DMACONR._0_1_;
     do {
@@ -1475,16 +1545,14 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
     } while ((bVar5 & 0x40) != 0);
     REG_DMACON = DMACON_BLT_OFF;
     REG_BLTCPTH = puVar1 + 0x84;
-    REG_DMACON = DMACON_BLT_ON;
-    uVar4 = REG_DMACONR._0_1_;
-    do {
-      bVar5 = REG_DMACONR._0_1_;
-    } while ((bVar5 & 0x40) != 0);
-    REG_DMACON = DMACON_BLT_OFF;
-    REG_BLTAPTH = iRam00104934;
-    REG_BLTDPTH = REG_BLTCPTH;
-    REG_BLTDMOD = REG_BLTCMOD;
-    if (sVar10 != 0) {
+    REG_BLTDPTH = puVar1 + 0x84;
+    REG_BLTAPTH = (void *)savedSrcPlaneB;
+    REG_BLTBPTH = (void *)(iVar13 + (int)pvVar19);
+    REG_BLTSIZE = uVar3;
+    if (sVar11 != 0) {
+      iVar13 = (uint)queuedLineCount * (uint)*(ushort *)((int)sprite + TILE_STRIDE);
+      pvVar19 = (void *)(iVar13 * 2 + savedSrcPlaneB);
+      pvVar2 = (void *)(savedSrcPlaneA + iVar13 * 8);
       REG_DMACON = DMACON_BLT_ON;
       uVar4 = REG_DMACONR._0_1_;
       do {
@@ -1492,16 +1560,40 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
       } while ((bVar5 & 0x40) != 0);
       REG_DMACON = DMACON_BLT_OFF;
       puVar1 = puVar6 + iVar7;
+      REG_BLTCPTH = puVar1;
+      REG_BLTDPTH = puVar1;
+      REG_BLTAPTH = pvVar19;
+      REG_BLTBPTH = pvVar2;
       *(uchar **)(spriteBlitQueue + 0x10) = puVar1;
-      *piVar15 = (int)(frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6));
-      *(ushort *)(spriteBlitQueue + 0x16) = (uVar14 & 0x7fff) + sVar10 * 0x100;
-      REG_BLTSIZE = (uVar14 & 0x7fff) + sVar10 * 0x40;
+      *piVar18 = (int)(frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6));
+      *(ushort *)(spriteBlitQueue + 0x16) = (uVar17 & 0x7fff) + sVar11 * 0x100;
+      uVar3 = (uVar17 & 0x7fff) + sVar11 * 0x40;
+      REG_BLTSIZE = uVar3;
+      iVar13 = (int)(short)(*(short *)((int)sprite + TILE_STRIDE) << 1);
+      pvVar2 = (void *)(iVar13 + (int)pvVar2);
       REG_DMACON = DMACON_BLT_ON;
       uVar4 = REG_DMACONR._0_1_;
       do {
         bVar5 = REG_DMACONR._0_1_;
       } while ((bVar5 & 0x40) != 0);
       REG_DMACON = DMACON_BLT_OFF;
+      REG_BLTCPTH = puVar1 + PLANE_STRIDE;
+      REG_BLTDPTH = puVar1 + PLANE_STRIDE;
+      REG_BLTAPTH = pvVar19;
+      REG_BLTBPTH = pvVar2;
+      REG_BLTSIZE = uVar3;
+      pvVar2 = (void *)(iVar13 + (int)pvVar2);
+      REG_DMACON = DMACON_BLT_ON;
+      uVar4 = REG_DMACONR._0_1_;
+      do {
+        bVar5 = REG_DMACONR._0_1_;
+      } while ((bVar5 & 0x40) != 0);
+      REG_DMACON = DMACON_BLT_OFF;
+      REG_BLTCPTH = puVar1 + 0x58;
+      REG_BLTDPTH = puVar1 + 0x58;
+      REG_BLTAPTH = pvVar19;
+      REG_BLTBPTH = pvVar2;
+      REG_BLTSIZE = uVar3;
       REG_DMACON = DMACON_BLT_ON;
       uVar4 = REG_DMACONR._0_1_;
       do {
@@ -1509,109 +1601,110 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
       } while ((bVar5 & 0x40) != 0);
       REG_DMACON = DMACON_BLT_OFF;
       REG_BLTCPTH = puVar1 + 0x84;
-      REG_BLTBPTH = (short)(*(short *)((int)sprite + TILE_STRIDE) << 1) * 3;
-      REG_DMACON = DMACON_BLT_ON;
-      uVar4 = REG_DMACONR._0_1_;
-      do {
-        bVar5 = REG_DMACONR._0_1_;
-      } while ((bVar5 & 0x40) != 0);
-      REG_DMACON = DMACON_BLT_OFF;
-      REG_BLTAPTH = 0;
-      REG_BLTDPTH = REG_BLTCPTH;
+      REG_BLTDPTH = puVar1 + 0x84;
+      REG_BLTAPTH = pvVar19;
+      REG_BLTBPTH = (void *)(iVar13 + (int)pvVar2);
+      REG_BLTSIZE = uVar3;
       *(undefined2 *)(spriteBlitQueue + 0x14) = *(undefined2 *)(spriteBlitQueue + 8);
-      piVar15 = (int *)(spriteBlitQueue + 0x18);
+      piVar18 = (int *)(spriteBlitQueue + 0x18);
     }
-    *piVar15 = BLT_BLITQ_END;
-    spriteBlitQueue = (dword)piVar15;
+    *piVar18 = BLT_BLITQ_END;
+    spriteBlitQueue = (dword)piVar18;
     return;
   }
-  sVar9 = *(short *)((int)sprite + 0xc);
-  sVar12 = 0;
+  sVar10 = *(short *)((int)sprite + 0xc);
+  sVar14 = 0;
   if ((short)y < 0) {
-    sVar12 = -y;
-    sVar9 = y + sVar9;
+    sVar14 = -y;
+    sVar10 = y + sVar10;
     y = 0;
   }
-  uVar2 = sVar9 + y + -SCREEN_HEIGHT;
-  if (-1 < (int)((uint)uVar2 << 0x10)) {
-    sVar9 = sVar9 - uVar2;
+  uVar3 = (sVar10 + y) - 0x110;
+  if (-1 < (int)((uint)uVar3 << 0x10)) {
+    sVar10 = sVar10 - uVar3;
   }
-  uVar2 = cameraXMod320 + x;
+  uVar3 = cameraXMod320 + x;
   uVar8 = cameraYMod320 + y;
-  if (SCREEN_HEIGHT - 1 < (short)uVar8) {
-    uVar8 = uVar8 + -SCREEN_HEIGHT;
+  if (0x10f < (short)uVar8) {
+    uVar8 = uVar8 - 0x110;
   }
-  REG_BLTALWM = 0;
-  uVar13 = *(ushort *)((int)sprite + 10) & TILE_MASK;
-  if (uVar13 == 0) {
-    uVar13 = 0x10;
+  uVar15 = 0;
+  uVar16 = *(ushort *)((int)sprite + 10) & 0xf;
+  if (uVar16 == 0) {
+    uVar16 = 0x10;
   }
-  uVar14 = *(ushort *)((int)sprite + 0xe) + 1;
-  if ((ushort)(uVar13 + (uVar2 & TILE_MASK)) < 0x11) {
-    REG_BLTALWM = 0xffff;
-    uVar14 = *(ushort *)((int)sprite + 0xe);
+  uVar17 = *(ushort *)((int)sprite + 0xe) + 1;
+  if ((ushort)(uVar16 + (uVar3 & 0xf)) < 0x11) {
+    uVar15 = 0xffff;
+    uVar17 = *(ushort *)((int)sprite + 0xe);
   }
-  REG_DMACON = DMACON_BLT_ON;
+  REG_DMACON = 0x8400;
   uVar4 = REG_DMACONR._0_1_;
   do {
     bVar5 = REG_DMACONR._0_1_;
   } while ((bVar5 & 0x40) != 0);
-  REG_DMACON = DMACON_BLT_OFF;
-  REG_BLTAFWM = BLT_FWM_ALL;
-  REG_BLTCON1 = uVar2 * 0x1000;
+  REG_DMACON = 0x400;
+  REG_BLTALWM = uVar15;
+  REG_BLTAFWM = 0xffff;
+  uVar16 = uVar3 * 0x1000;
+  REG_BLTCON1 = uVar16;
   if (*(int *)((int)sprite + 4) == 0) {
-    REG_BLTCON0 = REG_BLTCON1 + BLTCON0_BASE_SINGLE;
+    uVar16 = uVar16 + 0x7ca;
     REG_BLTADAT = 0xffff;
   }
   else {
-    REG_BLTCON0 = REG_BLTCON1 + BLTCON0_BASE_LINKED;
+    uVar16 = uVar16 + 0xfca;
   }
-  sVar3 = sVar9 + uVar8 + -SCREEN_HEIGHT;
-  sVar10 = 0;
-  if (SCREEN_HEIGHT - 1 < (ushort)(sVar9 + uVar8) && sVar3 != 0) {
-    sVar9 = sVar9 - sVar3;
-    sVar10 = sVar3;
+  REG_BLTCON0 = uVar16;
+  sVar11 = (sVar10 + uVar8) - 0x110;
+  sVar12 = 0;
+  if (0x10f < (ushort)(sVar10 + uVar8) && sVar11 != 0) {
+    sVar10 = sVar10 - sVar11;
+    sVar12 = sVar11;
   }
-  iVar7 = (int)(short)(((short)uVar2 >> TILE_SHIFT_X) << 1);
-  puVar1 = frontbufferBasePtr + (uint)uVar8 * ROW_STRIDE_BYTES + iVar7;
+  iVar7 = (int)(short)(((short)uVar3 >> 4) << 1);
+  puVar1 = frontbufferBasePtr + (uint)uVar8 * 0xb0 + iVar7;
   REG_BLTCPTH = puVar1;
   REG_BLTDPTH = puVar1;
   *(uchar **)(spriteBlitQueue + 4) = puVar1;
   *(byte **)spriteBlitQueue = frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6);
-  REG_BLTSIZE = uVar14 + sVar9 * 0x100;
-  REG_BLTBMOD = *(short *)((int)sprite + TILE_STRIDE) * 2 + uVar14 * -2;
-  REG_BLTCMOD = uVar14 * -2 + PLANE_STRIDE;
-  REG_BLTAMOD = REG_BLTBMOD;
-  REG_BLTDMOD = REG_BLTCMOD;
-  *(short *)(spriteBlitQueue + 8) = REG_BLTCMOD;
-  iVar11 = 0;
-  if (sVar12 != 0) {
-    iVar11 = (uint)(ushort)(sVar12 << NUM_PLANES_SHIFT) *
-             (uint)*(ushort *)((int)sprite + TILE_STRIDE) * 2;
+  uVar3 = uVar17 + sVar10 * 0x100;
+  uVar8 = *(short *)((int)sprite + 0xe) * 2 + uVar17 * -2;
+  REG_BLTAMOD = uVar8;
+  REG_BLTBMOD = uVar8;
+  uVar8 = uVar17 * -2 + 0x2c;
+  REG_BLTCMOD = uVar8;
+  REG_BLTDMOD = uVar8;
+  *(ushort *)(spriteBlitQueue + 8) = uVar8;
+  iVar13 = 0;
+  if (sVar14 != 0) {
+    iVar13 = (uint)(ushort)(sVar14 << 2) * (uint)*(ushort *)((int)sprite + 0xe) * 2;
   }
-  REG_BLTBPTH = iVar11 + *(int *)sprite;
-  REG_BLTAPTH = iVar11 + *(int *)((int)sprite + 4);
-  *(short *)(spriteBlitQueue + 10) = REG_BLTSIZE;
-  piVar15 = (int *)(spriteBlitQueue + 0xc);
-  if (sVar10 != 0) {
-    REG_BLTCPTH = puVar6 + iVar7;
-    sVar9 = (uVar14 & 0x7fff) + sVar10 * 0x100;
-    *(uchar **)(spriteBlitQueue + 0x10) = REG_BLTCPTH;
-    REG_DMACON = DMACON_BLT_ON;
+  REG_BLTBPTH = (void *)(iVar13 + *(int *)sprite);
+  REG_BLTAPTH = (void *)(iVar13 + *(int *)((int)sprite + 4));
+  REG_BLTSIZE = uVar3;
+  *(ushort *)(spriteBlitQueue + 10) = uVar3;
+  piVar18 = (int *)(spriteBlitQueue + 0xc);
+  if (sVar12 != 0) {
+    puVar1 = puVar6 + iVar7;
+    uVar3 = (uVar17 & 0x7fff) + sVar12 * 0x100;
+    *(uchar **)(spriteBlitQueue + 0x10) = puVar1;
+    REG_DMACON = 0x8400;
     uVar4 = REG_DMACONR._0_1_;
     do {
       bVar5 = REG_DMACONR._0_1_;
     } while ((bVar5 & 0x40) != 0);
-    REG_DMACON = DMACON_BLT_OFF;
-    REG_BLTDPTH = REG_BLTCPTH;
-    REG_BLTSIZE = sVar9;
-    *piVar15 = (int)(frontbufferMaskBuffer + ((int)REG_BLTCPTH - (int)puVar6));
+    REG_DMACON = 0x400;
+    REG_BLTCPTH = puVar1;
+    REG_BLTDPTH = puVar1;
+    REG_BLTSIZE = uVar3;
+    *piVar18 = (int)(frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6));
     *(undefined2 *)(spriteBlitQueue + 0x14) = *(undefined2 *)(spriteBlitQueue + 8);
-    *(short *)(spriteBlitQueue + 0x16) = sVar9;
-    piVar15 = (int *)(spriteBlitQueue + 0x18);
+    *(ushort *)(spriteBlitQueue + 0x16) = uVar3;
+    piVar18 = (int *)(spriteBlitQueue + 0x18);
   }
-  *piVar15 = -1;
-  spriteBlitQueue = (dword)piVar15;
+  *piVar18 = -1;
+  spriteBlitQueue = (dword)piVar18;
   return;
 }
 
@@ -1804,26 +1897,21 @@ char __usercall ConvertSpriteColors(ushort spriteNumber,ushort *colorConvTable)
   
   if (*colorConvTable != 0) {
     piVar1 = *(int **)(spriteGraphicsPtr + (short)(spriteNumber << 2));
-    iRam0010510c = (int)(short)((*(short *)((int)piVar1 + 0xe) * 4 - *(short *)((int)piVar1 + 0xe))
-                               * 2);
-                    /* WARNING: Read-only address (ram,0x0010510c) is written */
+    dword_10510C = (dword)(short)((*(short *)((int)piVar1 + 0xe) * 4 - *(short *)((int)piVar1 + 0xe)
+                                  ) * 2);
     iVar7 = (int)(short)(*(short *)((int)piVar1 + 0xe) << 1);
-    puVar16 = (ushort *)*piVar1;
-    puVar18 = (ushort *)(iVar7 + (int)puVar16);
+    puVar17 = (ushort *)*piVar1;
+    puVar18 = (ushort *)(iVar7 + (int)puVar17);
     puVar20 = (ushort *)(iVar7 + (int)puVar18);
     puVar22 = (ushort *)(iVar7 + (int)puVar20);
     sVar15 = *(short *)(piVar1 + 3) + -1;
     do {
       sVar13 = *(short *)((int)piVar1 + 0xe) + -1;
-      puVar17 = puVar16;
-      puVar19 = puVar18;
-      puVar21 = puVar20;
-      puVar23 = puVar22;
       do {
         uVar9 = *puVar17;
-        uVar10 = *puVar19;
-        uVar11 = *puVar21;
-        uVar12 = *puVar23;
+        uVar10 = *puVar18;
+        uVar11 = *puVar20;
+        uVar12 = *puVar22;
         sVar14 = 0xf;
         do {
           bVar3 = (short)uVar12 < 0;
@@ -1854,18 +1942,22 @@ char __usercall ConvertSpriteColors(ushort spriteNumber,ushort *colorConvTable)
         } while (sVar14 != -1);
         puVar16 = puVar17 + 1;
         *puVar17 = uVar9;
-        puVar18 = puVar19 + 1;
-        *puVar19 = uVar10;
-        puVar20 = puVar21 + 1;
-        *puVar21 = uVar11;
-        puVar22 = puVar23 + 1;
-        *puVar23 = uVar12;
+        puVar19 = puVar18 + 1;
+        *puVar18 = uVar10;
+        puVar21 = puVar20 + 1;
+        *puVar20 = uVar11;
+        puVar23 = puVar22 + 1;
+        *puVar22 = uVar12;
         sVar13 = sVar13 + -1;
         puVar17 = puVar16;
-        puVar19 = puVar18;
-        puVar21 = puVar20;
-        puVar23 = puVar22;
+        puVar18 = puVar19;
+        puVar20 = puVar21;
+        puVar22 = puVar23;
       } while (sVar13 != -1);
+      puVar17 = (ushort *)(dword_10510C + (int)puVar16);
+      puVar18 = (ushort *)(dword_10510C + (int)puVar19);
+      puVar20 = (ushort *)(dword_10510C + (int)puVar21);
+      puVar22 = (ushort *)(dword_10510C + (int)puVar23);
       sVar15 = sVar15 + -1;
     } while (sVar15 != -1);
     return (char)(uVar2 >> 4);
@@ -1876,29 +1968,24 @@ char __usercall ConvertSpriteColors(ushort spriteNumber,ushort *colorConvTable)
     panicReasonCode = 0x982;
     PanicHaltLoop();
   }
-  iRam0010510c = (int)(short)((uVar9 * 4 - *(short *)((int)piVar1 + 0xe)) * 2);
-                    /* WARNING: Read-only address (ram,0x0010510c) is written */
-  if (iRam0010510c < 0) {
+  dword_10510C = (dword)(short)((uVar9 * 4 - *(short *)((int)piVar1 + 0xe)) * 2);
+  if ((int)dword_10510C < 0) {
     panicReasonCode = 0x987;
     PanicHaltLoop();
   }
   iVar7 = (int)(short)(*(short *)((int)piVar1 + 0xe) << 1);
-  puVar16 = (ushort *)*piVar1;
-  puVar18 = (ushort *)(iVar7 + (int)puVar16);
+  puVar17 = (ushort *)*piVar1;
+  puVar18 = (ushort *)(iVar7 + (int)puVar17);
   puVar20 = (ushort *)(iVar7 + (int)puVar18);
   puVar22 = (ushort *)(iVar7 + (int)puVar20);
   sVar15 = *(short *)(piVar1 + 3) + -1;
   do {
     sVar13 = *(short *)((int)piVar1 + 0xe) + -1;
-    puVar17 = puVar16;
-    puVar19 = puVar18;
-    puVar21 = puVar20;
-    puVar23 = puVar22;
     do {
       uVar9 = *puVar17;
-      uVar10 = *puVar19;
-      uVar11 = *puVar21;
-      uVar12 = *puVar23;
+      uVar10 = *puVar18;
+      uVar11 = *puVar20;
+      uVar12 = *puVar22;
       sVar14 = 0xf;
       do {
         bVar3 = (short)uVar12 < 0;
@@ -1931,18 +2018,22 @@ char __usercall ConvertSpriteColors(ushort spriteNumber,ushort *colorConvTable)
       } while (sVar14 != -1);
       puVar16 = puVar17 + 1;
       *puVar17 = uVar9;
-      puVar18 = puVar19 + 1;
-      *puVar19 = uVar10;
-      puVar20 = puVar21 + 1;
-      *puVar21 = uVar11;
-      puVar22 = puVar23 + 1;
-      *puVar23 = uVar12;
+      puVar19 = puVar18 + 1;
+      *puVar18 = uVar10;
+      puVar21 = puVar20 + 1;
+      *puVar20 = uVar11;
+      puVar23 = puVar22 + 1;
+      *puVar22 = uVar12;
       sVar13 = sVar13 + -1;
       puVar17 = puVar16;
-      puVar19 = puVar18;
-      puVar21 = puVar20;
-      puVar23 = puVar22;
+      puVar18 = puVar19;
+      puVar20 = puVar21;
+      puVar22 = puVar23;
     } while (sVar13 != -1);
+    puVar17 = (ushort *)(dword_10510C + (int)puVar16);
+    puVar18 = (ushort *)(dword_10510C + (int)puVar19);
+    puVar20 = (ushort *)(dword_10510C + (int)puVar21);
+    puVar22 = (ushort *)(dword_10510C + (int)puVar23);
     sVar15 = sVar15 + -1;
   } while (sVar15 != -1);
   return cVar8;
@@ -1989,17 +2080,14 @@ void __usercall FillRectangle(void)
 
 // --- WaitForVSync @ 00105238 ---
 
+/* WARNING: Removing unreachable block (ram,0x00105248) */
+
 void __usercall WaitForVSync(void)
 
 {
-  short sVar1;
-  
-  waitingInterrupt = 1;
+                    /* WARNING: Do nothing block with infinite loop */
   do {
-    sVar1 = waitingInterrupt;
-    sVar1 = waitingInterrupt;
-  } while (sVar1 != 0);
-  return;
+  } while( true );
 }
 
 
@@ -2221,21 +2309,24 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
   int iVar7;
   short sVar10;
   int iVar8;
-  ushort uVar11;
-  short unaff_D4w;
-  short sVar12;
+  short sVar11;
+  ushort uVar12;
   ushort uVar13;
-  word wVar14;
+  short unaff_D4w;
+  short sVar14;
   ushort uVar15;
-  short sVar16;
-  uint *puVar17;
-  uint *puVar18;
+  word wVar16;
+  ushort uVar17;
+  uchar *puVar18;
+  void *pvVar19;
+  uint *puVar20;
+  uint *puVar21;
   
   textBlitPlaneMask = planeMask;
   uVar9 = spriteIndex << 2;
   pbVar1 = *(byte **)(spriteGraphicsPtr + (short)uVar9);
   if (*(short *)(pbVar1 + 8) == 0) {
-    uVar11 = *(ushort *)(pbVar1 + 0xc);
+    uVar12 = *(ushort *)(pbVar1 + 0xc);
     x = cameraXMod320 + x;
     y = cameraYMod320 + y;
     if (SCREEN_HEIGHT - 1 < (short)y) {
@@ -2247,76 +2338,96 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
       bVar6 = REG_DMACONR._0_1_;
     } while ((bVar6 & 0x40) != 0);
     REG_DMACON = DMACON_BLT_OFF;
-    REG_BLTALWM = 0;
+    uVar13 = 0;
     uVar9 = *(ushort *)(pbVar1 + 10) & 0xf;
     if (uVar9 == 0) {
       uVar9 = 0x10;
     }
     sVar10 = *(short *)(pbVar1 + TILE_STRIDE) + 1;
     if ((ushort)(uVar9 + (x & 0xf)) < 0x11) {
-      REG_BLTALWM = 0xffff;
+      uVar13 = 0xffff;
       sVar10 = *(short *)(pbVar1 + TILE_STRIDE);
     }
+    REG_BLTALWM = uVar13;
     REG_BLTAFWM = BLT_FWM_ALL;
     uVar9 = x * 0x1000;
     REG_BLTCON1 = uVar9;
     bltconShiftBase = uVar9;
     if (*(int *)(pbVar1 + 4) != 0) {
-      sVar16 = uVar11 + y + -SCREEN_HEIGHT;
-      sVar12 = 0;
-      if (SCREEN_HEIGHT - 1 < (ushort)(uVar11 + y) && sVar16 != 0) {
-        uVar11 = uVar11 - sVar16;
-        sVar12 = sVar16;
+      sVar11 = uVar12 + y + -SCREEN_HEIGHT;
+      sVar14 = 0;
+      if (SCREEN_HEIGHT - 1 < (ushort)(uVar12 + y) && sVar11 != 0) {
+        uVar12 = uVar12 - sVar11;
+        sVar14 = sVar11;
       }
-      textBlitHeightLines = uVar11;
+      textBlitHeightLines = uVar12;
       iVar7 = (int)(short)(((short)x >> 4) << 1);
-      REG_BLTSIZE = sVar10 + uVar11 * 0x40;
-      uVar15 = sVar10 * 2;
+      uVar13 = sVar10 + uVar12 * 0x40;
+      uVar17 = sVar10 * 2;
       REG_BLTAMOD = *(short *)(pbVar1 + TILE_STRIDE) * 2 + sVar10 * -2;
       REG_BLTBMOD = *(short *)(pbVar1 + TILE_STRIDE) * 8 + sVar10 * -2;
-      REG_BLTCMOD = sVar10 * -2 + 0xb0;
-      REG_BLTDMOD = REG_BLTCMOD;
-      REG_BLTAPTH = *(uint **)(pbVar1 + 4);
+      uVar15 = sVar10 * -2 + 0xb0;
+      REG_BLTCMOD = uVar15;
+      REG_BLTDMOD = uVar15;
+      puVar20 = *(uint **)(pbVar1 + 4);
       sVar10 = *(short *)(pbVar1 + TILE_STRIDE) << 1;
-      puVar18 = (uint *)((int)sVar10 + *(int *)pbVar1);
-      puVar17 = (uint *)((int)puVar18 + (int)sVar10 + (int)sVar10);
-      blitSrcA_MaskPtr = REG_BLTAPTH;
-      blitSrcB_GlyphPtr = puVar18;
+      puVar21 = (uint *)((int)sVar10 + *(int *)pbVar1);
+      pvVar19 = (void *)((int)puVar21 + (int)sVar10 + (int)sVar10);
+      blitSrcA_MaskPtr = puVar20;
+      blitSrcB_GlyphPtr = puVar21;
       iVar8 = (uint)y * ROW_STRIDE_BYTES + iVar7;
       while( true ) {
-        REG_BLTCPTH = frontbufferBasePtr + iVar8;
+        puVar18 = frontbufferBasePtr + iVar8;
         sVar10 = 2;
-        uVar13 = planeMask;
+        uVar15 = planeMask;
         do {
-          uVar4 = uVar13 & 1;
-          uVar13 = uVar13 >> 1;
-          if (uVar4 != 0) {
-            REG_BLTBPTH = puVar18;
+          uVar4 = uVar15 & 1;
+          uVar15 = uVar15 >> 1;
+          if (uVar4 == 0) {
+            REG_BLTCON0 = uVar9 + 0xb0a;
+            REG_BLTAPTH = puVar20;
+            REG_BLTCPTH = puVar18;
+            REG_BLTDPTH = puVar18;
           }
+          else {
+            REG_BLTCON0 = uVar9 + BLTCON0_BASE_LINKED;
+            REG_BLTAPTH = puVar20;
+            REG_BLTBPTH = puVar21;
+            REG_BLTCPTH = puVar18;
+            REG_BLTDPTH = puVar18;
+          }
+          REG_BLTSIZE = uVar13;
           REG_DMACON = DMACON_BLT_ON;
           uVar5 = REG_DMACONR._0_1_;
           do {
             bVar6 = REG_DMACONR._0_1_;
           } while ((bVar6 & 0x40) != 0);
           REG_DMACON = DMACON_BLT_OFF;
-          REG_BLTCPTH = REG_BLTCPTH + PLANE_STRIDE;
+          puVar18 = puVar18 + PLANE_STRIDE;
           sVar10 = sVar10 + -1;
         } while (sVar10 != -1);
-        if ((uVar13 & 1) == 0) {
+        if ((uVar15 & 1) == 0) {
           REG_BLTCON0 = uVar9 + BLTCON0_BASE_LINKED;
-          REG_BLTBPTH = puVar17;
+          REG_BLTAPTH = puVar20;
+          REG_BLTBPTH = pvVar19;
+          REG_BLTCPTH = puVar18;
+          REG_BLTDPTH = puVar18;
         }
         else {
           REG_BLTCON0 = uVar9 + 0xbfa;
+          REG_BLTAPTH = puVar20;
+          REG_BLTCPTH = puVar18;
+          REG_BLTDPTH = puVar18;
         }
-        if (sVar12 == 0) break;
-        iVar8 = (uint)uVar11 * (uint)*(ushort *)(pbVar1 + 0xe);
-        REG_BLTAPTH = (uint *)(iVar8 * 2 + (int)REG_BLTAPTH);
-        puVar17 = puVar17 + iVar8 * 2;
-        puVar18 = puVar18 + iVar8 * 2;
-        uVar15 = uVar15 >> 1;
-        REG_BLTSIZE = uVar15 + sVar12 * 0x40;
-        sVar12 = 0;
+        REG_BLTSIZE = uVar13;
+        if (sVar14 == 0) break;
+        iVar8 = (uint)uVar12 * (uint)*(ushort *)(pbVar1 + 0xe);
+        puVar20 = (uint *)(iVar8 * 2 + (int)puVar20);
+        pvVar19 = (void *)(iVar8 * 8 + (int)pvVar19);
+        puVar21 = puVar21 + iVar8 * 2;
+        uVar17 = uVar17 >> 1;
+        uVar13 = uVar17 + sVar14 * 0x40;
+        sVar14 = 0;
         REG_DMACON = DMACON_BLT_ON;
         uVar5 = REG_DMACONR._0_1_;
         do {
@@ -2325,7 +2436,6 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
         REG_DMACON = DMACON_BLT_OFF;
         iVar8 = iVar7;
       }
-      REG_BLTDPTH = REG_BLTCPTH;
       return;
     }
   }
@@ -2348,58 +2458,76 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
       bVar6 = REG_DMACONR._0_1_;
     } while ((bVar6 & 0x40) != 0);
     REG_DMACON = 0x400;
-    REG_BLTALWM = 0;
+    uVar12 = 0;
     uVar9 = *(ushort *)((int)piVar2 + 10) & 0xf;
     if (uVar9 == 0) {
       uVar9 = 0x10;
     }
-    sVar16 = *(short *)((int)piVar2 + 0xe) + 1;
+    sVar11 = *(short *)((int)piVar2 + 0xe) + 1;
     if ((ushort)(uVar9 + (x & 0xf)) < 0x11) {
-      REG_BLTALWM = 0xffff;
-      sVar16 = *(short *)((int)piVar2 + 0xe);
+      uVar12 = 0xffff;
+      sVar11 = *(short *)((int)piVar2 + 0xe);
     }
+    REG_BLTALWM = uVar12;
     REG_BLTAFWM = 0xffff;
     bltconShiftBase_glyph = x * 0x1000;
     REG_BLTCON1 = bltconShiftBase_glyph;
     if (piVar2[1] != 0) {
       glyphHeightLinesCache = *(word *)(piVar2 + 3);
-      REG_BLTCPTH = (uchar *)(*piVar3 +
-                             (uint)y * (uint)dstRowBytesPerPlane * 4 +
-                             (int)(short)(((short)x >> 4) << 1));
-      REG_BLTAMOD = *(short *)((int)piVar2 + 0xe) * 2 + sVar16 * -2;
-      REG_BLTBMOD = *(short *)((int)piVar2 + 0xe) * 8 + sVar16 * -2;
-      REG_BLTCMOD = sVar10 * 8 + sVar16 * -2;
-      REG_BLTDMOD = REG_BLTCMOD;
+      pvVar19 = (void *)(*piVar3 +
+                        (uint)y * (uint)dstRowBytesPerPlane * 4 + (int)(short)(((short)x >> 4) << 1)
+                        );
+      uVar9 = sVar11 + *(word *)(piVar2 + 3) * 0x40;
+      REG_BLTAMOD = *(short *)((int)piVar2 + 0xe) * 2 + sVar11 * -2;
+      REG_BLTBMOD = *(short *)((int)piVar2 + 0xe) * 8 + sVar11 * -2;
+      uVar12 = sVar10 * 8 + sVar11 * -2;
+      REG_BLTCMOD = uVar12;
+      REG_BLTDMOD = uVar12;
+      blitSrcA_MaskPtr_glyph = piVar2[1];
       sVar10 = *(short *)((int)piVar2 + 0xe) << 1;
       blitSrcB_GlyphPtr_glyph = (int)sVar10 + *piVar2;
-      blitSrcA_MaskPtr_glyph = piVar2[1];
-      sVar12 = 2;
-      wVar14 = glyphBlitPlaneMask;
+      sVar11 = 2;
+      wVar16 = glyphBlitPlaneMask;
       do {
-        uVar9 = wVar14 & 1;
-        wVar14 = wVar14 >> 1;
-        if (uVar9 != 0) {
-          REG_BLTBPTH = (uint *)blitSrcB_GlyphPtr_glyph;
+        uVar12 = wVar16 & 1;
+        wVar16 = wVar16 >> 1;
+        if (uVar12 == 0) {
+          REG_BLTCON0 = bltconShiftBase_glyph + 0xb0a;
+          REG_BLTAPTH = (void *)blitSrcA_MaskPtr_glyph;
+          REG_BLTCPTH = pvVar19;
+          REG_BLTDPTH = pvVar19;
         }
+        else {
+          REG_BLTCON0 = bltconShiftBase_glyph + 0xfca;
+          REG_BLTAPTH = (void *)blitSrcA_MaskPtr_glyph;
+          REG_BLTBPTH = (void *)blitSrcB_GlyphPtr_glyph;
+          REG_BLTCPTH = pvVar19;
+          REG_BLTDPTH = pvVar19;
+        }
+        REG_BLTSIZE = uVar9;
         REG_DMACON = 0x8400;
         uVar5 = REG_DMACONR._0_1_;
         do {
           bVar6 = REG_DMACONR._0_1_;
         } while ((bVar6 & 0x40) != 0);
         REG_DMACON = 0x400;
-        REG_BLTCPTH = (uchar *)(iVar8 + (int)REG_BLTCPTH);
-        sVar12 = sVar12 + -1;
-      } while (sVar12 != -1);
-      if ((wVar14 & 1) == 0) {
+        pvVar19 = (void *)(iVar8 + (int)pvVar19);
+        sVar11 = sVar11 + -1;
+      } while (sVar11 != -1);
+      if ((wVar16 & 1) == 0) {
         REG_BLTCON0 = bltconShiftBase_glyph + 0xfca;
-        REG_BLTBPTH = (uint *)(blitSrcB_GlyphPtr_glyph + (int)sVar10 + (int)sVar10);
+        REG_BLTAPTH = (void *)blitSrcA_MaskPtr_glyph;
+        REG_BLTBPTH = (void *)(blitSrcB_GlyphPtr_glyph + (int)sVar10 + (int)sVar10);
+        REG_BLTCPTH = pvVar19;
+        REG_BLTDPTH = pvVar19;
       }
       else {
         REG_BLTCON0 = bltconShiftBase_glyph + 0xbfa;
+        REG_BLTAPTH = (void *)blitSrcA_MaskPtr_glyph;
+        REG_BLTCPTH = pvVar19;
+        REG_BLTDPTH = pvVar19;
       }
-      REG_BLTAPTH = (uint *)piVar2[1];
-      REG_BLTSIZE = sVar16 + *(word *)(piVar2 + 3) * 0x40;
-      REG_BLTDPTH = (uchar *)(int)REG_BLTCPTH;
+      REG_BLTSIZE = uVar9;
       return;
     }
   }
@@ -2433,7 +2561,8 @@ BlitGlyphToSpriteBitmap
   short sVar6;
   short sVar7;
   ushort uVar8;
-  short sVar9;
+  ushort uVar9;
+  void *pvVar10;
   
   glyphBlitPlaneMask = planeMask;
   piVar1 = *(int **)(spriteGraphicsPtr + (short)(glyphIndex << 2));
@@ -2452,56 +2581,75 @@ BlitGlyphToSpriteBitmap
       bVar4 = REG_DMACONR._0_1_;
     } while ((bVar4 & 0x40) != 0);
     REG_DMACON = DMACON_BLT_OFF;
-    REG_BLTALWM = 0;
-    uVar8 = *(ushort *)((int)piVar1 + 10) & TILE_MASK;
-    if (uVar8 == 0) {
-      uVar8 = 0x10;
+    uVar8 = 0;
+    uVar9 = *(ushort *)((int)piVar1 + 10) & TILE_MASK;
+    if (uVar9 == 0) {
+      uVar9 = 0x10;
     }
-    sVar9 = *(short *)((int)piVar1 + 0xe) + 1;
-    if ((ushort)(uVar8 + (xOff & TILE_MASK)) < 0x11) {
-      REG_BLTALWM = 0xffff;
-      sVar9 = *(short *)((int)piVar1 + 0xe);
+    sVar7 = *(short *)((int)piVar1 + 0xe) + 1;
+    if ((ushort)(uVar9 + (xOff & TILE_MASK)) < 0x11) {
+      uVar8 = 0xffff;
+      sVar7 = *(short *)((int)piVar1 + 0xe);
     }
+    REG_BLTALWM = uVar8;
     REG_BLTAFWM = BLT_FWM_ALL;
     bltconShiftBase_glyph = xOff * 0x1000;
     REG_BLTCON1 = bltconShiftBase_glyph;
     if (piVar1[1] != 0) {
       glyphHeightLinesCache = *(word *)(piVar1 + 3);
-      REG_BLTCPTH = *piVar2 + (uint)yOff * (uint)dstRowBytesPerPlane * 4 +
-                              (int)(short)(((short)xOff >> 4) << 1);
-      REG_BLTAMOD = *(short *)((int)piVar1 + 0xe) * 2 + sVar9 * -2;
-      REG_BLTBMOD = *(short *)((int)piVar1 + 0xe) * 8 + sVar9 * -2;
-      REG_BLTCMOD = sVar6 * 8 + sVar9 * -2;
-      REG_BLTDMOD = REG_BLTCMOD;
+      pvVar10 = (void *)(*piVar2 +
+                        (uint)yOff * (uint)dstRowBytesPerPlane * 4 +
+                        (int)(short)(((short)xOff >> 4) << 1));
+      uVar9 = sVar7 + *(word *)(piVar1 + 3) * 0x40;
+      REG_BLTAMOD = *(short *)((int)piVar1 + 0xe) * 2 + sVar7 * -2;
+      REG_BLTBMOD = *(short *)((int)piVar1 + 0xe) * 8 + sVar7 * -2;
+      uVar8 = sVar6 * 8 + sVar7 * -2;
+      REG_BLTCMOD = uVar8;
+      REG_BLTDMOD = uVar8;
+      blitSrcA_MaskPtr_glyph = piVar1[1];
       sVar6 = *(short *)((int)piVar1 + 0xe) << 1;
       blitSrcB_GlyphPtr_glyph = (int)sVar6 + *piVar1;
-      blitSrcA_MaskPtr_glyph = piVar1[1];
       sVar7 = 2;
       do {
         uVar8 = planeMask & 1;
         planeMask = planeMask >> 1;
-        if (uVar8 != 0) {
-          REG_BLTBPTH = blitSrcB_GlyphPtr_glyph;
+        if (uVar8 == 0) {
+          REG_BLTCON0 = bltconShiftBase_glyph + 0xb0a;
+          REG_BLTAPTH = (void *)blitSrcA_MaskPtr_glyph;
+          REG_BLTCPTH = pvVar10;
+          REG_BLTDPTH = pvVar10;
         }
+        else {
+          REG_BLTCON0 = bltconShiftBase_glyph + BLTCON0_BASE_LINKED;
+          REG_BLTAPTH = (void *)blitSrcA_MaskPtr_glyph;
+          REG_BLTBPTH = (void *)blitSrcB_GlyphPtr_glyph;
+          REG_BLTCPTH = pvVar10;
+          REG_BLTDPTH = pvVar10;
+        }
+        REG_BLTSIZE = uVar9;
         REG_DMACON = DMACON_BLT_ON;
         uVar3 = REG_DMACONR._0_1_;
         do {
           bVar4 = REG_DMACONR._0_1_;
         } while ((bVar4 & 0x40) != 0);
         REG_DMACON = DMACON_BLT_OFF;
-        REG_BLTCPTH = iVar5 + REG_BLTCPTH;
+        pvVar10 = (void *)(iVar5 + (int)pvVar10);
         sVar7 = sVar7 + -1;
       } while (sVar7 != -1);
       if ((planeMask & 1) == 0) {
         REG_BLTCON0 = bltconShiftBase_glyph + BLTCON0_BASE_LINKED;
-        REG_BLTBPTH = (int)sVar6 + blitSrcB_GlyphPtr_glyph + (int)sVar6;
+        REG_BLTAPTH = (void *)blitSrcA_MaskPtr_glyph;
+        REG_BLTBPTH = (void *)(blitSrcB_GlyphPtr_glyph + (int)sVar6 + (int)sVar6);
+        REG_BLTCPTH = pvVar10;
+        REG_BLTDPTH = pvVar10;
       }
       else {
         REG_BLTCON0 = bltconShiftBase_glyph + 0xbfa;
+        REG_BLTAPTH = (void *)blitSrcA_MaskPtr_glyph;
+        REG_BLTCPTH = pvVar10;
+        REG_BLTDPTH = pvVar10;
       }
-      REG_BLTAPTH = piVar1[1];
-      REG_BLTSIZE = sVar9 + *(word *)(piVar1 + 3) * 0x40;
-      REG_BLTDPTH = REG_BLTCPTH;
+      REG_BLTSIZE = uVar9;
       return;
     }
   }
@@ -4996,21 +5144,21 @@ void __usercall InitCurrentGoalHighlight(void)
 
 // --- StartMatchSequence @ 0010e8be ---
 
+/* WARNING: Removing unreachable block (ram,0x0010e96a) */
+/* WARNING: Removing unreachable block (ram,0x0010e96e) */
+
 void __usercall StartMatchSequence(void *topTeam,void *bottomTeam)
 
 {
   bool bVar1;
   uint uVar2;
   word wVar3;
-  short sVar4;
-  short sVar5;
-  undefined1 uVar6;
-  byte bVar7;
+  undefined1 uVar4;
+  byte bVar5;
   undefined2 y;
-  short sVar8;
   undefined2 unaff_D4w;
   int unaff_A0;
-  TeamStatisticsData *pTVar9;
+  TeamStatisticsData *pTVar6;
   int unaff_A2;
   
   LoadSfxResources();
@@ -5034,12 +5182,12 @@ void __usercall StartMatchSequence(void *topTeam,void *bottomTeam)
     do {
       GetKey();
     } while (currentKey != 0);
-GameLoop_wait_for_vblank_sync:
+wait_for_vblank_sync:
     REG_DMACON = 0x8400;
-    uVar6 = REG_DMACONR._0_1_;
+    uVar4 = REG_DMACONR._0_1_;
     do {
-      bVar7 = REG_DMACONR._0_1_;
-    } while ((bVar7 & 0x40) != 0);
+      bVar5 = REG_DMACONR._0_1_;
+    } while ((bVar5 & 0x40) != 0);
     REG_DMACON = 0x400;
     uVar2 = g_irqCookieObfuscated ^ 0xcfd1f9bd;
     if (uVar2 != 0x165a) {
@@ -5048,17 +5196,17 @@ GameLoop_wait_for_vblank_sync:
       if ((((0 < (int)uVar2) && ((TeamGeneralInfo *)(unaff_A0 + -1) == lastTeamPlayed)) &&
           (*(short *)(unaff_A0 + 0x27) == 0)) && ((0xef < strikeDestX && (strikeDestX < 0x1b0)))) {
         if ((0x12e < strikeDestX) && (strikeDestX < 0x170)) {
-          pTVar9 = topTeamData.teamStatsPtr;
+          pTVar6 = topTeamData.teamStatsPtr;
           if (ballSprite.y.s.i < 0x1c2) {
-            pTVar9 = bottomTeamData.teamStatsPtr;
+            pTVar6 = bottomTeamData.teamStatsPtr;
           }
-          pTVar9->onTarget = pTVar9->onTarget + 1;
+          pTVar6->onTarget = pTVar6->onTarget + 1;
         }
-        pTVar9 = topTeamData.teamStatsPtr;
+        pTVar6 = topTeamData.teamStatsPtr;
         if (ballSprite.y.s.i < 0x1c2) {
-          pTVar9 = bottomTeamData.teamStatsPtr;
+          pTVar6 = bottomTeamData.teamStatsPtr;
         }
-        pTVar9->goalAttempts = pTVar9->goalAttempts + 1;
+        pTVar6->goalAttempts = pTVar6->goalAttempts + 1;
         isGoalAttempt = 1;
       }
       if (showStats != 0) {
@@ -5067,7 +5215,7 @@ GameLoop_wait_for_vblank_sync:
       }
       if (statsTimer != 0) {
         if ((short)statsTimer < 0) {
-UpdateAndDrawStatistics_turn_off_statistics:
+turn_off_statistics:
           StatisticsOff();
           return;
         }
@@ -5079,7 +5227,7 @@ UpdateAndDrawStatistics_turn_off_statistics:
           wVar3 = statsTimer - lastFrameTicks;
           bVar1 = (short)statsTimer < (short)lastFrameTicks;
           statsTimer = wVar3;
-          if (wVar3 == 0 || bVar1) goto UpdateAndDrawStatistics_turn_off_statistics;
+          if (wVar3 == 0 || bVar1) goto turn_off_statistics;
         }
         DrawStatistics();
       }
@@ -5089,25 +5237,11 @@ UpdateAndDrawStatistics_turn_off_statistics:
     nullsub_5();
     nullsub_4();
     do {
-      sVar8 = waitingInterrupt;
-      sVar8 = waitingInterrupt;
-    } while (sVar8 != 0);
+    } while (waitingInterrupt != 0);
     ReadTimerDelta();
-    while (paused != 0) {
-      sVar8 = 0;
+    if (paused != 0) {
       do {
-        sVar4 = currentTick;
-        do {
-          sVar5 = currentTick;
-        } while (sVar4 == sVar5);
-        sVar8 = sVar8 + -1;
-      } while (sVar8 != -1);
-      GetKey();
-      MainKeysCheck(currentKey);
-      nullsub_10();
-      PlayEnqueuedSamples();
-      nullsub_5();
-      nullsub_4();
+      } while( true );
     }
     if (showingUserStats != 0) {
       KeepStatisticsOnScreen();
@@ -5182,7 +5316,7 @@ UpdateAndDrawStatistics_turn_off_statistics:
         FadeOutToBlack();
         PlayHighlightsLoop();
       }
-      goto GameLoop_wait_for_vblank_sync;
+      goto wait_for_vblank_sync;
     }
     FadeOutToBlack();
     nullsub_3();
@@ -6251,6 +6385,7 @@ void __usercall BlitterCopyPanelToScreen2(void)
   REG_BLTDMOD = 0;
   REG_BLTAPTH = frontbufferMaskBuffer;
   REG_BLTDPTH = frontbufferBasePtr;
+  REG_BLTSIZE = BLTSIZE_OVERLAY_PANEL;
   REG_DMACON = DMACON_BLT_ON;
   uVar1 = REG_DMACONR._0_1_;
   do {
@@ -7439,7 +7574,6 @@ ushort __usercall FindTeamInCache(ushort teamNumber)
 void * __usercall VerifyTeamLoaded(ushort teamNumber)
 
 {
-  undefined1 uVar1;
   void *unaff_A0;
   undefined1 in_ZF;
   
@@ -7449,7 +7583,6 @@ void * __usercall VerifyTeamLoaded(ushort teamNumber)
   }
   panicReasonCode = 0x8888;
   PanicHaltLoop();
-  uVar1 = DAT_0002df1e;
   return &DIY_competitionStart;
 }
 
