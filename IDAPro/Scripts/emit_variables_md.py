@@ -30,6 +30,10 @@ import ida_typeinf as tif
 
 DEFAULT_OUT_NAME = "Variables.md"
 
+# If True, do NOT emit IDA string literal items (ASCSTR_*).
+# This skips only items IDA has typed as a string, NOT generic byte arrays.
+SKIP_STRING_LITERALS = True
+
 # Optional: restrict output to certain segments (empty/None => all segments)
 INCLUDE_SEGMENTS = {"CHIP_RAM"}  # e.g. {"CHIP_RAM"} or set()
 
@@ -54,6 +58,24 @@ _TYPE_REWRITES = [
     (r"\bsigned\s+__int64\b",   "int64_t"),
     (r"\b__int64\b",            "int64_t"),
 ]
+
+def is_string_literal(ea: int) -> bool:
+    """
+    True only if IDA marks this address as a string literal (ASCSTR_*).
+    This intentionally does NOT treat uint8_t/int8_t arrays as strings unless IDA did.
+    """
+    try:
+        st = idc.get_str_type(ea)
+        if st is not None and st != -1:
+            return True
+    except Exception:
+        pass
+
+    try:
+        flags = ida_bytes.get_flags(ea)
+        return ida_bytes.is_strlit(flags)
+    except Exception:
+        return False
 
 def normalize_ida_cdecl_types(cdecl: str) -> str:
     if not cdecl:
@@ -296,6 +318,9 @@ def main():
 
     rows = []
     for ea, nm in names:
+        if SKIP_STRING_LITERALS and is_string_literal(ea):
+            continue
+        
         mt = tinfo_at(ea)
 
         if mt:

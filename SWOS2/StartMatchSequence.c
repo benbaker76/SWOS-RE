@@ -1,7 +1,7 @@
 /*
  * Auto-generated call graph export
  * Start: StartMatchSequence
- * Date : 2026-02-11 21:29:15
+ * Date : 2026-02-12 13:02:10
  */
 
 /* ===================== INCLUDES ===================== */
@@ -548,7 +548,7 @@ void __usercall ProcessImageCommandStream(ushort *cmdBuffer,uchar *workBuffer)
   uchar *puVar7;
   undefined1 uVar8;
   
-  imageStreamCursor = (dword)workBuffer;
+  imageStreamCursor = workBuffer;
 read_next_opcode:
   do {
     puVar6 = cmdBuffer + 1;
@@ -726,15 +726,16 @@ BlitDispatch(ushort spriteIndex,ushort xOffset,ushort yOffset,ushort width,ushor
       ((((spriteIndex < 0x2dc || (0x340 < spriteIndex)) &&
         ((spriteIndex < 0x37b || (0x3b4 < spriteIndex)))) &&
        ((spriteIndex < 0x3ef || (0x428 < spriteIndex)))))))) {
-    *(dword *)(spriteGraphicsPtr + (short)(spriteIndex << 2)) = imageStreamCursor;
+    *(uchar **)(spriteGraphicsPtr + (short)(spriteIndex << 2)) = imageStreamCursor;
     currentSpriteIndex = spriteIndex & 0x3fff;
     *(word *)(imageStreamCursor + 0x16) = currentSpriteIndex;
     *(ushort *)(imageStreamCursor + 0x10) = dstX;
     *(ushort *)(imageStreamCursor + 0x12) = dstY;
     *(ushort *)(imageStreamCursor + 10) = width;
     *(ushort *)(imageStreamCursor + 0xc) = height;
-    *(undefined2 *)(imageStreamCursor + 8) = 0;
-    *(char *)(imageStreamCursor + 8) = -(planesFlag != (void *)0x0);
+    imageStreamCursor[8] = '\0';
+    imageStreamCursor[9] = '\0';
+    imageStreamCursor[8] = -(planesFlag != (void *)0x0);
     puVar7 = (ushort *)0x0;
     if (src != (void *)0x0) {
       puVar7 = (ushort *)
@@ -777,7 +778,10 @@ BlitDispatch(ushort spriteIndex,ushort xOffset,ushort yOffset,ushort width,ushor
         sVar1 = uVar3 - 1;
       } while (sVar4 != -1);
     }
-    *(undefined4 *)(imageStreamCursor + 4) = 0;
+    imageStreamCursor[4] = '\0';
+    imageStreamCursor[5] = '\0';
+    imageStreamCursor[6] = '\0';
+    imageStreamCursor[7] = '\0';
     if (maskSel != 0) {
       if ((short)maskSel < 0) {
         *(dword **)(imageStreamCursor + 4) = pdVar10;
@@ -842,7 +846,7 @@ BlitDispatch(ushort spriteIndex,ushort xOffset,ushort yOffset,ushort width,ushor
              *(undefined4 *)(*(int *)(spriteGraphicsPtr + (short)(maskSel << 2)) + 4);
       }
     }
-    imageStreamCursor = (dword)pdVar10;
+    imageStreamCursor = (uchar *)pdVar10;
     if ((playGame == 0) && (playHighlightFlag == 0)) {
       imageStreamBytesLeft = (int)&menuInsBank - (int)pdVar10;
       if (pdVar10 < &menuInsBank) {
@@ -1260,15 +1264,15 @@ void __usercall BlitSpritePlanar_Word(void)
 void __usercall DrawSprite_entry2(void)
 
 {
-  dword dVar1;
+  void *pvVar1;
   ushort unaff_D1w;
   ushort unaff_D2w;
   Sprite *unaff_A0;
   
-  dVar1 = spriteBlitQueue;
+  pvVar1 = spriteBlitQueue;
   DrawSpriteClipped(unaff_A0,unaff_D1w,unaff_D2w);
-  spriteBlitQueue = dVar1;
-  *(undefined4 *)dVar1 = 0xffffffff;
+  spriteBlitQueue = pvVar1;
+  *(undefined4 *)pvVar1 = 0xffffffff;
   return;
 }
 
@@ -1495,13 +1499,13 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
     REG_BLTCPTH = puVar1;
     REG_BLTDPTH = puVar1;
     queuedLineCount = wVar9;
-    *(uchar **)(spriteBlitQueue + 4) = puVar1;
+    *(uchar **)((int)spriteBlitQueue + 4) = puVar1;
     *(byte **)spriteBlitQueue = frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6);
-    *(ushort *)(spriteBlitQueue + 10) = uVar17 + wVar9 * 0x100;
+    *(ushort *)((int)spriteBlitQueue + 10) = uVar17 + wVar9 * 0x100;
     uVar3 = uVar17 + wVar9 * 0x40;
     REG_BLTAMOD = sprite->field_E * 2 + uVar17 * -2;
     REG_BLTBMOD = sprite->field_E * 8 + uVar17 * -2;
-    *(ushort *)(spriteBlitQueue + 8) = uVar17 * -2 + PLANE_STRIDE;
+    *(ushort *)((int)spriteBlitQueue + 8) = uVar17 * -2 + PLANE_STRIDE;
     uVar8 = uVar17 * -2 + 0xb0;
     REG_BLTCMOD = uVar8;
     REG_BLTDMOD = uVar8;
@@ -1515,7 +1519,7 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
          CONCAT22((short)((uint)iVar13 >> 0x10),(ushort)iVar13 >> NUM_PLANES_SHIFT) +
          *(int *)&sprite->frameOffset;
     REG_BLTAPTH = (void *)savedSrcPlaneB;
-    piVar18 = (int *)(spriteBlitQueue + 0xc);
+    piVar18 = (int *)((int)spriteBlitQueue + 0xc);
     REG_BLTSIZE = uVar3;
     iVar13 = (int)(short)(sprite->field_E << 1);
     REG_DMACON = DMACON_BLT_ON;
@@ -1567,9 +1571,9 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
       REG_BLTDPTH = puVar1;
       REG_BLTAPTH = pvVar19;
       REG_BLTBPTH = pvVar2;
-      *(uchar **)(spriteBlitQueue + 0x10) = puVar1;
+      *(uchar **)((int)spriteBlitQueue + 0x10) = puVar1;
       *piVar18 = (int)(frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6));
-      *(ushort *)(spriteBlitQueue + 0x16) = (uVar17 & 0x7fff) + sVar11 * 0x100;
+      *(ushort *)((int)spriteBlitQueue + 0x16) = (uVar17 & 0x7fff) + sVar11 * 0x100;
       uVar3 = (uVar17 & 0x7fff) + sVar11 * 0x40;
       REG_BLTSIZE = uVar3;
       iVar13 = (int)(short)(sprite->field_E << 1);
@@ -1608,11 +1612,11 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
       REG_BLTAPTH = pvVar19;
       REG_BLTBPTH = (void *)(iVar13 + (int)pvVar2);
       REG_BLTSIZE = uVar3;
-      *(undefined2 *)(spriteBlitQueue + 0x14) = *(undefined2 *)(spriteBlitQueue + 8);
-      piVar18 = (int *)(spriteBlitQueue + 0x18);
+      *(undefined2 *)((int)spriteBlitQueue + 0x14) = *(undefined2 *)((int)spriteBlitQueue + 8);
+      piVar18 = (int *)((int)spriteBlitQueue + 0x18);
     }
     *piVar18 = BLT_BLITQ_END;
-    spriteBlitQueue = (dword)piVar18;
+    spriteBlitQueue = piVar18;
     return;
   }
   sVar10 = *(short *)&sprite->playerState;
@@ -1669,7 +1673,7 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
   puVar1 = frontbufferBasePtr + (uint)uVar8 * 0xb0 + iVar7;
   REG_BLTCPTH = puVar1;
   REG_BLTDPTH = puVar1;
-  *(uchar **)(spriteBlitQueue + 4) = puVar1;
+  *(uchar **)((int)spriteBlitQueue + 4) = puVar1;
   *(byte **)spriteBlitQueue = frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6);
   uVar3 = uVar17 + sVar10 * 0x100;
   uVar8 = sprite->field_E * 2 + uVar17 * -2;
@@ -1678,7 +1682,7 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
   uVar8 = uVar17 * -2 + 0x2c;
   REG_BLTCMOD = uVar8;
   REG_BLTDMOD = uVar8;
-  *(ushort *)(spriteBlitQueue + 8) = uVar8;
+  *(ushort *)((int)spriteBlitQueue + 8) = uVar8;
   iVar13 = 0;
   if (sVar14 != 0) {
     iVar13 = (uint)(ushort)(sVar14 << 2) * (uint)sprite->field_E * 2;
@@ -1686,12 +1690,12 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
   REG_BLTBPTH = (void *)(iVar13 + *(int *)sprite);
   REG_BLTAPTH = (void *)(iVar13 + *(int *)&sprite->frameOffset);
   REG_BLTSIZE = uVar3;
-  *(ushort *)(spriteBlitQueue + 10) = uVar3;
-  piVar18 = (int *)(spriteBlitQueue + 0xc);
+  *(ushort *)((int)spriteBlitQueue + 10) = uVar3;
+  piVar18 = (int *)((int)spriteBlitQueue + 0xc);
   if (sVar12 != 0) {
     puVar1 = puVar6 + iVar7;
     uVar3 = (uVar17 & 0x7fff) + sVar12 * 0x100;
-    *(uchar **)(spriteBlitQueue + 0x10) = puVar1;
+    *(uchar **)((int)spriteBlitQueue + 0x10) = puVar1;
     REG_DMACON = 0x8400;
     uVar4 = REG_DMACONR._0_1_;
     do {
@@ -1702,12 +1706,12 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
     REG_BLTDPTH = puVar1;
     REG_BLTSIZE = uVar3;
     *piVar18 = (int)(frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6));
-    *(undefined2 *)(spriteBlitQueue + 0x14) = *(undefined2 *)(spriteBlitQueue + 8);
-    *(ushort *)(spriteBlitQueue + 0x16) = uVar3;
-    piVar18 = (int *)(spriteBlitQueue + 0x18);
+    *(undefined2 *)((int)spriteBlitQueue + 0x14) = *(undefined2 *)((int)spriteBlitQueue + 8);
+    *(ushort *)((int)spriteBlitQueue + 0x16) = uVar3;
+    piVar18 = (int *)((int)spriteBlitQueue + 0x18);
   }
   *piVar18 = -1;
-  spriteBlitQueue = (dword)piVar18;
+  spriteBlitQueue = piVar18;
   return;
 }
 
@@ -2700,7 +2704,7 @@ ushort __usercall LoadFile(char *filename,void *dst)
     uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
   }
   else {
-    bVar2 = assetLoaderCacheFlag == 0;
+    bVar2 = assetLoaderCacheFlag == (void *)0x0;
     if ((bVar2) || (AssetCacheCopyByName(filename,frontbufferBasePtr), !bVar2)) {
       bVar2 = false;
       uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
@@ -2711,7 +2715,7 @@ ushort __usercall LoadFile(char *filename,void *dst)
         do {
         } while( true );
       }
-      if ((assetLoaderCacheFlag != 0) && (assetLoaderAltPathReady != 0)) {
+      if ((assetLoaderCacheFlag != (void *)0x0) && (assetLoaderAltPathReady != 0)) {
         AssetCacheStoreFromMemory(filename,src,unaff_D1);
       }
     }
@@ -2722,7 +2726,7 @@ ushort __usercall LoadFile(char *filename,void *dst)
         uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
       }
       else {
-        bVar2 = assetLoaderCacheFlag == 0;
+        bVar2 = assetLoaderCacheFlag == (void *)0x0;
         if ((bVar2) || (AssetCacheCopyByName(filename,src), !bVar2)) {
           bVar2 = false;
           uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
@@ -2733,7 +2737,7 @@ ushort __usercall LoadFile(char *filename,void *dst)
             do {
             } while( true );
           }
-          if ((assetLoaderCacheFlag != 0) && (assetLoaderAltPathReady != 0)) {
+          if ((assetLoaderCacheFlag != (void *)0x0) && (assetLoaderAltPathReady != 0)) {
             AssetCacheStoreFromMemory(filename,src,unaff_D1);
           }
         }
@@ -2779,7 +2783,7 @@ ushort __usercall PlaySong(char *filename)
     uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
   }
   else {
-    bVar2 = assetLoaderCacheFlag == 0;
+    bVar2 = assetLoaderCacheFlag == (void *)0x0;
     if ((bVar2) || (AssetCacheCopyByName(filename,unaff_A1), !bVar2)) {
       bVar2 = false;
       uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
@@ -2790,7 +2794,7 @@ ushort __usercall PlaySong(char *filename)
         do {
         } while( true );
       }
-      if ((assetLoaderCacheFlag != 0) && (assetLoaderAltPathReady != 0)) {
+      if ((assetLoaderCacheFlag != (void *)0x0) && (assetLoaderAltPathReady != 0)) {
         AssetCacheStoreFromMemory(filename,unaff_A1,unaff_D1);
       }
     }
@@ -2811,8 +2815,8 @@ ushort __usercall AssetCacheAlloc(uint size)
   int *piVar4;
   
   uVar1 = size + 1 & 0xfffffffe;
-  piVar3 = (int *)assetLoaderCacheFlag;
-  if (assetLoaderCacheFlag != 0) {
+  piVar3 = assetLoaderCacheFlag;
+  if (assetLoaderCacheFlag != (void *)0x0) {
     while( true ) {
       if ((*(short *)(piVar3 + 1) != 0) && (uVar1 <= *(uint *)((int)piVar3 + 6))) {
         iVar2 = (*(int *)((int)piVar3 + 6) - uVar1) + -0x30;
@@ -2847,8 +2851,8 @@ int __usercall AssetCacheFindByName(char *name)
   char *pcVar3;
   int *piVar4;
   
-  piVar4 = (int *)assetLoaderCacheFlag;
-  if (assetLoaderCacheFlag != 0) {
+  piVar4 = assetLoaderCacheFlag;
+  if (assetLoaderCacheFlag != (void *)0x0) {
     while( true ) {
       if (*(short *)(piVar4 + 1) == 0) {
         pcVar2 = name;
@@ -4694,7 +4698,7 @@ char __usercall ConvertColorsAndTextSprites(TeamGame *team1,TeamGame *team2)
   
   team1Filename = *(dword *)((int)&teamFilenamesTable + (int)(short)(team1->prShirtType << 2));
   team2Filename = *(dword *)((int)&teamFilenamesTable + (int)(short)(team2->prShirtType << 2));
-  ProcessImageCommandStream(menuColorAndTextScript,(uchar *)menuImageStreamBaseEnd);
+  ProcessImageCommandStream(menuColorAndTextScript,menuImageStreamBaseEnd);
   CopyAdvertisementsData();
   MakeSpritesFromPlayerNames(team1,team2);
   bigNumbersColorConversionTable[0xb] = 2;
@@ -4901,13 +4905,13 @@ void __usercall CountFaces(TeamGame *team)
 {
   short sVar1;
   
-  facesFrequency[0] = 0;
-  facesFrequency[1] = 0;
-  facesFrequency[2] = 0;
+  facesFrequency[0] = '\0';
+  facesFrequency[1] = '\0';
+  facesFrequency[2] = '\0';
   sVar1 = 0xf;
   do {
     facesFrequency[(short)(char)team->players[0].face] =
-         facesFrequency[(short)(char)team->players[0].face] + 1;
+         facesFrequency[(short)(char)team->players[0].face] + '\x01';
     team = (TeamGame *)(team->players[0].shortName + 7);
     sVar1 = sVar1 + -1;
   } while (sVar1 != -1);
@@ -7187,15 +7191,16 @@ ushort __usercall GetPlayerPrice(TeamFile *team,PlayerFile *player,ushort positi
   ushort uVar8;
   uint uVar7;
   uchar *curQuadDistFactor;
-  dword dVar9;
+  void *pvVar9;
   
   bVar1 = player[2].positionAndFace;
   uVar7._0_1_ = player[2].passing;
   uVar7._1_1_ = player[2].shootingHeading;
   uVar7._2_1_ = player[2].tacklingBallControl;
   uVar7._3_1_ = player[2].speedFinishing;
-  plPositions = *(int *)((int)teamTacticsTable + (int)(short)((short)(char)team->tactics << 2)) + 9;
-  playerPositions = (uchar *)(plPositions + (int)(short)((position - 1) * 0x23));
+  plPositions = (void *)(*(int *)((int)teamTacticsTable +
+                                 (int)(short)((short)(char)team->tactics << 2)) + 9);
+  playerPositions = (uchar *)((int)plPositions + (int)(short)((position - 1) * 0x23));
   curQuadDistFactor = quadrantDistanceFactor + 0x4a6;
   totalSkillsFactorSum = 0;
   uVar6 = 0x22;
@@ -7208,13 +7213,14 @@ ushort __usercall GetPlayerPrice(TeamFile *team,PlayerFile *player,ushort positi
         (uVar6 < 0x1e)) && (uVar6 != 7)) {
       numPlayersAtQuadrant = 0;
       sVar3 = 9;
-      dVar9 = plPositions;
+      pvVar9 = plPositions;
       do {
-        if (quadrantCoordinatesToBallQuadrant[(short)(ushort)*(byte *)(dVar9 + (int)(short)uVar6)]
-            == quadrantCoordinatesToBallQuadrant[(short)(ushort)playerPositions[(short)uVar6]]) {
+        if (quadrantCoordinatesToBallQuadrant
+            [(short)(ushort)*(byte *)((int)pvVar9 + (int)(short)uVar6)] ==
+            quadrantCoordinatesToBallQuadrant[(short)(ushort)playerPositions[(short)uVar6]]) {
           numPlayersAtQuadrant = numPlayersAtQuadrant + 1;
         }
-        dVar9 = dVar9 + 0x23;
+        pvVar9 = (void *)((int)pvVar9 + 0x23);
         sVar3 = sVar3 + -1;
       } while (sVar3 != -1);
     }
@@ -7976,7 +7982,7 @@ void __usercall ShowErrorMenu(char *errorText)
 
 {
   errorPromptsEnabled = 1;
-  ::errorText = (dword)errorText;
+  ::errorText = errorText;
   ShowMenu(&continueMenu);
   return;
 }

@@ -2521,6 +2521,7 @@ kSpriteBlitQueueSentinel_B:
                 ds.b $2
 BSS_00_2DA8C:
                 ds.b $BB6
+; void*
 spriteBlitQueue:
                 ds.b $4
 BSS_00_2DA92:
@@ -2655,8 +2656,10 @@ poolPlayerStrideRef:
                                         ; BSS address reference used for address arithmetic to compute the 58-byte record stride for poolplyr.dat entries.
 BSS_00_67640:
                 ds.b $17
+; unsigned __int8*
 imageStreamCursor:
                 ds.b $4
+; unsigned __int8*
 menuImageStreamBaseEnd:
                 ds.b $4
 imageStreamBytesLeft:
@@ -3222,14 +3225,18 @@ assetAltBasePtr:
                 dc.l $00000000
 assetSourceVec:
                 dc.l 0,0,0,0
+; void *
 assetSource0:
-                dc.l $00000000          ; raw
+                dc.l $00000000
+; void *
 assetSource1:
-                dc.l $00000000          ; raw
+                dc.l $00000000
+; void *
 assetSource2:
-                dc.l $00000000          ; raw
+                dc.l $00000000
+; void *
 assetSource3:
-                dc.l $00000000          ; raw
+                dc.l $00000000
 assetCurrentSourceSlot:
                 dc.w $0000
 assetCurrentIndex:
@@ -9803,8 +9810,9 @@ aSwos4Dku:
                 dc.b "swos4.dku",0
 aGrafsDisk2Raw:
                 dc.b 'grafs/disk2.raw',0
+; void *
 assetLoaderCacheFlag:
-                dc.l $00000000          ; raw
+                dc.l $00000000
 ; unsigned __int32 *
 assetLoaderWorkPtr:
                 dc.l $00000000
@@ -15856,6 +15864,7 @@ loc_10ACFA:
                 dbf     d2,loc_10ACBE
 locret_10AD02:
                 rts
+; unsigned __int8[4]
 facesFrequency:
                 dc.b $00,$00,$00,$00    ; Number of occurences of each face type in a team
 team1PlayersColorTable:
@@ -19749,7 +19758,9 @@ select_formation_order:
                 rts
 pad_10E512:
                 dc.b 1,0
+; unsigned __int16[2]
 kGoalkeeperBurstSpeed:
+                ; unsigned __int16[2]
                 dc.w 512,1024
 kGoalkeeperCatchSpeed:
                 dc.w $0300              ; =3.0
@@ -19886,7 +19897,9 @@ kPassingSpinFactor:
                                         ; 5 - left spin Y   |
                                         ; 6 - right spin X  +-> ball direction 1
                                         ; 7 - right spin Y /
+; unsigned __int16[2]
 kRefereeSpeed:
+                ; unsigned __int16[2]
                 dc.w $0400,$0500
 kInjuryForeverSpeed:
                 dc.w $0300
@@ -20584,8 +20597,9 @@ substituteInProgress:
 ; Sprite *
 substitutedPlSprite:
                 dc.l $00000000
+; TeamGeneralInfo *
 teamThatSubstitutes:
-                dc.l $00000000          ; raw
+                dc.l $00000000
 benchPlayerIndex:
                 dc.w $0000              ; In subs menu, 0 = coach, 1 = first reserve, ... 5 = last reserve
 subsState:
@@ -20608,8 +20622,10 @@ plToEnterGameIndex:
                 dc.w $0000              ; Index of player that is standing and about to come into the game in subs menu
                                         ; (but fire still needs to be pressed) (sticky var)
                                         ; = benchPlayerIndex + 10 when about to enter (11..16)
+; TeamGeneralInfo *
 benchTeam:
                 dc.l $00000000          ; Points to team that requested bench (TeamGeneralInfo)
+; TeamGame *
 benchTeamGame:
                 dc.l $00000000          ; Points to team that requested bench (in-game structure)
 deadBenchVar:
@@ -46147,8 +46163,9 @@ candidatePlayersByGoalsInTable:
                 dc.b $0D,$0E,$0C,$0B,$00,$00,$00,$00,$0C,$0D,$0B,$0E,$00,$00,$00,$00
                 dc.b $0B,$0C,$0D,$0E,$00,$00,$00,$00,$0E,$0C,$0F,$0B,$0D,$00,$00,$00
                 dc.b $0F,$0D,$0E,$0C,$0B,$00,$00,$00,$0C,$0F,$0D,$0B,$0E,$00,$00,$00
+; void *
 viewResultCtx:
-                dc.l $00000000          ; raw
+                dc.l $00000000
 inEditTactics:
                 dc.w $0000              ; Set to 1 at the very beginning of EditTactics
 viewResultModeFlag:
@@ -47726,8 +47743,9 @@ plPricesIncreaseTable:
                 dc.b $0A,$0A
 pad_12487C:
                 dc.l skillQuadrantAdjustDeltas
+; void *
 plPositions:
-                dc.l $00000000          ; raw
+                dc.l $00000000
 totalSkillsFactorSum:
                 dc.w $0000
 numPlayersAtQuadrant:
@@ -56255,12 +56273,15 @@ cupWinnersCupQualifiedTeamCount:
                 dc.w $0000
 uefaCupQualifiedTeamCount:
                 dc.w $0000
+; void *
 euroCupTeamListPtr:
-                dc.l $00000000          ; raw
+                dc.l $00000000
+; void *
 cupWinnersCupTeamListPtr:
-                dc.l $00000000          ; raw
+                dc.l $00000000
+; void *
 uefaCupTeamListPtr:
-                dc.l $00000000          ; raw
+                dc.l $00000000
 euroCupTeamListWritePtr:
                 dc.l $00000000          ; raw
 cupWinnersCupTeamListWritePtr:
@@ -64634,6 +64655,7 @@ chooseTeamsFriendly_menuTopY:
                 dc.w $0000
 chooseTeamsFriendly_menuBottomY:
                 dc.w $0000
+; TeamFile *
 selectedTeamPtr:
                 dc.l $00000000          ; Pointer to currently selected team
 selectedTeamCountryNumber:
@@ -69048,10 +69070,12 @@ diyInitFocusOverride:
                 dc.w $0000              ; When set, overrides initial menu focus to entry 10, then self-clears.
 diyAllMatchesPlayed:
                 dc.w $0000              ; Flag set to 1 when all DIY matches in the current round have been played.
+; TeamFile *
 diyLeftTeamPtr:
-                dc.l $00000000          ; raw
+                dc.l $00000000
+; TeamFile *
 diyRightTeamPtr:
-                dc.l $00000000          ; raw
+                dc.l $00000000
 diyLeftTeamResult:
                 dc.w $0000
 diyRightTeamResult:
@@ -72758,16 +72782,20 @@ diyCupMenuArg0:
                 dc.w $0000
 diyCupMenuArg2:
                 dc.w $0000
+; char *
 diyCupMatchTeamNamePtr1:
-                dc.l $00000000          ; raw
+                dc.l $00000000
+; char *
 diyCupMatchTeamNamePtr2:
-                dc.l $00000000          ; raw
+                dc.l $00000000
 diyCupMatchListDrawModeFlag:
                 dc.w $0000
+; void *
 diyCupLastMatchTeam1Ptr:
-                dc.l $00000000          ; raw
+                dc.l $00000000
+; void *
 diyCupLastMatchTeam2Ptr:
-                dc.l $00000000          ; raw
+                dc.l $00000000
 diyCupLastMatchScoreTeam1:
                 dc.w $0000
 diyCupLastMatchScoreTeam2:
@@ -76529,8 +76557,9 @@ diyTournamentLookOnly:
                 dc.w $0000
 diyTournamentSelectTeams:
                 dc.w $0000
+; void *
 diyTournamentSelectedStagePtr:
-                dc.l $00000000          ; raw
+                dc.l $00000000
 diyTournamentSelectedStageIndex1Based:
                 dc.w $0000
 diyTournamentPrevValueBackup:
@@ -79351,8 +79380,9 @@ EditTeamsGetPlayerPointer:
 ; prototype: void nullsub_16(...)
 nullsub_16:
                 rts
+; TeamFile *
 editTeamsSelectedTeam:
-                dc.l $00000000          ; raw
+                dc.l $00000000
 saveCustomTeams:
                 dc.w $0000              ; If 1, dialog and everything is for saving (teams)
                                         ; 1 => save custom teams (show dialog)
@@ -83308,16 +83338,18 @@ squadSelectedPlayerIndex:
                 dc.w $0000
 squadDisplayCount:
                 dc.w $0000              ; Number of player slots to display in squad screen.
+; TeamFile *
 squadTeamFilePtr:
-                dc.l $00000000          ; raw
+                dc.l $00000000
 teamSkillDiffAfterChange:
                 dc.w $0000
 squadPrevSelectedPlayerIndex:
                 dc.w $0000
 squadPrevSelectedBreakPos:
                 dc.w $0000
+; MenuEntry *
 squadPrevHighlightedMenuEntryPtr:
-                dc.l $00000000          ; raw
+                dc.l $00000000
 isNationalSquad:
                 dc.w $0000              ; SquadInit sets this
 
@@ -83752,10 +83784,12 @@ diyCompetitionType:
                 dc.w $0000
 diyUnknownWord_2C:
                 dc.w $0000
+; char *
 diyNameOfCompetitionPtr:
-                dc.l $00000000          ; raw
+                dc.l $00000000
+; void *
 diyTeamsBufferPtr:
-                dc.l $00000000          ; raw
+                dc.l $00000000
 diyNumberOfTeams:
                 dc.w $0000
 ; Menu_CareerOver
@@ -86611,7 +86645,7 @@ loc_13C4B2:
                 cmpi.b  #1,4(a0)
                 sne     d0
                 ext.w   d0
-                move.w  d0,(cglm_team_control).l
+                move.w  d0,(careerGameListTeamControl).l
                 lea     5(a0),a0
                 move.l  a0,(careerGameBottomTeamName).l
                 cmpi.b  #0,$B(a4)
@@ -86907,7 +86941,7 @@ loc_13C910:
                 lea     $38(a5),a5
                 move.w  d2,$16(a5)
                 movea.l (careerGameTopTeamName).l,a0
-                tst.w   (cglm_team_control).l
+                tst.w   (careerGameListTeamControl).l
                 beq.s   loc_13C92C
                 movea.l (careerGameBottomTeamName).l,a0
 loc_13C92C:
@@ -86918,7 +86952,7 @@ loc_13C92C:
                 beq.s   loc_13C99A
                 move.w  d2,$16(a5)
                 move.b  $10(a4),d0
-                tst.w   (cglm_team_control).l
+                tst.w   (careerGameListTeamControl).l
                 beq.s   loc_13C954
                 move.b  $11(a4),d0
 loc_13C954:
@@ -86932,7 +86966,7 @@ loc_13C954:
                 lea     $38(a5),a5
                 move.w  d2,$16(a5)
                 move.b  $11(a4),d0
-                tst.w   (cglm_team_control).l
+                tst.w   (careerGameListTeamControl).l
                 beq.s   loc_13C98A
                 move.b  $10(a4),d0
 loc_13C98A:
@@ -86955,7 +86989,7 @@ loc_13C99A:
 loc_13C9CA:
                 move.w  d2,$16(a5)
                 movea.l (careerGameBottomTeamName).l,a0
-                tst.w   (cglm_team_control).l
+                tst.w   (careerGameListTeamControl).l
                 beq.s   loc_13C9E2
                 movea.l (careerGameTopTeamName).l,a0
 loc_13C9E2:
@@ -87033,11 +87067,13 @@ savedContestEntryPtr:
 ; void *
 savedContestRoundPtr:
                 dc.l $00000000          ; Pointer to the active round/game entry within a contest.
+; char *
 careerGameTopTeamName:
                 dc.l $00000000          ; In career game list
+; char *
 careerGameBottomTeamName:
                 dc.l $00000000          ; In career game list
-cglm_team_control:
+careerGameListTeamControl:
                 dc.w $0000              ; In career game list, 0 = computer, -1 = player
 columnMarker:
                 dc.w $0000              ; Y coordinate when drawing games list
@@ -92320,14 +92356,17 @@ selectedLeagueIndex:
 selectedTeamText:
                 dc.l $00000000          ; When selecting teams or leagues from list just before
                                         ; the game, pointer to entry's text is saved here
+; void *
 selectedContest:
-                dc.l $00000000          ; raw
+                dc.l $00000000
 contestLeagueNumber:
                 dc.w $0000              ; League number persisted for career/season context.
 prevSelectedTeamEntry:
                 dc.w $0000
+; char *
 gameTypeStr:
                 dc.l $00000000          ; Game type string for header in choose teams menu
+; char *
 curCountryStr:
                 dc.l $00000000          ; Gets set by GetCountryName
 teamNames:
@@ -92366,6 +92405,7 @@ teamDepthLevel:
                                         ; continents, countries...
 topOfStackMark:
                 dc.w $0000              ; Marks top of stack when making selection of teams
+; void *
 countryStackPtr:
                 dc.l countriesStack
 countriesStack:
@@ -92420,15 +92460,19 @@ exitFlag:
                 dc.w $0000              ; If not zero, exit select teams menu
 leagueNumber:
                 dc.w $0000
+; char *
 playWhatStr:
-                dc.l $00000000          ; raw
+                dc.l $00000000
+; char *
 chooseTeamsHeader1stPart:
                 dc.l $00000000          ; First part of header for choose teams menu
                                         ; 0 = default ("CHOOSE TEAMS FOR")
+; char *
 entryText2:
-                dc.l $00000000          ; raw
+                dc.l $00000000
+; void *
 chooseTeamsFunc:
-                dc.l $00000000          ; raw
+                dc.l $00000000
 careerSquadScreenDidSelectPlayerFlag:
                 dc.w $0000
 selectTeamsNoLimit:
@@ -94523,9 +94567,11 @@ AbortSelected:
 errorPromptsEnabled:
                 dc.w $0000              ; If false, don't wait for the user to press continue button in continue menu,
                                         ; exit immediately (also set text background to gray and hide the button)
+; char *
 errorText:
                 dc.l $00000000          ; Shown when some error happens, and menu is
                                         ; shown that reports error and has continue button
+; char *
 promptHeader:
                 dc.l $00000000          ; Continue/abort menu header
 whatIsChanging:
@@ -100789,8 +100835,9 @@ loc_1448BA:
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$508)).l,a5
                 move.w  #$C,d0
                 jmp     DrawMultipleItems
+; TeamFile *
 squadTeamPtr:
-                dc.l $00000000          ; raw
+                dc.l $00000000
 viewSquadTitle:
                 dc.l $00000000          ; raw
 viewSquadFlags:
@@ -104595,10 +104642,12 @@ locret_146B8C:
                 rts
 careerAddIntlPlayerResult:
                 dc.w $0000
+; void *
 careerAddIntlPlayerSelectedSrcPlayerPtr:
-                dc.l $00000000          ; raw
+                dc.l $00000000
+; char *
 careerAddIntlPlayerSelectedSrcPlayerNamePtr:
-                dc.l $00000000          ; raw
+                dc.l $00000000
 
 ; ===== Career_RemoveInternationalPlayersByMask =====
 ; prototype: void __usercall Career_RemoveInternationalPlayersByMask(unsigned int removeMask@<d0>)
@@ -108525,6 +108574,7 @@ togglePlayerCoachRedrawItemList:
                 dc.w $0009,$0001,$0006,$FFFF
 isFirstPlayerChoosingTeam:
                 dc.w $0000              ; True if the first player is choosing the team
+; unsigned __int16 *
 currentSelectedPlayerIndexPtr:
                 dc.l $00000000          ; Index of player that's being swapped in play match menu (-1 if none),
                                         ; kept up to date no matter which player is currently viewing the menu
@@ -108554,6 +108604,7 @@ selectedPlayerPosition:
                 dc.w $0000
 selectedPlayerTacticsPosition:
                 dc.w $0000
+; MenuEntry *
 pmSelectedPlayerEntry:
                 dc.l $00000000          ; Pointer to menu entry of a player we selected in play match menu (to start moving him)
 playMatchControlFlags:
@@ -108570,8 +108621,10 @@ playMatchExcludeFlags:
                                         ;  1 = red card only
                                         ;  0 = both
                                         ; sent as a D2 parameter to ShowPlayMatchMenu
+; unsigned __int16[2]
 playMatchButtonVisibilityState:
-                dc.b 0,0,0,0
+                ; unsigned __int16[2]
+                dc.w $0000,$0000
 careerTeamCoachOnly:
                 dc.w $0000              ; True if the career team is controlled by the CPU, i.e. the player is coach only
                                         ; (set when view result was pressed)
@@ -110467,8 +110520,9 @@ oldJobOfferOrdinal:
                 dc.w $0000
 teamNoOfferingJob:
                 dc.w $0000
+; void *
 teamOfferingJobPtr:
-                dc.l $00000000          ; raw
+                dc.l $00000000
 jobOfferFunds:
                 dc.l $00000000          ; Funds for improving the team
                                         ; -1 = international offer
@@ -110481,6 +110535,7 @@ ShowChairmanMessage:
 currentMessage:
                 dc.w $0000              ; Index of current message from club managers
                                         ; 0 - no messages (1-based)
+; char *
 plNameForMessage:
                 dc.l $00000000          ; (?) Points to player name when getting memos
                                         ; from club presidents
@@ -111534,6 +111589,7 @@ editTacticsBallLocation:
 ; TeamFile *
 chooseTacticsTeamPtr:
                 dc.l $00000000          ; Pointer to team passed to ShowStandardChooseTacticsMenu (in-game)
+; void *
 editTacticsPlayerNumbers:
                 dc.l $00000000          ; Edit tactics working tactics buffer
 markedPlayerNumber:
@@ -113574,10 +113630,12 @@ editTacticsSelectedPlayerNameIndex:
                 dc.w $0000
 editTacticsSelectedPlayerSlotIndex:
                 dc.w $0000
+; MenuEntry *
 editTacticsSelectedPlayerMenuEntryPtr:
-                dc.l $00000000          ; raw
+                dc.l $00000000
 editTacticsSelectedPairSlotIndex:
                 dc.w $0000
+; MenuEntry *
 editTacticsSelectedPairMenuEntryPtr:
                 dc.l $00000000          ; From edit tactics menu
 
@@ -128111,8 +128169,11 @@ removedPlayerStatAccum:
                                         ; Accumulates player performance stat bytes from removed players.
 seasonInformationsArray:
                 ds.b $848
+; unsigned __int8
 lastFinancialWeekIndex:
-                ds.b $2
+                ds.b $1
+pad_165CE1:
+                ds.b $1
 diyLeagueSeasonStateTable:
                 ds.b $7D0
 ; TeamFileEx
@@ -128139,9 +128200,12 @@ trainingMatchSavedPlayers:
 trainingMatchSavedShirtNums:
                 ds.b $20
                                         ; Saved player shirt number bytes for training match state.
+; unsigned __int8
 trainingMatchSavedTactics:
-                ds.b $2
+                ds.b $1
                                         ; Saved TEAMFILE_TACTICS byte for training match state. Accessed with move.b.
+pad_166A27:
+                ds.b $1
 lastMatchSavedPlayerPos:
                 ds.b $2
                                         ; Saved selTeamSelectedPlayerPosition for last match state.
@@ -128176,8 +128240,10 @@ currentCompetitionPtr:
 ; CompetitionCup*
 secondaryCompetitionPtr:
                 ds.b $4
+; CompetitionCup*
 tertiaryCompetitionPtr:
                 ds.b $4
+; CompetitionCup*
 quaternaryCompetitionPtr:
                 ds.b $4
 ; void*
@@ -128610,6 +128676,7 @@ saveFileMagic2:
 saveFileMagic3:
                 ds.b $4
                                         ; Third 4 bytes of save file magic identifier.
+; void*
 saveFileAmigaType:
                 ds.b $4
                                         ; Amiga type marker set to j_start entry point on save.

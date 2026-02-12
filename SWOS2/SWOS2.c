@@ -4,36 +4,36 @@
 dword loaderBankBitmap;
 dword magicValue;
 undefined4 DAT_0000cc88;
-ushort REG_DMACON;
 dword loaderParam;
-ushort REG_INTENA;
 dword loaderMemTop;
 dword DIVIDE_BY_ZERO;
+ushort REG_DMACON;
 uchar[48048] frontbufferBase;
+ushort REG_INTENA;
 uchar[48048] frontbufferBaseAlt;
 dword LEVEL_2_INTERRUPT_AUTOVECTOR;
-undefined Int2KeyboardHandler;
 dword LEVEL_3_INTERRUPT_AUTOVECTOR;
-undefined Int3TimerHandler;
 dword LEVEL_4_INTERRUPT_AUTOVECTOR;
-ushort REG_COLOR00;
+undefined Int2KeyboardHandler;
+undefined Int3TimerHandler;
 byte[9240] pitchDatBuffer;
+ushort REG_COLOR00;
 byte chipRamBitmapEnd;
 uchar REG_CIAA_PRA;
 uchar REG_CIAA_DDRA;
 uchar REG_CIAA_ICR;
 undefined Int4Handler;
 byte[48048] frontbufferMaskBuffer;
-word assetSelect;
 undefined AssetSys_JumpTable;
+word assetSelect;
 pointer kDriveListPtrs;
 uchar *assetBasePtr;
 uchar *assetAltBasePtr;
 dword[4] assetSourceVec;
-dword assetSource0;
-dword assetSource1;
-dword assetSource2;
-dword assetSource3;
+void *assetSource0;
+void *assetSource1;
+void *assetSource2;
+void *assetSource3;
 word assetCurrentSourceSlot;
 word assetCurrentIndex;
 word assetIndexStartBytes;
@@ -57,9 +57,9 @@ undefined4 UNK_000001fc;
 uint UNK_00000200;
 uchar[32] floppyDriveFlags;
 uchar REG_CIAB_PRB;
+ushort REG_DSKLEN;
 ushort REG_INTREQ;
 ushort REG_INTREQR;
-ushort REG_DSKLEN;
 ushort REG_ADKCON;
 uint REG_DSKPTH;
 ushort REG_DMACONR;
@@ -67,14 +67,14 @@ ushort REG_DSKSYNC;
 ushort REG_INTREQR+1;
 byte[8] floppyStepPositions;
 uchar REG_CIAB_CRA;
-uchar REG_CIAB_TAHI;
 uchar REG_CIAB_TALO;
+uchar REG_CIAB_TAHI;
 uchar REG_CIAA_SDR;
 uchar REG_CIAA_CRA;
 word keyDelay;
-ushort REG_VPOSR;
 word keyCount;
 byte[12] keyBuffer;
+ushort REG_VPOSR;
 byte keyIn;
 word didSwapThisFrame;
 FixedPoint_ cameraX;
@@ -91,6 +91,7 @@ word showingUserStats;
 short waitingInterrupt;
 uchar[128] keycodeLut;
 word currentKey;
+uint REG_COP1LCH;
 ushort REG_COPJMP1;
 uint[225] bitPlane0Base;
 word kSpriteBlitQueueSentinel_A;
@@ -107,7 +108,6 @@ word[160] copperListBuffer;
 dword copperZeroLong;
 uchar *frontbufferBasePtr;
 uchar *frontbufferBaseAltPtr;
-uint REG_COP1LCH;
 word cameraXMod320;
 word cameraYMod320;
 word useAltBaseFlag;
@@ -118,7 +118,7 @@ uint[225] bitPlane2BaseAlt;
 uint[225] bitPlane3BaseAlt;
 word oldCameraX;
 word oldCameraY;
-dword spriteBlitQueue;
+void *spriteBlitQueue;
 word dstXByteOffsetSaved0;
 word dstYStartLinesSaved0;
 word oldCameraXSaved0;
@@ -158,9 +158,9 @@ byte pl1DownLeft;
 byte pl1LeftPress;
 byte pl1RightPress;
 byte pl1UpPress;
-ushort REG_JOY1DAT;
 byte pl1DownPress;
 byte pl1ShortFire;
+ushort REG_JOY1DAT;
 word pl1FireCounter;
 byte pl2WasLeft;
 byte pl2WasRight;
@@ -205,13 +205,13 @@ word blitWordCount;
 uint *maskBlitDestPtr;
 word loaderModeFlag;
 char[20] fadeShiftMaskTable;
-uint[5] kFadeShiftMaskTable;
 pointer paletteTable;
+uint[5] kFadeShiftMaskTable;
 word fadeStep;
 word fadeState;
 word fadeCommand;
 word fadeInitFlag;
-dword imageStreamCursor;
+uchar *imageStreamCursor;
 dword imageStreamBytesLeft;
 word playGame;
 word playHighlightFlag;
@@ -221,8 +221,8 @@ undefined4 spriteGraphicsPtr;
 word useIndividualPlayerSkinColor;
 dword LEVEL_1_INTERRUPT_AUTOVECTOR;
 undefined Int3Handler;
-undefined Int5Handler;
 dword LEVEL_5_INTERRUPT_AUTOVECTOR;
+undefined Int5Handler;
 word int5SerialBusBufferFull;
 uint *oldStackPtr;
 word[201] isrTrampolineGuard;
@@ -268,7 +268,7 @@ dword blitSrcA_MaskPtr_glyph;
 dword blitSrcB_GlyphPtr_glyph;
 word dstRowBytesPerPlane;
 byte[56] dstRowAdvanceBytes;
-dword assetLoaderCacheFlag;
+void *assetLoaderCacheFlag;
 word assetLoaderAltPathReady;
 uchar[2226] LoaderBootstrapBlobPI;
 word crowdEventFlags;
@@ -277,8 +277,8 @@ word assetParamBlock;
 uint *assetLoaderWorkPtr;
 byte[24] surnameBuf;
 byte[195000] assetLoaderMainRegion;
-undefined j_start;
 byte assetLoaderBank0Base;
+undefined j_start;
 word crowdChantVolume;
 word patternsGoalCounter;
 word showFansCounter;
@@ -317,10 +317,10 @@ uint REG_AUD0LCH;
 uint REG_AUD1LCH;
 uint REG_AUD2LCH;
 uint REG_AUD3LCH;
+ushort REG_AUD3VOL;
 ushort REG_AUD0VOL;
 ushort REG_AUD1VOL;
 ushort REG_AUD2VOL;
-ushort REG_AUD3VOL;
 word[36] kAmigaNotePeriodTable;
 short[1024] kAngleCoeficients;
 Sprite *[11] team1SpritesTable;
@@ -356,7 +356,7 @@ word kBallAirConstant;
 word ballSpeedBounceFactor;
 word ballBounceFactor;
 word pitchBallSpeedFactor;
-dword teamThatSubstitutes;
+TeamGeneralInfo *teamThatSubstitutes;
 dword kGravityConstant;
 word ballNextX;
 word ballNextY;
@@ -380,7 +380,7 @@ Sprite goalie2Sprite;
 AnimTable_12 refWaitingAnimTable;
 word refState;
 Sprite refereeSprite;
-word[2] kRefereeSpeed;
+ushort[2] kRefereeSpeed;
 AnimTable_8 refComingAnimTable;
 AnimTable_8 refYellowCardAnimTable;
 AnimTable_8 refRedCardAnimTable;
@@ -459,13 +459,13 @@ byte team2ReserveGoalieSkinType;
 ushort[5166] menuColorAndTextScript;
 word team1NameLength;
 word team2NameLength;
-dword menuImageStreamBaseEnd;
+uchar *menuImageStreamBaseEnd;
 dword team1Filename;
 word team1MostFrequentFace;
 dword team2Filename;
 word team2MostFrequentFace;
 pointer teamFilenamesTable;
-byte[4] facesFrequency;
+uchar[4] facesFrequency;
 word[16] team1PlayersColorTable;
 word[16] team2PlayersColorTable;
 word[32] colorTableReserves;
@@ -507,9 +507,9 @@ Sprite resultOnHalftimeSprite;
 Sprite resultAfterTheGameSprite;
 Sprite gridUpperRowLeftSprite;
 Sprite gridUpperRowRightSprite;
-undefined ShowLoaderIntroSequence;
 Sprite gridMiddleRowLeftSprite;
 Sprite gridMiddleRowRightSprite;
+undefined ShowLoaderIntroSequence;
 Sprite gridBottomRowLeftSprite;
 Sprite gridBottomRowRightSprite;
 Sprite team1NameSprite;
@@ -603,8 +603,8 @@ word selectedFormationEntry;
 word plToBeSubstitutedOrd;
 word plToBeSubstitutedPos;
 word plToEnterGameIndex;
-dword benchTeam;
-dword benchTeamGame;
+TeamGeneralInfo *benchTeam;
+TeamGame *benchTeamGame;
 word pl1BenchTimeoutCounter;
 word pl2BenchTimeoutCounter;
 word subsPrevPl1Direction;
@@ -665,8 +665,8 @@ TeamGeneralInfo *teamScoredDataPtr;
 word fireBlocked;
 word lastGameTick;
 undefined4 savedRandStatePtr;
-byte seed2;
 uchar[15] savedRandState;
+byte seed2;
 byte randXorIndex2;
 byte randXorKey2;
 char[257] kRandomTable;
@@ -849,7 +849,7 @@ word deadThrowInDirectionVar;
 word disallowedTurnFlagsCounter;
 word ballSpeed;
 word ballSpeedAfterSave;
-word[2] kGoalkeeperBurstSpeed;
+ushort[2] kGoalkeeperBurstSpeed;
 word goalkeeperSkipFlag;
 word kGoalkeeperMoveToBallSpeed;
 word kGoalKeeperRecoveryStepBase;
@@ -930,8 +930,8 @@ word internationalAutoAdvanceFlag;
 word seasonUpdateInProgress;
 word writeOnlyVar01;
 word highlightedLeagueTeamId;
-word competitionOver;
 byte[14] importTacticsFilename;
+word competitionOver;
 word teamsLoaded;
 word poolplyrLoaded;
 Menu_SWOSMainMenu swosMainMenu;
@@ -990,11 +990,11 @@ dword[4750] goalBase;
 char[12] kAbortLossScorerWeightTable;
 TacticsPosition *[18] playersPositionsByTactics;
 word currentSeasonShowing;
-byte viewRandomPhase;
 byte[8] kUserTeamOffsetBiasLUT;
+byte viewRandomPhase;
 byte[256] kTeamViewOffsetBaseLUT;
 byte newRandomSeedCopy;
-dword viewResultCtx;
+void *viewResultCtx;
 word inEditTactics;
 word viewResultModeFlag;
 word viewResultStatColumnIndex;
@@ -1047,7 +1047,7 @@ byte[32] playerPositionsArray;
 word oldPlayerSkillDivisor;
 word oldPlayerSkill;
 byte[50] plPricesIncreaseTable;
-dword plPositions;
+void *plPositions;
 word totalSkillsFactorSum;
 word numPlayersAtQuadrant;
 uchar[1226] quadrantDistanceFactor;
@@ -1087,36 +1087,38 @@ word qualifyingStage1PendingFlag1;
 word currentMessage;
 word seasonReview;
 word youreSacked;
+word leaguePromotionCount;
 CompetitionCup *secondaryCompetitionPtr;
 word leagueRelegationCount;
-dword tertiaryCompetitionPtr;
+CompetitionCup *tertiaryCompetitionPtr;
 word leagueWarningsEnabled;
 byte careerJobOfferPhaseBias;
 word secondaryCompFinished;
-char[2] competitionFileBuffer;
 word expectedLeagueRankIndex;
-word numDiyTeams;
+char[2] competitionFileBuffer;
 word performanceWarningState;
 word overdraftWarningCooldown;
+word numDiyTeams;
 word performanceWarningCooldown;
 word tertiaryCompFinished;
 word competitionSlotUpdatedFlag;
 word wageScalingDivisor;
 word careerTeamLostMatch;
-word leaguePromotionCount;
 dword seasonRunningCostsAccum2;
 dword generalRunningCosts;
 dword playerWagesBill;
 dword seasonRunningCostsAccum;
-word lastFinancialWeekIndex;
+uchar lastFinancialWeekIndex;
 dword seasonWagesAccum;
 dword weeklyRunningCosts;
 dword weeklyPlayerWages;
 word seasonWeeksDeducted;
-dword quaternaryCompetitionPtr;
+CompetitionCup *quaternaryCompetitionPtr;
 dword old_balance;
 dword startingBalanceCopy;
 dword competitionBonuses;
+CompetitionCup2_4_2_32 europeanChampionships2Copy;
+CompetitionCup *currentCompetitionPtr;
 CompetitionCup2_4_2_24 copaAmericaCopy;
 CompetitionCup2_6_2 africanNationsCupCopy;
 CompetitionCup2_4_2 northAmericanCupCopy;
@@ -1125,8 +1127,6 @@ CompetitionCup_6_2_8 invitationTournamentCopy;
 CompetitionCup_6_2 oceaniaCupCopy;
 CompetitionCup_6_2_8 tourCopy;
 CompetitionCup2_6_2_64 worldCup2Copy;
-CompetitionCup2_4_2_32 europeanChampionships2Copy;
-CompetitionCup *currentCompetitionPtr;
 word isCareer;
 word boardConfidenceHistory0;
 word boardConfidenceHistory1;
@@ -1138,8 +1138,8 @@ word minorTrophyBonusActive;
 word majorTrophyBonusActive;
 word cupBonus1Active;
 word boardConfidenceHistory3;
-word seasonFinished;
 short[5] seasonReviewConfidenceDeltaTable;
+word seasonFinished;
 CompetitionCup_6_2_12 worldCupQualifyingGroup8Copy;
 CompetitionCup2_6_2_24 northAmericaWorldCupQualificationCopy;
 CompetitionCup2_6_2_16 southAmericaWorldCupQualificationCopy;
@@ -1149,8 +1149,8 @@ CompetitionCup_6_2_8 oceaniaWorldCupQualificationCopy;
 word primaryCompWinnerTeam;
 word leagueTitleBonusActive;
 word wonInvitationTournament;
-word euroCupSlotIndex;
 word qualifyingStage2PendingFlag0;
+word euroCupSlotIndex;
 word qualifyingStage2PendingFlag1;
 word secondaryCompWinnerTeam;
 word tertiaryCompWinnerTeam;
@@ -1158,16 +1158,16 @@ byte someTeamFlags;
 word quaternaryCompWinnerTeam;
 word worldCupHostTeam;
 word worldCupQualifyingTeam;
-CompetitionCup_6_2_12 friendlyCopy;
 word euroChampionshipQualTeam;
 word diyFoundTeamIndex;
-CompetitionCup_6_2_12 ecQualifyingGroup1Copy;
+CompetitionCup_6_2_12 friendlyCopy;
 word diyCompHasGroupStage;
+CompetitionCup_6_2_12 ecQualifyingGroup1Copy;
 CompetitionCup_6_2_8 ecQualifyingGroup8Copy;
 CompetitionCup_6_2_12 worldCupQualifyingGroup1Copy;
 undefined2 DAT_0016e0f2;
-word[144] diyTeamIdListType0;
 short[5] nationalSelectorSeasonReviewReputationDeltaTable;
+word[144] diyTeamIdListType0;
 word nationalSelectorReputationPoints;
 word winCupBonusCount;
 word minorTrophyBonusCount;
@@ -1297,9 +1297,9 @@ ushort DAT_0002df6e;
 undefined2 DAT_0002e0be;
 byte[128] diyCupTeamIds;
 word[14] diyLeagueTeamIds;
+byte teamSelectionKeyCache;
 byte[64] diyTeamGridPairings;
 word teamSelectionKeyCacheCount;
-byte teamSelectionKeyCache;
 word diyEditParamB;
 word diyEditParamC;
 word diyEditParamA;
@@ -1309,8 +1309,8 @@ CompetitionCup2_4_2_32 europeanChampionships2;
 CompetitionCup2_4_2_32 europeanChampionships;
 uchar[8] diyShuffleOrder8Teams;
 uchar[4] diyShuffleOrder4Teams;
-undefined sub_129960;
 char[16] diyLeagueTeamShuffleMap;
+undefined sub_129960;
 uchar[76] diyGroupPatternLookup;
 uchar[8] diyTournamentShuffleOrder8;
 ushort[20] diyTournamentInitTable;
@@ -1351,9 +1351,9 @@ TeamFile tertiaryQualifiedTeamGrid;
 word euroCupQualifiedTeamCount;
 word cupWinnersCupQualifiedTeamCount;
 word uefaCupQualifiedTeamCount;
-dword euroCupTeamListPtr;
-dword cupWinnersCupTeamListPtr;
-dword uefaCupTeamListPtr;
+void *euroCupTeamListPtr;
+void *cupWinnersCupTeamListPtr;
+void *uefaCupTeamListPtr;
 TeamFile euroCupTitleHolderGrid;
 TeamFile cupWinnersCupTitleHolderGrid;
 TeamFile uefaCupTitleHolderGrid;
@@ -1367,12 +1367,12 @@ CompetitionCup_6_2_12 ecQualifyingGroup4Copy;
 CompetitionCup_6_2_12 ecQualifyingGroup5Copy;
 CompetitionCup_6_2_12 ecQualifyingGroup6Copy;
 CompetitionCup_6_2_12 ecQualifyingGroup7Copy;
+CompetitionCup_6_2_12 worldCupQualifyingGroup2Copy;
+CompetitionCup_6_2_12 worldCupQualifyingGroup3Copy;
 CompetitionCup_6_2_12 worldCupQualifyingGroup4Copy;
 CompetitionCup_6_2_12 worldCupQualifyingGroup5Copy;
 CompetitionCup_6_2_12 worldCupQualifyingGroup6Copy;
 CompetitionCup_6_2_12 worldCupQualifyingGroup7Copy;
-CompetitionCup_6_2_12 worldCupQualifyingGroup2Copy;
-CompetitionCup_6_2_12 worldCupQualifyingGroup3Copy;
 CompetitionCup2_4_2_32 euroCupCopy;
 CompetitionCup_6_2_64 cupWinnersCupCopy;
 CompetitionCup_6_2_64 uefaCupCopy;
@@ -1444,13 +1444,13 @@ word natTeamsRandLimit2;
 byte[852] nationalTeams;
 void *diyCompetitionTablePtr;
 undefined DAT_00167d5a;
+word diyCompSlotStateC;
 word[4] competitionTeamIdScratchList4;
 word primaryCompSlotStateA;
 word primaryCompSlotStateB;
 word diyCompSlotStateA;
 word primaryCompSlotStateC;
 word diyCompSlotStateB;
-word diyCompSlotStateC;
 word[10] careerCompetitionSlotPtrTable;
 word teamSelectionKeyCacheEnd;
 string aFriendly;
@@ -1458,9 +1458,9 @@ word gamesPlayed;
 word numWins;
 word numDrawn;
 word numLost;
-word careerSlotProcessingInProgress;
 word goalsScored;
 word goalsTaken;
+word careerSlotProcessingInProgress;
 word boardConfidenceMod0;
 word boardConfidenceMod1;
 word boardConfidenceMod2;
@@ -1502,8 +1502,8 @@ word secondaryCompSlotStateC;
 word tertiaryCompSlotStateA;
 word tertiaryCompSlotStateB;
 word tertiaryCompSlotStateC;
-word quaternaryCompSlotStateA;
 word sameNationalCallFlag;
+word quaternaryCompSlotStateA;
 word quaternaryCompSlotStateB;
 word quaternaryCompSlotStateC;
 undefined LAB_0012e896;
@@ -1549,13 +1549,13 @@ byte[32] lastMatchPlayers;
 uchar[32] lastMatchSavedShirtNums;
 byte currentTactics;
 byte lastMatchSavedTeamControls;
-word trainingMatchSavedTactics;
+uchar trainingMatchSavedTactics;
 undefined *tacticPosMapPtrs;
 undefined trainingPosOrderTables;
 char[12] trialPlayerPositionTable;
 short DAT_0016e0ea;
 short DAT_0016e0d2;
-dword plNameForMessage;
+char *plNameForMessage;
 word chooseTeamsFriendly_rightListNumEntries;
 word chooseTeamsFriendly_numTeamsInLeagueList;
 word topOfStackMark;
@@ -1572,28 +1572,28 @@ word changeTeams;
 word viewSelectedTeams;
 word abortSelectTeams;
 word exitSelectTeams;
-dword selectedTeamPtr;
+TeamFile *selectedTeamPtr;
 word selectedTeamCountryNumber;
-dword chooseTeamsFunc;
+void *chooseTeamsFunc;
 word careerSquadScreenDidSelectPlayerFlag;
-dword gameTypeStr;
-dword curCountryStr;
+char *gameTypeStr;
+char *curCountryStr;
 string aChooseTeamsFor;
 string aChangeTeamsFor;
-dword chooseTeamsHeader1stPart;
+char *chooseTeamsHeader1stPart;
 short[5] bureaucracyMenuItems;
 string aSelect1MoreTea;
 string aSelect0LessTea;
 string aSelect1LessTea;
 string aError;
-dword playWhatStr;
+char *playWhatStr;
 string aSelect0MoreTea;
 word chooseTeamsFriendly_menuTopY;
 word chooseTeamsFriendly_menuBottomY;
 byte[64] teamNumbersIndices;
 word numSelectedTeamsCopy;
 string aAllSelectedTea;
-dword selectedContest;
+void *selectedContest;
 CompetitionCup2_4_2_24 copaAmerica;
 dword[64] teamPointers;
 word viewTeamsColumn1;
@@ -1634,12 +1634,12 @@ word numDiyResults;
 dword competitionStatsMenu;
 word diyCompetitionType;
 word diyUnknownWord_2C;
-dword diyNameOfCompetitionPtr;
-dword diyTeamsBufferPtr;
+char *diyNameOfCompetitionPtr;
+void *diyTeamsBufferPtr;
 word diyNumberOfTeams;
 word diyLeagueTournament_viewOptionsAvailable;
-dword diyLeftTeamPtr;
-dword diyRightTeamPtr;
+TeamFile *diyLeftTeamPtr;
+TeamFile *diyRightTeamPtr;
 word diyLeftTeamResult;
 word diyRightTeamResult;
 string aPlayMatch;
@@ -1664,15 +1664,15 @@ word diyCupMatchListDrawModeFlag;
 string aDraw;
 string aReplays;
 undefined *replayStringTable;
-dword diyCupMatchTeamNamePtr1;
-dword diyCupMatchTeamNamePtr2;
+char *diyCupMatchTeamNamePtr1;
+char *diyCupMatchTeamNamePtr2;
 string aOr;
 string aNextRoundDraw;
 string aPlayReplays;
 string a2ndLegRound;
 word diyCupLastMatchScoreTeam2;
-dword diyCupLastMatchTeam1Ptr;
-dword diyCupLastMatchTeam2Ptr;
+void *diyCupLastMatchTeam1Ptr;
+void *diyCupLastMatchTeam2Ptr;
 word diyCupLastMatchScoreTeam1;
 word saveGameLength;
 word showPrereleaseCounter;
@@ -1697,14 +1697,14 @@ string aTop0InEachGrou;
 string aTop0InEachGrou_0;
 string aStar;
 string aTop0InEachGrou_1;
-string asc_135D9A;
 string aMatchWinnersQu;
 string aMatchWinnersOn;
+string asc_135D9A;
 string aTop0InGroupQua;
 string aMatchWinnerWin;
 string aMatchWinnerOnA;
 string aGroupWinnerWin;
-dword diyTournamentSelectedStagePtr;
+void *diyTournamentSelectedStagePtr;
 word diyTournamentSelectedStageIndex1Based;
 word diyTournamentPrevValueBackup;
 word diySelected;
@@ -1714,13 +1714,13 @@ string aPlayFriendly;
 pointer friendlyPitchTypeTable;
 pointer friendly_season_table;
 word saveCustomTeams;
-undefined EditTeamsCallback;
 string aEditCustomTeam;
+undefined EditTeamsCallback;
 string aSelectTeamToEd;
 string aCustomTeamsChanged;
 string aSave;
 string aCustomsEdt;
-dword editTeamsSelectedTeam;
+TeamFile *editTeamsSelectedTeam;
 Menu_EditTeams editTeamsMenu;
 word teamIsImported;
 string aSelectTeamToIm;
@@ -1775,14 +1775,14 @@ pointer[7] topSkillBitRotOdd;
 string aSelectSquadToV;
 Menu_Squad squadMenu;
 word squadRowMode;
-dword squadTeamFilePtr;
+TeamFile *squadTeamFilePtr;
 word teamSkillDiffAfterChange;
 word isNationalSquad;
 undefined *PTR_aEur_001520e8;
 word isSquadViewMode;
 word squadDisplayCount;
 word squadPrevSelectedPlayerIndex;
-dword squadPrevHighlightedMenuEntryPtr;
+MenuEntry *squadPrevHighlightedMenuEntryPtr;
 string aClubs;
 short[3] squad45MenuItemList;
 word squadPrevSelectedBreakPos;
@@ -1860,11 +1860,11 @@ string aLeg1;
 string aLeg2;
 string aH;
 string aA_2;
-dword careerGameTopTeamName;
+char *careerGameTopTeamName;
 string aCup_1;
-dword careerGameBottomTeamName;
+char *careerGameBottomTeamName;
 string aCup_2;
-word cglm_team_control;
+word careerGameListTeamControl;
 word columnMarker;
 string aPlayoffs;
 word cglmVar3;
@@ -1907,7 +1907,7 @@ word selTeamsListTopY;
 word selTeamsListBottomY;
 undefined DAT_000000fc;
 word teamDepthLevel;
-pointer countryStackPtr;
+void *countryStackPtr;
 byte[10] countriesStack;
 dword[10] leaguesPtrTable;
 word[10] leagueNumbersTable;
@@ -1923,7 +1923,7 @@ word teamsType;
 word numberOfLeagues;
 word stayInSelectTeams;
 word exitFlag;
-dword entryText2;
+char *entryText2;
 CompetitionCup2_6_2_24 northAmericaWorldCupQualification;
 CompetitionCup2_6_2_16 southAmericaWorldCupQualification;
 CompetitionCup2_6_2_64 africaWorldCupQualification;
@@ -1999,9 +1999,9 @@ string aInsertBlankDis;
 string aFormatSaveDisk;
 string aDeleteFile;
 word errorPromptsEnabled;
-dword errorText;
+char *errorText;
 Menu_Continue continueMenu;
-dword promptHeader;
+char *promptHeader;
 dword whatIsChanging;
 dword continueText;
 dword abortText;
@@ -2144,7 +2144,7 @@ string aSelectPlayerTo_0;
 word lastOfferExtraPlayersWanted;
 word lastOfferSwapPlayerOrdinal;
 word lastOfferExtraPlayerOrdinal;
-dword squadTeamPtr;
+TeamFile *squadTeamPtr;
 dword viewSquadTitle;
 dword viewSquadFlags;
 dword viewSquadMaskLo;
@@ -2203,8 +2203,8 @@ word careerAddIntlPlayerResult;
 undefined1 DAT_00164f65;
 word careerAddIntlPlayerSelectedTeamNumber;
 word careerAddIntlPlayerSelectedPlayerOrdinal;
-dword careerAddIntlPlayerSelectedSrcPlayerPtr;
-dword careerAddIntlPlayerSelectedSrcPlayerNamePtr;
+void *careerAddIntlPlayerSelectedSrcPlayerPtr;
+char *careerAddIntlPlayerSelectedSrcPlayerNamePtr;
 undefined careerDefaultInternationalSquadSlotsTable;
 Menu_SelectNationalTeam selectNationalTeamMenu;
 word selectNationalTeamMenuResult;
@@ -2237,8 +2237,8 @@ word is_A_team;
 word pmMenuNumPlayers;
 word numPlayersToShowInMenu;
 word selectedPlayerPosition;
-dword pmSelectedPlayerEntry;
-dword currentSelectedPlayerIndexPtr;
+MenuEntry *pmSelectedPlayerEntry;
+ushort *currentSelectedPlayerIndexPtr;
 word selectedPlayerTacticsPosition;
 short[3] playMatchRedrawList;
 string aViewResult;
@@ -2247,7 +2247,7 @@ string aCoachMatch;
 string aPlayCoachMatch;
 string aViewATeam;
 string aViewBTeam;
-byte[4] playMatchButtonVisibilityState;
+ushort[2] playMatchButtonVisibilityState;
 pointer sidePitchSurnamePositionsTable;
 string aViewTeam;
 string aViewOppo;
@@ -2273,7 +2273,7 @@ string aJobOfferFromAW;
 word teamNoOfferingJob;
 dword jobOfferFunds;
 string aAndWeLookForwa;
-dword teamOfferingJobPtr;
+void *teamOfferingJobPtr;
 string aCoachingJobAtO;
 string aWeCanOfferYouA;
 string aWeHopeToBeAble;
@@ -2315,11 +2315,11 @@ string aEditTacticsSel;
 Menu_ChooseTactics chooseTacticsMenu;
 word chosenTactics;
 Menu_EditTactics editTacticsMenu;
-dword editTacticsSelectedPlayerMenuEntryPtr;
+MenuEntry *editTacticsSelectedPlayerMenuEntryPtr;
 word editTacticsSelectedPairSlotIndex;
 word editTacticsNumPlayers;
 word editTacticsSelectedPlayerNameIndex;
-dword editTacticsSelectedPairMenuEntryPtr;
+MenuEntry *editTacticsSelectedPairMenuEntryPtr;
 TeamTactics editTacticsCurrentTactics;
 word editTacticsSelectedPlayerSlotIndex;
 string aEditedTacticsWillBeLost;
@@ -2338,7 +2338,7 @@ word markedPlayerNumber;
 word editTacticsPitchStatus;
 word editTacticsLastTick;
 word ballColumn;
-dword editTacticsPlayerNumbers;
+void *editTacticsPlayerNumbers;
 word[16] littlePlayersConvertTable;
 word ballRow;
 word editTacticsInputRepeatCounter;
@@ -2373,12 +2373,12 @@ uchar[32] careerRegionPickWeightsTable2;
 string aInsertSwosDisk_0;
 string aOk;
 string aInsertGameSave;
-dword saveFileMagic3;
-dword saveFileAmigaType;
-string aCj0611143807;
-word saveFileVersion;
 dword saveFileMagic1;
 dword saveFileMagic2;
+dword saveFileMagic3;
+void *saveFileAmigaType;
+string aCj0611143807;
+word saveFileVersion;
 string aFileSavedByDif;
 string aFileSavedOnDif;
 string aCompetitionFil_0;
@@ -2569,10 +2569,10 @@ AssetSys_JumpTable(void *loaderBase,char *disk0Path,char *disk1Path,char *disk2P
   
   assetAltBasePtr = (uchar *)((int)loaderBase + 0x4d00);
   assetBasePtr = loaderBase;
-  assetSource0 = (dword)disk0Path;
-  assetSource1 = (dword)disk1Path;
-  assetSource2 = (dword)disk2Path;
-  assetSource3 = (dword)disk3Path;
+  assetSource0 = disk0Path;
+  assetSource1 = disk1Path;
+  assetSource2 = disk2Path;
+  assetSource3 = disk3Path;
   uVar2 = FloppyDev_TransferImpl(unaff_D0w,unaff_D1w,unaff_D2w,3,&assetSource3,loaderBase);
   uVar3 = 0;
   ppuVar5 = &kDriveListPtrs;
@@ -2615,10 +2615,10 @@ AssetSys_InitContext
   
   assetAltBasePtr = (uchar *)((int)loaderBase + 0x4d00);
   assetBasePtr = loaderBase;
-  assetSource0 = (dword)disk0Path;
-  assetSource1 = (dword)disk1Path;
-  assetSource2 = (dword)disk2Path;
-  assetSource3 = (dword)disk3Path;
+  assetSource0 = disk0Path;
+  assetSource1 = disk1Path;
+  assetSource2 = disk2Path;
+  assetSource3 = disk3Path;
   uVar2 = FloppyDev_TransferImpl(unaff_D0w,unaff_D1w,unaff_D2w,3,&assetSource3,loaderBase);
   uVar3 = 0;
   ppuVar5 = &kDriveListPtrs;
@@ -2820,7 +2820,7 @@ short __usercall AssetSys_OpenAnySource(void)
   assetCurrentIndex = 4;
   assetCurrentSourceSlot = 0;
   bVar2 = true;
-  AssetSys_Op5ThenMaybe6((void *)assetSource0);
+  AssetSys_Op5ThenMaybe6(assetSource0);
   if (bVar2) {
 asset_open_any_fail_restore_state:
     sVar1 = -100;
@@ -2828,14 +2828,14 @@ asset_open_any_fail_restore_state:
     assetCurrentIndex = assetSavedIndex;
   }
   else {
-    bVar2 = assetSource1 == 0;
+    bVar2 = assetSource1 == (void *)0x0;
     if (!bVar2) {
-      AssetSys_Op5ThenMaybe6((void *)assetSource1);
+      AssetSys_Op5ThenMaybe6(assetSource1);
       if (bVar2) goto asset_open_any_fail_restore_state;
     }
-    bVar2 = assetSource2 == 0;
+    bVar2 = assetSource2 == (void *)0x0;
     if (!bVar2) {
-      AssetSys_Op5ThenMaybe6((void *)assetSource2);
+      AssetSys_Op5ThenMaybe6(assetSource2);
       if (bVar2) goto asset_open_any_fail_restore_state;
     }
     sVar1 = 0;
@@ -5448,7 +5448,7 @@ void __usercall SwapBuffersAndCameraViewState(void)
     bitPlane3BaseAlt[0] = copperZeroLong;
     frontbufferBasePtr = frontbufferBaseAlt;
     frontbufferBaseAltPtr = frontbufferBase;
-    spriteBlitQueue = (dword)&kSpriteBlitQueueSentinel_B;
+    spriteBlitQueue = &kSpriteBlitQueueSentinel_B;
     dstXByteOffsetSaved0 = cameraXMod320;
     dstYStartLinesSaved0 = cameraYMod320;
     oldCameraXSaved0 = oldCameraX;
@@ -5473,7 +5473,7 @@ void __usercall SwapBuffersAndCameraViewState(void)
     bitPlane3Base[0] = copperZeroLong;
     frontbufferBasePtr = frontbufferBase;
     frontbufferBaseAltPtr = frontbufferBaseAlt;
-    spriteBlitQueue = (dword)&kSpriteBlitQueueSentinel_A;
+    spriteBlitQueue = &kSpriteBlitQueueSentinel_A;
     dstXByteOffsetSaved1 = cameraXMod320;
     dstYStartLinesSaved1 = cameraYMod320;
     oldCameraXSaved1 = oldCameraX;
@@ -5729,7 +5729,7 @@ void __usercall ProcessSpriteBlitQueue(void)
   REG_BLTALWM = BLT_FWM_ALL;
   REG_BLTCON1 = 0;
   REG_BLTCON0 = BLTCON0_USEA_USED_LF_F0;
-  puVar3 = (undefined4 *)spriteBlitQueue;
+  puVar3 = spriteBlitQueue;
   while( true ) {
     REG_DMACON = DMACON_BLT_ON;
     uVar1 = REG_DMACONR._0_1_;
@@ -6415,7 +6415,7 @@ void __usercall ProcessImageCommandStream(ushort *cmdBuffer,uchar *workBuffer)
   uchar *puVar7;
   undefined1 uVar8;
   
-  imageStreamCursor = (dword)workBuffer;
+  imageStreamCursor = workBuffer;
 read_next_opcode:
   do {
     puVar6 = cmdBuffer + 1;
@@ -6592,15 +6592,16 @@ BlitDispatch(ushort spriteIndex,ushort xOffset,ushort yOffset,ushort width,ushor
       ((((spriteIndex < 0x2dc || (0x340 < spriteIndex)) &&
         ((spriteIndex < 0x37b || (0x3b4 < spriteIndex)))) &&
        ((spriteIndex < 0x3ef || (0x428 < spriteIndex)))))))) {
-    *(dword *)(spriteGraphicsPtr + (short)(spriteIndex << 2)) = imageStreamCursor;
+    *(uchar **)(spriteGraphicsPtr + (short)(spriteIndex << 2)) = imageStreamCursor;
     currentSpriteIndex = spriteIndex & 0x3fff;
     *(word *)(imageStreamCursor + 0x16) = currentSpriteIndex;
     *(ushort *)(imageStreamCursor + 0x10) = dstX;
     *(ushort *)(imageStreamCursor + 0x12) = dstY;
     *(ushort *)(imageStreamCursor + 10) = width;
     *(ushort *)(imageStreamCursor + 0xc) = height;
-    *(undefined2 *)(imageStreamCursor + 8) = 0;
-    *(char *)(imageStreamCursor + 8) = -(planesFlag != (void *)0x0);
+    imageStreamCursor[8] = '\0';
+    imageStreamCursor[9] = '\0';
+    imageStreamCursor[8] = -(planesFlag != (void *)0x0);
     puVar7 = (ushort *)0x0;
     if (src != (void *)0x0) {
       puVar7 = (ushort *)
@@ -6643,7 +6644,10 @@ BlitDispatch(ushort spriteIndex,ushort xOffset,ushort yOffset,ushort width,ushor
         sVar1 = uVar3 - 1;
       } while (sVar4 != -1);
     }
-    *(undefined4 *)(imageStreamCursor + 4) = 0;
+    imageStreamCursor[4] = '\0';
+    imageStreamCursor[5] = '\0';
+    imageStreamCursor[6] = '\0';
+    imageStreamCursor[7] = '\0';
     if (maskSel != 0) {
       if ((short)maskSel < 0) {
         *(dword **)(imageStreamCursor + 4) = pdVar10;
@@ -6708,7 +6712,7 @@ BlitDispatch(ushort spriteIndex,ushort xOffset,ushort yOffset,ushort width,ushor
              *(undefined4 *)(*(int *)(spriteGraphicsPtr + (short)(maskSel << 2)) + 4);
       }
     }
-    imageStreamCursor = (dword)pdVar10;
+    imageStreamCursor = (uchar *)pdVar10;
     if ((playGame == 0) && (playHighlightFlag == 0)) {
       imageStreamBytesLeft = (int)&menuInsBank - (int)pdVar10;
       if (pdVar10 < &menuInsBank) {
@@ -7374,15 +7378,15 @@ void __usercall BlitSpritePlanar_Long_StridedDest(void)
 void __usercall DrawSprite_entry2(void)
 
 {
-  dword dVar1;
+  void *pvVar1;
   ushort unaff_D1w;
   ushort unaff_D2w;
   Sprite *unaff_A0;
   
-  dVar1 = spriteBlitQueue;
+  pvVar1 = spriteBlitQueue;
   DrawSpriteClipped(unaff_A0,unaff_D1w,unaff_D2w);
-  spriteBlitQueue = dVar1;
-  *(undefined4 *)dVar1 = 0xffffffff;
+  spriteBlitQueue = pvVar1;
+  *(undefined4 *)pvVar1 = 0xffffffff;
   return;
 }
 
@@ -7682,13 +7686,13 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
     REG_BLTCPTH = puVar1;
     REG_BLTDPTH = puVar1;
     queuedLineCount = wVar9;
-    *(uchar **)(spriteBlitQueue + 4) = puVar1;
+    *(uchar **)((int)spriteBlitQueue + 4) = puVar1;
     *(byte **)spriteBlitQueue = frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6);
-    *(ushort *)(spriteBlitQueue + 10) = uVar17 + wVar9 * 0x100;
+    *(ushort *)((int)spriteBlitQueue + 10) = uVar17 + wVar9 * 0x100;
     uVar3 = uVar17 + wVar9 * 0x40;
     REG_BLTAMOD = sprite->field_E * 2 + uVar17 * -2;
     REG_BLTBMOD = sprite->field_E * 8 + uVar17 * -2;
-    *(ushort *)(spriteBlitQueue + 8) = uVar17 * -2 + PLANE_STRIDE;
+    *(ushort *)((int)spriteBlitQueue + 8) = uVar17 * -2 + PLANE_STRIDE;
     uVar8 = uVar17 * -2 + 0xb0;
     REG_BLTCMOD = uVar8;
     REG_BLTDMOD = uVar8;
@@ -7702,7 +7706,7 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
          CONCAT22((short)((uint)iVar13 >> 0x10),(ushort)iVar13 >> NUM_PLANES_SHIFT) +
          *(int *)&sprite->frameOffset;
     REG_BLTAPTH = (void *)savedSrcPlaneB;
-    piVar18 = (int *)(spriteBlitQueue + 0xc);
+    piVar18 = (int *)((int)spriteBlitQueue + 0xc);
     REG_BLTSIZE = uVar3;
     iVar13 = (int)(short)(sprite->field_E << 1);
     REG_DMACON = DMACON_BLT_ON;
@@ -7754,9 +7758,9 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
       REG_BLTDPTH = puVar1;
       REG_BLTAPTH = pvVar19;
       REG_BLTBPTH = pvVar2;
-      *(uchar **)(spriteBlitQueue + 0x10) = puVar1;
+      *(uchar **)((int)spriteBlitQueue + 0x10) = puVar1;
       *piVar18 = (int)(frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6));
-      *(ushort *)(spriteBlitQueue + 0x16) = (uVar17 & 0x7fff) + sVar11 * 0x100;
+      *(ushort *)((int)spriteBlitQueue + 0x16) = (uVar17 & 0x7fff) + sVar11 * 0x100;
       uVar3 = (uVar17 & 0x7fff) + sVar11 * 0x40;
       REG_BLTSIZE = uVar3;
       iVar13 = (int)(short)(sprite->field_E << 1);
@@ -7795,11 +7799,11 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
       REG_BLTAPTH = pvVar19;
       REG_BLTBPTH = (void *)(iVar13 + (int)pvVar2);
       REG_BLTSIZE = uVar3;
-      *(undefined2 *)(spriteBlitQueue + 0x14) = *(undefined2 *)(spriteBlitQueue + 8);
-      piVar18 = (int *)(spriteBlitQueue + 0x18);
+      *(undefined2 *)((int)spriteBlitQueue + 0x14) = *(undefined2 *)((int)spriteBlitQueue + 8);
+      piVar18 = (int *)((int)spriteBlitQueue + 0x18);
     }
     *piVar18 = BLT_BLITQ_END;
-    spriteBlitQueue = (dword)piVar18;
+    spriteBlitQueue = piVar18;
     return;
   }
   sVar10 = *(short *)&sprite->playerState;
@@ -7856,7 +7860,7 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
   puVar1 = frontbufferBasePtr + (uint)uVar8 * 0xb0 + iVar7;
   REG_BLTCPTH = puVar1;
   REG_BLTDPTH = puVar1;
-  *(uchar **)(spriteBlitQueue + 4) = puVar1;
+  *(uchar **)((int)spriteBlitQueue + 4) = puVar1;
   *(byte **)spriteBlitQueue = frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6);
   uVar3 = uVar17 + sVar10 * 0x100;
   uVar8 = sprite->field_E * 2 + uVar17 * -2;
@@ -7865,7 +7869,7 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
   uVar8 = uVar17 * -2 + 0x2c;
   REG_BLTCMOD = uVar8;
   REG_BLTDMOD = uVar8;
-  *(ushort *)(spriteBlitQueue + 8) = uVar8;
+  *(ushort *)((int)spriteBlitQueue + 8) = uVar8;
   iVar13 = 0;
   if (sVar14 != 0) {
     iVar13 = (uint)(ushort)(sVar14 << 2) * (uint)sprite->field_E * 2;
@@ -7873,12 +7877,12 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
   REG_BLTBPTH = (void *)(iVar13 + *(int *)sprite);
   REG_BLTAPTH = (void *)(iVar13 + *(int *)&sprite->frameOffset);
   REG_BLTSIZE = uVar3;
-  *(ushort *)(spriteBlitQueue + 10) = uVar3;
-  piVar18 = (int *)(spriteBlitQueue + 0xc);
+  *(ushort *)((int)spriteBlitQueue + 10) = uVar3;
+  piVar18 = (int *)((int)spriteBlitQueue + 0xc);
   if (sVar12 != 0) {
     puVar1 = puVar6 + iVar7;
     uVar3 = (uVar17 & 0x7fff) + sVar12 * 0x100;
-    *(uchar **)(spriteBlitQueue + 0x10) = puVar1;
+    *(uchar **)((int)spriteBlitQueue + 0x10) = puVar1;
     REG_DMACON = 0x8400;
     uVar4 = REG_DMACONR._0_1_;
     do {
@@ -7889,12 +7893,12 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
     REG_BLTDPTH = puVar1;
     REG_BLTSIZE = uVar3;
     *piVar18 = (int)(frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6));
-    *(undefined2 *)(spriteBlitQueue + 0x14) = *(undefined2 *)(spriteBlitQueue + 8);
-    *(ushort *)(spriteBlitQueue + 0x16) = uVar3;
-    piVar18 = (int *)(spriteBlitQueue + 0x18);
+    *(undefined2 *)((int)spriteBlitQueue + 0x14) = *(undefined2 *)((int)spriteBlitQueue + 8);
+    *(ushort *)((int)spriteBlitQueue + 0x16) = uVar3;
+    piVar18 = (int *)((int)spriteBlitQueue + 0x18);
   }
   *piVar18 = -1;
-  spriteBlitQueue = (dword)piVar18;
+  spriteBlitQueue = piVar18;
   return;
 }
 
@@ -9225,7 +9229,7 @@ ushort __usercall LoadRNCToBufferNoBlit(char *filename,void *dst)
         uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
       }
       else {
-        bVar2 = assetLoaderCacheFlag == 0;
+        bVar2 = assetLoaderCacheFlag == (void *)0x0;
         if ((bVar2) || (AssetCacheCopyByName(filename,frontbufferBasePtr), !bVar2)) {
           bVar2 = false;
           uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
@@ -9236,7 +9240,7 @@ ushort __usercall LoadRNCToBufferNoBlit(char *filename,void *dst)
             do {
             } while( true );
           }
-          if ((assetLoaderCacheFlag != 0) && (assetLoaderAltPathReady != 0)) {
+          if ((assetLoaderCacheFlag != (void *)0x0) && (assetLoaderAltPathReady != 0)) {
             AssetCacheStoreFromMemory(filename,src,unaff_D1);
           }
         }
@@ -9247,7 +9251,7 @@ ushort __usercall LoadRNCToBufferNoBlit(char *filename,void *dst)
             uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
           }
           else {
-            bVar2 = assetLoaderCacheFlag == 0;
+            bVar2 = assetLoaderCacheFlag == (void *)0x0;
             if ((bVar2) || (AssetCacheCopyByName(filename,src), !bVar2)) {
               bVar2 = false;
               uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
@@ -9258,7 +9262,7 @@ ushort __usercall LoadRNCToBufferNoBlit(char *filename,void *dst)
                 do {
                 } while( true );
               }
-              if ((assetLoaderCacheFlag != 0) && (assetLoaderAltPathReady != 0)) {
+              if ((assetLoaderCacheFlag != (void *)0x0) && (assetLoaderAltPathReady != 0)) {
                 AssetCacheStoreFromMemory(filename,src,unaff_D1);
               }
             }
@@ -9326,7 +9330,7 @@ ushort __usercall LoadFile(char *filename,void *dst)
     uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
   }
   else {
-    bVar2 = assetLoaderCacheFlag == 0;
+    bVar2 = assetLoaderCacheFlag == (void *)0x0;
     if ((bVar2) || (AssetCacheCopyByName(filename,frontbufferBasePtr), !bVar2)) {
       bVar2 = false;
       uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
@@ -9337,7 +9341,7 @@ ushort __usercall LoadFile(char *filename,void *dst)
         do {
         } while( true );
       }
-      if ((assetLoaderCacheFlag != 0) && (assetLoaderAltPathReady != 0)) {
+      if ((assetLoaderCacheFlag != (void *)0x0) && (assetLoaderAltPathReady != 0)) {
         AssetCacheStoreFromMemory(filename,src,unaff_D1);
       }
     }
@@ -9348,7 +9352,7 @@ ushort __usercall LoadFile(char *filename,void *dst)
         uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
       }
       else {
-        bVar2 = assetLoaderCacheFlag == 0;
+        bVar2 = assetLoaderCacheFlag == (void *)0x0;
         if ((bVar2) || (AssetCacheCopyByName(filename,src), !bVar2)) {
           bVar2 = false;
           uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
@@ -9359,7 +9363,7 @@ ushort __usercall LoadFile(char *filename,void *dst)
             do {
             } while( true );
           }
-          if ((assetLoaderCacheFlag != 0) && (assetLoaderAltPathReady != 0)) {
+          if ((assetLoaderCacheFlag != (void *)0x0) && (assetLoaderAltPathReady != 0)) {
             AssetCacheStoreFromMemory(filename,src,unaff_D1);
           }
         }
@@ -9404,7 +9408,7 @@ ushort __usercall PlaySong(char *filename)
     uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
   }
   else {
-    bVar2 = assetLoaderCacheFlag == 0;
+    bVar2 = assetLoaderCacheFlag == (void *)0x0;
     if ((bVar2) || (AssetCacheCopyByName(filename,unaff_A1), !bVar2)) {
       bVar2 = false;
       uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
@@ -9415,7 +9419,7 @@ ushort __usercall PlaySong(char *filename)
         do {
         } while( true );
       }
-      if ((assetLoaderCacheFlag != 0) && (assetLoaderAltPathReady != 0)) {
+      if ((assetLoaderCacheFlag != (void *)0x0) && (assetLoaderAltPathReady != 0)) {
         AssetCacheStoreFromMemory(filename,unaff_A1,unaff_D1);
       }
     }
@@ -9440,7 +9444,7 @@ ushort __usercall AssetEnsureReadyWithRetry(char *name)
     uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
   }
   else {
-    bVar2 = assetLoaderCacheFlag == 0;
+    bVar2 = assetLoaderCacheFlag == (void *)0x0;
     if ((bVar2) || (AssetCacheCopyByName(name,unaff_A1), !bVar2)) {
       bVar2 = false;
       uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
@@ -9689,7 +9693,7 @@ void __usercall AssetSvcLoaderOp3(void)
 void __usercall AssetLoaderResetState(void)
 
 {
-  assetLoaderCacheFlag = 0;
+  assetLoaderCacheFlag = (void *)0x0;
   assetLoaderWorkPtr = (uint *)0x0;
   return;
 }
@@ -9705,7 +9709,7 @@ void __usercall AssetLoaderInitAltPathAndBanks(void)
   byte *region;
   
   assetLoaderAltPathReady = 1;
-  assetLoaderCacheFlag = 0;
+  assetLoaderCacheFlag = (void *)0x0;
   AssetLoaderRegisterRegion(0,surnameBuf);
   AssetLoaderRegisterRegion(0x2f9b8,assetLoaderMainRegion);
   dVar2 = loaderBankBitmap;
@@ -9740,15 +9744,15 @@ void __usercall AssetLoaderRegisterRegion(uint size,void *region)
     iVar2 = size - 0x30;
     if (iVar2 != 0 && 0x2f < (int)size) {
       assetLoaderWorkPtr = (uint *)(iVar2 + (int)assetLoaderWorkPtr);
-      piVar4 = (int *)assetLoaderCacheFlag;
+      piVar4 = assetLoaderCacheFlag;
       pvVar3 = region;
-      if (assetLoaderCacheFlag != 0) {
+      if (assetLoaderCacheFlag != (void *)0x0) {
         for (; *piVar4 != 0; piVar4 = (int *)*piVar4) {
         }
         *piVar4 = (int)region;
-        pvVar3 = (void *)assetLoaderCacheFlag;
+        pvVar3 = assetLoaderCacheFlag;
       }
-      assetLoaderCacheFlag = (dword)pvVar3;
+      assetLoaderCacheFlag = pvVar3;
       *(undefined4 *)region = 0;
       *(int *)((int)region + 6) = iVar2;
       *(undefined2 *)((int)region + 4) = 1;
@@ -9758,8 +9762,8 @@ void __usercall AssetLoaderRegisterRegion(uint size,void *region)
   panicReasonCode = 0x2332;
   PanicHaltLoop();
   uVar1 = size + 1 & 0xfffffffe;
-  piVar4 = (int *)assetLoaderCacheFlag;
-  if (assetLoaderCacheFlag != 0) {
+  piVar4 = assetLoaderCacheFlag;
+  if (assetLoaderCacheFlag != (void *)0x0) {
     while( true ) {
       if ((*(short *)(piVar4 + 1) != 0) && (uVar1 <= *(uint *)((int)piVar4 + 6))) {
         iVar2 = (*(int *)((int)piVar4 + 6) - uVar1) + -0x30;
@@ -9794,8 +9798,8 @@ ushort __usercall AssetCacheAlloc(uint size)
   int *piVar4;
   
   uVar1 = size + 1 & 0xfffffffe;
-  piVar3 = (int *)assetLoaderCacheFlag;
-  if (assetLoaderCacheFlag != 0) {
+  piVar3 = assetLoaderCacheFlag;
+  if (assetLoaderCacheFlag != (void *)0x0) {
     while( true ) {
       if ((*(short *)(piVar3 + 1) != 0) && (uVar1 <= *(uint *)((int)piVar3 + 6))) {
         iVar2 = (*(int *)((int)piVar3 + 6) - uVar1) + -0x30;
@@ -9829,8 +9833,8 @@ int __usercall AssetCacheFindByName(char *name)
   char *pcVar3;
   int *piVar4;
   
-  piVar4 = (int *)assetLoaderCacheFlag;
-  if (assetLoaderCacheFlag != 0) {
+  piVar4 = assetLoaderCacheFlag;
+  if (assetLoaderCacheFlag != (void *)0x0) {
     while( true ) {
       if (*(short *)(piVar4 + 1) == 0) {
         pcVar2 = name;
@@ -14701,9 +14705,8 @@ has_picture:
   ballSprite.deltaX = FVar6;
   ballSprite.deltaY = FVar4;
   if (gameState == ST_KEEPER_HOLDS_BALL) {
-    if (((substituteInProgress == 0) ||
-        ((TeamGeneralInfo *)teamThatSubstitutes != lastTeamPlayedBeforeBreak)) ||
-       (*(int *)(teamThatSubstitutes + 0x20) != 0)) {
+    if (((substituteInProgress == 0) || (teamThatSubstitutes != lastTeamPlayedBeforeBreak)) ||
+       (teamThatSubstitutes->controlledPlayer != (Sprite *)0x0)) {
       if (ballSprite.speed != 0) {
         writeOnlyVar04 = writeOnlyVar04 + 1;
         UpdateBallWithControllingGoalkeeper(lastTeamPlayedBeforeBreak->controlledPlayer);
@@ -16101,7 +16104,7 @@ char __usercall ConvertColorsAndTextSprites(TeamGame *team1,TeamGame *team2)
   
   team1Filename = *(dword *)((int)&teamFilenamesTable + (int)(short)(team1->prShirtType << 2));
   team2Filename = *(dword *)((int)&teamFilenamesTable + (int)(short)(team2->prShirtType << 2));
-  ProcessImageCommandStream(menuColorAndTextScript,(uchar *)menuImageStreamBaseEnd);
+  ProcessImageCommandStream(menuColorAndTextScript,menuImageStreamBaseEnd);
   CopyAdvertisementsData();
   MakeSpritesFromPlayerNames(team1,team2);
   bigNumbersColorConversionTable[0xb] = 2;
@@ -16307,13 +16310,13 @@ void __usercall CountFaces(TeamGame *team)
 {
   short sVar1;
   
-  facesFrequency[0] = 0;
-  facesFrequency[1] = 0;
-  facesFrequency[2] = 0;
+  facesFrequency[0] = '\0';
+  facesFrequency[1] = '\0';
+  facesFrequency[2] = '\0';
   sVar1 = 0xf;
   do {
     facesFrequency[(short)(char)team->players[0].face] =
-         facesFrequency[(short)(char)team->players[0].face] + 1;
+         facesFrequency[(short)(char)team->players[0].face] + '\x01';
     team = (TeamGame *)(team->players[0].shortName + 7);
     sVar1 = sVar1 + -1;
   } while (sVar1 != -1);
@@ -18169,6 +18172,8 @@ select_scorer_sprite_block:
 
 
 
+// WARNING: Type propagation algorithm not settling
+
 void __usercall BenchCheckControls(void)
 
 {
@@ -18177,17 +18182,18 @@ void __usercall BenchCheckControls(void)
   int iVar3;
   undefined2 uVar4;
   short sVar5;
-  undefined1 uVar6;
-  word wVar7;
+  byte bVar6;
+  undefined1 uVar7;
   word wVar8;
-  short sVar9;
+  word wVar9;
   short sVar10;
-  word wVar11;
-  word *pwVar12;
-  dword dVar13;
-  word *pwVar14;
-  TeamGeneralInfo *pTVar15;
-  bool bVar16;
+  short sVar11;
+  word wVar12;
+  word *pwVar13;
+  TeamGame *pTVar14;
+  word *pwVar15;
+  TeamGeneralInfo *pTVar16;
+  bool bVar17;
   
   if (inSubstitutesMenu == 0) {
     if ((benchOff != 0) && (cameraCoordinatesValid != 0)) {
@@ -18225,19 +18231,19 @@ void __usercall BenchCheckControls(void)
       bench2Called = 0;
       return;
     }
-    pTVar15 = &topTeamData;
-    if ((bench1Called == 0) && (pTVar15 = &bottomTeamData, bench2Called == 0)) {
+    pTVar16 = &topTeamData;
+    if ((bench1Called == 0) && (pTVar16 = &bottomTeamData, bench2Called == 0)) {
       if (((byte)frameCount & 1) == 0) {
-        pTVar15 = &bottomTeamData;
+        pTVar16 = &bottomTeamData;
       }
       else {
-        pTVar15 = &topTeamData;
+        pTVar16 = &topTeamData;
       }
-      if (pTVar15->playerNumber == 0) {
-        if (pTVar15->playerCoachNumber == 0) {
+      if (pTVar16->playerNumber == 0) {
+        if (pTVar16->playerCoachNumber == 0) {
           return;
         }
-        if (pTVar15->playerCoachNumber == 2) {
+        if (pTVar16->playerCoachNumber == 2) {
           Player2StatusProc();
           subsDirection = pl2Direction;
           subsFire = pl2Fire;
@@ -18249,10 +18255,10 @@ void __usercall BenchCheckControls(void)
         }
       }
       else {
-        subsDirection = pTVar15->direction;
-        subsFire = pTVar15->firePressed;
+        subsDirection = pTVar16->direction;
+        subsFire = pTVar16->firePressed;
       }
-      if (pTVar15 != &topTeamData) {
+      if (pTVar16 != &topTeamData) {
         if ((short)subsDirection < 0) {
           if ((word)(pl2BenchTimeoutCounter + 1) == 0xf) {
             pl2BenchTimeoutCounter = 0;
@@ -18316,9 +18322,9 @@ void __usercall BenchCheckControls(void)
 LAB_0010ce48:
     bench1Called = 0;
     bench2Called = 0;
-    benchTeamGame = (dword)topTeamPtr;
-    if (pTVar15->teamNumber == 2) {
-      benchTeamGame = (dword)bottomTeamPtr;
+    benchTeamGame = topTeamPtr;
+    if (pTVar16->teamNumber == 2) {
+      benchTeamGame = bottomTeamPtr;
     }
     plToBeSubstitutedPos = 0xffff;
     subsState = 0;
@@ -18333,17 +18339,17 @@ LAB_0010ce48:
                     // top bench y 
     benchY = 0x185;
                     // bottom bench y 
-    wVar11 = 0x1e5;
+    wVar12 = 0x1e5;
     if (trainingGame == 0) {
                     // 2nd character of team name? 
       if ((topTeamInGame.teamName[0] & 2) != 0) {
         benchY = 0x1e5;
-        wVar11 = 0x185;
+        wVar12 = 0x185;
       }
-      opponentBenchY = wVar11;
-      if ((TeamGame *)benchTeamGame != &topTeamInGame) {
+      opponentBenchY = wVar12;
+      if (benchTeamGame != &topTeamInGame) {
         opponentBenchY = benchY;
-        benchY = wVar11;
+        benchY = wVar12;
       }
     }
     else {
@@ -18351,7 +18357,7 @@ LAB_0010ce48:
       subsTrainingTopTeam = 0;
       opponentBenchY = 0x1c8;
       benchY = 0x1c8;
-      if ((TeamGame *)benchTeamGame != &topTeamInGame) {
+      if (benchTeamGame != &topTeamInGame) {
         subsTrainingTopTeam = 1;
       }
     }
@@ -18364,19 +18370,19 @@ LAB_0010ce48:
     plLeavingX = 0x27;
     plComingX = 0x1a;
     benchWriteOnly02 = 0x23;
-    benchTeam = (dword)pTVar15;
+    benchTeam = pTVar16;
     CheckForThrowInAndGoalkeepersBall();
     return;
   }
   if ((short)inSubstitutesMenu < 0) {
     return;
   }
-  dVar13 = benchTeam;
+  pTVar16 = benchTeam;
   if (subsTeamsSwapped != 0) {
-    dVar13 = *(dword *)benchTeam;
+    pTVar16 = benchTeam->opponentsTeam;
   }
-  if ((*(short *)(dVar13 + 4) == 1) ||
-     ((*(short *)(dVar13 + 4) != 2 && (*(short *)(dVar13 + 6) == 1)))) {
+  if ((pTVar16->playerNumber == 1) ||
+     ((pTVar16->playerNumber != 2 && (pTVar16->playerCoachNumber == 1)))) {
     Player1StatusProc();
     subsDirection = pl1Direction;
     subsFire = pl1Fire;
@@ -18386,9 +18392,9 @@ LAB_0010ce48:
     subsDirection = pl2Direction;
     subsFire = pl2Fire;
   }
-  wVar7 = selectedPlayerInSubs;
-  dVar13 = benchTeam;
-  wVar11 = plToBeSubstitutedPos;
+  wVar8 = selectedPlayerInSubs;
+  pTVar16 = benchTeam;
+  wVar12 = plToBeSubstitutedPos;
   pSVar1 = substitutedPlSprite;
   if (cameraCoordinatesValid == 0) {
     goToSubsTimer = 0xf;
@@ -18404,31 +18410,30 @@ LAB_0010ce48:
   if ((short)substituteInProgress < 0) {
     substitutedPlSprite->injuryLevel = 0;
     pSVar1->sentAway = 0;
-    dVar13 = benchTeamGame;
-    wVar7 = plToEnterGameIndex;
-    wVar11 = plToBeSubstitutedPos;
-    if (plToBeSubstitutedPos == *(word *)(benchTeamGame + 0x14)) {
-      *(undefined2 *)(benchTeamGame + 0x14) = 0xffff;
+    pTVar14 = benchTeamGame;
+    wVar8 = plToEnterGameIndex;
+    wVar12 = plToBeSubstitutedPos;
+    if (plToBeSubstitutedPos == benchTeamGame->markedPlayer) {
+      benchTeamGame->markedPlayer = 0xffff;
     }
-    if ((wVar7 == *(word *)(dVar13 + 0x14)) &&
-       (*(undefined2 *)(dVar13 + 0x14) = 0xffff, wVar11 != 0)) {
-      *(word *)(dVar13 + 0x14) = wVar11;
+    if ((wVar8 == pTVar14->markedPlayer) && (pTVar14->markedPlayer = 0xffff, wVar12 != 0)) {
+      pTVar14->markedPlayer = wVar12;
     }
-    SwapPlayerNameData(wVar7,wVar11);
-    dVar13 = benchTeamGame;
-    sVar10 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(wVar7 << 1));
-    sVar5 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(wVar11 << 1));
-    *(undefined1 *)(benchTeamGame + 0x2e + (int)sVar5) = 0xff;
-    sVar9 = 0x3c;
+    SwapPlayerNameData(wVar8,wVar12);
+    pTVar14 = benchTeamGame;
+    sVar11 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(wVar8 << 1));
+    sVar5 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(wVar12 << 1));
+    benchTeamGame->players[0].shortName[sVar5 + -8] = 0xff;
+    sVar10 = 0x3c;
     do {
-      uVar6 = *(undefined1 *)(dVar13 + 0x2a + (int)sVar10);
-      *(undefined1 *)(dVar13 + 0x2a + (int)sVar10) = *(undefined1 *)(dVar13 + 0x2a + (int)sVar5);
-      *(undefined1 *)(dVar13 + 0x2a + (int)sVar5) = uVar6;
-      dVar13 = dVar13 + 1;
-      sVar9 = sVar9 + -1;
-    } while (sVar9 != -1);
+      bVar6 = pTVar14->players[0].shortName[sVar11 + -0xc];
+      pTVar14->players[0].shortName[sVar11 + -0xc] = pTVar14->players[0].shortName[sVar5 + -0xc];
+      pTVar14->players[0].shortName[sVar5 + -0xc] = bVar6;
+      pTVar14 = (TeamGame *)((int)&pTVar14->prShirtType + 1);
+      sVar10 = sVar10 + -1;
+    } while (sVar10 != -1);
     InitializePlayerSpriteFrameIndices();
-    ApplyTeamTactics((void *)benchTeamGame);
+    ApplyTeamTactics(benchTeamGame);
     waitForPlayerToGoInTimer = 100;
     subsBlockFire = 1;
     LeaveSubsMenu();
@@ -18455,11 +18460,11 @@ LAB_0010ccb8:
   }
   subsMovementDelayTimer = 0;
   subsPrevDirection = subsDirection;
-  wVar8 = 0;
+  wVar9 = 0;
   if (subsFire != 0) {
-    wVar8 = subsFireTimer + 1;
+    wVar9 = subsFireTimer + 1;
   }
-  subsFireTimer = wVar8;
+  subsFireTimer = wVar9;
   if (subsBlockFire != 0) {
     if (subsFire != 0) {
       subsMovementDelayTimer = 0;
@@ -18482,21 +18487,21 @@ LAB_0010ccb8:
       }
       overlayActiveFlag = 0;
       substituteInProgress = 1;
-      pwVar12 = &team1NumSubs;
-      pwVar14 = &team1GoalkeeperReplaced;
-      if (*(short *)(benchTeam + 0x12) != 1) {
-        pwVar12 = &team2NumSubs;
-        pwVar14 = &team2GoalkeeperReplaced;
+      pwVar13 = &team1NumSubs;
+      pwVar15 = &team1GoalkeeperReplaced;
+      if (benchTeam->teamNumber != 1) {
+        pwVar13 = &team2NumSubs;
+        pwVar15 = &team2GoalkeeperReplaced;
       }
-      *pwVar12 = *pwVar12 + 1;
+      *pwVar13 = *pwVar13 + 1;
       if (plToEnterGameIndex == 0xb) {
-        *pwVar14 = *pwVar14 + 1;
+        *pwVar15 = *pwVar15 + 1;
       }
       subsBlockFire = 1;
       subsState = 0;
       subsWriteOnly = 2;
       teamThatSubstitutes = benchTeam;
-      pSVar1 = *(Sprite **)(*(int *)(benchTeam + 0x14) + (int)(short)(plToBeSubstitutedPos << 2));
+      pSVar1 = *(Sprite **)((int)benchTeam->spritesTable + (int)(short)(plToBeSubstitutedPos << 2));
       substitutedPlSprite = pSVar1;
       pSVar1->cards = 0;
       plSubstitutedX = 0x27;
@@ -18514,7 +18519,7 @@ LAB_0010ccb8:
       }
       overlayActiveFlag = 0;
       subsMovementDelayTimer = 0;
-      subsFireTimer = wVar8;
+      subsFireTimer = wVar9;
       return;
     }
     if (subsState == 2) {
@@ -18523,29 +18528,28 @@ LAB_0010ccb8:
         return;
       }
       overlayActiveFlag = 0;
-      *(word *)(benchTeam + 0x1c) = selectedFormationEntry;
-      if (*(short *)(dVar13 + 0x12) != 1) {
+      benchTeam->tactics = selectedFormationEntry;
+      if (pTVar16->teamNumber != 1) {
         pl2Tactics = selectedFormationEntry;
-        ApplyTeamTactics((void *)benchTeamGame);
+        ApplyTeamTactics(benchTeamGame);
         SubsBenchOff();
         return;
       }
       pl1Tactics = selectedFormationEntry;
-      ApplyTeamTactics((void *)benchTeamGame);
+      ApplyTeamTactics(benchTeamGame);
       SubsBenchOff();
       return;
     }
     if (subsState != 4) {
       return;
     }
-    if ((*(byte *)(benchTeamGame +
-                   (int)*(short *)((int)ingameTeamPlayerOffsets +
-                                  (int)(short)(plToBeSubstitutedPos << 1)) + 0x34) < 2) &&
-       (wVar8 == 8)) {
-      if (plToBeSubstitutedPos == *(word *)(benchTeamGame + 0x14)) {
-        wVar11 = 0xffff;
+    if ((benchTeamGame->players[0].shortName
+         [*(short *)((int)ingameTeamPlayerOffsets + (int)(short)(plToBeSubstitutedPos << 1)) + -2] <
+         2) && (wVar9 == 8)) {
+      if (plToBeSubstitutedPos == benchTeamGame->markedPlayer) {
+        wVar12 = 0xffff;
       }
-      *(word *)(benchTeamGame + 0x14) = wVar11;
+      benchTeamGame->markedPlayer = wVar12;
       selectedPlayerInSubs = 0xffff;
       return;
     }
@@ -18560,68 +18564,68 @@ LAB_0010ccb8:
     }
     if (plToBeSubstitutedOrd == 0) {
       subsMovementDelayTimer = 0;
-      subsFireTimer = wVar8;
+      subsFireTimer = wVar9;
       return;
     }
     if ((short)selectedPlayerInSubs < 0) {
-      if (wVar8 == 1) {
+      if (wVar9 == 1) {
         selectedPlayerInSubs = plToBeSubstitutedPos;
         return;
       }
       subsMovementDelayTimer = 0;
-      subsFireTimer = wVar8;
+      subsFireTimer = wVar9;
       return;
     }
     if (selectedPlayerInSubs != plToBeSubstitutedPos) {
-      wVar8 = selectedPlayerInSubs;
-      if ((plToBeSubstitutedPos == *(word *)(benchTeamGame + 0x14)) ||
-         (wVar8 = plToBeSubstitutedPos, selectedPlayerInSubs == *(word *)(benchTeamGame + 0x14))) {
-        *(word *)(benchTeamGame + 0x14) = wVar8;
+      wVar9 = selectedPlayerInSubs;
+      if ((plToBeSubstitutedPos == benchTeamGame->markedPlayer) ||
+         (wVar9 = plToBeSubstitutedPos, selectedPlayerInSubs == benchTeamGame->markedPlayer)) {
+        benchTeamGame->markedPlayer = wVar9;
       }
-      SwapPlayerNameData(wVar11,wVar7);
-      sVar10 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(wVar11 << 1));
-      sVar5 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(wVar7 << 1));
-      sVar9 = 0x3c;
-      dVar13 = benchTeamGame;
+      SwapPlayerNameData(wVar12,wVar8);
+      sVar11 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(wVar12 << 1));
+      sVar5 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(wVar8 << 1));
+      sVar10 = 0x3c;
+      pTVar14 = benchTeamGame;
       do {
-        uVar6 = *(undefined1 *)(dVar13 + 0x2a + (int)sVar10);
-        *(undefined1 *)(dVar13 + 0x2a + (int)sVar10) = *(undefined1 *)(dVar13 + 0x2a + (int)sVar5);
-        *(undefined1 *)(dVar13 + 0x2a + (int)sVar5) = uVar6;
-        dVar13 = dVar13 + 1;
-        sVar9 = sVar9 + -1;
-      } while (sVar9 != -1);
-      iVar2 = *(int *)(*(int *)(benchTeam + 0x14) + (int)(short)(plToBeSubstitutedPos << 2));
-      iVar3 = *(int *)(*(int *)(benchTeam + 0x14) + (int)(short)(selectedPlayerInSubs << 2));
-      sVar10 = 0x6d;
-      do {
-        uVar6 = *(undefined1 *)(iVar2 + sVar10);
-        *(undefined1 *)(iVar2 + sVar10) = *(undefined1 *)(iVar3 + sVar10);
-        *(undefined1 *)(iVar3 + sVar10) = uVar6;
+        bVar6 = pTVar14->players[0].shortName[sVar11 + -0xc];
+        pTVar14->players[0].shortName[sVar11 + -0xc] = pTVar14->players[0].shortName[sVar5 + -0xc];
+        pTVar14->players[0].shortName[sVar5 + -0xc] = bVar6;
+        pTVar14 = (TeamGame *)((int)&pTVar14->prShirtType + 1);
         sVar10 = sVar10 + -1;
       } while (sVar10 != -1);
+      iVar2 = *(int *)((int)benchTeam->spritesTable + (int)(short)(plToBeSubstitutedPos << 2));
+      iVar3 = *(int *)((int)benchTeam->spritesTable + (int)(short)(selectedPlayerInSubs << 2));
+      sVar11 = 0x6d;
+      do {
+        uVar7 = *(undefined1 *)(iVar2 + sVar11);
+        *(undefined1 *)(iVar2 + sVar11) = *(undefined1 *)(iVar3 + sVar11);
+        *(undefined1 *)(iVar3 + sVar11) = uVar7;
+        sVar11 = sVar11 + -1;
+      } while (sVar11 != -1);
       uVar4 = *(undefined2 *)(iVar2 + 2);
       *(undefined2 *)(iVar2 + 2) = *(undefined2 *)(iVar3 + 2);
       *(undefined2 *)(iVar3 + 2) = uVar4;
       InitializePlayerSpriteFrameIndices();
-      ApplyTeamTactics((void *)benchTeamGame);
+      ApplyTeamTactics(benchTeamGame);
       selectedPlayerInSubs = 0xffff;
       overlayActiveFlag = 0;
       SubsBenchOff();
       return;
     }
-    if (wVar8 == 1) {
+    if (wVar9 == 1) {
       selectedPlayerInSubs = 0xffff;
       return;
     }
     subsMovementDelayTimer = 0;
-    subsFireTimer = wVar8;
+    subsFireTimer = wVar9;
     return;
   }
-  wVar11 = bench2Called;
-  if ((TeamGeneralInfo *)benchTeam == &topTeamData) {
-    wVar11 = bench1Called;
+  wVar12 = bench2Called;
+  if (benchTeam == &topTeamData) {
+    wVar12 = bench1Called;
   }
-  if (wVar11 != 0) goto code_r0x0010cf76;
+  if (wVar12 != 0) goto code_r0x0010cf76;
   if ((trainingGame == 0) || (subsTrainingTopTeam == 0)) {
     if (subsDirection == 0) goto LAB_0010d0fc;
     if (subsDirection != 4) goto LAB_0010d096;
@@ -18632,7 +18636,7 @@ LAB_0010d096:
       if ((subsDirection != 2) && (subsDirection != 6)) {
         if (subsFire == 0) {
           subsMovementDelayTimer = 0;
-          subsFireTimer = wVar8;
+          subsFireTimer = wVar9;
           return;
         }
         if (benchPlayerIndex == 0) {
@@ -18646,16 +18650,15 @@ LAB_0010d096:
         }
         if ((short)(benchPlayerIndex - 1) < 0) {
           subsMovementDelayTimer = 0;
-          subsFireTimer = wVar8;
+          subsFireTimer = wVar9;
           return;
         }
-        iVar2 = benchTeamGame +
-                (int)*(short *)((int)ingameTeamPlayerOffsets +
-                               (int)(short)((benchPlayerIndex + 10) * 2));
-        if (-1 < *(char *)(iVar2 + 0x2e)) {
-          if (1 < *(byte *)(iVar2 + 0x34)) {
+        sVar11 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)((benchPlayerIndex + 10) * 2)
+                           );
+        if (-1 < (char)benchTeamGame->players[0].shortName[sVar11 + -8]) {
+          if (1 < benchTeamGame->players[0].shortName[sVar11 + -2]) {
             subsMovementDelayTimer = 0;
-            subsFireTimer = wVar8;
+            subsFireTimer = wVar9;
             return;
           }
           subsState = 1;
@@ -18670,7 +18673,7 @@ LAB_0010d096:
           return;
         }
         subsMovementDelayTimer = 0;
-        subsFireTimer = wVar8;
+        subsFireTimer = wVar9;
         return;
       }
 code_r0x0010cf76:
@@ -18700,7 +18703,7 @@ code_r0x0010cf76:
 LAB_0010d0fc:
     if (((trainingGame == 0) || (benchPlayerIndex != 0)) && (gameState == 3)) {
       subsMovementDelayTimer = 0;
-      subsFireTimer = wVar8;
+      subsFireTimer = wVar9;
       return;
     }
     subsBlockDirections = 1;
@@ -18708,7 +18711,7 @@ LAB_0010d0fc:
       if (trainingGame == 0) {
         subsBlockDirections = 1;
         subsMovementDelayTimer = 0;
-        subsFireTimer = wVar8;
+        subsFireTimer = wVar9;
         return;
       }
       TrainingSwapBenchTeams();
@@ -18718,35 +18721,35 @@ LAB_0010d0fc:
   }
   if (gameState == 3) {
     subsMovementDelayTimer = 0;
-    subsFireTimer = wVar8;
+    subsFireTimer = wVar9;
     return;
   }
   subsBlockDirections = 1;
   if (benchPlayerIndex == 5) {
     subsBlockDirections = 1;
     subsMovementDelayTimer = 0;
-    subsFireTimer = wVar8;
+    subsFireTimer = wVar9;
     return;
   }
   while( true ) {
-    wVar11 = benchPlayerIndex + 1;
-    bVar16 = (short)(benchPlayerIndex - 5) < 0;
-    benchPlayerIndex = wVar11;
-    if (wVar11 == 6) break;
+    wVar12 = benchPlayerIndex + 1;
+    bVar17 = (short)(benchPlayerIndex - 5) < 0;
+    benchPlayerIndex = wVar12;
+    if (wVar12 == 6) break;
     IsThisPlayerOkToSelect();
-    if (!bVar16) {
+    if (!bVar17) {
       return;
     }
   }
 LAB_0010d146:
   do {
     benchPlayerIndex = benchPlayerIndex - 1;
-    bVar16 = (short)benchPlayerIndex < 0;
+    bVar17 = (short)benchPlayerIndex < 0;
     if (benchPlayerIndex == 0) {
       return;
     }
     IsThisPlayerOkToSelect();
-  } while (bVar16);
+  } while (bVar17);
   return;
 }
 
@@ -18798,20 +18801,22 @@ void __usercall BenchMenuHandleControls(void)
   int iVar3;
   undefined2 uVar4;
   short sVar5;
-  undefined1 uVar6;
+  byte bVar6;
+  undefined1 uVar7;
+  TeamGeneralInfo *pTVar8;
   word leaveIndex;
-  word wVar7;
-  word wVar8;
-  short sVar9;
-  short sVar10;
-  word *pwVar11;
-  dword dVar12;
+  word wVar9;
+  word wVar10;
+  short sVar11;
+  short sVar12;
   word *pwVar13;
-  bool bVar14;
+  TeamGame *pTVar14;
+  word *pwVar15;
+  bool bVar16;
   
   leaveIndex = selectedPlayerInSubs;
-  dVar12 = benchTeam;
-  wVar7 = plToBeSubstitutedPos;
+  pTVar8 = benchTeam;
+  wVar9 = plToBeSubstitutedPos;
   if (substituteInProgress != 0) {
     return;
   }
@@ -18823,21 +18828,21 @@ void __usercall BenchMenuHandleControls(void)
       }
       overlayActiveFlag = 0;
       substituteInProgress = 1;
-      pwVar11 = &team1NumSubs;
-      pwVar13 = &team1GoalkeeperReplaced;
-      if (*(short *)(benchTeam + 0x12) != 1) {
-        pwVar11 = &team2NumSubs;
-        pwVar13 = &team2GoalkeeperReplaced;
+      pwVar13 = &team1NumSubs;
+      pwVar15 = &team1GoalkeeperReplaced;
+      if (benchTeam->teamNumber != 1) {
+        pwVar13 = &team2NumSubs;
+        pwVar15 = &team2GoalkeeperReplaced;
       }
-      *pwVar11 = *pwVar11 + 1;
+      *pwVar13 = *pwVar13 + 1;
       if (plToEnterGameIndex == 0xb) {
-        *pwVar13 = *pwVar13 + 1;
+        *pwVar15 = *pwVar15 + 1;
       }
       subsBlockFire = 1;
       subsState = 0;
       subsWriteOnly = 2;
       teamThatSubstitutes = benchTeam;
-      pSVar1 = *(Sprite **)(*(int *)(benchTeam + 0x14) + (int)(short)(plToBeSubstitutedPos << 2));
+      pSVar1 = *(Sprite **)((int)benchTeam->spritesTable + (int)(short)(plToBeSubstitutedPos << 2));
       substitutedPlSprite = pSVar1;
       pSVar1->cards = 0;
       plSubstitutedX = 0x27;
@@ -18862,29 +18867,28 @@ void __usercall BenchMenuHandleControls(void)
         return;
       }
       overlayActiveFlag = 0;
-      *(word *)(benchTeam + 0x1c) = selectedFormationEntry;
-      if (*(short *)(dVar12 + 0x12) != 1) {
+      benchTeam->tactics = selectedFormationEntry;
+      if (pTVar8->teamNumber != 1) {
         pl2Tactics = selectedFormationEntry;
-        ApplyTeamTactics((void *)benchTeamGame);
+        ApplyTeamTactics(benchTeamGame);
         SubsBenchOff();
         return;
       }
       pl1Tactics = selectedFormationEntry;
-      ApplyTeamTactics((void *)benchTeamGame);
+      ApplyTeamTactics(benchTeamGame);
       SubsBenchOff();
       return;
     }
     if (subsState != 4) {
       return;
     }
-    if ((*(byte *)(benchTeamGame +
-                   (int)*(short *)((int)ingameTeamPlayerOffsets +
-                                  (int)(short)(plToBeSubstitutedPos << 1)) + 0x34) < 2) &&
-       (subsFireTimer == 8)) {
-      if (plToBeSubstitutedPos == *(word *)(benchTeamGame + 0x14)) {
-        wVar7 = 0xffff;
+    if ((benchTeamGame->players[0].shortName
+         [*(short *)((int)ingameTeamPlayerOffsets + (int)(short)(plToBeSubstitutedPos << 1)) + -2] <
+         2) && (subsFireTimer == 8)) {
+      if (plToBeSubstitutedPos == benchTeamGame->markedPlayer) {
+        wVar9 = 0xffff;
       }
-      *(word *)(benchTeamGame + 0x14) = wVar7;
+      benchTeamGame->markedPlayer = wVar9;
       selectedPlayerInSubs = 0xffff;
       return;
     }
@@ -18908,37 +18912,37 @@ void __usercall BenchMenuHandleControls(void)
       return;
     }
     if (selectedPlayerInSubs != plToBeSubstitutedPos) {
-      wVar8 = selectedPlayerInSubs;
-      if ((plToBeSubstitutedPos == *(word *)(benchTeamGame + 0x14)) ||
-         (wVar8 = plToBeSubstitutedPos, selectedPlayerInSubs == *(word *)(benchTeamGame + 0x14))) {
-        *(word *)(benchTeamGame + 0x14) = wVar8;
+      wVar10 = selectedPlayerInSubs;
+      if ((plToBeSubstitutedPos == benchTeamGame->markedPlayer) ||
+         (wVar10 = plToBeSubstitutedPos, selectedPlayerInSubs == benchTeamGame->markedPlayer)) {
+        benchTeamGame->markedPlayer = wVar10;
       }
-      SwapPlayerNameData(wVar7,leaveIndex);
-      sVar10 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(wVar7 << 1));
+      SwapPlayerNameData(wVar9,leaveIndex);
+      sVar12 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(wVar9 << 1));
       sVar5 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(leaveIndex << 1));
-      sVar9 = 0x3c;
-      dVar12 = benchTeamGame;
+      sVar11 = 0x3c;
+      pTVar14 = benchTeamGame;
       do {
-        uVar6 = *(undefined1 *)(dVar12 + 0x2a + (int)sVar10);
-        *(undefined1 *)(dVar12 + 0x2a + (int)sVar10) = *(undefined1 *)(dVar12 + 0x2a + (int)sVar5);
-        *(undefined1 *)(dVar12 + 0x2a + (int)sVar5) = uVar6;
-        dVar12 = dVar12 + 1;
-        sVar9 = sVar9 + -1;
-      } while (sVar9 != -1);
-      iVar2 = *(int *)(*(int *)(benchTeam + 0x14) + (int)(short)(plToBeSubstitutedPos << 2));
-      iVar3 = *(int *)(*(int *)(benchTeam + 0x14) + (int)(short)(selectedPlayerInSubs << 2));
-      sVar10 = 0x6d;
+        bVar6 = pTVar14->players[0].shortName[sVar12 + -0xc];
+        pTVar14->players[0].shortName[sVar12 + -0xc] = pTVar14->players[0].shortName[sVar5 + -0xc];
+        pTVar14->players[0].shortName[sVar5 + -0xc] = bVar6;
+        pTVar14 = (TeamGame *)((int)&pTVar14->prShirtType + 1);
+        sVar11 = sVar11 + -1;
+      } while (sVar11 != -1);
+      iVar2 = *(int *)((int)benchTeam->spritesTable + (int)(short)(plToBeSubstitutedPos << 2));
+      iVar3 = *(int *)((int)benchTeam->spritesTable + (int)(short)(selectedPlayerInSubs << 2));
+      sVar12 = 0x6d;
       do {
-        uVar6 = *(undefined1 *)(iVar2 + sVar10);
-        *(undefined1 *)(iVar2 + sVar10) = *(undefined1 *)(iVar3 + sVar10);
-        *(undefined1 *)(iVar3 + sVar10) = uVar6;
-        sVar10 = sVar10 + -1;
-      } while (sVar10 != -1);
+        uVar7 = *(undefined1 *)(iVar2 + sVar12);
+        *(undefined1 *)(iVar2 + sVar12) = *(undefined1 *)(iVar3 + sVar12);
+        *(undefined1 *)(iVar3 + sVar12) = uVar7;
+        sVar12 = sVar12 + -1;
+      } while (sVar12 != -1);
       uVar4 = *(undefined2 *)(iVar2 + 2);
       *(undefined2 *)(iVar2 + 2) = *(undefined2 *)(iVar3 + 2);
       *(undefined2 *)(iVar3 + 2) = uVar4;
       InitializePlayerSpriteFrameIndices();
-      ApplyTeamTactics((void *)benchTeamGame);
+      ApplyTeamTactics(benchTeamGame);
       selectedPlayerInSubs = 0xffff;
       overlayActiveFlag = 0;
       SubsBenchOff();
@@ -18950,11 +18954,11 @@ void __usercall BenchMenuHandleControls(void)
     }
     return;
   }
-  wVar7 = bench2Called;
-  if ((TeamGeneralInfo *)benchTeam == &topTeamData) {
-    wVar7 = bench1Called;
+  wVar9 = bench2Called;
+  if (benchTeam == &topTeamData) {
+    wVar9 = bench1Called;
   }
-  if (wVar7 != 0) goto LeaveSubsMenu;
+  if (wVar9 != 0) goto LeaveSubsMenu;
   if ((trainingGame == 0) || (subsTrainingTopTeam == 0)) {
     if (subsDirection == 0) goto LAB_0010d0fc;
     if (subsDirection != 4) goto LAB_0010d096;
@@ -18978,11 +18982,10 @@ LAB_0010d096:
         if ((short)(benchPlayerIndex - 1) < 0) {
           return;
         }
-        iVar2 = benchTeamGame +
-                (int)*(short *)((int)ingameTeamPlayerOffsets +
-                               (int)(short)((benchPlayerIndex + 10) * 2));
-        if (-1 < *(char *)(iVar2 + 0x2e)) {
-          if (1 < *(byte *)(iVar2 + 0x34)) {
+        sVar12 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)((benchPlayerIndex + 10) * 2)
+                           );
+        if (-1 < (char)benchTeamGame->players[0].shortName[sVar12 + -8]) {
+          if (1 < benchTeamGame->players[0].shortName[sVar12 + -2]) {
             return;
           }
           subsState = 1;
@@ -19046,24 +19049,24 @@ LAB_0010d0fc:
     return;
   }
   while( true ) {
-    wVar7 = benchPlayerIndex + 1;
-    bVar14 = (short)(benchPlayerIndex - 5) < 0;
-    benchPlayerIndex = wVar7;
-    if (wVar7 == 6) break;
+    wVar9 = benchPlayerIndex + 1;
+    bVar16 = (short)(benchPlayerIndex - 5) < 0;
+    benchPlayerIndex = wVar9;
+    if (wVar9 == 6) break;
     IsThisPlayerOkToSelect();
-    if (!bVar14) {
+    if (!bVar16) {
       return;
     }
   }
 LAB_0010d146:
   do {
     benchPlayerIndex = benchPlayerIndex - 1;
-    bVar14 = (short)benchPlayerIndex < 0;
+    bVar16 = (short)benchPlayerIndex < 0;
     if (benchPlayerIndex == 0) {
       return;
     }
     IsThisPlayerOkToSelect();
-  } while (bVar14);
+  } while (bVar16);
   return;
 }
 
@@ -19072,17 +19075,19 @@ LAB_0010d146:
 void __usercall TrainingSwapBenchTeams(void)
 
 {
-  word wVar1;
+  TeamGeneralInfo **ppTVar1;
+  word wVar2;
   
-  wVar1 = benchY;
+  wVar2 = benchY;
   subsTeamsSwapped = subsTeamsSwapped ^ 1;
   subsTrainingTopTeam = subsTrainingTopTeam ^ 1;
   benchY = opponentBenchY;
-  opponentBenchY = wVar1;
-  benchTeam = *(dword *)benchTeam;
-  benchTeamGame = (dword)topTeamPtr;
-  if (*(short *)(benchTeam + 0x12) == 2) {
-    benchTeamGame = (dword)bottomTeamPtr;
+  opponentBenchY = wVar2;
+  ppTVar1 = &benchTeam->opponentsTeam;
+  benchTeam = *ppTVar1;
+  benchTeamGame = topTeamPtr;
+  if ((*ppTVar1)->teamNumber == 2) {
+    benchTeamGame = bottomTeamPtr;
   }
   return;
 }
@@ -19097,28 +19102,25 @@ void __usercall TrainingSwapBenchTeams(void)
 short __usercall IsThisPlayerOkToSelect(void)
 
 {
+  ushort uVar1;
   word wVar2;
-  int iVar1;
-  int iVar3;
   
   wVar2 = team1NumSubs;
-  if (*(short *)(benchTeam + 0x12) != 1) {
+  if (benchTeam->teamNumber != 1) {
     wVar2 = team2NumSubs;
   }
   if (wVar2 != maxSubsPerTeam) {
-    iVar1 = (uint)(ushort)(benchPlayerIndex + 10) * 0x3d;
-    iVar3 = iVar1 + benchTeamGame;
-    if (*(char *)(iVar3 + 0x2a) == '\0') {
-      if (*(char *)(iVar3 + 0x2e) < '\0') goto LAB_0010d230;
-      if (*(byte *)(iVar3 + 0x34) < 2) {
-        iVar1 = 0;
-        goto LAB_0010d230;
+    uVar1 = benchPlayerIndex + 10;
+    if (benchTeamGame->players[uVar1].skip == 0) {
+      if ((char)benchTeamGame->players[uVar1].position < '\0') {
+        return uVar1 * 0x3d;
+      }
+      if (benchTeamGame->players[uVar1].numYellowCards < 2) {
+        return 0;
       }
     }
   }
-  iVar1 = 0xffff;
-LAB_0010d230:
-  return (short)iVar1;
+  return -1;
 }
 
 
@@ -19126,7 +19128,7 @@ LAB_0010d230:
 void __usercall FirePressedInSubsMenu(void)
 
 {
-  int iVar1;
+  short sVar1;
   
   if (benchPlayerIndex == 0) {
     subsState = 4;
@@ -19138,10 +19140,9 @@ void __usercall FirePressedInSubsMenu(void)
     return;
   }
   if (((-1 < (short)(benchPlayerIndex - 1)) &&
-      (iVar1 = benchTeamGame +
-               (int)*(short *)((int)ingameTeamPlayerOffsets +
-                              (int)(short)((benchPlayerIndex + 10) * 2)),
-      -1 < *(char *)(iVar1 + 0x2e))) && (*(byte *)(iVar1 + 0x34) < 2)) {
+      (sVar1 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)((benchPlayerIndex + 10) * 2)),
+      -1 < (char)benchTeamGame->players[0].shortName[sVar1 + -8])) &&
+     (benchTeamGame->players[0].shortName[sVar1 + -2] < 2)) {
     subsState = 1;
     subsBlockFire = 1;
     overlayActiveFlag = 1;
@@ -19164,7 +19165,7 @@ void __usercall ShowFormationMenu(void)
   subsState = 2;
   subsBlockFire = 1;
   overlayActiveFlag = 1;
-  selectedFormationEntry = *(word *)(benchTeam + 0x1c);
+  selectedFormationEntry = benchTeam->tactics;
   return;
 }
 
@@ -19199,7 +19200,7 @@ void __usercall SelectPlayerToSubstituteMenuHandler(void)
     substituteInProgress = 1;
     pwVar2 = &team1NumSubs;
     pwVar3 = &team1GoalkeeperReplaced;
-    if (*(short *)(benchTeam + 0x12) != 1) {
+    if (benchTeam->teamNumber != 1) {
       pwVar2 = &team2NumSubs;
       pwVar3 = &team2GoalkeeperReplaced;
     }
@@ -19211,7 +19212,7 @@ void __usercall SelectPlayerToSubstituteMenuHandler(void)
     subsState = 0;
     subsWriteOnly = 2;
     teamThatSubstitutes = benchTeam;
-    pSVar1 = *(Sprite **)(*(int *)(benchTeam + 0x14) + (int)(short)(plToBeSubstitutedPos << 2));
+    pSVar1 = *(Sprite **)((int)benchTeam->spritesTable + (int)(short)(plToBeSubstitutedPos << 2));
     substitutedPlSprite = pSVar1;
     pSVar1->cards = 0;
     substitutedPlX = (pSVar1->x).s.i;
@@ -19248,44 +19249,43 @@ void __usercall SubstitutePlayer(void)
 {
   short sVar1;
   short sVar2;
-  undefined1 uVar3;
+  byte bVar3;
   Sprite *pSVar4;
   word leaveIndex;
   word enterIndex;
   short sVar5;
-  dword dVar6;
+  TeamGame *pTVar6;
   
   pSVar4 = substitutedPlSprite;
   substitutedPlSprite->injuryLevel = 0;
   pSVar4->sentAway = 0;
-  dVar6 = benchTeamGame;
+  pTVar6 = benchTeamGame;
   enterIndex = plToEnterGameIndex;
   leaveIndex = plToBeSubstitutedPos;
                     // reset marked player if that's the player going out 
-  if (plToBeSubstitutedPos == *(word *)(benchTeamGame + 0x14)) {
-    *(undefined2 *)(benchTeamGame + 0x14) = 0xffff;
+  if (plToBeSubstitutedPos == benchTeamGame->markedPlayer) {
+    benchTeamGame->markedPlayer = 0xffff;
   }
-  if ((enterIndex == *(word *)(dVar6 + 0x14)) &&
-     (*(undefined2 *)(dVar6 + 0x14) = 0xffff, leaveIndex != 0)) {
-    *(word *)(dVar6 + 0x14) = leaveIndex;
+  if ((enterIndex == pTVar6->markedPlayer) && (pTVar6->markedPlayer = 0xffff, leaveIndex != 0)) {
+    pTVar6->markedPlayer = leaveIndex;
   }
   SwapPlayerNameData(enterIndex,leaveIndex);
-  dVar6 = benchTeamGame;
+  pTVar6 = benchTeamGame;
   sVar1 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(enterIndex << 1));
   sVar2 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(leaveIndex << 1));
-  *(undefined1 *)(benchTeamGame + 0x2e + (int)sVar2) = 0xff;
+  benchTeamGame->players[0].shortName[sVar2 + -8] = 0xff;
                     // sizeof(GamePlayer) - 1 
   sVar5 = 0x3c;
   do {
                     // 42 = sizeof(TeamGameHeader) 
-    uVar3 = *(undefined1 *)(dVar6 + 0x2a + (int)sVar1);
-    *(undefined1 *)(dVar6 + 0x2a + (int)sVar1) = *(undefined1 *)(dVar6 + 0x2a + (int)sVar2);
-    *(undefined1 *)(dVar6 + 0x2a + (int)sVar2) = uVar3;
-    dVar6 = dVar6 + 1;
+    bVar3 = pTVar6->players[0].shortName[sVar1 + -0xc];
+    pTVar6->players[0].shortName[sVar1 + -0xc] = pTVar6->players[0].shortName[sVar2 + -0xc];
+    pTVar6->players[0].shortName[sVar2 + -0xc] = bVar3;
+    pTVar6 = (TeamGame *)((int)&pTVar6->prShirtType + 1);
     sVar5 = sVar5 + -1;
   } while (sVar5 != -1);
   InitializePlayerSpriteFrameIndices();
-  ApplyTeamTactics((void *)benchTeamGame);
+  ApplyTeamTactics(benchTeamGame);
   waitForPlayerToGoInTimer = 100;
   subsBlockFire = 1;
   LeaveSubsMenu();
@@ -19324,24 +19324,24 @@ void __usercall MarkPlayersMenuHandler(void)
   int iVar2;
   undefined2 uVar3;
   short sVar4;
-  undefined1 uVar5;
+  byte bVar5;
+  undefined1 uVar6;
   word leaveIndex;
-  word wVar6;
   word wVar7;
-  short sVar8;
+  word wVar8;
   short sVar9;
-  dword dVar10;
+  short sVar10;
+  TeamGame *pTVar11;
   
   leaveIndex = selectedPlayerInSubs;
-  wVar6 = plToBeSubstitutedPos;
-  if ((*(byte *)(benchTeamGame +
-                 (int)*(short *)((int)ingameTeamPlayerOffsets +
-                                (int)(short)(plToBeSubstitutedPos << 1)) + 0x34) < 2) &&
-     (subsFireTimer == 8)) {
-    if (plToBeSubstitutedPos == *(word *)(benchTeamGame + 0x14)) {
-      wVar6 = 0xffff;
+  wVar7 = plToBeSubstitutedPos;
+  if ((benchTeamGame->players[0].shortName
+       [*(short *)((int)ingameTeamPlayerOffsets + (int)(short)(plToBeSubstitutedPos << 1)) + -2] < 2
+      ) && (subsFireTimer == 8)) {
+    if (plToBeSubstitutedPos == benchTeamGame->markedPlayer) {
+      wVar7 = 0xffff;
     }
-    *(word *)(benchTeamGame + 0x14) = wVar6;
+    benchTeamGame->markedPlayer = wVar7;
     selectedPlayerInSubs = 0xffff;
   }
   else if (subsFire == 0) {
@@ -19362,44 +19362,43 @@ void __usercall MarkPlayersMenuHandler(void)
       }
       else {
         if (selectedPlayerInSubs != plToBeSubstitutedPos) {
-          wVar7 = selectedPlayerInSubs;
-          if ((plToBeSubstitutedPos == *(word *)(benchTeamGame + 0x14)) ||
-             (wVar7 = plToBeSubstitutedPos, selectedPlayerInSubs == *(word *)(benchTeamGame + 0x14))
-             ) {
-            *(word *)(benchTeamGame + 0x14) = wVar7;
+          wVar8 = selectedPlayerInSubs;
+          if ((plToBeSubstitutedPos == benchTeamGame->markedPlayer) ||
+             (wVar8 = plToBeSubstitutedPos, selectedPlayerInSubs == benchTeamGame->markedPlayer)) {
+            benchTeamGame->markedPlayer = wVar8;
           }
-          SwapPlayerNameData(wVar6,leaveIndex);
-          sVar9 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(wVar6 << 1));
+          SwapPlayerNameData(wVar7,leaveIndex);
+          sVar10 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(wVar7 << 1));
           sVar4 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(leaveIndex << 1));
                     // sizeof(PlayerInfo) - 1 
-          sVar8 = 0x3c;
-          dVar10 = benchTeamGame;
+          sVar9 = 0x3c;
+          pTVar11 = benchTeamGame;
           do {
-            uVar5 = *(undefined1 *)(dVar10 + 0x2a + (int)sVar9);
-            *(undefined1 *)(dVar10 + 0x2a + (int)sVar9) =
-                 *(undefined1 *)(dVar10 + 0x2a + (int)sVar4);
-            *(undefined1 *)(dVar10 + 0x2a + (int)sVar4) = uVar5;
-            dVar10 = dVar10 + 1;
-            sVar8 = sVar8 + -1;
-          } while (sVar8 != -1);
-                    // A0 -> player1 sprite 
-          iVar1 = *(int *)(*(int *)(benchTeam + 0x14) + (int)(short)(plToBeSubstitutedPos << 2));
-                    // A1 -> player2 sprite 
-          iVar2 = *(int *)(*(int *)(benchTeam + 0x14) + (int)(short)(selectedPlayerInSubs << 2));
-                    // sizeof(Sprite) - 1 
-          sVar9 = 0x6d;
-          do {
-            uVar5 = *(undefined1 *)(iVar1 + sVar9);
-            *(undefined1 *)(iVar1 + sVar9) = *(undefined1 *)(iVar2 + sVar9);
-            *(undefined1 *)(iVar2 + sVar9) = uVar5;
+            bVar5 = pTVar11->players[0].shortName[sVar10 + -0xc];
+            pTVar11->players[0].shortName[sVar10 + -0xc] =
+                 pTVar11->players[0].shortName[sVar4 + -0xc];
+            pTVar11->players[0].shortName[sVar4 + -0xc] = bVar5;
+            pTVar11 = (TeamGame *)((int)&pTVar11->prShirtType + 1);
             sVar9 = sVar9 + -1;
           } while (sVar9 != -1);
+                    // A0 -> player1 sprite 
+          iVar1 = *(int *)((int)benchTeam->spritesTable + (int)(short)(plToBeSubstitutedPos << 2));
+                    // A1 -> player2 sprite 
+          iVar2 = *(int *)((int)benchTeam->spritesTable + (int)(short)(selectedPlayerInSubs << 2));
+                    // sizeof(Sprite) - 1 
+          sVar10 = 0x6d;
+          do {
+            uVar6 = *(undefined1 *)(iVar1 + sVar10);
+            *(undefined1 *)(iVar1 + sVar10) = *(undefined1 *)(iVar2 + sVar10);
+            *(undefined1 *)(iVar2 + sVar10) = uVar6;
+            sVar10 = sVar10 + -1;
+          } while (sVar10 != -1);
           uVar3 = *(undefined2 *)(iVar1 + 2);
           *(undefined2 *)(iVar1 + 2) = *(undefined2 *)(iVar2 + 2);
                     // preserve original player ordinals 
           *(undefined2 *)(iVar2 + 2) = uVar3;
           InitializePlayerSpriteFrameIndices();
-          ApplyTeamTactics((void *)benchTeamGame);
+          ApplyTeamTactics(benchTeamGame);
           selectedPlayerInSubs = 0xffff;
           overlayActiveFlag = 0;
           SubsBenchOff();
@@ -19420,23 +19419,23 @@ void __usercall MarkPlayersMenuHandler(void)
 void __usercall HandleFormationMenuControls(void)
 
 {
-  dword dVar1;
+  TeamGeneralInfo *pTVar1;
   
-  dVar1 = benchTeam;
+  pTVar1 = benchTeam;
   if (subsFire == 0) {
     HandleFormationMenuMovement();
     return;
   }
   overlayActiveFlag = 0;
-  *(word *)(benchTeam + 0x1c) = selectedFormationEntry;
-  if (*(short *)(dVar1 + 0x12) == 1) {
+  benchTeam->tactics = selectedFormationEntry;
+  if (pTVar1->teamNumber == 1) {
     pl1Tactics = selectedFormationEntry;
-    ApplyTeamTactics((void *)benchTeamGame);
+    ApplyTeamTactics(benchTeamGame);
     SubsBenchOff();
     return;
   }
   pl2Tactics = selectedFormationEntry;
-  ApplyTeamTactics((void *)benchTeamGame);
+  ApplyTeamTactics(benchTeamGame);
   SubsBenchOff();
   return;
 }
@@ -19528,7 +19527,7 @@ void __usercall UpdatePlayerToBeSubstitutedPosition(void)
 ushort __usercall IsPlayerOkToSubstitute(void)
 
 {
-  int iVar1;
+  short sVar1;
   
   if (subsState == 4) {
     if (plToBeSubstitutedOrd == 0) {
@@ -19536,12 +19535,11 @@ ushort __usercall IsPlayerOkToSubstitute(void)
     }
   }
   else {
-    iVar1 = benchTeamGame +
-            (int)*(short *)((int)ingameTeamPlayerOffsets + (int)(short)(plToBeSubstitutedPos << 1));
-    if (1 < *(byte *)(iVar1 + 0x34)) {
+    sVar1 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(plToBeSubstitutedPos << 1));
+    if (1 < benchTeamGame->players[0].shortName[sVar1 + -2]) {
       return 1;
     }
-    if ((subsState == 3) && (*(char *)(iVar1 + 0x35) < '\0')) {
+    if ((subsState == 3) && ((char)benchTeamGame->players[0].shortName[sVar1 + -1] < '\0')) {
       return 1;
     }
   }
@@ -19593,7 +19591,7 @@ void __usercall HandleFormationMenuMovement(void)
 void __usercall FindInitialPlayerToBeSubstituted(void)
 
 {
-  char cVar1;
+  byte bVar1;
   ushort index;
   ushort uVar2;
   ushort index_00;
@@ -19603,9 +19601,8 @@ void __usercall FindInitialPlayerToBeSubstituted(void)
   uVar3 = 0xffff;
   index_00 = 0xffff;
   uVar2 = 0xffff;
-  cVar1 = *(char *)(benchTeamGame + 0x2e +
-                   (int)*(short *)((int)ingameTeamPlayerOffsets +
-                                  (int)(short)(plToEnterGameIndex << 1)));
+  bVar1 = benchTeamGame->players[0].shortName
+          [*(short *)((int)ingameTeamPlayerOffsets + (int)(short)(plToEnterGameIndex << 1)) + -8];
   index = 0;
   do {
     pvVar4 = GetBenchPlayerPointer(index);
@@ -19614,13 +19611,13 @@ void __usercall FindInitialPlayerToBeSubstituted(void)
         uVar3 = index;
       }
       if ((short)uVar2 < 0) {
-        if (((cVar1 == POS_DEFENDER) || (cVar1 == POS_RIGHT_BACK)) || (cVar1 == POS_LEFT_BACK)) {
+        if (((bVar1 == POS_DEFENDER) || (bVar1 == POS_RIGHT_BACK)) || (bVar1 == POS_LEFT_BACK)) {
           if (((*(char *)((int)pvVar4 + 0x2e) == POS_DEFENDER) ||
               (*(char *)((int)pvVar4 + 0x2e) == POS_RIGHT_BACK)) ||
              (*(char *)((int)pvVar4 + 0x2e) == POS_LEFT_BACK)) goto record_group_fallback;
         }
-        else if ((((cVar1 == POS_MIDFIELDER) || (cVar1 == POS_RIGHT_WING)) ||
-                 (cVar1 == POS_LEFT_WING)) &&
+        else if ((((bVar1 == POS_MIDFIELDER) || (bVar1 == POS_RIGHT_WING)) ||
+                 (bVar1 == POS_LEFT_WING)) &&
                 (((*(char *)((int)pvVar4 + 0x2e) == POS_MIDFIELDER ||
                   (*(char *)((int)pvVar4 + 0x2e) == POS_RIGHT_WING)) ||
                  (*(char *)((int)pvVar4 + 0x2e) == POS_LEFT_WING)))) {
@@ -19629,7 +19626,7 @@ record_group_fallback:
           uVar2 = index;
         }
       }
-      if (((short)index_00 < 0) && (cVar1 == *(char *)((int)pvVar4 + 0x2e))) {
+      if (((short)index_00 < 0) && (bVar1 == *(byte *)((int)pvVar4 + 0x2e))) {
                     // D5 = exact match 
         index_00 = index;
       }
@@ -19664,7 +19661,7 @@ void __usercall SwapPlayerNameData(short enterIndex,short leaveIndex)
   
   pbVar2 = plOrdinalsTable;
   pbVar3 = plNamesLengthTableCopy;
-  if ((TeamGame *)benchTeamGame != &topTeamInGame) {
+  if (benchTeamGame != &topTeamInGame) {
     pbVar2 = (byte *)0x2bca8;
     pbVar3 = (byte *)0x2bce8;
   }
@@ -19682,7 +19679,7 @@ void __usercall SwapPlayerNameData(short enterIndex,short leaveIndex)
 void __usercall DrawBenchAndSubsMenu(void)
 
 {
-  dword teamGame;
+  TeamGame *teamGame;
   short y;
   ushort uVar1;
   word wVar2;
@@ -19710,17 +19707,17 @@ void __usercall DrawBenchAndSubsMenu(void)
       DrawSpriteInCameraView();
     }
     drawTrainingTopHalfOfTheBench = subsTrainingTopTeam;
-    DrawBenchPlayersAndCoach((TeamGame *)benchTeamGame,(TeamGeneralInfo *)benchTeam,wVar2,benchY);
+    DrawBenchPlayersAndCoach(benchTeamGame,benchTeam,wVar2,benchY);
     if ((trainingGame != 0) && (subsTrainingTopTeam != 0)) {
       DrawOpponentsBench();
     }
     teamGame = benchTeamGame;
     if ((subsState != 1) && (subsState != 3)) {
       if (subsState == 2) {
-        benchColors[0] = *(word *)(benchTeamGame + 2);
-        benchColors[1] = *(word *)(benchTeamGame + 4);
-        benchColors[2] = *(word *)(benchTeamGame + 6);
-        benchColors[3] = *(word *)(benchTeamGame + 8);
+        benchColors[0] = benchTeamGame->prShirtCol;
+        benchColors[1] = benchTeamGame->prStripesCol;
+        benchColors[2] = benchTeamGame->prShortsCol;
+        benchColors[3] = benchTeamGame->prSocksCol;
         benchColors[4] = 3;
         benchColors[5] = 1;
         benchColors[6] = 3;
@@ -19775,10 +19772,10 @@ void __usercall DrawBenchAndSubsMenu(void)
         return;
       }
     }
-    benchColors[0] = *(word *)(benchTeamGame + 2);
-    benchColors[1] = *(word *)(benchTeamGame + 4);
-    benchColors[2] = *(word *)(benchTeamGame + 6);
-    benchColors[3] = *(word *)(benchTeamGame + 8);
+    benchColors[0] = benchTeamGame->prShirtCol;
+    benchColors[1] = benchTeamGame->prStripesCol;
+    benchColors[2] = benchTeamGame->prShortsCol;
+    benchColors[3] = benchTeamGame->prSocksCol;
     benchColors[4] = 3;
     benchColors[5] = 1;
     benchColors[6] = 3;
@@ -19819,12 +19816,12 @@ void __usercall DrawBenchAndSubsMenu(void)
           uVar1 = subsMenuHighlightColor;
         }
         DrawSubstitutesMenuEntry
-                  (0x24,uVar1,-1,&smallCharsTable,(void *)benchTeamGame,ingameTeamPlayerOffsets);
+                  (0x24,uVar1,-1,&smallCharsTable,benchTeamGame,ingameTeamPlayerOffsets);
       }
       else {
         DrawSubstitutesMenuEntry
-                  (0x24,subsMenuBackgroundColor,plToEnterGameIndex,&smallCharsTable,
-                   (void *)benchTeamGame,ingameTeamPlayerOffsets);
+                  (0x24,subsMenuBackgroundColor,plToEnterGameIndex,&smallCharsTable,benchTeamGame,
+                   ingameTeamPlayerOffsets);
       }
     }
     FillRectangle();
@@ -19848,8 +19845,7 @@ void __usercall DrawBenchAndSubsMenu(void)
          ((wVar2 = 0xb, subsMenuBackgroundColor == 0xb || (subsMenuHighlightColor == 0xb)))) {
         wVar2 = 0xe;
       }
-      DrawSubstitutesMenuEntry
-                (y,wVar2,uVar1,&smallCharsTable,(void *)teamGame,ingameTeamPlayerOffsets);
+      DrawSubstitutesMenuEntry(y,wVar2,uVar1,&smallCharsTable,teamGame,ingameTeamPlayerOffsets);
       y = y + 10;
       uVar1 = uVar1 + 1;
     } while (uVar1 != 0xb);
@@ -19867,13 +19863,12 @@ void __usercall DrawOpponentsBench(void)
   
   wVar1 = subsState;
   requestingTeam = &topTeamInGame;
-  if ((TeamGame *)benchTeamGame != &bottomTeamInGame) {
+  if (benchTeamGame != &bottomTeamInGame) {
     requestingTeam = &bottomTeamInGame;
   }
   subsState = 0xffff;
   drawTrainingTopHalfOfTheBench = subsTrainingTopTeam ^ 1;
-  DrawBenchPlayersAndCoach(requestingTeam,*(TeamGeneralInfo **)benchTeam,benchXLimit,opponentBenchY)
-  ;
+  DrawBenchPlayersAndCoach(requestingTeam,benchTeam->opponentsTeam,benchXLimit,opponentBenchY);
   subsState = wVar1;
   return;
 }
@@ -19926,7 +19921,7 @@ DrawBenchPlayersAndCoach(TeamGame *requestingTeam,TeamGeneralInfo *team,ushort x
 void __usercall DrawSubstitutesMenu(void)
 
 {
-  dword teamGame;
+  TeamGame *teamGame;
   short y;
   ushort uVar1;
   word baseColor;
@@ -19934,10 +19929,10 @@ void __usercall DrawSubstitutesMenu(void)
   word *pwVar3;
   
   teamGame = benchTeamGame;
-  benchColors[0] = *(word *)(benchTeamGame + 2);
-  benchColors[1] = *(word *)(benchTeamGame + 4);
-  benchColors[2] = *(word *)(benchTeamGame + 6);
-  benchColors[3] = *(word *)(benchTeamGame + 8);
+  benchColors[0] = benchTeamGame->prShirtCol;
+  benchColors[1] = benchTeamGame->prStripesCol;
+  benchColors[2] = benchTeamGame->prShortsCol;
+  benchColors[3] = benchTeamGame->prSocksCol;
   benchColors[4] = 3;
   benchColors[5] = 1;
   benchColors[6] = 3;
@@ -19976,13 +19971,13 @@ void __usercall DrawSubstitutesMenu(void)
       if ((short)plToBeSubstitutedOrd < 0) {
         uVar1 = subsMenuHighlightColor;
       }
-      DrawSubstitutesMenuEntry
-                (0x24,uVar1,-1,&smallCharsTable,(void *)benchTeamGame,ingameTeamPlayerOffsets);
+      DrawSubstitutesMenuEntry(0x24,uVar1,-1,&smallCharsTable,benchTeamGame,ingameTeamPlayerOffsets)
+      ;
     }
     else {
       DrawSubstitutesMenuEntry
-                (0x24,subsMenuBackgroundColor,plToEnterGameIndex,&smallCharsTable,
-                 (void *)benchTeamGame,ingameTeamPlayerOffsets);
+                (0x24,subsMenuBackgroundColor,plToEnterGameIndex,&smallCharsTable,benchTeamGame,
+                 ingameTeamPlayerOffsets);
     }
   }
   FillRectangle();
@@ -20006,8 +20001,7 @@ void __usercall DrawSubstitutesMenu(void)
        ((baseColor = 0xb, subsMenuBackgroundColor == 0xb || (subsMenuHighlightColor == 0xb)))) {
       baseColor = 0xe;
     }
-    DrawSubstitutesMenuEntry
-              (y,baseColor,uVar1,&smallCharsTable,(void *)teamGame,ingameTeamPlayerOffsets);
+    DrawSubstitutesMenuEntry(y,baseColor,uVar1,&smallCharsTable,teamGame,ingameTeamPlayerOffsets);
     y = y + 10;
     uVar1 = uVar1 + 1;
   } while (uVar1 != 0xb);
@@ -20047,11 +20041,11 @@ DrawSubstitutesMenuEntry
   sVar2 = *(short *)((int)playerOffsets + (int)(short)(selectedIndex << 1));
   bVar3 = *(byte *)((int)teamGame + sVar2 + 0x2d);
   if ((useIndividualPlayerSkinColor != 0) &&
-     ((selectedIndex != *(short *)(benchTeamGame + 0x14) || ((frameCount & 4) != 0)))) {
+     ((selectedIndex != benchTeamGame->markedPlayer || ((frameCount & 4) != 0)))) {
     DrawSprite16Pixels();
   }
-  if (*(short *)(*(int *)(*(int *)(benchTeam + 0x14) + (int)(short)(selectedIndex << 2)) + 0x68) ==
-      -2) {
+  if (*(short *)(*(int *)((int)benchTeam->spritesTable + (int)(short)(selectedIndex << 2)) + 0x68)
+      == -2) {
     DrawSprite16Pixels();
     y_00 = y;
   }
@@ -20072,8 +20066,8 @@ DrawSubstitutesMenuEntry
     y_00 = y + 1;
     DrawMenuTextCentered(uVar4,y_00,2,playerNumberString,charsTable);
     if (((ushort)selectedIndex < 0xb) &&
-       ((psVar1 = (short *)(*(int *)(*(int *)(benchTeam + 0x14) + (int)(short)(selectedIndex << 2))
-                           + 0x66), *psVar1 < 0 || (*psVar1 != 0)))) {
+       ((psVar1 = (short *)(*(int *)((int)benchTeam->spritesTable + (int)(short)(selectedIndex << 2)
+                                    ) + 0x66), *psVar1 < 0 || (*psVar1 != 0)))) {
       DrawSprite16Pixels();
       y_00 = y + 1;
     }
@@ -20106,10 +20100,10 @@ void __usercall DrawFormationMenu(void)
   word *pwVar1;
   word *pwVar2;
   
-  benchColors[0] = *(word *)(benchTeamGame + 2);
-  benchColors[1] = *(word *)(benchTeamGame + 4);
-  benchColors[2] = *(word *)(benchTeamGame + 6);
-  benchColors[3] = *(word *)(benchTeamGame + 8);
+  benchColors[0] = benchTeamGame->prShirtCol;
+  benchColors[1] = benchTeamGame->prStripesCol;
+  benchColors[2] = benchTeamGame->prShortsCol;
+  benchColors[3] = benchTeamGame->prSocksCol;
   benchColors[4] = 3;
   benchColors[5] = 1;
   benchColors[6] = 3;
@@ -20203,15 +20197,15 @@ void * __usercall GetBenchPlayerPointer(ushort index)
   word wVar1;
   
   wVar1 = pl1Tactics;
-  if (*(short *)(benchTeam + 0x12) != 1) {
+  if (benchTeam->teamNumber != 1) {
     wVar1 = pl2Tactics;
   }
-  return (void *)(benchTeamGame +
-                 (int)*(short *)((int)ingameTeamPlayerOffsets +
-                                (int)(short)(CONCAT11((char)(index >> 8),
-                                                      *(char *)(*(int *)((int)positionsTable +
-                                                                        (int)(short)(wVar1 << 2)) +
-                                                               (int)(short)index) + -1) << 1)));
+  return benchTeamGame->teamName +
+         *(short *)((int)ingameTeamPlayerOffsets +
+                   (int)(short)(CONCAT11((char)(index >> 8),
+                                         *(char *)(*(int *)((int)positionsTable +
+                                                           (int)(short)(wVar1 << 2)) +
+                                                  (int)(short)index) + -1) << 1)) + -0x16;
 }
 
 
@@ -21274,7 +21268,7 @@ void __usercall AssetPrecacheCore(void)
   undefined **ppuVar1;
   
   InstallAndInitLoaderBootstrap();
-  if (assetLoaderCacheFlag != 0) {
+  if (assetLoaderCacheFlag != (void *)0x0) {
     ppuVar1 = &corePrecacheTable;
     while( true ) {
       if (*ppuVar1 == (char *)0xffffffff) break;
@@ -21312,7 +21306,7 @@ void __usercall AssetPrecacheMenuPack(void)
 {
   char **ppcVar1;
   
-  if (assetLoaderCacheFlag != 0) {
+  if (assetLoaderCacheFlag != (void *)0x0) {
     ppcVar1 = menuPrecacheTable;
     while( true ) {
       if (*ppcVar1 == (char *)0xffffffff) break;
@@ -22529,21 +22523,21 @@ void __usercall QueueMaskedSpriteBlitClipped(void *sprite,ushort x,ushort y)
                  (uint)spriteClippedY * ROW_STRIDE_BYTES + (int)(short)(((short)uVar1 >> 4) << 1);
         REG_BLTCPTH = puVar2;
         REG_BLTDPTH = puVar2;
-        *(uchar **)(spriteBlitQueue + 4) = puVar2;
+        *(uchar **)((int)spriteBlitQueue + 4) = puVar2;
         *(byte **)spriteBlitQueue = frontbufferMaskBuffer + ((int)puVar2 - (int)puVar5);
         REG_BLTAMOD = 0;
         REG_BLTBMOD = 0;
         REG_BLTCMOD = PLANE_STRIDE_MINUS2;
         REG_BLTDMOD = PLANE_STRIDE_MINUS2;
-        *(undefined2 *)(spriteBlitQueue + 8) = PLANE_STRIDE_MINUS2;
+        *(undefined2 *)((int)spriteBlitQueue + 8) = PLANE_STRIDE_MINUS2;
         REG_BLTBPTH = *(void **)sprite;
         REG_BLTAPTH = *(void **)((int)sprite + 4);
         REG_BLTAFWM = BLT_FWM_ALL;
         REG_BLTALWM = BLT_FWM_ALL;
         REG_BLTSIZE = SPRITE_BLTSIZE_W1;
-        *(undefined2 *)(spriteBlitQueue + 10) = SPRITE_BLTSIZE_W1;
-        *(undefined4 *)(spriteBlitQueue + 0xc) = 0xffffffff;
-        spriteBlitQueue = spriteBlitQueue + 0xc;
+        *(undefined2 *)((int)spriteBlitQueue + 10) = SPRITE_BLTSIZE_W1;
+        *(undefined4 *)((int)spriteBlitQueue + 0xc) = 0xffffffff;
+        spriteBlitQueue = (undefined4 *)((int)spriteBlitQueue + 0xc);
         return;
       }
       REG_DMACON = DMACON_BLT_ON;
@@ -22558,21 +22552,21 @@ void __usercall QueueMaskedSpriteBlitClipped(void *sprite,ushort x,ushort y)
                (uint)spriteClippedY * ROW_STRIDE_BYTES + (int)(short)(((short)uVar1 >> 4) << 1);
       REG_BLTCPTH = puVar2;
       REG_BLTDPTH = puVar2;
-      *(uchar **)(spriteBlitQueue + 4) = puVar2;
+      *(uchar **)((int)spriteBlitQueue + 4) = puVar2;
       *(byte **)spriteBlitQueue = frontbufferMaskBuffer + ((int)puVar2 - (int)puVar5);
       REG_BLTAMOD = 0xfffe;
       REG_BLTBMOD = 0xfffe;
       REG_BLTCMOD = PLANE_STRIDE_MINUS4;
       REG_BLTDMOD = PLANE_STRIDE_MINUS4;
-      *(undefined2 *)(spriteBlitQueue + 8) = PLANE_STRIDE_MINUS4;
+      *(undefined2 *)((int)spriteBlitQueue + 8) = PLANE_STRIDE_MINUS4;
       REG_BLTBPTH = *(void **)sprite;
       REG_BLTAPTH = *(void **)((int)sprite + 4);
       REG_BLTAFWM = BLT_FWM_ALL;
       REG_BLTALWM = 0;
       REG_BLTSIZE = SPRITE_BLTSIZE_W2;
-      *(undefined2 *)(spriteBlitQueue + 10) = SPRITE_BLTSIZE_W2;
-      *(undefined4 *)(spriteBlitQueue + 0xc) = 0xffffffff;
-      spriteBlitQueue = spriteBlitQueue + 0xc;
+      *(undefined2 *)((int)spriteBlitQueue + 10) = SPRITE_BLTSIZE_W2;
+      *(undefined4 *)((int)spriteBlitQueue + 0xc) = 0xffffffff;
+      spriteBlitQueue = (undefined4 *)((int)spriteBlitQueue + 0xc);
       return;
     }
     x = uVar1 - cameraXMod320;
@@ -29539,7 +29533,7 @@ void __usercall PrepareMenuForFadeIn(void)
 void __usercall PrepareMenuBackground(void)
 
 {
-  ProcessImageCommandStream(menuBGImageCmdStream,(uchar *)menuImageStreamBaseEnd);
+  ProcessImageCommandStream(menuBGImageCmdStream,menuImageStreamBaseEnd);
   LoadOverlayToFrontbuffer(aGrafsMenubgRaw);
   return;
 }
@@ -31176,7 +31170,7 @@ CalculateViewResult(void *ctx,ushort arg0,ushort team1Goals,ushort team2Goals,us
   team2GoalCounterByPlayer[0x1d] = 0;
   team2GoalCounterByPlayer[0x1e] = 0;
   team2GoalCounterByPlayer[0x1f] = 0;
-  viewResultCtx = (dword)ctx;
+  viewResultCtx = ctx;
   viewResultModeFlag = arg0;
   viewResultStatColumnIndex = arg3;
   viewResultTeam1GoalsIn = team1Goals;
@@ -31301,7 +31295,7 @@ ushort __usercall ScaleViewIndexByTeamPriceRank(ushort value,TeamFile *team)
   short sVar1;
   ushort uVar2;
   
-  sVar1 = CalcTeamPriceRankPercentOffset((void *)viewResultCtx,team);
+  sVar1 = CalcTeamPriceRankPercentOffset(viewResultCtx,team);
   uVar2 = (ushort)(((uint)value * (uint)(ushort)(sVar1 + 100)) / 100);
   if (0x1f < uVar2) {
     uVar2 = 0x1f;
@@ -32175,15 +32169,16 @@ ushort __usercall GetPlayerPrice(TeamFile *team,PlayerFile *player,ushort positi
   ushort uVar8;
   uint uVar7;
   uchar *curQuadDistFactor;
-  dword dVar9;
+  void *pvVar9;
   
   bVar1 = player[2].positionAndFace;
   uVar7._0_1_ = player[2].passing;
   uVar7._1_1_ = player[2].shootingHeading;
   uVar7._2_1_ = player[2].tacklingBallControl;
   uVar7._3_1_ = player[2].speedFinishing;
-  plPositions = *(int *)((int)teamTacticsTable + (int)(short)((short)(char)team->tactics << 2)) + 9;
-  playerPositions = (uchar *)(plPositions + (int)(short)((position - 1) * 0x23));
+  plPositions = (void *)(*(int *)((int)teamTacticsTable +
+                                 (int)(short)((short)(char)team->tactics << 2)) + 9);
+  playerPositions = (uchar *)((int)plPositions + (int)(short)((position - 1) * 0x23));
   curQuadDistFactor = quadrantDistanceFactor + 0x4a6;
   totalSkillsFactorSum = 0;
   uVar6 = 0x22;
@@ -32196,13 +32191,14 @@ ushort __usercall GetPlayerPrice(TeamFile *team,PlayerFile *player,ushort positi
         (uVar6 < 0x1e)) && (uVar6 != 7)) {
       numPlayersAtQuadrant = 0;
       sVar3 = 9;
-      dVar9 = plPositions;
+      pvVar9 = plPositions;
       do {
-        if (quadrantCoordinatesToBallQuadrant[(short)(ushort)*(byte *)(dVar9 + (int)(short)uVar6)]
-            == quadrantCoordinatesToBallQuadrant[(short)(ushort)playerPositions[(short)uVar6]]) {
+        if (quadrantCoordinatesToBallQuadrant
+            [(short)(ushort)*(byte *)((int)pvVar9 + (int)(short)uVar6)] ==
+            quadrantCoordinatesToBallQuadrant[(short)(ushort)playerPositions[(short)uVar6]]) {
           numPlayersAtQuadrant = numPlayersAtQuadrant + 1;
         }
-        dVar9 = dVar9 + 0x23;
+        pvVar9 = (void *)((int)pvVar9 + 0x23);
         sVar3 = sVar3 + -1;
       } while (sVar3 != -1);
     }
@@ -32963,7 +32959,7 @@ LAB_00125698:
       if (performanceWarningCooldown == 0) {
         if (((((overdraftWarningState < 3) && (unaff_D1w != 0)) && (careerTeamLostMatch == 0)) &&
             ((secondaryCompetitionPtr == (CompetitionCup *)0x0 || (secondaryCompFinished == 0)))) &&
-           ((tertiaryCompetitionPtr == 0 || (tertiaryCompFinished == 0)))) {
+           ((tertiaryCompetitionPtr == (CompetitionCup *)0x0 || (tertiaryCompFinished == 0)))) {
           performanceWarningState = 3;
           SetPerformanceWarningCooldown();
           currentMessage = THREE_MORE_MATCHES_TO_IMPROVE_TEAM;
@@ -33013,7 +33009,8 @@ LAB_001257d4:
         if (overdraftWarningCooldown == 0) {
           if ((((performanceWarningState < 3) && (unaff_D1w != 0)) && (careerTeamLostMatch == 0)) &&
              (((secondaryCompetitionPtr == (CompetitionCup *)0x0 || (secondaryCompFinished == 0)) &&
-              ((tertiaryCompetitionPtr == 0 || (tertiaryCompFinished == 0)))))) {
+              ((tertiaryCompetitionPtr == (CompetitionCup *)0x0 || (tertiaryCompFinished == 0))))))
+          {
             overdraftWarningState = 3;
             SetOverdraftWarningCooldown();
             currentMessage = CLEAR_OVERDRAFT_IMMEDIEATELY;
@@ -33080,8 +33077,8 @@ void __usercall ApplyWeeklyFinancialDeductions(void)
   void *pvVar3;
   
   pvVar3 = TeamSelectionKeyCache_GetCurrentListPtr();
-  cVar1 = *(byte *)((int)pvVar3 + 1) - lastFinancialWeekIndex._0_1_;
-  if (lastFinancialWeekIndex._0_1_ <= *(byte *)((int)pvVar3 + 1)) {
+  cVar1 = *(byte *)((int)pvVar3 + 1) - lastFinancialWeekIndex;
+  if (lastFinancialWeekIndex <= *(byte *)((int)pvVar3 + 1)) {
     if (cVar1 != '\0') {
       uVar2 = (ushort)(byte)(cVar1 - 1);
       do {
@@ -33096,7 +33093,7 @@ void __usercall ApplyWeeklyFinancialDeductions(void)
       } while (uVar2 != 0xffff);
     }
     pvVar3 = TeamSelectionKeyCache_GetCurrentListPtr();
-    lastFinancialWeekIndex._0_1_ = *(byte *)((int)pvVar3 + 1);
+    lastFinancialWeekIndex = *(uchar *)((int)pvVar3 + 1);
   }
   ClampNewBalanceAndUpdateClubStatus();
   ClearOverdraftStateIfRecovered();
@@ -33118,10 +33115,10 @@ void __usercall InitializeCareerSeasonFinancials(void)
   if (secondaryCompetitionPtr != (CompetitionCup *)0x0) {
     GetExpectedLeagueRankIndex();
   }
-  if (tertiaryCompetitionPtr != 0) {
+  if (tertiaryCompetitionPtr != (CompetitionCup *)0x0) {
     GetExpectedLeagueRankIndex();
   }
-  if (quaternaryCompetitionPtr != 0) {
+  if (quaternaryCompetitionPtr != (CompetitionCup *)0x0) {
     GetExpectedLeagueRankIndex();
   }
   teamValueDivisor = 0;
@@ -33439,14 +33436,16 @@ LAB_00125de8:
     }
   }
   leagueTitleBonusActive = 0;
-  if (((tertiaryCompetitionPtr != 0) && (selTeamNumber == tertiaryCompWinnerTeam)) &&
+  if (((tertiaryCompetitionPtr != (CompetitionCup *)0x0) &&
+      (selTeamNumber == tertiaryCompWinnerTeam)) &&
      ((CompetitionCup_6_2_12 *)tertiaryCompetitionPtr != &friendlyCopy)) {
     leagueTitleBonusActive = 1;
   }
   majorTrophyBonusActive = 0;
   cupBonus1Active = 0;
   cupBonus2Active = 0;
-  if ((quaternaryCompetitionPtr != 0) && (selTeamNumber == quaternaryCompWinnerTeam)) {
+  if ((quaternaryCompetitionPtr != (CompetitionCup *)0x0) &&
+     (selTeamNumber == quaternaryCompWinnerTeam)) {
     if (euroCupSlotIndex == 0) {
       majorTrophyBonusActive = 1;
     }
@@ -40366,18 +40365,18 @@ void __usercall Career_DrawEuropeanCupTeamsAndCopyGrids(void)
   ushort *puVar1;
   word wVar2;
   word wVar3;
-  dword dVar4;
+  void *pvVar4;
   ushort uVar5;
   short sVar6;
   char cVar7;
   
   Career_DrawRandomTeamFromPoolAndCopyGrid
-            (euroCupTitleHolderTeamId,&euroCupTitleHolderGrid,(void *)euroCupTeamListPtr,
+            (euroCupTitleHolderTeamId,&euroCupTitleHolderGrid,euroCupTeamListPtr,
              euroCupQualifiedTeamCount);
   Career_DrawRandomTeamFromPoolAndCopyGrid
-            (cupWinnersCupTitleHolderTeamId,&cupWinnersCupTitleHolderGrid,
-             (void *)cupWinnersCupTeamListPtr,cupWinnersCupQualifiedTeamCount);
-  dVar4 = uefaCupTeamListPtr;
+            (cupWinnersCupTitleHolderTeamId,&cupWinnersCupTitleHolderGrid,cupWinnersCupTeamListPtr,
+             cupWinnersCupQualifiedTeamCount);
+  pvVar4 = uefaCupTeamListPtr;
   wVar3 = uefaCupQualifiedTeamCount;
   wVar2 = uefaCupTitleHolderTeamId;
   if (uefaCupTitleHolderTeamId != 0xffff) {
@@ -40386,14 +40385,14 @@ void __usercall Career_DrawEuropeanCupTeamsAndCopyGrids(void)
         do {
           uVar5 = Rand2();
           sVar6 = ((ushort)(uVar5 * wVar3) >> 8) << 1;
-          cVar7 = (char)((ushort)*(undefined2 *)(dVar4 + (int)sVar6) >> 8);
+          cVar7 = (char)((ushort)*(undefined2 *)((int)pvVar4 + (int)sVar6) >> 8);
         } while (cVar7 == (char)(wVar2 >> 8));
         if (teamNoOfferAccepted == 0xffff) break;
         if (cVar7 != teamNoOfferAccepted._0_1_) goto LAB_0012b384;
       }
     } while (cVar7 == selTeamNumber._0_1_);
 LAB_0012b384:
-    puVar1 = (ushort *)(dVar4 + (int)sVar6);
+    puVar1 = (ushort *)((int)pvVar4 + (int)sVar6);
     uVar5 = *puVar1;
     *puVar1 = wVar2;
     wVar2 = careerFileBuffer;
@@ -40919,27 +40918,30 @@ void __usercall Career_PrepareEuropeanCupQualificationState(void)
     }
   }
   selTeamNumber = wVar4;
-  euroCupTeamListPtr = (int)(short)(ushort)euroCupCopy.compCup.compCup.comp.unk3 + 0x168b2b;
+  euroCupTeamListPtr =
+       (void *)((int)euroCupCopy.compCup.compCup.rounds +
+               (short)(ushort)euroCupCopy.compCup.compCup.comp.unk3 + -8);
   euroCupQualifiedTeamCount = 0;
   uVar5 = 0;
   if ((isNationalSelector == 0) &&
      (**(char **)(&countriesTable + (short)((selTeamNumber >> 8) << 2)) == '\0')) {
     uVar5 = 1;
   }
-  euroCupTeamListWritePtr = euroCupTeamListPtr;
+  euroCupTeamListWritePtr = (dword)euroCupTeamListPtr;
   Career_FillRandomTeamListExcludingSelected
             (uVar5,&euroCupQualGroupSeedLists_4_6_11,euroCupEligibleCompetitionIds);
-  cupWinnersCupTeamListPtr = (int)(short)(ushort)cupWinnersCupCopy.comp.comp.unk3 + 0x168b79;
+  cupWinnersCupTeamListPtr =
+       cupWinnersCupCopy.rounds + (short)(ushort)cupWinnersCupCopy.comp.comp.unk3 + -7;
   cupWinnersCupQualifiedTeamCount = 0;
   uVar5 = 0;
   if ((isNationalSelector == 0) &&
      (**(char **)(&countriesTable + (short)((selTeamNumber >> 8) << 2)) == '\0')) {
     uVar5 = 1;
   }
-  cupWinnersCupTeamListWritePtr = cupWinnersCupTeamListPtr;
+  cupWinnersCupTeamListWritePtr = (dword)cupWinnersCupTeamListPtr;
   Career_FillRandomTeamListExcludingSelected
             (uVar5,&euroCupQualGroupSeedListsReduced_4_6_11,cupWinnersCupEligibleCompetitionIds);
-  uefaCupTeamListPtr = (int)(short)(ushort)uefaCupCopy.comp.comp.unk3 + 0x168bd5;
+  uefaCupTeamListPtr = uefaCupCopy.rounds + (short)(ushort)uefaCupCopy.comp.comp.unk3 + -7;
   uefaCupQualifiedTeamCount = 0;
   uVar5 = 0;
   if (isNationalSelector == 0) {
@@ -40953,7 +40955,7 @@ void __usercall Career_PrepareEuropeanCupQualificationState(void)
       }
     }
   }
-  uefaCupTeamListWritePtr = uefaCupTeamListPtr;
+  uefaCupTeamListWritePtr = (dword)uefaCupTeamListPtr;
   Career_FillRandomTeamListExcludingSelected
             (uVar5,&euroCupQualGroupSeedBuckets_15_18_22,uefaCupEligibleCompetitionIds);
   isNationalSelector = wVar2;
@@ -41296,7 +41298,7 @@ void __usercall Career_ProcessTertiaryCompetitionForNextSeason(void *competition
 
 {
   if (*(char *)((int)competition + 1) == '\x01') {
-    if (competition == (void *)tertiaryCompetitionPtr) {
+    if (competition == tertiaryCompetitionPtr) {
       RestoreSelectedTeams();
       Career_CopyTertiaryCompetitionContextToOrFromActive();
       ShowDIYCupMenuWithParams(1,1,0);
@@ -44732,8 +44734,8 @@ void __usercall InitializeNewSeason(void)
   careerCompetitionSlotPtrTable._16_4_ = diyCompetitionContext;
   currentCompetitionPtr = (CompetitionCup *)0x0;
   secondaryCompetitionPtr = (CompetitionCup *)0x0;
-  tertiaryCompetitionPtr = 0;
-  quaternaryCompetitionPtr = 0;
+  tertiaryCompetitionPtr = (CompetitionCup *)0x0;
+  quaternaryCompetitionPtr = (CompetitionCup *)0x0;
   diyCompetitionPtr = (void *)0x0;
   numSelectedTeams = 1;
   teamSelectionKeyCacheCount = 0;
@@ -44829,7 +44831,7 @@ void __usercall InitializeNewSeason(void)
   if (wageScalingDivisor == 0) {
     wageScalingDivisor = 1;
   }
-  lastFinancialWeekIndex._0_1_ = careerJobOfferPhaseBias;
+  lastFinancialWeekIndex = careerJobOfferPhaseBias;
   InitTeams();
   pvVar10 = VerifyTeamLoaded(selTeamNumber);
   pcVar12 = StringCopy((char *)managerNameBuffer,(char *)((int)pvVar10 + 0x24));
@@ -44950,8 +44952,8 @@ void __usercall InitNewSeason(void *src,ushort arg)
   careerCompetitionSlotPtrTable._16_4_ = diyCompetitionContext;
   currentCompetitionPtr = (CompetitionCup *)0x0;
   secondaryCompetitionPtr = (CompetitionCup *)0x0;
-  tertiaryCompetitionPtr = 0;
-  quaternaryCompetitionPtr = 0;
+  tertiaryCompetitionPtr = (CompetitionCup *)0x0;
+  quaternaryCompetitionPtr = (CompetitionCup *)0x0;
   diyCompetitionPtr = (void *)0x0;
   teamSelectionKeyCacheCount = 0;
   teamSelectionKeyCacheIndex = 0;
@@ -45339,11 +45341,11 @@ void __usercall Career_PostMatchUpdate(void)
   if (secondaryCompetitionPtr != (CompetitionCup *)0x0) {
     Career_AutoAdvanceCompetitionAndPersistSlotState(secondaryCompetitionPtr);
   }
-  if (tertiaryCompetitionPtr != 0) {
-    Career_AutoAdvanceCompetitionAndPersistSlotState((void *)tertiaryCompetitionPtr);
+  if (tertiaryCompetitionPtr != (CompetitionCup *)0x0) {
+    Career_AutoAdvanceCompetitionAndPersistSlotState(tertiaryCompetitionPtr);
   }
-  if (quaternaryCompetitionPtr != 0) {
-    Career_AutoAdvanceCompetitionAndPersistSlotState((void *)quaternaryCompetitionPtr);
+  if (quaternaryCompetitionPtr != (CompetitionCup *)0x0) {
+    Career_AutoAdvanceCompetitionAndPersistSlotState(quaternaryCompetitionPtr);
   }
   selTeamNumber = wVar1;
   careerTeam.team.teamControls = bVar2;
@@ -45662,13 +45664,13 @@ int __usercall ShowChairmanOpinionAboutTheSeason(void)
         uVar4 = uVar4 - 2;
       }
     }
-    if (tertiaryCompetitionPtr != 0) {
+    if (tertiaryCompetitionPtr != (CompetitionCup *)0x0) {
       FindTeamInDIY();
       if (unaff_D1w < 2) {
         uVar4 = uVar4 - 2;
       }
     }
-    if (quaternaryCompetitionPtr != 0) {
+    if (quaternaryCompetitionPtr != (CompetitionCup *)0x0) {
       FindTeamInDIY();
       if (unaff_D1w < 2) {
         uVar4 = uVar4 - 3;
@@ -46017,7 +46019,7 @@ void __usercall Career_AutoAdvanceCompetitionAndPersistSlotState(void *comp)
   src = competitionFileBuffer;
   if (((comp != currentCompetitionPtr) &&
       (src = (char *)&competitionContext, comp != secondaryCompetitionPtr)) &&
-     (src = (char *)&tertiaryCompetitionContext, comp != (void *)tertiaryCompetitionPtr)) {
+     (src = (char *)&tertiaryCompetitionContext, comp != tertiaryCompetitionPtr)) {
     src = (char *)&euroCupsCompetitionContext;
   }
   Career_LoadCompetitionSlotStateFromBuffer(src);
@@ -46536,7 +46538,7 @@ void __usercall TrainingMatch_RestoreSavedTeamSelectionState(void)
     pbVar2 = pbVar2 + 1;
     pwVar4 = (word *)((int)pwVar4 + 1);
   } while (sVar1 != -1);
-  careerTeam.team.tactics = trainingMatchSavedTactics._0_1_;
+  careerTeam.team.tactics = trainingMatchSavedTactics;
   selTeamSelectedPlayerPosition = trainingMatchSavedPlayerPos;
   playerFileIndex = 0x1f;
   do {
@@ -46567,7 +46569,7 @@ void __usercall TrainingMatch_SaveTeamSelectionState(void)
     pwVar2 = (word *)((int)pwVar2 + 1);
     pbVar4 = pbVar4 + 1;
   } while (sVar1 != -1);
-  trainingMatchSavedTactics._0_1_ = careerTeam.team.tactics;
+  trainingMatchSavedTactics = careerTeam.team.tactics;
   trainingMatchSavedPlayerPos = selTeamSelectedPlayerPosition;
   playerFileIndex = 0x1f;
   do {
@@ -47132,7 +47134,7 @@ int __usercall PlayerJoinedClubOnTrial(char *name)
   int unaff_D0;
   
   currentMessage = PLAYER_JOINED_CLUB_ON_TRIAL;
-  plNameForMessage = (dword)name;
+  plNameForMessage = name;
   ShowChairmanMessage();
   return unaff_D0;
 }
@@ -47148,7 +47150,7 @@ int __usercall TrialPlayerLeftClubMessage(char *name)
   int unaff_D0;
   
   currentMessage = TRIAL_PLAYER_LEFT_CLUB;
-  plNameForMessage = (dword)name;
+  plNameForMessage = name;
   ShowChairmanMessage();
   return unaff_D0;
 }
@@ -47164,7 +47166,7 @@ int __usercall ReservePlayerLeftClubMessage(char *name)
   int unaff_D0;
   
   currentMessage = RESERVE_PLAYER_LEFT_CLUB;
-  plNameForMessage = (dword)name;
+  plNameForMessage = name;
   ShowChairmanMessage();
   return unaff_D0;
 }
@@ -47426,10 +47428,10 @@ void __usercall ChooseTeamsFriendlyCommon2(MenuEntry *entry)
   }
   pTVar3 = *(TeamFile **)
             ((int)teamsPtrTable + (int)(short)((short)(char)teamsIndex[(short)uVar2] << 2));
-  selectedTeamPtr = (dword)pTVar3;
+  selectedTeamPtr = pTVar3;
   selectedTeamCountryNumber._0_1_ = pTVar3->countryNumber;
   selectedTeamCountryNumber._1_1_ = pTVar3->teamOrdinal;
-  if (chooseTeamsFunc == 0) {
+  if (chooseTeamsFunc == (void *)0x0) {
     if (careerSquadScreenDidSelectPlayerFlag == 0) {
       uVar2 = (ushort)pTVar3->teamOrdinal;
       pbVar1 = teamsTable + (short)uVar2;
@@ -47470,7 +47472,7 @@ void __usercall ChooseTeamsFriendlyCommon2(MenuEntry *entry)
     }
   }
   else {
-    (*(code *)chooseTeamsFunc)();
+    (*chooseTeamsFunc)();
     if (careerSquadScreenDidSelectPlayerFlag == 0) {
       return;
     }
@@ -47492,17 +47494,17 @@ void __usercall ChooseTeamsSetHeader(void)
   uchar uVar3;
   char *pcVar4;
   
-  pcVar4 = (char *)chooseTeamsHeader1stPart;
-  if (chooseTeamsHeader1stPart == 0) {
-    unaff_D0w = numSelectedTeams;
+  pcVar4 = chooseTeamsHeader1stPart;
+  if (chooseTeamsHeader1stPart == (char *)0x0) {
     pcVar4 = aChooseTeamsFor;
+    unaff_D0w = numSelectedTeams;
     if (numSelectedTeams == numNeededTeams) {
       pcVar4 = aChangeTeamsFor;
     }
   }
   pcVar4 = StringCopy(pcVar4,(char *)menuEntries[0].fg);
-  if (gameTypeStr != 0) {
-    pcVar4 = StringCopy((char *)gameTypeStr,pcVar4);
+  if (gameTypeStr != (char *)0x0) {
+    pcVar4 = StringCopy(gameTypeStr,pcVar4);
   }
   uVar1 = (undefined1)(unaff_D0w >> 8);
   uVar2 = GetStringLength();
@@ -47511,7 +47513,7 @@ void __usercall ChooseTeamsSetHeader(void)
     *pcVar4 = ' ';
     pcVar4[1] = '-';
     pcVar4[2] = ' ';
-    StringCopy((char *)curCountryStr,pcVar4 + 3);
+    StringCopy(curCountryStr,pcVar4 + 3);
   }
   return;
 }
@@ -47553,7 +47555,7 @@ void __usercall CheckNumTeamsAllowed(void)
   bVar2 = numSelectedTeams == numNeededTeams;
   if (bVar2) {
     menuEntries[0x39].content = 2;
-    menuEntries[0x39].fg.func2 = playWhatStr;
+    menuEntries[0x39].fg = (entryType2Union)playWhatStr;
   }
   menuEntries[0x3a].isInvisible = (word)bVar2;
   menuEntries[0x39].isInvisible = (word)!bVar2;
@@ -47800,12 +47802,12 @@ LAB_0013172e:
       } while (sVar8 != -1);
     } while (bVar3);
   }
-  pcVar14 = (char *)chooseTeamsHeader1stPart;
+  pcVar14 = chooseTeamsHeader1stPart;
   dst = menuEntries[0].fg;
-  if (chooseTeamsHeader1stPart == 0) {
+  if (chooseTeamsHeader1stPart == (char *)0x0) {
     pcVar14 = StringCopy(aAllSelectedTea,(char *)menuEntries[0].fg);
-    if (gameTypeStr != 0) {
-      pcVar14 = StringCopy((char *)gameTypeStr,pcVar14);
+    if (gameTypeStr != (char *)0x0) {
+      pcVar14 = StringCopy(gameTypeStr,pcVar14);
     }
     uVar4 = (undefined3)(unaff_D0 >> 8);
     uVar6 = GetStringLength();
@@ -47816,7 +47818,7 @@ LAB_0013172e:
     pcVar14[1] = '-';
     dst.func2 = (int)pcVar14 + 3;
     pcVar14[2] = ' ';
-    pcVar14 = (char *)curCountryStr;
+    pcVar14 = curCountryStr;
   }
   StringCopy(pcVar14,(char *)dst);
 LAB_001317a4:
@@ -47842,7 +47844,7 @@ LAB_001317a4:
     }
   }
   ViewSelTeamsSetColumns();
-  if ((choosingPreset != 0) && ((CompetitionCup2_4_2_24 *)selectedContest == &copaAmerica)) {
+  if ((choosingPreset != 0) && (selectedContest == &copaAmerica)) {
     menuEntries[0x4a].isInvisible = 1;
   }
   SetChooseChangeTeamsEntries();
@@ -48043,7 +48045,7 @@ void __usercall SetChooseChangeTeamsEntries(void)
   bVar2 = numSelectedTeamsCopy == numNeededTeams;
   if (bVar2) {
     menuEntries[0x4c].content = ENTRY_STRING;
-    menuEntries[0x4c].fg.func2 = playWhatStr;
+    menuEntries[0x4c].fg = (entryType2Union)playWhatStr;
   }
   menuEntries[0x4d].isInvisible = (word)bVar2;
   menuEntries[0x4c].isInvisible = (word)!bVar2;
@@ -48778,7 +48780,7 @@ short __usercall DIYLeagueTournamentStats(void)
     if (diyCompetitionStart.field_3A._14_2_ != 0) {
       diyNumberOfTeams = diyCompetitionStart.field_3A._20_2_;
     }
-    diyTeamsBufferPtr = (dword)diyCupTeamIds;
+    diyTeamsBufferPtr = diyCupTeamIds;
     diyCompetitionType = 1;
   }
   else {
@@ -48786,13 +48788,13 @@ short __usercall DIYLeagueTournamentStats(void)
     if (diyCompetitionStart.field_3A._14_2_ != 0) {
       diyNumberOfTeams = diyCompetitionStart.field_3A._20_2_;
     }
-    diyTeamsBufferPtr = (dword)diyLeagueTeamIds;
+    diyTeamsBufferPtr = diyLeagueTeamIds;
     diyCompetitionType = 0;
   }
   if (diyCompetitionStart.field_3A._14_2_ != 0) {
     diyCompetitionType = 2;
   }
-  diyNameOfCompetitionPtr = 0x2def4;
+  diyNameOfCompetitionPtr = (char *)(diyCompetitionStart.field_2 + 2);
   diyUnknownWord_2C = diyCompetitionStart.field_2._42_2_;
   ShowMenu(&competitionStatsMenu);
   return unaff_D0w;
@@ -48894,8 +48896,8 @@ void __usercall DIYLeagueTournamentViewResult(MenuEntry *entry)
 {
   word unaff_D1w;
   word unaff_D2w;
-  dword unaff_A1;
-  dword unaff_A2;
+  TeamFile *unaff_A1;
+  TeamFile *unaff_A2;
   bool bVar1;
   
   diyCompetitionStart.field_3A._8_2_ = entry->ordinal;
@@ -48935,8 +48937,8 @@ void __usercall DIYLeagueTournamentMatchCommon(ushort action)
 {
   word unaff_D1w;
   word unaff_D2w;
-  dword unaff_A1;
-  dword unaff_A2;
+  TeamFile *unaff_A1;
+  TeamFile *unaff_A2;
   undefined1 in_ZF;
   
   DIY_PlayOrSimulateLeagueFixture(action);
@@ -48975,9 +48977,9 @@ void __usercall DIYSetTeamNamesAndResults(void)
   menuEntries[0xb].isInvisible = 0;
   menuEntries[0xb].fg.func2 = (dword)aMinus;
   menuEntries[0xc].isInvisible = 0;
-  menuEntries[0xc].fg.func2 = diyLeftTeamPtr + 5;
+  menuEntries[0xc].fg.func2 = (dword)diyLeftTeamPtr->teamName;
   menuEntries[0xd].isInvisible = 0;
-  menuEntries[0xd].fg.func2 = diyRightTeamPtr + 5;
+  menuEntries[0xd].fg.func2 = (dword)diyRightTeamPtr->teamName;
   menuEntries[0xe].isInvisible = 0;
   menuEntries[0xe].fg.sprite2 = diyLeftTeamResult;
   menuEntries[0xf].isInvisible = 0;
@@ -50003,7 +50005,7 @@ short __usercall DIYCupOnSelect9(void)
     if (diyCompetitionStart.field_3A._14_2_ != 0) {
       diyNumberOfTeams = diyCompetitionStart.field_3A._20_2_;
     }
-    diyTeamsBufferPtr = (dword)diyCupTeamIds;
+    diyTeamsBufferPtr = diyCupTeamIds;
     diyCompetitionType = 1;
   }
   else {
@@ -50011,13 +50013,13 @@ short __usercall DIYCupOnSelect9(void)
     if (diyCompetitionStart.field_3A._14_2_ != 0) {
       diyNumberOfTeams = diyCompetitionStart.field_3A._20_2_;
     }
-    diyTeamsBufferPtr = (dword)diyLeagueTeamIds;
+    diyTeamsBufferPtr = diyLeagueTeamIds;
     diyCompetitionType = 0;
   }
   if (diyCompetitionStart.field_3A._14_2_ != 0) {
     diyCompetitionType = 2;
   }
-  diyNameOfCompetitionPtr = 0x2def4;
+  diyNameOfCompetitionPtr = (char *)(diyCompetitionStart.field_2 + 2);
   diyUnknownWord_2C = diyCompetitionStart.field_2._42_2_;
   ShowMenu(&competitionStatsMenu);
   return unaff_D0w;
@@ -50252,15 +50254,15 @@ void __usercall DesignDIYCup_BuildMatchListEntryStrings(void)
         }
         *(undefined2 *)(iVar6 + 4) = 0;
         diyCupMatchTeamNamePtr1 =
-             (dword)(&selTeamNameBase +
-                    *(int *)(diyTeamShuffleOrder + (short)((char)*pbVar8 * 4) + 0x36));
-        StringCopy((char *)diyCupMatchTeamNamePtr1,*(char **)(iVar6 + 0x5e));
+             (char *)(&selTeamNameBase +
+                     *(int *)(diyTeamShuffleOrder + (short)((char)*pbVar8 * 4) + 0x36));
+        StringCopy(diyCupMatchTeamNamePtr1,*(char **)(iVar6 + 0x5e));
         *(undefined2 *)(iVar6 + 0x3c) = 0;
         *(undefined2 *)(iVar6 + 0x74) = 1;
         diyCupMatchTeamNamePtr2 =
-             (dword)(&selTeamNameBase +
-                    *(int *)(diyTeamShuffleOrder + (short)((char)pbVar8[1] * 4) + 0x36));
-        StringCopy((char *)diyCupMatchTeamNamePtr2,*(char **)(iVar6 + 0xce));
+             (char *)(&selTeamNameBase +
+                     *(int *)(diyTeamShuffleOrder + (short)((char)pbVar8[1] * 4) + 0x36));
+        StringCopy(diyCupMatchTeamNamePtr2,*(char **)(iVar6 + 0xce));
         *(undefined2 *)(iVar6 + 0xac) = 0;
         *(undefined2 *)(iVar6 + 0xe4) = 1;
         if ((*pbVar7 & 0x80) == 0) {
@@ -50550,8 +50552,8 @@ void __usercall DIYCupOnSelect8(MenuEntry *entry)
 {
   word unaff_D1w;
   word unaff_D2w;
-  dword unaff_A1;
-  dword unaff_A2;
+  void *unaff_A1;
+  void *unaff_A2;
   bool bVar1;
   
   diyCompetitionStart.field_3A._8_2_ = entry->ordinal;
@@ -50630,8 +50632,8 @@ void __usercall DIYCupOnSelectCommon(void)
   word unaff_D1w;
   word unaff_D2w;
   ushort unaff_D7w;
-  dword unaff_A1;
-  dword unaff_A2;
+  void *unaff_A1;
+  void *unaff_A2;
   undefined1 in_ZF;
   
   DIY_PlayCupMatchAndAdvance(unaff_D7w);
@@ -50707,9 +50709,9 @@ void __usercall DesignDIYCup_UpdateCurrentMatchResultHeaderEntries(void)
 {
   menuEntries[0xb].isInvisible = 0;
   menuEntries[0xb].fg.func2 = (dword)aMinus;
-  menuEntries[0xc].fg.func2 = diyCupLastMatchTeam1Ptr + 5;
+  menuEntries[0xc].fg.func2 = (int)diyCupLastMatchTeam1Ptr + 5;
   menuEntries[0xc].isInvisible = 0;
-  menuEntries[0xd].fg.func2 = diyCupLastMatchTeam2Ptr + 5;
+  menuEntries[0xd].fg.func2 = (int)diyCupLastMatchTeam2Ptr + 5;
   menuEntries[0xd].isInvisible = 0;
   menuEntries[0xe].fg.sprite2 = diyCupLastMatchScoreTeam1;
   menuEntries[0xe].isInvisible = 0;
@@ -51550,7 +51552,7 @@ void __usercall DesignDIYTournament_CacheStageSelection(MenuEntry *menu)
   
   uVar1 = (uint)(int)(short)(menu->ordinal - 0x11) / 0xc;
   diyTournamentSelectedStageIndex1Based = (short)uVar1 + 1;
-  diyTournamentSelectedStagePtr = (int)&diyFileBufferCopy + (uVar1 & 0xffff) * 0x76;
+  diyTournamentSelectedStagePtr = (void *)((int)&diyFileBufferCopy + (uVar1 & 0xffff) * 0x76);
   return;
 }
 
@@ -51560,7 +51562,7 @@ void __usercall DesignDIYTournament_AdjustStageQualifiers(MenuEntry *menu)
 
 {
   short countB;
-  dword blk;
+  void *blk;
   word stage;
   undefined2 unaff_D1w;
   short sVar1;
@@ -51571,83 +51573,85 @@ void __usercall DesignDIYTournament_AdjustStageQualifiers(MenuEntry *menu)
   DesignDIYTournament_CacheStageSelection(menu);
   stage = diyTournamentSelectedStageIndex1Based;
   blk = diyTournamentSelectedStagePtr;
-  blk_00 = (void *)(diyTournamentSelectedStagePtr - 0x76);
+  blk_00 = (void *)((int)diyTournamentSelectedStagePtr + -0x76);
   if (diyTournamentSelectedStageIndex1Based == 1) {
-    diyTournamentPrevValueBackup = *(word *)(diyTournamentSelectedStagePtr + 0x32);
+    diyTournamentPrevValueBackup = *(word *)((int)diyTournamentSelectedStagePtr + 0x32);
     do {
       if ((controlMask == 0x81) || (controlMask == 0x101)) {
-        *(short *)(blk + 0x32) = *(short *)(blk + 0x32) + 1;
-        if (0x40 < *(ushort *)(blk + 0x32)) goto LAB_00136af0;
+        *(short *)((int)blk + 0x32) = *(short *)((int)blk + 0x32) + 1;
+        if (0x40 < *(ushort *)((int)blk + 0x32)) goto LAB_00136af0;
       }
       else {
         if ((controlMask != 0x41) && (controlMask != 0x201)) {
           return;
         }
-        *(short *)(blk + 0x32) = *(short *)(blk + 0x32) + -1;
-        if (*(short *)(blk + 0x32) == 1) {
+        *(short *)((int)blk + 0x32) = *(short *)((int)blk + 0x32) + -1;
+        if (*(short *)((int)blk + 0x32) == 1) {
 LAB_00136af0:
-          *(word *)(blk + 0x32) = diyTournamentPrevValueBackup;
+          *(word *)((int)blk + 0x32) = diyTournamentPrevValueBackup;
           return;
         }
       }
-      if (*(word *)(blk + 0x32) == diyTournamentPrevValueBackup) {
+      if (*(word *)((int)blk + 0x32) == diyTournamentPrevValueBackup) {
         return;
       }
-      bVar2 = *(short *)(blk + 0x164) == 0;
-      DIYTournament_ComputeGroupLayoutForTeams(*(short *)(blk + 0x32),*(short *)(blk + 0x164),1);
+      bVar2 = *(short *)((int)blk + 0x164) == 0;
+      DIYTournament_ComputeGroupLayoutForTeams
+                (*(short *)((int)blk + 0x32),*(short *)((int)blk + 0x164),1);
       if (!bVar2) {
-        *(undefined2 *)(blk + 0x162) = *(undefined2 *)(blk + 0x32);
-        *(undefined2 *)(blk + 0x15e) = unaff_D1w;
-        *(undefined2 *)(blk + 0x16a) = unaff_D1w;
-        *(undefined2 *)(blk + 0x16c) = unaff_D2w;
+        *(undefined2 *)((int)blk + 0x162) = *(undefined2 *)((int)blk + 0x32);
+        *(undefined2 *)((int)blk + 0x15e) = unaff_D1w;
+        *(undefined2 *)((int)blk + 0x16a) = unaff_D1w;
+        *(undefined2 *)((int)blk + 0x16c) = unaff_D2w;
         DIYTournament_RecalculateNumStages();
         DesignDIYTournamentOnDraw();
-        DesignDIYTournament_RedrawStageItemsFromBlock((void *)blk,1);
+        DesignDIYTournament_RedrawStageItemsFromBlock(blk,1);
         CallDrawMultipleItems(2,menuEntries + 8);
         return;
       }
     } while( true );
   }
-  diyTournamentPrevValueBackup = *(word *)(diyTournamentSelectedStagePtr + 0xee);
+  diyTournamentPrevValueBackup = *(word *)((int)diyTournamentSelectedStagePtr + 0xee);
   do {
     if ((controlMask == 0x81) || (controlMask == 0x101)) {
-      *(short *)(blk + 0xee) = *(short *)(blk + 0xee) + 1;
-      if (*(short *)(blk + 0xee) == *(short *)(blk + 0xec)) goto LAB_00136a0a;
+      *(short *)((int)blk + 0xee) = *(short *)((int)blk + 0xee) + 1;
+      if (*(short *)((int)blk + 0xee) == *(short *)((int)blk + 0xec)) goto LAB_00136a0a;
     }
     else {
       if ((controlMask != 0x41) && (controlMask != 0x201)) {
         return;
       }
-      sVar1 = *(short *)(blk + 0xee) + -1;
-      *(short *)(blk + 0xee) = sVar1;
-      if ((sVar1 < 0) || (*(ushort *)(blk + 0xee) < *(ushort *)(blk + 0xf4))) {
+      sVar1 = *(short *)((int)blk + 0xee) + -1;
+      *(short *)((int)blk + 0xee) = sVar1;
+      if ((sVar1 < 0) || (*(ushort *)((int)blk + 0xee) < *(ushort *)((int)blk + 0xf4))) {
 LAB_00136a0a:
-        *(word *)(blk + 0xee) = diyTournamentPrevValueBackup;
+        *(word *)((int)blk + 0xee) = diyTournamentPrevValueBackup;
         return;
       }
     }
-    if (*(word *)(blk + 0xee) == diyTournamentPrevValueBackup) {
+    if (*(word *)((int)blk + 0xee) == diyTournamentPrevValueBackup) {
       return;
     }
-    bVar2 = *(short *)(blk + 0x164) == 0;
-    DIYTournament_ComputeGroupLayoutForTeams(*(short *)(blk + 0xee),*(short *)(blk + 0x164),stage);
+    bVar2 = *(short *)((int)blk + 0x164) == 0;
+    DIYTournament_ComputeGroupLayoutForTeams
+              (*(short *)((int)blk + 0xee),*(short *)((int)blk + 0x164),stage);
     if (!bVar2) {
-      *(undefined2 *)(blk + 0x15e) = unaff_D1w;
-      *(undefined2 *)(blk + 0x16a) = unaff_D1w;
-      *(undefined2 *)(blk + 0x16c) = unaff_D2w;
-      if (*(short *)(blk + 0xe8) == 0) {
-        sVar1 = *(short *)(blk + 0xf4);
-        countB = *(short *)(blk + 0xf6);
-        DIYTournament_AdjustGroupLayoutForMaxTeams(sVar1,countB,*(short *)(blk + 0xee),stage);
-        *(short *)(blk + 0xe8) = sVar1;
-        *(short *)(blk + 0xf4) = sVar1;
-        *(short *)(blk + 0xf6) = countB;
+      *(undefined2 *)((int)blk + 0x15e) = unaff_D1w;
+      *(undefined2 *)((int)blk + 0x16a) = unaff_D1w;
+      *(undefined2 *)((int)blk + 0x16c) = unaff_D2w;
+      if (*(short *)((int)blk + 0xe8) == 0) {
+        sVar1 = *(short *)((int)blk + 0xf4);
+        countB = *(short *)((int)blk + 0xf6);
+        DIYTournament_AdjustGroupLayoutForMaxTeams(sVar1,countB,*(short *)((int)blk + 0xee),stage);
+        *(short *)((int)blk + 0xe8) = sVar1;
+        *(short *)((int)blk + 0xf4) = sVar1;
+        *(short *)((int)blk + 0xf6) = countB;
       }
-      *(undefined2 *)(blk + 0x162) = *(undefined2 *)(blk + 0xee);
+      *(undefined2 *)((int)blk + 0x162) = *(undefined2 *)((int)blk + 0xee);
       DIYTournament_RecalculateNumStages();
       DesignDIYTournamentOnDraw();
       sVar1 = 2;
-      if ((stage != 6) && (*(short *)(blk + 0x164) == 1)) {
+      if ((stage != 6) && (*(short *)((int)blk + 0x164) == 1)) {
         sVar1 = 3;
       }
       DesignDIYTournament_RedrawStageItemsFromBlock(blk_00,sVar1);
@@ -51699,20 +51703,20 @@ void __usercall DesignDIYTournamentOnSelect20(MenuEntry *menu)
 {
   short countA;
   short countB;
-  dword blk;
+  void *blk;
   
   DesignDIYTournament_CacheStageSelection(menu);
   blk = diyTournamentSelectedStagePtr;
-  countA = *(short *)(diyTournamentSelectedStagePtr + 0x16a);
-  countB = *(short *)(diyTournamentSelectedStagePtr + 0x16c);
+  countA = *(short *)((int)diyTournamentSelectedStagePtr + 0x16a);
+  countB = *(short *)((int)diyTournamentSelectedStagePtr + 0x16c);
   DIYTournament_AdjustGroupLayoutForMaxTeams
-            (countA,countB,*(short *)(diyTournamentSelectedStagePtr + 0x164),
+            (countA,countB,*(short *)((int)diyTournamentSelectedStagePtr + 0x164),
              diyTournamentSelectedStageIndex1Based);
-  *(short *)(blk + 0x15e) = countA;
-  *(short *)(blk + 0x16a) = countA;
-  *(short *)(blk + 0x16c) = countB;
+  *(short *)((int)blk + 0x15e) = countA;
+  *(short *)((int)blk + 0x16a) = countA;
+  *(short *)((int)blk + 0x16c) = countB;
   DesignDIYTournamentOnDraw();
-  DesignDIYTournament_RedrawStageItemsFromBlock((void *)blk,1);
+  DesignDIYTournament_RedrawStageItemsFromBlock(blk,1);
   CallDrawMultipleItems(2,menuEntries + 8);
   return;
 }
@@ -52198,7 +52202,7 @@ void __usercall EditCustomTeam(void)
 void __usercall EditTeamsCallback(TeamFile *team)
 
 {
-  editTeamsSelectedTeam = (dword)team;
+  editTeamsSelectedTeam = team;
   ShowMenu(&editTeamsMenu);
   return;
 }
@@ -52209,16 +52213,16 @@ void __usercall EditTeamsInit(void)
 
 {
   short sVar1;
-  undefined2 *puVar2;
+  TeamFile *pTVar2;
   TeamFile **ppTVar3;
   
   sVar1 = 0x155;
-  puVar2 = (undefined2 *)editTeamsSelectedTeam;
+  pTVar2 = editTeamsSelectedTeam;
   ppTVar3 = &selTeamsPtr;
   do {
-    *(undefined2 *)ppTVar3 = *puVar2;
+    *(undefined2 *)ppTVar3 = *(undefined2 *)pTVar2;
     sVar1 = sVar1 + -1;
-    puVar2 = puVar2 + 1;
+    pTVar2 = (TeamFile *)&pTVar2->globalTeamNumber;
     ppTVar3 = (TeamFile **)((int)ppTVar3 + 2);
   } while (sVar1 != -1);
   teamIsImported = 0;
@@ -52304,17 +52308,17 @@ void __usercall EditTeamsUndo(void)
 
 {
   short sVar1;
-  undefined2 *puVar2;
+  TeamFile *pTVar2;
   TeamFile **ppTVar3;
   
   teamIsImported = 0;
   sVar1 = 0x155;
-  puVar2 = (undefined2 *)editTeamsSelectedTeam;
+  pTVar2 = editTeamsSelectedTeam;
   ppTVar3 = &selTeamsPtr;
   do {
-    *(undefined2 *)ppTVar3 = *puVar2;
+    *(undefined2 *)ppTVar3 = *(undefined2 *)pTVar2;
     sVar1 = sVar1 + -1;
-    puVar2 = puVar2 + 1;
+    pTVar2 = (TeamFile *)&pTVar2->globalTeamNumber;
     ppTVar3 = (TeamFile **)((int)ppTVar3 + 2);
   } while (sVar1 != -1);
   InitEditTeamsMenu();
@@ -52328,32 +52332,37 @@ void __usercall EditTeamsOK(void)
 
 {
   short sVar1;
-  short *psVar2;
-  TeamFile **ppTVar3;
-  undefined2 *puVar4;
+  undefined2 uVar2;
+  short sVar3;
+  TeamFile *pTVar4;
+  TeamFile **ppTVar5;
   
-  sVar1 = 0x155;
-  psVar2 = (short *)editTeamsSelectedTeam;
-  ppTVar3 = &selTeamsPtr;
+  sVar3 = 0x155;
+  pTVar4 = editTeamsSelectedTeam;
+  ppTVar5 = &selTeamsPtr;
   do {
-    if (*psVar2 != *(short *)ppTVar3) {
+    sVar1._0_1_ = pTVar4->countryNumber;
+    sVar1._1_1_ = pTVar4->teamOrdinal;
+    if (sVar1 != *(short *)ppTVar5) {
       saveCustomTeams = 1;
-      sVar1 = 0x155;
-      ppTVar3 = &selTeamsPtr;
-      puVar4 = (undefined2 *)editTeamsSelectedTeam;
+      sVar3 = 0x155;
+      ppTVar5 = &selTeamsPtr;
+      pTVar4 = editTeamsSelectedTeam;
       do {
-        *puVar4 = *(undefined2 *)ppTVar3;
-        sVar1 = sVar1 + -1;
-        ppTVar3 = (TeamFile **)((int)ppTVar3 + 2);
-        puVar4 = puVar4 + 1;
-      } while (sVar1 != -1);
+        uVar2 = *(undefined2 *)ppTVar5;
+        pTVar4->countryNumber = (char)((ushort)uVar2 >> 8);
+        pTVar4->teamOrdinal = (char)uVar2;
+        sVar3 = sVar3 + -1;
+        ppTVar5 = (TeamFile **)((int)ppTVar5 + 2);
+        pTVar4 = (TeamFile *)&pTVar4->globalTeamNumber;
+      } while (sVar3 != -1);
       SetExitMenuFlag();
       return;
     }
-    sVar1 = sVar1 + -1;
-    psVar2 = psVar2 + 1;
-    ppTVar3 = (TeamFile **)((int)ppTVar3 + 2);
-  } while (sVar1 != -1);
+    sVar3 = sVar3 + -1;
+    pTVar4 = (TeamFile *)&pTVar4->globalTeamNumber;
+    ppTVar5 = (TeamFile **)((int)ppTVar5 + 2);
+  } while (sVar3 != -1);
   SetExitMenuFlag();
   return;
 }
@@ -53250,7 +53259,7 @@ void __usercall CompetitionTopGoalScorersExit(void)
 void __usercall TopGoalScorersInit(void)
 
 {
-  if (tertiaryCompetitionPtr == 0) {
+  if (tertiaryCompetitionPtr == (CompetitionCup *)0x0) {
     menuEntries[0x17].x = menuEntries[0x18].x;
     menuEntries[0x18].x = menuEntries[0x19].x;
     menuEntries[1].x = menuEntries[2].x;
@@ -53303,11 +53312,11 @@ void __usercall TopGoalScorersBeforeDrawCommon(MenuEntry *entry)
       menuEntries[0x18].y = wVar2;
     }
     menuEntries[0x18].isInvisible = (word)(secondaryCompetitionPtr == (CompetitionCup *)0x0);
-    if (tertiaryCompetitionPtr != 0) {
+    if (tertiaryCompetitionPtr != (CompetitionCup *)0x0) {
       menuEntries[0x19].fg._0_2_ = ZEXT12(*(byte *)((int)pvVar4 + 0x6f));
       menuEntries[0x19].y = wVar2;
     }
-    menuEntries[0x19].isInvisible = (word)(tertiaryCompetitionPtr == 0);
+    menuEntries[0x19].isInvisible = (word)(tertiaryCompetitionPtr == (CompetitionCup *)0x0);
     menuEntries[0x1a].fg._0_2_ = ZEXT12((byte)(&DAT_000996eb)[iVar1]);
     menuEntries[0x1a].isInvisible = 0;
     menuEntries[0x16].y = wVar2;
@@ -53463,14 +53472,14 @@ void FUN_001391c4(void)
 
 {
   word in_D1w;
-  dword in_A0;
+  TeamFile *in_A0;
   
   teamSkillDiffAfterChange = diyCompetitionStart.field_2._42_2_;
   if (diyCompetitionStart.field_2._42_2_ == 4) {
     teamSkillDiffAfterChange = 0;
   }
   if (((gameType != GAME_TYPE_DIY_COMPETITION) && (gameType != GAME_TYPE_PRESET_COMPETITION)) &&
-     (*(char *)(in_A0 + 4) != '\x01')) {
+     (in_A0->teamControls != 1)) {
     teamSkillDiffAfterChange = 0xffff;
   }
   inEditTactics = in_D1w;
@@ -53491,8 +53500,9 @@ void __usercall SquadInit(void)
   if (((TeamFileEx *)squadTeamFilePtr == &careerTeam) && (isNationalSelector != 0)) {
     isNationalSquad = 1;
   }
-  if (tertiaryCompetitionPtr == 0 &&
-      (secondaryCompetitionPtr == (CompetitionCup *)0x0 && quaternaryCompetitionPtr == 0)) {
+  if (tertiaryCompetitionPtr == (CompetitionCup *)0x0 &&
+      (secondaryCompetitionPtr == (CompetitionCup *)0x0 &&
+      quaternaryCompetitionPtr == (CompetitionCup *)0x0)) {
     menuEntries[0x3b].x = menuEntries[0x3b].x + 0x14;
     menuEntries[0x3c].x = menuEntries[0x3c].x + 0x14;
     menuEntries[0x3d].x = menuEntries[0x3d].x + 0x14;
@@ -53502,7 +53512,7 @@ void __usercall SquadInit(void)
     menuEntries[0x11].x = menuEntries[0x11].x + 0x14;
     menuEntries[0x15].x = menuEntries[0x15].x + 0x14;
   }
-  if (quaternaryCompetitionPtr == 0) {
+  if (quaternaryCompetitionPtr == (CompetitionCup *)0x0) {
     menuEntries[0x3b].x = menuEntries[0x3b].x + 0x14;
     menuEntries[0x3c].x = menuEntries[0x3c].x + 0x14;
     menuEntries[0x3d].x = menuEntries[0x3d].x + 0x14;
@@ -53510,7 +53520,7 @@ void __usercall SquadInit(void)
     menuEntries[0x13].x = menuEntries[0x13].x + 0x14;
     menuEntries[0x11].x = menuEntries[0x11].x + 0x14;
   }
-  if (tertiaryCompetitionPtr == 0) {
+  if (tertiaryCompetitionPtr == (CompetitionCup *)0x0) {
     menuEntries[0x3b].x = menuEntries[0x3b].x + 0x14;
     menuEntries[0x3c].x = menuEntries[0x3c].x + 0x14;
     menuEntries[0x12].x = menuEntries[0x12].x + 0x14;
@@ -53557,24 +53567,26 @@ void __usercall SquadInit(void)
 void __usercall SquadFinish(void)
 
 {
-  dword dVar1;
-  int iVar2;
-  entryType2Union eVar3;
+  word wVar1;
+  TeamFile *pTVar2;
+  int iVar3;
+  entryType2Union eVar4;
   
-  if (((isNationalSquad == 0) && (0x4f < *(byte *)squadTeamFilePtr)) &&
-     (*(byte *)squadTeamFilePtr < 0x56)) {
+  if (((isNationalSquad == 0) && (0x4f < squadTeamFilePtr->countryNumber)) &&
+     (squadTeamFilePtr->countryNumber < 0x56)) {
     menuEntries[0xd].x = menuEntries[0xd].x - 0xd;
     menuEntries[0x37].x = menuEntries[0x37].x - 0xd;
     menuEntries[0x18].x = menuEntries[0x18].x - 0xd;
     menuEntries[0x19].x = menuEntries[0x19].x - 0xd;
   }
   CheckIsTeamNational();
-  SetBenchPlayersNumbers((void *)squadTeamFilePtr);
+  SetBenchPlayersNumbers(squadTeamFilePtr);
   if ((selTeamNumber == 0xffff) ||
-     (squadDisplayCount = careerNumPlayers, selTeamNumber != *(word *)squadTeamFilePtr)) {
+     (wVar1._0_1_ = squadTeamFilePtr->countryNumber, wVar1._1_1_ = squadTeamFilePtr->teamOrdinal,
+     squadDisplayCount = careerNumPlayers, selTeamNumber != wVar1)) {
     squadDisplayCount = 0x10;
   }
-  squadPrevHighlightedMenuEntryPtr = 0;
+  squadPrevHighlightedMenuEntryPtr = (MenuEntry *)0x0;
   squadPrevSelectedPlayerIndex = 0xffff;
   menuEntries[0x2c].isInvisible = 1;
   menuEntries[0x2d].isInvisible = 1;
@@ -53588,35 +53600,35 @@ void __usercall SquadFinish(void)
         (int)(short)((short)**(char **)(&countriesTable + (short)((selTeamNumber >> 8) << 2)) << 2))
   ;
   if (isNationalSquad != 0) {
-    eVar3 = (entryType2Union)GetCompetitionAbbrevStr(currentCompetitionPtr);
-    iVar2 = 0x2cfe;
+    eVar4 = (entryType2Union)GetCompetitionAbbrevStr(currentCompetitionPtr);
+    iVar3 = 0x2cfe;
     if (secondaryCompetitionPtr != (CompetitionCup *)0x0) {
-      menuEntries[0x12].fg = eVar3;
-      eVar3 = (entryType2Union)GetCompetitionAbbrevStr(secondaryCompetitionPtr);
-      iVar2 = 0x2c56;
-      if (tertiaryCompetitionPtr != 0) {
-        menuEntries[0x13].fg = eVar3;
-        menuEntries[0x14].fg.func2 = (dword)GetCompetitionAbbrevStr(tertiaryCompetitionPtr);
+      menuEntries[0x12].fg = eVar4;
+      eVar4 = (entryType2Union)GetCompetitionAbbrevStr(secondaryCompetitionPtr);
+      iVar3 = 0x2c56;
+      if (tertiaryCompetitionPtr != (CompetitionCup *)0x0) {
+        menuEntries[0x13].fg = eVar4;
+        menuEntries[0x14].fg = (entryType2Union)GetCompetitionAbbrevStr(tertiaryCompetitionPtr);
         menuEntries[0x14].isInvisible = 0;
         goto LAB_00139940;
       }
     }
-    *(entryType2Union *)(iVar2 + 0x26) = eVar3;
+    *(entryType2Union *)(iVar3 + 0x26) = eVar4;
   }
 LAB_00139940:
   isSquadViewMode = 0;
   SquadUpdateMenuState();
-  dVar1 = squadTeamFilePtr;
+  pTVar2 = squadTeamFilePtr;
   menuEntries[8].isInvisible = (word)(-1 < (short)teamSkillDiffAfterChange);
   menuEntries[8].fg.func2 = (dword)aGoals;
   if (isNationalSquad != 0) {
     menuEntries[8].fg.func2 = (dword)aClubs;
   }
-  if (*(char *)(squadTeamFilePtr + 4) == '\x01') {
+  if (squadTeamFilePtr->teamControls == 1) {
     menuEntries[9].isInvisible = 1;
     menuEntries[10].isInvisible = 0;
     SetCurrentEntry(10);
-    if ((0x4f < *(byte *)dVar1) && (*(byte *)dVar1 < 0x56)) {
+    if ((0x4f < pTVar2->countryNumber) && (pTVar2->countryNumber < 0x56)) {
       menuEntries[10].x = 0xdf;
     }
   }
@@ -53677,7 +53689,7 @@ void __usercall j_SetExitMenuFlag(void)
 void __usercall SquadOnSelect45(void)
 
 {
-  RotatePlayersLeft((TeamFile *)squadTeamFilePtr,5);
+  RotatePlayersLeft(squadTeamFilePtr,5);
   DrawMenuItemsWaitForVSync(squad45MenuItemList);
   return;
 }
@@ -53698,38 +53710,42 @@ void __usercall Squad45AfterDraw(void)
 void __usercall SquadUpdateGoalsMenuText(void)
 
 {
-  int iVar1;
-  word wVar2;
-  ushort value;
+  word wVar1;
+  byte bVar2;
   word wVar3;
-  short sVar4;
-  word *pwVar5;
-  char *pcVar6;
+  ushort value;
+  word wVar4;
+  short sVar5;
+  word *pwVar6;
+  char *pcVar7;
   
-  pwVar5 = (word *)(squadTeamFilePtr + 0x3c);
-  wVar2 = 0;
-  wVar3 = 0x10;
-  if ((selTeamNumber != 0xffff) && (selTeamNumber == *(word *)squadTeamFilePtr)) {
-    pwVar5 = currentMatchPlayers;
-    wVar2 = removedPlayerStatAccum;
-    wVar3 = careerNumPlayers;
+  pwVar6 = (word *)squadTeamFilePtr->playerNumbers;
+  wVar3 = 0;
+  wVar4 = 0x10;
+  if ((selTeamNumber != 0xffff) &&
+     (wVar1._0_1_ = squadTeamFilePtr->countryNumber, wVar1._1_1_ = squadTeamFilePtr->teamOrdinal,
+     selTeamNumber == wVar1)) {
+    pwVar6 = currentMatchPlayers;
+    wVar3 = removedPlayerStatAccum;
+    wVar4 = careerNumPlayers;
   }
-  sVar4 = wVar3 - 1;
-  value = *(byte *)(squadTeamFilePtr + 0x16) + wVar2;
+  sVar5 = wVar4 - 1;
+  value = squadTeamFilePtr->writesZeroHere + wVar3;
   do {
-    iVar1 = squadTeamFilePtr + (int)(short)(*(char *)pwVar5 * 0x26);
-    value = (ushort)*(byte *)(iVar1 + 0x70) +
-            (ushort)*(byte *)(iVar1 + 0x6f) +
-            (ushort)*(byte *)(iVar1 + 0x6e) + *(byte *)(iVar1 + 0x6d) + value;
-    sVar4 = sVar4 + -1;
-    pwVar5 = (word *)((int)pwVar5 + 1);
-  } while (sVar4 != -1);
-  pcVar6 = StringCopy(aGoals,(char *)menuEntries[0x10].fg);
-  *pcVar6 = ' ';
-  pcVar6[1] = '(';
-  Int2Ascii(value,pcVar6 + 2);
-  pcVar6[2] = ')';
-  pcVar6[3] = '\0';
+    bVar2 = *(byte *)pwVar6;
+    value = (ushort)squadTeamFilePtr->players[0].goalStats[(short)((char)bVar2 * 0x26) + 3] +
+            (ushort)squadTeamFilePtr->players[0].goalStats[(short)((char)bVar2 * 0x26) + 2] +
+            (ushort)squadTeamFilePtr->players[0].goalStats[(short)((char)bVar2 * 0x26) + 1] +
+            squadTeamFilePtr->players[0].goalStats[(short)((char)bVar2 * 0x26)] + value;
+    sVar5 = sVar5 + -1;
+    pwVar6 = (word *)((int)pwVar6 + 1);
+  } while (sVar5 != -1);
+  pcVar7 = StringCopy(aGoals,(char *)menuEntries[0x10].fg);
+  *pcVar7 = ' ';
+  pcVar7[1] = '(';
+  Int2Ascii(value,pcVar7 + 2);
+  pcVar7[2] = ')';
+  pcVar7[3] = '\0';
   return;
 }
 
@@ -53741,31 +53757,32 @@ void __usercall SquadUpdateMenuState(void)
 
 {
   int iVar1;
-  ushort uVar2;
-  dword dVar3;
-  char *pcVar4;
-  bool bVar5;
+  word wVar2;
+  word wVar3;
+  ushort uVar4;
+  TeamFile *pTVar5;
+  char *pcVar6;
+  bool bVar7;
   
   UpdateBigCheckMark();
-  dVar3 = squadTeamFilePtr;
-  uVar2 = menuEntries[2].bg.backAndFrameColor & 0xfff0;
-  menuEntries[2].bg._0_2_ = uVar2 + ORANGE_TO_BROWN_12;
-  if ((*(char *)(squadTeamFilePtr + 4) != '\x01') &&
-     (menuEntries[2].bg._0_2_ = uVar2 + BLUE_TO_PURPLE_11, *(char *)(squadTeamFilePtr + 4) != '\x02'
-     )) {
-    menuEntries[2].bg._0_2_ = uVar2 + BRIGHT_BLUE_TO_BLUE_13;
+  pTVar5 = squadTeamFilePtr;
+  uVar4 = menuEntries[2].bg.backAndFrameColor & 0xfff0;
+  menuEntries[2].bg._0_2_ = uVar4 + ORANGE_TO_BROWN_12;
+  if ((squadTeamFilePtr->teamControls != 1) &&
+     (menuEntries[2].bg._0_2_ = uVar4 + BLUE_TO_PURPLE_11, squadTeamFilePtr->teamControls != 2)) {
+    menuEntries[2].bg._0_2_ = uVar4 + BRIGHT_BLUE_TO_BLUE_13;
   }
-  iVar1 = *(int *)(&countriesTable + (short)((ushort)*(byte *)squadTeamFilePtr << 2));
-  pcVar4 = (char *)(menuEntries[3].fg.func2 + 1);
+  iVar1 = *(int *)(&countriesTable + (short)((ushort)squadTeamFilePtr->countryNumber << 2));
+  pcVar6 = (char *)(menuEntries[3].fg.func2 + 1);
   *(undefined1 *)menuEntries[3].fg = 0x28;
-  pcVar4 = StringCopy((char *)(iVar1 + 1),pcVar4);
-  *pcVar4 = ')';
-  pcVar4[1] = '\0';
-  menuEntries[0x19].fg._0_2_ = ZEXT12(*(byte *)(dVar3 + 0x16));
+  pcVar6 = StringCopy((char *)(iVar1 + 1),pcVar6);
+  *pcVar6 = ')';
+  pcVar6[1] = '\0';
+  menuEntries[0x19].fg._0_2_ = ZEXT12(pTVar5->writesZeroHere);
   menuEntries[0xf].isInvisible = 1;
   menuEntries[0xd].isInvisible = (word)(isSquadViewMode != 0);
   menuEntries[0xe].isInvisible = 1;
-  if (((*(byte *)squadTeamFilePtr < 0x50) || (0x55 < *(byte *)squadTeamFilePtr)) &&
+  if (((squadTeamFilePtr->countryNumber < 0x50) || (0x55 < squadTeamFilePtr->countryNumber)) &&
      (isSquadViewMode == 0)) {
     menuEntries[0xe].isInvisible = 0;
   }
@@ -53787,21 +53804,21 @@ void __usercall SquadUpdateMenuState(void)
         menuEntries[9].y = 0xf5;
       }
     }
-    uVar2 = menuEntries[6].bg.backAndFrameColor & 0xfff0;
-    menuEntries[6].bg._0_2_ = uVar2 + YELLOW_GREEN_BLACK_14;
-    bVar5 = (*(byte *)(squadTeamFilePtr + 0x17) & 1) != 0;
-    if (bVar5) {
-      menuEntries[6].bg._0_2_ = uVar2 + PINK_TO_BROWN_9;
+    uVar4 = menuEntries[6].bg.backAndFrameColor & 0xfff0;
+    menuEntries[6].bg._0_2_ = uVar4 + YELLOW_GREEN_BLACK_14;
+    bVar7 = (squadTeamFilePtr->andWith0xFE & 1) != 0;
+    if (bVar7) {
+      menuEntries[6].bg._0_2_ = uVar4 + PINK_TO_BROWN_9;
     }
-    menuEntries[6].isDisabled = (word)bVar5;
+    menuEntries[6].isDisabled = (word)bVar7;
     if (-1 < (short)teamSkillDiffAfterChange) {
       menuEntries[6].x = 0xee;
       menuEntries[6].dwWidth = 0x3c;
       menuEntries[9].x = 0xee;
       menuEntries[9].dwWidth = 0x3c;
       menuEntries[9].y = 0xdd;
-      if (((*(char *)(squadTeamFilePtr + 4) != '\x01') && (0x4f < *(byte *)squadTeamFilePtr)) &&
-         (*(byte *)squadTeamFilePtr < 0x56)) {
+      if (((squadTeamFilePtr->teamControls != 1) && (0x4f < squadTeamFilePtr->countryNumber)) &&
+         (squadTeamFilePtr->countryNumber < 0x56)) {
         menuEntries[9].x = 0xe0;
       }
     }
@@ -53828,7 +53845,9 @@ void __usercall SquadUpdateMenuState(void)
   }
   else {
     menuEntries[6].isInvisible = 1;
-    if ((selTeamNumber == 0xffff) || (selTeamNumber != *(word *)dVar3)) {
+    if ((selTeamNumber == 0xffff) ||
+       (wVar2._0_1_ = pTVar5->countryNumber, wVar2._1_1_ = pTVar5->teamOrdinal,
+       selTeamNumber != wVar2)) {
       menuEntries[0x1a].isInvisible = 1;
       menuEntries[0x1b].isInvisible = 1;
     }
@@ -53862,24 +53881,25 @@ void __usercall SquadUpdateMenuState(void)
   menuEntries[0x12].isInvisible = 0;
   menuEntries[0x11].isInvisible = 0;
   menuEntries[0x10].isInvisible = 0;
-  if (tertiaryCompetitionPtr == 0 &&
-      (secondaryCompetitionPtr == (CompetitionCup *)0x0 && quaternaryCompetitionPtr == 0)) {
+  if (tertiaryCompetitionPtr == (CompetitionCup *)0x0 &&
+      (secondaryCompetitionPtr == (CompetitionCup *)0x0 &&
+      quaternaryCompetitionPtr == (CompetitionCup *)0x0)) {
     menuEntries[0x12].isInvisible = 1;
     menuEntries[0x11].isInvisible = 1;
     menuEntries[0x13].isInvisible = 1;
     menuEntries[0x15].isInvisible = 1;
   }
   else {
-    menuEntries[0x15].isInvisible = (word)(quaternaryCompetitionPtr == 0);
+    menuEntries[0x15].isInvisible = (word)(quaternaryCompetitionPtr == (CompetitionCup *)0x0);
     if (secondaryCompetitionPtr == (CompetitionCup *)0x0) {
       menuEntries[0x11].isInvisible = 1;
       menuEntries[0x13].isInvisible = 1;
     }
-    else if (tertiaryCompetitionPtr == 0) {
+    else if (tertiaryCompetitionPtr == (CompetitionCup *)0x0) {
       menuEntries[0x11].isInvisible = 1;
     }
     else if (((isNationalSelector == 0) || (secondaryCompetitionPtr == (CompetitionCup *)0x0)) ||
-            (tertiaryCompetitionPtr == 0)) {
+            (tertiaryCompetitionPtr == (CompetitionCup *)0x0)) {
       menuEntries[0x13].isInvisible = 1;
     }
     else {
@@ -53890,15 +53910,17 @@ void __usercall SquadUpdateMenuState(void)
   }
 LAB_00139ede:
   if (((isSquadViewMode == 0) && (gameType == GAME_TYPE_CAREER)) &&
-     ((isNationalSelector == 0 && (*(word *)squadTeamFilePtr == selTeamNumber)))) {
+     ((isNationalSelector == 0 &&
+      (wVar3._0_1_ = squadTeamFilePtr->countryNumber, wVar3._1_1_ = squadTeamFilePtr->teamOrdinal,
+      wVar3 == selTeamNumber)))) {
     menuEntries[0xc].isInvisible = 0;
     GetBankBalance((char *)menuEntries[0xc].fg);
   }
   else {
     menuEntries[0xc].isInvisible = 1;
   }
-  menuEntries[2].fg.func2 = dVar3 + 5;
-  menuEntries[5].fg.func2 = dVar3 + 0x24;
+  menuEntries[2].fg.func2 = (dword)pTVar5->teamName;
+  menuEntries[5].fg.func2 = (dword)pTVar5->coachName;
   return;
 }
 
@@ -53913,12 +53935,12 @@ void __usercall SquadCommon(void)
   MenuEntry *unaff_A5;
   
   requestedSlot = unaff_A5->ordinal - menuEntries[0x1c].ordinal;
-  GetPlayerInfoBreakPosition((void *)squadTeamFilePtr,requestedSlot);
+  GetPlayerInfoBreakPosition(squadTeamFilePtr,requestedSlot);
   if (-1 < (short)squadPrevSelectedPlayerIndex) {
     if (requestedSlot != squadPrevSelectedPlayerIndex) {
       SquadSwapPlayersAtIndices();
-      SetBenchPlayersNumbers((void *)squadTeamFilePtr);
-      *(undefined1 *)(squadTeamFilePtr + 0x3b) = 1;
+      SetBenchPlayersNumbers(squadTeamFilePtr);
+      squadTeamFilePtr->someFlag = 1;
       SquadCommitPositionsAndUpdateSkill();
       squadPrevSelectedPlayerIndex = 0xffff;
       DrawMenu();
@@ -53929,13 +53951,13 @@ void __usercall SquadCommon(void)
   squadPrevSelectedPlayerIndex = requestedSlot;
   squadPrevSelectedBreakPos = unaff_D0w;
   pMVar1 = unaff_A5;
-  if (squadPrevHighlightedMenuEntryPtr != 0) {
+  if (squadPrevHighlightedMenuEntryPtr != (MenuEntry *)0x0) {
     pMVar1 = unaff_A5;
-    CallDrawMenuItem((MenuEntry *)squadPrevHighlightedMenuEntryPtr);
-    squadPrevHighlightedMenuEntryPtr = (dword)pMVar1;
-    pMVar1 = (MenuEntry *)squadPrevHighlightedMenuEntryPtr;
+    CallDrawMenuItem(squadPrevHighlightedMenuEntryPtr);
+    squadPrevHighlightedMenuEntryPtr = pMVar1;
+    pMVar1 = squadPrevHighlightedMenuEntryPtr;
   }
-  squadPrevHighlightedMenuEntryPtr = (dword)pMVar1;
+  squadPrevHighlightedMenuEntryPtr = pMVar1;
   CallDrawMenuItem(unaff_A5);
   SquadMenuSavePlayerPositions();
   SquadRedrawPlayerListAndCheckMark();
@@ -53947,6 +53969,8 @@ void __usercall SquadCommon(void)
 void __usercall SquadSwapPlayersAtIndices(void)
 
 {
+  ushort teamNumber;
+  ushort teamNumber_00;
   undefined1 uVar1;
   byte bVar2;
   ushort unaff_D3w;
@@ -53961,8 +53985,12 @@ void __usercall SquadSwapPlayersAtIndices(void)
     }
     else if (10 < unaff_D4w) goto LAB_0013a052;
   }
-  pvVar3 = GetPlayerAtIndex(*(ushort *)squadTeamFilePtr,unaff_D3w);
-  pvVar4 = GetPlayerAtIndex(*(ushort *)squadTeamFilePtr,unaff_D4w);
+  teamNumber._0_1_ = squadTeamFilePtr->countryNumber;
+  teamNumber._1_1_ = squadTeamFilePtr->teamOrdinal;
+  pvVar3 = GetPlayerAtIndex(teamNumber,unaff_D3w);
+  teamNumber_00._0_1_ = squadTeamFilePtr->countryNumber;
+  teamNumber_00._1_1_ = squadTeamFilePtr->teamOrdinal;
+  pvVar4 = GetPlayerAtIndex(teamNumber_00,unaff_D4w);
   bVar2 = playerPositionsArray[(short)unaff_D4w];
   playerPositionsArray[(short)unaff_D4w] = playerPositionsArray[(short)unaff_D3w];
   playerPositionsArray[(short)unaff_D3w] = bVar2;
@@ -53974,12 +54002,11 @@ LAB_0013a052:
     pwVar5 = currentMatchPlayers;
   }
   else {
-    pwVar5 = (word *)(squadTeamFilePtr + 0x3c);
+    pwVar5 = (word *)squadTeamFilePtr->playerNumbers;
   }
-  uVar1 = *(undefined1 *)((int)pwVar5 + (int)(short)unaff_D3w);
-  *(undefined1 *)((int)pwVar5 + (int)(short)unaff_D3w) =
-       *(undefined1 *)((int)pwVar5 + (int)(short)unaff_D4w);
-  *(undefined1 *)((int)pwVar5 + (int)(short)unaff_D4w) = uVar1;
+  bVar2 = *(byte *)((int)pwVar5 + (int)(short)unaff_D3w);
+  *(byte *)((int)pwVar5 + (int)(short)unaff_D3w) = *(byte *)((int)pwVar5 + (int)(short)unaff_D4w);
+  *(byte *)((int)pwVar5 + (int)(short)unaff_D4w) = bVar2;
   return;
 }
 
@@ -54009,7 +54036,7 @@ short __usercall SquadAfterDrawCommon(void)
   else {
     bVar8 = false;
     if (requestedSlot < 0xb) {
-      if (*(char *)(squadTeamFilePtr + 4) == '\x01') {
+      if (squadTeamFilePtr->teamControls == 1) {
         menuEntries[0x2e].bg._0_2_ = (menuEntries[0x2e].bg.backAndFrameColor & 0xfff0) + 10;
         menuEntries[0x30].bg._0_2_ = (menuEntries[0x30].bg.backAndFrameColor & 0xfff0) + 10;
       }
@@ -54022,7 +54049,7 @@ short __usercall SquadAfterDrawCommon(void)
         menuEntries[0x30].bg._0_2_ = (menuEntries[0x30].bg.backAndFrameColor & 0xfff0) + 0xd;
       }
     }
-    else if (*(char *)(squadTeamFilePtr + 4) == '\x01') {
+    else if (squadTeamFilePtr->teamControls == 1) {
       menuEntries[0x2e].bg._0_2_ = (menuEntries[0x2e].bg.backAndFrameColor & 0xfff0) + 0xc;
       menuEntries[0x30].bg._0_2_ = (menuEntries[0x30].bg.backAndFrameColor & 0xfff0) + 0xc;
     }
@@ -54032,7 +54059,7 @@ short __usercall SquadAfterDrawCommon(void)
     }
   }
   uVar3 = menuEntries[0x30].bg.backAndFrameColor;
-  player = GetPlayerInfoBreakPosition((void *)squadTeamFilePtr,requestedSlot);
+  player = GetPlayerInfoBreakPosition(squadTeamFilePtr,requestedSlot);
   bVar7 = squadRowMode == 0;
   IsPlayerInjured(player,squadRowMode);
   if (!bVar7) {
@@ -54079,7 +54106,7 @@ short __usercall SquadAfterDrawCommon(void)
   menuEntries[0x33].y = wVar2;
   menuEntries[0x34].y = wVar2;
   menuEntries[0x35].y = wVar2;
-  if (((*(byte *)squadTeamFilePtr < 0x50) || (0x55 < *(byte *)squadTeamFilePtr)) &&
+  if (((squadTeamFilePtr->countryNumber < 0x50) || (0x55 < squadTeamFilePtr->countryNumber)) &&
      (isSquadViewMode == 0)) {
     iVar1 = (int)(short)((ushort)player[2].nationality * 3);
     pcVar6 = (char *)(menuEntries[0x36].fg.func2 + 1);
@@ -54115,7 +54142,7 @@ LAB_0013a3da:
   menuEntries[0x37].y = wVar2;
   menuEntries[0x38].y = wVar2;
   if (bVar8) {
-    IsTeamNational((void *)squadTeamFilePtr);
+    IsTeamNational(squadTeamFilePtr);
     if (bVar8) {
       FormatPlayerValueOrStatusText(player,(char *)fundsBuffer);
       menuEntries[0x39].fg.func2 = (dword)fundsBuffer;
@@ -54148,29 +54175,31 @@ LAB_0013a3da:
   }
   else if (isSquadViewMode == 0) {
 LAB_0013a532:
-    if (tertiaryCompetitionPtr != 0 ||
-        (secondaryCompetitionPtr != (CompetitionCup *)0x0 || quaternaryCompetitionPtr != 0)) {
+    if (tertiaryCompetitionPtr != (CompetitionCup *)0x0 ||
+        (secondaryCompetitionPtr != (CompetitionCup *)0x0 ||
+        quaternaryCompetitionPtr != (CompetitionCup *)0x0)) {
       menuEntries[0x3b].fg._0_2_ = ZEXT12(player[2].goalStats[0]);
       menuEntries[0x3b].y = wVar2;
     }
     menuEntries[0x3b].isInvisible =
-         (word)(tertiaryCompetitionPtr == 0 &&
-               (secondaryCompetitionPtr == (CompetitionCup *)0x0 && quaternaryCompetitionPtr == 0));
+         (word)(tertiaryCompetitionPtr == (CompetitionCup *)0x0 &&
+               (secondaryCompetitionPtr == (CompetitionCup *)0x0 &&
+               quaternaryCompetitionPtr == (CompetitionCup *)0x0));
     if (secondaryCompetitionPtr != (CompetitionCup *)0x0) {
       menuEntries[0x3c].fg._0_2_ = ZEXT12(player[2].goalStats[1]);
       menuEntries[0x3c].y = wVar2;
     }
     menuEntries[0x3c].isInvisible = (word)(secondaryCompetitionPtr == (CompetitionCup *)0x0);
-    if (tertiaryCompetitionPtr != 0) {
+    if (tertiaryCompetitionPtr != (CompetitionCup *)0x0) {
       menuEntries[0x3d].fg._0_2_ = ZEXT12(player[2].goalStats[2]);
       menuEntries[0x3d].y = wVar2;
     }
-    menuEntries[0x3d].isInvisible = (word)(tertiaryCompetitionPtr == 0);
-    if (quaternaryCompetitionPtr != 0) {
+    menuEntries[0x3d].isInvisible = (word)(tertiaryCompetitionPtr == (CompetitionCup *)0x0);
+    if (quaternaryCompetitionPtr != (CompetitionCup *)0x0) {
       menuEntries[0x3e].fg._0_2_ = ZEXT12(player[2].goalStats[3]);
       menuEntries[0x3e].y = wVar2;
     }
-    menuEntries[0x3e].isInvisible = (word)(quaternaryCompetitionPtr == 0);
+    menuEntries[0x3e].isInvisible = (word)(quaternaryCompetitionPtr == (CompetitionCup *)0x0);
     menuEntries[0x3f].fg._0_2_ =
          (ushort)player[2].goalStats[3] +
          (ushort)player[2].goalStats[2] +
@@ -54231,7 +54260,7 @@ void __usercall SquadMenuSavePlayerPositions(void)
 void __usercall SquadCommitPositionsAndUpdateSkill(void)
 
 {
-  dword team;
+  TeamFile *team;
   short sVar1;
   byte *pbVar2;
   byte *pbVar3;
@@ -54247,8 +54276,8 @@ void __usercall SquadCommitPositionsAndUpdateSkill(void)
     pbVar2 = pbVar2 + 1;
     pbVar3 = pbVar3 + 1;
   } while (sVar1 != -1);
-  *(undefined1 *)(squadTeamFilePtr + 0x3b) = 1;
-  ComputeOldPlayerSkillForViewResult((TeamFile *)team,5);
+  squadTeamFilePtr->someFlag = 1;
+  ComputeOldPlayerSkillForViewResult(team,5);
   UpdateBigCheckMark();
   return;
 }
@@ -54485,7 +54514,7 @@ short __usercall SetupDIYCompetitionStatsMenu(void)
     if (diyCompetitionStart.field_3A._14_2_ != 0) {
       diyNumberOfTeams = diyCompetitionStart.field_3A._20_2_;
     }
-    diyTeamsBufferPtr = (dword)diyCupTeamIds;
+    diyTeamsBufferPtr = diyCupTeamIds;
     diyCompetitionType = 1;
   }
   else {
@@ -54493,13 +54522,13 @@ short __usercall SetupDIYCompetitionStatsMenu(void)
     if (diyCompetitionStart.field_3A._14_2_ != 0) {
       diyNumberOfTeams = diyCompetitionStart.field_3A._20_2_;
     }
-    diyTeamsBufferPtr = (dword)diyLeagueTeamIds;
+    diyTeamsBufferPtr = diyLeagueTeamIds;
     diyCompetitionType = 0;
   }
   if (diyCompetitionStart.field_3A._14_2_ != 0) {
     diyCompetitionType = 2;
   }
-  diyNameOfCompetitionPtr = 0x2def4;
+  diyNameOfCompetitionPtr = (char *)(diyCompetitionStart.field_2 + 2);
   diyUnknownWord_2C = diyCompetitionStart.field_2._42_2_;
   ShowMenu(&competitionStatsMenu);
   return unaff_D0w;
@@ -55031,14 +55060,14 @@ void __usercall ViewCompetitionsInit(void)
     menuEntries[4].y = menuEntries[3].y;
     menuEntries[3].y = menuEntries[2].y;
   }
-  if (((tertiaryCompetitionPtr == 0) ||
+  if (((tertiaryCompetitionPtr == (CompetitionCup *)0x0) ||
       ((CompetitionCup_6_2_12 *)tertiaryCompetitionPtr == &friendlyCopy)) ||
      ((CompetitionCup_6_2_8 *)tertiaryCompetitionPtr == &tourCopy)) {
     menuEntries[3].isInvisible = 1;
     menuEntries[5].y = menuEntries[4].y;
     menuEntries[4].y = menuEntries[3].y;
   }
-  if (quaternaryCompetitionPtr == 0) {
+  if (quaternaryCompetitionPtr == (CompetitionCup *)0x0) {
     menuEntries[4].isInvisible = 1;
     menuEntries[5].y = menuEntries[4].y;
   }
@@ -55076,14 +55105,14 @@ void __usercall ViewCompetitionsOnReturn(void)
     menuEntries[4].y = menuEntries[3].y;
     menuEntries[3].y = menuEntries[2].y;
   }
-  if (((tertiaryCompetitionPtr == 0) ||
+  if (((tertiaryCompetitionPtr == (CompetitionCup *)0x0) ||
       ((CompetitionCup_6_2_12 *)tertiaryCompetitionPtr == &friendlyCopy)) ||
      ((CompetitionCup_6_2_8 *)tertiaryCompetitionPtr == &tourCopy)) {
     menuEntries[3].isInvisible = 1;
     menuEntries[5].y = menuEntries[4].y;
     menuEntries[4].y = menuEntries[3].y;
   }
-  if (quaternaryCompetitionPtr == 0) {
+  if (quaternaryCompetitionPtr == (CompetitionCup *)0x0) {
     menuEntries[4].isInvisible = 1;
     menuEntries[5].y = menuEntries[4].y;
   }
@@ -55530,7 +55559,7 @@ void __usercall ViewWorldMenu(void)
 {
   ChooseCompetitionMenu();
   if (chooseTeamsResult != 0) {
-    Career_ViewOrEditCompetitionSlot((void *)selectedContest,contestLeagueNumber);
+    Career_ViewOrEditCompetitionSlot(selectedContest,contestLeagueNumber);
     ContestMenuOnReturn();
   }
   return;
@@ -56058,14 +56087,14 @@ void __usercall CareerGameListCommon(MenuEntry *item)
     if (pbVar1 == (byte *)0x0) goto LAB_0013ca7c;
     pbVar2 = *(byte **)(gameListArray + sVar5 + 4);
     menuEntries[0x21].isInvisible = 1;
-    careerGameTopTeamName = (dword)aError;
-    careerGameBottomTeamName = (dword)aError;
+    careerGameTopTeamName = aError;
+    careerGameBottomTeamName = aError;
     if (pbVar1[5] != 0) {
       pvVar10 = VerifyTeamLoaded(*(ushort *)(pbVar2 + 0xc));
-      careerGameTopTeamName = (int)pvVar10 + 5;
+      careerGameTopTeamName = (char *)((int)pvVar10 + 5);
       pvVar10 = VerifyTeamLoaded(*(ushort *)(pbVar2 + 0xe));
-      cglm_team_control = (word)-(*(char *)((int)pvVar10 + 4) != '\x01');
-      careerGameBottomTeamName = (int)pvVar10 + 5;
+      careerGameListTeamControl = (word)-(*(char *)((int)pvVar10 + 4) != '\x01');
+      careerGameBottomTeamName = (char *)((int)pvVar10 + 5);
       if ((pbVar2[0xb] == 0) ||
          (unaff_A2 = BuildMatchResultString
                                (1,*(ushort *)(pbVar2 + 0x10),*(ushort *)(pbVar2 + 0x12),
@@ -56201,9 +56230,9 @@ LAB_0013c868:
           else {
             menuEntries[0x25].isInvisible = 1;
           }
-          menuEntries[0x26].fg.func2 = careerGameTopTeamName;
-          if (cglm_team_control != 0) {
-            menuEntries[0x26].fg.func2 = careerGameBottomTeamName;
+          menuEntries[0x26].fg = (entryType2Union)careerGameTopTeamName;
+          if (careerGameListTeamControl != 0) {
+            menuEntries[0x26].fg = (entryType2Union)careerGameBottomTeamName;
           }
           menuEntries[0x26].isInvisible = 0;
           if (pbVar2[0xb] == 0) {
@@ -56213,23 +56242,23 @@ LAB_0013c868:
           }
           else {
             bVar6 = pbVar2[0x10];
-            if (cglm_team_control != 0) {
+            if (careerGameListTeamControl != 0) {
               bVar6 = pbVar2[0x11];
             }
             menuEntries[0x27].fg._0_2_ = SEXT12((char)bVar6);
             menuEntries[0x27].isInvisible = 0;
             menuEntries[0x28].fg.func2 = (dword)aMinus;
             bVar6 = pbVar2[0x11];
-            if (cglm_team_control != 0) {
+            if (careerGameListTeamControl != 0) {
               bVar6 = pbVar2[0x10];
             }
             menuEntries[0x29].fg._0_2_ = SEXT12((char)bVar6);
             menuEntries[0x29].isInvisible = 0;
           }
           menuEntries[0x28].isInvisible = 0;
-          menuEntries[0x2a].fg.func2 = careerGameBottomTeamName;
-          if (cglm_team_control != 0) {
-            menuEntries[0x2a].fg.func2 = careerGameTopTeamName;
+          menuEntries[0x2a].fg = (entryType2Union)careerGameBottomTeamName;
+          if (careerGameListTeamControl != 0) {
+            menuEntries[0x2a].fg = (entryType2Union)careerGameTopTeamName;
           }
           menuEntries[0x2a].isInvisible = 0;
           menuEntries[0x2b].y = wVar8 + 8;
@@ -56916,13 +56945,13 @@ void __usercall Career_FillCurrentSeasonInfo(void)
     if (pSVar5->strOffset2 != 0) {
       FindTeamInDIY();
       sVar4 = EncodeCompetitionPositionForSeasonInfo
-                        (sVar4,&tertiaryCompetitionContext,(void *)tertiaryCompetitionPtr);
+                        (sVar4,&tertiaryCompetitionContext,tertiaryCompetitionPtr);
       pSVar5->field_58 = (byte)sVar4;
     }
     if (pSVar5->field_22 != 0) {
       FindTeamInDIY();
       sVar4 = EncodeCompetitionPositionForSeasonInfo
-                        (sVar4,&euroCupsCompetitionContext,(void *)quaternaryCompetitionPtr);
+                        (sVar4,&euroCupsCompetitionContext,quaternaryCompetitionPtr);
       pSVar5->field_59 = (byte)sVar4;
     }
   }
@@ -57600,7 +57629,7 @@ LAB_0013e120:
     }
     if (playSeason != 0) {
       base = *(void **)((int)leaguesPtrTable + (int)(short)(wVar3 << 2));
-      selectedContest = (dword)base;
+      selectedContest = base;
       if (*(char *)((int)base + 1) == '\0') {
         contestLeagueNumber = *(ushort *)((int)leagueNumbersTable + (int)(short)(wVar3 << 1));
         *(int *)((int)register0x0000003c + -4) = iVar24;
@@ -57637,16 +57666,16 @@ LAB_0013e120:
         uVar22 = *(undefined4 *)((int)register0x0000003c + -8);
         iVar24 = *(int *)((int)register0x0000003c + -4);
       }
-      playWhatStr = (dword)aPlaySeason;
+      playWhatStr = aPlaySeason;
       *(ushort *)((int)register0x0000003c + -4) = 0x13;
       *(ushort *)((int)register0x0000003c + -2) = 0xe4ac;
       MarkSelectedTeamsStackLocation();
       selectTeamsNoLimit = 0;
       playSeason = 0;
       loadTeam = 1;
-      chooseTeamsHeader1stPart = 0;
+      chooseTeamsHeader1stPart = (char *)0x0;
       teamsType = 1;
-      gameTypeStr = selectedTeamText;
+      gameTypeStr = (char *)selectedTeamText;
       viewSelectedTeams = 3;
       *(ushort *)((int)register0x0000003c + -4) = 0x13;
       *(ushort *)((int)register0x0000003c + -2) = 0xe4e6;
@@ -57678,7 +57707,7 @@ LAB_0013e120:
       countryNumber = uVar6;
       goto LAB_0013e012;
     }
-    selectedContest = (dword)base_00;
+    selectedContest = base_00;
     if ((base_00->compCup).compCup.comp.type == 0) {
       contestLeagueNumber = *(ushort *)((int)leagueNumbersTable + (int)(short)(wVar3 << 1));
       if (chooseCompetitionOnly != 0) {
@@ -57698,7 +57727,7 @@ LAB_0013e120:
       uVar11 = *(uint *)((int)register0x0000003c + -0xc);
       uVar22 = *(undefined4 *)((int)register0x0000003c + -8);
       iVar24 = *(int *)((int)register0x0000003c + -4);
-      playWhatStr = (dword)aPlayLeague;
+      playWhatStr = aPlayLeague;
       *(ushort *)((int)register0x0000003c + -4) = 0x13;
       *(ushort *)((int)register0x0000003c + -2) = 0xe69a;
       SetTeamsTypeForSelectedContest();
@@ -57711,8 +57740,8 @@ LAB_0013e120:
       selectTeamsNoLimit = 0;
       showCupsAndOther = 0;
       loadTeam = 1;
-      chooseTeamsHeader1stPart = 0;
-      gameTypeStr = selectedTeamText;
+      chooseTeamsHeader1stPart = (char *)0x0;
+      gameTypeStr = (char *)selectedTeamText;
       viewSelectedTeams = 2;
       *(ushort *)((int)register0x0000003c + -4) = 0x13;
       *(ushort *)((int)register0x0000003c + -2) = 0xe6d4;
@@ -57734,7 +57763,7 @@ LAB_0013e120:
       uVar11 = *(uint *)((int)register0x0000003c + -0xc);
       uVar22 = *(undefined4 *)((int)register0x0000003c + -8);
       iVar24 = *(int *)((int)register0x0000003c + -4);
-      playWhatStr = (dword)aPlayCup;
+      playWhatStr = aPlayCup;
       *(ushort *)((int)register0x0000003c + -4) = 0x13;
       *(ushort *)((int)register0x0000003c + -2) = 0xe610;
       SetTeamsTypeForSelectedContest();
@@ -57747,8 +57776,8 @@ LAB_0013e120:
       selectTeamsNoLimit = 0;
       showCupsAndOther = 0;
       loadTeam = 1;
-      chooseTeamsHeader1stPart = 0;
-      gameTypeStr = selectedTeamText;
+      chooseTeamsHeader1stPart = (char *)0x0;
+      gameTypeStr = (char *)selectedTeamText;
       viewSelectedTeams = 2;
       *(ushort *)((int)register0x0000003c + -4) = 0x13;
       *(ushort *)((int)register0x0000003c + -2) = 0xe64a;
@@ -57770,7 +57799,7 @@ LAB_0013e120:
       uVar11 = *(uint *)((int)register0x0000003c + -0xc);
       uVar22 = *(undefined4 *)((int)register0x0000003c + -8);
       iVar24 = *(int *)((int)register0x0000003c + -4);
-      playWhatStr = (dword)aPlayTournament;
+      playWhatStr = aPlayTournament;
       *(ushort *)((int)register0x0000003c + -4) = 0x13;
       *(ushort *)((int)register0x0000003c + -2) = 0xe5a0;
       SetTeamsTypeForSelectedContest();
@@ -57783,8 +57812,8 @@ LAB_0013e120:
       selectTeamsNoLimit = 0;
       showCupsAndOther = 0;
       loadTeam = 1;
-      chooseTeamsHeader1stPart = 0;
-      gameTypeStr = selectedTeamText;
+      chooseTeamsHeader1stPart = (char *)0x0;
+      gameTypeStr = (char *)selectedTeamText;
       viewSelectedTeams = 2;
       *(ushort *)((int)register0x0000003c + -4) = 0x13;
       *(ushort *)((int)register0x0000003c + -2) = 0xe5da;
@@ -57798,7 +57827,7 @@ LAB_0013e73a:
       *(ushort *)((int)register0x0000003c + -2) = 0xe74c;
       GetCountryName(countryNumber);
     }
-    entryText2 = selectedTeamText;
+    entryText2 = (char *)selectedTeamText;
     *(int *)((int)register0x0000003c + -4) = iVar24;
     *(undefined4 *)((int)register0x0000003c + -8) = uVar22;
     *(uint *)((int)register0x0000003c + -0xc) = uVar11;
@@ -57828,7 +57857,7 @@ LAB_0013e73a:
       if (isContestContinentalCup == 0) goto LAB_0013e012;
     }
 LAB_0013e6f6:
-    entryText2 = selectedTeamText;
+    entryText2 = (char *)selectedTeamText;
     *(int *)((int)register0x0000003c + -4) = iVar24;
     *(undefined4 *)((int)register0x0000003c + -8) = uVar22;
     *(uint *)((int)register0x0000003c + -0xc) = uVar12;
@@ -57864,8 +57893,8 @@ LAB_0013e734:
 char * __usercall GetCountryName(ushort countryId)
 
 {
-  curCountryStr = *(int *)(&countriesTable + (short)(countryId << 2)) + 1U;
-  return (char *)(*(int *)(&countriesTable + (short)(countryId << 2)) + 1U);
+  curCountryStr = (char *)(*(int *)(&countriesTable + (short)(countryId << 2)) + 1);
+  return (char *)(*(int *)(&countriesTable + (short)(countryId << 2)) + 1);
 }
 
 
@@ -57876,8 +57905,8 @@ char * __usercall GetCountryName(ushort countryId)
 void __usercall PushContinent(ushort countryId)
 
 {
-  *countryStackPtr = (char)countryId;
-  countryStackPtr = countryStackPtr + 1;
+  *(char *)countryStackPtr = (char)countryId;
+  countryStackPtr = (void *)((int)countryStackPtr + 1);
   teamDepthLevel = teamDepthLevel + 1;
   return;
 }
@@ -57893,9 +57922,9 @@ ushort __usercall PopContinent(void)
   undefined1 uVar1;
   undefined2 unaff_D7w;
   
-  countryStackPtr = countryStackPtr + -1;
-  uVar1 = *countryStackPtr;
-  *countryStackPtr = CN_OCEANIA;
+  countryStackPtr = (void *)((int)countryStackPtr + -1);
+  uVar1 = *(undefined1 *)countryStackPtr;
+  *(undefined1 *)countryStackPtr = CN_OCEANIA;
   teamDepthLevel = teamDepthLevel - 1;
   return CONCAT11((char)((ushort)unaff_D7w >> 8),uVar1);
 }
@@ -57958,7 +57987,7 @@ void __usercall IsContestContinentalCup(void)
       return;
     }
     ppCVar2 = ppCVar2 + 1;
-  } while (pCVar1 != (CompetitionCup *)selectedContest);
+  } while (pCVar1 != selectedContest);
   isContestContinentalCup = 1;
   return;
 }
@@ -57972,7 +58001,7 @@ void __usercall SetTeamsTypeForSelectedContest(void)
   
   teamsType = 1;
   bVar1 = false;
-  IsClubTeamsContest((void *)selectedContest);
+  IsClubTeamsContest(selectedContest);
   if (bVar1) {
     teamsType = 0;
   }
@@ -58021,19 +58050,19 @@ ChooseTeamsDialog(ushort showClubTeams,ushort showNationalTeams,ushort showOrigC
 {
   undefined2 unaff_D0w;
   
-  gameTypeStr = 0;
+  gameTypeStr = (char *)0x0;
   careerSquadScreenDidSelectPlayerFlag._0_1_ = -(onSelect == (void *)0x0);
   careerSquadScreenDidSelectPlayerFlag = (ushort)careerSquadScreenDidSelectPlayerFlag._0_1_ << 8;
-  playWhatStr = (dword)aStatistics;
+  playWhatStr = aStatistics;
   numNeededTeams = 1;
   selectTeamsNoLimit = 1;
   selectedTeamCountryNumber = 0xffff;
-  selectedTeamPtr = 0;
+  selectedTeamPtr = (TeamFile *)0x0;
   ::showClubTeams = showClubTeams;
   ::showNationalTeams = showNationalTeams;
   ::showOrigCustomTeams = showOrigCustomTeams;
-  chooseTeamsHeader1stPart = (dword)title;
-  chooseTeamsFunc = (dword)onSelect;
+  chooseTeamsHeader1stPart = title;
+  chooseTeamsFunc = onSelect;
   ShowMenu(&chooseTeamsMenu);
   if (-1 < (short)teamsType) {
     loadTeam = 1;
@@ -58041,7 +58070,7 @@ ChooseTeamsDialog(ushort showClubTeams,ushort showNationalTeams,ushort showOrigC
     playSeason = 0;
     SelectTeamsFinalMenu(CONCAT11((char)((ushort)unaff_D0w >> 8),0xff));
   }
-  return (TeamFile *)selectedTeamPtr;
+  return selectedTeamPtr;
 }
 
 
@@ -58057,19 +58086,19 @@ ChooseTeamsDialogWithNationality
           ushort showOrigCustomTeams,char *title,void *onSelect)
 
 {
-  gameTypeStr = 0;
+  gameTypeStr = (char *)0x0;
   careerSquadScreenDidSelectPlayerFlag._0_1_ = -(onSelect == (void *)0x0);
   careerSquadScreenDidSelectPlayerFlag = (ushort)careerSquadScreenDidSelectPlayerFlag._0_1_ << 8;
-  playWhatStr = (dword)aStatistics;
+  playWhatStr = aStatistics;
   numNeededTeams = 1;
   selectTeamsNoLimit = 1;
   selectedTeamCountryNumber = 0xffff;
-  selectedTeamPtr = 0;
+  selectedTeamPtr = (TeamFile *)0x0;
   ::showClubTeams = showClubTeams;
   ::showNationalTeams = showNationalTeams;
   ::showOrigCustomTeams = showOrigCustomTeams;
-  chooseTeamsHeader1stPart = (dword)title;
-  chooseTeamsFunc = (dword)onSelect;
+  chooseTeamsHeader1stPart = title;
+  chooseTeamsFunc = onSelect;
   ShowMenu(&chooseTeamsMenu);
   if (-1 < (short)teamsType) {
     loadTeam = 1;
@@ -58077,7 +58106,7 @@ ChooseTeamsDialogWithNationality
     playSeason = 0;
     SelectTeamsFinalMenu(nationality);
   }
-  return (TeamFile *)selectedTeamPtr;
+  return selectedTeamPtr;
 }
 
 
@@ -58087,9 +58116,9 @@ void __usercall ChooseCompetitionMenu(void)
 {
   undefined2 unaff_D0w;
   
-  gameTypeStr = 0;
-  chooseTeamsHeader1stPart = (dword)aChooseCompetit;
-  chooseTeamsFunc = 0;
+  gameTypeStr = (char *)0x0;
+  chooseTeamsHeader1stPart = aChooseCompetit;
+  chooseTeamsFunc = (void *)0x0;
   careerSquadScreenDidSelectPlayerFlag = 0;
   selectTeamsNoLimit = 1;
   teamsType = 0xffff;
@@ -58108,9 +58137,9 @@ void __usercall SelectTeamsForPresetCompetition(void)
 {
   undefined2 unaff_D0w;
   
-  gameTypeStr = 0;
-  chooseTeamsHeader1stPart = (dword)aChoosePresetCo;
-  chooseTeamsFunc = 0;
+  gameTypeStr = (char *)0x0;
+  chooseTeamsHeader1stPart = aChoosePresetCo;
+  chooseTeamsFunc = (void *)0x0;
   careerSquadScreenDidSelectPlayerFlag = 0;
   selectTeamsNoLimit = 1;
   teamsType = 0xffff;
@@ -58131,9 +58160,9 @@ void __usercall ChooseSeasonMenu(void)
 {
   undefined2 unaff_D0w;
   
-  gameTypeStr = 0;
-  chooseTeamsHeader1stPart = (dword)aChooseSeason;
-  chooseTeamsFunc = 0;
+  gameTypeStr = (char *)0x0;
+  chooseTeamsHeader1stPart = aChooseSeason;
+  chooseTeamsFunc = (void *)0x0;
   careerSquadScreenDidSelectPlayerFlag = 0;
   selectTeamsNoLimit = 1;
   teamsType = 0xffff;
@@ -58162,16 +58191,16 @@ GoGetTeamsForPlay(ushort showClubTeams,ushort showNationalTeams,ushort showOrigC
                  char *gameTypeStr,char *playWhatStr,ushort numNeededTeams)
 
 {
-  chooseTeamsHeader1stPart = 0;
+  chooseTeamsHeader1stPart = (char *)0x0;
   numSelectedTeams = 0;
-  chooseTeamsFunc = 0;
+  chooseTeamsFunc = (void *)0x0;
   careerSquadScreenDidSelectPlayerFlag = 0;
   selectTeamsNoLimit = 0;
-  ::gameTypeStr = (dword)gameTypeStr;
+  ::gameTypeStr = gameTypeStr;
   ::showClubTeams = showClubTeams;
   ::showNationalTeams = showNationalTeams;
   ::showOrigCustomTeams = showOrigCustomTeams;
-  ::playWhatStr = (dword)playWhatStr;
+  ::playWhatStr = playWhatStr;
   ::numNeededTeams = numNeededTeams;
   ShowMenu(&chooseTeamsMenu);
   if (-1 < (short)teamsType) {
@@ -58227,8 +58256,8 @@ void __usercall SelectTeamsReinit(void)
   uchar uVar4;
   uchar uVar5;
   short sVar6;
-  MenuEntry *pMVar7;
-  char *pcVar8;
+  char *pcVar7;
+  MenuEntry *pMVar8;
   
   uVar1 = numLeaguesInCountry + (short)((uint)(int)(short)(chooseTeamsNumTeams + 2) / 3);
   if (0x12 < uVar1) {
@@ -58248,26 +58277,26 @@ void __usercall SelectTeamsReinit(void)
     menuEntries[0x58].bg._0_2_ = uVar1;
   }
   uVar3 = (uint)uVar1;
-  pcVar8 = (char *)chooseTeamsHeader1stPart;
-  if (chooseTeamsHeader1stPart == 0) {
+  pcVar7 = chooseTeamsHeader1stPart;
+  if (chooseTeamsHeader1stPart == (char *)0x0) {
+    pcVar7 = aChooseTeamsFor;
     uVar3 = (uint)numSelectedTeams;
-    pcVar8 = aChooseTeamsFor;
     if (numSelectedTeams == numNeededTeams) {
-      pcVar8 = aChangeTeamsFor;
+      pcVar7 = aChangeTeamsFor;
     }
   }
-  pcVar8 = StringCopy(pcVar8,(char *)menuEntries[0].fg);
-  if (gameTypeStr != 0) {
-    pcVar8 = StringCopy((char *)gameTypeStr,pcVar8);
+  pcVar7 = StringCopy(pcVar7,(char *)menuEntries[0].fg);
+  if (gameTypeStr != (char *)0x0) {
+    pcVar7 = StringCopy(gameTypeStr,pcVar7);
   }
   uVar2 = (undefined3)(uVar3 >> 8);
   uVar4 = GetStringLength();
   uVar5 = GetStringLength();
   if ((ushort)((short)CONCAT31(uVar2,uVar5) + (short)CONCAT31(uVar2,uVar4)) < 0x30) {
-    *pcVar8 = ' ';
-    pcVar8[1] = '-';
-    pcVar8[2] = ' ';
-    StringCopy((char *)curCountryStr,pcVar8 + 3);
+    *pcVar7 = ' ';
+    pcVar7[1] = '-';
+    pcVar7[2] = ' ';
+    StringCopy(curCountryStr,pcVar7 + 3);
   }
   startingTeamIndex = 0;
   teamsLowerBound = 0;
@@ -58306,7 +58335,7 @@ void __usercall SelectTeamsReinit(void)
   SetCountryNames();
   index = prevSelectedTeamEntry;
   if ((prevSelectedTeamEntry == 0xffff) ||
-     (pMVar7 = CalcMenuEntryAddress(prevSelectedTeamEntry), pMVar7->isInvisible != 0)) {
+     (pMVar8 = CalcMenuEntryAddress(prevSelectedTeamEntry), pMVar8->isInvisible != 0)) {
     if (chooseTeamsNumTeams == 0) {
       SetCurrentEntry(0xb);
     }
@@ -58588,7 +58617,7 @@ void __usercall CheckNumberOfTeams(void)
   bVar2 = numSelectedTeams == numNeededTeams;
   if (bVar2) {
     menuEntries[0x59].content = 2;
-    menuEntries[0x59].fg.func2 = playWhatStr;
+    menuEntries[0x59].fg = (entryType2Union)playWhatStr;
   }
   menuEntries[0x5a].isInvisible = (word)bVar2;
   menuEntries[0x59].isInvisible = (word)!bVar2;
@@ -58684,13 +58713,13 @@ void __usercall ChooseTeamsInit(void)
     SetExitMenuFlag();
     return;
   }
-  pcVar3 = (char *)chooseTeamsHeader1stPart;
-  if (chooseTeamsHeader1stPart == 0) {
+  pcVar3 = chooseTeamsHeader1stPart;
+  if (chooseTeamsHeader1stPart == (char *)0x0) {
     pcVar3 = aChooseTeamsFor;
   }
   pcVar3 = StringCopy(pcVar3,(char *)menuEntries[5].fg);
-  if (gameTypeStr != 0) {
-    StringCopy((char *)gameTypeStr,pcVar3);
+  if (gameTypeStr != (char *)0x0) {
+    StringCopy(gameTypeStr,pcVar3);
   }
   return;
 }
@@ -59378,7 +59407,7 @@ void __usercall ShowErrorMenu(char *errorText)
 
 {
   errorPromptsEnabled = 1;
-  ::errorText = (dword)errorText;
+  ::errorText = errorText;
   ShowMenu(&continueMenu);
   return;
 }
@@ -59403,7 +59432,7 @@ DoContinueAbortMenu(char *header,uchar *whatIsChanging,char *continueText,char *
                    ushort defaultEntry)
 
 {
-  promptHeader = (dword)header;
+  promptHeader = header;
   ::whatIsChanging = (dword)whatIsChanging;
   ::continueText = (dword)continueText;
   ::abortText = (dword)abortText;
@@ -59417,7 +59446,7 @@ DoContinueAbortMenu(char *header,uchar *whatIsChanging,char *continueText,char *
 void __usercall ContinueInit(void)
 
 {
-  menuEntries[0].fg.func2 = errorText;
+  menuEntries[0].fg = (entryType2Union)errorText;
   if (errorPromptsEnabled == 0) {
                     // gray 
     menuEntries[0].bg.backAndFrameColor = 7;
@@ -59446,17 +59475,17 @@ void __usercall ContinueAbortInit(void)
 {
   ushort uVar1;
   
-  if (promptHeader == 0) {
+  if (promptHeader == (char *)0x0) {
     menuEntries[0].isInvisible = 1;
   }
   else {
-    uVar1 = GetTextWidth((char *)promptHeader,&smallCharsTable);
+    uVar1 = GetTextWidth(promptHeader,&smallCharsTable);
     menuEntries[0].dwWidth = uVar1 + 0x14;
     if (menuEntries[0].dwWidth < 0x79) {
       menuEntries[0].dwWidth = 0x78;
     }
     menuEntries[0].x = menuEntries[0].x - (menuEntries[0].dwWidth >> 1);
-    menuEntries[0].fg.func2 = promptHeader;
+    menuEntries[0].fg = (entryType2Union)promptHeader;
   }
   menuEntries[1].fg.func2 = whatIsChanging;
   menuEntries[2].fg.func2 = continueText;
@@ -59622,17 +59651,17 @@ void __usercall PresetCompetitionMenu(void)
     return;
   }
   InitCareerVariables(2);
-  if (*(char *)(selectedContest + 1) == '\0') {
+  if (*(char *)((int)selectedContest + 1) == '\0') {
     CopySelectedTeamNumbers(numSelectedTeams,diyLeagueTeamIds);
-    InitDIYCompetitionFromTableEntry(contestLeagueNumber,(void *)selectedContest);
+    InitDIYCompetitionFromTableEntry(contestLeagueNumber,selectedContest);
     InitTeams();
     ShowDiyLeaguesTournamentMenu(0,0,0);
     DIY_RestoreCompetitionFileBufferFromDIYCompetition();
     CommonMenuExit();
   }
-  else if (*(char *)(selectedContest + 1) == '\x01') {
+  else if (*(char *)((int)selectedContest + 1) == '\x01') {
     CopySelectedTeamNumbers(numSelectedTeams,diyCupTeamIds);
-    InitDIYCupFromRecord((void *)selectedContest);
+    InitDIYCupFromRecord(selectedContest);
     InitTeams();
     ShowDIYCupMenuWithParams(0,0,0);
     DIY_CopyCompetitionStartToCompetitionFileBuffer_Alt();
@@ -59640,7 +59669,7 @@ void __usercall PresetCompetitionMenu(void)
   }
   else {
     CopySelectedTeamNumbers(numSelectedTeams,diyTournamentTeamIds);
-    InitDIYLeagueFromRecord((void *)selectedContest);
+    InitDIYLeagueFromRecord(selectedContest);
     InitTeams();
     DIY_EditCompetitionSlot(0,0,0);
     DIY_CopyDiyFileBufferCopyToCompetitionFileBuffer();
@@ -59669,7 +59698,7 @@ void __usercall SeasonMenu(void)
     ChooseSeasonMenu();
     if (chooseTeamsResult != 0) {
       InitCareerVariables(3);
-      InitNewSeason((void *)selectedContest,contestLeagueNumber);
+      InitNewSeason(selectedContest,contestLeagueNumber);
       ShowMenu(&contestMenu);
       CommonMenuExit();
       if (gameType != GAME_TYPE_NO_GAME) {
@@ -62825,7 +62854,7 @@ short __usercall ShowSquad(TeamFile *team,char *title,uint maskLo,uint maskHi,sh
 
 {
   viewSquadFlags = 0;
-  squadTeamPtr = (dword)team;
+  squadTeamPtr = team;
   viewSquadTitle = (dword)title;
   viewSquadMaskLo = maskLo;
   viewSquadMaskHi = maskHi;
@@ -62842,7 +62871,7 @@ ShowSquadWithFlags(uint flags,TeamFile *team,char *title,uint maskLo,uint maskHi
                   short arg3)
 
 {
-  squadTeamPtr = (dword)team;
+  squadTeamPtr = team;
   viewSquadTitle = (dword)title;
   viewSquadFlags = flags;
   viewSquadMaskLo = maskLo;
@@ -62858,12 +62887,16 @@ ShowSquadWithFlags(uint flags,TeamFile *team,char *title,uint maskLo,uint maskHi
 void __usercall ViewSquadInit(void)
 
 {
-  if ((((selTeamNumber != 0xffff) && (selTeamNumber == *(word *)squadTeamPtr)) &&
-      (careerNumPlayers != 0x10)) && (menuEntries[0x14].isInvisible = 0, 0x11 < careerNumPlayers)) {
+  word wVar1;
+  
+  if ((((selTeamNumber != 0xffff) &&
+       (wVar1._0_1_ = squadTeamPtr->countryNumber, wVar1._1_1_ = squadTeamPtr->teamOrdinal,
+       selTeamNumber == wVar1)) && (careerNumPlayers != 0x10)) &&
+     (menuEntries[0x14].isInvisible = 0, 0x11 < careerNumPlayers)) {
     menuEntries[0x15].isInvisible = 0;
   }
   menuEntries[0].fg.func2 = viewSquadTitle;
-  menuEntries[1].fg.func2 = squadTeamPtr + 5;
+  menuEntries[1].fg.func2 = (dword)squadTeamPtr->teamName;
   if (viewSquadArg2 != 0) {
     menuEntries[2].isInvisible = 1;
     menuEntries[3].isInvisible = 0;
@@ -62894,7 +62927,7 @@ void __usercall ViewSquadExitContinue(void)
 short __usercall ViewSquadOnSelect21(void)
 
 {
-  RotatePlayersLeft((TeamFile *)squadTeamPtr,5);
+  RotatePlayersLeft(squadTeamPtr,5);
   CallDrawMenuItem(menuEntries + 0x14);
   return 5;
 }
@@ -62920,7 +62953,7 @@ void __usercall ViewSquadCommon(void)
   
   requestedSlot = *(short *)(unaff_A5 + 2) - menuEntries[4].ordinal;
   viewSquadSelectedTeam = requestedSlot;
-  GetPlayerInfoBreakPosition((void *)squadTeamPtr,requestedSlot);
+  GetPlayerInfoBreakPosition(squadTeamPtr,requestedSlot);
   viewSquadSelectedPlayer = requestedSlot;
   SetExitMenuFlag();
   return;
@@ -62943,7 +62976,7 @@ short __usercall ViewSquadAfterDrawCommon(void)
   if (uVar2 == 0x10) {
     idx = 0xffff;
   }
-  player = GetPlayerInfoBreakPosition((void *)squadTeamPtr,uVar2);
+  player = GetPlayerInfoBreakPosition(squadTeamPtr,uVar2);
   uVar2 = 0;
   *(undefined2 *)(unaff_A5 + 6) = 0;
   if ((viewSquadMaskLo & 1 << (uVar1 & 0x1f)) != 0) {
@@ -64829,8 +64862,8 @@ uchar __usercall AddInternationalPlayerAbroad(void *selectedTeam)
     pbVar12 = team->teamName + (short)uVar6 + -5;
     srcName = team->teamName;
     bVar1 = pbVar12[0x66];
-    careerAddIntlPlayerSelectedSrcPlayerPtr = (dword)pbVar12;
-    careerAddIntlPlayerSelectedSrcPlayerNamePtr = (dword)srcName;
+    careerAddIntlPlayerSelectedSrcPlayerPtr = pbVar12;
+    careerAddIntlPlayerSelectedSrcPlayerNamePtr = (char *)srcName;
     careerAddIntlPlayerSelectedPlayerOrdinal = uVar5;
     if (careerNumPlayers != 0x14) {
       uVar5 = 0xffff;
@@ -64950,8 +64983,8 @@ ushort __usercall Career_AddInternationalPlayerCommon(void *selectedTeam,char *t
     pbVar12 = team->teamName + (short)uVar6 + -5;
     srcName = team->teamName;
     bVar1 = pbVar12[0x66];
-    careerAddIntlPlayerSelectedSrcPlayerPtr = (dword)pbVar12;
-    careerAddIntlPlayerSelectedSrcPlayerNamePtr = (dword)srcName;
+    careerAddIntlPlayerSelectedSrcPlayerPtr = pbVar12;
+    careerAddIntlPlayerSelectedSrcPlayerNamePtr = (char *)srcName;
     careerAddIntlPlayerSelectedPlayerOrdinal = uVar5;
     if (careerNumPlayers != 0x14) {
       uVar5 = 0xffff;
@@ -65656,7 +65689,7 @@ void __usercall PlayMatchMenuReinit(void)
       numPlayersToShowInMenu = careerNumPlayers, selTeamNumber != wVar1)))) {
     numPlayersToShowInMenu = 0x10;
   }
-  pmSelectedPlayerEntry = 0;
+  pmSelectedPlayerEntry = (MenuEntry *)0x0;
   selectedPlayerPosition = 0xffff;
   SetVariableButtons();
   SetUpTacticsButtons();
@@ -65698,7 +65731,7 @@ void __usercall SetCurrentSelectedPlayerIndexPointer(void)
   if (viewingOpponentTeam != 0) {
     pwVar1 = pwVar2;
   }
-  currentSelectedPlayerIndexPtr = (dword)pwVar1;
+  currentSelectedPlayerIndexPtr = pwVar1;
   return;
 }
 
@@ -65713,7 +65746,7 @@ void __usercall SetCurrentSelectedPlayerIndexPointer(void)
 void __usercall OnSwapPlayer(void *menuEntry)
 
 {
-  dword item;
+  MenuEntry *item;
   word unaff_D0w;
   ushort uVar1;
   void *pvVar2;
@@ -65726,10 +65759,10 @@ void __usercall OnSwapPlayer(void *menuEntry)
       uVar1 = *(short *)((int)menuEntry + 2) - menuEntries[0xd].ordinal;
       pvVar2 = GetPlayerInfoBreakPosition(teamPtr,uVar1);
       if ((*(byte *)((int)pvVar2 + 0x66) & 0xe0) != 0) {
-        if (uVar1 == *(ushort *)currentSelectedPlayerIndexPtr) {
+        if (uVar1 == *currentSelectedPlayerIndexPtr) {
           uVar1 = 0xffff;
         }
-        *(ushort *)currentSelectedPlayerIndexPtr = uVar1;
+        *currentSelectedPlayerIndexPtr = uVar1;
         UpdateTeamCheckmark();
         DrawMenu();
         return;
@@ -65770,11 +65803,11 @@ void __usercall OnSwapPlayer(void *menuEntry)
   }
   selectedPlayerPosition = uVar1;
   item = pmSelectedPlayerEntry;
-  bVar3 = pmSelectedPlayerEntry != 0;
+  bVar3 = pmSelectedPlayerEntry != (MenuEntry *)0x0;
   selectedPlayerTacticsPosition = unaff_D0w;
-  pmSelectedPlayerEntry = (dword)menuEntry;
+  pmSelectedPlayerEntry = menuEntry;
   if (bVar3) {
-    CallDrawMenuItem((MenuEntry *)item);
+    CallDrawMenuItem(item);
   }
   CallDrawMenuItem(menuEntry);
   UpdateLittleCheckmark();
@@ -65871,7 +65904,7 @@ short __usercall HandleSquadSwapSelectionToggle(short menuPos)
      (TeamFileEx *)playMatchTeam1Ptr != &careerTeam)) {
     teamNumber._0_1_ = playMatchTeam1Ptr->countryNumber;
     teamNumber._1_1_ = playMatchTeam1Ptr->teamOrdinal;
-    pwVar3 = (word *)currentSelectedPlayerIndexPtr;
+    pwVar3 = currentSelectedPlayerIndexPtr;
   }
   if (longFireFlag != 0) {
     if (((longFireFlag == 1) && (squadChangesAllowed != 0)) && ((ushort)menuPos < pmMenuNumPlayers))
@@ -66074,24 +66107,23 @@ void __usercall UpdateTeamCheckmark(void)
 {
   TeamFile *pTVar1;
   ushort uVar2;
-  word playerIndex;
   MenuEntry *pMVar3;
   
   pTVar1 = playMatchTeam1Ptr;
   menuEntries[0x25].isInvisible = 1;
   if (squadChangesAllowed != 0) {
     if (viewingOpponentTeam == 0) {
-      playerIndex = selTeamSelectedPlayerPosition;
+      uVar2 = selTeamSelectedPlayerPosition;
       if (((TeamFileEx *)playMatchTeam1Ptr != &careerTeam) &&
-         (playerIndex = currentTeamSelectedPlayerPosition,
-         (TeamFileEx *)playMatchTeam1Ptr != &currentTeam)) {
-        playerIndex = *(word *)currentSelectedPlayerIndexPtr;
+         (uVar2 = currentTeamSelectedPlayerPosition, (TeamFileEx *)playMatchTeam1Ptr != &currentTeam
+         )) {
+        uVar2 = *currentSelectedPlayerIndexPtr;
       }
-      if ((short)playerIndex < 0) {
+      if ((short)uVar2 < 0) {
         menuEntries[0x25].isInvisible = 1;
         return;
       }
-      uVar2 = GetPlayerPosition(playerIndex,playMatchTeam1Ptr);
+      uVar2 = GetPlayerPosition(uVar2,playMatchTeam1Ptr);
       if (pmMenuNumPlayers <= uVar2) {
         if ((TeamFileEx *)pTVar1 == &currentTeam) {
           currentTeamSelectedPlayerPosition = 0xffff;
@@ -66102,11 +66134,11 @@ void __usercall UpdateTeamCheckmark(void)
       }
     }
     else {
-      if (*(short *)currentSelectedPlayerIndexPtr < 0) {
+      if ((short)*currentSelectedPlayerIndexPtr < 0) {
         menuEntries[0x25].isInvisible = 1;
         return;
       }
-      uVar2 = GetPlayerPosition(*(short *)currentSelectedPlayerIndexPtr,playMatchTeam2Ptr);
+      uVar2 = GetPlayerPosition(*currentSelectedPlayerIndexPtr,playMatchTeam2Ptr);
     }
     menuEntries[0x25].stringFlags = menuEntries[0x25].stringFlags | 0x2000;
     pMVar3 = CalcMenuEntryAddress(uVar2 + 0xd);
@@ -66217,15 +66249,14 @@ void __usercall ShowOrHidePlayMatchButton(void)
     }
   }
   else if (((playMatchTeam2Ptr->teamControls == 1) && (squadChangesAllowed != 0)) &&
-          (menuEntries[8].isInvisible = 0, playMatchButtonVisibilityState._0_2_ != 0)) {
+          (menuEntries[8].isInvisible = 0, playMatchButtonVisibilityState[0] != 0)) {
 LAB_0014874a:
     if ((TeamFileEx *)playMatchTeam1Ptr != &currentTeam) {
-      playMatchButtonVisibilityState[0] = 0;
-      playMatchButtonVisibilityState[1] = 1;
+      playMatchButtonVisibilityState[0] = 1;
       menuEntries[9].isInvisible = 0;
       return;
     }
-    if (playMatchButtonVisibilityState._0_2_ == 0) {
+    if (playMatchButtonVisibilityState[0] == 0) {
       menuEntries[9].isInvisible = 1;
       return;
     }
@@ -66234,7 +66265,6 @@ LAB_0014874a:
   }
   if ((TeamFileEx *)playMatchTeam1Ptr != &currentTeam) {
     playMatchButtonVisibilityState[0] = 0;
-    playMatchButtonVisibilityState[1] = 0;
   }
   menuEntries[9].isInvisible = 1;
   return;
@@ -66500,7 +66530,7 @@ void __usercall DrawPlayerEntries(MenuEntry *entry)
 {
   word wVar1;
   undefined2 uVar2;
-  word wVar3;
+  ushort uVar3;
   ushort uVar4;
   TeamFile *teamPtr;
   PlayerFile *player;
@@ -66595,13 +66625,13 @@ void __usercall DrawPlayerEntries(MenuEntry *entry)
       menuEntries[0x1f].fg.sprite2 = SPR_NOT_CHECK_SMALL;
     }
   }
-  wVar3 = *(word *)currentSelectedPlayerIndexPtr;
+  uVar3 = *currentSelectedPlayerIndexPtr;
   if (((viewingOpponentTeam == 0) &&
-      (wVar3 = selTeamSelectedPlayerPosition, (TeamFileEx *)playMatchTeam1Ptr != &careerTeam)) &&
-     (wVar3 = currentTeamSelectedPlayerPosition, (TeamFileEx *)playMatchTeam1Ptr != &currentTeam)) {
-    wVar3 = *(word *)currentSelectedPlayerIndexPtr;
+      (uVar3 = selTeamSelectedPlayerPosition, (TeamFileEx *)playMatchTeam1Ptr != &careerTeam)) &&
+     (uVar3 = currentTeamSelectedPlayerPosition, (TeamFileEx *)playMatchTeam1Ptr != &currentTeam)) {
+    uVar3 = *currentSelectedPlayerIndexPtr;
   }
-  if (wVar3 == uVar4) {
+  if (uVar3 == uVar4) {
     menuEntries[0x25].y = menuEntries[0x1f].y;
     menuEntries[0x25].bg.backAndFrameColor = menuEntries[0x1f].bg.backAndFrameColor;
     menuEntries[0x25].fg.sprite2 = menuEntries[0x1f].fg.sprite2;
@@ -67726,12 +67756,12 @@ void __usercall GotJobOfferFinish(void)
     menuEntries[0xd].isInvisible = 1;
     menuEntries[8].isInvisible = 1;
     menuEntries[4].y = uVar3;
-    teamOfferingJobPtr = (dword)GetTeamPointer(teamNoOfferAccepted);
+    teamOfferingJobPtr = GetTeamPointer(teamNoOfferAccepted);
     PrintFormatted(aDearAB,(char *)menuEntries[1].fg,n0_00,uVar3,unaff_D2w,unaff_D3w,unaff_D4w,
                    unaff_D5w,unaff_D6w,(char *)managerSexBuffer,(char *)managerSurnameBuffer,
                    unaff_A4);
     if (jobOfferFunds != 0xffffffff) {
-      pcVar1 = (char *)(teamOfferingJobPtr + 5);
+      pcVar1 = (char *)((int)teamOfferingJobPtr + 5);
       PrintFormatted(aWeHereAtAAreDe,(char *)menuEntries[2].fg,n0_00,uVar3,unaff_D2w,unaff_D3w,
                      unaff_D4w,unaff_D5w,unaff_D6w,pcVar1,(char *)managerSurnameBuffer,unaff_A4);
       PrintFormatted(aHaveAcceptedTh,(char *)menuEntries[3].fg,n0_00,uVar3,unaff_D2w,unaff_D3w,
@@ -67755,7 +67785,7 @@ void __usercall GotJobOfferFinish(void)
     }
     uVar3 = menuEntries[4].y + 10;
     menuEntries[7].y = menuEntries[7].y - 0xf;
-    pcVar1 = (char *)(teamOfferingJobPtr + 5);
+    pcVar1 = (char *)((int)teamOfferingJobPtr + 5);
     menuEntries[5].y = uVar3;
     PrintFormatted(aTheMembersOfTh_0,(char *)menuEntries[2].fg,n0_00,uVar3,unaff_D2w,unaff_D3w,
                    unaff_D4w,unaff_D5w,unaff_D6w,pcVar1,(char *)managerSurnameBuffer,unaff_A4);
@@ -67781,12 +67811,12 @@ void __usercall GotJobOfferFinish(void)
     menuEntries[0xd].isDisabled = 1;
     menuEntries[0xd].bg._0_2_ = (menuEntries[0xd].bg.backAndFrameColor & 0xfff0) + PINK_TO_BROWN_9;
   }
-  teamOfferingJobPtr = (dword)GetTeamPointer(teamNoOfferingJob);
+  teamOfferingJobPtr = GetTeamPointer(teamNoOfferingJob);
   PrintFormatted(aDearAB,(char *)menuEntries[1].fg,n0,unaff_D1w,unaff_D2w,unaff_D3w,unaff_D4w,
                  unaff_D5w,unaff_D6w,(char *)managerSexBuffer,(char *)managerSurnameBuffer,unaff_A4)
   ;
   if (jobOfferFunds != 0xffffffff) {
-    pcVar1 = (char *)(teamOfferingJobPtr + 5);
+    pcVar1 = (char *)((int)teamOfferingJobPtr + 5);
     PrintFormatted(aWeHereAtAWould + 1,(char *)menuEntries[2].fg,n0,unaff_D1w,unaff_D2w,unaff_D3w,
                    unaff_D4w,unaff_D5w,unaff_D6w,pcVar1,(char *)managerSurnameBuffer,unaff_A4);
     PrintFormatted(aCoachingJobAtO,(char *)menuEntries[3].fg,n0,unaff_D1w,unaff_D2w,unaff_D3w,
@@ -67809,7 +67839,7 @@ void __usercall GotJobOfferFinish(void)
     return;
   }
   uVar3 = menuEntries[3].y + 10;
-  pcVar1 = (char *)(teamOfferingJobPtr + 5);
+  pcVar1 = (char *)((int)teamOfferingJobPtr + 5);
   menuEntries[4].y = uVar3;
   PrintFormatted(aTheMembersOfTh,(char *)menuEntries[2].fg,n0,uVar3,unaff_D2w,unaff_D3w,unaff_D4w,
                  unaff_D5w,unaff_D6w,pcVar1,(char *)managerSurnameBuffer,unaff_A4);
@@ -67882,7 +67912,7 @@ void __usercall ViewFutureTeam(void)
 
 {
   viewFutureTeamModeFlag = 1;
-  ShowSquad((TeamFile *)teamOfferingJobPtr,aViewTeam,0,0,1,-1);
+  ShowSquad(teamOfferingJobPtr,aViewTeam,0,0,1,-1);
   viewFutureTeamModeFlag = 0;
   GotJobOfferFinish();
   return;
@@ -67898,7 +67928,7 @@ void __usercall ViewFutureTeamLeague(void)
             ((void *)**(undefined4 **)
                        ((int)competitionsTable +
                        (int)(short)((ushort)*(byte *)teamOfferingJobPtr << 2)),
-             (short)*(char *)(teamOfferingJobPtr + 0x19));
+             (short)*(char *)((int)teamOfferingJobPtr + 0x19));
   highlightedLeagueTeamId = 0xffff;
   GotJobOfferFinish();
   return;
@@ -67959,10 +67989,10 @@ void __usercall ChairmanMemosInit(void)
   n0 = (currentMessage - 1) * 8;
   PrintFormatted(*(char **)((int)&clubMessagesTable + (int)(short)n0),(char *)menuEntries[2].fg,n0,
                  unaff_D1w,unaff_D2w,unaff_D3w,unaff_D4w,unaff_D5w,unaff_D6w,
-                 (char *)managerNameBuffer,(char *)plNameForMessage,unaff_A4);
+                 (char *)managerNameBuffer,plNameForMessage,unaff_A4);
   PrintFormatted(*(char **)((int)&PTR_aAnyFurtherPlay_0014a952 + (int)(short)n0),
                  (char *)menuEntries[3].fg,n0,unaff_D1w,unaff_D2w,unaff_D3w,unaff_D4w,unaff_D5w,
-                 unaff_D6w,(char *)managerNameBuffer,(char *)plNameForMessage,unaff_A4);
+                 unaff_D6w,(char *)managerNameBuffer,plNameForMessage,unaff_A4);
   DrawMenu();
   do {
   } while( true );
@@ -67992,10 +68022,10 @@ void __usercall ChairmanMemosOnReturn(void)
   n0 = (currentMessage - 1) * 8;
   PrintFormatted(*(char **)((int)&clubMessagesTable + (int)(short)n0),(char *)menuEntries[2].fg,n0,
                  unaff_D1w,unaff_D2w,unaff_D3w,unaff_D4w,unaff_D5w,unaff_D6w,
-                 (char *)managerNameBuffer,(char *)plNameForMessage,unaff_A4);
+                 (char *)managerNameBuffer,plNameForMessage,unaff_A4);
   PrintFormatted(*(char **)((int)&PTR_aAnyFurtherPlay_0014a952 + (int)(short)n0),
                  (char *)menuEntries[3].fg,n0,unaff_D1w,unaff_D2w,unaff_D3w,unaff_D4w,unaff_D5w,
-                 unaff_D6w,(char *)managerNameBuffer,(char *)plNameForMessage,unaff_A4);
+                 unaff_D6w,(char *)managerNameBuffer,plNameForMessage,unaff_A4);
   DrawMenu();
   do {
   } while( true );
@@ -68251,7 +68281,7 @@ void __usercall Career_InitializeNewSeasonFinances(void)
   }
 LAB_0014b212:
   competitionBonuses = 0;
-  if ((stayingInOldClub != 0) && (quaternaryCompetitionPtr != 0)) {
+  if ((stayingInOldClub != 0) && (quaternaryCompetitionPtr != (CompetitionCup *)0x0)) {
     uVar3 = (ushort)(char)majorTrophyOrCupBonusValue;
     if (euroCupSlotIndex == 1) {
       uVar1 = (uint)uVar3 * 0xf4b4;
@@ -68576,7 +68606,7 @@ void __usercall EditTacticsInit(void)
     editTacticsNumPlayers = 0x10;
   }
   editTacticsSelectedPairSlotIndex = 0xffff;
-  editTacticsSelectedPlayerMenuEntryPtr = 0;
+  editTacticsSelectedPlayerMenuEntryPtr = (MenuEntry *)0x0;
   editTacticsSelectedPlayerNameIndex = 0xffff;
   EditTactics_CommitPlayerPositionsAndRecalcSkill();
   EditTacticsMenuSavePlayerPositions();
@@ -68635,17 +68665,17 @@ void __usercall EditTacticsCommon(void *cur)
         editTacticsCurrentTactics.unkTable[(short)editTacticsSelectedPairSlotIndex] = (byte)sVar4;
       }
       editTacticsSelectedPairSlotIndex = 0xffff;
-      CallDrawMenuItem((MenuEntry *)editTacticsSelectedPairMenuEntryPtr);
+      CallDrawMenuItem(editTacticsSelectedPairMenuEntryPtr);
       CallDrawMultipleItems(10,menuEntries + 0x1d);
       return;
     }
     editTacticsSelectedPairSlotIndex = 0xffff;
-    CallDrawMenuItem((MenuEntry *)editTacticsSelectedPairMenuEntryPtr);
+    CallDrawMenuItem(editTacticsSelectedPairMenuEntryPtr);
     return;
   }
   editTacticsSelectedPairSlotIndex = wVar3;
-  editTacticsSelectedPairMenuEntryPtr = (dword)CalcMenuEntryAddress(sVar4 + 0xc);
-  CallDrawMenuItem((MenuEntry *)editTacticsSelectedPairMenuEntryPtr);
+  editTacticsSelectedPairMenuEntryPtr = CalcMenuEntryAddress(sVar4 + 0xc);
+  CallDrawMenuItem(editTacticsSelectedPairMenuEntryPtr);
   return;
 }
 
@@ -68707,7 +68737,7 @@ void __usercall EditTacticsPlayerNamesCommon(void *cur)
 {
   byte bVar1;
   TeamFile *teamPtr;
-  dword item;
+  MenuEntry *item;
   word unaff_D0w;
   ushort requestedSlot;
   bool bVar2;
@@ -68734,12 +68764,12 @@ void __usercall EditTacticsPlayerNamesCommon(void *cur)
       }
       requestedSlot = 0xffff;
     }
-    bVar2 = editTacticsSelectedPlayerMenuEntryPtr != 0;
+    bVar2 = editTacticsSelectedPlayerMenuEntryPtr != (MenuEntry *)0x0;
     editTacticsSelectedPlayerNameIndex = requestedSlot;
     editTacticsSelectedPlayerSlotIndex = unaff_D0w;
-    editTacticsSelectedPlayerMenuEntryPtr = (dword)cur;
+    editTacticsSelectedPlayerMenuEntryPtr = cur;
     if (bVar2) {
-      CallDrawMenuItem((MenuEntry *)item);
+      CallDrawMenuItem(item);
     }
     CallDrawMenuItem(cur);
     EditTacticsMenuSavePlayerPositions();
@@ -69411,7 +69441,7 @@ void __usercall InitLittlePlayerSprites(void)
     pwVar6 = currentMatchPlayers;
   }
   uVar2 = (undefined3)((uint)unaff_D0 >> 8);
-  editTacticsPlayerNumbers = (dword)pwVar6;
+  editTacticsPlayerNumbers = pwVar6;
   uVar5 = ConvertPlayerDressColor(chooseTacticsTeamPtr->prStripesColor);
   littlePlayersConvertTable[0xb] = (word)CONCAT31(uVar2,uVar5);
   uVar5 = ConvertPlayerDressColor(pTVar1->prBasicColor);
@@ -69947,7 +69977,7 @@ void __usercall DrawLittlePlayersAndBall(void)
   word wVar2;
   word y;
   TeamFile *pTVar3;
-  dword dVar4;
+  void *pvVar4;
   word x;
   word y_00;
   word unaff_D2w;
@@ -69957,7 +69987,7 @@ void __usercall DrawLittlePlayersAndBall(void)
   
   if (editTacticsDisableLittlePlayersAndBallDraw == 0) {
     SortEditTacticsDrawOrderByY();
-    dVar4 = editTacticsPlayerNumbers;
+    pvVar4 = editTacticsPlayerNumbers;
     pTVar3 = chooseTacticsTeamPtr;
     sVar6 = 0xb;
     pwVar7 = editTacticsPlayerPositions;
@@ -69984,7 +70014,7 @@ void __usercall DrawLittlePlayersAndBall(void)
         }
       }
       else {
-        cVar1 = *(char *)(dVar4 + (int)(short)player);
+        cVar1 = *(char *)((int)pvVar4 + (int)(short)player);
         if ((editTacticsPitchStatus != 5) || (player == markedPlayerNumber)) {
           wVar2 = editTacticsBallLocation;
           if (editTacticsPitchStatus == 6) {
@@ -70005,7 +70035,7 @@ void __usercall DrawLittlePlayersAndBall(void)
       sVar6 = sVar6 + -1;
       pwVar7 = pwVar7 + 1;
     } while (sVar6 != -1);
-    DrawSpriteCentered(((pTVar3->players[0].goalStats[(short)(*(char *)dVar4 * 0x26) + -7] & 0x18)
+    DrawSpriteCentered(((pTVar3->players[0].goalStats[(short)(*(char *)pvVar4 * 0x26) + -7] & 0x18)
                        >> 3) + 0x7f,0x57,0xea);
   }
   return;
@@ -70074,7 +70104,7 @@ void __usercall DrawEditTacticsHighlightedPlayerRoute(void)
   
   if ((editTacticsDisableLittlePlayersAndBallDraw != 0) && (markedPlayerNumber != 0)) {
     SortPlayerAreasByY();
-    sVar3 = *(char *)(editTacticsPlayerNumbers + (int)(short)markedPlayerNumber) * 0x26;
+    sVar3 = *(char *)((int)editTacticsPlayerNumbers + (int)(short)markedPlayerNumber) * 0x26;
     bVar1 = chooseTacticsTeamPtr->players[0].goalStats[sVar3 + -7];
     bVar2 = chooseTacticsTeamPtr->players[0].playerName[sVar3 + -1];
     sVar3 = 0x22;
@@ -71573,7 +71603,7 @@ ushort __usercall Asset_PromptInsertSaveDiskDf0(char *title)
 void __usercall SaveCompetitionFile(void)
 
 {
-  saveFileAmigaType = 0x100000;
+  saveFileAmigaType = j_start;
   saveFileMagic1 = aCj0611143807._0_4_;
   saveFileMagic2 = aCj0611143807._4_4_;
   saveFileMagic3 = aCj0611143807._8_4_;
@@ -71592,7 +71622,7 @@ void __usercall LoadCompetitionFile(void)
   }
   if (((saveFileMagic1 == aCj0611143807._0_4_) && (saveFileMagic2 == aCj0611143807._4_4_)) &&
      (saveFileMagic3 == aCj0611143807._8_4_)) {
-    if (saveFileAmigaType == 0x100000) {
+    if (saveFileAmigaType == j_start) {
       return;
     }
     ShowErrorMenu(aFileSavedOnDif);

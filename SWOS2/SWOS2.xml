@@ -2,7 +2,7 @@
 <?program_dtd version="1"?>
 
 <PROGRAM NAME="SWOS2" EXE_PATH=".\SWOS2" EXE_FORMAT="Binary file" INPUT_MD5="u&#xa7;&#xdd;E&#xcf;&#xe6;&#xeb;&#xe1;?|&#xa8;(&#xe0;&#xa3;">
-    <INFO_SOURCE TOOL="IDA-Pro 9.0 XML plugin v5.0.2 (Python) SDK 900" USER="headk" FILE="C:\Projects\Amiga\SWOS-IDA\SWOS2.i64" TIMESTAMP="2026-02-11 21:25" />
+    <INFO_SOURCE TOOL="IDA-Pro 9.0 XML plugin v5.0.2 (Python) SDK 900" USER="headk" FILE="C:\Projects\Amiga\SWOS-IDA\SWOS2.i64" TIMESTAMP="2026-02-12 12:55" />
     <PROCESSOR NAME="68000" ENDIAN="big" ADDRESS_MODEL="32-bit" />
     <COMPILER NAME="Unknown" />
     <DATATYPES>
@@ -12177,7 +12177,7 @@
         <DEFINED_DATA ADDRESS="0x2CED4" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>kSpriteBlitQueueSentinel_B</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x2DA8C" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x2DA8C" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>spriteBlitQueue</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x2DA92" DATATYPE="word" SIZE="0x2">
@@ -12295,10 +12295,10 @@
         <DEFINED_DATA ADDRESS="0x67628" DATATYPE="byte" SIZE="0x1">
             <TYPEINFO_CMT>poolPlayerStrideRef</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x67640" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x67640" DATATYPE="uchar *" SIZE="0x4">
             <TYPEINFO_CMT>imageStreamCursor</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x67644" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x67644" DATATYPE="uchar *" SIZE="0x4">
             <TYPEINFO_CMT>menuImageStreamBaseEnd</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x67648" DATATYPE="dword" SIZE="0x4">
@@ -12478,16 +12478,16 @@
         <DEFINED_DATA ADDRESS="0x100566" DATATYPE="dword[4]" SIZE="0x10">
             <TYPEINFO_CMT>assetSourceVec</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x100576" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x100576" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>assetSource0</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x10057A" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x10057A" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>assetSource1</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x10057E" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x10057E" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>assetSource2</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x100582" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x100582" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>assetSource3</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x100586" DATATYPE="word" SIZE="0x2">
@@ -12875,7 +12875,7 @@
         <DEFINED_DATA ADDRESS="0x10588C" DATATYPE="string" SIZE="0x10">
             <TYPEINFO_CMT>aGrafsDisk2Raw</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x10589C" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x10589C" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>assetLoaderCacheFlag</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x1058A0" DATATYPE="uint *" SIZE="0x4">
@@ -13075,7 +13075,7 @@
         <DEFINED_DATA ADDRESS="0x10A48A" DATATYPE="uchar[8]" SIZE="0x8">
             <TYPEINFO_CMT>pitchTypeProbabilities</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x10AD04" DATATYPE="byte[4]" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x10AD04" DATATYPE="uchar[4]" SIZE="0x4">
             <TYPEINFO_CMT>facesFrequency</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x10AD08" DATATYPE="word[16]" SIZE="0x20">
@@ -13234,7 +13234,7 @@
         <DEFINED_DATA ADDRESS="0x10E512" DATATYPE="byte[2]" SIZE="0x2">
             <TYPEINFO_CMT>pad_10E512</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x10E514" DATATYPE="word[2]" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x10E514" DATATYPE="ushort[2]" SIZE="0x4">
             <TYPEINFO_CMT>kGoalkeeperBurstSpeed</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x10E518" DATATYPE="word" SIZE="0x2">
@@ -13384,7 +13384,7 @@
         <DEFINED_DATA ADDRESS="0x10E6B8" DATATYPE="short[32]" SIZE="0x40">
             <TYPEINFO_CMT>kPassingSpinFactor</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x10E6F8" DATATYPE="word[2]" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x10E6F8" DATATYPE="ushort[2]" SIZE="0x4">
             <TYPEINFO_CMT>kRefereeSpeed</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x10E6FC" DATATYPE="word" SIZE="0x2">
@@ -13495,7 +13495,7 @@
         <DEFINED_DATA ADDRESS="0x10F098" DATATYPE="Sprite *" SIZE="0x4">
             <TYPEINFO_CMT>substitutedPlSprite</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x10F09C" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x10F09C" DATATYPE="TeamGeneralInfo *" SIZE="0x4">
             <TYPEINFO_CMT>teamThatSubstitutes</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x10F0A0" DATATYPE="word" SIZE="0x2">
@@ -13516,10 +13516,10 @@
         <DEFINED_DATA ADDRESS="0x10F0AA" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>plToEnterGameIndex</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x10F0AC" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x10F0AC" DATATYPE="TeamGeneralInfo *" SIZE="0x4">
             <TYPEINFO_CMT>benchTeam</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x10F0B0" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x10F0B0" DATATYPE="TeamGame *" SIZE="0x4">
             <TYPEINFO_CMT>benchTeamGame</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x10F0B4" DATATYPE="word" SIZE="0x2">
@@ -16183,7 +16183,7 @@
         <DEFINED_DATA ADDRESS="0x122A22" DATATYPE="byte[160]" SIZE="0xA0">
             <TYPEINFO_CMT>candidatePlayersByGoalsInTable</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x122AC2" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x122AC2" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>viewResultCtx</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x122AC6" DATATYPE="word" SIZE="0x2">
@@ -16337,7 +16337,7 @@
         <DEFINED_DATA ADDRESS="0x12487C" DATATYPE="pointer" SIZE="0x4">
             <TYPEINFO_CMT>pad_12487C</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x124880" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x124880" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>plPositions</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x124884" DATATYPE="word" SIZE="0x2">
@@ -16541,13 +16541,13 @@
         <DEFINED_DATA ADDRESS="0x12B1BA" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>uefaCupQualifiedTeamCount</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x12B1BC" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x12B1BC" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>euroCupTeamListPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x12B1C0" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x12B1C0" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>cupWinnersCupTeamListPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x12B1C4" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x12B1C4" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>uefaCupTeamListPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x12B1C8" DATATYPE="dword" SIZE="0x4">
@@ -16883,7 +16883,7 @@
         <DEFINED_DATA ADDRESS="0x13112E" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>chooseTeamsFriendly_menuBottomY</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x131130" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x131130" DATATYPE="TeamFile *" SIZE="0x4">
             <TYPEINFO_CMT>selectedTeamPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x131134" DATATYPE="word" SIZE="0x2">
@@ -17041,10 +17041,10 @@
         <DEFINED_DATA ADDRESS="0x13331A" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>diyAllMatchesPlayed</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x13331C" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x13331C" DATATYPE="TeamFile *" SIZE="0x4">
             <TYPEINFO_CMT>diyLeftTeamPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x133320" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x133320" DATATYPE="TeamFile *" SIZE="0x4">
             <TYPEINFO_CMT>diyRightTeamPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x133324" DATATYPE="word" SIZE="0x2">
@@ -17332,19 +17332,19 @@
         <DEFINED_DATA ADDRESS="0x1350B6" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>diyCupMenuArg2</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x1350B8" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x1350B8" DATATYPE="char *" SIZE="0x4">
             <TYPEINFO_CMT>diyCupMatchTeamNamePtr1</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x1350BC" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x1350BC" DATATYPE="char *" SIZE="0x4">
             <TYPEINFO_CMT>diyCupMatchTeamNamePtr2</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x1350C0" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>diyCupMatchListDrawModeFlag</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x1350C2" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x1350C2" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>diyCupLastMatchTeam1Ptr</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x1350C6" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x1350C6" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>diyCupLastMatchTeam2Ptr</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x1350CA" DATATYPE="word" SIZE="0x2">
@@ -17707,7 +17707,7 @@
         <DEFINED_DATA ADDRESS="0x136D1A" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>diyTournamentSelectTeams</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x136D1C" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x136D1C" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>diyTournamentSelectedStagePtr</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x136D20" DATATYPE="word" SIZE="0x2">
@@ -17908,7 +17908,7 @@
         <DEFINED_DATA ADDRESS="0x137B36" DATATYPE="byte[16]" SIZE="0x10">
             <TYPEINFO_CMT>shirtsIndexTable</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x1382EE" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x1382EE" DATATYPE="TeamFile *" SIZE="0x4">
             <TYPEINFO_CMT>editTeamsSelectedTeam</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x1382F2" DATATYPE="word" SIZE="0x2">
@@ -18098,7 +18098,7 @@
         <DEFINED_DATA ADDRESS="0x13A6E8" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>squadDisplayCount</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x13A6EA" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x13A6EA" DATATYPE="TeamFile *" SIZE="0x4">
             <TYPEINFO_CMT>squadTeamFilePtr</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x13A6EE" DATATYPE="word" SIZE="0x2">
@@ -18110,7 +18110,7 @@
         <DEFINED_DATA ADDRESS="0x13A6F2" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>squadPrevSelectedBreakPos</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x13A6F4" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x13A6F4" DATATYPE="MenuEntry *" SIZE="0x4">
             <TYPEINFO_CMT>squadPrevHighlightedMenuEntryPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x13A6F8" DATATYPE="word" SIZE="0x2">
@@ -18208,10 +18208,10 @@
         <DEFINED_DATA ADDRESS="0x13AB78" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>diyUnknownWord_2C</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x13AB7A" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x13AB7A" DATATYPE="char *" SIZE="0x4">
             <TYPEINFO_CMT>diyNameOfCompetitionPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x13AB7E" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x13AB7E" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>diyTeamsBufferPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x13AB82" DATATYPE="word" SIZE="0x2">
@@ -18265,14 +18265,14 @@
         <DEFINED_DATA ADDRESS="0x13CAAE" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>savedContestRoundPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x13CAB2" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x13CAB2" DATATYPE="char *" SIZE="0x4">
             <TYPEINFO_CMT>careerGameTopTeamName</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x13CAB6" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x13CAB6" DATATYPE="char *" SIZE="0x4">
             <TYPEINFO_CMT>careerGameBottomTeamName</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x13CABA" DATATYPE="word" SIZE="0x2">
-            <TYPEINFO_CMT>cglm_team_control</TYPEINFO_CMT>
+            <TYPEINFO_CMT>careerGameListTeamControl</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x13CABC" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>columnMarker</TYPEINFO_CMT>
@@ -18346,7 +18346,7 @@
         <DEFINED_DATA ADDRESS="0x13F786" DATATYPE="dword" SIZE="0x4">
             <TYPEINFO_CMT>selectedTeamText</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x13F78A" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x13F78A" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>selectedContest</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x13F78E" DATATYPE="word" SIZE="0x2">
@@ -18355,10 +18355,10 @@
         <DEFINED_DATA ADDRESS="0x13F790" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>prevSelectedTeamEntry</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x13F792" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x13F792" DATATYPE="char *" SIZE="0x4">
             <TYPEINFO_CMT>gameTypeStr</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x13F796" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x13F796" DATATYPE="char *" SIZE="0x4">
             <TYPEINFO_CMT>curCountryStr</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x13F79A" DATATYPE="dword[10]" SIZE="0x28">
@@ -18400,7 +18400,7 @@
         <DEFINED_DATA ADDRESS="0x13F8D6" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>topOfStackMark</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x13F8D8" DATATYPE="pointer" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x13F8D8" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>countryStackPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x13F8DC" DATATYPE="byte[10]" SIZE="0xA">
@@ -18463,16 +18463,16 @@
         <DEFINED_DATA ADDRESS="0x13F954" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>leagueNumber</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x13F956" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x13F956" DATATYPE="char *" SIZE="0x4">
             <TYPEINFO_CMT>playWhatStr</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x13F95A" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x13F95A" DATATYPE="char *" SIZE="0x4">
             <TYPEINFO_CMT>chooseTeamsHeader1stPart</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x13F95E" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x13F95E" DATATYPE="char *" SIZE="0x4">
             <TYPEINFO_CMT>entryText2</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x13F962" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x13F962" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>chooseTeamsFunc</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x13F966" DATATYPE="word" SIZE="0x2">
@@ -18616,10 +18616,10 @@
         <DEFINED_DATA ADDRESS="0x140ACA" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>errorPromptsEnabled</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x140ACC" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x140ACC" DATATYPE="char *" SIZE="0x4">
             <TYPEINFO_CMT>errorText</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x140AD0" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x140AD0" DATATYPE="char *" SIZE="0x4">
             <TYPEINFO_CMT>promptHeader</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x140AD4" DATATYPE="dword" SIZE="0x4">
@@ -18828,7 +18828,7 @@
         <DEFINED_DATA ADDRESS="0x1444E2" DATATYPE="Menu_ViewSquad" SIZE="0x276">
             <TYPEINFO_CMT>viewSquadMenu</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x1448DA" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x1448DA" DATATYPE="TeamFile *" SIZE="0x4">
             <TYPEINFO_CMT>squadTeamPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x1448DE" DATATYPE="dword" SIZE="0x4">
@@ -18996,10 +18996,10 @@
         <DEFINED_DATA ADDRESS="0x146B8E" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>careerAddIntlPlayerResult</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x146B90" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x146B90" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>careerAddIntlPlayerSelectedSrcPlayerPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x146B94" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x146B94" DATATYPE="char *" SIZE="0x4">
             <TYPEINFO_CMT>careerAddIntlPlayerSelectedSrcPlayerNamePtr</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x146CB6" DATATYPE="Menu_SelectNationalTeam" SIZE="0x2C8">
@@ -19107,7 +19107,7 @@
         <DEFINED_DATA ADDRESS="0x1491FA" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>isFirstPlayerChoosingTeam</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x1491FC" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x1491FC" DATATYPE="ushort *" SIZE="0x4">
             <TYPEINFO_CMT>currentSelectedPlayerIndexPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x149200" DATATYPE="word" SIZE="0x2">
@@ -19143,7 +19143,7 @@
         <DEFINED_DATA ADDRESS="0x149218" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>selectedPlayerTacticsPosition</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x14921A" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x14921A" DATATYPE="MenuEntry *" SIZE="0x4">
             <TYPEINFO_CMT>pmSelectedPlayerEntry</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x14921E" DATATYPE="word" SIZE="0x2">
@@ -19155,7 +19155,7 @@
         <DEFINED_DATA ADDRESS="0x149222" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>playMatchExcludeFlags</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x149224" DATATYPE="byte[4]" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x149224" DATATYPE="ushort[2]" SIZE="0x4">
             <TYPEINFO_CMT>playMatchButtonVisibilityState</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x149228" DATATYPE="word" SIZE="0x2">
@@ -19200,7 +19200,7 @@
         <DEFINED_DATA ADDRESS="0x14A8A0" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>teamNoOfferingJob</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x14A8A2" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x14A8A2" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>teamOfferingJobPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x14A8A6" DATATYPE="dword" SIZE="0x4">
@@ -19209,7 +19209,7 @@
         <DEFINED_DATA ADDRESS="0x14A8B6" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>currentMessage</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x14A8B8" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x14A8B8" DATATYPE="char *" SIZE="0x4">
             <TYPEINFO_CMT>plNameForMessage</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x14A8BC" DATATYPE="Menu_ChairmanMemos" SIZE="0x92">
@@ -19332,7 +19332,7 @@
         <DEFINED_DATA ADDRESS="0x14B498" DATATYPE="TeamFile *" SIZE="0x4">
             <TYPEINFO_CMT>chooseTacticsTeamPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x14B49C" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x14B49C" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>editTacticsPlayerNumbers</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x14B4A0" DATATYPE="word" SIZE="0x2">
@@ -19404,13 +19404,13 @@
         <DEFINED_DATA ADDRESS="0x14C610" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>editTacticsSelectedPlayerSlotIndex</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x14C612" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x14C612" DATATYPE="MenuEntry *" SIZE="0x4">
             <TYPEINFO_CMT>editTacticsSelectedPlayerMenuEntryPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x14C616" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>editTacticsSelectedPairSlotIndex</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x14C618" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x14C618" DATATYPE="MenuEntry *" SIZE="0x4">
             <TYPEINFO_CMT>editTacticsSelectedPairMenuEntryPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x14CEDA" DATATYPE="word[35]" SIZE="0x46">
@@ -24026,8 +24026,11 @@
         <DEFINED_DATA ADDRESS="0x165498" DATATYPE="word[1060]" SIZE="0x848">
             <TYPEINFO_CMT>seasonInformationsArray</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x165CE0" DATATYPE="word" SIZE="0x2">
+        <DEFINED_DATA ADDRESS="0x165CE0" DATATYPE="uchar" SIZE="0x1">
             <TYPEINFO_CMT>lastFinancialWeekIndex</TYPEINFO_CMT>
+        </DEFINED_DATA>
+        <DEFINED_DATA ADDRESS="0x165CE1" DATATYPE="byte" SIZE="0x1">
+            <TYPEINFO_CMT>pad_165CE1</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x165CE2" DATATYPE="byte[2000]" SIZE="0x7D0">
             <TYPEINFO_CMT>diyLeagueSeasonStateTable</TYPEINFO_CMT>
@@ -24056,8 +24059,11 @@
         <DEFINED_DATA ADDRESS="0x166A06" DATATYPE="uchar[32]" SIZE="0x20">
             <TYPEINFO_CMT>trainingMatchSavedShirtNums</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x166A26" DATATYPE="word" SIZE="0x2">
+        <DEFINED_DATA ADDRESS="0x166A26" DATATYPE="uchar" SIZE="0x1">
             <TYPEINFO_CMT>trainingMatchSavedTactics</TYPEINFO_CMT>
+        </DEFINED_DATA>
+        <DEFINED_DATA ADDRESS="0x166A27" DATATYPE="byte" SIZE="0x1">
+            <TYPEINFO_CMT>pad_166A27</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x166A28" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>lastMatchSavedPlayerPos</TYPEINFO_CMT>
@@ -24092,10 +24098,10 @@
         <DEFINED_DATA ADDRESS="0x166B18" DATATYPE="CompetitionCup *" SIZE="0x4">
             <TYPEINFO_CMT>secondaryCompetitionPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x166B1C" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x166B1C" DATATYPE="CompetitionCup *" SIZE="0x4">
             <TYPEINFO_CMT>tertiaryCompetitionPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x166B20" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x166B20" DATATYPE="CompetitionCup *" SIZE="0x4">
             <TYPEINFO_CMT>quaternaryCompetitionPtr</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x166B24" DATATYPE="void *" SIZE="0x4">
@@ -24476,7 +24482,7 @@
         <DEFINED_DATA ADDRESS="0x16F4AC" DATATYPE="dword" SIZE="0x4">
             <TYPEINFO_CMT>saveFileMagic3</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x16F4B0" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x16F4B0" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>saveFileAmigaType</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x16F4B4" DATATYPE="word" SIZE="0x2">
@@ -48808,7 +48814,7 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x13CAAE" NAME="savedContestRoundPtr" />
         <SYMBOL ADDRESS="0x13CAB2" NAME="careerGameTopTeamName" />
         <SYMBOL ADDRESS="0x13CAB6" NAME="careerGameBottomTeamName" />
-        <SYMBOL ADDRESS="0x13CABA" NAME="cglm_team_control" />
+        <SYMBOL ADDRESS="0x13CABA" NAME="careerGameListTeamControl" />
         <SYMBOL ADDRESS="0x13CABC" NAME="columnMarker" />
         <SYMBOL ADDRESS="0x13CABE" NAME="cglmVar3" />
         <SYMBOL ADDRESS="0x13CAC0" NAME="gameListY" />
@@ -51123,6 +51129,7 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x165496" NAME="removedPlayerStatAccum" />
         <SYMBOL ADDRESS="0x165498" NAME="seasonInformationsArray" />
         <SYMBOL ADDRESS="0x165CE0" NAME="lastFinancialWeekIndex" />
+        <SYMBOL ADDRESS="0x165CE1" NAME="pad_165CE1" />
         <SYMBOL ADDRESS="0x165CE2" NAME="diyLeagueSeasonStateTable" />
         <SYMBOL ADDRESS="0x1664B2" NAME="currentTeam" />
         <SYMBOL ADDRESS="0x1669BE" NAME="playerPositions" />
@@ -51133,6 +51140,7 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x1669E6" NAME="trainingMatchSavedPlayers" />
         <SYMBOL ADDRESS="0x166A06" NAME="trainingMatchSavedShirtNums" />
         <SYMBOL ADDRESS="0x166A26" NAME="trainingMatchSavedTactics" />
+        <SYMBOL ADDRESS="0x166A27" NAME="pad_166A27" />
         <SYMBOL ADDRESS="0x166A28" NAME="lastMatchSavedPlayerPos" />
         <SYMBOL ADDRESS="0x166A2A" NAME="lastMatchSavedCoachOrPlayer" />
         <SYMBOL ADDRESS="0x166A2C" NAME="lastMatchPlayers" />

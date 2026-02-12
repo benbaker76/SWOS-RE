@@ -1,15 +1,20 @@
 # -*- coding: utf-8 -*-
-# IDA 9.0 — Import Description comments from Variables.md into IDA (and optionally strip g_ prefix)
+# IDA 9.0 — Import Description comments from Variables.md into IDA
+#           (and optionally strip g_ prefix and/or rename to Variables.md Name when Address is present)
 #
 # Reads a Variables.md markdown table with columns:
 # |Address|Name|Type|Size (Bytes)|Description|
 #
 # For each row:
 # - Resolve EA:
-#   - If Address cell is present -> use it
+#   - If Address cell is present -> use it (authoritative row binding)
 #   - Else -> look up by Name
-# - If STRIP_G_PREFIX_RENAME is enabled and Name starts with "g_":
-#   - Rename the IDA symbol at EA from "g_xxx" to "xxx" (only if safe/available)
+# - Renaming:
+#   - If Address cell is present:
+#       - Compute desired name from Variables.md Name (optionally stripping g_ prefix)
+#       - If current name at EA differs, rename to desired (only if safe/available)
+#   - Else (no Address):
+#       - Legacy conservative behavior: only strip g_ prefix when enabled (safe/available)
 # - If Description is non-empty:
 #   - Set REGULAR comment (':') from Description if missing, or overwrite if enabled.
 # - Converts '<br>' back to newline for multi-line IDA comments.
@@ -26,14 +31,15 @@ import re
 import idaapi
 import ida_kernwin
 import ida_name
+import ida_bytes
 import idc
 
 # ==============================
 # SETTINGS
 # ==============================
 
-DRY_RUN = False                  # True => no changes, only print proposed renames/comments
-OVERWRITE_EXISTING = True       # True => replace existing regular comment; False => only set if missing
+DRY_RUN = True                  # True => no changes, only print proposed renames/comments
+OVERWRITE_EXISTING = True        # True => replace existing regular comment; False => only set if missing
 AUTO_CAPITALIZE_FIRST = True     # Capitalize first alpha character if not already
 STRIP_G_PREFIX_RENAME = True     # If True, rename symbols starting with "g_" to remove the prefix
 
@@ -136,6 +142,10 @@ def _ea_from_name(name: str):
         return idc.BADADDR
     return idc.get_name_ea_simple(name)
 
+# ==============================
+# Comment helpers
+# ==============================
+
 def _get_existing_regular_comment(ea: int) -> str:
     try:
         return idc.get_cmt(ea, 0) or ""
@@ -150,26 +160,64 @@ def _set_regular_comment(ea: int, text: str) -> bool:
         return False
     return bool(idc.set_cmt(ea, text, 0))  # 0 => regular comment (':')
 
+# ==============================
+# Rename helpers
+# ==============================
+
 def _fmt_ea(ea: int) -> str:
     return f"0x{ea:08X}"
 
-def _can_rename_to(new_name: str) -> bool:
+def _can_rename_to(new_name: str, ea: int = None) -> bool:
     """
     Check whether new_name is usable.
     - Must be valid identifier for IDA naming rules
-    - Must not already exist as a global name
+    - Must not already exist as a global name on a different EA
     """
     if not new_name:
         return False
     if not ida_name.validate_name(new_name, ida_name.VNT_IDENT):
         return False
-    # If name already exists somewhere, avoid collision
-    if idc.get_name_ea_simple(new_name) != idc.BADADDR:
-        return False
+
+    existing = idc.get_name_ea_simple(new_name)
+    if existing != idc.BADADDR:
+        if ea is None or int(existing) != int(ea):
+            return False
+
     return True
+
+def _desired_name_from_md(md_name: str) -> str:
+    """
+    Apply STRIP_G_PREFIX_RENAME policy to the markdown name and return the target IDA name.
+    """
+    if STRIP_G_PREFIX_RENAME and md_name.startswith("g_"):
+        return md_name[2:]
+    return md_name
+
+def _propose_rename_to_md_name_when_address_given(ea: int, md_name: str):
+    """
+    When the Variables.md row includes an explicit address, use md_name as source of truth:
+    - Compute desired name (with optional g_ stripping)
+    - If current name at EA differs, propose rename to desired (only if safe)
+    Returns (old_name, new_name) or (None, None).
+    """
+    desired = _desired_name_from_md(md_name).strip()
+    if not desired:
+        return (None, None)
+
+    cur = (idc.get_name(ea) or "").strip()
+
+    # Only rename if it's actually different
+    if cur == desired:
+        return (None, None)
+
+    if not _can_rename_to(desired, ea=ea):
+        return (None, None)
+
+    return (cur, desired)
 
 def _propose_strip_g_rename(ea: int, md_name: str):
     """
+    Legacy/conservative behavior for rows without address:
     If md_name starts with g_, propose renaming the symbol at EA to without it.
     Returns (old_name, new_name) or (None, None) if no rename is applicable.
     """
@@ -182,16 +230,15 @@ def _propose_strip_g_rename(ea: int, md_name: str):
     if not new_name:
         return (None, None)
 
-    old_name = idc.get_name(ea) or ""
-    # Only propose if current name is exactly the g_-name OR at least starts with g_
-    # (keeps behavior predictable when Variables.md is source of truth).
+    old_name = (idc.get_name(ea) or "").strip()
+
+    # Keep behavior predictable: rename only if the EA is unnamed or matches md_name,
+    # or if it currently starts with g_.
     if old_name != md_name and not old_name.startswith("g_"):
-        # Still okay to rename based on md_name, but avoid surprising changes:
-        # require that the EA currently has no name OR matches the md_name.
         if old_name and old_name != md_name:
             return (None, None)
 
-    if not _can_rename_to(new_name):
+    if not _can_rename_to(new_name, ea=ea):
         return (None, None)
 
     return (old_name or md_name, new_name)
@@ -229,43 +276,60 @@ def main():
     skipped_rename_not_applicable = 0
 
     for r in rows:
-        md_name = r["name"]
-        addr_cell = r["address"]
-        desc_cell = r["description"]
+        md_name = (r.get("name") or "").strip()
+        addr_cell = (r.get("address") or "").strip()
+        desc_cell = (r.get("description") or "").strip()
 
+        if not md_name and not addr_cell:
+            skipped_no_ea += 1
+            continue
+
+        # Resolve EA and record whether it came from an explicit address
+        did_address_lookup = False
         ea = _ea_from_address_cell(addr_cell)
-        if ea == idc.BADADDR:
+        if ea != idc.BADADDR:
+            did_address_lookup = True
+        else:
             ea = _ea_from_name(md_name)
 
         if ea == idc.BADADDR:
             skipped_no_ea += 1
             continue
 
-        # ---- rename g_ -> (no prefix) ----
-        old_name, new_name = _propose_strip_g_rename(ea, md_name)
+        # ---- renaming ----
+        old_name, new_name = (None, None)
+
+        if did_address_lookup:
+            # Address provided: enforce Variables.md name (optionally stripping g_)
+            old_name, new_name = _propose_rename_to_md_name_when_address_given(ea, md_name)
+        else:
+            # No address: legacy behavior (only g_-strip)
+            old_name, new_name = _propose_strip_g_rename(ea, md_name)
+
         if new_name:
             planned_rename += 1
             if DRY_RUN:
-                idaapi.msg(f"[DRY_RUN] {_fmt_ea(ea)} rename: {old_name} -> {new_name}\n")
+                shown_old = old_name if old_name else "<no_name>"
+                idaapi.msg(f"[DRY_RUN] {_fmt_ea(ea)} rename: {shown_old} -> {new_name}\n")
             else:
                 if _do_rename(ea, new_name):
                     did_rename += 1
                 else:
                     skipped_rename_collision_or_invalid += 1
         else:
-            if STRIP_G_PREFIX_RENAME and md_name.startswith("g_"):
-                # It *wanted* to rename but we decided it wasn't safe/applicable.
+            # Track when we "wanted" to g_-strip but it failed safety checks (legacy path)
+            if (not did_address_lookup) and STRIP_G_PREFIX_RENAME and md_name.startswith("g_"):
                 skipped_rename_not_applicable += 1
 
         # ---- comment import (regular only) ----
-        if not (desc_cell or "").strip():
+        if not desc_cell:
             skipped_no_desc += 1
             continue
 
         has_existing = _has_regular_comment(ea)
         if has_existing and not OVERWRITE_EXISTING:
             if DRY_RUN:
-                idaapi.msg(f"[DRY_RUN] {_fmt_ea(ea)} comment: regular comment for {idc.get_name(ea) or md_name}\n")
+                idaapi.msg(f"[DRY_RUN] {_fmt_ea(ea)} comment: keep existing regular comment for {idc.get_name(ea) or md_name}\n")
                 idaapi.msg("  OLD: " + (_get_existing_regular_comment(ea).rstrip("\n")) + "\n")
                 idaapi.msg("----\n")
             skipped_existing_comment += 1

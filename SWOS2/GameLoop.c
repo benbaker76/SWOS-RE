@@ -1,7 +1,7 @@
 /*
  * Auto-generated call graph export
  * Start: GameLoop
- * Date : 2026-02-11 21:28:47
+ * Date : 2026-02-12 13:01:37
  */
 
 /* ===================== INCLUDES ===================== */
@@ -532,7 +532,7 @@ void __usercall SwapBuffersAndCameraViewState(void)
     bitPlane3BaseAlt[0] = copperZeroLong;
     frontbufferBasePtr = frontbufferBaseAlt;
     frontbufferBaseAltPtr = frontbufferBase;
-    spriteBlitQueue = (dword)&kSpriteBlitQueueSentinel_B;
+    spriteBlitQueue = &kSpriteBlitQueueSentinel_B;
     dstXByteOffsetSaved0 = cameraXMod320;
     dstYStartLinesSaved0 = cameraYMod320;
     oldCameraXSaved0 = oldCameraX;
@@ -557,7 +557,7 @@ void __usercall SwapBuffersAndCameraViewState(void)
     bitPlane3Base[0] = copperZeroLong;
     frontbufferBasePtr = frontbufferBase;
     frontbufferBaseAltPtr = frontbufferBaseAlt;
-    spriteBlitQueue = (dword)&kSpriteBlitQueueSentinel_A;
+    spriteBlitQueue = &kSpriteBlitQueueSentinel_A;
     dstXByteOffsetSaved1 = cameraXMod320;
     dstYStartLinesSaved1 = cameraYMod320;
     oldCameraXSaved1 = oldCameraX;
@@ -767,7 +767,7 @@ void __usercall ProcessSpriteBlitQueue(void)
   REG_BLTALWM = BLT_FWM_ALL;
   REG_BLTCON1 = 0;
   REG_BLTCON0 = BLTCON0_USEA_USED_LF_F0;
-  puVar3 = (undefined4 *)spriteBlitQueue;
+  puVar3 = spriteBlitQueue;
   while( true ) {
     REG_DMACON = DMACON_BLT_ON;
     uVar1 = REG_DMACONR._0_1_;
@@ -1842,15 +1842,15 @@ void __usercall BlitSpritePlanar_Long_StridedDest(void)
 void __usercall DrawSprite_entry2(void)
 
 {
-  dword dVar1;
+  void *pvVar1;
   ushort unaff_D1w;
   ushort unaff_D2w;
   Sprite *unaff_A0;
   
-  dVar1 = spriteBlitQueue;
+  pvVar1 = spriteBlitQueue;
   DrawSpriteClipped(unaff_A0,unaff_D1w,unaff_D2w);
-  spriteBlitQueue = dVar1;
-  *(undefined4 *)dVar1 = 0xffffffff;
+  spriteBlitQueue = pvVar1;
+  *(undefined4 *)pvVar1 = 0xffffffff;
   return;
 }
 
@@ -2140,13 +2140,13 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
     REG_BLTCPTH = puVar1;
     REG_BLTDPTH = puVar1;
     queuedLineCount = wVar9;
-    *(uchar **)(spriteBlitQueue + 4) = puVar1;
+    *(uchar **)((int)spriteBlitQueue + 4) = puVar1;
     *(byte **)spriteBlitQueue = frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6);
-    *(ushort *)(spriteBlitQueue + 10) = uVar17 + wVar9 * 0x100;
+    *(ushort *)((int)spriteBlitQueue + 10) = uVar17 + wVar9 * 0x100;
     uVar3 = uVar17 + wVar9 * 0x40;
     REG_BLTAMOD = sprite->field_E * 2 + uVar17 * -2;
     REG_BLTBMOD = sprite->field_E * 8 + uVar17 * -2;
-    *(ushort *)(spriteBlitQueue + 8) = uVar17 * -2 + PLANE_STRIDE;
+    *(ushort *)((int)spriteBlitQueue + 8) = uVar17 * -2 + PLANE_STRIDE;
     uVar8 = uVar17 * -2 + 0xb0;
     REG_BLTCMOD = uVar8;
     REG_BLTDMOD = uVar8;
@@ -2160,7 +2160,7 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
          CONCAT22((short)((uint)iVar13 >> 0x10),(ushort)iVar13 >> NUM_PLANES_SHIFT) +
          *(int *)&sprite->frameOffset;
     REG_BLTAPTH = (void *)savedSrcPlaneB;
-    piVar18 = (int *)(spriteBlitQueue + 0xc);
+    piVar18 = (int *)((int)spriteBlitQueue + 0xc);
     REG_BLTSIZE = uVar3;
     iVar13 = (int)(short)(sprite->field_E << 1);
     REG_DMACON = DMACON_BLT_ON;
@@ -2212,9 +2212,9 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
       REG_BLTDPTH = puVar1;
       REG_BLTAPTH = pvVar19;
       REG_BLTBPTH = pvVar2;
-      *(uchar **)(spriteBlitQueue + 0x10) = puVar1;
+      *(uchar **)((int)spriteBlitQueue + 0x10) = puVar1;
       *piVar18 = (int)(frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6));
-      *(ushort *)(spriteBlitQueue + 0x16) = (uVar17 & 0x7fff) + sVar11 * 0x100;
+      *(ushort *)((int)spriteBlitQueue + 0x16) = (uVar17 & 0x7fff) + sVar11 * 0x100;
       uVar3 = (uVar17 & 0x7fff) + sVar11 * 0x40;
       REG_BLTSIZE = uVar3;
       iVar13 = (int)(short)(sprite->field_E << 1);
@@ -2253,11 +2253,11 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
       REG_BLTAPTH = pvVar19;
       REG_BLTBPTH = (void *)(iVar13 + (int)pvVar2);
       REG_BLTSIZE = uVar3;
-      *(undefined2 *)(spriteBlitQueue + 0x14) = *(undefined2 *)(spriteBlitQueue + 8);
-      piVar18 = (int *)(spriteBlitQueue + 0x18);
+      *(undefined2 *)((int)spriteBlitQueue + 0x14) = *(undefined2 *)((int)spriteBlitQueue + 8);
+      piVar18 = (int *)((int)spriteBlitQueue + 0x18);
     }
     *piVar18 = BLT_BLITQ_END;
-    spriteBlitQueue = (dword)piVar18;
+    spriteBlitQueue = piVar18;
     return;
   }
   sVar10 = *(short *)&sprite->playerState;
@@ -2314,7 +2314,7 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
   puVar1 = frontbufferBasePtr + (uint)uVar8 * 0xb0 + iVar7;
   REG_BLTCPTH = puVar1;
   REG_BLTDPTH = puVar1;
-  *(uchar **)(spriteBlitQueue + 4) = puVar1;
+  *(uchar **)((int)spriteBlitQueue + 4) = puVar1;
   *(byte **)spriteBlitQueue = frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6);
   uVar3 = uVar17 + sVar10 * 0x100;
   uVar8 = sprite->field_E * 2 + uVar17 * -2;
@@ -2323,7 +2323,7 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
   uVar8 = uVar17 * -2 + 0x2c;
   REG_BLTCMOD = uVar8;
   REG_BLTDMOD = uVar8;
-  *(ushort *)(spriteBlitQueue + 8) = uVar8;
+  *(ushort *)((int)spriteBlitQueue + 8) = uVar8;
   iVar13 = 0;
   if (sVar14 != 0) {
     iVar13 = (uint)(ushort)(sVar14 << 2) * (uint)sprite->field_E * 2;
@@ -2331,12 +2331,12 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
   REG_BLTBPTH = (void *)(iVar13 + *(int *)sprite);
   REG_BLTAPTH = (void *)(iVar13 + *(int *)&sprite->frameOffset);
   REG_BLTSIZE = uVar3;
-  *(ushort *)(spriteBlitQueue + 10) = uVar3;
-  piVar18 = (int *)(spriteBlitQueue + 0xc);
+  *(ushort *)((int)spriteBlitQueue + 10) = uVar3;
+  piVar18 = (int *)((int)spriteBlitQueue + 0xc);
   if (sVar12 != 0) {
     puVar1 = puVar6 + iVar7;
     uVar3 = (uVar17 & 0x7fff) + sVar12 * 0x100;
-    *(uchar **)(spriteBlitQueue + 0x10) = puVar1;
+    *(uchar **)((int)spriteBlitQueue + 0x10) = puVar1;
     REG_DMACON = 0x8400;
     uVar4 = REG_DMACONR._0_1_;
     do {
@@ -2347,12 +2347,12 @@ void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
     REG_BLTDPTH = puVar1;
     REG_BLTSIZE = uVar3;
     *piVar18 = (int)(frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6));
-    *(undefined2 *)(spriteBlitQueue + 0x14) = *(undefined2 *)(spriteBlitQueue + 8);
-    *(ushort *)(spriteBlitQueue + 0x16) = uVar3;
-    piVar18 = (int *)(spriteBlitQueue + 0x18);
+    *(undefined2 *)((int)spriteBlitQueue + 0x14) = *(undefined2 *)((int)spriteBlitQueue + 8);
+    *(ushort *)((int)spriteBlitQueue + 0x16) = uVar3;
+    piVar18 = (int *)((int)spriteBlitQueue + 0x18);
   }
   *piVar18 = -1;
-  spriteBlitQueue = (dword)piVar18;
+  spriteBlitQueue = piVar18;
   return;
 }
 
@@ -3612,7 +3612,7 @@ ushort __usercall LoadFile(char *filename,void *dst)
     uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
   }
   else {
-    bVar2 = assetLoaderCacheFlag == 0;
+    bVar2 = assetLoaderCacheFlag == (void *)0x0;
     if ((bVar2) || (AssetCacheCopyByName(filename,frontbufferBasePtr), !bVar2)) {
       bVar2 = false;
       uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
@@ -3623,7 +3623,7 @@ ushort __usercall LoadFile(char *filename,void *dst)
         do {
         } while( true );
       }
-      if ((assetLoaderCacheFlag != 0) && (assetLoaderAltPathReady != 0)) {
+      if ((assetLoaderCacheFlag != (void *)0x0) && (assetLoaderAltPathReady != 0)) {
         AssetCacheStoreFromMemory(filename,src,unaff_D1);
       }
     }
@@ -3634,7 +3634,7 @@ ushort __usercall LoadFile(char *filename,void *dst)
         uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
       }
       else {
-        bVar2 = assetLoaderCacheFlag == 0;
+        bVar2 = assetLoaderCacheFlag == (void *)0x0;
         if ((bVar2) || (AssetCacheCopyByName(filename,src), !bVar2)) {
           bVar2 = false;
           uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
@@ -3645,7 +3645,7 @@ ushort __usercall LoadFile(char *filename,void *dst)
             do {
             } while( true );
           }
-          if ((assetLoaderCacheFlag != 0) && (assetLoaderAltPathReady != 0)) {
+          if ((assetLoaderCacheFlag != (void *)0x0) && (assetLoaderAltPathReady != 0)) {
             AssetCacheStoreFromMemory(filename,src,unaff_D1);
           }
         }
@@ -3685,8 +3685,8 @@ ushort __usercall AssetCacheAlloc(uint size)
   int *piVar4;
   
   uVar1 = size + 1 & 0xfffffffe;
-  piVar3 = (int *)assetLoaderCacheFlag;
-  if (assetLoaderCacheFlag != 0) {
+  piVar3 = assetLoaderCacheFlag;
+  if (assetLoaderCacheFlag != (void *)0x0) {
     while( true ) {
       if ((*(short *)(piVar3 + 1) != 0) && (uVar1 <= *(uint *)((int)piVar3 + 6))) {
         iVar2 = (*(int *)((int)piVar3 + 6) - uVar1) + -0x30;
@@ -3721,8 +3721,8 @@ int __usercall AssetCacheFindByName(char *name)
   char *pcVar3;
   int *piVar4;
   
-  piVar4 = (int *)assetLoaderCacheFlag;
-  if (assetLoaderCacheFlag != 0) {
+  piVar4 = assetLoaderCacheFlag;
+  if (assetLoaderCacheFlag != (void *)0x0) {
     while( true ) {
       if (*(short *)(piVar4 + 1) == 0) {
         pcVar2 = name;
@@ -6054,9 +6054,8 @@ has_picture:
   ballSprite.deltaX = FVar6;
   ballSprite.deltaY = FVar4;
   if (gameState == ST_KEEPER_HOLDS_BALL) {
-    if (((substituteInProgress == 0) ||
-        ((TeamGeneralInfo *)teamThatSubstitutes != lastTeamPlayedBeforeBreak)) ||
-       (*(int *)(teamThatSubstitutes + 0x20) != 0)) {
+    if (((substituteInProgress == 0) || (teamThatSubstitutes != lastTeamPlayedBeforeBreak)) ||
+       (teamThatSubstitutes->controlledPlayer != (Sprite *)0x0)) {
       if (ballSprite.speed != 0) {
         writeOnlyVar04 = writeOnlyVar04 + 1;
         UpdateBallWithControllingGoalkeeper(lastTeamPlayedBeforeBreak->controlledPlayer);
@@ -8937,6 +8936,8 @@ select_scorer_sprite_block:
 
 // --- BenchCheckControls @ 0010ca72 ---
 
+/* WARNING: Type propagation algorithm not settling */
+
 void __usercall BenchCheckControls(void)
 
 {
@@ -8945,17 +8946,18 @@ void __usercall BenchCheckControls(void)
   int iVar3;
   undefined2 uVar4;
   short sVar5;
-  undefined1 uVar6;
-  word wVar7;
+  byte bVar6;
+  undefined1 uVar7;
   word wVar8;
-  short sVar9;
+  word wVar9;
   short sVar10;
-  word wVar11;
-  word *pwVar12;
-  dword dVar13;
-  word *pwVar14;
-  TeamGeneralInfo *pTVar15;
-  bool bVar16;
+  short sVar11;
+  word wVar12;
+  word *pwVar13;
+  TeamGame *pTVar14;
+  word *pwVar15;
+  TeamGeneralInfo *pTVar16;
+  bool bVar17;
   
   if (inSubstitutesMenu == 0) {
     if ((benchOff != 0) && (cameraCoordinatesValid != 0)) {
@@ -8993,19 +8995,19 @@ void __usercall BenchCheckControls(void)
       bench2Called = 0;
       return;
     }
-    pTVar15 = &topTeamData;
-    if ((bench1Called == 0) && (pTVar15 = &bottomTeamData, bench2Called == 0)) {
+    pTVar16 = &topTeamData;
+    if ((bench1Called == 0) && (pTVar16 = &bottomTeamData, bench2Called == 0)) {
       if (((byte)frameCount & 1) == 0) {
-        pTVar15 = &bottomTeamData;
+        pTVar16 = &bottomTeamData;
       }
       else {
-        pTVar15 = &topTeamData;
+        pTVar16 = &topTeamData;
       }
-      if (pTVar15->playerNumber == 0) {
-        if (pTVar15->playerCoachNumber == 0) {
+      if (pTVar16->playerNumber == 0) {
+        if (pTVar16->playerCoachNumber == 0) {
           return;
         }
-        if (pTVar15->playerCoachNumber == 2) {
+        if (pTVar16->playerCoachNumber == 2) {
           Player2StatusProc();
           subsDirection = pl2Direction;
           subsFire = pl2Fire;
@@ -9017,10 +9019,10 @@ void __usercall BenchCheckControls(void)
         }
       }
       else {
-        subsDirection = pTVar15->direction;
-        subsFire = pTVar15->firePressed;
+        subsDirection = pTVar16->direction;
+        subsFire = pTVar16->firePressed;
       }
-      if (pTVar15 != &topTeamData) {
+      if (pTVar16 != &topTeamData) {
         if ((short)subsDirection < 0) {
           if ((word)(pl2BenchTimeoutCounter + 1) == 0xf) {
             pl2BenchTimeoutCounter = 0;
@@ -9084,9 +9086,9 @@ void __usercall BenchCheckControls(void)
 LAB_0010ce48:
     bench1Called = 0;
     bench2Called = 0;
-    benchTeamGame = (dword)topTeamPtr;
-    if (pTVar15->teamNumber == 2) {
-      benchTeamGame = (dword)bottomTeamPtr;
+    benchTeamGame = topTeamPtr;
+    if (pTVar16->teamNumber == 2) {
+      benchTeamGame = bottomTeamPtr;
     }
     plToBeSubstitutedPos = 0xffff;
     subsState = 0;
@@ -9099,23 +9101,23 @@ LAB_0010ce48:
     resultTimer = -resultTimer;
     statsTimer = -statsTimer;
     benchY = 0x185;
-    wVar11 = 0x1e5;
+    wVar12 = 0x1e5;
     if (trainingGame == 0) {
       if ((topTeamInGame.teamName[0] & 2) != 0) {
         benchY = 0x1e5;
-        wVar11 = 0x185;
+        wVar12 = 0x185;
       }
-      opponentBenchY = wVar11;
-      if ((TeamGame *)benchTeamGame != &topTeamInGame) {
+      opponentBenchY = wVar12;
+      if (benchTeamGame != &topTeamInGame) {
         opponentBenchY = benchY;
-        benchY = wVar11;
+        benchY = wVar12;
       }
     }
     else {
       subsTrainingTopTeam = 0;
       opponentBenchY = 0x1c8;
       benchY = 0x1c8;
-      if ((TeamGame *)benchTeamGame != &topTeamInGame) {
+      if (benchTeamGame != &topTeamInGame) {
         subsTrainingTopTeam = 1;
       }
     }
@@ -9128,19 +9130,19 @@ LAB_0010ce48:
     plLeavingX = 0x27;
     plComingX = 0x1a;
     benchWriteOnly02 = 0x23;
-    benchTeam = (dword)pTVar15;
+    benchTeam = pTVar16;
     CheckForThrowInAndGoalkeepersBall();
     return;
   }
   if ((short)inSubstitutesMenu < 0) {
     return;
   }
-  dVar13 = benchTeam;
+  pTVar16 = benchTeam;
   if (subsTeamsSwapped != 0) {
-    dVar13 = *(dword *)benchTeam;
+    pTVar16 = benchTeam->opponentsTeam;
   }
-  if ((*(short *)(dVar13 + 4) == 1) ||
-     ((*(short *)(dVar13 + 4) != 2 && (*(short *)(dVar13 + 6) == 1)))) {
+  if ((pTVar16->playerNumber == 1) ||
+     ((pTVar16->playerNumber != 2 && (pTVar16->playerCoachNumber == 1)))) {
     Player1StatusProc();
     subsDirection = pl1Direction;
     subsFire = pl1Fire;
@@ -9150,9 +9152,9 @@ LAB_0010ce48:
     subsDirection = pl2Direction;
     subsFire = pl2Fire;
   }
-  wVar7 = selectedPlayerInSubs;
-  dVar13 = benchTeam;
-  wVar11 = plToBeSubstitutedPos;
+  wVar8 = selectedPlayerInSubs;
+  pTVar16 = benchTeam;
+  wVar12 = plToBeSubstitutedPos;
   pSVar1 = substitutedPlSprite;
   if (cameraCoordinatesValid == 0) {
     goToSubsTimer = 0xf;
@@ -9168,31 +9170,30 @@ LAB_0010ce48:
   if ((short)substituteInProgress < 0) {
     substitutedPlSprite->injuryLevel = 0;
     pSVar1->sentAway = 0;
-    dVar13 = benchTeamGame;
-    wVar7 = plToEnterGameIndex;
-    wVar11 = plToBeSubstitutedPos;
-    if (plToBeSubstitutedPos == *(word *)(benchTeamGame + 0x14)) {
-      *(undefined2 *)(benchTeamGame + 0x14) = 0xffff;
+    pTVar14 = benchTeamGame;
+    wVar8 = plToEnterGameIndex;
+    wVar12 = plToBeSubstitutedPos;
+    if (plToBeSubstitutedPos == benchTeamGame->markedPlayer) {
+      benchTeamGame->markedPlayer = 0xffff;
     }
-    if ((wVar7 == *(word *)(dVar13 + 0x14)) &&
-       (*(undefined2 *)(dVar13 + 0x14) = 0xffff, wVar11 != 0)) {
-      *(word *)(dVar13 + 0x14) = wVar11;
+    if ((wVar8 == pTVar14->markedPlayer) && (pTVar14->markedPlayer = 0xffff, wVar12 != 0)) {
+      pTVar14->markedPlayer = wVar12;
     }
-    SwapPlayerNameData(wVar7,wVar11);
-    dVar13 = benchTeamGame;
-    sVar10 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(wVar7 << 1));
-    sVar5 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(wVar11 << 1));
-    *(undefined1 *)(benchTeamGame + 0x2e + (int)sVar5) = 0xff;
-    sVar9 = 0x3c;
+    SwapPlayerNameData(wVar8,wVar12);
+    pTVar14 = benchTeamGame;
+    sVar11 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(wVar8 << 1));
+    sVar5 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(wVar12 << 1));
+    benchTeamGame->players[0].shortName[sVar5 + -8] = 0xff;
+    sVar10 = 0x3c;
     do {
-      uVar6 = *(undefined1 *)(dVar13 + 0x2a + (int)sVar10);
-      *(undefined1 *)(dVar13 + 0x2a + (int)sVar10) = *(undefined1 *)(dVar13 + 0x2a + (int)sVar5);
-      *(undefined1 *)(dVar13 + 0x2a + (int)sVar5) = uVar6;
-      dVar13 = dVar13 + 1;
-      sVar9 = sVar9 + -1;
-    } while (sVar9 != -1);
+      bVar6 = pTVar14->players[0].shortName[sVar11 + -0xc];
+      pTVar14->players[0].shortName[sVar11 + -0xc] = pTVar14->players[0].shortName[sVar5 + -0xc];
+      pTVar14->players[0].shortName[sVar5 + -0xc] = bVar6;
+      pTVar14 = (TeamGame *)((int)&pTVar14->prShirtType + 1);
+      sVar10 = sVar10 + -1;
+    } while (sVar10 != -1);
     InitializePlayerSpriteFrameIndices();
-    ApplyTeamTactics((void *)benchTeamGame);
+    ApplyTeamTactics(benchTeamGame);
     waitForPlayerToGoInTimer = 100;
     subsBlockFire = 1;
     LeaveSubsMenu();
@@ -9219,11 +9220,11 @@ LAB_0010ccb8:
   }
   subsMovementDelayTimer = 0;
   subsPrevDirection = subsDirection;
-  wVar8 = 0;
+  wVar9 = 0;
   if (subsFire != 0) {
-    wVar8 = subsFireTimer + 1;
+    wVar9 = subsFireTimer + 1;
   }
-  subsFireTimer = wVar8;
+  subsFireTimer = wVar9;
   if (subsBlockFire != 0) {
     if (subsFire != 0) {
       subsMovementDelayTimer = 0;
@@ -9246,21 +9247,21 @@ LAB_0010ccb8:
       }
       overlayActiveFlag = 0;
       substituteInProgress = 1;
-      pwVar12 = &team1NumSubs;
-      pwVar14 = &team1GoalkeeperReplaced;
-      if (*(short *)(benchTeam + 0x12) != 1) {
-        pwVar12 = &team2NumSubs;
-        pwVar14 = &team2GoalkeeperReplaced;
+      pwVar13 = &team1NumSubs;
+      pwVar15 = &team1GoalkeeperReplaced;
+      if (benchTeam->teamNumber != 1) {
+        pwVar13 = &team2NumSubs;
+        pwVar15 = &team2GoalkeeperReplaced;
       }
-      *pwVar12 = *pwVar12 + 1;
+      *pwVar13 = *pwVar13 + 1;
       if (plToEnterGameIndex == 0xb) {
-        *pwVar14 = *pwVar14 + 1;
+        *pwVar15 = *pwVar15 + 1;
       }
       subsBlockFire = 1;
       subsState = 0;
       subsWriteOnly = 2;
       teamThatSubstitutes = benchTeam;
-      pSVar1 = *(Sprite **)(*(int *)(benchTeam + 0x14) + (int)(short)(plToBeSubstitutedPos << 2));
+      pSVar1 = *(Sprite **)((int)benchTeam->spritesTable + (int)(short)(plToBeSubstitutedPos << 2));
       substitutedPlSprite = pSVar1;
       pSVar1->cards = 0;
       plSubstitutedX = 0x27;
@@ -9278,7 +9279,7 @@ LAB_0010ccb8:
       }
       overlayActiveFlag = 0;
       subsMovementDelayTimer = 0;
-      subsFireTimer = wVar8;
+      subsFireTimer = wVar9;
       return;
     }
     if (subsState == 2) {
@@ -9287,29 +9288,28 @@ LAB_0010ccb8:
         return;
       }
       overlayActiveFlag = 0;
-      *(word *)(benchTeam + 0x1c) = selectedFormationEntry;
-      if (*(short *)(dVar13 + 0x12) != 1) {
+      benchTeam->tactics = selectedFormationEntry;
+      if (pTVar16->teamNumber != 1) {
         pl2Tactics = selectedFormationEntry;
-        ApplyTeamTactics((void *)benchTeamGame);
+        ApplyTeamTactics(benchTeamGame);
         SubsBenchOff();
         return;
       }
       pl1Tactics = selectedFormationEntry;
-      ApplyTeamTactics((void *)benchTeamGame);
+      ApplyTeamTactics(benchTeamGame);
       SubsBenchOff();
       return;
     }
     if (subsState != 4) {
       return;
     }
-    if ((*(byte *)(benchTeamGame +
-                   (int)*(short *)((int)ingameTeamPlayerOffsets +
-                                  (int)(short)(plToBeSubstitutedPos << 1)) + 0x34) < 2) &&
-       (wVar8 == 8)) {
-      if (plToBeSubstitutedPos == *(word *)(benchTeamGame + 0x14)) {
-        wVar11 = 0xffff;
+    if ((benchTeamGame->players[0].shortName
+         [*(short *)((int)ingameTeamPlayerOffsets + (int)(short)(plToBeSubstitutedPos << 1)) + -2] <
+         2) && (wVar9 == 8)) {
+      if (plToBeSubstitutedPos == benchTeamGame->markedPlayer) {
+        wVar12 = 0xffff;
       }
-      *(word *)(benchTeamGame + 0x14) = wVar11;
+      benchTeamGame->markedPlayer = wVar12;
       selectedPlayerInSubs = 0xffff;
       return;
     }
@@ -9324,68 +9324,68 @@ LAB_0010ccb8:
     }
     if (plToBeSubstitutedOrd == 0) {
       subsMovementDelayTimer = 0;
-      subsFireTimer = wVar8;
+      subsFireTimer = wVar9;
       return;
     }
     if ((short)selectedPlayerInSubs < 0) {
-      if (wVar8 == 1) {
+      if (wVar9 == 1) {
         selectedPlayerInSubs = plToBeSubstitutedPos;
         return;
       }
       subsMovementDelayTimer = 0;
-      subsFireTimer = wVar8;
+      subsFireTimer = wVar9;
       return;
     }
     if (selectedPlayerInSubs != plToBeSubstitutedPos) {
-      wVar8 = selectedPlayerInSubs;
-      if ((plToBeSubstitutedPos == *(word *)(benchTeamGame + 0x14)) ||
-         (wVar8 = plToBeSubstitutedPos, selectedPlayerInSubs == *(word *)(benchTeamGame + 0x14))) {
-        *(word *)(benchTeamGame + 0x14) = wVar8;
+      wVar9 = selectedPlayerInSubs;
+      if ((plToBeSubstitutedPos == benchTeamGame->markedPlayer) ||
+         (wVar9 = plToBeSubstitutedPos, selectedPlayerInSubs == benchTeamGame->markedPlayer)) {
+        benchTeamGame->markedPlayer = wVar9;
       }
-      SwapPlayerNameData(wVar11,wVar7);
-      sVar10 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(wVar11 << 1));
-      sVar5 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(wVar7 << 1));
-      sVar9 = 0x3c;
-      dVar13 = benchTeamGame;
+      SwapPlayerNameData(wVar12,wVar8);
+      sVar11 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(wVar12 << 1));
+      sVar5 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)(wVar8 << 1));
+      sVar10 = 0x3c;
+      pTVar14 = benchTeamGame;
       do {
-        uVar6 = *(undefined1 *)(dVar13 + 0x2a + (int)sVar10);
-        *(undefined1 *)(dVar13 + 0x2a + (int)sVar10) = *(undefined1 *)(dVar13 + 0x2a + (int)sVar5);
-        *(undefined1 *)(dVar13 + 0x2a + (int)sVar5) = uVar6;
-        dVar13 = dVar13 + 1;
-        sVar9 = sVar9 + -1;
-      } while (sVar9 != -1);
-      iVar2 = *(int *)(*(int *)(benchTeam + 0x14) + (int)(short)(plToBeSubstitutedPos << 2));
-      iVar3 = *(int *)(*(int *)(benchTeam + 0x14) + (int)(short)(selectedPlayerInSubs << 2));
-      sVar10 = 0x6d;
-      do {
-        uVar6 = *(undefined1 *)(iVar2 + sVar10);
-        *(undefined1 *)(iVar2 + sVar10) = *(undefined1 *)(iVar3 + sVar10);
-        *(undefined1 *)(iVar3 + sVar10) = uVar6;
+        bVar6 = pTVar14->players[0].shortName[sVar11 + -0xc];
+        pTVar14->players[0].shortName[sVar11 + -0xc] = pTVar14->players[0].shortName[sVar5 + -0xc];
+        pTVar14->players[0].shortName[sVar5 + -0xc] = bVar6;
+        pTVar14 = (TeamGame *)((int)&pTVar14->prShirtType + 1);
         sVar10 = sVar10 + -1;
       } while (sVar10 != -1);
+      iVar2 = *(int *)((int)benchTeam->spritesTable + (int)(short)(plToBeSubstitutedPos << 2));
+      iVar3 = *(int *)((int)benchTeam->spritesTable + (int)(short)(selectedPlayerInSubs << 2));
+      sVar11 = 0x6d;
+      do {
+        uVar7 = *(undefined1 *)(iVar2 + sVar11);
+        *(undefined1 *)(iVar2 + sVar11) = *(undefined1 *)(iVar3 + sVar11);
+        *(undefined1 *)(iVar3 + sVar11) = uVar7;
+        sVar11 = sVar11 + -1;
+      } while (sVar11 != -1);
       uVar4 = *(undefined2 *)(iVar2 + 2);
       *(undefined2 *)(iVar2 + 2) = *(undefined2 *)(iVar3 + 2);
       *(undefined2 *)(iVar3 + 2) = uVar4;
       InitializePlayerSpriteFrameIndices();
-      ApplyTeamTactics((void *)benchTeamGame);
+      ApplyTeamTactics(benchTeamGame);
       selectedPlayerInSubs = 0xffff;
       overlayActiveFlag = 0;
       SubsBenchOff();
       return;
     }
-    if (wVar8 == 1) {
+    if (wVar9 == 1) {
       selectedPlayerInSubs = 0xffff;
       return;
     }
     subsMovementDelayTimer = 0;
-    subsFireTimer = wVar8;
+    subsFireTimer = wVar9;
     return;
   }
-  wVar11 = bench2Called;
-  if ((TeamGeneralInfo *)benchTeam == &topTeamData) {
-    wVar11 = bench1Called;
+  wVar12 = bench2Called;
+  if (benchTeam == &topTeamData) {
+    wVar12 = bench1Called;
   }
-  if (wVar11 != 0) goto code_r0x0010cf76;
+  if (wVar12 != 0) goto code_r0x0010cf76;
   if ((trainingGame == 0) || (subsTrainingTopTeam == 0)) {
     if (subsDirection == 0) goto LAB_0010d0fc;
     if (subsDirection != 4) goto LAB_0010d096;
@@ -9396,7 +9396,7 @@ LAB_0010d096:
       if ((subsDirection != 2) && (subsDirection != 6)) {
         if (subsFire == 0) {
           subsMovementDelayTimer = 0;
-          subsFireTimer = wVar8;
+          subsFireTimer = wVar9;
           return;
         }
         if (benchPlayerIndex == 0) {
@@ -9410,16 +9410,15 @@ LAB_0010d096:
         }
         if ((short)(benchPlayerIndex - 1) < 0) {
           subsMovementDelayTimer = 0;
-          subsFireTimer = wVar8;
+          subsFireTimer = wVar9;
           return;
         }
-        iVar2 = benchTeamGame +
-                (int)*(short *)((int)ingameTeamPlayerOffsets +
-                               (int)(short)((benchPlayerIndex + 10) * 2));
-        if (-1 < *(char *)(iVar2 + 0x2e)) {
-          if (1 < *(byte *)(iVar2 + 0x34)) {
+        sVar11 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)((benchPlayerIndex + 10) * 2)
+                           );
+        if (-1 < (char)benchTeamGame->players[0].shortName[sVar11 + -8]) {
+          if (1 < benchTeamGame->players[0].shortName[sVar11 + -2]) {
             subsMovementDelayTimer = 0;
-            subsFireTimer = wVar8;
+            subsFireTimer = wVar9;
             return;
           }
           subsState = 1;
@@ -9434,7 +9433,7 @@ LAB_0010d096:
           return;
         }
         subsMovementDelayTimer = 0;
-        subsFireTimer = wVar8;
+        subsFireTimer = wVar9;
         return;
       }
 code_r0x0010cf76:
@@ -9464,7 +9463,7 @@ code_r0x0010cf76:
 LAB_0010d0fc:
     if (((trainingGame == 0) || (benchPlayerIndex != 0)) && (gameState == 3)) {
       subsMovementDelayTimer = 0;
-      subsFireTimer = wVar8;
+      subsFireTimer = wVar9;
       return;
     }
     subsBlockDirections = 1;
@@ -9472,7 +9471,7 @@ LAB_0010d0fc:
       if (trainingGame == 0) {
         subsBlockDirections = 1;
         subsMovementDelayTimer = 0;
-        subsFireTimer = wVar8;
+        subsFireTimer = wVar9;
         return;
       }
       TrainingSwapBenchTeams();
@@ -9482,35 +9481,35 @@ LAB_0010d0fc:
   }
   if (gameState == 3) {
     subsMovementDelayTimer = 0;
-    subsFireTimer = wVar8;
+    subsFireTimer = wVar9;
     return;
   }
   subsBlockDirections = 1;
   if (benchPlayerIndex == 5) {
     subsBlockDirections = 1;
     subsMovementDelayTimer = 0;
-    subsFireTimer = wVar8;
+    subsFireTimer = wVar9;
     return;
   }
   while( true ) {
-    wVar11 = benchPlayerIndex + 1;
-    bVar16 = (short)(benchPlayerIndex - 5) < 0;
-    benchPlayerIndex = wVar11;
-    if (wVar11 == 6) break;
+    wVar12 = benchPlayerIndex + 1;
+    bVar17 = (short)(benchPlayerIndex - 5) < 0;
+    benchPlayerIndex = wVar12;
+    if (wVar12 == 6) break;
     IsThisPlayerOkToSelect();
-    if (!bVar16) {
+    if (!bVar17) {
       return;
     }
   }
 LAB_0010d146:
   do {
     benchPlayerIndex = benchPlayerIndex - 1;
-    bVar16 = (short)benchPlayerIndex < 0;
+    bVar17 = (short)benchPlayerIndex < 0;
     if (benchPlayerIndex == 0) {
       return;
     }
     IsThisPlayerOkToSelect();
-  } while (bVar16);
+  } while (bVar17);
   return;
 }
 
@@ -9538,7 +9537,7 @@ void __usercall CheckForThrowInAndGoalkeepersBall(void)
 void __usercall DrawBenchAndSubsMenu(void)
 
 {
-  dword teamGame;
+  TeamGame *teamGame;
   short y;
   ushort uVar1;
   word wVar2;
@@ -9566,17 +9565,17 @@ void __usercall DrawBenchAndSubsMenu(void)
       DrawSpriteInCameraView();
     }
     drawTrainingTopHalfOfTheBench = subsTrainingTopTeam;
-    DrawBenchPlayersAndCoach((TeamGame *)benchTeamGame,(TeamGeneralInfo *)benchTeam,wVar2,benchY);
+    DrawBenchPlayersAndCoach(benchTeamGame,benchTeam,wVar2,benchY);
     if ((trainingGame != 0) && (subsTrainingTopTeam != 0)) {
       DrawOpponentsBench();
     }
     teamGame = benchTeamGame;
     if ((subsState != 1) && (subsState != 3)) {
       if (subsState == 2) {
-        benchColors[0] = *(word *)(benchTeamGame + 2);
-        benchColors[1] = *(word *)(benchTeamGame + 4);
-        benchColors[2] = *(word *)(benchTeamGame + 6);
-        benchColors[3] = *(word *)(benchTeamGame + 8);
+        benchColors[0] = benchTeamGame->prShirtCol;
+        benchColors[1] = benchTeamGame->prStripesCol;
+        benchColors[2] = benchTeamGame->prShortsCol;
+        benchColors[3] = benchTeamGame->prSocksCol;
         benchColors[4] = 3;
         benchColors[5] = 1;
         benchColors[6] = 3;
@@ -9631,10 +9630,10 @@ void __usercall DrawBenchAndSubsMenu(void)
         return;
       }
     }
-    benchColors[0] = *(word *)(benchTeamGame + 2);
-    benchColors[1] = *(word *)(benchTeamGame + 4);
-    benchColors[2] = *(word *)(benchTeamGame + 6);
-    benchColors[3] = *(word *)(benchTeamGame + 8);
+    benchColors[0] = benchTeamGame->prShirtCol;
+    benchColors[1] = benchTeamGame->prStripesCol;
+    benchColors[2] = benchTeamGame->prShortsCol;
+    benchColors[3] = benchTeamGame->prSocksCol;
     benchColors[4] = 3;
     benchColors[5] = 1;
     benchColors[6] = 3;
@@ -9675,12 +9674,12 @@ void __usercall DrawBenchAndSubsMenu(void)
           uVar1 = subsMenuHighlightColor;
         }
         DrawSubstitutesMenuEntry
-                  (0x24,uVar1,-1,&smallCharsTable,(void *)benchTeamGame,ingameTeamPlayerOffsets);
+                  (0x24,uVar1,-1,&smallCharsTable,benchTeamGame,ingameTeamPlayerOffsets);
       }
       else {
         DrawSubstitutesMenuEntry
-                  (0x24,subsMenuBackgroundColor,plToEnterGameIndex,&smallCharsTable,
-                   (void *)benchTeamGame,ingameTeamPlayerOffsets);
+                  (0x24,subsMenuBackgroundColor,plToEnterGameIndex,&smallCharsTable,benchTeamGame,
+                   ingameTeamPlayerOffsets);
       }
     }
     FillRectangle();
@@ -9704,8 +9703,7 @@ void __usercall DrawBenchAndSubsMenu(void)
          ((wVar2 = 0xb, subsMenuBackgroundColor == 0xb || (subsMenuHighlightColor == 0xb)))) {
         wVar2 = 0xe;
       }
-      DrawSubstitutesMenuEntry
-                (y,wVar2,uVar1,&smallCharsTable,(void *)teamGame,ingameTeamPlayerOffsets);
+      DrawSubstitutesMenuEntry(y,wVar2,uVar1,&smallCharsTable,teamGame,ingameTeamPlayerOffsets);
       y = y + 10;
       uVar1 = uVar1 + 1;
     } while (uVar1 != 0xb);
@@ -9724,13 +9722,12 @@ void __usercall DrawOpponentsBench(void)
   
   wVar1 = subsState;
   requestingTeam = &topTeamInGame;
-  if ((TeamGame *)benchTeamGame != &bottomTeamInGame) {
+  if (benchTeamGame != &bottomTeamInGame) {
     requestingTeam = &bottomTeamInGame;
   }
   subsState = 0xffff;
   drawTrainingTopHalfOfTheBench = subsTrainingTopTeam ^ 1;
-  DrawBenchPlayersAndCoach(requestingTeam,*(TeamGeneralInfo **)benchTeam,benchXLimit,opponentBenchY)
-  ;
+  DrawBenchPlayersAndCoach(requestingTeam,benchTeam->opponentsTeam,benchXLimit,opponentBenchY);
   subsState = wVar1;
   return;
 }
@@ -11435,21 +11432,21 @@ void __usercall QueueMaskedSpriteBlitClipped(void *sprite,ushort x,ushort y)
                  (uint)spriteClippedY * ROW_STRIDE_BYTES + (int)(short)(((short)uVar1 >> 4) << 1);
         REG_BLTCPTH = puVar2;
         REG_BLTDPTH = puVar2;
-        *(uchar **)(spriteBlitQueue + 4) = puVar2;
+        *(uchar **)((int)spriteBlitQueue + 4) = puVar2;
         *(byte **)spriteBlitQueue = frontbufferMaskBuffer + ((int)puVar2 - (int)puVar5);
         REG_BLTAMOD = 0;
         REG_BLTBMOD = 0;
         REG_BLTCMOD = PLANE_STRIDE_MINUS2;
         REG_BLTDMOD = PLANE_STRIDE_MINUS2;
-        *(undefined2 *)(spriteBlitQueue + 8) = PLANE_STRIDE_MINUS2;
+        *(undefined2 *)((int)spriteBlitQueue + 8) = PLANE_STRIDE_MINUS2;
         REG_BLTBPTH = *(void **)sprite;
         REG_BLTAPTH = *(void **)((int)sprite + 4);
         REG_BLTAFWM = BLT_FWM_ALL;
         REG_BLTALWM = BLT_FWM_ALL;
         REG_BLTSIZE = SPRITE_BLTSIZE_W1;
-        *(undefined2 *)(spriteBlitQueue + 10) = SPRITE_BLTSIZE_W1;
-        *(undefined4 *)(spriteBlitQueue + 0xc) = 0xffffffff;
-        spriteBlitQueue = spriteBlitQueue + 0xc;
+        *(undefined2 *)((int)spriteBlitQueue + 10) = SPRITE_BLTSIZE_W1;
+        *(undefined4 *)((int)spriteBlitQueue + 0xc) = 0xffffffff;
+        spriteBlitQueue = (undefined4 *)((int)spriteBlitQueue + 0xc);
         return;
       }
       REG_DMACON = DMACON_BLT_ON;
@@ -11464,21 +11461,21 @@ void __usercall QueueMaskedSpriteBlitClipped(void *sprite,ushort x,ushort y)
                (uint)spriteClippedY * ROW_STRIDE_BYTES + (int)(short)(((short)uVar1 >> 4) << 1);
       REG_BLTCPTH = puVar2;
       REG_BLTDPTH = puVar2;
-      *(uchar **)(spriteBlitQueue + 4) = puVar2;
+      *(uchar **)((int)spriteBlitQueue + 4) = puVar2;
       *(byte **)spriteBlitQueue = frontbufferMaskBuffer + ((int)puVar2 - (int)puVar5);
       REG_BLTAMOD = 0xfffe;
       REG_BLTBMOD = 0xfffe;
       REG_BLTCMOD = PLANE_STRIDE_MINUS4;
       REG_BLTDMOD = PLANE_STRIDE_MINUS4;
-      *(undefined2 *)(spriteBlitQueue + 8) = PLANE_STRIDE_MINUS4;
+      *(undefined2 *)((int)spriteBlitQueue + 8) = PLANE_STRIDE_MINUS4;
       REG_BLTBPTH = *(void **)sprite;
       REG_BLTAPTH = *(void **)((int)sprite + 4);
       REG_BLTAFWM = BLT_FWM_ALL;
       REG_BLTALWM = 0;
       REG_BLTSIZE = SPRITE_BLTSIZE_W2;
-      *(undefined2 *)(spriteBlitQueue + 10) = SPRITE_BLTSIZE_W2;
-      *(undefined4 *)(spriteBlitQueue + 0xc) = 0xffffffff;
-      spriteBlitQueue = spriteBlitQueue + 0xc;
+      *(undefined2 *)((int)spriteBlitQueue + 10) = SPRITE_BLTSIZE_W2;
+      *(undefined4 *)((int)spriteBlitQueue + 0xc) = 0xffffffff;
+      spriteBlitQueue = (undefined4 *)((int)spriteBlitQueue + 0xc);
       return;
     }
     x = uVar1 - cameraXMod320;
@@ -19133,15 +19130,16 @@ ushort __usercall GetPlayerPrice(TeamFile *team,PlayerFile *player,ushort positi
   ushort uVar8;
   uint uVar7;
   uchar *curQuadDistFactor;
-  dword dVar9;
+  void *pvVar9;
   
   bVar1 = player[2].positionAndFace;
   uVar7._0_1_ = player[2].passing;
   uVar7._1_1_ = player[2].shootingHeading;
   uVar7._2_1_ = player[2].tacklingBallControl;
   uVar7._3_1_ = player[2].speedFinishing;
-  plPositions = *(int *)((int)teamTacticsTable + (int)(short)((short)(char)team->tactics << 2)) + 9;
-  playerPositions = (uchar *)(plPositions + (int)(short)((position - 1) * 0x23));
+  plPositions = (void *)(*(int *)((int)teamTacticsTable +
+                                 (int)(short)((short)(char)team->tactics << 2)) + 9);
+  playerPositions = (uchar *)((int)plPositions + (int)(short)((position - 1) * 0x23));
   curQuadDistFactor = quadrantDistanceFactor + 0x4a6;
   totalSkillsFactorSum = 0;
   uVar6 = 0x22;
@@ -19154,13 +19152,14 @@ ushort __usercall GetPlayerPrice(TeamFile *team,PlayerFile *player,ushort positi
         (uVar6 < 0x1e)) && (uVar6 != 7)) {
       numPlayersAtQuadrant = 0;
       sVar3 = 9;
-      dVar9 = plPositions;
+      pvVar9 = plPositions;
       do {
-        if (quadrantCoordinatesToBallQuadrant[(short)(ushort)*(byte *)(dVar9 + (int)(short)uVar6)]
-            == quadrantCoordinatesToBallQuadrant[(short)(ushort)playerPositions[(short)uVar6]]) {
+        if (quadrantCoordinatesToBallQuadrant
+            [(short)(ushort)*(byte *)((int)pvVar9 + (int)(short)uVar6)] ==
+            quadrantCoordinatesToBallQuadrant[(short)(ushort)playerPositions[(short)uVar6]]) {
           numPlayersAtQuadrant = numPlayersAtQuadrant + 1;
         }
-        dVar9 = dVar9 + 0x23;
+        pvVar9 = (void *)((int)pvVar9 + 0x23);
         sVar3 = sVar3 + -1;
       } while (sVar3 != -1);
     }
@@ -20129,7 +20128,7 @@ void __usercall ShowErrorMenu(char *errorText)
 
 {
   errorPromptsEnabled = 1;
-  ::errorText = (dword)errorText;
+  ::errorText = errorText;
   ShowMenu(&continueMenu);
   return;
 }
