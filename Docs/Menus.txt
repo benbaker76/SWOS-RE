@@ -1,49 +1,49 @@
-00130694 chooseTeamsFriendlyMenu
-001311BC chooseTeamsFriendlyMenu2
-00131CF4 designDiyLeagueMenu
-001324C6 DIY_leagueTournamentMenu
-001333B2 designDiyCupMenu
-00134088 DIY_cupMenu
-00135140 optionsMenu
-0013543A designDiyTournamentMenu
-00136EC8 friendlyGameMenu
-001373A8 editTeamsMenu
-001385D8 competitionTopGoalScorersMenu
-0013899E topGoalScorersMenu
-00139224 squadMenu
-0013AB84 careerOverMenu
-0013B00C careerMenu
-0013B360 viewCompetitionsMenu
-0013B698 contestMenu
-0013CB34 managementRecordMenu
-0013D85A selectTeamsForTacticsMenu
-0013EBA2 selectTeamsMenu
-0013F96C chooseTeamsMenu
-0013FE28 selectFilesMenu
-00140918 continueMenu
-00140994 continueAbortMenu
-00140AE4 SWOS_MainMenu
-00142EE0 offersMenu
-0014355A playerTransferMenu
-00143992 thirdPartyOfferMenu
-00143E4A playerOffersMenu
-001444E2 viewSquadMenu
-001448F8 buyOtherPlayersMenu
-00144BC2 showPlayerMarketMenu
-0014538A buyPlayerMenu
-0014558A transferMarketMenu
-00146CB6 selectNationalTeamMenu
-001473FE nationalTeamAddPlayerMenu
-00147558 playMatchMenu
-00149D3E jobOffersMenu
-0014A1D8 gotJobOfferMenu
-0014A8BC chairmanMemosMenu
-0014AB5A clubBusinessMenu
-0014B622 chooseTacticsMenu
-0014B7CC editTacticsMenu
-0014D320 importTacticsMenu
-0014D7B8 stadiumMenu
-0014DD76 highlightsMenu
+00130694-00130A5E chooseTeamsFriendlyMenu (0x3CA)
+001311BC-001316A0 chooseTeamsFriendlyMenu2 (0x4E4)
+00131CF4-00131F52 designDiyLeagueMenu (0x25E)
+001324C6-0013289E diyeagueTournamentMenu (0x3D8)
+001333B2-001338D6 designDiyCupMenu (0x524)
+00134088-001344AA diyCupMenu (0x422)
+00135140-001352C2 optionsMenu (0x182)
+0013543A-00135D5A designDiyTournamentMenu (0x920)
+00136EC8-00136FF6 friendlyGameMenu (0x12E)
+001373A8-00137A1E editTeamsMenu (0x676)
+001385D8-001388C6 competitionTopGoalScorersMenu (0x2EE)
+0013899E-00138B44 topGoalScorersMenu (0x1A6)
+00139224-00139610 squadMenu (0x3EC)
+0013AB84-0013AC68 careerOverMenu (0xE4)
+0013B00C-0013B158 careerMenu (0x14C)
+0013B360-0013B458 viewCompetitionsMenu (0xF8)
+0013B698-0013B9C4 contestMenu (0x32C)
+0013CB34-0013CC84 managementRecordMenu (0x150)
+0013D85A-0013DC8E selectTeamsForTacticsMenu (0x434)
+0013EBA2-0013F146 selectTeamsMenu (0x5A4)
+0013F96C-0013FA2A chooseTeamsMenu (0xBE)
+0013FE28-00140186 selectFilesMenu (0x35E)
+00140918-0014095A continueMenu (0x42)
+00140994-00140A08 continueAbortMenu (0x74)
+00140AE4-00140C9A swosMainMenu (0x1B6)
+00142EE0-00142FD4 offersMenu (0xF4)
+0014355A-00143728 playerTransferMenu (0x1CE)
+00143992-00143BB2 thirdPartyOfferMenu (0x220)
+00143E4A-00144058 playerOffersMenu (0x20E)
+001444E2-00144758 viewSquadMenu (0x276)
+001448F8-00144B08 buyOtherPlayersMenu (0x210)
+00144BC2-00144E18 showPlayerMarketMenu (0x256)
+0014538A-0014546E buyPlayerMenu (0xE4)
+0014558A-00145786 transferMarketMenu (0x1FC)
+00146CB6-00146F7E selectNationalTeamMenu (0x2C8)
+001473FE-0014747E nationalTeamAddPlayerMenu (0x80)
+00147558-00147A14 playMatchMenu (0x4BC)
+00149D3E-00149EBE jobOffersMenu (0x180)
+0014A1D8-0014A318 gotJobOfferMenu (0x140)
+0014A8BC-0014A94E chairmanMemosMenu (0x92)
+0014AB5A-0014ACB0 clubBusinessMenu (0x156)
+0014B622-0014B71A chooseTacticsMenu (0xF8)
+0014B7CC-0014BAE8 editTacticsMenu (0x31C)
+0014D320-0014D50A importTacticsMenu (0x1EA)
+0014D7B8-0014DB1E stadiumMenu (0x366)
+0014DD76-0014DE14 highlightsMenu (0x9E)
 europeanChampionshipMenu*
 nullMenu*
 versusMenu*

@@ -14,6 +14,8 @@ fm   = prog.getFunctionManager()
 SKIP_EXTERNAL = True     # skip external stubs
 SKIP_THUNKS   = True     # skip thunks/wrappers
 
+INCLUDE_ADDR_RANGE = True  # prefix each line with START-END (inclusive). Default ON.
+
 def ask_output_file(default_name="Prototypes.txt"):
     return askFile("Save prototypes as .txt", "Save")
 
@@ -51,6 +53,31 @@ def function_prototype(f):
     else:
         return "%s %s(%s);" % (rt, f.getName(), params)
 
+def _addr_hex(addr, width):
+    # addr.toString() is typically hex without 0x; may include leading zeros inconsistently.
+    # Convert via offset to guarantee padding.
+    try:
+        return ("%%0%dX" % width) % (addr.getOffset() & ((1 << (width * 4)) - 1))
+    except:
+        # fallback: best-effort
+        s = addr.toString()
+        return s.upper().rjust(width, "0")
+
+def function_range_prefix(f):
+    """
+    Returns 'START-END ' (trailing space) using inclusive end address.
+    If anything fails, returns ''.
+    """
+    try:
+        # Derive hex width from program address size (bytes -> hex digits)
+        width = prog.getAddressFactory().getDefaultAddressSpace().getSize() // 4
+        start = f.getEntryPoint()
+        body  = f.getBody()
+        end   = body.getMaxAddress()  # inclusive
+        return "%s-%s " % (_addr_hex(start, width), _addr_hex(end, width))
+    except:
+        return ""
+
 def main():
     out_file = ask_output_file()
     if out_file is None:
@@ -74,7 +101,11 @@ def main():
         except:
             pass
 
-        out_lines.append(function_prototype(f))
+        line = function_prototype(f)
+        if INCLUDE_ADDR_RANGE:
+            line = function_range_prefix(f) + line
+
+        out_lines.append(line)
         count += 1
 
     with open(out_file.getPath(), "w") as fh:

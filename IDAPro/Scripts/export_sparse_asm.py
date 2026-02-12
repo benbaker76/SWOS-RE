@@ -51,6 +51,9 @@ PROMPT_BSS_MODE          = False
 # struct EQU lookup:
 #   STRUCT_EQU_MAP[struct_name_lower][member_name_lower] -> "STRUCT_MEMBER"
 STRUCT_EQU_MAP           = {}
+# struct offset -> EQU lookup:
+#   STRUCT_EQU_BY_OFF[struct_name_lower][off_bytes] -> "STRUCT_MEMBER"
+STRUCT_EQU_BY_OFF        = {}
 # child UDT lookup for nested members:
 #   MEMBER_CHILD_MAP[struct_name_lower][member_name_lower] -> "CHILDSTRUCT" (ASM ID)
 MEMBER_CHILD_MAP         = {}
@@ -84,14 +87,15 @@ RE_SP_MOVE_BW = re.compile(
     flags=re.IGNORECASE,
 )
 _RE_GLOB_SHORT = re.compile(
-    r'\((g_(?:currentMenu|menuEntries)[^)]*)\)\.w'
+    r'\(((?:currentMenu|menuEntries)[^)]*)\)\.w'
 )
+
 LEA_CURRENTMENU_RE = re.compile(
-    r'^(\s*(?:[A-Za-z_][A-Za-z0-9_]*\s*:)?\s*lea\s+.*g_currentMenu.*)\.w(\s*,a[0-7]\s*.*)$'
+    r'^(\s*(?:[A-Za-z_][A-Za-z0-9_]*\s*:)?\s*lea\s+.*currentMenu.*)\.w(\s*,a[0-7]\s*.*)$'
 )
 
 LEA_MENUENTRIES_RE = re.compile(
-    r'^(\s*(?:[A-Za-z_][A-Za-z0-9_]*\s*:)?\s*lea\s+.*g_menuEntries.*)\.w(\s*,a[0-7]\s*.*)$'
+    r'^(\s*(?:[A-Za-z_][A-Za-z0-9_]*\s*:)?\s*lea\s+.*menuEntries.*)\.w(\s*,a[0-7]\s*.*)$'
 )
 
 # ----- constants -----
@@ -300,7 +304,7 @@ def _fix_sp_deref(line: str, ea: int | None = None) -> str:
     )
 
 def _fix_reloc(line: str, *, ea: int | None = None) -> str:
-    if "g_currentMenu" not in line and "g_menuEntries" not in line:
+    if "currentMenu" not in line and "menuEntries" not in line:
         return line
 
     original = line
@@ -821,7 +825,7 @@ def _emit_array_dc(fh, base_ea: int, ti: ida_typeinf.tinfo_t, off: int, member_l
         for i in range(cnt):
             pea  = table_start + i * esz
             pval = _read_int_be(pea, esz)
-            fh.write(col_indent(f"dc.l {_ptr_text_or_hex(pval)} ; {member_label}[{i}]") + "\n")
+            fh.write(col_indent(f"dc.l {_ptr_text_or_baseoff(pval, None)} ; {member_label}[{i}]") + "\n")
 
     else:
         for i in range(cnt):
@@ -943,6 +947,17 @@ def explicit_symbol_text_at(ea: int) -> str:
 
 def _emit_scalar_dc(fh, base_ea: int, ti: ida_typeinf.tinfo_t, off: int, label: str):
     sz = ti.get_size() or 1
+    
+    # --- NEW: enum scalar emission (do NOT rely on per-element tinfo at EA) ---
+    if ti.is_enum() and sz in (1, 2, 4):
+        uv = _read_int_be(base_ea + off, sz)  # unsigned
+        nm = _enum_member_name_by_value_from_tinfo(ti, uv)
+        txt = nm if nm else str(int(uv))      # match IDA's typical enum display (e.g. 255)
+        mnem = _dc_mnemonic_for_size(sz)
+        fh.write(col_indent(f"{mnem} {txt} ; {label}") + "\n")
+        return
+    # --- END NEW ---
+    
     if ti.is_ptr():
         pval = _read_int_be(base_ea + off, sz)
         text = "0" if pval == 0 else (name_at(pval) or f"$%X" % pval)
@@ -1024,9 +1039,10 @@ def _emit_scalar_dc_forced(fh, ea, width, label, treat_as_ptr: bool=False, use_e
 
     text_ptr = None
     if treat_as_ptr or (have_ti and ti.is_ptr()):
-        text_ptr = _name_or_hex_for_ptr(uv)
+        text_ptr = _ptr_text_or_baseoff(uv, ea)
     else:
-        cand = _name_or_hex_for_ptr(uv)
+        # NEW: allow "base+STRUCT_MEMBER" / "base+$off" to qualify as pointer-ish too
+        cand = _ptr_text_or_baseoff(uv, ea)
         if not cand.startswith("$"):
             text_ptr = cand
 
@@ -1577,6 +1593,166 @@ def _ptr_text_or_hex(addr: int) -> str:
     return nm if nm else f"$%X" % addr
 
 
+def _base_is_udt_instance(base_ea: int) -> bool:
+    try:
+        tif = ida_typeinf.tinfo_t()
+        if ida_typeinf.get_tinfo(tif, base_ea):
+            # IDA variants: is_udt covers struct/union; keep fallbacks.
+            return tif.is_udt() or tif.is_struct() or tif.is_union()
+    except Exception:
+        pass
+    return False
+
+
+def _try_struct_expr_from_src(src_ea: int, base_nm: str) -> str | None:
+    """
+    If IDA already formats the *operand at src_ea* as base.member(+imm),
+    convert it to base+STRUCT_MEMBER(+$imm).
+
+    Example:
+      "DIY_competitionStart.field_2+2"
+        -> "DIY_competitionStart+DIY_COMPETITION_FIELD_2+$2"
+    """
+    try:
+        op = idc.print_operand(src_ea, 0) or ""
+        if not op.startswith(base_nm + "."):
+            return None
+
+        rest = op[len(base_nm) + 1:]  # after "base."
+        m = re.match(r"^([A-Za-z0-9_]+)([+-].+)?$", rest)
+        if not m:
+            return None
+
+        member = m.group(1)
+        tail = m.group(2) or ""
+
+        # Pull struct id from opinfo (this is how IDA knows the member name here)
+        oi = ida_nalt.opinfo_t()
+        f = ida_bytes.get_full_flags(src_ea)
+        if not ida_bytes.get_opinfo(oi, src_ea, 0, f):
+            return None
+
+        tid = getattr(oi, "tid", idc.BADADDR)
+        if tid in (0, idc.BADADDR, None):
+            return None
+
+        sname = ida_struct.get_struc_name(tid) or ""
+        if not sname:
+            return None
+
+        equ = f"{sname.upper()}_{member.upper()}"
+
+        # Normalize tail: "+2" -> "+$2", "+0x14a" -> "+$14A"
+        if tail:
+            try:
+                v = int(tail, 0)  # handles +2, +0x2, -4, etc.
+                if v == 0:
+                    tail = ""
+                elif v > 0:
+                    tail = f"+${v:X}"
+                else:
+                    tail = f"-${(-v):X}"
+            except Exception:
+                # If it isn't a simple integer, bail (stay safe)
+                return None
+
+        return f"{base_nm}+{equ}{tail}"
+    except Exception:
+        return None
+
+
+def is_probably_pointer_dword(ea: int) -> bool:
+    flags = ida_bytes.get_full_flags(ea)
+
+    # 1) Explicit offset operand (the big one)
+    # IDA Python variants differ: is_off0(flags) (no op index) vs is_off(flags, n)
+    try:
+        if hasattr(ida_bytes, "is_off0") and ida_bytes.is_off0(flags):
+            return True
+    except Exception:
+        pass
+
+    try:
+        if hasattr(ida_bytes, "is_off") and ida_bytes.is_off(flags, 0):
+            return True
+    except Exception:
+        pass
+
+    # 2) Relocation / fixup present
+    try:
+        fx = ida_fixup.get_fixup(ea)
+        if fx is not None:
+            return True
+    except Exception:
+        pass
+
+    # 3) Type info indicates pointer (optional)
+    try:
+        tif = ida_typeinf.tinfo_t()
+        if ida_typeinf.get_tinfo(tif, ea) and tif.is_ptr():
+            return True
+    except Exception:
+        pass
+
+    return False
+
+
+def _ptr_text_or_baseoff(addr: int, src_ea: int = None) -> str:
+    """
+    addr   = dword value (candidate pointer)
+    src_ea = EA of the dword being emitted (lets us decide pointer vs raw)
+    """
+
+    # If we know the source EA and it doesn't look like a pointer dword,
+    # always emit raw, even if addr happens to fall inside a segment.
+    if src_ea is not None:
+        try:
+            if not is_probably_pointer_dword(src_ea):
+                return f"$%08X" % (addr & 0xFFFFFFFF)
+        except Exception:
+            # If pointer test fails, fail safe to raw.
+            return f"$%08X" % (addr & 0xFFFFFFFF)
+
+    if addr == 0:
+        return "0"
+
+    # Exact label at addr? keep existing behaviour.
+    nm = name_at(addr)
+    if nm:
+        return nm
+
+    # Avoid turning code pointers into base+offset (keeps output stable)
+    try:
+        f = ida_bytes.get_full_flags(addr)
+        if ida_bytes.is_code(f):
+            return f"$%X" % addr
+    except Exception:
+        pass
+
+    # Try "nearest named base" in same segment and emit base+offset.
+    base_nm, base_ea = _find_base_for_ptr(addr)
+    if base_nm and base_ea != idc.BADADDR:
+        delta = addr - base_ea
+        if delta == 0:
+            return base_nm
+
+        # Safety: weird negative offsets -> raw
+        if delta < 0:
+            return f"$%X" % addr
+
+        # If the base is a UDT instance, ONLY accept valid struct member expressions.
+        if _base_is_udt_instance(base_ea):
+            eq_expr = _struct_member_equ_expr_for_delta(base_nm, int(delta))
+            if eq_expr:
+                return f"{base_nm}+{eq_expr}"
+            return f"$%X" % addr
+
+        # Non-UDT base (arrays/tables/etc): base+$off is fine.
+        return f"{base_nm}+${delta:X}"
+
+    return f"$%X" % addr
+
+
 def _next_named_ea_after(ea: int, seg_end: int) -> int:
     cur = ida_bytes.next_head(ea, seg_end)
     best = seg_end
@@ -2075,6 +2251,8 @@ def emit_localtypes_equ(fh):
                         equ_sym = f"{sname}_{mname}"
                         fh.write(_equ_line(equ_sym, off_bytes) + "\n")
                         STRUCT_EQU_MAP.setdefault(s_key, {})[m_key] = equ_sym
+                        # NEW: enable reverse lookup by offset
+                        STRUCT_EQU_BY_OFF.setdefault(s_key, {})[int(off_bytes)] = equ_sym
 
                         msz = 0
                         try:
@@ -2105,6 +2283,119 @@ def emit_localtypes_equ(fh):
                             pass
         tname = ida_typeinf.next_named_type(til, tname, 1)
 
+def _struct_member_equ_expr_for_delta__by_struct(sname: str, delta: int) -> str | None:
+    """Same logic as _struct_member_equ_expr_for_delta, but sname is given directly."""
+    if delta is None or delta < 0:
+        return None
+    off_map = STRUCT_EQU_BY_OFF.get(sname.lower())
+    if not off_map:
+        return None
+    eq = off_map.get(int(delta))
+    if eq:
+        return eq
+    best_off = None
+    best_eq  = None
+    for off, sym in off_map.items():
+        try:
+            offi = int(off)
+        except Exception:
+            continue
+        if offi <= delta and (best_off is None or offi > best_off):
+            best_off = offi
+            best_eq  = sym
+    if best_eq is None:
+        return None
+    extra = int(delta) - int(best_off)
+    return best_eq if extra == 0 else f"{best_eq}+$%X" % extra
+
+
+def _udt_member_udt_name_at_off(var_name: str, off_bytes: int) -> str | None:
+    """
+    If var_name has a tinfo UDT, return the *member type* name at off_bytes
+    (UDT or pointer-to-UDT only).
+    """
+    try:
+        var_ea = idc.get_name_ea_simple(var_name)
+        if var_ea in (None, idc.BADADDR):
+            return None
+
+        tif = ida_typeinf.tinfo_t()
+        if not ida_typeinf.get_tinfo(tif, var_ea):
+            return None
+
+        # Must be a struct/union instance to walk members
+        if not (tif.is_udt() or tif.is_struct() or tif.is_union()):
+            return None
+
+        udt = ida_typeinf.udt_type_data_t()
+        if not tif.get_udt_details(udt):
+            return None
+
+        target_bits = int(off_bytes) * 8
+        for m in udt:
+            if int(m.offset) != target_bits:
+                continue
+
+            mt = m.type
+            # Unwrap pointer
+            if mt.is_ptr():
+                pt = ida_typeinf.tinfo_t()
+                if mt.get_pointed_object(pt):
+                    mt = pt
+
+            if not (mt.is_udt() or mt.is_struct() or mt.is_union()):
+                return None
+
+            # Best-effort type name
+            tname = mt.get_type_name() or ""
+            if tname:
+                return tname
+            # Fallback: sometimes get_type_name is empty
+            try:
+                s = ida_typeinf.print_tinfo("", 0, 0, ida_typeinf.PRTYPE_1LINE, mt, "", "")
+                return (s or "").strip() or None
+            except Exception:
+                return None
+
+        return None
+    except Exception:
+        return None
+
+
+def _struct_member_equ_expr_for_delta(var_name: str, delta: int) -> str | None:
+    """
+    If var_name has a known UDT type, try to express 'delta' as:
+      STRUCT_MEMBER            (exact member offset)
+      STRUCT_MEMBER+$XX        (nearest member <= delta plus suboffset)
+    Returns the RHS expression (WITHOUT the 'var_name+' prefix), or None.
+    """
+    if delta is None or delta < 0:
+        return None
+    sname = _resolve_struct_name_from_var(var_name)
+    if not sname:
+        return None
+    off_map = STRUCT_EQU_BY_OFF.get(sname.lower())
+    if not off_map:
+        return None
+    # exact match
+    eq = off_map.get(int(delta))
+    if eq:
+        return eq
+    # nearest <= delta (handles field_3A + $10 style)
+    best_off = None
+    best_eq  = None
+    for off, sym in off_map.items():
+        try:
+            offi = int(off)
+        except Exception:
+            continue
+        if offi <= delta and (best_off is None or offi > best_off):
+            best_off = offi
+            best_eq  = sym
+    if best_eq is None:
+        return None
+    extra = int(delta) - int(best_off)
+    return best_eq if extra == 0 else f"{best_eq}+$%X" % extra
 
 def _equ_line(name: str, value: int, padcol=EQU_NAME_COL) -> str:
     lhs = _asm_id(name)
@@ -2269,10 +2560,78 @@ def _sub_abs_var_paren(m):
     return f"({var}+{repl}{tail})"
 
 
+def _rewrite_var_member_chains(text: str) -> str:
+    """
+    Rewrite chained member expressions rooted at *variables* (not type names):
+
+        worldCup.compCup.compCup.comp.compNumber
+    ->
+        worldCup+COMPETITIONCUP2_..._COMPCUP+...+COMPETITION_COMPNUMBER
+
+    We do this via the same "consume tail" mechanism used for Type.member chains,
+    because the regex-based var.member substitutions only rewrite the first hop.
+    """
+    i = 0
+    out = []
+    while i < len(text):
+        m = RE_TYPE_MEMBER.search(text, i)
+        if not m:
+            out.append(text[i:])
+            break
+
+        out.append(text[i:m.start()])
+        head, mem = m.group(1), m.group(2)
+
+        # If LHS is actually a TYPE name, leave it for the Type.member pass
+        if _asm_id(head).lower() in STRUCT_EQU_MAP:
+            out.append(text[m.start():m.end()])
+            i = m.end()
+            continue
+
+        # Only rewrite if LHS resolves to a real named object with a UDT type
+        # (or fall back to the "unique member name" heuristic for single-hop).
+        repl = None
+        consumed = 0
+        sname = _resolve_struct_name_from_var(head)
+        if sname:
+            tail_after = text[m.end():]
+            repl, consumed = _rewrite_chained_from(sname, mem, tail_after)
+            if repl:
+                out.append(f"{head}+{repl}")
+                i = m.end() + consumed
+                continue
+        else:
+            equ = _find_member_equ_by_name(mem)
+            if equ:
+                out.append(f"{head}+{equ}")
+                i = m.end()
+                continue
+
+        # no rewrite
+        out.append(text[m.start():m.end()])
+        i = m.end()
+
+    return "".join(out)
+
+
 def rewrite_struct_refs(line: str) -> str:
     semi = line.find(';')
     left, right = (line, "") if semi == -1 else (line[:semi], line[semi:])
-    left = RE_SIZEOF.sub(lambda m: _asm_id(f"{m.group(1)}_SIZE"), left)
+
+    # ---- IMPORTANT FIX ----
+    # Do NOT apply struct-dot rewrites to the *mnemonic* token (e.g. "beq.s", "move.w").
+    # Only rewrite the operand field (everything after the first token), when present.
+    m = re.match(r'^(\s*(?:[A-Za-z_]\w*\s*:\s*)?)(\S+)(\s+.*)$', left)
+    if m:
+        head_prefix = m.group(1)  # leading ws + optional label
+        head_token  = m.group(2)  # mnemonic/directive (may contain .b/.w/.l/.s/etc)
+        work        = m.group(3)  # operands (keeps leading whitespace)
+    else:
+        head_prefix = ""
+        head_token  = ""
+        work        = left
+
+    work = RE_SIZEOF.sub(lambda m: _asm_id(f"{m.group(1)}_SIZE"), work)
 
     # keep struct-diff first
     def _sub_struct_diff(m):
@@ -2289,34 +2648,39 @@ def rewrite_struct_refs(line: str) -> str:
     # --- NEW: handle Type.member chain FIRST ---
     i = 0
     out = []
-    while i < len(left):
-        m = RE_TYPE_MEMBER.search(left, i)
+    while i < len(work):
+        m = RE_TYPE_MEMBER.search(work, i)
         if not m:
-            out.append(left[i:]); break
-        out.append(left[i:m.start()])
+            out.append(work[i:]); break
+        out.append(work[i:m.start()])
         head, mem = m.group(1), m.group(2)
         if _asm_id(head).lower() in STRUCT_EQU_MAP:
-            tail_after = left[m.end():]
+            tail_after = work[m.end():]
             repl, consumed = _rewrite_chained_from(_asm_id(head), mem, tail_after)
             if repl:
                 out.append(repl)
                 i = m.end() + consumed
                 continue
-        out.append(left[m.start():m.end()])
+        out.append(work[m.start():m.end()])
         i = m.end()
-    left = ''.join(out)
+    work = ''.join(out)
+
+    # NEW: fully expand var.member.member chains (not just the first hop)
+    work = _rewrite_var_member_chains(work)
 
     # THEN allow (var.member) & var.member (actual variables)
     prev = None
-    while prev != left:
-        prev = left
-        left = RE_ABS_VAR_DOT_IN_PARENS.sub(_sub_abs_var_paren, left)
+    while prev != work:
+        prev = work
+        work = RE_ABS_VAR_DOT_IN_PARENS.sub(_sub_abs_var_paren, work)
     prev = None
-    while prev != left:
-        prev = left
-        left = RE_ABS_VAR_DOT_BARE.sub(_sub_abs_var_bare, left)
+    while prev != work:
+        prev = work
+        work = RE_ABS_VAR_DOT_BARE.sub(_sub_abs_var_bare, work)
 
-    return left + right
+    if head_token:
+        return f"{head_prefix}{head_token}{work}{right}"
+    return work + right
 
 def _find_base_for_ptr(v: int) -> tuple[str | None, int]:
     """
@@ -2379,7 +2743,12 @@ def _format_ptr_array_vals(values: list[int]) -> list[str]:
                 if delta == 0:
                     out.append(base_name)
                 else:
-                    out.append(f"{base_name}+${delta:X}")
+                    # NEW: base is a UDT instance? Prefer base+STRUCT_MEMBER(+sub)
+                    eq_expr = _struct_member_equ_expr_for_delta(base_name, int(delta))
+                    if eq_expr:
+                        out.append(f"{base_name}+{eq_expr}")
+                    else:
+                        out.append(f"{base_name}+${delta:X}")
         return out
 
     # Fallback: original pointer behavior (no base+offset trick)
@@ -2460,7 +2829,13 @@ def emit_scalar_array_grouped(
         if elem_width == 1:
             for j in range(n):
                 v = ida_bytes.get_wide_byte(base + j)
-                vals.append(_fmt_s_dec(v, 8) if signed_elem else _fmt_u(v, 1))
+
+                if elem_t and elem_t.is_enum():
+                    nm = _enum_member_name_by_value_from_tinfo(elem_t, int(v))
+                    vals.append(nm if nm else str(int(v)))   # prefer IDA-like enum fallback (e.g. 255)
+                else:
+                    vals.append(_fmt_s_dec(v, 8) if signed_elem else _fmt_u(v, 1))
+
             line = "dc.b " + ",".join(vals)
 
         # ============================
@@ -2703,7 +3078,7 @@ def _emit_udt_instance(fh, base_ea: int, udt_ti: ida_typeinf.tinfo_t, off: int =
         # If chosen member is an array/struct, emit that view; otherwise scalar
         try:
             if pick.is_bitfield():
-                _emit_scalar_dc(fh, base_ea, pick.type, off + moff, f"{mname} ; bitfield (union view)")
+                _emit_scalar_dc(fh, base_ea, pick.type, off + moff, f"{mname}") # bitfield
                 return
         except Exception:
             pass
@@ -2728,6 +3103,8 @@ def _emit_udt_instance(fh, base_ea: int, udt_ti: ida_typeinf.tinfo_t, off: int =
         if (not tdecl) or ("[" in tdecl and "]" in tdecl):
             fh.write(col_indent(f"; {sname}") + "\n")
 
+    _emitted_bf_units = set()
+
     # Struct (non-union): emit all members in order
     for m in udt:
         mname  = getattr(m, "name", "") or f"off_{m.offset//8}"
@@ -2738,7 +3115,18 @@ def _emit_udt_instance(fh, base_ea: int, udt_ti: ida_typeinf.tinfo_t, off: int =
 
         try:
             if m.is_bitfield():
-                _emit_scalar_dc(fh, base_ea, m.type, off + moff, f"{mlabel} ; bitfield")
+                stor_sz = m.type.get_size() or 2  # container size in bytes (e.g. 2 for uint16)
+                storage_start_byte = (bitoff // (stor_sz * 8)) * stor_sz
+
+                unit_key = (off + storage_start_byte, stor_sz)
+                if unit_key in _emitted_bf_units:
+                    continue
+                _emitted_bf_units.add(unit_key)
+
+                uv = _read_int_be(base_ea + off + storage_start_byte, stor_sz)  # read the container once
+                mnem = _dc_mnemonic_for_size(stor_sz)
+                hexw = f"$%0{stor_sz * 2}X" % (uv & ((1 << (stor_sz * 8)) - 1))
+                fh.write(col_indent(f"{mnem} {hexw} ; {mlabel}") + "\n")
                 continue
         except Exception:
             pass
@@ -3055,13 +3443,13 @@ def _emit_pointer_array_from_decl(fh, ea: int):
     fh.write(col_indent(f"; {hdr}") + "\n")
 
     for i in range(cnt):
-        pval = _read_int_be(ea + i * psz, psz)
-        if pval == 0:
-            ptxt = "0"
-        else:
-            nm = name_at(pval)
-            ptxt = nm if nm else f"$%X" % pval
-        fh.write(col_indent(f"dc.l {ptxt} ; element[{i}]") + "\n")
+            pval = _read_int_be(ea + i * psz, psz)
+            if pval == 0:
+                ptxt = "0"
+            else:
+                nm = name_at(pval)
+                ptxt = _ptr_text_or_baseoff(pval, ea)
+            fh.write(col_indent(f"dc.l {ptxt} ; element[{i}]") + "\n")
 
     return True, ea + total
 
@@ -3140,7 +3528,7 @@ def _emit_pointer_table_spanning_heads_v2(fh, ea: int) -> tuple[bool, int]:
     hdr = decl if decl else "void*[]"
     fh.write(col_indent(f"; {hdr}") + "\n")
     for i, p in enumerate(elems):
-        fh.write(col_indent(f"dc.l {_ptr_text_or_hex(p)} ; element[{i}]") + "\n")
+        fh.write(col_indent(f"dc.l {_ptr_text_or_baseoff(p, ea)} ; element[{i}]") + "\n")
 
     return True, cur
 

@@ -1,7 +1,7 @@
 /*
  * Auto-generated call graph export
  * Start: StartMatchSequence
- * Date : 2026-01-13 11:10:51
+ * Date : 2026-02-11 21:29:15
  */
 
 /* ===================== INCLUDES ===================== */
@@ -33,7 +33,7 @@ void __usercall BlitSpritePlanar_Word(void);
 void __usercall DrawSprite_entry2(void);
 void __usercall DrawSprite16Pixels(void);
 uchar __usercall CopySprite(ushort srcSprite, ushort xOffset, ushort yOffset, ushort dstSprite);
-void __usercall DrawSpriteClipped(void * sprite, ushort x, ushort y);
+void __usercall DrawSpriteClipped(Sprite * sprite, ushort x, ushort y);
 void __usercall InitDisplaySprites(void);
 void __usercall SortSprites(void);
 char __usercall AdjustFanColor(uchar * destPattern, uchar * pitchConvTable);
@@ -66,13 +66,16 @@ void __usercall nullsub_5(void);
 void __usercall CrowdResetMatchState(void);
 void __usercall LoadSfxResources(void);
 void __usercall EnsureSfxLoadedAndStart(void);
-void __usercall PlayPenaltySample(void);
+void __usercall PlayPenaltySample(uint presetId);
 void __usercall PlaySample1IfNotTraining(void);
 undefined unknown PlaySample(void);
 void __usercall StartMenuMusic(void * bankBase, void * songPtr);
 void __usercall j_AudioApplyPresetToChannels(uint presetId);
 void __usercall SetVolumeOrStopChants(uint channelOrAll, uint volume);
 void __usercall StopAudio(void);
+void __usercall AudioSetMode(uint modeFlags);
+void __usercall AudioChannelNoteOnOff(uint channel, uint noteId);
+void __usercall AudioDisableDMAForChannel(void * chan);
 void __usercall SetPlayerAnimationTable(AnimTable * animTable, Sprite * player);
 void __usercall SetBallPosition(short ballX, short ballY);
 void __usercall RemoveReferee(void);
@@ -137,8 +140,8 @@ void __usercall ShowMenu(void * packedMenu);
 void __usercall RestorePreviousMenu(void * oldSelectedEntry, void * oldPackedMenu);
 short __usercall ActivateMenu(Menu * menu);
 void __usercall DrawMenuPanelBackground(void);
-short __usercall CalcTeamPriceRankPercentOffset(void * team, void * info);
-void __usercall CalcTeamViewOffset(TeamFile * teamFile);
+short __usercall CalcTeamPriceRankPercentOffset(void * ctx, TeamFile * team);
+Position __usercall CalcTeamViewOffset(TeamFile * teamFile);
 ushort __usercall GetPlayerPrice(TeamFile * team, PlayerFile * player, ushort position);
 ushort __usercall CountNearnessFactor(ushort curBallQuadrant, ushort dstBallQuadrant, ushort price, uchar * curQuadDistFactor, uchar * playerPositions, uchar * coordToQuad);
 char __usercall GetPlayerRandomNum(PlayerFile * playerFile);
@@ -157,7 +160,7 @@ ushort __usercall SearchTeamInTmdFile(ushort teamNo);
 void __usercall InitAnimatedPatterns(void);
 void __usercall ShowFsErrorByCode(ushort errCode);
 void __usercall ShowErrorMenu(char * errorText);
-void __usercall sub_141798(void * teamPtr);
+void __usercall Career_PatchTeamWithForeignMarketPlayers(void * teamPtr);
 void * __usercall GetTeamPointer(ushort teamId);
 void * __usercall GetPlayer(ushort teamNumber, ushort playerFileIndex);
 void __usercall SetTeamGlobalNumbers(ushort numTeams, void * firstTeam);
@@ -174,9 +177,9 @@ short __usercall AssetSys_Dispatch(AssetSysOp op)
 {
   short sVar1;
   
-  g_assetSelect = op;
+  assetSelect = op;
   sVar1 = (*(AssetSys_JumpTable + (short)(op << 1)))();
-  g_assetSelect = 0xffff;
+  assetSelect = 0xffff;
   return sVar1;
 }
 
@@ -427,7 +430,7 @@ void __usercall LoadPitchMap(ushort mapIndex)
 {
   uint unaff_D1;
   
-  LoadFile(*(char **)((int)&swcPitchMapFiles + (int)(short)(mapIndex << 2)),g_pitchDatBuffer);
+  LoadFile(*(char **)((int)swcPitchMapFiles + (int)(short)(mapIndex << 2)),pitchDatBuffer);
   if (PITCHFILE_MAX_SIZE < unaff_D1) {
     panicReasonCode = 3;
     PanicHaltLoop();
@@ -447,22 +450,22 @@ void __usercall FixupAndColorPitchFile(void)
   bool bVar4;
   
   sVar1 = 0x905;
-  pbVar2 = g_pitchDatBuffer;
+  pbVar2 = pitchDatBuffer;
   do {
-    *(int *)pbVar2 = (int)&g_currentMenu.onInit + *(int *)pbVar2;
+    *(int *)pbVar2 = (int)&currentMenu.onInit + *(int *)pbVar2;
     sVar1 = sVar1 + -1;
     pbVar2 = pbVar2 + 4;
   } while (sVar1 != -1);
-  g_cameraX.s.i = 0;
-  g_cameraY.s.i = 0;
+  cameraX.s.i = 0;
+  cameraY.s.i = 0;
   cameraXMod320 = 0;
   cameraYMod320 = 0;
-  pbVar2 = g_pitchDatBuffer;
-  pbVar3 = g_pitchDatBuffer + 0x54;
+  pbVar2 = pitchDatBuffer;
+  pbVar3 = pitchDatBuffer + 0x54;
   bVar4 = (topTeamInGame.teamName[0] & 1) != 0;
   if (bVar4) {
-    pbVar2 = g_pitchDatBuffer + 0x54;
-    pbVar3 = g_pitchDatBuffer;
+    pbVar2 = pitchDatBuffer + 0x54;
+    pbVar3 = pitchDatBuffer;
   }
   fansSidesSwapped = (word)bVar4;
   pitchFansConvertTable[0xb] = topTeamInGame.secShirtCol;
@@ -841,8 +844,8 @@ BlitDispatch(ushort spriteIndex,ushort xOffset,ushort yOffset,ushort width,ushor
     }
     imageStreamCursor = (dword)pdVar10;
     if ((playGame == 0) && (playHighlightFlag == 0)) {
-      imageStreamBytesLeft = (int)&g_menuInsBank - (int)pdVar10;
-      if (pdVar10 < &g_menuInsBank) {
+      imageStreamBytesLeft = (int)&menuInsBank - (int)pdVar10;
+      if (pdVar10 < &menuInsBank) {
         return;
       }
       panicReasonCode = 8;
@@ -1260,7 +1263,7 @@ void __usercall DrawSprite_entry2(void)
   dword dVar1;
   ushort unaff_D1w;
   ushort unaff_D2w;
-  void *unaff_A0;
+  Sprite *unaff_A0;
   
   dVar1 = spriteBlitQueue;
   DrawSpriteClipped(unaff_A0,unaff_D1w,unaff_D2w);
@@ -1411,7 +1414,7 @@ uchar __usercall CopySprite(ushort srcSprite,ushort xOffset,ushort yOffset,ushor
 
 // --- DrawSpriteClipped @ 00104580 ---
 
-void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
+void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
 
 {
   uchar *puVar1;
@@ -1435,8 +1438,9 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
   void *pvVar19;
   
   puVar6 = frontbufferBasePtr;
-  if ((*(short *)((int)sprite + 8) == 0) && (*(short *)((int)sprite + 8) == 0)) {
-    wVar9 = *(word *)((int)sprite + 0xc);
+  if ((*(short *)((int)&sprite->animationTable + 2) == 0) &&
+     (*(short *)((int)&sprite->animationTable + 2) == 0)) {
+    wVar9 = *(word *)&sprite->playerState;
     sVar10 = 0;
     if ((short)y < 0) {
       sVar10 = -y;
@@ -1453,14 +1457,14 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
       uVar8 = uVar8 + -SCREEN_HEIGHT;
     }
     uVar15 = 0;
-    uVar16 = *(ushort *)((int)sprite + 10) & TILE_MASK;
+    uVar16 = sprite->startingDirection & TILE_MASK;
     if (uVar16 == 0) {
       uVar16 = 0x10;
     }
-    uVar17 = *(ushort *)((int)sprite + TILE_STRIDE) + 1;
+    uVar17 = sprite->field_E + 1;
     if ((ushort)(uVar16 + (uVar3 & TILE_MASK)) < 0x11) {
       uVar15 = BLT_FWM_ALL;
-      uVar17 = *(ushort *)((int)sprite + TILE_STRIDE);
+      uVar17 = sprite->field_E;
     }
     REG_DMACON = DMACON_BLT_ON;
     uVar4 = REG_DMACONR._0_1_;
@@ -1472,7 +1476,7 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
     REG_BLTAFWM = BLT_FWM_ALL;
     uVar16 = uVar3 * 0x1000;
     REG_BLTCON1 = uVar16;
-    if (*(int *)((int)sprite + 4) == 0) {
+    if (*(int *)&sprite->frameOffset == 0) {
       uVar16 = uVar16 + BLTCON0_BASE_SINGLE;
       REG_BLTADAT = 0xffff;
     }
@@ -1495,26 +1499,25 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
     *(byte **)spriteBlitQueue = frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6);
     *(ushort *)(spriteBlitQueue + 10) = uVar17 + wVar9 * 0x100;
     uVar3 = uVar17 + wVar9 * 0x40;
-    REG_BLTAMOD = *(short *)((int)sprite + TILE_STRIDE) * 2 + uVar17 * -2;
-    REG_BLTBMOD = *(short *)((int)sprite + TILE_STRIDE) * 8 + uVar17 * -2;
+    REG_BLTAMOD = sprite->field_E * 2 + uVar17 * -2;
+    REG_BLTBMOD = sprite->field_E * 8 + uVar17 * -2;
     *(ushort *)(spriteBlitQueue + 8) = uVar17 * -2 + PLANE_STRIDE;
     uVar8 = uVar17 * -2 + 0xb0;
     REG_BLTCMOD = uVar8;
     REG_BLTDMOD = uVar8;
     iVar13 = 0;
     if (sVar10 != 0) {
-      iVar13 = (uint)(ushort)(sVar10 << NUM_PLANES_SHIFT) *
-               (uint)*(ushort *)((int)sprite + TILE_STRIDE) * 2;
+      iVar13 = (uint)(ushort)(sVar10 << NUM_PLANES_SHIFT) * (uint)sprite->field_E * 2;
     }
     savedSrcPlaneA = iVar13 + *(int *)sprite;
     REG_BLTBPTH = (void *)savedSrcPlaneA;
     savedSrcPlaneB =
          CONCAT22((short)((uint)iVar13 >> 0x10),(ushort)iVar13 >> NUM_PLANES_SHIFT) +
-         *(int *)((int)sprite + 4);
+         *(int *)&sprite->frameOffset;
     REG_BLTAPTH = (void *)savedSrcPlaneB;
     piVar18 = (int *)(spriteBlitQueue + 0xc);
     REG_BLTSIZE = uVar3;
-    iVar13 = (int)(short)(*(short *)((int)sprite + TILE_STRIDE) << 1);
+    iVar13 = (int)(short)(sprite->field_E << 1);
     REG_DMACON = DMACON_BLT_ON;
     uVar4 = REG_DMACONR._0_1_;
     do {
@@ -1550,7 +1553,7 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
     REG_BLTBPTH = (void *)(iVar13 + (int)pvVar19);
     REG_BLTSIZE = uVar3;
     if (sVar11 != 0) {
-      iVar13 = (uint)queuedLineCount * (uint)*(ushort *)((int)sprite + TILE_STRIDE);
+      iVar13 = (uint)queuedLineCount * (uint)sprite->field_E;
       pvVar19 = (void *)(iVar13 * 2 + savedSrcPlaneB);
       pvVar2 = (void *)(savedSrcPlaneA + iVar13 * 8);
       REG_DMACON = DMACON_BLT_ON;
@@ -1569,7 +1572,7 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
       *(ushort *)(spriteBlitQueue + 0x16) = (uVar17 & 0x7fff) + sVar11 * 0x100;
       uVar3 = (uVar17 & 0x7fff) + sVar11 * 0x40;
       REG_BLTSIZE = uVar3;
-      iVar13 = (int)(short)(*(short *)((int)sprite + TILE_STRIDE) << 1);
+      iVar13 = (int)(short)(sprite->field_E << 1);
       pvVar2 = (void *)(iVar13 + (int)pvVar2);
       REG_DMACON = DMACON_BLT_ON;
       uVar4 = REG_DMACONR._0_1_;
@@ -1612,7 +1615,7 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
     spriteBlitQueue = (dword)piVar18;
     return;
   }
-  sVar10 = *(short *)((int)sprite + 0xc);
+  sVar10 = *(short *)&sprite->playerState;
   sVar14 = 0;
   if ((short)y < 0) {
     sVar14 = -y;
@@ -1629,14 +1632,14 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
     uVar8 = uVar8 - 0x110;
   }
   uVar15 = 0;
-  uVar16 = *(ushort *)((int)sprite + 10) & 0xf;
+  uVar16 = sprite->startingDirection & 0xf;
   if (uVar16 == 0) {
     uVar16 = 0x10;
   }
-  uVar17 = *(ushort *)((int)sprite + 0xe) + 1;
+  uVar17 = sprite->field_E + 1;
   if ((ushort)(uVar16 + (uVar3 & 0xf)) < 0x11) {
     uVar15 = 0xffff;
-    uVar17 = *(ushort *)((int)sprite + 0xe);
+    uVar17 = sprite->field_E;
   }
   REG_DMACON = 0x8400;
   uVar4 = REG_DMACONR._0_1_;
@@ -1648,7 +1651,7 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
   REG_BLTAFWM = 0xffff;
   uVar16 = uVar3 * 0x1000;
   REG_BLTCON1 = uVar16;
-  if (*(int *)((int)sprite + 4) == 0) {
+  if (*(int *)&sprite->frameOffset == 0) {
     uVar16 = uVar16 + 0x7ca;
     REG_BLTADAT = 0xffff;
   }
@@ -1669,7 +1672,7 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
   *(uchar **)(spriteBlitQueue + 4) = puVar1;
   *(byte **)spriteBlitQueue = frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6);
   uVar3 = uVar17 + sVar10 * 0x100;
-  uVar8 = *(short *)((int)sprite + 0xe) * 2 + uVar17 * -2;
+  uVar8 = sprite->field_E * 2 + uVar17 * -2;
   REG_BLTAMOD = uVar8;
   REG_BLTBMOD = uVar8;
   uVar8 = uVar17 * -2 + 0x2c;
@@ -1678,10 +1681,10 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
   *(ushort *)(spriteBlitQueue + 8) = uVar8;
   iVar13 = 0;
   if (sVar14 != 0) {
-    iVar13 = (uint)(ushort)(sVar14 << 2) * (uint)*(ushort *)((int)sprite + 0xe) * 2;
+    iVar13 = (uint)(ushort)(sVar14 << 2) * (uint)sprite->field_E * 2;
   }
   REG_BLTBPTH = (void *)(iVar13 + *(int *)sprite);
-  REG_BLTAPTH = (void *)(iVar13 + *(int *)((int)sprite + 4));
+  REG_BLTAPTH = (void *)(iVar13 + *(int *)&sprite->frameOffset);
   REG_BLTSIZE = uVar3;
   *(ushort *)(spriteBlitQueue + 10) = uVar3;
   piVar18 = (int *)(spriteBlitQueue + 0xc);
@@ -2693,44 +2696,44 @@ ushort __usercall LoadFile(char *filename,void *dst)
   bool bVar2;
   
   src = frontbufferBasePtr;
-  if (g_assetCurrentIndex == 4) {
+  if (assetCurrentIndex == 4) {
     uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
   }
   else {
-    bVar2 = g_assetLoaderCacheFlag == 0;
+    bVar2 = assetLoaderCacheFlag == 0;
     if ((bVar2) || (AssetCacheCopyByName(filename,frontbufferBasePtr), !bVar2)) {
       bVar2 = false;
       uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
       if (!bVar2) {
-        if (g_assetCurrentIndex == 4) {
+        if (assetCurrentIndex == 4) {
           return uVar1;
         }
         do {
         } while( true );
       }
-      if ((g_assetLoaderCacheFlag != 0) && (g_assetLoaderAltPathReady != 0)) {
+      if ((assetLoaderCacheFlag != 0) && (assetLoaderAltPathReady != 0)) {
         AssetCacheStoreFromMemory(filename,src,unaff_D1);
       }
     }
     if (FRONTBUFFER_SIZE_TOTAL_BYTES < unaff_D1) {
       panicReasonCode = 0xe000;
       PanicHaltLoop();
-      if (g_assetCurrentIndex == 4) {
+      if (assetCurrentIndex == 4) {
         uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
       }
       else {
-        bVar2 = g_assetLoaderCacheFlag == 0;
+        bVar2 = assetLoaderCacheFlag == 0;
         if ((bVar2) || (AssetCacheCopyByName(filename,src), !bVar2)) {
           bVar2 = false;
           uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
           if (!bVar2) {
-            if (g_assetCurrentIndex == 4) {
+            if (assetCurrentIndex == 4) {
               return uVar1;
             }
             do {
             } while( true );
           }
-          if ((g_assetLoaderCacheFlag != 0) && (g_assetLoaderAltPathReady != 0)) {
+          if ((assetLoaderCacheFlag != 0) && (assetLoaderAltPathReady != 0)) {
             AssetCacheStoreFromMemory(filename,src,unaff_D1);
           }
         }
@@ -2772,22 +2775,22 @@ ushort __usercall PlaySong(char *filename)
   void *unaff_A1;
   bool bVar2;
   
-  if (g_assetCurrentIndex == 4) {
+  if (assetCurrentIndex == 4) {
     uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
   }
   else {
-    bVar2 = g_assetLoaderCacheFlag == 0;
+    bVar2 = assetLoaderCacheFlag == 0;
     if ((bVar2) || (AssetCacheCopyByName(filename,unaff_A1), !bVar2)) {
       bVar2 = false;
       uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
       if (!bVar2) {
-        if (g_assetCurrentIndex == 4) {
+        if (assetCurrentIndex == 4) {
           return uVar1;
         }
         do {
         } while( true );
       }
-      if ((g_assetLoaderCacheFlag != 0) && (g_assetLoaderAltPathReady != 0)) {
+      if ((assetLoaderCacheFlag != 0) && (assetLoaderAltPathReady != 0)) {
         AssetCacheStoreFromMemory(filename,unaff_A1,unaff_D1);
       }
     }
@@ -2808,8 +2811,8 @@ ushort __usercall AssetCacheAlloc(uint size)
   int *piVar4;
   
   uVar1 = size + 1 & 0xfffffffe;
-  piVar3 = (int *)g_assetLoaderCacheFlag;
-  if (g_assetLoaderCacheFlag != 0) {
+  piVar3 = (int *)assetLoaderCacheFlag;
+  if (assetLoaderCacheFlag != 0) {
     while( true ) {
       if ((*(short *)(piVar3 + 1) != 0) && (uVar1 <= *(uint *)((int)piVar3 + 6))) {
         iVar2 = (*(int *)((int)piVar3 + 6) - uVar1) + -0x30;
@@ -2823,7 +2826,7 @@ ushort __usercall AssetCacheAlloc(uint size)
           *(int *)((int)piVar4 + 6) = iVar2;
           *(undefined2 *)(piVar4 + 1) = 1;
         }
-        g_assetLoaderWorkPtr = (uint *)((int)g_assetLoaderWorkPtr - uVar1);
+        assetLoaderWorkPtr = (uint *)((int)assetLoaderWorkPtr - uVar1);
         return 0;
       }
       if (*piVar3 == 0) break;
@@ -2844,8 +2847,8 @@ int __usercall AssetCacheFindByName(char *name)
   char *pcVar3;
   int *piVar4;
   
-  piVar4 = (int *)g_assetLoaderCacheFlag;
-  if (g_assetLoaderCacheFlag != 0) {
+  piVar4 = (int *)assetLoaderCacheFlag;
+  if (assetLoaderCacheFlag != 0) {
     while( true ) {
       if (*(short *)(piVar4 + 1) == 0) {
         pcVar2 = name;
@@ -3730,7 +3733,7 @@ void __usercall LoadSfxResources(void)
     do {
       do {
         StopAudio();
-        g_audioBankLoaded = 0;
+        audioBankLoaded = 0;
         bVar1 = true;
         PlaySong(aSoundSfxSng);
       } while (!bVar1);
@@ -3750,25 +3753,25 @@ void __usercall EnsureSfxLoadedAndStart(void)
   undefined4 unaff_D0;
   undefined4 unaff_D1;
   
-  if (g_audioBankLoaded == 0) {
+  if (audioBankLoaded == 0) {
     StopAudio();
-    StartMenuMusic(&g_sfxSongData,poolplyrDatBuffer);
-    g_audioBankLoaded = 1;
+    StartMenuMusic(&sfxSongData,poolplyrDatBuffer);
+    audioBankLoaded = 1;
   }
   SetVolumeOrStopChants
             (CONCAT22((short)((uint)unaff_D0 >> 0x10),0xffff),
              CONCAT22((short)((uint)unaff_D1 >> 0x10),0x40));
-  g_audioActive = 1;
+  audioActive = 1;
   return;
 }
 
 
 // --- PlayPenaltySample @ 0010723c ---
 
-void __usercall PlayPenaltySample(void)
+void __usercall PlayPenaltySample(uint presetId)
 
 {
-  if (g_trainingGame != 0) {
+  if (trainingGame != 0) {
     return;
   }
   PlaySample();
@@ -3781,7 +3784,7 @@ void __usercall PlayPenaltySample(void)
 void __usercall PlaySample1IfNotTraining(void)
 
 {
-  if (g_trainingGame != 0) {
+  if (trainingGame != 0) {
     return;
   }
   PlaySample();
@@ -3958,6 +3961,72 @@ void __usercall StopAudio(void)
   REG_AUD1VOL = 0;
   REG_AUD2VOL = 0;
   REG_AUD3VOL = 0;
+  return;
+}
+
+
+// --- AudioSetMode @ 0010760c ---
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __usercall AudioSetMode(uint modeFlags)
+
+{
+  _audioCounter = (ushort)modeFlags & 0xf;
+  audioFlags[2] = 0;
+  audioFlags[3] = 0xff;
+  audioFlags[4] = 0xff;
+  if ((modeFlags & 8) == 0) {
+    audioFlags[3] = 0;
+  }
+  if ((modeFlags & 4) == 0) {
+    audioFlags[4] = 0;
+  }
+  return;
+}
+
+
+// --- AudioChannelNoteOnOff @ 00107680 ---
+
+void __usercall AudioChannelNoteOnOff(uint channel,uint noteId)
+
+{
+  byte bVar1;
+  int iVar2;
+  short sVar3;
+  byte *pbVar4;
+  
+  audioFlags[9] = audioFlags[9] | '\x01' << (channel & 7);
+  iVar2 = (int)(short)((short)channel * 0xb0);
+  sVar3 = (short)noteId << 2;
+  if (sVar3 != 0) {
+    pbVar4 = (byte *)(audioPresetChannelCmdTable._12_4_ +
+                     *(int *)(audioPresetChannelCmdTable._4_4_ + (int)sVar3));
+    bVar1 = *pbVar4;
+    *(byte **)(audioChannel0 + iVar2 + 0x4e) = pbVar4 + 1;
+    *(int *)(audioChannel0 + iVar2 + 0x52) =
+         audioPresetChannelCmdTable._16_4_ +
+         *(int *)(audioPresetChannelCmdTable._8_4_ + (int)(short)((ushort)bVar1 << 2));
+    audioChannel0[iVar2 + 0x56] = 6;
+    audioChannel0[iVar2 + 0x57] = 1;
+    audioChannel0[iVar2 + 0x59] = 1;
+    audioChannel0[iVar2 + 0x5b] = 0xff;
+    return;
+  }
+  audioChannel0[iVar2 + 0x5b] = 0;
+  AudioDisableDMAForChannel(audioChannel0 + iVar2);
+  return;
+}
+
+
+// --- AudioDisableDMAForChannel @ 00107834 ---
+
+void __usercall AudioDisableDMAForChannel(void *chan)
+
+{
+  int unaff_A6;
+  
+  *(undefined2 *)(unaff_A6 + 0x96) = *(undefined2 *)((int)chan + 0x2e);
   return;
 }
 
@@ -4475,6 +4544,7 @@ void __usercall InitGameSaveTeams(void *leftTeamInGame,void *rightTeamInGame)
 
 // --- InitGameRestoreTeams @ 0010a50e ---
 
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* in:
         A5 -> left team in-game struct
         A6 -> right team in-game struct
@@ -4487,6 +4557,7 @@ void __usercall InitGameRestoreTeams(void *leftTeamInGame,void *rightTeamInGame)
 {
   int iVar1;
   ushort *puVar2;
+  undefined4 unaff_D0;
   ushort uVar3;
   short sVar4;
   TeamGame *pTVar5;
@@ -4525,10 +4596,11 @@ void __usercall InitGameRestoreTeams(void *leftTeamInGame,void *rightTeamInGame)
   teamPlayingUp = (uVar3 & 1) + 1;
   uVar3 = Rand();
   teamStarting = (uVar3 & 1) + 1;
-  timeDelta = *(word *)((int)gameLenSecondsTable + (int)(short)(gameLengthInGame << 1));
+  sVar4 = gameLengthInGame << 1;
+  timeDelta = *(word *)((int)gameLenSecondsTable + (int)sVar4);
   uVar3 = (pitchNumberAndType & 0xff) << 2;
   puVar2 = *(ushort **)((int)pitchPalettePtrs + (int)(short)uVar3);
-  paletteTable[2] = (undefined *)gamePalette;
+  _DAT_0010f1ba = gamePalette;
   gamePalette[0] = *puVar2;
   gamePalette[7] = puVar2[1];
   gamePalette[9] = puVar2[2];
@@ -4542,12 +4614,12 @@ void __usercall InitGameRestoreTeams(void *leftTeamInGame,void *rightTeamInGame)
   showStats = 0;
   showingUserStats = 0;
   subsTeamsSwapped = 0;
-  g_inSubstitutesMenu = 0;
-  g_cameraLeavingSubsTimer = 0;
+  inSubstitutesMenu = 0;
+  cameraLeavingSubsTimer = 0;
   benchOff = 0;
-  g_leavingSubsMenu = 0;
-  g_waitForPlayerToGoInTimer = 0;
-  g_substituteInProgress = 0;
+  leavingSubsMenu = 0;
+  waitForPlayerToGoInTimer = 0;
+  substituteInProgress = 0;
   statsTeam1Goals = 0;
   team1GoalsDigit1 = 0;
   team1GoalsDigit2 = 0;
@@ -4588,9 +4660,9 @@ void __usercall InitGameRestoreTeams(void *leftTeamInGame,void *rightTeamInGame)
   StartingMatch();
   PlaySample1IfNotTraining();
   if (playGame != 0) {
-    PlayPenaltySample();
+    PlayPenaltySample(CONCAT22((short)((uint)unaff_D0 >> 0x10),sVar4));
     sfxQueueWriteIdx = 500;
-    if (g_trainingGame == 0) {
+    if (trainingGame == 0) {
       showFansCounter = 100;
     }
   }
@@ -4627,15 +4699,15 @@ char __usercall ConvertColorsAndTextSprites(TeamGame *team1,TeamGame *team2)
   MakeSpritesFromPlayerNames(team1,team2);
   bigNumbersColorConversionTable[0xb] = 2;
   bigNumbersColorConversionTable[10] = 2;
-  ConvertSpriteColors(SPR_BIG_DASH,bigNumbersColorConversionTable);
+  ConvertSpriteColors(SPR_BIG_DASH,(ushort *)bigNumbersColorConversionTable);
   uVar3 = SPR_BIG_0;
   do {
-    ConvertSpriteColors(uVar3,bigNumbersColorConversionTable);
+    ConvertSpriteColors(uVar3,(ushort *)bigNumbersColorConversionTable);
     uVar3 = uVar3 + 1;
   } while (uVar3 != SPR_RESULT_BIG_0);
   uVar3 = SPR_RESULT_BIG_0;
   do {
-    ConvertSpriteColors(uVar3,bigNumbersColorConversionTable);
+    ConvertSpriteColors(uVar3,(ushort *)bigNumbersColorConversionTable);
     uVar3 = uVar3 + 1;
   } while (uVar3 != SPR_TEAM1_NAME);
   HWSprite_LoadFromSpriteGraphics(SPR_TEAM1_NAME);
@@ -4665,7 +4737,7 @@ char __usercall ConvertColorsAndTextSprites(TeamGame *team1,TeamGame *team2)
     uVar3 = uVar3 + 1;
   } while (uVar3 != 0x4c4);
   DetermineGoalieFaces(team1,team1GoalieFaceToPosition,&team1GoalieFaces);
-  DetermineGoalieFaces(team2,team2GoalieFaceToPosition,&byte_10AE4A);
+  DetermineGoalieFaces(team2,team2GoalieFaceToPosition,&team2GoalieSkinType);
   uVar3 = 0x400;
   if (useIndividualPlayerSkinColor == 0) {
     CountFaces(team1);
@@ -4796,7 +4868,7 @@ char __usercall ConvertColorsAndTextSprites(TeamGame *team1,TeamGame *team2)
   }
   if (useIndividualPlayerSkinColor != 0) {
     ConvertColorTableToSkinColor
-              ((ushort)CONCAT31((int3)(uVar2 >> 8),byte_10AE4A),team2PlayersColorTable);
+              ((ushort)CONCAT31((int3)(uVar2 >> 8),team2GoalieSkinType),team2PlayersColorTable);
   }
   uVar3 = 0x3b5;
   do {
@@ -4805,7 +4877,7 @@ char __usercall ConvertColorsAndTextSprites(TeamGame *team1,TeamGame *team2)
   } while (uVar3 != 0x3ef);
   uVar3 = 0x3ef;
   if ((useIndividualPlayerSkinColor != 0) &&
-     (uVar3 = CONCAT11(3,byte_10AE4B), -1 < (char)byte_10AE4B)) {
+     (uVar3 = CONCAT11(3,team2ReserveGoalieSkinType), -1 < (char)team2ReserveGoalieSkinType)) {
     ConvertColorTableToSkinColor(uVar3,team2PlayersColorTable);
     uVar3 = 0x3ef;
     do {
@@ -5105,14 +5177,14 @@ void __usercall SetPitchTypeAndNumber(void)
     wVar4 = wVar4 + 1;
   }
 pitch_type_selected:
-  if (plg_D0_param == 0) {
+  if (plgD0Param == 0) {
     uVar2 = topTeamInGame.prShortsCol ^ topTeamInGame.prShirtCol ^ topTeamInGame.teamName._0_2_;
   }
   else {
     uVar2 = Rand();
   }
   sVar3 = (ushort)pitchNumberProbabilities[(short)(uVar2 & 0xf)] << 8;
-  if (g_trainingGame != 0) {
+  if (trainingGame != 0) {
     sVar3 = 0x500;
   }
   pitchNumberAndType = sVar3 + wVar4;
@@ -5172,7 +5244,7 @@ void __usercall StartMatchSequence(void *topTeam,void *bottomTeam)
     saveHighlightScene = 0;
     fadeAndSaveHighlightScene = 0;
     spaceReplayTimer = 0;
-    if (g_trainingGame == 0) {
+    if (trainingGame == 0) {
       Rand();
     }
     ReplayUpdateCameraAndSwapBuffers();
@@ -5189,7 +5261,7 @@ wait_for_vblank_sync:
       bVar5 = REG_DMACONR._0_1_;
     } while ((bVar5 & 0x40) != 0);
     REG_DMACON = 0x400;
-    uVar2 = g_irqCookieObfuscated ^ 0xcfd1f9bd;
+    uVar2 = irqCookieObfuscated ^ 0xcfd1f9bd;
     if (uVar2 != 0x165a) {
       *(undefined1 *)(unaff_A2 + -0x80 + (short)unaff_D4w * 4) =
            *(undefined1 *)&((TeamGeneralInfo *)(unaff_A0 + -1))->opponentsTeam;
@@ -5267,9 +5339,9 @@ turn_off_statistics:
         if (replayState == 0) {
           MoveCamera();
           ScrollToCurrent();
-          y = g_cameraY.s.i;
-          unaff_D4w = g_cameraX.s.i;
-          SaveCoordinatesForHighlights(-1,g_cameraX.s.i,g_cameraY.s.i);
+          y = cameraY.s.i;
+          unaff_D4w = cameraX.s.i;
+          SaveCoordinatesForHighlights(-1,cameraX.s.i,cameraY.s.i);
           PlayEnqueuedSamples();
           UpdateTime();
           nullsub_8();
@@ -5323,7 +5395,7 @@ turn_off_statistics:
     SetHilFileHeader();
     AudioFadeCrowdDownThenPulseMusic();
     ClearAudioActiveFlag();
-    if (((isGameFriendly == 0) || (g_trainingGame != 0)) ||
+    if (((isGameFriendly == 0) || (trainingGame != 0)) ||
        (ReplayExitMenuAfterFriendly(), replaySelected == 0)) {
       StopAudioAndClearFlags();
       return;
@@ -5363,7 +5435,7 @@ void __usercall SaveRand2State(void)
   savedRandStatePtr[1] = randXorIndex2;
   savedRandStatePtr = savedRandStatePtr + 3;
   *pbVar1 = randXorKey2;
-  if (byte_10F2EA + 0xe < savedRandStatePtr) {
+  if (savedRandState + 0xe < savedRandStatePtr) {
     panicReasonCode = 0x9793;
     PanicHaltLoop();
   }
@@ -5737,7 +5809,7 @@ char * __usercall PanicLookupMessagePtr(ushort code)
   byte *pbVar5;
   
   sVar3 = 3;
-  pbVar4 = byte_11FC60;
+  pbVar4 = hexWordStringBuffer;
   do {
     code = code << 4 | code >> 0xc;
     bVar1 = (byte)code & 0xf;
@@ -5751,7 +5823,7 @@ char * __usercall PanicLookupMessagePtr(ushort code)
     pbVar4 = pbVar5;
   } while (sVar3 != -1);
   *pbVar5 = 0;
-  return (char *)byte_11FC60;
+  return (char *)hexWordStringBuffer;
 }
 
 
@@ -5878,7 +5950,7 @@ LAB_0011fd04:
         }
                     /* WARNING: Could not recover jumptable at 0x0011fe10. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-        (**(code **)((int)&menuTypesJumpTable + (int)(short)(*pwVar4 << 2)))();
+        (**(code **)((int)menuTypesJumpTable + (int)(short)(*pwVar4 << 2)))();
         return;
       }
       if (*pwVar3 != 0xfc1c) goto LAB_0011fd04;
@@ -5904,14 +5976,14 @@ LAB_0011fd04:
     sVar2 = sVar2 + -1;
     if (sVar2 == -1) {
       dstMenu->endOfMenuPtr = pMVar5;
-      dword_9978C = (int)diyLeagueScratchBuffer - (int)pMVar5;
-      dword_99788 = (int)&pMVar5[-0xb8].fg.func2 + 2;
-      if (g_irqCookieObfuscated != 0xcfd1efe7) {
+      menuFreeSpace = (int)diyLeagueScratchBuffer - (int)pMVar5;
+      menuDataOffset = (int)&pMVar5[-0xb8].fg.func2 + 2;
+      if (irqCookieObfuscated != 0xcfd1efe7) {
         pMVar5 = unaff_A5;
-        UnpackMenu(&g_currentMenu,staticMenu_00);
-        g_currentMenu.selectedEntry = pMVar5;
-        if (g_currentMenu.afterDraw != (void *)0x0) {
-          (*g_currentMenu.afterDraw)(&g_currentMenu);
+        UnpackMenu(&currentMenu,staticMenu_00);
+        currentMenu.selectedEntry = pMVar5;
+        if (currentMenu.afterDraw != (void *)0x0) {
+          (*currentMenu.afterDraw)(&currentMenu);
         }
         return;
       }
@@ -5973,12 +6045,12 @@ void __usercall MenuProc(void)
   ReadTimerDelta();
   if (magicValue != 0x12345678) {
     panicReasonCode = 0x9999;
-    g_errorMessagePtr = "STACK OVERFLOW";
+    errorMessagePtr = "STACK OVERFLOW";
     PanicHaltLoop();
   }
-  if (g_irqCookieObfuscated == 0xcfd1efe7) {
+  if (irqCookieObfuscated == 0xcfd1efe7) {
     if (menuStatus == 0) {
-      DrawSelectedMenuItemFrame(&g_currentMenu);
+      DrawSelectedMenuItemFrame(&currentMenu);
       WaitForVSync();
     }
     menuCursorFrame = menuCursorFrame + 1;
@@ -5991,9 +6063,9 @@ void __usercall MenuProc(void)
     }
     UpdateBlinkingMenuText();
     MenuCheckControls();
-    pMVar7 = g_currentMenu.selectedEntry;
+    pMVar7 = currentMenu.selectedEntry;
     controlMask = 0;
-    if ((g_currentMenu.selectedEntry)->onSelect != (code *)0x0) {
+    if ((currentMenu.selectedEntry)->onSelect != (code *)0x0) {
       uVar4 = 0;
       if (shortFire != 0) {
         uVar4 = 0x20;
@@ -6029,10 +6101,10 @@ void __usercall MenuProc(void)
           uVar4 = uVar4 | 0x40;
         }
       }
-      if (((g_currentMenu.selectedEntry)->controlMask == 0xffff) ||
-         (uVar4 = (g_currentMenu.selectedEntry)->controlMask & uVar4, uVar4 != 0)) {
+      if (((currentMenu.selectedEntry)->controlMask == 0xffff) ||
+         (uVar4 = (currentMenu.selectedEntry)->controlMask & uVar4, uVar4 != 0)) {
         controlMask = uVar4;
-        (*(g_currentMenu.selectedEntry)->onSelect)(wVar2);
+        (*(currentMenu.selectedEntry)->onSelect)(wVar2);
       }
     }
     if ((fire == 0) && (-1 < (short)menuControlsDirection)) {
@@ -6043,24 +6115,24 @@ void __usercall MenuProc(void)
         while( true ) {
           pMVar6 = CalcMenuEntryAddress((ushort)bVar1);
           if ((pMVar6->isDisabled == 0) && (pMVar6->isInvisible == 0)) {
-            g_currentMenu.selectedEntry = pMVar6;
+            currentMenu.selectedEntry = pMVar6;
             if (pMVar7->background == NO_BACKGROUND) {
               menuStatus = 0;
               menuTextBlinkCounter = 0;
               BlitterCopyPanelToScreen2();
               DrawMenuPanelBackground();
-              pMVar7 = g_menuEntries;
-              sVar5 = g_currentMenu.numEntries - 1;
+              pMVar7 = menuEntries;
+              sVar5 = currentMenu.numEntries - 1;
               do {
                 pMVar7->alreadyDrawn = 0;
                 pMVar7 = pMVar7 + 1;
                 sVar5 = sVar5 + -1;
               } while (sVar5 != -1);
-              if (g_currentMenu.onDraw != (void *)0x0) {
-                (*g_currentMenu.onDraw)();
+              if (currentMenu.onDraw != (void *)0x0) {
+                (*currentMenu.onDraw)();
               }
-              pMVar7 = g_menuEntries;
-              sVar5 = g_currentMenu.numEntries - 1;
+              pMVar7 = menuEntries;
+              sVar5 = currentMenu.numEntries - 1;
               do {
                 DrawMenuItem(pMVar7);
                 pMVar7 = pMVar7 + 1;
@@ -6102,8 +6174,8 @@ void __usercall UpdateBlinkingMenuText(void)
   sVar3 = 1;
   while( true ) {
     sVar2 = 0;
-    sVar4 = g_currentMenu.numEntries - 1;
-    entry = g_menuEntries;
+    sVar4 = currentMenu.numEntries - 1;
+    entry = menuEntries;
     do {
       if ((entry->content != NO_FOREGROUND) && ((entry->stringFlags & 0x2000) != 0)) {
         if (menuTextBlinkCounter == 0) {
@@ -6154,11 +6226,11 @@ void __usercall MenuCheckControls(void)
       pl1FireCounter = 0;
     }
     if (pl1Fire == 0) {
-      if (g_allowShorterMenuItemsWithFrames._2_2_ != 0) {
+      if (allowShorterMenuItemsWithFrames._2_2_ != 0) {
         pl1SkipFireCounter = pl1SkipFireCounter + 1;
         pl1Fire = (byte)pl1SkipFireCounter & 1;
       }
-      if (g_allowShorterMenuItemsWithFrames._0_2_ != 0) {
+      if (allowShorterMenuItemsWithFrames._0_2_ != 0) {
         pl1Fire = 1;
       }
     }
@@ -6448,7 +6520,7 @@ void __usercall Int2Ascii(ushort value,char *out)
 MenuEntry * __usercall CalcMenuEntryAddress(ushort ordinal)
 
 {
-  return g_menuEntries + ordinal;
+  return menuEntries + ordinal;
 }
 
 
@@ -6880,18 +6952,18 @@ void __usercall DrawMenu(void)
   menuTextBlinkCounter = 0;
   BlitterCopyPanelToScreen2();
   DrawMenuPanelBackground();
-  pMVar2 = g_menuEntries;
-  sVar1 = g_currentMenu.numEntries - 1;
+  pMVar2 = menuEntries;
+  sVar1 = currentMenu.numEntries - 1;
   do {
     pMVar2->alreadyDrawn = 0;
     pMVar2 = pMVar2 + 1;
     sVar1 = sVar1 + -1;
   } while (sVar1 != -1);
-  if (g_currentMenu.onDraw != (void *)0x0) {
-    (*g_currentMenu.onDraw)();
+  if (currentMenu.onDraw != (void *)0x0) {
+    (*currentMenu.onDraw)();
   }
-  pMVar2 = g_menuEntries;
-  sVar1 = g_currentMenu.numEntries - 1;
+  pMVar2 = menuEntries;
+  sVar1 = currentMenu.numEntries - 1;
   do {
     DrawMenuItem(pMVar2);
     pMVar2 = pMVar2 + 1;
@@ -6916,16 +6988,16 @@ void __usercall ShowMenu(void *packedMenu)
   MenuEntry *oldSelectedEntry;
   Menu *oldPackedMenu;
   
-  oldPackedMenu = g_currentMenuPtr;
-  oldSelectedEntry = g_currentMenu.selectedEntry;
+  oldPackedMenu = currentMenuPtr;
+  oldSelectedEntry = currentMenu.selectedEntry;
   menuStatus = 0;
-  g_exitMenu = 0;
+  exitMenu = 0;
   ActivateMenu(packedMenu);
-  while (g_exitMenu == 0) {
+  while (exitMenu == 0) {
     MenuProc();
   }
   menuStatus = 1;
-  g_exitMenu = 0;
+  exitMenu = 0;
   RestorePreviousMenu(oldSelectedEntry,oldPackedMenu);
   return;
 }
@@ -6942,12 +7014,12 @@ void __usercall RestorePreviousMenu(void *oldSelectedEntry,void *oldPackedMenu)
 {
   MenuEntry *pMVar1;
   
-  g_currentMenuPtr = oldPackedMenu;
+  currentMenuPtr = oldPackedMenu;
   pMVar1 = oldSelectedEntry;
-  UnpackMenu(&g_currentMenu,oldPackedMenu);
-  g_currentMenu.selectedEntry = pMVar1;
-  if (g_currentMenu.afterDraw != (void *)0x0) {
-    (*g_currentMenu.afterDraw)(&g_currentMenu);
+  UnpackMenu(&currentMenu,oldPackedMenu);
+  currentMenu.selectedEntry = pMVar1;
+  if (currentMenu.afterDraw != (void *)0x0) {
+    (*currentMenu.afterDraw)(&currentMenu);
   }
   return;
 }
@@ -6963,16 +7035,16 @@ short __usercall ActivateMenu(Menu *menu)
 {
   MenuEntry *pMVar1;
   
-  g_currentMenuPtr = menu;
-  UnpackMenu(&g_currentMenu,menu);
-  pMVar1 = g_currentMenu.selectedEntry;
-  if (g_currentMenu.selectedEntry < (MenuEntry *)((int)goalBase + 0x2292U)) {
-    g_currentMenu.selectedEntry = CalcMenuEntryAddress((ushort)g_currentMenu.selectedEntry);
+  currentMenuPtr = menu;
+  UnpackMenu(&currentMenu,menu);
+  pMVar1 = currentMenu.selectedEntry;
+  if (currentMenu.selectedEntry < (MenuEntry *)((int)goalBase + 0x2292U)) {
+    currentMenu.selectedEntry = CalcMenuEntryAddress((ushort)currentMenu.selectedEntry);
   }
-  if (g_currentMenu.onInit != (void *)0x0) {
-    pMVar1 = (MenuEntry *)(*g_currentMenu.onInit)(&g_currentMenu);
+  if (currentMenu.onInit != (void *)0x0) {
+    pMVar1 = (MenuEntry *)(*currentMenu.onInit)(&currentMenu);
   }
-  if (g_exitMenu == 0) {
+  if (exitMenu == 0) {
     DrawMenu();
     return (short)pMVar1;
   }
@@ -6995,26 +7067,27 @@ void __usercall DrawMenuPanelBackground(void)
 
 // --- CalcTeamPriceRankPercentOffset @ 00121684 ---
 
-short __usercall CalcTeamPriceRankPercentOffset(void *team,void *info)
+short __usercall CalcTeamPriceRankPercentOffset(void *ctx,TeamFile *team)
 
 {
   short unaff_D1w;
   ushort uVar1;
   short sVar2;
   
-  if (*(short *)team == 0) {
-    if (*(char *)((int)info + 4) == '\x01') {
-      if (*(ushort *)((int)team + 0x2b8) < 3) {
+  if (*(short *)ctx == 0) {
+    if (team->teamControls == 1) {
+      if (*(ushort *)((int)ctx + 0x2b8) < 3) {
         return 0;
       }
     }
-    else if (*(ushort *)((int)team + 0x2b8) < 10) {
+    else if (*(ushort *)((int)ctx + 0x2b8) < 10) {
       return 0;
     }
-    uVar1 = *(ushort *)info;
+    uVar1._0_1_ = team->countryNumber;
+    uVar1._1_1_ = team->teamOrdinal;
     FindTeamInDIY();
-    uVar1 = GetMoreExpensiveTeamsCount(uVar1,team);
-    sVar2 = *(short *)((int)team + 0x32) + -1;
+    uVar1 = GetMoreExpensiveTeamsCount(uVar1,ctx);
+    sVar2 = *(short *)((int)ctx + 0x32) + -1;
     if (sVar2 != 0) {
       sVar2 = (short)(((short)(uVar1 - unaff_D1w) * 100) / (int)sVar2);
       if (0x32 < sVar2) {
@@ -7042,10 +7115,50 @@ short __usercall CalcTeamPriceRankPercentOffset(void *team,void *info)
    Might be returning some x, y offsets.. but for what
    dos: cseg_2C88E */
 
-void __usercall CalcTeamViewOffset(TeamFile *teamFile)
+Position __usercall CalcTeamViewOffset(TeamFile *teamFile)
 
 {
-  return;
+  undefined4 unaff_D0;
+  ushort uVar1;
+  word wVar2;
+  word wVar3;
+  Position PVar4;
+  
+  uVar1 = (ushort)(byte)(viewRandomPhase +
+                        kRandomTable
+                        [(short)(ushort)(byte)(newRandomSeedCopy ^
+                                              (byte)currentSeasonShowing ^
+                                              (byte)teamFile->globalTeamNumber)]);
+  wVar2 = (char)kTeamViewOffsetBaseLUT[(short)uVar1] * 2;
+  wVar3 = (char)kTeamViewOffsetBaseLUT[(short)(uVar1 + 7 & 0xff)] * 2;
+  if (teamFile->teamControls == 1) {
+    uVar1 = ((ushort)(CONCAT11((char)((uint)unaff_D0 >> 0x18),viewRandomPhase) << 2) >> 6) +
+            (ushort)(byte)kRandomTable
+                          [(short)(ushort)(byte)(newRandomSeedCopy ^
+                                                (byte)currentSeasonShowing ^
+                                                (byte)teamFile->globalTeamNumber)] & 0x3f;
+    wVar2 = (char)kUserTeamOffsetBiasLUT[(short)uVar1] * 2 + wVar2;
+    wVar3 = (char)kUserTeamOffsetBiasLUT[(short)uVar1] * 2 + wVar3;
+  }
+  if (teamFile->teamControls != 1) {
+    wVar2 = wVar2 - 1;
+    wVar3 = wVar3 - 1;
+  }
+  if ((short)wVar2 < -0xc) {
+    wVar2 = 0xfff4;
+  }
+  else if (0xc < (short)wVar2) {
+    wVar2 = 0xc;
+  }
+  if ((short)wVar3 < -0xc) {
+    wVar3 = 0xfff4;
+  }
+  else if (0xc < (short)wVar3) {
+    wVar3 = 0xc;
+  }
+  PVar4.x = wVar2;
+  PVar4.y = wVar3;
+  return PVar4;
 }
 
 
@@ -7081,7 +7194,7 @@ ushort __usercall GetPlayerPrice(TeamFile *team,PlayerFile *player,ushort positi
   uVar7._1_1_ = player[2].shootingHeading;
   uVar7._2_1_ = player[2].tacklingBallControl;
   uVar7._3_1_ = player[2].speedFinishing;
-  plPositions = *(int *)((int)g_tacticsTable + (int)(short)((short)(char)team->tactics << 2)) + 9;
+  plPositions = *(int *)((int)teamTacticsTable + (int)(short)((short)(char)team->tactics << 2)) + 9;
   playerPositions = (uchar *)(plPositions + (int)(short)((position - 1) * 0x23));
   curQuadDistFactor = quadrantDistanceFactor + 0x4a6;
   totalSkillsFactorSum = 0;
@@ -7313,7 +7426,7 @@ AdjustPlayerSkills(ushort playerIndex,TeamFile *teamFile,TeamFile *oppTeamFile,T
   if (teamFile->teamControls == TEAM_COMPUTER) {
     sVar4 = 100;
   }
-  if ((((plg_D0_param == 0) && (teamGame == &bottomTeamInGame)) &&
+  if ((((plgD0Param == 0) && (teamGame == &bottomTeamInGame)) &&
       ((teamFile->teamControls != TEAM_COMPUTER || (oppTeamFile->teamControls != TEAM_PLAYER_COACH))
       )) && (sVar4 = sVar4 + -0xc, sVar4 < 0)) {
     sVar4 = 0;
@@ -7384,7 +7497,7 @@ short __usercall GetPlayerPricePercentageChange(short factor,void *team)
   
   if ((isGameFriendly == 0) && (*(char *)((int)team + 4) != TEAM_PLAYER_COACH)) {
     CalcTeamViewOffset(team);
-    sVar1 = CalcTeamPriceRankPercentOffset(&DIY_competitionStart,team);
+    sVar1 = CalcTeamPriceRankPercentOffset(&diyCompetitionStart,team);
     factor = sVar1 + unaff_D0w + factor;
   }
   uVar2 = Rand2();
@@ -7539,20 +7652,21 @@ ushort __usercall FindTeamInCache(ushort teamNumber)
 
 {
   short sVar1;
-  dword *pdVar2;
+  TeamFile **ppTVar2;
   
   if (teamNumber == currentTeamNumber) {
     return 0;
   }
-  if (((word_12F6E0 == 0) || (teamNumber != careerTeam._0_2_)) && (teamNumber != selTeamNumber)) {
-    if (g_numSelectedTeams != 0) {
-      sVar1 = g_numSelectedTeams - 1;
-      pdVar2 = &selTeamsPtr;
+  if (((careerAutoAdvanceInProgress == 0) || (teamNumber != careerTeam.team._0_2_)) &&
+     (teamNumber != selTeamNumber)) {
+    if (numSelectedTeams != 0) {
+      sVar1 = numSelectedTeams - 1;
+      ppTVar2 = &selTeamsPtr;
       do {
-        if (teamNumber == *(ushort *)pdVar2) {
-          return (g_numSelectedTeams - sVar1) - 1;
+        if (teamNumber == *(ushort *)ppTVar2) {
+          return (numSelectedTeams - sVar1) - 1;
         }
-        pdVar2 = pdVar2 + 0xab;
+        ppTVar2 = ppTVar2 + 0xab;
         sVar1 = sVar1 + -1;
       } while (sVar1 != -1);
     }
@@ -7583,7 +7697,7 @@ void * __usercall VerifyTeamLoaded(ushort teamNumber)
   }
   panicReasonCode = 0x8888;
   PanicHaltLoop();
-  return &DIY_competitionStart;
+  return &diyCompetitionStart;
 }
 
 
@@ -7610,11 +7724,11 @@ void __usercall FindTeamInDIY(void)
   DIY_Competition *unaff_A6;
   DIY_Competition *pDVar9;
   
-  word_12F0EA = 0;
+  diyFoundTeamIndex = 0;
   wVar4 = unaff_A6->numTeams;
   if (unaff_A6->competitionType == DIY_CUP) {
-    word_12F0EC._0_1_ = -(*(short *)(unaff_A6->field_39 + 0x1c) != 0);
-    word_12F0EC = (ushort)word_12F0EC._0_1_ << 8;
+    diyCompHasGroupStage._0_1_ = -(*(short *)(unaff_A6->field_3A + 0x1c) != 0);
+    diyCompHasGroupStage = (ushort)diyCompHasGroupStage._0_1_ << 8;
 LAB_0012ef92:
     uVar3 = 0xffff;
     while (wVar4 = wVar4 - 1, -1 < (short)wVar4) {
@@ -7623,15 +7737,15 @@ LAB_0012ef92:
           *(ushort *)
            (unaff_A6[6].field_2 +
            (short)((short)(char)unaff_A6[7].field_2[(short)uVar3 + 0x2c] << 1) + 0xc)) {
-        if ((*(short *)(unaff_A6->field_39 + 0x1c) != 0) && (uVar3 < 2)) {
-          if (unaff_D0w == *(ushort *)unaff_A6->field_39) {
-            word_12F0EA = 0;
+        if ((*(short *)(unaff_A6->field_3A + 0x1c) != 0) && (uVar3 < 2)) {
+          if (unaff_D0w == *(ushort *)unaff_A6->field_3A) {
+            diyFoundTeamIndex = 0;
             return;
           }
           return;
         }
-        if ((ushort)(*(short *)(unaff_A6->field_39 + 0x16) << 1) <= uVar3) {
-          word_12F0EA = 1;
+        if ((ushort)(*(short *)(unaff_A6->field_3A + 0x16) << 1) <= uVar3) {
+          diyFoundTeamIndex = 1;
           for (uVar2 = 0x20; uVar3 < uVar2; uVar2 = uVar2 >> 1) {
           }
           return;
@@ -7642,8 +7756,8 @@ LAB_0012ef92:
   }
   else {
     if (unaff_A6->competitionType == DIY_TOURNAMENT) {
-      word_12F0EC._0_1_ = -(*(short *)(unaff_A6->field_39 + 0x1e) != 0);
-      word_12F0EC = (ushort)word_12F0EC._0_1_ << 8;
+      diyCompHasGroupStage._0_1_ = -(*(short *)(unaff_A6->field_3A + 0x1e) != 0);
+      diyCompHasGroupStage = (ushort)diyCompHasGroupStage._0_1_ << 8;
       uVar3 = 0xffff;
       do {
         wVar4 = wVar4 - 1;
@@ -7651,34 +7765,34 @@ LAB_0012ef92:
         uVar3 = uVar3 + 1;
       } while (unaff_D0w !=
                *(ushort *)
-                (unaff_A6[1].field_39 +
-                (short)((short)(char)unaff_A6->field_39[(short)uVar3 + 0x20] << 1)));
-      sVar1 = *(short *)(unaff_A6->field_39 + 0x1a);
-      if ((*(short *)(unaff_A6->field_39 + 0x1e) == 0) ||
-         (*(ushort *)(unaff_A6[3].field_39 + (short)(sVar1 * 0x76) + 8) <= uVar3)) {
-        if (uVar3 < *(ushort *)(unaff_A6[3].field_39 + (short)(sVar1 * 0x76) + 8)) {
+                (unaff_A6[1].field_3A +
+                (short)((short)(char)unaff_A6->field_3A[(short)uVar3 + 0x20] << 1)));
+      sVar1 = *(short *)(unaff_A6->field_3A + 0x1a);
+      if ((*(short *)(unaff_A6->field_3A + 0x1e) == 0) ||
+         (*(ushort *)(unaff_A6[3].field_3A + (short)(sVar1 * 0x76) + 8) <= uVar3)) {
+        if (uVar3 < *(ushort *)(unaff_A6[3].field_3A + (short)(sVar1 * 0x76) + 8)) {
           return;
         }
-        word_12F0EA = 1;
+        diyFoundTeamIndex = 1;
         pDVar9 = unaff_A6;
-        if (*(short *)unaff_A6[3].field_39 != 0) {
+        if (*(short *)unaff_A6[3].field_3A != 0) {
           if (uVar3 == 3) {
-            word_12F0EA = 1;
+            diyFoundTeamIndex = 1;
             return;
           }
           if (uVar3 == 4) {
-            word_12F0EA = 1;
+            diyFoundTeamIndex = 1;
             return;
           }
         }
         do {
           pDVar6 = pDVar9;
-          uVar2 = *(ushort *)(pDVar6[4].field_39 + 0x1e);
+          uVar2 = *(ushort *)(pDVar6[4].field_3A + 0x1e);
           pDVar9 = (DIY_Competition *)(pDVar6[1].field_2 + 0x14);
         } while (uVar3 < uVar2);
-        uVar3 = *(ushort *)(pDVar6[3].field_39 + 8);
-        if (word_12F0EE == 0) {
-          word_12F0EA = 1;
+        uVar3 = *(ushort *)(pDVar6[3].field_3A + 8);
+        if (findTeamInDIY_SuppressSideEffectsFlag == 0) {
+          diyFoundTeamIndex = 1;
           return;
         }
         uVar5 = GetMoreExpensiveTeamsCountWrapper(unaff_D0w,unaff_A6);
@@ -7694,11 +7808,11 @@ LAB_0012ef92:
       wVar4 = unaff_A6[0xb].numTeams;
       pDVar6 = unaff_A6 + 3;
       unaff_A6 = pDVar9;
-      if (*(short *)(pDVar6->field_39 + (short)(sVar1 * 0x76) + 4) == 0) goto LAB_0012ef92;
+      if (*(short *)(pDVar6->field_3A + (short)(sVar1 * 0x76) + 4) == 0) goto LAB_0012ef92;
     }
     else {
-      word_12F0EC._0_1_ = -(unaff_A6[1].competitionType == 0);
-      word_12F0EC = (ushort)word_12F0EC._0_1_ << 8;
+      diyCompHasGroupStage._0_1_ = -(unaff_A6[1].competitionType == 0);
+      diyCompHasGroupStage = (ushort)diyCompHasGroupStage._0_1_ << 8;
       pDVar9 = unaff_A6;
     }
     sVar1 = -2;
@@ -7721,7 +7835,7 @@ LAB_0012f0bc:
     pbVar8 = unaff_A6[3].field_2 + 0xc;
     if ((unaff_A6->competitionType != 0) &&
        (pbVar8 = unaff_A6[6].field_2 + 0xc, unaff_A6->competitionType != 1)) {
-      pbVar8 = unaff_A6[1].field_39;
+      pbVar8 = unaff_A6[1].field_3A;
     }
     pvVar7 = VerifyTeamLoaded(unaff_D0w);
     GetAveragePlayerPrice(pvVar7);
@@ -7769,7 +7883,7 @@ ushort __usercall GetMoreExpensiveTeamsCount(ushort teamNo,DIY_Competition *comp
   pbVar7 = comp[3].field_2 + 0xc;
   if ((comp->competitionType != DIY_LEAGUE) &&
      (pbVar7 = comp[6].field_2 + 0xc, comp->competitionType != DIY_CUP)) {
-    pbVar7 = comp[1].field_39;
+    pbVar7 = comp[1].field_3A;
   }
   pvVar6 = VerifyTeamLoaded(teamNo);
   uVar2 = GetAveragePlayerPrice(pvVar6);
@@ -7868,9 +7982,9 @@ void __usercall ShowErrorMenu(char *errorText)
 }
 
 
-// --- sub_141798 @ 00141798 ---
+// --- Career_PatchTeamWithForeignMarketPlayers @ 00141798 ---
 
-void __usercall sub_141798(void *teamPtr)
+void __usercall Career_PatchTeamWithForeignMarketPlayers(void *teamPtr)
 
 {
   short sVar1;
@@ -7879,7 +7993,7 @@ void __usercall sub_141798(void *teamPtr)
   undefined2 *puVar4;
   MarketPlayer *pMVar5;
   
-  if ((g_gameType == GAME_TYPE_CAREER) && (numForeignMarketPlayers2 != 0)) {
+  if ((gameType == GAME_TYPE_CAREER) && (numForeignMarketPlayers2 != 0)) {
     sVar2 = numForeignMarketPlayers2 - 1;
     pMVar5 = careerForeignMarketPlayers;
     do {
@@ -7919,7 +8033,7 @@ void * __usercall GetTeamPointer(ushort teamId)
       for (unaff_A0 = (ushort *)(teamFileBuffer + 2); teamId != *unaff_A0;
           unaff_A0 = unaff_A0 + 0x156) {
       }
-      sub_141798(unaff_A0);
+      Career_PatchTeamWithForeignMarketPlayers(unaff_A0);
     }
   }
   return unaff_A0;
@@ -7940,18 +8054,18 @@ void * __usercall GetTeamPointer(ushort teamId)
 void * __usercall GetPlayer(ushort teamNumber,ushort playerFileIndex)
 
 {
-  TeamFile *pTVar1;
+  TeamFileEx *pTVar1;
   
   if (teamNumber == currentTeamNumber) {
     pTVar1 = &currentTeam;
   }
   else if (teamNumber == selTeamNumber) {
-    pTVar1 = (TeamFile *)careerTeam;
+    pTVar1 = &careerTeam;
   }
   else {
     pTVar1 = GetTeamPointer(teamNumber);
   }
-  return pTVar1->teamName + (short)(playerFileIndex * 0x26) + -5;
+  return (pTVar1->team).teamName + (short)(playerFileIndex * 0x26) + -5;
 }
 
 
@@ -8030,16 +8144,16 @@ FatalError:
         halt_baddata();
       }
       SetLoadedTeamsGlobalNumbers();
-      if ((g_gameType == GAME_TYPE_CAREER) && (skipLeagueNumbers == 0)) {
+      if ((gameType == GAME_TYPE_CAREER) && (skipLeagueNumbers == 0)) {
         SetLeagueNumbers();
       }
 LAB_00151cf8:
       uVar2 = teamFileBuffer._0_2_;
       teamFileBuffer[0] = SUB21(teamFileBuffer._0_2_,1);
       teamFileBuffer[1] = (byte)teamFileBuffer._0_2_;
-      word_B6C0._0_1_ = teamFileBuffer[0];
-      word_B6C0._1_1_ = teamFileBuffer[1];
-      dword_B68A = (uint)(ushort)teamFileBuffer._0_2_ * 0x2ac + 2;
+      teamFileTeamCount._0_1_ = teamFileBuffer[0];
+      teamFileTeamCount._1_1_ = teamFileBuffer[1];
+      teamFileDataSize = (uint)(ushort)teamFileBuffer._0_2_ * 0x2ac + 2;
       teamFileBuffer._0_2_ = uVar2;
       return extNumber;
     }
@@ -8086,7 +8200,8 @@ void __usercall SetLeagueNumbers(void)
     iVar2 = 0x4a122;
     sVar1 = teamFileBuffer._0_2_ + -1;
     do {
-      *(char *)(iVar2 + 0x19) = someLeaguesTable[*(short *)(iVar2 + 2)] + *(char *)(iVar2 + 0x19);
+      *(char *)(iVar2 + 0x19) =
+           diyLeagueSeasonStateTable[*(short *)(iVar2 + 2)] + *(char *)(iVar2 + 0x19);
       iVar2 = iVar2 + 0x2ac;
       sVar1 = sVar1 + -1;
     } while (sVar1 != -1);

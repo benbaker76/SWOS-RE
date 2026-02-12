@@ -1,7 +1,7 @@
 /*
  * Auto-generated call graph export
  * Start: GameLoop
- * Date : 2026-01-13 11:18:38
+ * Date : 2026-02-11 21:28:47
  */
 
 /* ===================== INCLUDES ===================== */
@@ -48,7 +48,7 @@ uchar __usercall CopySprite(ushort srcSprite, ushort xOffset, ushort yOffset, us
 void __usercall DrawSpriteHotspotInCameraView(void);
 void __usercall DrawSpriteInCameraView(void);
 void __usercall DarkenRectangle(ushort spriteIndex, ushort x, ushort y);
-void __usercall DrawSpriteClipped(void * sprite, ushort x, ushort y);
+void __usercall DrawSpriteClipped(Sprite * sprite, ushort x, ushort y);
 void __usercall DrawQueuedSprites(void);
 void __usercall RenderSpriteBandsToCopperLists(void);
 void __usercall RenderSpriteBandPlanePair(void);
@@ -90,7 +90,7 @@ void __usercall EnsureSfxLoadedAndStart(void);
 void __usercall ClearAudioActiveFlag(void);
 void __usercall StopAudioAndClearFlags(void);
 void __usercall PlayEnqueuedSamples(void);
-void __usercall PlayPenaltySample(void);
+void __usercall PlayPenaltySample(uint presetId);
 void __usercall PlaySample7IfNotTraining(void);
 void __usercall sub_107260(void);
 void __usercall PlayGoodPassSample(void);
@@ -100,13 +100,13 @@ void __usercall PlayRefereeWhistleSample(void);
 void __usercall PlayFoulWhistleSample(void);
 void __usercall PlayEndGameWhistleSample(void);
 void __usercall PlaySample1IfNotTraining(void);
-undefined unknown FUN_001072ee(void);
-void __usercall PlaySample2(void);
-void __usercall PlaySample3(void);
+void __usercall PlaySample2IfNotTraining(void);
+void __usercall PlaySample4IfNotTraining(void);
+void __usercall PlaySample3IfNotTraining(void);
 void __usercall PlayMissGoalSample(void);
 void __usercall PlayPenalty(void);
 void __usercall PlayGameStateWhistleSample(void);
-undefined unknown PlayGoalReplayBottomSample(void);
+void __usercall PlayGoalReplayBottomSample(void);
 void __usercall PlayGoalKickOffSample(void);
 void __usercall PlayCornerKickSample(void);
 void __usercall nullsub_6(void);
@@ -117,6 +117,9 @@ void __usercall CrowdTickJump(uint channel, uint waveId);
 void __usercall j_AudioApplyPresetToChannels(uint presetId);
 void __usercall SetVolumeOrStopChants(uint channelOrAll, uint volume);
 void __usercall StopAudio(void);
+void __usercall AudioSetMode(uint modeFlags);
+void __usercall AudioChannelNoteOnOff(uint channel, uint noteId);
+void __usercall AudioDisableDMAForChannel(void * chan);
 short __usercall CalculateDeltaXAndY(short speed, short destX, short destY, short curX, short curY);
 void __usercall MovePlayers(void);
 void __usercall SetNextPlayerFrame(Sprite * player);
@@ -309,9 +312,9 @@ void __usercall ShowMenu(void * packedMenu);
 void __usercall RestorePreviousMenu(void * oldSelectedEntry, void * oldPackedMenu);
 short __usercall ActivateMenu(Menu * menu);
 void __usercall DrawMenuPanelBackground(void);
-short __usercall CalcTeamPriceRankPercentOffset(void * team, void * info);
+short __usercall CalcTeamPriceRankPercentOffset(void * ctx, TeamFile * team);
 char __usercall AssignFakeGoalsToScorers(ushort winningTeam, ushort numGoals);
-void __usercall CalcTeamViewOffset(TeamFile * teamFile);
+Position __usercall CalcTeamViewOffset(TeamFile * teamFile);
 ushort __usercall GetPlayerPrice(TeamFile * team, PlayerFile * player, ushort position);
 ushort __usercall CountNearnessFactor(ushort curBallQuadrant, ushort dstBallQuadrant, ushort price, uchar * curQuadDistFactor, uchar * playerPositions, uchar * coordToQuad);
 char __usercall GetPlayerRandomNum(PlayerFile * playerFile);
@@ -334,7 +337,7 @@ void __usercall InitAnimatedPatterns(void);
 void __usercall DrawPatternFromIndex(ushort patternIndex);
 void __usercall ShowFsErrorByCode(ushort errCode);
 void __usercall ShowErrorMenu(char * errorText);
-void __usercall sub_141798(void * teamPtr);
+void __usercall Career_PatchTeamWithForeignMarketPlayers(void * teamPtr);
 void * __usercall GetTeamPointer(ushort teamId);
 void * __usercall GetPlayer(ushort teamNumber, ushort playerFileIndex);
 void __usercall SetTeamGlobalNumbers(ushort numTeams, void * firstTeam);
@@ -351,9 +354,9 @@ short __usercall AssetSys_Dispatch(AssetSysOp op)
 {
   short sVar1;
   
-  g_assetSelect = op;
+  assetSelect = op;
   sVar1 = (*(AssetSys_JumpTable + (short)(op << 1)))();
-  g_assetSelect = 0xffff;
+  assetSelect = 0xffff;
   return sVar1;
 }
 
@@ -532,16 +535,16 @@ void __usercall SwapBuffersAndCameraViewState(void)
     spriteBlitQueue = (dword)&kSpriteBlitQueueSentinel_B;
     dstXByteOffsetSaved0 = cameraXMod320;
     dstYStartLinesSaved0 = cameraYMod320;
-    oldCameraXSaved0 = g_oldCameraX;
-    oldCameraYSaved0 = g_oldCameraY;
-    cameraXSaved0 = g_cameraX.s.i;
-    cameraYSaved0 = g_cameraY.s.i;
+    oldCameraXSaved0 = oldCameraX;
+    oldCameraYSaved0 = oldCameraY;
+    cameraXSaved0 = cameraX.s.i;
+    cameraYSaved0 = cameraY.s.i;
     cameraXMod320 = dstXByteOffsetSaved1;
     cameraYMod320 = dstYStartLinesSaved1;
-    g_oldCameraX = oldCameraXSaved1;
-    g_oldCameraY = oldCameraYSaved1;
-    g_cameraX.s.i = cameraXSaved1;
-    g_cameraY.s.i = cameraYSaved1;
+    oldCameraX = oldCameraXSaved1;
+    oldCameraY = oldCameraYSaved1;
+    cameraX.s.i = cameraXSaved1;
+    cameraY.s.i = cameraYSaved1;
   }
   else {
     bitPlane0BasePtr = bitPlane0Base;
@@ -557,16 +560,16 @@ void __usercall SwapBuffersAndCameraViewState(void)
     spriteBlitQueue = (dword)&kSpriteBlitQueueSentinel_A;
     dstXByteOffsetSaved1 = cameraXMod320;
     dstYStartLinesSaved1 = cameraYMod320;
-    oldCameraXSaved1 = g_oldCameraX;
-    oldCameraYSaved1 = g_oldCameraY;
-    cameraXSaved1 = g_cameraX.s.i;
-    cameraYSaved1 = g_cameraY.s.i;
+    oldCameraXSaved1 = oldCameraX;
+    oldCameraYSaved1 = oldCameraY;
+    cameraXSaved1 = cameraX.s.i;
+    cameraYSaved1 = cameraY.s.i;
     cameraXMod320 = dstXByteOffsetSaved0;
     cameraYMod320 = dstYStartLinesSaved0;
-    g_oldCameraX = oldCameraXSaved0;
-    g_oldCameraY = oldCameraYSaved0;
-    g_cameraX.s.i = cameraXSaved0;
-    g_cameraY.s.i = cameraYSaved0;
+    oldCameraX = oldCameraXSaved0;
+    oldCameraY = oldCameraYSaved0;
+    cameraX.s.i = cameraXSaved0;
+    cameraY.s.i = cameraYSaved0;
   }
   return;
 }
@@ -796,32 +799,32 @@ void __usercall ProcessSpriteBlitQueue(void)
 void __usercall SetCameraCoordinates(short newX,short newY)
 
 {
-  while (newX != g_cameraX.s.i) {
-    if ((short)(newX - g_cameraX._0_2_) < 0) {
-      g_cameraX.s.i = g_cameraX.s.i - 1;
+  while (newX != cameraX.s.i) {
+    if ((short)(newX - cameraX._0_2_) < 0) {
+      cameraX.s.i = cameraX.s.i - 1;
       cameraXMod320 = cameraXMod320 - 1;
       if ((short)cameraXMod320 < 0) {
         cameraXMod320 = 0x15f;
       }
     }
     else {
-      g_cameraX.s.i = g_cameraX.s.i + 1;
+      cameraX.s.i = cameraX.s.i + 1;
       cameraXMod320 = cameraXMod320 + 1;
       if (cameraXMod320 == 0x160) {
         cameraXMod320 = 0;
       }
     }
   }
-  while (newY != g_cameraY.s.i) {
-    if ((short)(newY - g_cameraY._0_2_) < 0) {
-      g_cameraY.s.i = g_cameraY.s.i - 1;
+  while (newY != cameraY.s.i) {
+    if ((short)(newY - cameraY._0_2_) < 0) {
+      cameraY.s.i = cameraY.s.i - 1;
       cameraYMod320 = cameraYMod320 - 1;
       if ((short)cameraYMod320 < 0) {
         cameraYMod320 = 0x10f;
       }
     }
     else {
-      g_cameraY.s.i = g_cameraY.s.i + 1;
+      cameraY.s.i = cameraY.s.i + 1;
       cameraYMod320 = cameraYMod320 + 1;
       if (cameraYMod320 == 0x110) {
         cameraYMod320 = 0;
@@ -842,9 +845,9 @@ void __usercall InitCameraMoveView(void)
   
   SetCameraCoordinates(unaff_D1w,0x110);
   ScrollToCurrent();
-  SetCameraCoordinates(g_cameraX.s.i,0);
+  SetCameraCoordinates(cameraX.s.i,0);
   ScrollToCurrent();
-  MoveView(g_cameraX.s.i,unaff_D2w);
+  MoveView(cameraX.s.i,unaff_D2w);
   return;
 }
 
@@ -860,16 +863,16 @@ void __usercall MoveView(short newScreenX,short newScreenY)
 {
   while( true ) {
     ScrollToCurrent();
-    if (newScreenX == g_cameraX.s.i) break;
-    if ((short)(newScreenX - g_cameraX._0_2_) < 0) {
-      g_cameraX.s.i = g_cameraX.s.i - 1;
+    if (newScreenX == cameraX.s.i) break;
+    if ((short)(newScreenX - cameraX._0_2_) < 0) {
+      cameraX.s.i = cameraX.s.i - 1;
       cameraXMod320 = cameraXMod320 - 1;
       if ((short)cameraXMod320 < 0) {
         cameraXMod320 = 0x15f;
       }
     }
     else {
-      g_cameraX.s.i = g_cameraX.s.i + 1;
+      cameraX.s.i = cameraX.s.i + 1;
       cameraXMod320 = cameraXMod320 + 1;
       if (cameraXMod320 == 0x160) {
         cameraXMod320 = 0;
@@ -878,16 +881,16 @@ void __usercall MoveView(short newScreenX,short newScreenY)
   }
   while( true ) {
     ScrollToCurrent();
-    if (newScreenY == g_cameraY.s.i) break;
-    if ((short)(newScreenY - g_cameraY._0_2_) < 0) {
-      g_cameraY.s.i = g_cameraY.s.i - 1;
+    if (newScreenY == cameraY.s.i) break;
+    if ((short)(newScreenY - cameraY._0_2_) < 0) {
+      cameraY.s.i = cameraY.s.i - 1;
       cameraYMod320 = cameraYMod320 - 1;
       if ((short)cameraYMod320 < 0) {
         cameraYMod320 = 0x10f;
       }
     }
     else {
-      g_cameraY.s.i = g_cameraY.s.i + 1;
+      cameraY.s.i = cameraY.s.i + 1;
       cameraYMod320 = cameraYMod320 + 1;
       if (cameraYMod320 == 0x110) {
         cameraYMod320 = 0;
@@ -932,28 +935,28 @@ void __usercall ScrollXUpdateColumnsAndBlit(void)
   short sVar8;
   int *piVar9;
   
-  if (g_cameraX.s.i != g_oldCameraX) {
-    if ((short)(g_cameraX.s.i - g_oldCameraX) < 0) {
+  if (cameraX.s.i != oldCameraX) {
+    if ((short)(cameraX.s.i - oldCameraX) < 0) {
       sVar8 = 0;
-      if ((short)g_cameraX.s.i >> TILE_SHIFT_X == (short)g_oldCameraX >> TILE_SHIFT_X) {
-        g_oldCameraX = g_cameraX.s.i;
+      if ((short)cameraX.s.i >> TILE_SHIFT_X == (short)oldCameraX >> TILE_SHIFT_X) {
+        oldCameraX = cameraX.s.i;
         cameraCoordinatesValid = 0;
         return;
       }
     }
     else {
       sVar8 = SCROLL_RIGHT_EDGE_X;
-      if ((short)(g_cameraX.s.i + SCROLL_RIGHT_EDGE_X) >> TILE_SHIFT_X ==
-          (short)(g_oldCameraX + SCROLL_RIGHT_EDGE_X) >> TILE_SHIFT_X) {
-        g_oldCameraX = g_cameraX.s.i;
+      if ((short)(cameraX.s.i + SCROLL_RIGHT_EDGE_X) >> TILE_SHIFT_X ==
+          (short)(oldCameraX + SCROLL_RIGHT_EDGE_X) >> TILE_SHIFT_X) {
+        oldCameraX = cameraX.s.i;
         cameraCoordinatesValid = 0;
         return;
       }
     }
     cameraCoordinatesValid = 0;
-    g_oldCameraX = g_cameraX.s.i;
-    iVar1 = (int)(short)(((ushort)(sVar8 + g_cameraX.s.i) >> TILE_SHIFT_X) * 4 +
-                        (g_cameraY.s.i >> TILE_SHIFT_X) * PITCH_PTR_ROW_BYTES);
+    oldCameraX = cameraX.s.i;
+    iVar1 = (int)(short)(((ushort)(sVar8 + cameraX.s.i) >> TILE_SHIFT_X) * 4 +
+                        (cameraY.s.i >> TILE_SHIFT_X) * PITCH_PTR_ROW_BYTES);
     piVar9 = (int *)(iVar1 + 0x400);
     REG_DMACON = DMACON_BLT_ON;
     uVar5 = REG_DMACONR._0_1_;
@@ -1077,7 +1080,7 @@ void __usercall ScrollYUpdateRowsAndBlit(void)
   uint *puVar20;
   uint *puVar21;
   
-  uVar3 = g_cameraY.s.i - g_oldCameraY;
+  uVar3 = cameraY.s.i - oldCameraY;
   if (uVar3 != 0) {
     if ((int)((uint)uVar3 << 0x10) < 0) {
       sVar8 = 0;
@@ -1086,10 +1089,10 @@ void __usercall ScrollYUpdateRowsAndBlit(void)
     else {
       sVar8 = SCREEN_HEIGHT - uVar3;
     }
-    g_oldCameraY = g_cameraY.s.i;
+    oldCameraY = cameraY.s.i;
     cameraCoordinatesValid = 0;
-    piVar12 = (int *)((int)(short)((g_cameraX.s.i >> TILE_SHIFT_X) << 2) +
-                     (uint)((ushort)(sVar8 + g_cameraY.s.i) >> TILE_SHIFT_X) * PITCH_PTR_ROW_BYTES +
+    piVar12 = (int *)((int)(short)((cameraX.s.i >> TILE_SHIFT_X) << 2) +
+                     (uint)((ushort)(sVar8 + cameraY.s.i) >> TILE_SHIFT_X) * PITCH_PTR_ROW_BYTES +
                      0x400);
     uVar7 = sVar8 + cameraYMod320;
     if (SCREEN_HEIGHT - 1 < uVar7) {
@@ -1097,7 +1100,7 @@ void __usercall ScrollYUpdateRowsAndBlit(void)
     }
     puVar14 = (uint *)(frontbufferBasePtr +
                       (uint)uVar7 * ROW_STRIDE_BYTES + (cameraXMod320 >> 3 & 0xfffe));
-    if ((g_cameraX.s.i & 0xf) == 0) {
+    if ((cameraX.s.i & 0xf) == 0) {
       sVar9 = 0x14;
       iVar10 = PITCH_DEST_MOD_ALIGNED;
     }
@@ -1116,7 +1119,7 @@ void __usercall ScrollYUpdateRowsAndBlit(void)
     maskBlitPendingBytesA = 0;
     maskBlitPendingBytesB = 0;
     maskBlitSecondStreamPtr = (uint *)0x0;
-    iVar6 = (int)(short)((sVar8 + g_cameraY.s.i & TILE_MASK) << NUM_PLANES_SHIFT_PLUS1);
+    iVar6 = (int)(short)((sVar8 + cameraY.s.i & TILE_MASK) << NUM_PLANES_SHIFT_PLUS1);
     sVar8 = uVar3 - 1;
     sVar5 = sVar9;
     piVar13 = piVar12;
@@ -1842,7 +1845,7 @@ void __usercall DrawSprite_entry2(void)
   dword dVar1;
   ushort unaff_D1w;
   ushort unaff_D2w;
-  void *unaff_A0;
+  Sprite *unaff_A0;
   
   dVar1 = spriteBlitQueue;
   DrawSpriteClipped(unaff_A0,unaff_D1w,unaff_D2w);
@@ -2012,18 +2015,19 @@ void __usercall DrawSpriteHotspotInCameraView(void)
 void __usercall DrawSpriteInCameraView(void)
 
 {
-  void *sprite;
+  Sprite *sprite;
   ushort x;
   ushort y;
   short unaff_D0w;
   short unaff_D1w;
   short unaff_D2w;
   
-  sprite = *(void **)(spriteGraphicsPtr + (short)(unaff_D0w << 2));
-  x = unaff_D1w - g_cameraX._0_2_;
-  y = unaff_D2w - g_cameraY._0_2_;
+  sprite = *(Sprite **)(spriteGraphicsPtr + (short)(unaff_D0w << 2));
+  x = unaff_D1w - cameraX._0_2_;
+  y = unaff_D2w - cameraY._0_2_;
   if (((((short)x < SCREEN_WIDTH) && ((short)y < SCREEN_HEIGHT)) &&
-      (-*(short *)((int)sprite + 10) < (short)x)) && (-*(short *)((int)sprite + 0xc) < (short)y)) {
+      ((short)-sprite->startingDirection < (short)x)) &&
+     (-*(short *)&sprite->playerState < (short)y)) {
     DrawSpriteClipped(sprite,x,y);
     return;
   }
@@ -2048,14 +2052,14 @@ void __usercall DrawSpriteInCameraView(void)
 void __usercall DarkenRectangle(ushort spriteIndex,ushort x,ushort y)
 
 {
-  DrawSpriteClipped(*(void **)(spriteGraphicsPtr + (short)(spriteIndex << 2)),x,y);
+  DrawSpriteClipped(*(Sprite **)(spriteGraphicsPtr + (short)(spriteIndex << 2)),x,y);
   return;
 }
 
 
 // --- DrawSpriteClipped @ 00104580 ---
 
-void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
+void __usercall DrawSpriteClipped(Sprite *sprite,ushort x,ushort y)
 
 {
   uchar *puVar1;
@@ -2079,8 +2083,9 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
   void *pvVar19;
   
   puVar6 = frontbufferBasePtr;
-  if ((*(short *)((int)sprite + 8) == 0) && (*(short *)((int)sprite + 8) == 0)) {
-    wVar9 = *(word *)((int)sprite + 0xc);
+  if ((*(short *)((int)&sprite->animationTable + 2) == 0) &&
+     (*(short *)((int)&sprite->animationTable + 2) == 0)) {
+    wVar9 = *(word *)&sprite->playerState;
     sVar10 = 0;
     if ((short)y < 0) {
       sVar10 = -y;
@@ -2097,14 +2102,14 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
       uVar8 = uVar8 + -SCREEN_HEIGHT;
     }
     uVar15 = 0;
-    uVar16 = *(ushort *)((int)sprite + 10) & TILE_MASK;
+    uVar16 = sprite->startingDirection & TILE_MASK;
     if (uVar16 == 0) {
       uVar16 = 0x10;
     }
-    uVar17 = *(ushort *)((int)sprite + TILE_STRIDE) + 1;
+    uVar17 = sprite->field_E + 1;
     if ((ushort)(uVar16 + (uVar3 & TILE_MASK)) < 0x11) {
       uVar15 = BLT_FWM_ALL;
-      uVar17 = *(ushort *)((int)sprite + TILE_STRIDE);
+      uVar17 = sprite->field_E;
     }
     REG_DMACON = DMACON_BLT_ON;
     uVar4 = REG_DMACONR._0_1_;
@@ -2116,7 +2121,7 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
     REG_BLTAFWM = BLT_FWM_ALL;
     uVar16 = uVar3 * 0x1000;
     REG_BLTCON1 = uVar16;
-    if (*(int *)((int)sprite + 4) == 0) {
+    if (*(int *)&sprite->frameOffset == 0) {
       uVar16 = uVar16 + BLTCON0_BASE_SINGLE;
       REG_BLTADAT = 0xffff;
     }
@@ -2139,26 +2144,25 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
     *(byte **)spriteBlitQueue = frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6);
     *(ushort *)(spriteBlitQueue + 10) = uVar17 + wVar9 * 0x100;
     uVar3 = uVar17 + wVar9 * 0x40;
-    REG_BLTAMOD = *(short *)((int)sprite + TILE_STRIDE) * 2 + uVar17 * -2;
-    REG_BLTBMOD = *(short *)((int)sprite + TILE_STRIDE) * 8 + uVar17 * -2;
+    REG_BLTAMOD = sprite->field_E * 2 + uVar17 * -2;
+    REG_BLTBMOD = sprite->field_E * 8 + uVar17 * -2;
     *(ushort *)(spriteBlitQueue + 8) = uVar17 * -2 + PLANE_STRIDE;
     uVar8 = uVar17 * -2 + 0xb0;
     REG_BLTCMOD = uVar8;
     REG_BLTDMOD = uVar8;
     iVar13 = 0;
     if (sVar10 != 0) {
-      iVar13 = (uint)(ushort)(sVar10 << NUM_PLANES_SHIFT) *
-               (uint)*(ushort *)((int)sprite + TILE_STRIDE) * 2;
+      iVar13 = (uint)(ushort)(sVar10 << NUM_PLANES_SHIFT) * (uint)sprite->field_E * 2;
     }
     savedSrcPlaneA = iVar13 + *(int *)sprite;
     REG_BLTBPTH = (void *)savedSrcPlaneA;
     savedSrcPlaneB =
          CONCAT22((short)((uint)iVar13 >> 0x10),(ushort)iVar13 >> NUM_PLANES_SHIFT) +
-         *(int *)((int)sprite + 4);
+         *(int *)&sprite->frameOffset;
     REG_BLTAPTH = (void *)savedSrcPlaneB;
     piVar18 = (int *)(spriteBlitQueue + 0xc);
     REG_BLTSIZE = uVar3;
-    iVar13 = (int)(short)(*(short *)((int)sprite + TILE_STRIDE) << 1);
+    iVar13 = (int)(short)(sprite->field_E << 1);
     REG_DMACON = DMACON_BLT_ON;
     uVar4 = REG_DMACONR._0_1_;
     do {
@@ -2194,7 +2198,7 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
     REG_BLTBPTH = (void *)(iVar13 + (int)pvVar19);
     REG_BLTSIZE = uVar3;
     if (sVar11 != 0) {
-      iVar13 = (uint)queuedLineCount * (uint)*(ushort *)((int)sprite + TILE_STRIDE);
+      iVar13 = (uint)queuedLineCount * (uint)sprite->field_E;
       pvVar19 = (void *)(iVar13 * 2 + savedSrcPlaneB);
       pvVar2 = (void *)(savedSrcPlaneA + iVar13 * 8);
       REG_DMACON = DMACON_BLT_ON;
@@ -2213,7 +2217,7 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
       *(ushort *)(spriteBlitQueue + 0x16) = (uVar17 & 0x7fff) + sVar11 * 0x100;
       uVar3 = (uVar17 & 0x7fff) + sVar11 * 0x40;
       REG_BLTSIZE = uVar3;
-      iVar13 = (int)(short)(*(short *)((int)sprite + TILE_STRIDE) << 1);
+      iVar13 = (int)(short)(sprite->field_E << 1);
       pvVar2 = (void *)(iVar13 + (int)pvVar2);
       REG_DMACON = DMACON_BLT_ON;
       uVar4 = REG_DMACONR._0_1_;
@@ -2256,7 +2260,7 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
     spriteBlitQueue = (dword)piVar18;
     return;
   }
-  sVar10 = *(short *)((int)sprite + 0xc);
+  sVar10 = *(short *)&sprite->playerState;
   sVar14 = 0;
   if ((short)y < 0) {
     sVar14 = -y;
@@ -2273,14 +2277,14 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
     uVar8 = uVar8 - 0x110;
   }
   uVar15 = 0;
-  uVar16 = *(ushort *)((int)sprite + 10) & 0xf;
+  uVar16 = sprite->startingDirection & 0xf;
   if (uVar16 == 0) {
     uVar16 = 0x10;
   }
-  uVar17 = *(ushort *)((int)sprite + 0xe) + 1;
+  uVar17 = sprite->field_E + 1;
   if ((ushort)(uVar16 + (uVar3 & 0xf)) < 0x11) {
     uVar15 = 0xffff;
-    uVar17 = *(ushort *)((int)sprite + 0xe);
+    uVar17 = sprite->field_E;
   }
   REG_DMACON = 0x8400;
   uVar4 = REG_DMACONR._0_1_;
@@ -2292,7 +2296,7 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
   REG_BLTAFWM = 0xffff;
   uVar16 = uVar3 * 0x1000;
   REG_BLTCON1 = uVar16;
-  if (*(int *)((int)sprite + 4) == 0) {
+  if (*(int *)&sprite->frameOffset == 0) {
     uVar16 = uVar16 + 0x7ca;
     REG_BLTADAT = 0xffff;
   }
@@ -2313,7 +2317,7 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
   *(uchar **)(spriteBlitQueue + 4) = puVar1;
   *(byte **)spriteBlitQueue = frontbufferMaskBuffer + ((int)puVar1 - (int)puVar6);
   uVar3 = uVar17 + sVar10 * 0x100;
-  uVar8 = *(short *)((int)sprite + 0xe) * 2 + uVar17 * -2;
+  uVar8 = sprite->field_E * 2 + uVar17 * -2;
   REG_BLTAMOD = uVar8;
   REG_BLTBMOD = uVar8;
   uVar8 = uVar17 * -2 + 0x2c;
@@ -2322,10 +2326,10 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
   *(ushort *)(spriteBlitQueue + 8) = uVar8;
   iVar13 = 0;
   if (sVar14 != 0) {
-    iVar13 = (uint)(ushort)(sVar14 << 2) * (uint)*(ushort *)((int)sprite + 0xe) * 2;
+    iVar13 = (uint)(ushort)(sVar14 << 2) * (uint)sprite->field_E * 2;
   }
   REG_BLTBPTH = (void *)(iVar13 + *(int *)sprite);
-  REG_BLTAPTH = (void *)(iVar13 + *(int *)((int)sprite + 4));
+  REG_BLTAPTH = (void *)(iVar13 + *(int *)&sprite->frameOffset);
   REG_BLTSIZE = uVar3;
   *(ushort *)(spriteBlitQueue + 10) = uVar3;
   piVar18 = (int *)(spriteBlitQueue + 0xc);
@@ -2358,21 +2362,21 @@ void __usercall DrawSpriteClipped(void *sprite,ushort x,ushort y)
 void __usercall DrawQueuedSprites(void)
 
 {
-  void *sprite;
+  Sprite *sprite;
   Sprite *pSVar1;
   ushort y;
   ushort x;
   uint *puVar2;
   
-  puVar2 = (uint *)dword_2BCF8;
-  while (puVar2 != (uint *)&renderStackBase) {
+  puVar2 = (uint *)renderStackPtr;
+  while (puVar2 != (uint *)renderStackBase) {
     y = *(ushort *)((int)puVar2 + -2);
     x = *(ushort *)(puVar2 + -1);
-    sprite = (void *)puVar2[-2];
+    sprite = (Sprite *)puVar2[-2];
     puVar2 = puVar2 + -3;
     pSVar1 = (Sprite *)*puVar2;
     if (pSVar1->teamNumber != 0) {
-      SaveCoordinatesForHighlights(*(short *)((int)sprite + 0x16),x,y);
+      SaveCoordinatesForHighlights(sprite->frameIndex,x,y);
     }
     if ((pSVar1 < &goalie1Sprite) || ((Sprite *)((int)&team2Player11Sprite.sentAway + 1) < pSVar1))
     {
@@ -2419,7 +2423,7 @@ void __usercall RenderSpriteBandsToCopperLists(void)
   REG_BLTCON0 = BLTCON0_USEA_USED_LF_F0;
   REG_BLTAMOD = 4;
   REG_BLTDMOD = 0;
-  pbVar8 = (byte *)dword_2C044;
+  pbVar8 = plane01RenderStackPtr;
   while (pbVar8 != plane01RenderStackBase) {
     puVar5 = (ushort *)(pbVar8 + -2);
     puVar6 = (ushort *)(pbVar8 + -4);
@@ -2529,7 +2533,7 @@ void __usercall BuildSpriteBandAndGeneralRenderStacks(void)
   if (numSpritesToRender != 0) {
     pbVar10 = plane01RenderStackBase;
     pbVar11 = plane23RenderStackBase;
-    pbVar12 = &renderStackBase;
+    pbVar12 = renderStackBase;
     occlMinYBuckets[0] = 0x7f;
     occlMinYBuckets[1] = 0xff;
     occlMinYBuckets[2] = 0x7f;
@@ -2598,8 +2602,8 @@ void __usercall BuildSpriteBandAndGeneralRenderStacks(void)
     sVar8 = numSpritesToRender - 1;
     do {
       if (ppSVar9 == sortedSprites) {
-        dword_2BCF8 = (dword)pbVar12;
-        dword_2C044 = (dword)pbVar10;
+        renderStackPtr = pbVar12;
+        plane01RenderStackPtr = pbVar10;
         plane23RenderStackPtr = pbVar11;
         return;
       }
@@ -2607,8 +2611,8 @@ void __usercall BuildSpriteBandAndGeneralRenderStacks(void)
       pSVar1 = *ppSVar9;
       if (-1 < (short)pSVar1->imageIndex) {
         iVar2 = *(int *)(spriteGraphicsPtr + (short)(pSVar1->imageIndex << 2));
-        sVar5 = ((pSVar1->x).s.i - *(short *)(iVar2 + 0x10)) - g_cameraX._0_2_;
-        wVar6 = (((pSVar1->y).s.i - *(short *)(iVar2 + 0x12)) - g_cameraY._0_2_) - (pSVar1->z).s.i;
+        sVar5 = ((pSVar1->x).s.i - *(short *)(iVar2 + 0x10)) - cameraX._0_2_;
+        wVar6 = (((pSVar1->y).s.i - *(short *)(iVar2 + 0x12)) - cameraY._0_2_) - (pSVar1->z).s.i;
         if ((((sVar5 < SCREEN_WIDTH) && ((short)wVar6 < SCREEN_HEIGHT)) &&
             (-*(short *)(iVar2 + 10) < sVar5)) && (-*(short *)(iVar2 + 0xc) < (short)wVar6)) {
           if ((overlayActiveFlag == 0) && (*(short *)(iVar2 + 10) < 0x11)) {
@@ -2679,8 +2683,8 @@ enqueue_to_general_stack:
         }
       }
       sVar8 = sVar8 + -1;
-      dword_2BCF8 = (dword)pbVar12;
-      dword_2C044 = (dword)pbVar10;
+      renderStackPtr = pbVar12;
+      plane01RenderStackPtr = pbVar10;
       plane23RenderStackPtr = pbVar11;
     } while (sVar8 != -1);
   }
@@ -3604,44 +3608,44 @@ ushort __usercall LoadFile(char *filename,void *dst)
   bool bVar2;
   
   src = frontbufferBasePtr;
-  if (g_assetCurrentIndex == 4) {
+  if (assetCurrentIndex == 4) {
     uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
   }
   else {
-    bVar2 = g_assetLoaderCacheFlag == 0;
+    bVar2 = assetLoaderCacheFlag == 0;
     if ((bVar2) || (AssetCacheCopyByName(filename,frontbufferBasePtr), !bVar2)) {
       bVar2 = false;
       uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
       if (!bVar2) {
-        if (g_assetCurrentIndex == 4) {
+        if (assetCurrentIndex == 4) {
           return uVar1;
         }
         do {
         } while( true );
       }
-      if ((g_assetLoaderCacheFlag != 0) && (g_assetLoaderAltPathReady != 0)) {
+      if ((assetLoaderCacheFlag != 0) && (assetLoaderAltPathReady != 0)) {
         AssetCacheStoreFromMemory(filename,src,unaff_D1);
       }
     }
     if (FRONTBUFFER_SIZE_TOTAL_BYTES < unaff_D1) {
       panicReasonCode = 0xe000;
       PanicHaltLoop();
-      if (g_assetCurrentIndex == 4) {
+      if (assetCurrentIndex == 4) {
         uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
       }
       else {
-        bVar2 = g_assetLoaderCacheFlag == 0;
+        bVar2 = assetLoaderCacheFlag == 0;
         if ((bVar2) || (AssetCacheCopyByName(filename,src), !bVar2)) {
           bVar2 = false;
           uVar1 = AssetSys_Dispatch(ASSET_OP_INIT_SOURCE0);
           if (!bVar2) {
-            if (g_assetCurrentIndex == 4) {
+            if (assetCurrentIndex == 4) {
               return uVar1;
             }
             do {
             } while( true );
           }
-          if ((g_assetLoaderCacheFlag != 0) && (g_assetLoaderAltPathReady != 0)) {
+          if ((assetLoaderCacheFlag != 0) && (assetLoaderAltPathReady != 0)) {
             AssetCacheStoreFromMemory(filename,src,unaff_D1);
           }
         }
@@ -3681,8 +3685,8 @@ ushort __usercall AssetCacheAlloc(uint size)
   int *piVar4;
   
   uVar1 = size + 1 & 0xfffffffe;
-  piVar3 = (int *)g_assetLoaderCacheFlag;
-  if (g_assetLoaderCacheFlag != 0) {
+  piVar3 = (int *)assetLoaderCacheFlag;
+  if (assetLoaderCacheFlag != 0) {
     while( true ) {
       if ((*(short *)(piVar3 + 1) != 0) && (uVar1 <= *(uint *)((int)piVar3 + 6))) {
         iVar2 = (*(int *)((int)piVar3 + 6) - uVar1) + -0x30;
@@ -3696,7 +3700,7 @@ ushort __usercall AssetCacheAlloc(uint size)
           *(int *)((int)piVar4 + 6) = iVar2;
           *(undefined2 *)(piVar4 + 1) = 1;
         }
-        g_assetLoaderWorkPtr = (uint *)((int)g_assetLoaderWorkPtr - uVar1);
+        assetLoaderWorkPtr = (uint *)((int)assetLoaderWorkPtr - uVar1);
         return 0;
       }
       if (*piVar3 == 0) break;
@@ -3717,8 +3721,8 @@ int __usercall AssetCacheFindByName(char *name)
   char *pcVar3;
   int *piVar4;
   
-  piVar4 = (int *)g_assetLoaderCacheFlag;
-  if (g_assetLoaderCacheFlag != 0) {
+  piVar4 = (int *)assetLoaderCacheFlag;
+  if (assetLoaderCacheFlag != 0) {
     while( true ) {
       if (*(short *)(piVar4 + 1) == 0) {
         pcVar2 = name;
@@ -4603,7 +4607,7 @@ void __usercall TurnCrowdChantsOn(void)
   fadeInChantTimer = 0;
   nextChantTimer = 0;
   fadeOutChantTimer = 0;
-  g_crowdChantsOn = 1;
+  crowdChantsOn = 1;
   SetVolumeOrStopChants(CONCAT22((short)((uint)unaff_D0 >> 0x10),2),unaff_D1 & 0xffff0000);
   crowdChantVolume = 0;
   return;
@@ -4618,7 +4622,7 @@ void __usercall TurnCrowdChantsOff(void)
   undefined4 unaff_D0;
   uint unaff_D1;
   
-  g_crowdChantsOn = 0;
+  crowdChantsOn = 0;
   SetVolumeOrStopChants(CONCAT22((short)((uint)unaff_D0 >> 0x10),2),unaff_D1 & 0xffff0000);
   crowdChantVolume = 0;
   return;
@@ -4638,10 +4642,10 @@ void __usercall PlayCrowdChants(void)
   undefined2 uVar4;
   uint unaff_D1;
   
-  if (g_trainingGame != 0) {
+  if (trainingGame != 0) {
     return;
   }
-  if (g_crowdChantsOn == 0) {
+  if (crowdChantsOn == 0) {
     return;
   }
   uVar2 = (undefined2)((uint)unaff_D0 >> 0x10);
@@ -4733,15 +4737,15 @@ void __usercall EnsureSfxLoadedAndStart(void)
   undefined4 unaff_D0;
   undefined4 unaff_D1;
   
-  if (g_audioBankLoaded == 0) {
+  if (audioBankLoaded == 0) {
     StopAudio();
-    StartMenuMusic(&g_sfxSongData,poolplyrDatBuffer);
-    g_audioBankLoaded = 1;
+    StartMenuMusic(&sfxSongData,poolplyrDatBuffer);
+    audioBankLoaded = 1;
   }
   SetVolumeOrStopChants
             (CONCAT22((short)((uint)unaff_D0 >> 0x10),0xffff),
              CONCAT22((short)((uint)unaff_D1 >> 0x10),0x40));
-  g_audioActive = 1;
+  audioActive = 1;
   return;
 }
 
@@ -4751,7 +4755,7 @@ void __usercall EnsureSfxLoadedAndStart(void)
 void __usercall ClearAudioActiveFlag(void)
 
 {
-  g_audioActive = 0;
+  audioActive = 0;
   return;
 }
 
@@ -4762,8 +4766,8 @@ void __usercall StopAudioAndClearFlags(void)
 
 {
   StopAudio();
-  g_audioActive = 0;
-  g_audioBankLoaded = 0;
+  audioActive = 0;
+  audioBankLoaded = 0;
   return;
 }
 
@@ -4773,13 +4777,15 @@ void __usercall StopAudioAndClearFlags(void)
 void __usercall PlayEnqueuedSamples(void)
 
 {
+  uint unaff_D0;
+  
   if ((endOfHalfWriteOnly != 0) &&
      (endOfHalfWriteOnly = endOfHalfWriteOnly - 1, endOfHalfWriteOnly == 0)) {
-    PlayPenaltySample();
+    PlayPenaltySample(unaff_D0);
     sfxQueueWriteIdx = 0xfa;
   }
   if ((goalCounter != 0) && (goalCounter = goalCounter - 1, goalCounter == 0)) {
-    PlaySample2();
+    PlaySample4IfNotTraining();
   }
   if ((sfxQueueWriteIdx != 0) && (sfxQueueWriteIdx = sfxQueueWriteIdx - 1, sfxQueueWriteIdx == 0)) {
     PlaySample7IfNotTraining();
@@ -4797,10 +4803,10 @@ void __usercall PlayEnqueuedSamples(void)
 
 // --- PlayPenaltySample @ 0010723c ---
 
-void __usercall PlayPenaltySample(void)
+void __usercall PlayPenaltySample(uint presetId)
 
 {
-  if (g_trainingGame != 0) {
+  if (trainingGame != 0) {
     return;
   }
   PlaySample();
@@ -4813,7 +4819,7 @@ void __usercall PlayPenaltySample(void)
 void __usercall PlaySample7IfNotTraining(void)
 
 {
-  if (g_trainingGame != 0) {
+  if (trainingGame != 0) {
     return;
   }
   PlaySample();
@@ -4912,7 +4918,7 @@ void __usercall PlayEndGameWhistleSample(void)
 void __usercall PlaySample1IfNotTraining(void)
 
 {
-  if (g_trainingGame != 0) {
+  if (trainingGame != 0) {
     return;
   }
   PlaySample();
@@ -4920,12 +4926,12 @@ void __usercall PlaySample1IfNotTraining(void)
 }
 
 
-// --- FUN_001072ee @ 001072ee ---
+// --- PlaySample2IfNotTraining @ 001072ee ---
 
-void FUN_001072ee(void)
+void __usercall PlaySample2IfNotTraining(void)
 
 {
-  if (g_trainingGame != 0) {
+  if (trainingGame != 0) {
     return;
   }
   pendingSampleId3_4 = 1000;
@@ -4934,12 +4940,12 @@ void FUN_001072ee(void)
 }
 
 
-// --- PlaySample2 @ 00107308 ---
+// --- PlaySample4IfNotTraining @ 00107308 ---
 
-void __usercall PlaySample2(void)
+void __usercall PlaySample4IfNotTraining(void)
 
 {
-  if (g_trainingGame != 0) {
+  if (trainingGame != 0) {
     return;
   }
   pendingSampleId3_4 = 400;
@@ -4948,12 +4954,12 @@ void __usercall PlaySample2(void)
 }
 
 
-// --- PlaySample3 @ 00107322 ---
+// --- PlaySample3IfNotTraining @ 00107322 ---
 
-void __usercall PlaySample3(void)
+void __usercall PlaySample3IfNotTraining(void)
 
 {
-  if (g_trainingGame != 0) {
+  if (trainingGame != 0) {
     return;
   }
   sfxQueueCount = 10;
@@ -4967,7 +4973,7 @@ void __usercall PlaySample3(void)
 void __usercall PlayMissGoalSample(void)
 
 {
-  if (g_trainingGame != 0) {
+  if (trainingGame != 0) {
     return;
   }
   sfxQueueCount = 10;
@@ -4981,10 +4987,12 @@ void __usercall PlayMissGoalSample(void)
 void __usercall PlayPenalty(void)
 
 {
-  if (g_trainingGame != 0) {
+  uint unaff_D0;
+  
+  if (trainingGame != 0) {
     return;
   }
-  PlayPenaltySample();
+  PlayPenaltySample(unaff_D0);
   sfxQueueWriteIdx = 0x8c;
   return;
 }
@@ -4995,11 +5003,13 @@ void __usercall PlayPenalty(void)
 void __usercall PlayGameStateWhistleSample(void)
 
 {
-  if (g_trainingGame != 0) {
+  uint unaff_D0;
+  
+  if (trainingGame != 0) {
     return;
   }
   if ((gameState != ST_PENALTY) || (sfxQueueWriteIdx == 0)) {
-    PlayPenaltySample();
+    PlayPenaltySample(unaff_D0);
   }
   sfxQueueWriteIdx = 0x96;
   return;
@@ -5008,13 +5018,13 @@ void __usercall PlayGameStateWhistleSample(void)
 
 // --- PlayGoalReplayBottomSample @ 001073a0 ---
 
-void PlayGoalReplayBottomSample(void)
+void __usercall PlayGoalReplayBottomSample(void)
 
 {
-  if (g_trainingGame != 0) {
+  if (trainingGame != 0) {
     return;
   }
-  FUN_001072ee();
+  PlaySample2IfNotTraining();
   return;
 }
 
@@ -5026,7 +5036,7 @@ void __usercall PlayGoalKickOffSample(void)
 {
   bool bVar1;
   
-  if (g_trainingGame != 0) {
+  if (trainingGame != 0) {
     return;
   }
   bVar1 = false;
@@ -5045,7 +5055,7 @@ void __usercall PlayCornerKickSample(void)
 {
   bool bVar1;
   
-  if (g_trainingGame != 0) {
+  if (trainingGame != 0) {
     return;
   }
   bVar1 = false;
@@ -5272,6 +5282,72 @@ void __usercall StopAudio(void)
   REG_AUD1VOL = 0;
   REG_AUD2VOL = 0;
   REG_AUD3VOL = 0;
+  return;
+}
+
+
+// --- AudioSetMode @ 0010760c ---
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __usercall AudioSetMode(uint modeFlags)
+
+{
+  _audioCounter = (ushort)modeFlags & 0xf;
+  audioFlags[2] = 0;
+  audioFlags[3] = 0xff;
+  audioFlags[4] = 0xff;
+  if ((modeFlags & 8) == 0) {
+    audioFlags[3] = 0;
+  }
+  if ((modeFlags & 4) == 0) {
+    audioFlags[4] = 0;
+  }
+  return;
+}
+
+
+// --- AudioChannelNoteOnOff @ 00107680 ---
+
+void __usercall AudioChannelNoteOnOff(uint channel,uint noteId)
+
+{
+  byte bVar1;
+  int iVar2;
+  short sVar3;
+  byte *pbVar4;
+  
+  audioFlags[9] = audioFlags[9] | '\x01' << (channel & 7);
+  iVar2 = (int)(short)((short)channel * 0xb0);
+  sVar3 = (short)noteId << 2;
+  if (sVar3 != 0) {
+    pbVar4 = (byte *)(audioPresetChannelCmdTable._12_4_ +
+                     *(int *)(audioPresetChannelCmdTable._4_4_ + (int)sVar3));
+    bVar1 = *pbVar4;
+    *(byte **)(audioChannel0 + iVar2 + 0x4e) = pbVar4 + 1;
+    *(int *)(audioChannel0 + iVar2 + 0x52) =
+         audioPresetChannelCmdTable._16_4_ +
+         *(int *)(audioPresetChannelCmdTable._8_4_ + (int)(short)((ushort)bVar1 << 2));
+    audioChannel0[iVar2 + 0x56] = 6;
+    audioChannel0[iVar2 + 0x57] = 1;
+    audioChannel0[iVar2 + 0x59] = 1;
+    audioChannel0[iVar2 + 0x5b] = 0xff;
+    return;
+  }
+  audioChannel0[iVar2 + 0x5b] = 0;
+  AudioDisableDMAForChannel(audioChannel0 + iVar2);
+  return;
+}
+
+
+// --- AudioDisableDMAForChannel @ 00107834 ---
+
+void __usercall AudioDisableDMAForChannel(void *chan)
+
+{
+  int unaff_A6;
+  
+  *(undefined2 *)(unaff_A6 + 0x96) = *(undefined2 *)((int)chan + 0x2e);
   return;
 }
 
@@ -5712,8 +5788,8 @@ void __usercall MoveCamera(void)
     uVar12 = 0x6b;
     goto offset_and_clamp_to_view;
   }
-  if (g_waitForPlayerToGoInTimer == 0) {
-    if (g_leavingSubsMenu != 0) {
+  if (waitForPlayerToGoInTimer == 0) {
+    if (leavingSubsMenu != 0) {
       sVar6 = 0x25;
       cameraXVelocity = 0;
       cameraYVelocity = 0;
@@ -5721,7 +5797,7 @@ void __usercall MoveCamera(void)
       uVar12 = 0x1c1;
       goto offset_and_clamp_to_view;
     }
-    if (g_inSubstitutesMenu == 0) {
+    if (inSubstitutesMenu == 0) {
       FVar8 = ballSprite.deltaX;
       FVar11 = ballSprite.deltaY;
       if (gameStatePl != ST_GAME_IN_PROGRESS) {
@@ -5805,10 +5881,10 @@ tunnel_halftime_camera_target:
       goto offset_and_clamp_to_view;
     }
     sVar6 = 0x25;
-    if ((((0x12e < g_cameraY.s.i) && (g_cameraY.s.i < 0x144)) &&
+    if ((((0x12e < cameraY.s.i) && (cameraY.s.i < 0x144)) &&
         ((sVar6 = 0x25, goal1TopSprite.imageIndex == 0xffff || (goal1TopSprite.onScreen == 0)))) &&
        ((goal2BottomSprite.imageIndex == 0xffff || (goal2BottomSprite.onScreen == 0)))) {
-      if (g_substituteInProgress != 0) goto bench_camera_mode;
+      if (substituteInProgress != 0) goto bench_camera_mode;
       sVar6 = 0;
     }
   }
@@ -5818,7 +5894,7 @@ bench_camera_mode:
   }
   cameraXVelocity = 0;
   cameraYVelocity = 0;
-  uVar9 = g_benchXLimit;
+  uVar9 = benchXLimit;
   uVar12 = 0x1c1;
 offset_and_clamp_to_view:
   sVar10 = cameraXVelocity + (uVar9 - 0xa8);
@@ -5829,7 +5905,7 @@ offset_and_clamp_to_view:
   if ((short)(0x150 - sVar6) <= sVar10) {
     sVar10 = 0x150 - sVar6;
   }
-  if (g_trainingGame == 0) {
+  if (trainingGame == 0) {
     if (sVar13 < 0x11) {
       sVar13 = 0x10;
     }
@@ -5845,8 +5921,8 @@ offset_and_clamp_to_view:
       sVar13 = 0x220;
     }
   }
-  sVar10 = sVar10 - g_cameraX._0_2_;
-  sVar13 = sVar13 - g_cameraY._0_2_;
+  sVar10 = sVar10 - cameraX._0_2_;
+  sVar13 = sVar13 - cameraY._0_2_;
   if ((sVar13 != 0) || (sVar10 != 0)) {
     dVar5 = 0;
     if (sVar10 != 0) {
@@ -5869,10 +5945,10 @@ offset_and_clamp_to_view:
     if ((int)dVar7 <= (int)dVar3) {
       dVar7 = dVar3;
     }
-    iVar1 = g_cameraX.raw + dVar5;
-    iVar2 = g_cameraY.raw + dVar7;
-    g_cameraX.s.frac = (short)iVar1;
-    g_cameraY.s.frac = (short)iVar2;
+    iVar1 = cameraX.raw + dVar5;
+    iVar2 = cameraY.raw + dVar7;
+    cameraX.s.frac = (short)iVar1;
+    cameraY.s.frac = (short)iVar2;
     sVar6 = (short)((uint)iVar1 >> 0x10);
     sVar10 = (short)((uint)iVar2 >> 0x10);
     if (iVar1 < 0) {
@@ -5978,7 +6054,7 @@ has_picture:
   ballSprite.deltaX = FVar6;
   ballSprite.deltaY = FVar4;
   if (gameState == ST_KEEPER_HOLDS_BALL) {
-    if (((g_substituteInProgress == 0) ||
+    if (((substituteInProgress == 0) ||
         ((TeamGeneralInfo *)teamThatSubstitutes != lastTeamPlayedBeforeBreak)) ||
        (*(int *)(teamThatSubstitutes + 0x20) != 0)) {
       if (ballSprite.speed != 0) {
@@ -6148,7 +6224,7 @@ LAB_0010984c:
       ballSprite.z = FVar1;
     }
   }
-  PlaySample3();
+  PlaySample3IfNotTraining();
   ballSprite.speed = ballSprite.speed - (ballSprite.speed >> 2);
   ballSprite.x = ballX;
   FVar6 = ballY;
@@ -6314,7 +6390,7 @@ LAB_00109aac:
       panicReasonCode = 0x237;
       PanicHaltLoop();
     }
-    ballSprite.z.s.i = *(word *)((int)dseg_17DEF4 + (int)(short)(uVar1 * 2));
+    ballSprite.z.s.i = *(word *)((int)goalkeeperDiveBallHeights + (int)(short)(uVar1 * 2));
     return;
   }
   if (topTeamData.goalkeeperDivingLeft == 0) {
@@ -6391,9 +6467,9 @@ void __usercall ActivateReferee(void)
   if (0x14f < foulXCoordinate) {
     uVar2 = -uVar2;
   }
-  refereeSprite.y.s.i = g_cameraY.s.i - 0x14;
+  refereeSprite.y.s.i = cameraY.s.i - 0x14;
   if (foulYCoordinate < 0x1c2) {
-    refereeSprite.y.s.i = g_cameraY.s.i + 0x11f;
+    refereeSprite.y.s.i = cameraY.s.i + 0x11f;
   }
   refereeSprite.x.s.i = uVar2 + wVar1;
   refereeSprite.x.s.frac = 0;
@@ -6869,10 +6945,10 @@ void __usercall ManageAdvertisements(void)
   int *piVar7;
   dword *pdVar8;
   
-  if (g_trainingGame != 0) {
+  if (trainingGame != 0) {
     return;
   }
-  if ((gameStatePl == ST_GAME_IN_PROGRESS) || (0x54 < (short)g_cameraY.s.i)) {
+  if ((gameStatePl == ST_GAME_IN_PROGRESS) || (0x54 < (short)cameraY.s.i)) {
     advertIndex = 0;
     goto teardown_ads_and_reset_counters;
   }
@@ -6973,13 +7049,13 @@ teardown_ads_and_reset_counters:
 void __usercall UpdateCornerFlagSprite(void)
 
 {
-  if ((ushort)(g_cameraX.s.i + 0xa8) < 0x150) {
+  if ((ushort)(cameraX.s.i + 0xa8) < 0x150) {
     cornerFlagSprite.x.s.i = 0x51;
   }
   else {
     cornerFlagSprite.x.s.i = 0x24e;
   }
-  if ((ushort)(g_cameraY.s.i + 0x88) < 0x1c1) {
+  if ((ushort)(cameraY.s.i + 0x88) < 0x1c1) {
     cornerFlagSprite.y.s.i = 0x81;
   }
   else {
@@ -6997,16 +7073,16 @@ void __usercall SpinBig_S_Sprite(void)
 
 {
   big_S_Sprite.imageIndex = 0xffff;
-  if (g_spinBigS != 0) {
-    if ((((g_inSubstitutesMenu == 0) || (g_subsState == 0)) && (showingUserStats == 0)) &&
+  if (spinBigS != 0) {
+    if ((((inSubstitutesMenu == 0) || (subsState == 0)) && (showingUserStats == 0)) &&
        (statsTimer == 0)) {
-      big_S_index = lastFrameTicks + big_S_index & 0x3f;
+      bigSIndex = lastFrameTicks + bigSIndex & 0x3f;
     }
-    big_S_Sprite.imageIndex = (big_S_index >> 1) + BIG_S_FRAME_00;
-    big_S_Sprite.x.s.i = g_cameraX.s.i + 0x12d;
-    big_S_Sprite.y.s.i = g_cameraY.s.i + 0x271e;
+    big_S_Sprite.imageIndex = (bigSIndex >> 1) + BIG_S_FRAME_00;
+    big_S_Sprite.x.s.i = cameraX.s.i + 0x12d;
+    big_S_Sprite.y.s.i = cameraY.s.i + 0x271e;
     if (currentPlayerIndicatorPosition == 3) {
-      big_S_Sprite.y.s.i = g_cameraY.s.i + 0x2728;
+      big_S_Sprite.y.s.i = cameraY.s.i + 0x2728;
     }
     big_S_Sprite.z.s.i = 10000;
   }
@@ -7048,6 +7124,7 @@ void __usercall CopyPlayerNameLengths(void)
 
 // --- InitGameRestoreTeams @ 0010a50e ---
 
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* in:
         A5 -> left team in-game struct
         A6 -> right team in-game struct
@@ -7060,6 +7137,7 @@ void __usercall InitGameRestoreTeams(void *leftTeamInGame,void *rightTeamInGame)
 {
   int iVar1;
   ushort *puVar2;
+  undefined4 unaff_D0;
   ushort uVar3;
   short sVar4;
   TeamGame *pTVar5;
@@ -7098,10 +7176,11 @@ void __usercall InitGameRestoreTeams(void *leftTeamInGame,void *rightTeamInGame)
   teamPlayingUp = (uVar3 & 1) + 1;
   uVar3 = Rand();
   teamStarting = (uVar3 & 1) + 1;
-  timeDelta = *(word *)((int)gameLenSecondsTable + (int)(short)(gameLengthInGame << 1));
+  sVar4 = gameLengthInGame << 1;
+  timeDelta = *(word *)((int)gameLenSecondsTable + (int)sVar4);
   uVar3 = (pitchNumberAndType & 0xff) << 2;
   puVar2 = *(ushort **)((int)pitchPalettePtrs + (int)(short)uVar3);
-  paletteTable[2] = (undefined *)gamePalette;
+  _DAT_0010f1ba = gamePalette;
   gamePalette[0] = *puVar2;
   gamePalette[7] = puVar2[1];
   gamePalette[9] = puVar2[2];
@@ -7115,12 +7194,12 @@ void __usercall InitGameRestoreTeams(void *leftTeamInGame,void *rightTeamInGame)
   showStats = 0;
   showingUserStats = 0;
   subsTeamsSwapped = 0;
-  g_inSubstitutesMenu = 0;
-  g_cameraLeavingSubsTimer = 0;
+  inSubstitutesMenu = 0;
+  cameraLeavingSubsTimer = 0;
   benchOff = 0;
-  g_leavingSubsMenu = 0;
-  g_waitForPlayerToGoInTimer = 0;
-  g_substituteInProgress = 0;
+  leavingSubsMenu = 0;
+  waitForPlayerToGoInTimer = 0;
+  substituteInProgress = 0;
   statsTeam1Goals = 0;
   team1GoalsDigit1 = 0;
   team1GoalsDigit2 = 0;
@@ -7161,9 +7240,9 @@ void __usercall InitGameRestoreTeams(void *leftTeamInGame,void *rightTeamInGame)
   StartingMatch();
   PlaySample1IfNotTraining();
   if (playGame != 0) {
-    PlayPenaltySample();
+    PlayPenaltySample(CONCAT22((short)((uint)unaff_D0 >> 0x10),sVar4));
     sfxQueueWriteIdx = 500;
-    if (g_trainingGame == 0) {
+    if (trainingGame == 0) {
       showFansCounter = 100;
     }
   }
@@ -7306,7 +7385,7 @@ void __usercall UpdateControlledPlayerNumbers(void)
   pTVar5 = &topTeamData;
   pTVar6 = topTeamData.inGameTeamPtr;
   do {
-    if ((((pTVar5->isPlCoach == 0) && (pTVar5->playerNumber == 0)) && (g_trainingGame == 0)) ||
+    if ((((pTVar5->isPlCoach == 0) && (pTVar5->playerNumber == 0)) && (trainingGame == 0)) ||
        (pSVar1 = pTVar5->controlledPlayer, pSVar1 == (Sprite *)0x0)) goto LAB_0010b0fe;
     wVar2 = pSVar1->playerOrdinal - 1;
     if (wVar2 == pTVar6->markedPlayer) {
@@ -7476,22 +7555,22 @@ LAB_0010b27e:
   }
   currentPlayerNameSprite.z.s.i = 8000;
   if (currentPlayerIndicatorPosition == 1) {
-    currentPlayerNameSprite.x.s.i = g_cameraX.s.i + 10;
-    currentPlayerNameSprite.y.s.i = g_cameraY.s.i + 0x203b;
+    currentPlayerNameSprite.x.s.i = cameraX.s.i + 10;
+    currentPlayerNameSprite.y.s.i = cameraY.s.i + 0x203b;
     return;
   }
   if (currentPlayerIndicatorPosition == 2) {
-    currentPlayerNameSprite.x.s.i = (g_cameraX.s.i + 0x146) - (short)(char)bVar2;
-    currentPlayerNameSprite.y.s.i = g_cameraY.s.i + 0x203b;
+    currentPlayerNameSprite.x.s.i = (cameraX.s.i + 0x146) - (short)(char)bVar2;
+    currentPlayerNameSprite.y.s.i = cameraY.s.i + 0x203b;
     return;
   }
   if (currentPlayerIndicatorPosition != 3) {
-    currentPlayerNameSprite.x.s.i = g_cameraX.s.i + 0x14;
-    currentPlayerNameSprite.y.s.i = g_cameraY.s.i + 0x1f4e;
+    currentPlayerNameSprite.x.s.i = cameraX.s.i + 0x14;
+    currentPlayerNameSprite.y.s.i = cameraY.s.i + 0x1f4e;
     return;
   }
-  currentPlayerNameSprite.x.s.i = (g_cameraX.s.i + 0x146) - (short)(char)bVar2;
-  currentPlayerNameSprite.y.s.i = g_cameraY.s.i + 0x1f4e;
+  currentPlayerNameSprite.x.s.i = (cameraX.s.i + 0x146) - (short)(char)bVar2;
+  currentPlayerNameSprite.y.s.i = cameraY.s.i + 0x1f4e;
   return;
 }
 
@@ -7544,33 +7623,34 @@ void __usercall ResetTime(void)
 void __usercall UpdateTime(void)
 
 {
-  char cVar1;
-  TeamGeneralInfo *pTVar2;
-  char acVar3 [4];
-  ushort uVar4;
+  uchar uVar1;
+  char cVar2;
+  TeamGeneralInfo *pTVar3;
+  uchar auVar4 [4];
   ushort uVar5;
+  ushort uVar6;
   ushort dstSprite;
-  bool bVar6;
   bool bVar7;
+  bool bVar8;
   
   timeVar = 0x96;
   if (currentTimeSprite.visible == 0) {
     currentTimeSprite.visible = 1;
     InitDisplaySprites();
   }
-  acVar3 = gameTime;
+  auVar4 = gameTime;
   if ((short)gameSeconds < 0) {
     endGameCounter = endGameCounter - lastFrameTicks;
     if (-1 < (short)endGameCounter) {
       if (((gameStatePl == ST_GAME_IN_PROGRESS) && (0xd8 < ballSprite.y.s.i)) &&
          (ballSprite.y.s.i < 0x2aa)) {
         if ((ushort)ballSprite.y._0_2_ < 0x1c2) {
-          pTVar2 = &bottomTeamData;
+          pTVar3 = &bottomTeamData;
         }
         else {
-          pTVar2 = &topTeamData;
+          pTVar3 = &topTeamData;
         }
-        if (lastTeamPlayed != pTVar2) goto no_update_to_time;
+        if (lastTeamPlayed != pTVar3) goto no_update_to_time;
       }
 last_cycle:
       gameSeconds = 0xffff;
@@ -7578,13 +7658,13 @@ last_cycle:
       goto no_update_to_time;
     }
 check_game_end:
-    if (gameTime == (char  [4])0x1) {
+    if (gameTime == (uchar  [4])0x1) {
       BumpPlayersLastPlayedHalfAtHalfStart();
     }
-    if (gameTime == (char  [4])0x406) {
+    if (gameTime == (uchar  [4])0x406) {
       BumpPlayersLastPlayedHalfAtHalfStart();
     }
-    if (gameTime == (char  [4])0x405) {
+    if (gameTime == (uchar  [4])0x405) {
       if ((short)gameSeconds < 0) {
         gameSeconds = 0;
         PlayEndGameWhistleSample();
@@ -7594,22 +7674,22 @@ check_game_end:
       }
       goto last_cycle;
     }
-    if (gameTime == (char  [4])0x900) {
+    if (gameTime == (uchar  [4])0x900) {
       if (-1 < (short)gameSeconds) goto last_cycle;
       gameSeconds = 0;
       PlayEndGameWhistleSample();
       BumpPlayersLastPlayedHalfAtHalfEnd();
       statsTeam1GoalsCopy = statsTeam1Goals;
       statsTeam2GoalsCopy = statsTeam2Goals;
-      bVar7 = team1TotalGoals < team2TotalGoals;
-      bVar6 = team1TotalGoals == team2TotalGoals;
-      if (bVar6) {
+      bVar8 = team1TotalGoals < team2TotalGoals;
+      bVar7 = team1TotalGoals == team2TotalGoals;
+      if (bVar7) {
         if ((secondLeg != 0) && (playing2ndGame == 1)) {
-          uVar4 = team2GoalsFirstLeg + statsTeam2Goals * 2;
-          uVar5 = statsTeam1Goals + team1GoalsFirstLeg * 2;
-          if (uVar5 != uVar4) {
+          uVar5 = team2GoalsFirstLeg + statsTeam2Goals * 2;
+          uVar6 = statsTeam1Goals + team1GoalsFirstLeg * 2;
+          if (uVar6 != uVar5) {
 cseg_6FD6C:
-            if (uVar4 < uVar5) goto team1_wins;
+            if (uVar5 < uVar6) goto team1_wins;
             goto team2_wins;
           }
         }
@@ -7619,7 +7699,7 @@ cseg_6FD6C:
       }
       else {
 not_draw:
-        if (bVar7 || bVar6) {
+        if (bVar8 || bVar7) {
 team2_wins:
           winningTeamPtr = &bottomTeamInGame;
         }
@@ -7631,23 +7711,23 @@ end_game:
         EndOfGame();
       }
     }
-    else if (gameTime == (char  [4])0x10005) {
+    else if (gameTime == (uchar  [4])0x10005) {
       if (-1 < (short)gameSeconds) goto last_cycle;
       gameSeconds = 0;
       PlayEndGameWhistleSample();
       EndFirstExtraTime();
     }
-    else if (gameTime == (char  [4])0x10200) {
+    else if (gameTime == (uchar  [4])0x10200) {
       if (-1 < (short)gameSeconds) goto last_cycle;
       gameSeconds = 0;
       PlayEndGameWhistleSample();
-      bVar7 = team1TotalGoals < team2TotalGoals;
-      bVar6 = team1TotalGoals == team2TotalGoals;
-      if (!bVar6) goto not_draw;
+      bVar8 = team1TotalGoals < team2TotalGoals;
+      bVar7 = team1TotalGoals == team2TotalGoals;
+      if (!bVar7) goto not_draw;
       if ((secondLeg != 0) && (playing2ndGame != 0)) {
-        uVar4 = team2GoalsFirstLeg + statsTeam2Goals * 2;
-        uVar5 = statsTeam1Goals + team1GoalsFirstLeg * 2;
-        if (uVar5 != uVar4) goto cseg_6FD6C;
+        uVar5 = team2GoalsFirstLeg + statsTeam2Goals * 2;
+        uVar6 = statsTeam1Goals + team1GoalsFirstLeg * 2;
+        if (uVar6 != uVar5) goto cseg_6FD6C;
       }
 cseg_6FBFD:
       if (penaltiesState == 0) {
@@ -7666,17 +7746,17 @@ cseg_6FBFD:
       gameSeconds = gameSeconds + 1;
       if (gameSeconds == 0x3c) {
         gameSeconds = 0;
-        cVar1 = gameTime[3] + '\x01';
-        gameTime[3] = cVar1;
-        if (cVar1 == '\n') {
-          gameTime[2] = acVar3[2];
-          cVar1 = gameTime[2] + '\x01';
-          gameTime._0_2_ = acVar3._0_2_;
-          gameTime = (char  [4])((uint)CONCAT21(gameTime._0_2_,cVar1) << 8);
-          if (cVar1 == '\n') {
-            gameTime[1] = acVar3[1];
-            gameTime[0] = acVar3[0];
-            gameTime = (char  [4])((uint)CONCAT11(gameTime[0],gameTime[1] + '\x01') << 0x10);
+        uVar1 = gameTime[3] + '\x01';
+        gameTime[3] = uVar1;
+        if (uVar1 == '\n') {
+          gameTime[2] = auVar4[2];
+          cVar2 = gameTime[2] + '\x01';
+          gameTime._0_2_ = auVar4._0_2_;
+          gameTime = (uchar  [4])((uint)CONCAT21(gameTime._0_2_,cVar2) << 8);
+          if (cVar2 == '\n') {
+            gameTime[1] = auVar4[1];
+            gameTime[0] = auVar4[0];
+            gameTime = (uchar  [4])((uint)CONCAT11(gameTime[0],gameTime[1] + '\x01') << 0x10);
           }
         }
         goto check_game_end;
@@ -7686,8 +7766,8 @@ no_update_to_time:
     if (copyTimeSprite == 0) goto set_time_sprite_x;
   }
 not_end_of_second_extra:
-  uVar4 = 0;
   uVar5 = 0;
+  uVar6 = 0;
   if (gameTime[1] == '\0') {
     if (gameTime[2] != '\0') {
       dstSprite = SPR_PREMIERE_DIVISION_WINNER;
@@ -7697,12 +7777,12 @@ not_end_of_second_extra:
   }
   else {
     dstSprite = SPR_INVITATION_TOURNAMENT;
-    uVar5 = 5;
+    uVar6 = 5;
 time_two_digits:
-    CopySprite((short)gameTime[2] + SPR_CUP_WINNER,uVar5,0,dstSprite);
-    uVar4 = uVar5 + 6;
+    CopySprite((short)(char)gameTime[2] + SPR_CUP_WINNER,uVar6,0,dstSprite);
+    uVar5 = uVar6 + 6;
   }
-  CopySprite((short)gameTime[3] + SPR_CUP_WINNER,uVar4,0,dstSprite);
+  CopySprite((short)(char)gameTime[3] + SPR_CUP_WINNER,uVar5,0,dstSprite);
   currentTimeSprite.imageIndex = dstSprite;
   if (dstSprite == SPR_INVITATION_TOURNAMENT) {
     BlitSpritePlanar_Long_StridedDest();
@@ -7712,10 +7792,10 @@ time_two_digits:
   }
   copyTimeSprite = 0;
 set_time_sprite_x:
-  currentTimeSprite.x.s.i = g_cameraX.s.i + 0x14;
-  currentTimeSprite.y.s.i = g_cameraY.s.i + 0x2721;
+  currentTimeSprite.x.s.i = cameraX.s.i + 0x14;
+  currentTimeSprite.y.s.i = cameraY.s.i + 0x2721;
   if (currentPlayerIndicatorPosition == 4) {
-    currentTimeSprite.y.s.i = g_cameraY.s.i + 0x2729;
+    currentTimeSprite.y.s.i = cameraY.s.i + 0x2729;
   }
   currentTimeSprite.z.s.i = 10000;
   return;
@@ -7960,45 +8040,45 @@ LAB_0010b964:
     if (-0xe < sVar1) {
       sVar1 = -0xe;
     }
-    team1NameSprite.x.s.i = (g_cameraX.s.i + 0x88) - team1NameLength;
-    sVar3 = sVar1 + g_cameraY.s.i;
+    team1NameSprite.x.s.i = (cameraX.s.i + 0x88) - team1NameLength;
+    sVar3 = sVar1 + cameraY.s.i;
     team1NameSprite.y.s.i = sVar3 + 0x2806;
     team1NameSprite.z.s.i = 10000;
     gridUpperRowLeftSprite.y.s.i = sVar3 + 0x240f;
-    gridUpperRowLeftSprite.x.s.i = g_cameraX.s.i;
+    gridUpperRowLeftSprite.x.s.i = cameraX.s.i;
     gridUpperRowLeftSprite.z.s.i = 9000;
-    gridUpperRowRightSprite.x.s.i = g_cameraX.s.i + 0xa8;
+    gridUpperRowRightSprite.x.s.i = cameraX.s.i + 0xa8;
     gridUpperRowRightSprite.z.s.i = 9000;
     gridMiddleRowLeftSprite.y.s.i = sVar3 + 0x242f;
-    gridMiddleRowLeftSprite.x.s.i = g_cameraX.s.i;
+    gridMiddleRowLeftSprite.x.s.i = cameraX.s.i;
     gridMiddleRowLeftSprite.z.s.i = 9000;
-    gridMiddleRowRightSprite.x.s.i = g_cameraX.s.i + 0xa8;
+    gridMiddleRowRightSprite.x.s.i = cameraX.s.i + 0xa8;
     gridMiddleRowRightSprite.z.s.i = 9000;
     gridBottomRowLeftSprite.y.s.i = sVar3 + 0x244f;
-    gridBottomRowLeftSprite.x.s.i = g_cameraX.s.i;
+    gridBottomRowLeftSprite.x.s.i = cameraX.s.i;
     gridBottomRowLeftSprite.z.s.i = 9000;
-    gridBottomRowRightSprite.x.s.i = g_cameraX.s.i + 0xa8;
+    gridBottomRowRightSprite.x.s.i = cameraX.s.i + 0xa8;
     gridBottomRowRightSprite.z.s.i = 9000;
-    team2NameSprite.x.s.i = g_cameraX.s.i + 200;
+    team2NameSprite.x.s.i = cameraX.s.i + 200;
     team2NameSprite.z.s.i = 10000;
-    team1GoalsDigit2Sprite.x.s.i = g_cameraX.s.i + 0x97;
-    team1GoalsDigit2Sprite.y.s.i = sVar1 + g_cameraY.s.i + 0x2801;
+    team1GoalsDigit2Sprite.x.s.i = cameraX.s.i + 0x97;
+    team1GoalsDigit2Sprite.y.s.i = sVar1 + cameraY.s.i + 0x2801;
     team1GoalsDigit2Sprite.z.s.i = 10000;
     team1GoalsDigit2Sprite.imageIndex = team1GoalsDigit2 + SPR_BIG_0;
     if (team1GoalsDigit1Sprite.visible != 0) {
-      team1GoalsDigit1Sprite.x.s.i = g_cameraX.s.i + 0x8b;
+      team1GoalsDigit1Sprite.x.s.i = cameraX.s.i + 0x8b;
       team1GoalsDigit1Sprite.z.s.i = 10000;
       team1GoalsDigit1Sprite.imageIndex = team1GoalsDigit1 + SPR_BIG_0;
       team1GoalsDigit1Sprite.y.s.i = team1GoalsDigit2Sprite.y.s.i;
     }
     if (team1TotalGoalsDigit2Sprite.visible != 0) {
       sVar3 = (short)((uint)(int)(short)team1TotalGoals / 10);
-      team1TotalGoalsDigit2Sprite.x.s.i = g_cameraX.s.i + 0x9e;
+      team1TotalGoalsDigit2Sprite.x.s.i = cameraX.s.i + 0x9e;
       sVar2 = (short)((uint)(int)(short)team1TotalGoals % 10);
       if (sVar2 == 1) {
-        team1TotalGoalsDigit2Sprite.x.s.i = g_cameraX.s.i + 0xa2;
+        team1TotalGoalsDigit2Sprite.x.s.i = cameraX.s.i + 0xa2;
       }
-      team1TotalGoalsDigit2Sprite.y.s.i = sVar1 + g_cameraY.s.i + 0x2819;
+      team1TotalGoalsDigit2Sprite.y.s.i = sVar1 + cameraY.s.i + 0x2819;
       team1TotalGoalsDigit2Sprite.z.s.i = 0x2712;
       team1TotalGoalsDigit2Sprite.imageIndex = sVar2 + SPR_SMALL_ZERO;
       if (team1TotalGoalsDigit1Sprite.visible != 0) {
@@ -8006,42 +8086,42 @@ LAB_0010b964:
         if (sVar3 == 1) {
           team1TotalGoalsDigit1Sprite.x.s.i = team1TotalGoalsDigit2Sprite.x.s.i - 2;
         }
-        team1TotalGoalsDigit1Sprite.y.s.i = sVar1 + g_cameraY.s.i + 0x2818;
+        team1TotalGoalsDigit1Sprite.y.s.i = sVar1 + cameraY.s.i + 0x2818;
         team1TotalGoalsDigit1Sprite.z.s.i = 0x2711;
         team1TotalGoalsDigit1Sprite.imageIndex = sVar3 + SPR_SMALL_ZERO;
       }
     }
-    team2GoalsDigit2Sprite.y.s.i = sVar1 + g_cameraY.s.i + 0x2801;
+    team2GoalsDigit2Sprite.y.s.i = sVar1 + cameraY.s.i + 0x2801;
     team2GoalsDigit2Sprite.z.s.i = 10000;
     team2GoalsDigit2Sprite.imageIndex = team2GoalsDigit2 + SPR_SCROLL_ARROW_UP;
-    team2GoalsDigit2Sprite.x.s.i = g_cameraX.s.i + 0xad;
+    team2GoalsDigit2Sprite.x.s.i = cameraX.s.i + 0xad;
     if (team2GoalsDigit1Sprite.visible != 0) {
-      team2GoalsDigit2Sprite.x.s.i = g_cameraX.s.i + 0xb9;
+      team2GoalsDigit2Sprite.x.s.i = cameraX.s.i + 0xb9;
       team2GoalsDigit1Sprite.z.s.i = 10000;
       team2GoalsDigit1Sprite.imageIndex = team2GoalsDigit1 + SPR_SCROLL_ARROW_UP;
-      team2GoalsDigit1Sprite.x.s.i = g_cameraX.s.i + 0xad;
+      team2GoalsDigit1Sprite.x.s.i = cameraX.s.i + 0xad;
       team2GoalsDigit1Sprite.y.s.i = team2GoalsDigit2Sprite.y.s.i;
     }
     if (team2TotalGoalsDigit2Sprite.visible != 0) {
       sVar3 = (short)((uint)(int)(short)team2TotalGoals / 10);
-      team2TotalGoalsDigit2Sprite.y.s.i = sVar1 + g_cameraY.s.i + 0x2819;
+      team2TotalGoalsDigit2Sprite.y.s.i = sVar1 + cameraY.s.i + 0x2819;
       team2TotalGoalsDigit2Sprite.z.s.i = 0x2712;
       team2TotalGoalsDigit2Sprite.imageIndex =
            (short)((uint)(int)(short)team2TotalGoals % 10) + SPR_SMALL_ZERO;
-      team2TotalGoalsDigit2Sprite.x.s.i = g_cameraX.s.i + 0xab;
+      team2TotalGoalsDigit2Sprite.x.s.i = cameraX.s.i + 0xab;
       if (team2TotalGoalsDigit1Sprite.visible != 0) {
-        team2TotalGoalsDigit2Sprite.x.s.i = g_cameraX.s.i + 0xb1;
+        team2TotalGoalsDigit2Sprite.x.s.i = cameraX.s.i + 0xb1;
         if (sVar3 == 1) {
-          team2TotalGoalsDigit2Sprite.x.s.i = g_cameraX.s.i + 0xad;
+          team2TotalGoalsDigit2Sprite.x.s.i = cameraX.s.i + 0xad;
         }
-        team2TotalGoalsDigit1Sprite.y.s.i = sVar1 + g_cameraY.s.i + 0x2818;
+        team2TotalGoalsDigit1Sprite.y.s.i = sVar1 + cameraY.s.i + 0x2818;
         team2TotalGoalsDigit1Sprite.z.s.i = 0x2711;
         team2TotalGoalsDigit1Sprite.imageIndex = sVar3 + SPR_SMALL_ZERO;
-        team2TotalGoalsDigit1Sprite.x.s.i = g_cameraX.s.i + 0xab;
+        team2TotalGoalsDigit1Sprite.x.s.i = cameraX.s.i + 0xab;
       }
     }
-    dashSprite.x.s.i = g_cameraX.s.i + 0xa5;
-    dashSprite.y.s.i = sVar1 + g_cameraY.s.i + 0x2809;
+    dashSprite.x.s.i = cameraX.s.i + 0xa5;
+    dashSprite.y.s.i = sVar1 + cameraY.s.i + 0x2809;
     dashSprite.z.s.i = 10000;
     pSVar5 = &team1Scorer1Sprite;
     sVar3 = sVar1 + 0x107;
@@ -8053,10 +8133,10 @@ LAB_0010b964:
     team2NameSprite.y.s.i = team1NameSprite.y.s.i;
     do {
       if (*pwVar4 == 0) break;
-      (pSVar5->x).s.i = g_cameraX.s.i;
+      (pSVar5->x).s.i = cameraX.s.i;
       (pSVar5->x).s.i = (pSVar5->x).s.i + 0x88;
       (pSVar5->x).s.i = (pSVar5->x).s.i - *pwVar4;
-      (pSVar5->y).s.i = g_cameraY.s.i;
+      (pSVar5->y).s.i = cameraY.s.i;
       (pSVar5->y).s.i = sVar3 + (pSVar5->y).s.i;
       (pSVar5->z).s.i = 0;
       (pSVar5->y).s.i = (pSVar5->y).s.i + 10000;
@@ -8072,9 +8152,9 @@ LAB_0010b964:
     pwVar4 = team2ScorerSpritesWidths;
     do {
       if (*pwVar4 == 0) break;
-      (pSVar5->x).s.i = g_cameraX.s.i;
+      (pSVar5->x).s.i = cameraX.s.i;
       (pSVar5->x).s.i = (pSVar5->x).s.i + 200;
-      (pSVar5->y).s.i = g_cameraY.s.i;
+      (pSVar5->y).s.i = cameraY.s.i;
       (pSVar5->y).s.i = sVar1 + (pSVar5->y).s.i;
       (pSVar5->z).s.i = 0;
       (pSVar5->y).s.i = (pSVar5->y).s.i + 10000;
@@ -8084,10 +8164,10 @@ LAB_0010b964:
       sVar3 = sVar3 + -1;
       pwVar4 = pwVar4 + 1;
     } while (sVar3 != -1);
-    resultOnHalftimeSprite.x.s.i = g_cameraX.s.i + 0xa8;
+    resultOnHalftimeSprite.x.s.i = cameraX.s.i + 0xa8;
     resultOnHalftimeSprite.y.s.i = gridUpperRowLeftSprite.y.s.i + 0x3de;
     resultOnHalftimeSprite.z.s.i = 10000;
-    resultAfterTheGameSprite.x.s.i = g_cameraX.s.i + 0xa8;
+    resultAfterTheGameSprite.x.s.i = cameraX.s.i + 0xa8;
     resultAfterTheGameSprite.y.s.i = gridUpperRowLeftSprite.y.s.i + 0x3de;
     resultAfterTheGameSprite.z.s.i = 10000;
     return;
@@ -8161,14 +8241,14 @@ void __usercall SetPitchTypeAndNumber(void)
     wVar4 = wVar4 + 1;
   }
 pitch_type_selected:
-  if (plg_D0_param == 0) {
+  if (plgD0Param == 0) {
     uVar2 = topTeamInGame.prShortsCol ^ topTeamInGame.prShirtCol ^ topTeamInGame.teamName._0_2_;
   }
   else {
     uVar2 = Rand();
   }
   sVar3 = (ushort)pitchNumberProbabilities[(short)(uVar2 & 0xf)] << 8;
-  if (g_trainingGame != 0) {
+  if (trainingGame != 0) {
     sVar3 = 0x500;
   }
   pitchNumberAndType = sVar3 + wVar4;
@@ -8461,8 +8541,8 @@ void __usercall DrawReplayFrame(void)
   puVar5 = currentGoalPtr;
   if (replayState == 1) {
     replayState = 2;
-    savedCameraX = g_cameraX.s.i;
-    savedCameraY = g_cameraY.s.i;
+    savedCameraX = cameraX.s.i;
+    savedCameraY = cameraY.s.i;
     ResetAnimatedPatternsForBothTeams();
     ReplayUpdateCameraAndSwapBuffers();
   }
@@ -8645,7 +8725,7 @@ void __usercall GoalScored(short scoringTeam,Sprite *scorerSprite)
   ushort dstSpriteIndex;
   ushort uVar6;
   byte *pbVar7;
-  undefined **ppuVar8;
+  char **ppcVar8;
   char *text;
   code *pcVar9;
   TeamGame *pTVar10;
@@ -8792,7 +8872,7 @@ select_scorer_sprite_block:
   *(short *)(pcVar13 + 4) = *(short *)(pcVar13 + 4) + 1;
   sVar3 = sVar3 * 6;
   *(short *)(pcVar13 + sVar3 + 6) = sVar4;
-  *(char (*) [4])(pcVar13 + sVar3 + 8) = gameTime;
+  *(uchar (*) [4])(pcVar13 + sVar3 + 8) = gameTime;
   pcVar13[sVar3 + 9] = (code)((char)pcVar13[sVar3 + 9] + '0');
   pcVar13[sVar3 + 10] = (code)((char)pcVar13[sVar3 + 10] + '0');
   pcVar13[sVar3 + 0xb] = (code)((char)pcVar13[sVar3 + 0xb] + '0');
@@ -8810,11 +8890,11 @@ select_scorer_sprite_block:
   pcVar9 = pcVar13;
   do {
     while( true ) {
-      ppuVar8 = alreadyScoredTable;
+      ppcVar8 = alreadyScoredTable;
       if (sVar4 == 0) {
-        ppuVar8 = firstGoalScoredTable;
+        ppcVar8 = firstGoalScoredTable;
       }
-      puVar1 = *(undefined4 **)((int)ppuVar8 + (int)(short)(*(short *)(pcVar9 + 6) << 2));
+      puVar1 = *(undefined4 **)((int)ppcVar8 + (int)(short)(*(short *)(pcVar9 + 6) << 2));
       *puVar1 = *(undefined4 *)(pcVar9 + 8);
       text = (char *)((int)puVar1 + 1);
       if ((*text == '0') && (text = (char *)((int)puVar1 + 2), *text == '0')) {
@@ -8877,19 +8957,19 @@ void __usercall BenchCheckControls(void)
   TeamGeneralInfo *pTVar15;
   bool bVar16;
   
-  if (g_inSubstitutesMenu == 0) {
+  if (inSubstitutesMenu == 0) {
     if ((benchOff != 0) && (cameraCoordinatesValid != 0)) {
       benchOff = 0;
     }
-    if (g_waitForPlayerToGoInTimer != 0) {
-      g_waitForPlayerToGoInTimer = g_waitForPlayerToGoInTimer - 1;
+    if (waitForPlayerToGoInTimer != 0) {
+      waitForPlayerToGoInTimer = waitForPlayerToGoInTimer - 1;
       return;
     }
-    if (g_cameraLeavingSubsTimer != 0) {
-      g_cameraLeavingSubsTimer = g_cameraLeavingSubsTimer - 1;
+    if (cameraLeavingSubsTimer != 0) {
+      cameraLeavingSubsTimer = cameraLeavingSubsTimer - 1;
       return;
     }
-    if (g_substituteInProgress != 0) {
+    if (substituteInProgress != 0) {
       return;
     }
     if (refState != 0) {
@@ -9009,18 +9089,18 @@ LAB_0010ce48:
       benchTeamGame = (dword)bottomTeamPtr;
     }
     plToBeSubstitutedPos = 0xffff;
-    g_subsState = 0;
-    g_benchPlayerIndex = 0;
+    subsState = 0;
+    benchPlayerIndex = 0;
     subsBlockFire = 1;
     subsBlockDirections = 1;
-    g_inSubstitutesMenu = 0x1e;
-    g_goToSubsTimer = 0xf;
+    inSubstitutesMenu = 0x1e;
+    goToSubsTimer = 0xf;
     timeVar = -timeVar;
     resultTimer = -resultTimer;
     statsTimer = -statsTimer;
     benchY = 0x185;
     wVar11 = 0x1e5;
-    if (g_trainingGame == 0) {
+    if (trainingGame == 0) {
       if ((topTeamInGame.teamName[0] & 2) != 0) {
         benchY = 0x1e5;
         wVar11 = 0x185;
@@ -9042,7 +9122,7 @@ LAB_0010ce48:
     plComingYTmp = 0x1c1;
     plComingY = 0x1c1;
     benchWriteOnly01 = benchY + 0x32;
-    g_benchXLimit = 0x1b;
+    benchXLimit = 0x1b;
     subsMenuX = 100;
     formationMenuX = 100;
     plLeavingX = 0x27;
@@ -9052,7 +9132,7 @@ LAB_0010ce48:
     CheckForThrowInAndGoalkeepersBall();
     return;
   }
-  if ((short)g_inSubstitutesMenu < 0) {
+  if ((short)inSubstitutesMenu < 0) {
     return;
   }
   dVar13 = benchTeam;
@@ -9075,17 +9155,17 @@ LAB_0010ce48:
   wVar11 = plToBeSubstitutedPos;
   pSVar1 = substitutedPlSprite;
   if (cameraCoordinatesValid == 0) {
-    g_goToSubsTimer = 0xf;
+    goToSubsTimer = 0xf;
     return;
   }
-  if (g_goToSubsTimer != 0) {
-    g_goToSubsTimer = g_goToSubsTimer - 1;
+  if (goToSubsTimer != 0) {
+    goToSubsTimer = goToSubsTimer - 1;
     return;
   }
-  if ((short)g_inSubstitutesMenu < 0x1e) {
+  if ((short)inSubstitutesMenu < 0x1e) {
     return;
   }
-  if ((short)g_substituteInProgress < 0) {
+  if ((short)substituteInProgress < 0) {
     substitutedPlSprite->injuryLevel = 0;
     pSVar1->sentAway = 0;
     dVar13 = benchTeamGame;
@@ -9113,7 +9193,7 @@ LAB_0010ce48:
     } while (sVar9 != -1);
     InitializePlayerSpriteFrameIndices();
     ApplyTeamTactics((void *)benchTeamGame);
-    g_waitForPlayerToGoInTimer = 100;
+    waitForPlayerToGoInTimer = 100;
     subsBlockFire = 1;
     LeaveSubsMenu();
     return;
@@ -9124,7 +9204,7 @@ LAB_0010ccb8:
   }
   else if (subsBlockDirections != 0) {
     if (subsDirection == subsPrevDirection) {
-      if (g_subsState == 0) {
+      if (subsState == 0) {
         return;
       }
       if ((subsPrevDirection != 0) && (subsPrevDirection != 4)) {
@@ -9151,21 +9231,21 @@ LAB_0010ccb8:
     }
     subsBlockFire = 0;
   }
-  if (g_inSubstitutesMenu != 0x1e) {
+  if (inSubstitutesMenu != 0x1e) {
     return;
   }
-  if (g_substituteInProgress != 0) {
+  if (substituteInProgress != 0) {
     subsMovementDelayTimer = 0;
     return;
   }
-  if (g_subsState != 0) {
-    if (g_subsState == 1) {
+  if (subsState != 0) {
+    if (subsState == 1) {
       if (subsFire == 0) {
         UpdateSubstitutePlayerIndices();
         return;
       }
       overlayActiveFlag = 0;
-      g_substituteInProgress = 1;
+      substituteInProgress = 1;
       pwVar12 = &team1NumSubs;
       pwVar14 = &team1GoalkeeperReplaced;
       if (*(short *)(benchTeam + 0x12) != 1) {
@@ -9177,7 +9257,7 @@ LAB_0010ccb8:
         *pwVar14 = *pwVar14 + 1;
       }
       subsBlockFire = 1;
-      g_subsState = 0;
+      subsState = 0;
       subsWriteOnly = 2;
       teamThatSubstitutes = benchTeam;
       pSVar1 = *(Sprite **)(*(int *)(benchTeam + 0x14) + (int)(short)(plToBeSubstitutedPos << 2));
@@ -9191,7 +9271,7 @@ LAB_0010ccb8:
       substitutedPlY = (pSVar1->y).s.i;
       return;
     }
-    if (g_subsState == 3) {
+    if (subsState == 3) {
       if (subsFire == 0) {
         UpdateSubstitutePlayerIndices();
         return;
@@ -9201,7 +9281,7 @@ LAB_0010ccb8:
       subsFireTimer = wVar8;
       return;
     }
-    if (g_subsState == 2) {
+    if (subsState == 2) {
       if (subsFire == 0) {
         HandleFormationMenuMovement();
         return;
@@ -9219,7 +9299,7 @@ LAB_0010ccb8:
       SubsBenchOff();
       return;
     }
-    if (g_subsState != 4) {
+    if (subsState != 4) {
       return;
     }
     if ((*(byte *)(benchTeamGame +
@@ -9306,7 +9386,7 @@ LAB_0010ccb8:
     wVar11 = bench1Called;
   }
   if (wVar11 != 0) goto code_r0x0010cf76;
-  if ((g_trainingGame == 0) || (subsTrainingTopTeam == 0)) {
+  if ((trainingGame == 0) || (subsTrainingTopTeam == 0)) {
     if (subsDirection == 0) goto LAB_0010d0fc;
     if (subsDirection != 4) goto LAB_0010d096;
   }
@@ -9319,8 +9399,8 @@ LAB_0010d096:
           subsFireTimer = wVar8;
           return;
         }
-        if (g_benchPlayerIndex == 0) {
-          g_subsState = 4;
+        if (benchPlayerIndex == 0) {
+          subsState = 4;
           subsBlockFire = 1;
           overlayActiveFlag = 1;
           plToBeSubstitutedOrd = 0xffff;
@@ -9328,24 +9408,24 @@ LAB_0010d096:
           selectedPlayerInSubs = 0xffff;
           return;
         }
-        if ((short)(g_benchPlayerIndex - 1) < 0) {
+        if ((short)(benchPlayerIndex - 1) < 0) {
           subsMovementDelayTimer = 0;
           subsFireTimer = wVar8;
           return;
         }
         iVar2 = benchTeamGame +
                 (int)*(short *)((int)ingameTeamPlayerOffsets +
-                               (int)(short)((g_benchPlayerIndex + 10) * 2));
+                               (int)(short)((benchPlayerIndex + 10) * 2));
         if (-1 < *(char *)(iVar2 + 0x2e)) {
           if (1 < *(byte *)(iVar2 + 0x34)) {
             subsMovementDelayTimer = 0;
             subsFireTimer = wVar8;
             return;
           }
-          g_subsState = 1;
+          subsState = 1;
           subsBlockFire = 1;
           overlayActiveFlag = 1;
-          plToEnterGameIndex = g_benchPlayerIndex + 10;
+          plToEnterGameIndex = benchPlayerIndex + 10;
           if ((5 < gameMaxSubstitutes) && (plToEnterGameIndex == 0xb)) {
             plToBeSubstitutedPos = 0;
             return;
@@ -9360,16 +9440,16 @@ LAB_0010d096:
 code_r0x0010cf76:
       InitCurrentGoalHighlight();
       benchOff = 1;
-      g_cameraLeavingSubsTimer = 0x32;
-      g_leavingSubsMenu = 1;
+      cameraLeavingSubsTimer = 0x32;
+      leavingSubsMenu = 1;
       CheckIfGoalkeeperClaimedTheBall();
       bench1Called = 0;
       bench2Called = 0;
-      g_inSubstitutesMenu = 0;
+      inSubstitutesMenu = 0;
       subsTeamsSwapped = 0;
       overlayActiveFlag = 0;
       writeOnly01 = 1;
-      g_subsState = 0;
+      subsState = 0;
       plToBeSubstitutedPos = 0xffff;
       pl1BenchTimeoutCounter = 0;
       pl2BenchTimeoutCounter = 0;
@@ -9382,14 +9462,14 @@ code_r0x0010cf76:
       return;
     }
 LAB_0010d0fc:
-    if (((g_trainingGame == 0) || (g_benchPlayerIndex != 0)) && (gameState == 3)) {
+    if (((trainingGame == 0) || (benchPlayerIndex != 0)) && (gameState == 3)) {
       subsMovementDelayTimer = 0;
       subsFireTimer = wVar8;
       return;
     }
     subsBlockDirections = 1;
-    if (g_benchPlayerIndex == 0) {
-      if (g_trainingGame == 0) {
+    if (benchPlayerIndex == 0) {
+      if (trainingGame == 0) {
         subsBlockDirections = 1;
         subsMovementDelayTimer = 0;
         subsFireTimer = wVar8;
@@ -9406,16 +9486,16 @@ LAB_0010d0fc:
     return;
   }
   subsBlockDirections = 1;
-  if (g_benchPlayerIndex == 5) {
+  if (benchPlayerIndex == 5) {
     subsBlockDirections = 1;
     subsMovementDelayTimer = 0;
     subsFireTimer = wVar8;
     return;
   }
   while( true ) {
-    wVar11 = g_benchPlayerIndex + 1;
-    bVar16 = (short)(g_benchPlayerIndex - 5) < 0;
-    g_benchPlayerIndex = wVar11;
+    wVar11 = benchPlayerIndex + 1;
+    bVar16 = (short)(benchPlayerIndex - 5) < 0;
+    benchPlayerIndex = wVar11;
     if (wVar11 == 6) break;
     IsThisPlayerOkToSelect();
     if (!bVar16) {
@@ -9424,9 +9504,9 @@ LAB_0010d0fc:
   }
 LAB_0010d146:
   do {
-    g_benchPlayerIndex = g_benchPlayerIndex - 1;
-    bVar16 = (short)g_benchPlayerIndex < 0;
-    if (g_benchPlayerIndex == 0) {
+    benchPlayerIndex = benchPlayerIndex - 1;
+    bVar16 = (short)benchPlayerIndex < 0;
+    if (benchPlayerIndex == 0) {
       return;
     }
     IsThisPlayerOkToSelect();
@@ -9467,32 +9547,32 @@ void __usercall DrawBenchAndSubsMenu(void)
   word *pwVar4;
   word *pwVar5;
   
-  if (g_inSubstitutesMenu == 0) {
-    if (g_leavingSubsMenu == 0) {
+  if (inSubstitutesMenu == 0) {
+    if (leavingSubsMenu == 0) {
       return;
     }
-    if ((ushort)(g_benchXLimit + 8) <= g_cameraX.s.i) {
-      g_leavingSubsMenu = 0;
+    if ((ushort)(benchXLimit + 8) <= cameraX.s.i) {
+      leavingSubsMenu = 0;
       return;
     }
   }
-  if (g_cameraX.s.i < (ushort)(g_benchXLimit + 8)) {
-    initialSubsState = g_subsState;
-    if ((g_trainingGame == 0) || (subsTrainingTopTeam == 0)) {
+  if (cameraX.s.i < (ushort)(benchXLimit + 8)) {
+    initialSubsState = subsState;
+    if ((trainingGame == 0) || (subsTrainingTopTeam == 0)) {
       DrawOpponentsBench();
     }
-    wVar2 = g_benchXLimit;
-    if (((g_goToSubsTimer == 0) && (g_substituteInProgress == 0)) && (g_subsState == 0)) {
+    wVar2 = benchXLimit;
+    if (((goToSubsTimer == 0) && (substituteInProgress == 0)) && (subsState == 0)) {
       DrawSpriteInCameraView();
     }
     drawTrainingTopHalfOfTheBench = subsTrainingTopTeam;
     DrawBenchPlayersAndCoach((TeamGame *)benchTeamGame,(TeamGeneralInfo *)benchTeam,wVar2,benchY);
-    if ((g_trainingGame != 0) && (subsTrainingTopTeam != 0)) {
+    if ((trainingGame != 0) && (subsTrainingTopTeam != 0)) {
       DrawOpponentsBench();
     }
     teamGame = benchTeamGame;
-    if ((g_subsState != 1) && (g_subsState != 3)) {
-      if (g_subsState == 2) {
+    if ((subsState != 1) && (subsState != 3)) {
+      if (subsState == 2) {
         benchColors[0] = *(word *)(benchTeamGame + 2);
         benchColors[1] = *(word *)(benchTeamGame + 4);
         benchColors[2] = *(word *)(benchTeamGame + 6);
@@ -9547,7 +9627,7 @@ void __usercall DrawBenchAndSubsMenu(void)
         } while (entryIndex != 0x12);
         return;
       }
-      if (g_subsState != 4) {
+      if (subsState != 4) {
         return;
       }
     }
@@ -9588,8 +9668,8 @@ void __usercall DrawBenchAndSubsMenu(void)
     if ((short)subsMenuEntryFrameColor < 0) {
       subsMenuEntryFrameColor = subsMenuHighlightColor;
     }
-    if (g_subsState != 3) {
-      if (g_subsState == 4) {
+    if (subsState != 3) {
+      if (subsState == 4) {
         uVar1 = subsMenuBackgroundColor;
         if ((short)plToBeSubstitutedOrd < 0) {
           uVar1 = subsMenuHighlightColor;
@@ -9606,7 +9686,7 @@ void __usercall DrawBenchAndSubsMenu(void)
     FillRectangle();
     FillRectangle();
     FillRectangle();
-    if ((g_subsState != 1) && (g_subsState != 4)) {
+    if ((subsState != 1) && (subsState != 4)) {
       panicReasonCode = 0x4554;
       PanicHaltLoop();
     }
@@ -9619,7 +9699,7 @@ void __usercall DrawBenchAndSubsMenu(void)
       if (uVar1 == plToBeSubstitutedPos) {
         wVar2 = subsMenuHighlightColor;
       }
-      if ((((g_subsState == 4) && (uVar1 == selectedPlayerInSubs)) &&
+      if ((((subsState == 4) && (uVar1 == selectedPlayerInSubs)) &&
           ((wVar2 = 10, subsMenuBackgroundColor == 10 || (subsMenuHighlightColor == 10)))) &&
          ((wVar2 = 0xb, subsMenuBackgroundColor == 0xb || (subsMenuHighlightColor == 0xb)))) {
         wVar2 = 0xe;
@@ -9642,16 +9722,16 @@ void __usercall DrawOpponentsBench(void)
   word wVar1;
   TeamGame *requestingTeam;
   
-  wVar1 = g_subsState;
+  wVar1 = subsState;
   requestingTeam = &topTeamInGame;
   if ((TeamGame *)benchTeamGame != &bottomTeamInGame) {
     requestingTeam = &bottomTeamInGame;
   }
-  g_subsState = 0xffff;
+  subsState = 0xffff;
   drawTrainingTopHalfOfTheBench = subsTrainingTopTeam ^ 1;
-  DrawBenchPlayersAndCoach
-            (requestingTeam,*(TeamGeneralInfo **)benchTeam,g_benchXLimit,opponentBenchY);
-  g_subsState = wVar1;
+  DrawBenchPlayersAndCoach(requestingTeam,*(TeamGeneralInfo **)benchTeam,benchXLimit,opponentBenchY)
+  ;
+  subsState = wVar1;
   return;
 }
 
@@ -9674,11 +9754,11 @@ DrawBenchPlayersAndCoach(TeamGame *requestingTeam,TeamGeneralInfo *team,ushort x
   byte *pbVar2;
   byte *pbVar3;
   
-  if ((g_trainingGame == 0) || (drawTrainingTopHalfOfTheBench == 0)) {
+  if ((trainingGame == 0) || (drawTrainingTopHalfOfTheBench == 0)) {
     DrawSpriteHotspotInCameraView();
   }
   pbVar2 = requestingTeam->players[10].shortName + 7;
-  if ((g_trainingGame != 0) &&
+  if ((trainingGame != 0) &&
      (pbVar2 = requestingTeam->players[10].shortName + 7, drawTrainingTopHalfOfTheBench != 0)) {
     pbVar2 = requestingTeam->players[0xe].shortName + 7;
   }
@@ -9688,7 +9768,7 @@ DrawBenchPlayersAndCoach(TeamGame *requestingTeam,TeamGeneralInfo *team,ushort x
       DrawSpriteHotspotInCameraView();
     }
     pbVar3 = pbVar2 + 0x3d;
-    if ((g_trainingGame != 0) && (drawTrainingTopHalfOfTheBench != 0)) {
+    if ((trainingGame != 0) && (drawTrainingTopHalfOfTheBench != 0)) {
       pbVar3 = pbVar2 + -0x3d;
     }
     sVar1 = sVar1 + 1;
@@ -9728,7 +9808,7 @@ void __usercall GameLoop(void)
     saveHighlightScene = 0;
     fadeAndSaveHighlightScene = 0;
     spaceReplayTimer = 0;
-    if (g_trainingGame == 0) {
+    if (trainingGame == 0) {
       Rand();
     }
     ReplayUpdateCameraAndSwapBuffers();
@@ -9745,7 +9825,7 @@ wait_for_vblank_sync:
       bVar5 = REG_DMACONR._0_1_;
     } while ((bVar5 & 0x40) != 0);
     REG_DMACON = DMACON_BLT_OFF;
-    uVar2 = g_irqCookieObfuscated ^ 0xcfd1f9bd;
+    uVar2 = irqCookieObfuscated ^ 0xcfd1f9bd;
     if (uVar2 != 0x165a) {
       *(undefined1 *)(unaff_A2 + -0x80 + (short)unaff_D4w * 4) =
            *(undefined1 *)&((TeamGeneralInfo *)(unaff_A0 + -1))->opponentsTeam;
@@ -9823,9 +9903,9 @@ turn_off_statistics:
         if (replayState == 0) {
           MoveCamera();
           ScrollToCurrent();
-          y = g_cameraY.s.i;
-          unaff_D4w = g_cameraX.s.i;
-          SaveCoordinatesForHighlights(-1,g_cameraX.s.i,g_cameraY.s.i);
+          y = cameraY.s.i;
+          unaff_D4w = cameraX.s.i;
+          SaveCoordinatesForHighlights(-1,cameraX.s.i,cameraY.s.i);
           PlayEnqueuedSamples();
           UpdateTime();
           nullsub_8();
@@ -9879,7 +9959,7 @@ turn_off_statistics:
     SetHilFileHeader();
     AudioFadeCrowdDownThenPulseMusic();
     ClearAudioActiveFlag();
-    if (((isGameFriendly == 0) || (g_trainingGame != 0)) ||
+    if (((isGameFriendly == 0) || (trainingGame != 0)) ||
        (ReplayExitMenuAfterFriendly(), replaySelected == 0)) {
       StopAudioAndClearFlags();
       return;
@@ -9996,7 +10076,7 @@ draw_replay_frame_and_handle_fade:
       bVar3 = REG_DMACONR._0_1_;
     } while ((bVar3 & 0x40) != 0);
     REG_DMACON = DMACON_BLT_OFF;
-    if (g_irqCookieObfuscated != 0xcfd1efe7) {
+    if (irqCookieObfuscated != 0xcfd1efe7) {
       WriteStatsNumber(*(ushort *)(unaff_A6 + 4),0x100,unaff_D2w,unaff_D3w);
       uVar1 = unaff_D2w + 0x12;
       DrawMenuTextCentered(0xa8,uVar1,unaff_D3w,aBookings,unaff_A1);
@@ -10076,7 +10156,7 @@ vblank_irq_wait_gate:
       bVar2 = REG_DMACONR._0_1_;
     } while ((bVar2 & 0x40) != 0);
     REG_DMACON = DMACON_BLT_OFF;
-    if (g_irqCookieObfuscated != 0xcfd1efe7) {
+    if (irqCookieObfuscated != 0xcfd1efe7) {
                     /* WARNING: Bad instruction - Truncating control flow here */
       halt_baddata();
     }
@@ -10114,7 +10194,7 @@ void __usercall SaveRand2State(void)
   savedRandStatePtr[1] = randXorIndex2;
   savedRandStatePtr = savedRandStatePtr + 3;
   *pbVar1 = randXorKey2;
-  if (byte_10F2EA + 0xe < savedRandStatePtr) {
+  if (savedRandState + 0xe < savedRandStatePtr) {
     panicReasonCode = 0x9793;
     PanicHaltLoop();
   }
@@ -10222,7 +10302,7 @@ void __usercall MainKeysCheck(ushort key)
         if (fadeState == 0) {
           return;
         }
-        if (g_inSubstitutesMenu != 0) {
+        if (inSubstitutesMenu != 0) {
           return;
         }
         if (gameState == ST_RESULT_AFTER_THE_GAME) {
@@ -10250,7 +10330,7 @@ void __usercall MainKeysCheck(ushort key)
         return;
       }
       if (key == 0x88) {
-        g_spinBigS = g_spinBigS ^ 1;
+        spinBigS = spinBigS ^ 1;
         return;
       }
       if (key == 0x87) {
@@ -10262,7 +10342,7 @@ void __usercall MainKeysCheck(ushort key)
       }
       if (key == 0x89) {
         FadeOutAndIn();
-        if (g_crowdChantsOn == 0) {
+        if (crowdChantsOn == 0) {
           TurnCrowdChantsOn();
         }
         else {
@@ -10294,7 +10374,7 @@ void __usercall MainKeysCheck(ushort key)
         if (gameStatePl == ST_GAME_IN_PROGRESS) {
           return;
         }
-        if (g_inSubstitutesMenu != 0) {
+        if (inSubstitutesMenu != 0) {
           return;
         }
         if (replayState != 0) {
@@ -10350,7 +10430,7 @@ void __usercall MainKeysCheck(ushort key)
               penaltiesState = 0;
               return;
             }
-            if (gameTime != (char  [4])0x0) {
+            if (gameTime != (uchar  [4])0x0) {
               statsTeam1Goals = statsTeam1Goals + 5;
               for (team1TotalGoals = team1TotalGoals + 5; team1TotalGoals <= team2TotalGoals;
                   team1TotalGoals = team1TotalGoals + 1) {
@@ -10394,7 +10474,7 @@ void __usercall MainKeysCheck(ushort key)
           }
           wVar1 = pTVar3->isPlCoach;
         }
-        if ((wVar1 == 0) && (gameTime != (char  [4])0x0)) {
+        if ((wVar1 == 0) && (gameTime != (uchar  [4])0x0)) {
           statsTeam2Goals = statsTeam2Goals + 5;
           for (team2TotalGoals = team2TotalGoals + 5; team2TotalGoals <= team1TotalGoals;
               team2TotalGoals = team2TotalGoals + 1) {
@@ -10422,7 +10502,7 @@ void __usercall MainKeysCheck(ushort key)
       }
     }
   }
-  if ((key == 0x50) && (g_inSubstitutesMenu == 0)) {
+  if ((key == 0x50) && (inSubstitutesMenu == 0)) {
     paused = paused ^ 1;
     if (paused == 0) {
       overlayActiveFlag = overlayFlagBackup;
@@ -10697,12 +10777,12 @@ void __usercall DrawStatistics(void)
   pTVar2 = pTVar5->teamStatsPtr;
   DrawMenuTextCentered(0xa8,0x27,2,aMATCHSTATS,&bigCharsTable);
   uVar3 = 0x50;
-  if (g_trainingGame != 0) {
+  if (trainingGame != 0) {
     uVar3 = 0x55;
   }
   DrawMenuTextCentered(uVar3,0x3b,2,(char *)topTeamInGame.teamName,&bigCharsTable);
   uVar3 = 0x100;
-  if (g_trainingGame != 0) {
+  if (trainingGame != 0) {
     uVar3 = 0xfb;
   }
   DrawMenuTextCentered(uVar3,0x3b,2,(char *)bottomTeamInGame.teamName,&bigCharsTable);
@@ -11050,7 +11130,8 @@ void __usercall CalculateIfPlayerWinsBall(ushort dir,Sprite *player,TeamGeneralI
   }
   if ((team->controlledPlDirection != player->direction) &&
      (team->unkBallTimer = team->unkBallTimer + 1,
-     *(ushort *)((int)word_1106EA + (int)(short)((short)(char)pPVar6->ballControl << 1)) <=
+     *(ushort *)
+      ((int)ballControlTurnThresholds + (int)(short)((short)(char)pPVar6->ballControl << 1)) <=
      team->unkBallTimer)) {
     team->wonTheBallTimer = 8;
   }
@@ -11426,10 +11507,10 @@ void __usercall SetPlayerWithNoBallDestination(Sprite *player,TeamGeneralInfo *t
   short unaff_D7w;
   int iVar6;
   
-  iVar6 = *(int *)((int)g_tacticsTable + (int)(short)(team->tactics << 2));
+  iVar6 = *(int *)((int)teamTacticsTable + (int)(short)(team->tactics << 2));
   if (((gameState == ST_KEEPER_HOLDS_BALL) || (gameState == ST_GOAL_OUT_LEFT)) ||
      (gameState == ST_GOAL_OUT_RIGHT)) {
-    iVar6 = *(int *)((int)g_tacticsTable + (int)(short)((short)*(char *)(iVar6 + 0x171) << 2));
+    iVar6 = *(int *)((int)teamTacticsTable + (int)(short)((short)*(char *)(iVar6 + 0x171) << 2));
   }
   sVar2 = player->playerOrdinal - 2;
   if (-1 < sVar2) {
@@ -11499,7 +11580,7 @@ void __usercall PlayerTackled(Sprite *playerSprite,TeamGeneralInfo *team)
   byte bVar6;
   char *pcVar7;
   
-  if ((g_trainingGame == 0) || (uVar5 = Rand(), (uVar5 & 3) == 0)) {
+  if ((trainingGame == 0) || (uVar5 = Rand(), (uVar5 & 3) == 0)) {
     wVar4 = gameLengthInGame;
     wVar3 = team2NumAllowedInjuries;
     if (team->teamNumber == 1) {
@@ -12028,14 +12109,14 @@ void __usercall UpdateGameTimersAndCameraBreakMode(TeamGeneralInfo *team)
         }
         else {
           gameStatePl = gameState;
-          if (((gameState == ST_KEEPER_HOLDS_BALL) && (g_inSubstitutesMenu == 0)) &&
-             (g_cameraLeavingSubsTimer == 0)) {
+          if (((gameState == ST_KEEPER_HOLDS_BALL) && (inSubstitutesMenu == 0)) &&
+             (cameraLeavingSubsTimer == 0)) {
             timeVar = 31000;
           }
           breakCameraMode = 0;
         }
       }
-      else if ((g_inSubstitutesMenu == 0) && (g_waitForPlayerToGoInTimer == 0)) {
+      else if ((inSubstitutesMenu == 0) && (waitForPlayerToGoInTimer == 0)) {
         if (breakCameraMode == 0) {
           if ((((ballSprite.deltaX.raw == 0) && (ballSprite.deltaY.raw == 0)) &&
               (breakCameraMode = 1, gameState != ST_KEEPER_HOLDS_BALL)) &&
@@ -12046,10 +12127,10 @@ void __usercall UpdateGameTimersAndCameraBreakMode(TeamGeneralInfo *team)
         }
         else if (breakCameraMode == 1) {
           if ((playingPenalties == 0) && (goalCameraMode != 0)) {
-            if (g_autoSaveHighlights != 0) {
+            if (autoSaveHighlights != 0) {
               saveHighlightScene = 1;
             }
-            if (g_autoReplays != 0) {
+            if (autoReplays != 0) {
               userRequestedReplay = 0;
               instantReplayFlag = 1;
             }
@@ -12152,7 +12233,7 @@ void __usercall UpdateGameTimersAndCameraBreakMode(TeamGeneralInfo *team)
                   }
                   pTVar5->ballOutOfPlay = 1;
                   breakCameraMode = 8;
-                  if ((gameState != ST_KEEPER_HOLDS_BALL) && (g_inSubstitutesMenu == 0)) {
+                  if ((gameState != ST_KEEPER_HOLDS_BALL) && (inSubstitutesMenu == 0)) {
                     resultTimer = 31000;
                     return;
                   }
@@ -12219,7 +12300,7 @@ void __usercall UpdateGameTimersAndCameraBreakMode(TeamGeneralInfo *team)
                       if (pTVar5->resetControls != 0) {
                         return;
                       }
-                      if (g_inSubstitutesMenu != 0) {
+                      if (inSubstitutesMenu != 0) {
                         pTVar5->currentAllowedDirection = 0xffff;
                         pTVar5->quickFire = 0;
                         pTVar5->normalFire = 0;
@@ -12272,7 +12353,7 @@ void __usercall UpdateGameTimersAndCameraBreakMode(TeamGeneralInfo *team)
                     }
                   }
                   if (pTVar5->resetControls == 0) {
-                    if (g_inSubstitutesMenu != 0) {
+                    if (inSubstitutesMenu != 0) {
                       pTVar5->currentAllowedDirection = 0xffff;
                       pTVar5->quickFire = 0;
                       pTVar5->normalFire = 0;
@@ -12380,7 +12461,7 @@ void __usercall UpdateAndApplyTeamControls(void)
         if (team->resetControls != 0) {
           return;
         }
-        if (g_inSubstitutesMenu != 0) {
+        if (inSubstitutesMenu != 0) {
           team->currentAllowedDirection = 0xffff;
           team->quickFire = 0;
           team->normalFire = 0;
@@ -12433,7 +12514,7 @@ void __usercall UpdateAndApplyTeamControls(void)
       }
     }
     if (team->resetControls == 0) {
-      if (g_inSubstitutesMenu != 0) {
+      if (inSubstitutesMenu != 0) {
         team->currentAllowedDirection = 0xffff;
         team->quickFire = 0;
         team->normalFire = 0;
@@ -12735,7 +12816,7 @@ ushort __usercall TryBookingThePlayer(Sprite *player,TeamGeneralInfo *team)
   word wVar5;
   byte *pbVar6;
   
-  if (plg_D3_param == 0) {
+  if (plgD3Param == 0) {
     if ((team->playerNumber == 0) && (team->playerCoachNumber == 0)) {
       return 1;
     }
@@ -12754,7 +12835,7 @@ ushort __usercall TryBookingThePlayer(Sprite *player,TeamGeneralInfo *team)
   }
   pTVar1 = team->inGameTeamPtr;
   sVar4 = *(short *)((int)ingameTeamPlayerOffsets + (int)(short)((player->playerOrdinal - 1) * 2));
-  if (plg_D3_param == 0) {
+  if (plgD3Param == 0) {
     pbVar6 = cardAnimStatesNoFlag;
     if (pTVar1->players[0].shortName[sVar4 + -3] != 0) {
       pbVar6 = cardAnimStatesWithFlag;
@@ -12818,7 +12899,7 @@ ushort __usercall TrySendingOffThePlayer(Sprite *player,TeamGeneralInfo *team)
       pTVar1 = team->inGameTeamPtr;
       sVar4 = *(short *)((int)ingameTeamPlayerOffsets +
                         (int)(short)((player->playerOrdinal - 1) * 2));
-      if (plg_D3_param == 0) {
+      if (plgD3Param == 0) {
         pbVar6 = cardAnimStatesNoFlag;
         if (pTVar1->players[0].shortName[sVar4 + -3] != 0) {
           pbVar6 = cardAnimStatesWithFlag;
@@ -12913,7 +12994,7 @@ short __usercall ShouldGoalkeeperDive(Sprite *goalie,Sprite *ball,TeamGeneralInf
             if ((short)uVar4 < 0) {
               uVar4 = -uVar4;
             }
-            dseg_114EB0 = dseg_114EB0 + 1;
+            goalkeeperDiveAttemptCount = goalkeeperDiveAttemptCount + 1;
             uVar4 = GetFramesNeededToCoverDistance
                               (*(int *)((int)kGoalkeeperDiveDeltas +
                                        (int)(short)(*(short *)((int)team->shotChanceTable->
@@ -13259,26 +13340,26 @@ short __usercall CalculateBallNextGroundXYPositions(Sprite *ball)
   dword dVar1;
   dword dVar2;
   short unaff_D0w;
-  byte *pbVar3;
+  int iVar3;
   dword dVar4;
   dword dVar5;
-  byte *pbVar6;
+  dword dVar6;
   int iVar7;
   dword dVar8;
   
   dVar4 = (ball->x).raw;
   dVar5 = (ball->y).raw;
-  pbVar6 = (byte *)(ball->z).raw;
+  dVar6 = (ball->z).raw;
   dVar1 = (ball->deltaX).raw;
   dVar2 = (ball->deltaY).raw;
   if (((((int)dVar2 < -0x10000) || (0x10000 < (int)dVar2)) || ((int)dVar1 < -0x10000)) ||
      (0x10000 < (int)dVar1)) {
     dVar8 = (ball->deltaZ).raw;
-    pbVar3 = &BYTE_00140000;
-    while (iVar7 = (int)pbVar6 - (int)pbVar3, iVar7 < 0) {
-      if (pbVar3 == (byte *)0xd0000) goto ball_standing;
-      pbVar6 = pbVar3 + iVar7;
-      pbVar3 = pbVar3 + -0x10000;
+    iVar3 = 0x140000;
+    while (iVar7 = dVar6 - iVar3, iVar7 < 0) {
+      if (iVar3 == 0xd0000) goto ball_standing;
+      dVar6 = iVar3 + iVar7;
+      iVar3 = iVar3 + -0x10000;
     }
     do {
       dVar4 = dVar1 + dVar4;
@@ -13377,7 +13458,7 @@ PlayerTacklingTestFoul(Sprite *playerSprite,Sprite *ballSprite,TeamGeneralInfo *
   }
   pwVar2 = &teamInfo->teamStatsPtr->foulsConceded;
   *pwVar2 = *pwVar2 + 1;
-  if ((cardsDisallowed != 0) || (g_trainingGame != 0)) goto skip_cards_go_check_free_kick_penalty;
+  if ((cardsDisallowed != 0) || (trainingGame != 0)) goto skip_cards_go_check_free_kick_penalty;
   wVar3 = (playerSprite_00->x).s.i;
   wVar4 = (playerSprite_00->y).s.i;
   if (((short)wVar3 < 0xc1) ||
@@ -13392,7 +13473,7 @@ set_discipline_spot_y_for_bottom_team:
     uVar11 = (int)sVar8 * (int)sVar8 + (int)sVar6 * (int)sVar6;
     sVar8 = 10;
     ppSVar12 = teamInfo->spritesTable;
-    dword_2DAB0 = (dword)playerSprite_00;
+    nearestTeammatePtr = playerSprite_00;
     do {
       pSVar1 = *ppSVar12;
       if (((pSVar1->sentAway == 0) && (pSVar1->playerOrdinal != 1)) &&
@@ -13400,12 +13481,12 @@ set_discipline_spot_y_for_bottom_team:
           (sVar6 = (pSVar1->x).s.i - 0x150, sVar7 = (pSVar1->y).s.i - sVar10,
           uVar5 = (int)sVar7 * (int)sVar7 + (int)sVar6 * (int)sVar6, uVar5 <= uVar11)))) {
         uVar11 = uVar5;
-        dword_2DAB0 = (dword)pSVar1;
+        nearestTeammatePtr = pSVar1;
       }
       sVar8 = sVar8 + -1;
       ppSVar12 = ppSVar12 + 1;
     } while (sVar8 != -1);
-    if (playerSprite_00 != (Sprite *)dword_2DAB0) goto maybe_issue_card_probabilistic;
+    if (playerSprite_00 != nearestTeammatePtr) goto maybe_issue_card_probabilistic;
     uVar9 = Rand();
     bVar13 = uVar9 == 0x20;
     if (0x1f < uVar9) goto try_straight_red_then_notify;
@@ -13544,7 +13625,7 @@ GoalkeeperJumping(short direction,short farJumpVariant,short dir2,Sprite *player
   if (ballNotHighZ < 6) {
     player->playerState = PL_GOALIE_DIVING_LOW;
     if (team == &bottomTeamData) {
-      SetPlayerAnimationTable(rightGoalieJumpingLowAnimTable,player);
+      SetPlayerAnimationTable(&rightGoalieJumpingLowAnimTable,player);
     }
     else {
       SetPlayerAnimationTable(&leftGoalieJumpingLowAnimTable,player);
@@ -13556,7 +13637,7 @@ GoalkeeperJumping(short direction,short farJumpVariant,short dir2,Sprite *player
       SetPlayerAnimationTable(&rightGoalieJumpingHighAnimTable,player);
     }
     else {
-      SetPlayerAnimationTable(leftGoalieJumpingHighAnimTable,player);
+      SetPlayerAnimationTable(&leftGoalieJumpingHighAnimTable,player);
     }
   }
   player->playerDownTimer = 0x4b;
@@ -13705,26 +13786,26 @@ short * __usercall GetBallDestCoordinatesTable(void)
 {
   if ((ST_THROW_IN_FORWARD_RIGHT - 1 < gameState) && (gameState < ST_THROW_IN_BACK_LEFT + 1)) {
     if (foulXCoordinate < 0x151) {
-      return (short *)kLeftThrowInBallDestDelta;
+      return kLeftThrowInBallDestDelta;
     }
-    return (short *)kRightThrowInBallDestDelta;
+    return kRightThrowInBallDestDelta;
   }
   if ((gameState == ST_PENALTY) || (gameState == ST_PENALTIES)) {
-    return (short *)kPenaltyBallDestDelta;
+    return kPenaltyBallDestDelta;
   }
   if ((gameState != ST_CORNER_LEFT) && (gameState != ST_CORNER_RIGHT)) {
-    return (short *)kDefaultDestinations;
+    return kDefaultDestinations;
   }
   if (0x1c1 < foulYCoordinate) {
     if (foulXCoordinate < 0x151) {
-      return (short *)kLowerLeftCornerBallDestDelta;
+      return kLowerLeftCornerBallDestDelta;
     }
-    return (short *)kLowerRightCornerBallDestDelta;
+    return kLowerRightCornerBallDestDelta;
   }
   if (foulXCoordinate < 0x151) {
-    return (short *)kUpperLeftCornerBallDestDelta;
+    return kUpperLeftCornerBallDestDelta;
   }
-  return (short *)kUpperRightCornerBallDestDelta;
+  return kUpperRightCornerBallDestDelta;
 }
 
 
@@ -14305,6 +14386,8 @@ void __usercall StartingMatch(void)
 void __usercall SetCameraMovingToShowerState(void)
 
 {
+  uint unaff_D0;
+  
   halfNumber = 2;
   teamPlayingUp = 3 - teamPlayingUp;
   teamStarting = 3 - teamStarting;
@@ -14325,7 +14408,7 @@ void __usercall SetCameraMovingToShowerState(void)
   cameraYVelocity = 0;
   cameraMoveToShowerLatch = 1;
   if (playGame != 0) {
-    PlayPenaltySample();
+    PlayPenaltySample(unaff_D0);
     sfxQueueWriteIdx = 0x15e;
   }
   InitPlayersBeforeEnteringPitch();
@@ -15399,7 +15482,7 @@ apply_throw_in_dir_and_camera:
           pSVar2->direction = cameraDirection;
           deadThrowInDirectionVar = deadThrowInDirectionVar + 1;
         }
-        if (((g_substituteInProgress == 0) || (pSVar2 != substitutedPlSprite)) &&
+        if (((substituteInProgress == 0) || (pSVar2 != substitutedPlSprite)) &&
            ((ST_THROW_IN_FORWARD_RIGHT - 1 < gameState && (gameState < ST_THROW_IN_BACK_LEFT + 1))))
         {
           if (pSVar2->playerDownTimer == 0) {
@@ -15438,7 +15521,7 @@ toggle_stats_timers:
               if ((teamInfo->normalFire != 0) && ((playerTurnFlags & '\x01' << (uVar11 & 7)) != 0))
               {
                 throwInPassOrKick = 0;
-                SetPlayerAnimationTable(throwInKickAnimTable,pSVar2);
+                SetPlayerAnimationTable(&throwInKickAnimTable,pSVar2);
                 pSVar2->playerDownTimer = 0x19;
               }
             }
@@ -15453,7 +15536,7 @@ toggle_stats_timers:
           pSVar2->playerDownTimer = bVar7;
           if (bVar7 != 0) {
             if (pSVar2->playerDownTimer == 0x12) {
-              if (g_inSubstitutesMenu != 0) {
+              if (inSubstitutesMenu != 0) {
                 SetPlayerAnimationTable(&aboutToThrowInAnimTable,pSVar2);
                 pSVar2->playerState = PL_THROW_IN;
                 pSVar2->playerDownTimer = 0;
@@ -15597,7 +15680,7 @@ flag_goalie_intervention_and_slow_player:
                                 pSVar2->speed = pSVar2->speed - ((short)pSVar2->speed >> iVar5);
                                 pGVar30 = teamInfo->shotChanceTable;
                                 if ((penalty != 0) || (playingPenalties != 0)) {
-                                  pGVar30 = &dseg_17EECC;
+                                  pGVar30 = &penaltyGoalieSkillTable;
                                 }
                                 penalty = 0;
                                 playerHadBall = 0;
@@ -15787,7 +15870,7 @@ booking_finish_reset_state:
 player_goalkeeper:
           if ((playingPenalties != 0) && (0x32 < penaltiesTimer)) goto finalize_control_and_speed;
           UpdatePlayerShotChanceTable(pSVar2,teamInfo);
-          if (word_10F1F4 == 0) {
+          if (goalkeeperSkipFlag == 0) {
             ballNextGroundX = 0xffff;
             if (teamInfo->goalkeeperPlaying != 0) {
               *(undefined1 *)&teamInfo->goaliePlayingOrOut = 1;
@@ -15997,7 +16080,7 @@ shot_at_goal:
                       ballSprite.speed = 0x600;
                     }
                     GoalkeeperJumping(wVar13,2,(short)unaff_D3,pSVar2,&ballSprite,teamInfo);
-                    dseg_114EA6 = ballSprite.speed;
+                    ballSpeedAfterSave = ballSprite.speed;
                     teamInfo->passKickTimer = 0;
                     teamInfo->passingKickingPlayer = (Sprite *)0x0;
                   }
@@ -16625,7 +16708,7 @@ quantize_direction_to_octant:
         goto finalize_control_and_speed;
       }
 not_controlled_player:
-      if ((g_substituteInProgress == 0) || (pSVar2 != substitutedPlSprite)) {
+      if ((substituteInProgress == 0) || (pSVar2 != substitutedPlSprite)) {
         pTVar10 = (TeamGame *)(uint)teamInfo->updatePlayerIndex;
         if (teamInfo->updatePlayerIndex == uVar29) {
           if (((((gameStatePl != ST_GAME_IN_PROGRESS) && (gameState == ST_GAME_ENDED)) &&
@@ -16690,20 +16773,20 @@ idle_player_common_path:
             }
             goto finalize_control_and_speed;
           }
-          if (g_substituteInProgress != 0) {
-            if ((short)g_substituteInProgress < 0) {
+          if (substituteInProgress != 0) {
+            if ((short)substituteInProgress < 0) {
               if (((pSVar2 == substitutedPlSprite) &&
                   (pSVar2->speed = kSubstitutedPlayerSpeed, (pSVar2->deltaX).raw == 0)) &&
                  ((pSVar2->deltaY).raw == 0)) {
-                g_substituteInProgress = 0;
+                substituteInProgress = 0;
               }
             }
             else if (pSVar2 == substitutedPlSprite) {
               if (pSVar2->injuryLevel != 0xfffe) {
                 if ((substitutedPlDestX == (pSVar2->x).s.i) &&
                    (substitutedPlDestY == (pSVar2->y).s.i)) {
-                  if (g_substituteInProgress == 2) goto finalize_substituted_player;
-                  g_substituteInProgress = 2;
+                  if (substituteInProgress == 2) goto finalize_substituted_player;
+                  substituteInProgress = 2;
                   substitutedPlDestX = plComingX;
                   substitutedPlDestY = plComingY;
                 }
@@ -16713,7 +16796,7 @@ idle_player_common_path:
                 goto finalize_control_and_speed;
               }
 finalize_substituted_player:
-              g_substituteInProgress = 0xffff;
+              substituteInProgress = 0xffff;
               (pSVar2->x).s.i = plSubstitutedX;
               (pSVar2->y).s.i = plSubstitutedY;
               pSVar2->speed = kSubstitutedPlayerSpeed;
@@ -16832,7 +16915,7 @@ set_player_with_no_ball_destination:
               (teamInfo != lastTeamPlayedBeforeBreak)) &&
              (sVar21 = pSVar2->destX - foulXCoordinate, sVar27 = pSVar2->destY - foulYCoordinate,
              puVar18 = (undefined1 *)((int)sVar27 * (int)sVar27),
-             puVar18 + (int)sVar21 * (int)sVar21 < g_pitchDatBuffer + 0xc82)) {
+             puVar18 + (int)sVar21 * (int)sVar21 < pitchDatBuffer + 0xc82)) {
             if ((short)foulXCoordinate < 0x150) {
               wVar13 = foulXCoordinate + 0x46;
             }
@@ -16895,20 +16978,20 @@ void __usercall AI_SetControlsDirection(TeamGeneralInfo *team)
   if (team->resetControls != 0) {
     return;
   }
-  if (AI_counter != 0) {
-    AI_counter = AI_counter + -1;
+  if (aiCounter != 0) {
+    aiCounter = aiCounter + -1;
   }
-  if (AI_resumePlayTimer != 0) {
-    AI_resumePlayTimer = AI_resumePlayTimer - 1;
+  if (aiResumePlayTimer != 0) {
+    aiResumePlayTimer = aiResumePlayTimer - 1;
   }
-  AI_rand = Rand();
+  aiRand = Rand();
   team->AI_timer = team->AI_timer + 1;
   team->currentAllowedDirection = 0xffff;
   team->firePressed = 0;
   team->fireThisFrame = 0;
   team->quickFire = 0;
   team->normalFire = 0;
-  if (g_inSubstitutesMenu != 0) {
+  if (inSubstitutesMenu != 0) {
     return;
   }
   uVar11 = 0xffff;
@@ -16971,8 +17054,8 @@ void __usercall AI_SetControlsDirection(TeamGeneralInfo *team)
       goto no_player_facing;
     }
     if ((playingPenalties != 0) || (gameState == ST_PENALTY)) {
-      if ((playerTurnFlags & '\x01' << (AI_rand & 7)) != 0) {
-        team->currentAllowedDirection = AI_rand & 7;
+      if ((playerTurnFlags & '\x01' << (aiRand & 7)) != 0) {
+        team->currentAllowedDirection = aiRand & 7;
         return;
       }
       if (pSVar1->direction == 0) {
@@ -16985,7 +17068,7 @@ void __usercall AI_SetControlsDirection(TeamGeneralInfo *team)
     }
     if (((gameState == ST_KEEPER_HOLDS_BALL) || (gameState == ST_GOAL_OUT_LEFT)) ||
        (gameState == ST_GOAL_OUT_RIGHT)) {
-      if ((AI_rand & 1) != 0) {
+      if ((aiRand & 1) != 0) {
         if (uVar4 == cameraDirection) goto apply_turn_delta_from_angle;
         if ((ushort)ballSprite.x._0_2_ < 0x151) {
           if ((uVar4 == 1) || (uVar4 == 3)) goto apply_turn_delta_from_angle;
@@ -17000,11 +17083,11 @@ void __usercall AI_SetControlsDirection(TeamGeneralInfo *team)
             if (gameState == ST_FOUL) goto foul;
           }
           else {
-            bVar7 = AI_throwInDirections[(short)(gameState + -ST_THROW_IN_FORWARD_RIGHT)];
+            bVar7 = aiThrowInDirections[(short)(gameState + -ST_THROW_IN_FORWARD_RIGHT)];
             if (team != &bottomTeamData) {
               bVar7 = bVar7 << 4 | bVar7 >> 4;
             }
-            if (((AI_rand & 0xf) != 0) ||
+            if (((aiRand & 0xf) != 0) ||
                ((CONCAT31((int3)(CONCAT22((short)((uint)unaff_D1 >> 0x10),
                                           gameState + -ST_THROW_IN_FORWARD_RIGHT) >> 8),bVar7) &
                 1 << (uVar11 & 0x1f)) == 0)) goto check_closest_player_facing;
@@ -17012,7 +17095,7 @@ void __usercall AI_SetControlsDirection(TeamGeneralInfo *team)
         }
         else {
 foul:
-          if ((AI_rand & 0xf) == 0) goto check_closest_player_facing;
+          if ((aiRand & 0xf) == 0) goto check_closest_player_facing;
           if ((sVar9 + 0x10U & 0xff) >> 5 != uVar4) {
             team->currentAllowedDirection = (sVar9 + 0x10U & 0xff) >> 5;
             return;
@@ -17025,7 +17108,7 @@ apply_turn_delta_from_angle:
         if (AI_maxStoppageTime <= stoppageTimerActive) {
           AI_maxStoppageTime = stoppageTimerActive;
         }
-        AI_resumePlayTimer = 0xf;
+        aiResumePlayTimer = 0xf;
         if ((gameState == ST_PENALTY) || (gameState == ST_PENALTIES)) {
 set_aftertouch_none:
           team->AI_afterTouchStrength = 0;
@@ -17037,7 +17120,7 @@ set_aftertouch_medium:
               team->AI_afterTouchStrength = 1;
               goto apply_dir_and_normal_fire;
             }
-            if ((AI_rand & 0x18) != 0) goto aftertouch_by_distance;
+            if ((aiRand & 0x18) != 0) goto aftertouch_by_distance;
           }
           else {
 aftertouch_by_distance:
@@ -17055,12 +17138,12 @@ zero_turn_and_return:
           return;
         }
         if ((gameState == ST_CORNER_LEFT) || (gameState == ST_CORNER_RIGHT)) {
-          if ((AI_rand & 7) < 3) {
+          if ((aiRand & 7) < 3) {
             wVar6 = 1;
             uVar4 = uVar4 + 1;
           }
           else {
-            if (5 < (AI_rand & 7)) goto zero_turn_and_return;
+            if (5 < (aiRand & 7)) goto zero_turn_and_return;
             wVar6 = 0xffff;
             uVar4 = uVar4 - 1;
           }
@@ -17070,7 +17153,7 @@ zero_turn_and_return:
           }
           goto zero_turn_and_return;
         }
-        AI_resumePlayTimer = 0xf;
+        aiResumePlayTimer = 0xf;
         team->currentAllowedDirection = uVar4;
         team->normalFire = 1;
         wVar6 = 0;
@@ -17098,32 +17181,32 @@ no_player_facing:
       if ((currentGameTick & 0xe) != 0) {
         return;
       }
-      if ((short)AI_turnDirection < 0) {
-        if ((AI_turnDirection != 0xffff) &&
-           (AI_turnDirection = AI_turnDirection + 1, AI_turnDirection != 0xffff)) {
+      if ((short)aiTurnDirection < 0) {
+        if ((aiTurnDirection != 0xffff) &&
+           (aiTurnDirection = aiTurnDirection + 1, aiTurnDirection != 0xffff)) {
           return;
         }
         wVar6 = 1;
       }
       else {
-        if ((AI_turnDirection != 1) &&
-           (AI_turnDirection = AI_turnDirection - 1, AI_turnDirection != 1)) {
+        if ((aiTurnDirection != 1) && (aiTurnDirection = aiTurnDirection - 1, aiTurnDirection != 1))
+        {
           return;
         }
         wVar6 = 0xffff;
       }
-      uVar4 = AI_turnDirection + uVar4 & 7;
+      uVar4 = aiTurnDirection + uVar4 & 7;
       if ((playerTurnFlags & '\x01' << uVar4) != 0) {
         team->currentAllowedDirection = uVar4;
         return;
       }
-      AI_turnDirection = wVar6;
+      aiTurnDirection = wVar6;
       return;
     }
     goto our_player_closest;
   }
   if (((playingPenalties == 0) && (penalty == 0)) || ((short)team->spinTimer < 0)) {
-    if (AI_counter != 0) {
+    if (aiCounter != 0) {
       AI_SetDirectionTowardOpponentsGoal(team);
     }
     if (pSVar1 == (Sprite *)0x0) {
@@ -17163,8 +17246,8 @@ derive_allowed_dir_from_full_angle:
                 return;
               }
               uVar5 = ((byte)((char)(pSVar1->fullDirection +
-                                    *(short *)((int)AI_randomRotateTable + (int)(short)(AI_rand & 2)
-                                              )) + 0x80) + 0x10 & 0xff) >> 5;
+                                    *(short *)((int)aiRandomRotateTable + (int)(short)(aiRand & 2)))
+                             + 0x80) + 0x10 & 0xff) >> 5;
             }
             team->currentAllowedDirection = uVar5;
             return;
@@ -17190,7 +17273,7 @@ derive_allowed_dir_from_full_angle:
       }
       else {
 distance_and_random_fire_gate:
-        if ((puVar2 < (uchar *)0x7081) && ((puVar2 < (uchar *)0x3200 || ((AI_rand & 3) == 0)))) {
+        if ((puVar2 < (uchar *)0x7081) && ((puVar2 < (uchar *)0x3200 || ((aiRand & 3) == 0)))) {
           cVar8 = '\x0f';
           if (puVar2 < (uchar *)0xc81) {
             cVar8 = '2';
@@ -17199,7 +17282,7 @@ distance_and_random_fire_gate:
               (cVar3 = (char)(pSVar1->direction << 5) - cVar10, cVar3 <= cVar8)) && (-cVar8 < cVar3)
              ) {
             bVar14 = false;
-            if (AI_resumePlayTimer != 0) {
+            if (aiResumePlayTimer != 0) {
               return;
             }
             AI_ResumeGameDelay(team);
@@ -17207,7 +17290,7 @@ distance_and_random_fire_gate:
               return;
             }
             team->AI_afterTouchStrength = 0;
-            AI_resumePlayTimer = 0xf;
+            aiResumePlayTimer = 0xf;
             team->currentAllowedDirection = uVar4;
             team->normalFire = 1;
             wVar6 = 0xffff;
@@ -17240,14 +17323,14 @@ evaluate_closest_facing_player_midrange:
 our_player_closest:
                 team->field_84 = 0;
                 bVar14 = false;
-                if (AI_resumePlayTimer != 0) {
+                if (aiResumePlayTimer != 0) {
                   return;
                 }
                 AI_ResumeGameDelay(team);
                 if (!bVar14) {
                   return;
                 }
-                AI_resumePlayTimer = 0xf;
+                aiResumePlayTimer = 0xf;
                 team->currentAllowedDirection = uVar4;
                 team->quickFire = 1;
                 if (stoppageTimerActive < AI_maxStoppageTime) {
@@ -17260,7 +17343,7 @@ our_player_closest:
             else {
               if (4999 < pSVar12->ballDistance) goto use_pass_target_if_valid;
 far_distance_decision_gate:
-              if ((AI_rand < 9) && ((uchar *)0xbd10 < puVar2)) {
+              if ((aiRand < 9) && ((uchar *)0xbd10 < puVar2)) {
 decide_immediate_turn_or_gate:
                 uVar5 = ((sVar9 + 0x10U & 0xff) >> 5) - uVar4 & 7;
                 if ((uVar5 == 0) || ((uVar5 == 1 || (uVar5 == 0xffff)))) {
@@ -17270,7 +17353,7 @@ decide_immediate_turn_or_gate:
                   }
                   team->currentAllowedDirection = uVar4;
                   team->normalFire = 1;
-                  AI_resumePlayTimer = 0xf;
+                  aiResumePlayTimer = 0xf;
                   wVar6 = 0xffff;
                   if ((char)((char)(uVar4 << 5) - cVar10) < '\0') {
                     wVar6 = 1;
@@ -17340,13 +17423,13 @@ closest_facing_player_not_ours:
       return;
     }
   }
-  if (((playingPenalties == 0) && (penalty == 0)) && ((AI_rand & 1) != 0)) {
+  if (((playingPenalties == 0) && (penalty == 0)) && ((aiRand & 1) != 0)) {
     if ((short)team->AI_ballSpinDirection < 0) {
-      psVar13 = AI_leftSpinTable;
+      psVar13 = aiLeftSpinTable;
       goto apply_spin_table_offset;
     }
     if (team->AI_ballSpinDirection != 0) {
-      psVar13 = AI_rotateRightTable;
+      psVar13 = aiRotateRightTable;
       goto apply_spin_table_offset;
     }
   }
@@ -17354,7 +17437,7 @@ closest_facing_player_not_ours:
     team->currentAllowedDirection = 0xffff;
     return;
   }
-  psVar13 = AI_longKickTable;
+  psVar13 = aiLongKickTable;
 apply_spin_table_offset:
   team->currentAllowedDirection =
        *(short *)((int)psVar13 + (int)(short)(team->AI_afterTouchStrength << 1)) +
@@ -17378,11 +17461,11 @@ short __usercall AI_SetDirectionTowardOpponentsGoal(TeamGeneralInfo *team)
   word wVar1;
   word wVar2;
   
-  if (AI_counter == 0) {
+  if (aiCounter == 0) {
     return unaff_D0w;
   }
   wVar1 = ballSprite.x.s.i;
-  if (AI_attackHalf == 1) {
+  if (aiAttackHalf == 1) {
     if (team != &bottomTeamData) {
       return ballSprite.x.s.i;
     }
@@ -17437,11 +17520,11 @@ int __usercall AI_DecideWhetherToTriggerFire(Sprite *player,TeamGeneralInfo *tea
       uVar2 = ((byte)((char)player->fullDirection + 0x80) + 0x10 & 0xff) >> 5;
       if (uVar2 == dir) {
         team->currentAllowedDirection = uVar2;
-        AI_counter = 0xf;
-        AI_counterWriteOnly = uVar2;
-        AI_attackHalf = 2;
+        aiCounter = 0xf;
+        aiCounterWriteOnly = uVar2;
+        aiAttackHalf = 2;
         if (team != &topTeamData) {
-          AI_attackHalf = 1;
+          aiAttackHalf = 1;
         }
         return (uint)uVar1 << 0x10;
       }
@@ -17585,7 +17668,7 @@ char * __usercall PanicLookupMessagePtr(ushort code)
   byte *pbVar5;
   
   sVar3 = 3;
-  pbVar4 = byte_11FC60;
+  pbVar4 = hexWordStringBuffer;
   do {
     code = code << 4 | code >> 0xc;
     bVar1 = (byte)code & 0xf;
@@ -17599,7 +17682,7 @@ char * __usercall PanicLookupMessagePtr(ushort code)
     pbVar4 = pbVar5;
   } while (sVar3 != -1);
   *pbVar5 = 0;
-  return (char *)byte_11FC60;
+  return (char *)hexWordStringBuffer;
 }
 
 
@@ -17726,7 +17809,7 @@ LAB_0011fd04:
         }
                     /* WARNING: Could not recover jumptable at 0x0011fe10. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-        (**(code **)((int)&menuTypesJumpTable + (int)(short)(*pwVar4 << 2)))();
+        (**(code **)((int)menuTypesJumpTable + (int)(short)(*pwVar4 << 2)))();
         return;
       }
       if (*pwVar3 != 0xfc1c) goto LAB_0011fd04;
@@ -17752,14 +17835,14 @@ LAB_0011fd04:
     sVar2 = sVar2 + -1;
     if (sVar2 == -1) {
       dstMenu->endOfMenuPtr = pMVar5;
-      dword_9978C = (int)diyLeagueScratchBuffer - (int)pMVar5;
-      dword_99788 = (int)&pMVar5[-0xb8].fg.func2 + 2;
-      if (g_irqCookieObfuscated != 0xcfd1efe7) {
+      menuFreeSpace = (int)diyLeagueScratchBuffer - (int)pMVar5;
+      menuDataOffset = (int)&pMVar5[-0xb8].fg.func2 + 2;
+      if (irqCookieObfuscated != 0xcfd1efe7) {
         pMVar5 = unaff_A5;
-        UnpackMenu(&g_currentMenu,staticMenu_00);
-        g_currentMenu.selectedEntry = pMVar5;
-        if (g_currentMenu.afterDraw != (void *)0x0) {
-          (*g_currentMenu.afterDraw)(&g_currentMenu);
+        UnpackMenu(&currentMenu,staticMenu_00);
+        currentMenu.selectedEntry = pMVar5;
+        if (currentMenu.afterDraw != (void *)0x0) {
+          (*currentMenu.afterDraw)(&currentMenu);
         }
         return;
       }
@@ -17821,12 +17904,12 @@ void __usercall MenuProc(void)
   ReadTimerDelta();
   if (magicValue != 0x12345678) {
     panicReasonCode = 0x9999;
-    g_errorMessagePtr = "STACK OVERFLOW";
+    errorMessagePtr = "STACK OVERFLOW";
     PanicHaltLoop();
   }
-  if (g_irqCookieObfuscated == 0xcfd1efe7) {
+  if (irqCookieObfuscated == 0xcfd1efe7) {
     if (menuStatus == 0) {
-      DrawSelectedMenuItemFrame(&g_currentMenu);
+      DrawSelectedMenuItemFrame(&currentMenu);
       WaitForVSync();
     }
     menuCursorFrame = menuCursorFrame + 1;
@@ -17839,9 +17922,9 @@ void __usercall MenuProc(void)
     }
     UpdateBlinkingMenuText();
     MenuCheckControls();
-    pMVar7 = g_currentMenu.selectedEntry;
+    pMVar7 = currentMenu.selectedEntry;
     controlMask = 0;
-    if ((g_currentMenu.selectedEntry)->onSelect != (code *)0x0) {
+    if ((currentMenu.selectedEntry)->onSelect != (code *)0x0) {
       uVar4 = 0;
       if (shortFire != 0) {
         uVar4 = 0x20;
@@ -17877,10 +17960,10 @@ void __usercall MenuProc(void)
           uVar4 = uVar4 | 0x40;
         }
       }
-      if (((g_currentMenu.selectedEntry)->controlMask == 0xffff) ||
-         (uVar4 = (g_currentMenu.selectedEntry)->controlMask & uVar4, uVar4 != 0)) {
+      if (((currentMenu.selectedEntry)->controlMask == 0xffff) ||
+         (uVar4 = (currentMenu.selectedEntry)->controlMask & uVar4, uVar4 != 0)) {
         controlMask = uVar4;
-        (*(g_currentMenu.selectedEntry)->onSelect)(wVar2);
+        (*(currentMenu.selectedEntry)->onSelect)(wVar2);
       }
     }
     if ((fire == 0) && (-1 < (short)menuControlsDirection)) {
@@ -17891,24 +17974,24 @@ void __usercall MenuProc(void)
         while( true ) {
           pMVar6 = CalcMenuEntryAddress((ushort)bVar1);
           if ((pMVar6->isDisabled == 0) && (pMVar6->isInvisible == 0)) {
-            g_currentMenu.selectedEntry = pMVar6;
+            currentMenu.selectedEntry = pMVar6;
             if (pMVar7->background == NO_BACKGROUND) {
               menuStatus = 0;
               menuTextBlinkCounter = 0;
               BlitterCopyPanelToScreen2();
               DrawMenuPanelBackground();
-              pMVar7 = g_menuEntries;
-              sVar5 = g_currentMenu.numEntries - 1;
+              pMVar7 = menuEntries;
+              sVar5 = currentMenu.numEntries - 1;
               do {
                 pMVar7->alreadyDrawn = 0;
                 pMVar7 = pMVar7 + 1;
                 sVar5 = sVar5 + -1;
               } while (sVar5 != -1);
-              if (g_currentMenu.onDraw != (void *)0x0) {
-                (*g_currentMenu.onDraw)();
+              if (currentMenu.onDraw != (void *)0x0) {
+                (*currentMenu.onDraw)();
               }
-              pMVar7 = g_menuEntries;
-              sVar5 = g_currentMenu.numEntries - 1;
+              pMVar7 = menuEntries;
+              sVar5 = currentMenu.numEntries - 1;
               do {
                 DrawMenuItem(pMVar7);
                 pMVar7 = pMVar7 + 1;
@@ -17950,8 +18033,8 @@ void __usercall UpdateBlinkingMenuText(void)
   sVar3 = 1;
   while( true ) {
     sVar2 = 0;
-    sVar4 = g_currentMenu.numEntries - 1;
-    entry = g_menuEntries;
+    sVar4 = currentMenu.numEntries - 1;
+    entry = menuEntries;
     do {
       if ((entry->content != NO_FOREGROUND) && ((entry->stringFlags & 0x2000) != 0)) {
         if (menuTextBlinkCounter == 0) {
@@ -18002,11 +18085,11 @@ void __usercall MenuCheckControls(void)
       pl1FireCounter = 0;
     }
     if (pl1Fire == 0) {
-      if (g_allowShorterMenuItemsWithFrames._2_2_ != 0) {
+      if (allowShorterMenuItemsWithFrames._2_2_ != 0) {
         pl1SkipFireCounter = pl1SkipFireCounter + 1;
         pl1Fire = (byte)pl1SkipFireCounter & 1;
       }
-      if (g_allowShorterMenuItemsWithFrames._0_2_ != 0) {
+      if (allowShorterMenuItemsWithFrames._0_2_ != 0) {
         pl1Fire = 1;
       }
     }
@@ -18296,7 +18379,7 @@ void __usercall Int2Ascii(ushort value,char *out)
 MenuEntry * __usercall CalcMenuEntryAddress(ushort ordinal)
 
 {
-  return g_menuEntries + ordinal;
+  return menuEntries + ordinal;
 }
 
 
@@ -18711,18 +18794,18 @@ void __usercall DrawMenu(void)
   menuTextBlinkCounter = 0;
   BlitterCopyPanelToScreen2();
   DrawMenuPanelBackground();
-  pMVar2 = g_menuEntries;
-  sVar1 = g_currentMenu.numEntries - 1;
+  pMVar2 = menuEntries;
+  sVar1 = currentMenu.numEntries - 1;
   do {
     pMVar2->alreadyDrawn = 0;
     pMVar2 = pMVar2 + 1;
     sVar1 = sVar1 + -1;
   } while (sVar1 != -1);
-  if (g_currentMenu.onDraw != (void *)0x0) {
-    (*g_currentMenu.onDraw)();
+  if (currentMenu.onDraw != (void *)0x0) {
+    (*currentMenu.onDraw)();
   }
-  pMVar2 = g_menuEntries;
-  sVar1 = g_currentMenu.numEntries - 1;
+  pMVar2 = menuEntries;
+  sVar1 = currentMenu.numEntries - 1;
   do {
     DrawMenuItem(pMVar2);
     pMVar2 = pMVar2 + 1;
@@ -18747,16 +18830,16 @@ void __usercall ShowMenu(void *packedMenu)
   MenuEntry *oldSelectedEntry;
   Menu *oldPackedMenu;
   
-  oldPackedMenu = g_currentMenuPtr;
-  oldSelectedEntry = g_currentMenu.selectedEntry;
+  oldPackedMenu = currentMenuPtr;
+  oldSelectedEntry = currentMenu.selectedEntry;
   menuStatus = 0;
-  g_exitMenu = 0;
+  exitMenu = 0;
   ActivateMenu(packedMenu);
-  while (g_exitMenu == 0) {
+  while (exitMenu == 0) {
     MenuProc();
   }
   menuStatus = 1;
-  g_exitMenu = 0;
+  exitMenu = 0;
   RestorePreviousMenu(oldSelectedEntry,oldPackedMenu);
   return;
 }
@@ -18773,12 +18856,12 @@ void __usercall RestorePreviousMenu(void *oldSelectedEntry,void *oldPackedMenu)
 {
   MenuEntry *pMVar1;
   
-  g_currentMenuPtr = oldPackedMenu;
+  currentMenuPtr = oldPackedMenu;
   pMVar1 = oldSelectedEntry;
-  UnpackMenu(&g_currentMenu,oldPackedMenu);
-  g_currentMenu.selectedEntry = pMVar1;
-  if (g_currentMenu.afterDraw != (void *)0x0) {
-    (*g_currentMenu.afterDraw)(&g_currentMenu);
+  UnpackMenu(&currentMenu,oldPackedMenu);
+  currentMenu.selectedEntry = pMVar1;
+  if (currentMenu.afterDraw != (void *)0x0) {
+    (*currentMenu.afterDraw)(&currentMenu);
   }
   return;
 }
@@ -18794,16 +18877,16 @@ short __usercall ActivateMenu(Menu *menu)
 {
   MenuEntry *pMVar1;
   
-  g_currentMenuPtr = menu;
-  UnpackMenu(&g_currentMenu,menu);
-  pMVar1 = g_currentMenu.selectedEntry;
-  if (g_currentMenu.selectedEntry < (MenuEntry *)((int)goalBase + 0x2292U)) {
-    g_currentMenu.selectedEntry = CalcMenuEntryAddress((ushort)g_currentMenu.selectedEntry);
+  currentMenuPtr = menu;
+  UnpackMenu(&currentMenu,menu);
+  pMVar1 = currentMenu.selectedEntry;
+  if (currentMenu.selectedEntry < (MenuEntry *)((int)goalBase + 0x2292U)) {
+    currentMenu.selectedEntry = CalcMenuEntryAddress((ushort)currentMenu.selectedEntry);
   }
-  if (g_currentMenu.onInit != (void *)0x0) {
-    pMVar1 = (MenuEntry *)(*g_currentMenu.onInit)(&g_currentMenu);
+  if (currentMenu.onInit != (void *)0x0) {
+    pMVar1 = (MenuEntry *)(*currentMenu.onInit)(&currentMenu);
   }
-  if (g_exitMenu == 0) {
+  if (exitMenu == 0) {
     DrawMenu();
     return (short)pMVar1;
   }
@@ -18826,26 +18909,27 @@ void __usercall DrawMenuPanelBackground(void)
 
 // --- CalcTeamPriceRankPercentOffset @ 00121684 ---
 
-short __usercall CalcTeamPriceRankPercentOffset(void *team,void *info)
+short __usercall CalcTeamPriceRankPercentOffset(void *ctx,TeamFile *team)
 
 {
   short unaff_D1w;
   ushort uVar1;
   short sVar2;
   
-  if (*(short *)team == 0) {
-    if (*(char *)((int)info + 4) == '\x01') {
-      if (*(ushort *)((int)team + 0x2b8) < 3) {
+  if (*(short *)ctx == 0) {
+    if (team->teamControls == 1) {
+      if (*(ushort *)((int)ctx + 0x2b8) < 3) {
         return 0;
       }
     }
-    else if (*(ushort *)((int)team + 0x2b8) < 10) {
+    else if (*(ushort *)((int)ctx + 0x2b8) < 10) {
       return 0;
     }
-    uVar1 = *(ushort *)info;
+    uVar1._0_1_ = team->countryNumber;
+    uVar1._1_1_ = team->teamOrdinal;
     FindTeamInDIY();
-    uVar1 = GetMoreExpensiveTeamsCount(uVar1,team);
-    sVar2 = *(short *)((int)team + 0x32) + -1;
+    uVar1 = GetMoreExpensiveTeamsCount(uVar1,ctx);
+    sVar2 = *(short *)((int)ctx + 0x32) + -1;
     if (sVar2 != 0) {
       sVar2 = (short)(((short)(uVar1 - unaff_D1w) * 100) / (int)sVar2);
       if (0x32 < sVar2) {
@@ -18898,47 +18982,48 @@ char __usercall AssignFakeGoalsToScorers(ushort winningTeam,ushort numGoals)
     if (uVar4 < 0xf8) {
       uVar4 = uVar4 & 0x7f;
       sVar7 = 10;
-      if (LAB_001217d8 <= (byte)uVar4) {
-        bVar3 = (byte)uVar4 - LAB_001217d8;
+      if ((byte)kAbortLossScorerWeightTable[0] <= (byte)uVar4) {
+        bVar3 = (byte)uVar4 - kAbortLossScorerWeightTable[0];
         uVar4 = (ushort)bVar3;
         sVar7 = 9;
-        if (LAB_001217d8_1 <= bVar3) {
-          bVar3 = bVar3 - LAB_001217d8_1;
+        if ((byte)kAbortLossScorerWeightTable[1] <= bVar3) {
+          bVar3 = bVar3 - kAbortLossScorerWeightTable[1];
           uVar4 = (ushort)bVar3;
           sVar7 = 8;
-          if (LAB_001217da <= bVar3) {
-            bVar3 = bVar3 - LAB_001217da;
+          if ((byte)kAbortLossScorerWeightTable[2] <= bVar3) {
+            bVar3 = bVar3 - kAbortLossScorerWeightTable[2];
             uVar4 = (ushort)bVar3;
             sVar7 = 7;
-            if (LAB_001217da_1 <= bVar3) {
-              bVar3 = bVar3 - LAB_001217da_1;
+            if ((byte)kAbortLossScorerWeightTable[3] <= bVar3) {
+              bVar3 = bVar3 - kAbortLossScorerWeightTable[3];
               uVar4 = (ushort)bVar3;
               sVar7 = 6;
-              if (LAB_001217dc <= bVar3) {
-                bVar3 = bVar3 - LAB_001217dc;
+              if ((byte)kAbortLossScorerWeightTable[4] <= bVar3) {
+                bVar3 = bVar3 - kAbortLossScorerWeightTable[4];
                 uVar4 = (ushort)bVar3;
                 sVar7 = 5;
-                if (LAB_001217dc_1 <= bVar3) {
-                  bVar3 = bVar3 - LAB_001217dc_1;
+                if ((byte)kAbortLossScorerWeightTable[5] <= bVar3) {
+                  bVar3 = bVar3 - kAbortLossScorerWeightTable[5];
                   uVar4 = (ushort)bVar3;
                   sVar7 = 4;
-                  if (LAB_001217de <= bVar3) {
-                    bVar3 = bVar3 - LAB_001217de;
+                  if ((byte)kAbortLossScorerWeightTable[6] <= bVar3) {
+                    bVar3 = bVar3 - kAbortLossScorerWeightTable[6];
                     uVar4 = (ushort)bVar3;
                     sVar7 = 3;
-                    if (LAB_001217de_1 <= bVar3) {
-                      bVar3 = bVar3 - LAB_001217de_1;
+                    if ((byte)kAbortLossScorerWeightTable[7] <= bVar3) {
+                      bVar3 = bVar3 - kAbortLossScorerWeightTable[7];
                       uVar4 = (ushort)bVar3;
                       sVar7 = 2;
-                      if (LAB_001217e0 <= bVar3) {
-                        uVar4 = (ushort)(byte)(bVar3 - LAB_001217e0);
+                      if ((byte)kAbortLossScorerWeightTable[8] <= bVar3) {
+                        uVar4 = (ushort)(byte)(bVar3 - kAbortLossScorerWeightTable[8]);
                         sVar7 = 1;
-                        if (LAB_001217e0_1 <= (byte)(bVar3 - LAB_001217e0)) {
+                        if ((byte)kAbortLossScorerWeightTable[9] <=
+                            (byte)(bVar3 - kAbortLossScorerWeightTable[8])) {
                           uVar4 = Rand2();
                           uVar4 = uVar4 & 0x7f;
                           sVar7 = 1;
-                          if (LAB_001217e2 <= (byte)uVar4) {
-                            uVar4 = (ushort)(byte)((byte)uVar4 - LAB_001217e2);
+                          if ((byte)kAbortLossScorerWeightTable[10] <= (byte)uVar4) {
+                            uVar4 = (ushort)(byte)((byte)uVar4 - kAbortLossScorerWeightTable[10]);
                             sVar7 = 0;
                           }
                         }
@@ -18976,10 +19061,50 @@ char __usercall AssignFakeGoalsToScorers(ushort winningTeam,ushort numGoals)
    Might be returning some x, y offsets.. but for what
    dos: cseg_2C88E */
 
-void __usercall CalcTeamViewOffset(TeamFile *teamFile)
+Position __usercall CalcTeamViewOffset(TeamFile *teamFile)
 
 {
-  return;
+  undefined4 unaff_D0;
+  ushort uVar1;
+  word wVar2;
+  word wVar3;
+  Position PVar4;
+  
+  uVar1 = (ushort)(byte)(viewRandomPhase +
+                        kRandomTable
+                        [(short)(ushort)(byte)(newRandomSeedCopy ^
+                                              (byte)currentSeasonShowing ^
+                                              (byte)teamFile->globalTeamNumber)]);
+  wVar2 = (char)kTeamViewOffsetBaseLUT[(short)uVar1] * 2;
+  wVar3 = (char)kTeamViewOffsetBaseLUT[(short)(uVar1 + 7 & 0xff)] * 2;
+  if (teamFile->teamControls == 1) {
+    uVar1 = ((ushort)(CONCAT11((char)((uint)unaff_D0 >> 0x18),viewRandomPhase) << 2) >> 6) +
+            (ushort)(byte)kRandomTable
+                          [(short)(ushort)(byte)(newRandomSeedCopy ^
+                                                (byte)currentSeasonShowing ^
+                                                (byte)teamFile->globalTeamNumber)] & 0x3f;
+    wVar2 = (char)kUserTeamOffsetBiasLUT[(short)uVar1] * 2 + wVar2;
+    wVar3 = (char)kUserTeamOffsetBiasLUT[(short)uVar1] * 2 + wVar3;
+  }
+  if (teamFile->teamControls != 1) {
+    wVar2 = wVar2 - 1;
+    wVar3 = wVar3 - 1;
+  }
+  if ((short)wVar2 < -0xc) {
+    wVar2 = 0xfff4;
+  }
+  else if (0xc < (short)wVar2) {
+    wVar2 = 0xc;
+  }
+  if ((short)wVar3 < -0xc) {
+    wVar3 = 0xfff4;
+  }
+  else if (0xc < (short)wVar3) {
+    wVar3 = 0xc;
+  }
+  PVar4.x = wVar2;
+  PVar4.y = wVar3;
+  return PVar4;
 }
 
 
@@ -19015,7 +19140,7 @@ ushort __usercall GetPlayerPrice(TeamFile *team,PlayerFile *player,ushort positi
   uVar7._1_1_ = player[2].shootingHeading;
   uVar7._2_1_ = player[2].tacklingBallControl;
   uVar7._3_1_ = player[2].speedFinishing;
-  plPositions = *(int *)((int)g_tacticsTable + (int)(short)((short)(char)team->tactics << 2)) + 9;
+  plPositions = *(int *)((int)teamTacticsTable + (int)(short)((short)(char)team->tactics << 2)) + 9;
   playerPositions = (uchar *)(plPositions + (int)(short)((position - 1) * 0x23));
   curQuadDistFactor = quadrantDistanceFactor + 0x4a6;
   totalSkillsFactorSum = 0;
@@ -19247,7 +19372,7 @@ AdjustPlayerSkills(ushort playerIndex,TeamFile *teamFile,TeamFile *oppTeamFile,T
   if (teamFile->teamControls == TEAM_COMPUTER) {
     sVar4 = 100;
   }
-  if ((((plg_D0_param == 0) && (teamGame == &bottomTeamInGame)) &&
+  if ((((plgD0Param == 0) && (teamGame == &bottomTeamInGame)) &&
       ((teamFile->teamControls != TEAM_COMPUTER || (oppTeamFile->teamControls != TEAM_PLAYER_COACH))
       )) && (sVar4 = sVar4 + -0xc, sVar4 < 0)) {
     sVar4 = 0;
@@ -19318,7 +19443,7 @@ short __usercall GetPlayerPricePercentageChange(short factor,void *team)
   
   if ((isGameFriendly == 0) && (*(char *)((int)team + 4) != TEAM_PLAYER_COACH)) {
     CalcTeamViewOffset(team);
-    sVar1 = CalcTeamPriceRankPercentOffset(&DIY_competitionStart,team);
+    sVar1 = CalcTeamPriceRankPercentOffset(&diyCompetitionStart,team);
     factor = sVar1 + unaff_D0w + factor;
   }
   uVar2 = Rand2();
@@ -19362,20 +19487,21 @@ ushort __usercall FindTeamInCache(ushort teamNumber)
 
 {
   short sVar1;
-  dword *pdVar2;
+  TeamFile **ppTVar2;
   
   if (teamNumber == currentTeamNumber) {
     return 0;
   }
-  if (((word_12F6E0 == 0) || (teamNumber != careerTeam._0_2_)) && (teamNumber != selTeamNumber)) {
-    if (g_numSelectedTeams != 0) {
-      sVar1 = g_numSelectedTeams - 1;
-      pdVar2 = &selTeamsPtr;
+  if (((careerAutoAdvanceInProgress == 0) || (teamNumber != careerTeam.team._0_2_)) &&
+     (teamNumber != selTeamNumber)) {
+    if (numSelectedTeams != 0) {
+      sVar1 = numSelectedTeams - 1;
+      ppTVar2 = &selTeamsPtr;
       do {
-        if (teamNumber == *(ushort *)pdVar2) {
-          return (g_numSelectedTeams - sVar1) - 1;
+        if (teamNumber == *(ushort *)ppTVar2) {
+          return (numSelectedTeams - sVar1) - 1;
         }
-        pdVar2 = pdVar2 + 0xab;
+        ppTVar2 = ppTVar2 + 0xab;
         sVar1 = sVar1 + -1;
       } while (sVar1 != -1);
     }
@@ -19406,7 +19532,7 @@ void * __usercall VerifyTeamLoaded(ushort teamNumber)
   }
   panicReasonCode = 0x8888;
   PanicHaltLoop();
-  return &DIY_competitionStart;
+  return &diyCompetitionStart;
 }
 
 
@@ -19433,11 +19559,11 @@ void __usercall FindTeamInDIY(void)
   DIY_Competition *unaff_A6;
   DIY_Competition *pDVar9;
   
-  word_12F0EA = 0;
+  diyFoundTeamIndex = 0;
   wVar4 = unaff_A6->numTeams;
   if (unaff_A6->competitionType == DIY_CUP) {
-    word_12F0EC._0_1_ = -(*(short *)(unaff_A6->field_39 + 0x1c) != 0);
-    word_12F0EC = (ushort)word_12F0EC._0_1_ << 8;
+    diyCompHasGroupStage._0_1_ = -(*(short *)(unaff_A6->field_3A + 0x1c) != 0);
+    diyCompHasGroupStage = (ushort)diyCompHasGroupStage._0_1_ << 8;
 LAB_0012ef92:
     uVar3 = 0xffff;
     while (wVar4 = wVar4 - 1, -1 < (short)wVar4) {
@@ -19446,15 +19572,15 @@ LAB_0012ef92:
           *(ushort *)
            (unaff_A6[6].field_2 +
            (short)((short)(char)unaff_A6[7].field_2[(short)uVar3 + 0x2c] << 1) + 0xc)) {
-        if ((*(short *)(unaff_A6->field_39 + 0x1c) != 0) && (uVar3 < 2)) {
-          if (unaff_D0w == *(ushort *)unaff_A6->field_39) {
-            word_12F0EA = 0;
+        if ((*(short *)(unaff_A6->field_3A + 0x1c) != 0) && (uVar3 < 2)) {
+          if (unaff_D0w == *(ushort *)unaff_A6->field_3A) {
+            diyFoundTeamIndex = 0;
             return;
           }
           return;
         }
-        if ((ushort)(*(short *)(unaff_A6->field_39 + 0x16) << 1) <= uVar3) {
-          word_12F0EA = 1;
+        if ((ushort)(*(short *)(unaff_A6->field_3A + 0x16) << 1) <= uVar3) {
+          diyFoundTeamIndex = 1;
           for (uVar2 = 0x20; uVar3 < uVar2; uVar2 = uVar2 >> 1) {
           }
           return;
@@ -19465,8 +19591,8 @@ LAB_0012ef92:
   }
   else {
     if (unaff_A6->competitionType == DIY_TOURNAMENT) {
-      word_12F0EC._0_1_ = -(*(short *)(unaff_A6->field_39 + 0x1e) != 0);
-      word_12F0EC = (ushort)word_12F0EC._0_1_ << 8;
+      diyCompHasGroupStage._0_1_ = -(*(short *)(unaff_A6->field_3A + 0x1e) != 0);
+      diyCompHasGroupStage = (ushort)diyCompHasGroupStage._0_1_ << 8;
       uVar3 = 0xffff;
       do {
         wVar4 = wVar4 - 1;
@@ -19474,34 +19600,34 @@ LAB_0012ef92:
         uVar3 = uVar3 + 1;
       } while (unaff_D0w !=
                *(ushort *)
-                (unaff_A6[1].field_39 +
-                (short)((short)(char)unaff_A6->field_39[(short)uVar3 + 0x20] << 1)));
-      sVar1 = *(short *)(unaff_A6->field_39 + 0x1a);
-      if ((*(short *)(unaff_A6->field_39 + 0x1e) == 0) ||
-         (*(ushort *)(unaff_A6[3].field_39 + (short)(sVar1 * 0x76) + 8) <= uVar3)) {
-        if (uVar3 < *(ushort *)(unaff_A6[3].field_39 + (short)(sVar1 * 0x76) + 8)) {
+                (unaff_A6[1].field_3A +
+                (short)((short)(char)unaff_A6->field_3A[(short)uVar3 + 0x20] << 1)));
+      sVar1 = *(short *)(unaff_A6->field_3A + 0x1a);
+      if ((*(short *)(unaff_A6->field_3A + 0x1e) == 0) ||
+         (*(ushort *)(unaff_A6[3].field_3A + (short)(sVar1 * 0x76) + 8) <= uVar3)) {
+        if (uVar3 < *(ushort *)(unaff_A6[3].field_3A + (short)(sVar1 * 0x76) + 8)) {
           return;
         }
-        word_12F0EA = 1;
+        diyFoundTeamIndex = 1;
         pDVar9 = unaff_A6;
-        if (*(short *)unaff_A6[3].field_39 != 0) {
+        if (*(short *)unaff_A6[3].field_3A != 0) {
           if (uVar3 == 3) {
-            word_12F0EA = 1;
+            diyFoundTeamIndex = 1;
             return;
           }
           if (uVar3 == 4) {
-            word_12F0EA = 1;
+            diyFoundTeamIndex = 1;
             return;
           }
         }
         do {
           pDVar6 = pDVar9;
-          uVar2 = *(ushort *)(pDVar6[4].field_39 + 0x1e);
+          uVar2 = *(ushort *)(pDVar6[4].field_3A + 0x1e);
           pDVar9 = (DIY_Competition *)(pDVar6[1].field_2 + 0x14);
         } while (uVar3 < uVar2);
-        uVar3 = *(ushort *)(pDVar6[3].field_39 + 8);
-        if (word_12F0EE == 0) {
-          word_12F0EA = 1;
+        uVar3 = *(ushort *)(pDVar6[3].field_3A + 8);
+        if (findTeamInDIY_SuppressSideEffectsFlag == 0) {
+          diyFoundTeamIndex = 1;
           return;
         }
         uVar5 = GetMoreExpensiveTeamsCountWrapper(unaff_D0w,unaff_A6);
@@ -19517,11 +19643,11 @@ LAB_0012ef92:
       wVar4 = unaff_A6[0xb].numTeams;
       pDVar6 = unaff_A6 + 3;
       unaff_A6 = pDVar9;
-      if (*(short *)(pDVar6->field_39 + (short)(sVar1 * 0x76) + 4) == 0) goto LAB_0012ef92;
+      if (*(short *)(pDVar6->field_3A + (short)(sVar1 * 0x76) + 4) == 0) goto LAB_0012ef92;
     }
     else {
-      word_12F0EC._0_1_ = -(unaff_A6[1].competitionType == 0);
-      word_12F0EC = (ushort)word_12F0EC._0_1_ << 8;
+      diyCompHasGroupStage._0_1_ = -(unaff_A6[1].competitionType == 0);
+      diyCompHasGroupStage = (ushort)diyCompHasGroupStage._0_1_ << 8;
       pDVar9 = unaff_A6;
     }
     sVar1 = -2;
@@ -19544,7 +19670,7 @@ LAB_0012f0bc:
     pbVar8 = unaff_A6[3].field_2 + 0xc;
     if ((unaff_A6->competitionType != 0) &&
        (pbVar8 = unaff_A6[6].field_2 + 0xc, unaff_A6->competitionType != 1)) {
-      pbVar8 = unaff_A6[1].field_39;
+      pbVar8 = unaff_A6[1].field_3A;
     }
     pvVar7 = VerifyTeamLoaded(unaff_D0w);
     GetAveragePlayerPrice(pvVar7);
@@ -19592,7 +19718,7 @@ ushort __usercall GetMoreExpensiveTeamsCount(ushort teamNo,DIY_Competition *comp
   pbVar7 = comp[3].field_2 + 0xc;
   if ((comp->competitionType != DIY_LEAGUE) &&
      (pbVar7 = comp[6].field_2 + 0xc, comp->competitionType != DIY_CUP)) {
-    pbVar7 = comp[1].field_39;
+    pbVar7 = comp[1].field_3A;
   }
   pvVar6 = VerifyTeamLoaded(teamNo);
   uVar2 = GetAveragePlayerPrice(pvVar6);
@@ -19662,7 +19788,7 @@ void __usercall DrawAnimatedPatterns(void)
   word *pwVar10;
   
   if (replayState == 0) {
-    if (g_trainingGame != 0) {
+    if (trainingGame != 0) {
       animPatternsState = 0;
       return;
     }
@@ -19705,7 +19831,7 @@ _12F948_game_in_progress:
       goto LAB_0012f966;
     }
     if (patternsGoalCounter == 0) goto ball_out_of_play;
-    if ((ushort)g_cameraY._0_2_ < 0x1b9) {
+    if ((ushort)cameraY._0_2_ < 0x1b9) {
       if (fansSidesSwapped == 0) goto LAB_0012f864;
 LAB_0012f852:
       pTVar3 = &topTeamInGame;
@@ -19796,7 +19922,7 @@ LAB_0012f966:
         if (animPatternsIndex == 0x40) {
           animPatternsIndex = 0;
         }
-        if (g_cameraY.s.i < 0x40) {
+        if (cameraY.s.i < 0x40) {
           SwapTwoRandomIndicesFromAnimPatternsTable();
           bVar2 = animPatternsRandomTable[(short)animPatternsIndex];
           if (((otherTeamScored != 0) && (0x14 < bVar2)) && (bVar2 < 0x2a)) {
@@ -19805,14 +19931,14 @@ LAB_0012f966:
           sVar5 = (char)bVar2 + 0x15;
         }
         else {
-          if (g_cameraY.s.i < 0x220) goto next;
+          if (cameraY.s.i < 0x220) goto next;
           SwapTwoRandomIndicesFromAnimPatternsTable();
           sVar5 = (char)animPatternsRandomTable[(short)animPatternsIndex] + 0x42f;
         }
         patternIndex = (short)((uint)(int)sVar5 % 0x15) + (short)((uint)(int)sVar5 / 0x15) * 0x2a +
-                       (g_cameraX.s.i >> 4);
+                       (cameraX.s.i >> 4);
         pbVar1 = (byte *)((int)(short)(patternIndex * 4) + 0x400);
-        if ((pbVar1 < g_pitchDatBuffer) || (g_pitchDatBuffer + 0x2417 < pbVar1)) {
+        if ((pbVar1 < pitchDatBuffer) || (pitchDatBuffer + 0x2417 < pbVar1)) {
           panicReasonCode = 0x2772;
           PanicHaltLoop();
         }
@@ -19828,7 +19954,7 @@ LAB_0012f966:
             iVar6 = uVar4 + 1;
 LAB_0012fa7e:
             *pwVar10 = patternIndex;
-            *(int *)pbVar1 = (int)&g_currentMenu + iVar6 * 0x80;
+            *(int *)pbVar1 = (int)&currentMenu + iVar6 * 0x80;
             goto draw_pattern;
           }
         }
@@ -19878,10 +20004,10 @@ void __usercall ResetAnimatedPatternsForBothTeams(void)
   short sVar2;
   byte *pbVar3;
   
-  if (g_trainingGame == 0) {
+  if (trainingGame == 0) {
     ResetAnimatedPatterns();
     sVar2 = 0x7d;
-    pbVar3 = g_pitchDatBuffer + 0x2178;
+    pbVar3 = pitchDatBuffer + 0x2178;
     do {
       uVar1 = *(int *)pbVar3 - 0x2818;
       if (((uVar1 != 0) && (uVar1 < 0xb01)) && ((uVar1 & 0x80) == 0)) {
@@ -19965,8 +20091,8 @@ void __usercall DrawPatternFromIndex(ushort patternIndex)
   
   **(undefined4 **)(spriteGraphicsPtr + 0x224) = *(undefined4 *)((short)(patternIndex << 2) + 0x400)
   ;
-  sVar1 = (short)((uint)(int)(short)patternIndex % 0x2a) * 0x10 - g_cameraX._0_2_;
-  sVar2 = (short)((uint)(int)(short)patternIndex / 0x2a) * 0x10 - g_cameraY._0_2_;
+  sVar1 = (short)((uint)(int)(short)patternIndex % 0x2a) * 0x10 - cameraX._0_2_;
+  sVar2 = (short)((uint)(int)(short)patternIndex / 0x2a) * 0x10 - cameraY._0_2_;
   if ((((sVar1 < 0x150) && (sVar2 < SCREEN_HEIGHT)) && (-0x10 < sVar1)) && (-0x10 < sVar2)) {
     DrawSprite16Pixels();
     puVar3 = frontbufferBasePtr;
@@ -20009,9 +20135,9 @@ void __usercall ShowErrorMenu(char *errorText)
 }
 
 
-// --- sub_141798 @ 00141798 ---
+// --- Career_PatchTeamWithForeignMarketPlayers @ 00141798 ---
 
-void __usercall sub_141798(void *teamPtr)
+void __usercall Career_PatchTeamWithForeignMarketPlayers(void *teamPtr)
 
 {
   short sVar1;
@@ -20020,7 +20146,7 @@ void __usercall sub_141798(void *teamPtr)
   undefined2 *puVar4;
   MarketPlayer *pMVar5;
   
-  if ((g_gameType == GAME_TYPE_CAREER) && (numForeignMarketPlayers2 != 0)) {
+  if ((gameType == GAME_TYPE_CAREER) && (numForeignMarketPlayers2 != 0)) {
     sVar2 = numForeignMarketPlayers2 - 1;
     pMVar5 = careerForeignMarketPlayers;
     do {
@@ -20060,7 +20186,7 @@ void * __usercall GetTeamPointer(ushort teamId)
       for (unaff_A0 = (ushort *)(teamFileBuffer + 2); teamId != *unaff_A0;
           unaff_A0 = unaff_A0 + 0x156) {
       }
-      sub_141798(unaff_A0);
+      Career_PatchTeamWithForeignMarketPlayers(unaff_A0);
     }
   }
   return unaff_A0;
@@ -20081,18 +20207,18 @@ void * __usercall GetTeamPointer(ushort teamId)
 void * __usercall GetPlayer(ushort teamNumber,ushort playerFileIndex)
 
 {
-  TeamFile *pTVar1;
+  TeamFileEx *pTVar1;
   
   if (teamNumber == currentTeamNumber) {
     pTVar1 = &currentTeam;
   }
   else if (teamNumber == selTeamNumber) {
-    pTVar1 = (TeamFile *)careerTeam;
+    pTVar1 = &careerTeam;
   }
   else {
     pTVar1 = GetTeamPointer(teamNumber);
   }
-  return pTVar1->teamName + (short)(playerFileIndex * 0x26) + -5;
+  return (pTVar1->team).teamName + (short)(playerFileIndex * 0x26) + -5;
 }
 
 
@@ -20171,16 +20297,16 @@ FatalError:
         halt_baddata();
       }
       SetLoadedTeamsGlobalNumbers();
-      if ((g_gameType == GAME_TYPE_CAREER) && (skipLeagueNumbers == 0)) {
+      if ((gameType == GAME_TYPE_CAREER) && (skipLeagueNumbers == 0)) {
         SetLeagueNumbers();
       }
 LAB_00151cf8:
       uVar2 = teamFileBuffer._0_2_;
       teamFileBuffer[0] = SUB21(teamFileBuffer._0_2_,1);
       teamFileBuffer[1] = (byte)teamFileBuffer._0_2_;
-      word_B6C0._0_1_ = teamFileBuffer[0];
-      word_B6C0._1_1_ = teamFileBuffer[1];
-      dword_B68A = (uint)(ushort)teamFileBuffer._0_2_ * 0x2ac + 2;
+      teamFileTeamCount._0_1_ = teamFileBuffer[0];
+      teamFileTeamCount._1_1_ = teamFileBuffer[1];
+      teamFileDataSize = (uint)(ushort)teamFileBuffer._0_2_ * 0x2ac + 2;
       teamFileBuffer._0_2_ = uVar2;
       return extNumber;
     }
@@ -20227,7 +20353,8 @@ void __usercall SetLeagueNumbers(void)
     iVar2 = 0x4a122;
     sVar1 = teamFileBuffer._0_2_ + -1;
     do {
-      *(char *)(iVar2 + 0x19) = someLeaguesTable[*(short *)(iVar2 + 2)] + *(char *)(iVar2 + 0x19);
+      *(char *)(iVar2 + 0x19) =
+           diyLeagueSeasonStateTable[*(short *)(iVar2 + 2)] + *(char *)(iVar2 + 0x19);
       iVar2 = iVar2 + 0x2ac;
       sVar1 = sVar1 + -1;
     } while (sVar1 != -1);

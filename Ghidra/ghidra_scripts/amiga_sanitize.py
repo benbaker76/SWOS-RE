@@ -71,6 +71,25 @@ def get_reg(regname):
         raise RuntimeError("Unknown register: %s" % regname)
     return reg
 
+def get_varstorage_from_regspec(regspec):
+    s = (regspec or "").strip()
+    if not s:
+        return None
+
+    # Support "D1W,D2W" (or "d1.w, d2.w" etc)
+    parts = [p.strip() for p in s.split(",") if p.strip()]
+    if not parts:
+        return None
+
+    regs = []
+    for p in parts:
+        regs.append(get_reg(p))
+
+    # Jython will coerce Python list -> Register[] for this ctor
+    if len(regs) == 1:
+        return VariableStorage(prog, regs[0])
+    return VariableStorage(prog, regs)
+
 # ---------- datatype lookup ----------
 BUILTIN = {
     "void": VoidDataType.dataType,
@@ -885,17 +904,17 @@ for i in range(func_nodes.getLength()):
         f.setSignatureSource(SourceType.USER_DEFINED)
         f.replaceParameters(FUpdate.CUSTOM_STORAGE, True, SourceType.USER_DEFINED, gh_params)
 
-        if is_void_ret:
-            f.setReturnType(VoidDataType.dataType, SourceType.USER_DEFINED)
-        else:
-            if ret_reg:
-                try:
-                    ret_vs = VariableStorage(prog, get_reg(ret_reg))
+        if ret_reg:
+            try:
+                ret_vs = get_varstorage_from_regspec(ret_reg)
+                if ret_vs is not None:
                     f.setReturn(ret_dt, ret_vs, SourceType.USER_DEFINED)
-                except:
+                else:
                     f.setReturnType(ret_dt, SourceType.USER_DEFINED)
-            else:
+            except:
                 f.setReturnType(ret_dt, SourceType.USER_DEFINED)
+        else:
+            f.setReturnType(ret_dt, SourceType.USER_DEFINED)
 
         if reg_cmt:
             f.setComment(reg_cmt)

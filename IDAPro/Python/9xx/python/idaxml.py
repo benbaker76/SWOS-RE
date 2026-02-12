@@ -1344,6 +1344,31 @@ class XmlExporter(IdaXml):
                     return base + "B"   # DnB
             return base                  # Dn (32-bit) or An unchanged
 
+        def _get_struct_member_sizes(tif: ida_typeinf.tinfo_t, max_members: int):
+            """
+            Return a list of member sizes (bytes) for the first `max_members` members
+            of a struct UDT type. Used to derive per-register widths for struct returns.
+            """
+            sizes = []
+            try:
+                udt = ida_typeinf.udt_type_data_t()
+                if not tif.get_udt_details(udt):
+                    return sizes
+                n = min(int(udt.size()), int(max_members))
+                for i in range(n):
+                    m = udt[i]
+                    mt = m.type
+                    try:
+                        sz = mt.get_size()
+                    except Exception:
+                        sz = None
+                    if not sz or sz in (ida_typeinf.BADSIZE, 0):
+                        sz = 4
+                    sizes.append(int(sz))
+            except Exception:
+                pass
+            return sizes
+
         for addr in functions:
             function = ida_funcs.get_func(addr)
             if ida_segment.is_spec_ea(function.start_ea):
@@ -1380,11 +1405,32 @@ class XmlExporter(IdaXml):
                         ret_dtype = _dtype_text(ftd.rettype)
                         rloc = ftd.retloc
                         if rloc and rloc.atype() in (ida_typeinf.ALOC_REG1, ida_typeinf.ALOC_REG2):
-                            try:
-                                rwidth = ftd.rettype.get_size() or 4
-                            except Exception:
-                                rwidth = 4
-                            ret_reg_name = _ghidra_reg_for_width(rloc.reg1(), rwidth)
+                            at = rloc.atype()
+
+                            # NEW: struct return in two registers (e.g. Position @<d1:d2>)
+                            if (at == ida_typeinf.ALOC_REG2 and
+                                ftd.rettype.is_udt() and ftd.rettype.is_struct()):
+                                member_sizes = _get_struct_member_sizes(ftd.rettype, 2)
+                                regnos = [rloc.reg2(), rloc.reg1()]
+                                regs = []
+                                for j, regno in enumerate(regnos):
+                                    w = member_sizes[j] if j < len(member_sizes) else 4
+                                    regs.append(_ghidra_reg_for_width(regno, w))
+                                ret_reg_name = ",".join(regs)  # e.g., "D1W,D2W"
+                            else:
+                                # scalar (or non-struct) return
+                                try:
+                                    rwidth = ftd.rettype.get_size() or 4
+                                except Exception:
+                                    rwidth = 4
+                                ret_reg_name = _ghidra_reg_for_width(rloc.reg1(), rwidth)
+
+                                # Optional: if IDA uses REG2 for a wide scalar, emit both
+                                if at == ida_typeinf.ALOC_REG2 and rwidth > 4:
+                                    ret_reg_name = (
+                                        _ghidra_reg_for_width(rloc.reg1(), 4) + "," +
+                                        _ghidra_reg_for_width(rloc.reg2(), 4)
+                                    )
                 else:
                     # No explicit return type present; treat as unknown (don't force one)
                     rettype_is_void = False

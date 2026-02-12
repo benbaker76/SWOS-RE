@@ -1,24 +1,24 @@
---- ./SWOS2.s	Sat Nov 29 16:23:26 2025
-+++ ./SWOS2.s	Sat Nov 29 18:22:35 2025
-@@ -1667,7 +1667,7 @@ goalBase:
- nextGoal:
+--- ./SWOS2.s	Mon Feb  9 22:34:44 2026
++++ ./SWOS2.s	Tue Feb 10 21:46:46 2026
+@@ -8029,7 +8029,7 @@ nextGoal:
                  ds.b $2
+ ; unsigned __int8[48048]
  frontbufferBase:
 -                ds.b $BBB0
 +                ds.b $40000 ; proper sized buffer for big team files
  BSS_00_1E35A:
                  ds.b $2
- frontbufferBaseAlt:
-@@ -2133,7 +2133,7 @@ inGameHilBuffer:
+ ; unsigned __int8[48048]
+@@ -8362,7 +8362,7 @@ inGameHilBuffer:
  BSS_00_CF13E:
                  ds.b $5582
- g_assetLoaderMainRegion:
+ assetLoaderMainRegion:
 -                ds.b $2F9B8
 +                ds.b $0                 ; no longer used
  
  ; ===== j_start =====
  ; prototype: void __usercall j_start()
-@@ -2141,6 +2141,28 @@ g_assetLoaderMainRegion:
+@@ -8370,6 +8370,28 @@ assetLoaderMainRegion:
      SECTION text,CODE
  j_start:
                  jmp     start
@@ -47,7 +47,7 @@
  aSensibleWorldO:
                  dc.b 'SENSIBLE WORLD OF SOCCER',0
  aCopyrightC1994:
-@@ -2158,7 +2180,7 @@ aCj0611143807:
+@@ -8387,7 +8409,7 @@ aCj0611143807:
  ; prototype: void __usercall start()
  start:
                  move.l  #loc_1000D0,(DIVIDE_BY_ZERO).w
@@ -56,23 +56,23 @@
  loc_1000D0:
                  movea.l #$CC8C,sp
                  jsr     InitHardwareAtFrameStart
-@@ -2454,6 +2476,7 @@ asset_op5_then_6_exit:
+@@ -8683,6 +8705,7 @@ asset_op5_then_6_exit:
  AssetSys_SelectAndOpen:
                  movem.l d1-d7/a0-a6,-(sp)
                  move.w  d0,d7
 +                bra.w   loc_10049E
-                 lea     g_assetIndexStartBytes(pc),a5
+                 lea     assetIndexStartBytes(pc),a5
                  lea     -1(a5,d0.w),a5
                  move.b  (a5),d6
-@@ -2487,6 +2510,7 @@ asset_select_and_open_success:
-                 lea     g_assetCurrentSourceSlot(pc),a0
+@@ -8716,6 +8739,7 @@ asset_select_and_open_success:
+                 lea     assetCurrentSourceSlot(pc),a0
                  move.w  d6,(a0)
                  move.b  d6,(a5)
 +loc_10049E:
-                 lea     g_assetCurrentIndex(pc),a0
+                 lea     assetCurrentIndex(pc),a0
                  move.w  d7,(a0)
                  clr.w   d0
-@@ -2581,6 +2605,7 @@ g_assetFilename:
+@@ -8810,6 +8834,7 @@ assetFilename:
  ; ===== FloppyAsset_DispatchOp =====
  ; prototype: unsigned int __usercall FloppyAsset_DispatchOp@<d0>(unsigned int op@<d0>, unsigned int arg1@<d1>, void *pA@<a0>, void *pB@<a1>, void *ctx@<a2>)
  FloppyAsset_DispatchOp:
@@ -80,7 +80,7 @@
                  movem.l d0-d7/a0-a6,-(sp)
                  move.l  d0,d6
                  move.l  d1,d7
-@@ -3605,6 +3630,7 @@ FloppyDev_TransferWithState:
+@@ -9834,6 +9859,7 @@ FloppyDev_TransferWithState:
  ; ===== FloppyDev_TransferImpl =====
  ; prototype: unsigned int __usercall FloppyDev_TransferImpl@<d0>(unsigned __int16 dev@<d0>, unsigned __int16 off@<d1>, unsigned __int16 len@<d2>, unsigned __int16 mode@<d3>, const void *buf@<a0>, void *ctx@<a1>)
  FloppyDev_TransferImpl:
@@ -88,7 +88,7 @@
                  movem.l d1-d7/a0-a5,-(sp)
                  link    a6,#-$24
                  cmp.w   #3,d3
-@@ -3736,6 +3762,7 @@ cia_bitstream_shift32_loop:
+@@ -9965,6 +9991,7 @@ cia_bitstream_shift32_loop:
  ; prototype: void __usercall FloppyCIA_ReadBit(unsigned __int16 bit@<d4>)
  FloppyCIA_ReadBit:
                  moveq   #$FFFFFFFF,d1
@@ -96,7 +96,7 @@
                  bclr    d4,d1
                  move.b  d1,(CIAB_PRB).l
                  btst    #5,(CIAA_PRA).l
-@@ -4287,6 +4314,7 @@ FloppyCIA_InitProbeBits:
+@@ -10519,6 +10546,7 @@ FloppyCIA_InitProbeBits:
  ; ===== FloppyCIA_SelectDriveFromState =====
  ; prototype: void __usercall FloppyCIA_SelectDriveFromState()
  FloppyCIA_SelectDriveFromState:
@@ -104,7 +104,7 @@
                  move.b  d1,(CIAB_PRB).l
                  move.w  -$24(a6),d0
                  addq.l  #3,d0
-@@ -4581,7 +4609,8 @@ Int12KeyboardHandler:
+@@ -10815,7 +10843,8 @@ Int2KeyboardHandler:
                  beq.w   acknowledge_int
                  btst    #3,d0           ; SP
                  beq.w   acknowledge_int
@@ -114,7 +114,7 @@
                  bset    #6,(CIAA_CRA).l
                  move.w  #300,d1
  loc_101B6A:
-@@ -4906,8 +4935,8 @@ copperListTemplate:
+@@ -11141,8 +11170,8 @@ copperListTemplate:
                  dc.w $0126,$0000,$0128,$0000,$012A,$0000,$012C,$0000
                  dc.w $012E,$0000,$0130,$0000,$0132,$0000,$0134,$0000
                  dc.w $0136,$0000,$0138,$0000,$013A,$0000,$013C,$0000
@@ -125,19 +125,19 @@
                  dc.w $0092,$0028,$0094,$00D0,$008E,$2471,$0090,$34C1
                  dc.w $0180,$0000,$0182,$0000,$0184,$0000,$0186,$0000
                  dc.w $0188,$0000,$018A,$0000,$018C,$0000,$018E,$0000
-@@ -4982,8 +5011,9 @@ _1023AA_exit_rts:
+@@ -11217,8 +11246,9 @@ _1023AA_exit_rts:
  ; ===== InitHardwareAtFrameStart =====
  ; prototype: void __usercall InitHardwareAtFrameStart()
  InitHardwareAtFrameStart:
--                movea.l #BLTDDAT,a6
+-                movea.l #CUSTOM,a6
 -                clr.w   $100(a6)
 +                jsr     fix_snoop_bug
-+                ;movea.l #BLTDDAT,a6
++                ;movea.l #CUSTOM,a6
 +                ;clr.w   $100(a6)
  wait_for_top_of_frame:
                  move.l  4(a6),d0
                  andi.l  #$1FFFF,d0
-@@ -6591,7 +6621,7 @@ Int_Level3_2_Handler:
+@@ -12830,7 +12860,7 @@ Int3Handler:
                  tst.w   (int5SerialBusBufferFull).l
                  beq.s   int_done
                  clr.w   (int5SerialBusBufferFull).l
@@ -146,8 +146,8 @@
  int_done:
                  rte
  
-@@ -6605,7 +6635,8 @@ nullsub_4:
- Int_Level5_Handler:
+@@ -12844,7 +12874,8 @@ nullsub_4:
+ Int5Handler:
                  move.w  #$800,(INTREQ).l ; Serial port receive buffer full
                  move.w  #1,(int5SerialBusBufferFull).l
 -                bra.w   *+4
@@ -156,54 +156,46 @@
  save_regs_and_swap_to_tmp_stack:
                  movem.l d0-d7/a0-a6,-(sp)
                  move.l  sp,(oldStackPtr).l
-@@ -9209,7 +9240,7 @@ try_open_or_use_cached:
+@@ -15455,7 +15486,8 @@ try_open_or_use_cached:
                  beq.s   size_check_and_decode
                  bsr.w   AssetCacheStoreFromMemory
  size_check_and_decode:
--                cmpi.l  #$BBB0,d1
+-                cmpi.l  #FRONTBUFFER_SIZE_TOTAL_BYTES,d1
++                ;cmpi.l  #FRONTBUFFER_SIZE_TOTAL_BYTES,d1
 +                cmpi.l  #$40000,d1 ; proper sized buffer for big team files
                  bhi.w   fatal_image_too_large
                  movea.l (frontbufferBasePtr).l,a0
                  cmpi.l  #$524E4301,(a0)
-@@ -9593,7 +9624,8 @@ _105D60_copy_bootstrap_blob_to_exec_loop:
+@@ -15839,7 +15871,8 @@ _105D60_copy_bootstrap_blob_to_exec_loop:
                  clr.w   d1
-                 lea     (g_irqCookieObfuscated).l,a3
-                 clr.l   (g_irqCookieObfuscated).l
--                jsr     ((g_currentMenu+MENU_ONDRAW+2)).l
-+                ;jsr     ((g_currentMenu+MENU_ONDRAW+2)).l
+                 lea     (irqCookieObfuscated).l,a3
+                 clr.l   (irqCookieObfuscated).l
+-                jsr     ((currentMenu+MENU_ONDRAW+2)).l
++                ;jsr     ((currentMenu+MENU_ONDRAW+2)).l
 +                move.l  #$71583EFC,(a3)
-                 move.l  (g_irqCookieObfuscated).l,d0
+                 move.l  (irqCookieObfuscated).l,d0
                  eori.l  #$715828D4,d0
                  cmpi.l  #$1628,d0
-@@ -9623,7 +9655,8 @@ _105DC6_copy_bootstrap_blob_to_exec_loop:
+@@ -15869,7 +15902,8 @@ _105DC6_copy_bootstrap_blob_to_exec_loop:
                  clr.w   d1
-                 lea     (g_irqCookieObfuscated).l,a3
-                 clr.l   (g_irqCookieObfuscated).l
--                jsr     (g_currentMenu).l
-+                ;jsr     (g_currentMenu).l
+                 lea     (irqCookieObfuscated).l,a3
+                 clr.l   (irqCookieObfuscated).l
+-                jsr     (currentMenu).l
++                ;jsr     (currentMenu).l
 +                move.l  #$CFD1EFE7,(a3)
-                 move.l  (g_irqCookieObfuscated).l,d0
+                 move.l  (irqCookieObfuscated).l,d0
                  eori.l  #$CFD1F9CF,d0
                  cmpi.l  #$1628,d0
-@@ -9814,6 +9847,8 @@ AssetLoaderResetState:
+@@ -16060,6 +16094,8 @@ AssetLoaderResetState:
  ; ===== AssetLoaderInitAltPathAndBanks =====
  ; prototype: void __usercall AssetLoaderInitAltPathAndBanks()
  AssetLoaderInitAltPathAndBanks:
 +                jmp     fix_memory_routine
 +                addq.l  #4,-(a4)
-                 move.w  #1,(g_assetLoaderAltPathReady).l
-                 clr.l   (g_assetLoaderCacheFlag).l
+                 move.w  #1,(assetLoaderAltPathReady).l
+                 clr.l   (assetLoaderCacheFlag).l
                  lea     (surnameBuf).l,a0
-@@ -11135,7 +11170,7 @@ PlayGameStateWhistleSample:
-                 beq.s   check_and_play_whistle
-                 rts
- check_and_play_whistle:
--                cmpi.w  #ST_PENALTY,(gameState).l
-+                cmpi.w  #$E,(gameState).l
-                 bne.s   whistle_play_sample6
-                 tst.w   (sfxQueueWriteIdx).l
-                 bne.s   queue_game_state_whistle
-@@ -11448,8 +11483,9 @@ AudioChannelNoteOnOff:
+@@ -17710,8 +17746,9 @@ AudioChannelNoteOnOff:
                  add.w   d1,d1
                  beq.s   AudioChannelStop
                  movea.l (a1,d1.w),a1
@@ -215,3 +207,21 @@
                  move.b  (a1)+,d1
                  move.l  a1,$4E(a0)
                  add.w   d1,d1
+@@ -79517,7 +79554,7 @@ designDiyTournamentMenu:
+                 dc.w MENU_CMD_TEXT_PTR  ; type
+                 ; strFlags (struct)
+                 dc.w $0000              ; textColor
+-                dc.l unk_4              ; textPtr
++                dc.l $00000004          ; textPtr
+                 dc.w MENU_CMD_END       ; statusLine_end
+                 dc.w MENU_MARK_BYTE_COORDS ; markByteCoords
+                 ; opts[0]
+@@ -129220,7 +129257,7 @@ worldTable:
+ ; QualifyingGroup_6_44
+ europeTable:
+                 ; QualifyingGroup_6_44
+-                dc.l unk_FC             ; compCup[0]
++                dc.l $000000FC          ; compCup[0]
+                 dc.l europeanChampionships ; compCup[1]
+                 dc.l euroCup            ; compCup[2]
+                 dc.l cupWinnersCup      ; compCup[3]

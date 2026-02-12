@@ -1,0 +1,8 @@
+{
+    "github.copilot.enable": {
+        "*": false
+    },
+    "[m68k]": {
+        "editor.rulers": []
+    }
+}

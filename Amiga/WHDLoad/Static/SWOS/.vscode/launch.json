@@ -6,7 +6,7 @@
             "request": "launch",
             "name": "FS-UAE Debug",
             "stopOnEntry": false,
-            "program": "${workspaceFolder}/uae/dh0/data/SWOS2",
+            "program": "${workspaceFolder}/uae/dh0",
             "remoteProgram": "SYS:data/SWOS2",
             "emulatorType": "fs-uae",
             "emulatorArgs": [
@@ -26,7 +26,7 @@
             "request": "launch",
             "name": "WinUAE Debug",
             "stopOnEntry": false,
-            "program": "${workspaceFolder}/uae/dh0/data/SWOS2",
+            "program": "${workspaceFolder}/uae/dh0",
             "remoteProgram": "SYS:data/SWOS2",
             "emulatorType": "winuae",
             "emulatorArgs": [
@@ -50,7 +50,7 @@
             "request": "launch",
             "name": "FS-UAE Launch",
             "noDebug": true,
-            "program": "${workspaceFolder}/uae/dh0/data/SWOS2",
+            "program": "${workspaceFolder}/uae/dh0",
             "remoteProgram": "SYS:data/SWOS2",
             "emulatorType": "fs-uae",
             "emulatorArgs": [
@@ -71,7 +71,7 @@
             "request": "launch",
             "name": "WinUAE Launch",
             "noDebug": true,
-            "program": "${workspaceFolder}/uae/dh0/data/SWOS2",
+            "program": "${workspaceFolder}/uae/dh0",
             "remoteProgram": "SYS:data/SWOS2",
             "emulatorType": "winuae",
             "emulatorArgs": [

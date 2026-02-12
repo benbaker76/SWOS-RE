@@ -85,6 +85,201 @@ _TYPE_REWRITES = [
 # Endianness / basic helpers
 # ==============================
 
+# ==========================================================
+# Pointer pretty-print: nearest named base + offset (C form)
+# ==========================================================
+
+def name_at(ea: int) -> str:
+    try:
+        # GN_VISIBLE tends to give the "real" visible name
+        nm = idc.get_name(int(ea), idc.GN_VISIBLE)
+        if nm:
+            return nm
+    except Exception:
+        pass
+    try:
+        nm = idc.get_name(int(ea))
+        return nm or ""
+    except Exception:
+        return ""
+
+def _base_is_udt_instance(base_ea: int) -> bool:
+    """
+    True if IDA thinks base_ea has a UDT (struct/union) type.
+    We use this as a safety: do NOT emit base+offset for UDT instances
+    unless you also have the STRUCT_EQU_BY_OFF machinery.
+    """
+    try:
+        mt = tinfo_at(base_ea)
+        if mt:
+            return mt.is_udt() or mt.is_struct() or mt.is_union()
+    except Exception:
+        pass
+    return False
+
+def _find_base_for_ptr(v: int):
+    """
+    Walk backwards in the same segment until we find a named symbol.
+    Returns (name, ea) or ("", BADADDR).
+    """
+    seg = ida_segment.getseg(v)
+    if not seg:
+        return "", idc.BADADDR
+
+    ea = int(v)
+    limit = 0x2000  # 8KB search cap (matches your other script)
+
+    while ea >= seg.start_ea and limit > 0:
+        nm = name_at(ea)
+        if nm:
+            return nm, ea
+        ea -= 1
+        limit -= 1
+
+    return "", idc.BADADDR
+
+def _pointer_base_expr_for_symbol(base_ea: int, base_nm: str) -> str:
+    """
+    If base is an array/function -> use base_nm (decays).
+    Otherwise use &base_nm.
+    """
+    try:
+        if _symbol_is_array(base_ea) or is_function(base_ea):
+            return base_nm
+    except Exception:
+        pass
+    return f"&{base_nm}"
+
+def _ptr_expr_from_nearest_base(ptr_tif, addr: int) -> str | None:
+    """
+    Return an expression like:
+      base
+      &base[0x30]
+      (T*)((uint8_t*)base + 0x60)
+    or None if we can't find a base.
+    """
+    base_nm, base_ea = _find_base_for_ptr(addr)
+    if not base_nm or base_ea == idc.BADADDR:
+        return None
+
+    delta = int(addr) - int(base_ea)
+    if delta < 0:
+        return None
+
+    # If base is a UDT instance, don't emit base+offset without struct-member mapping.
+    if _base_is_udt_instance(base_ea):
+        return None
+
+    base_expr = _pointer_base_expr_for_symbol(base_ea, base_nm)
+    if delta == 0:
+        return base_expr
+
+    # element size from pointed object type (e.g., int16_t => 2)
+    elem_sz = 1
+    try:
+        pt = ptr_tif.get_pointed_object()
+        if pt:
+            elem_sz = pt.get_size() or 1
+    except Exception:
+        elem_sz = 1
+
+    # Prefer &base[idx] for arrays (correct element arithmetic)
+    if elem_sz > 0 and (delta % elem_sz) == 0:
+        idx = delta // elem_sz
+        # only use indexing if base itself is an array symbol
+        if _symbol_is_array(base_ea):
+            if idx == 0:
+                return base_nm
+            return f"&{base_nm}[{fmt_hex(idx, 4)}]"
+
+    # Fallback: byte offset from base_expr
+    cast = _ptr_cast_for_tinfo(ptr_tif)
+    return f"{cast}((uint8_t*){base_expr} + {fmt_hex(delta, 4)})"
+
+def _ptr_text_or_baseoff_c(ptr_tif, addr: int) -> str:
+    """
+    Final pointer initializer expression for C emission.
+    """
+    if addr == 0:
+        return "0"
+
+    # Exact label at addr?
+    nm = name_at(addr)
+    if nm:
+        # Preserve your "string pointer emits symbol directly" behavior
+        try:
+            pto = ptr_tif.get_pointed_object()
+        except Exception:
+            pto = None
+        base_tn = (pto.get_type_name() or "").strip().lower() if pto else ""
+        if base_tn in ("char", "const char") or _ida_thinks_string(addr):
+            return nm
+
+        # Arrays/functions decay naturally
+        if _symbol_is_array(addr) or is_function(addr):
+            return nm
+        return f"&{nm}"
+
+    # Avoid turning code pointers into base+offset
+    try:
+        f = ida_bytes.get_full_flags(addr)
+        if ida_bytes.is_code(f):
+            return _ptr_literal(ptr_tif, addr)
+    except Exception:
+        pass
+
+    # Nearest named base + offset
+    expr = _ptr_expr_from_nearest_base(ptr_tif, addr)
+    if expr:
+        return expr
+
+    # Raw pointer literal fallback
+    return _ptr_literal(ptr_tif, addr)
+
+
+def iter_struct_members_coalesced(tinfo):
+    """
+    Like iter_struct_members(), but coalesces bitfield members that share the same
+    storage unit into a single synthetic member so we emit one initializer value.
+    """
+    if not tinfo.is_udt():
+        raise RuntimeError("Type is not a UDT/struct.")
+
+    utd = tif.udt_type_data_t()
+    if not tinfo.get_udt_details(utd):
+        raise RuntimeError("Failed to get UDT details.")
+
+    emitted_bf_units = set()  # (container_start_byte, stor_sz)
+
+    for m in utd:
+        name = m.name or ""
+        mtif = m.type
+
+        # IDA stores offset in *bits* for UDT members
+        bitoff = int(getattr(m, "offset", 0))
+        off_bytes = bitoff // 8
+
+        # If this member is a bitfield, emit its container only once
+        try:
+            if m.is_bitfield():
+                stor_sz = mtif.get_size() or 2  # container size in bytes (usually 2 here)
+                container_start = (bitoff // (stor_sz * 8)) * stor_sz
+                key = (container_start, stor_sz)
+                if key in emitted_bf_units:
+                    continue
+                emitted_bf_units.add(key)
+
+                # Synthetic "type": an unsigned int of stor_sz bytes
+                # We keep mtif as-is for size; emission will read raw container bytes.
+                synth_name = name if name else f"bitfield_{container_start:x}"
+                yield synth_name, mtif, container_start, True
+                continue
+        except Exception:
+            pass
+
+        yield name, mtif, off_bytes, False
+
+
 def normalize_ida_cdecl_types(cdecl: str) -> str:
     """
     Rewrite IDA/MSVC integer base types in a C declarator to stdint.h types.
@@ -672,30 +867,8 @@ def read_value_as_c_literal(mtif, ea, member_name=None):
     if mtif.is_ptr():
         v = be_bytes(ea, 4)
         if v is None:
-            return "0"
-
-        if v == 0:
-            return "0"
-
-        nm = resolve_name(v)
-        if nm:
-            # If it’s clearly a string pointer, emit symbol name directly
-            try:
-                pto = mtif.get_pointed_object()
-            except Exception:
-                pto = None
-
-            base = (pto.get_type_name() or "").strip().lower() if pto else ""
-            if base in ("char", "const char") or _ida_thinks_string(v):
-                return nm
-
-            # Arrays/functions decay naturally
-            if _symbol_is_array(v) or is_function(v):
-                return nm
-            return f"&{nm}"
-
-        # IMPORTANT: unresolved pointer constant -> emit as pointer literal (NOT raw bytes)
-        return _ptr_literal(mtif, v)
+            v = 0
+        return _ptr_text_or_baseoff_c(mtif, int(v))
 
     # arrays (including UDT arrays)
     if mtif.is_array():
@@ -752,8 +925,19 @@ def read_value_as_c_literal(mtif, ea, member_name=None):
                 return "{ %d }" % sv
             return "{ " + (fmt_hex(uv, sz) if DEFAULT_UNSIGNED_STYLE == "hex" else str(uv)) + " }"
         parts = []
-        for sub_name, sub_tif, sub_off in iter_struct_members(mtif):
-            parts.append(read_value_as_c_literal(sub_tif, ea + sub_off, sub_name or member_name))
+
+        for sub_name, sub_tif, sub_off, is_bf_container in iter_struct_members_coalesced(mtif):
+            if is_bf_container:
+                # Emit the raw storage unit (e.g. uint16_t) once
+                stor_sz = sub_tif.get_size() or 2
+                uv = be_bytes(ea + sub_off, stor_sz)
+                if uv is None:
+                    parts.append("0")
+                else:
+                    parts.append(fmt_hex(uv, stor_sz) if DEFAULT_UNSIGNED_STYLE == "hex" else str(uv))
+            else:
+                parts.append(read_value_as_c_literal(sub_tif, ea + sub_off, sub_name or member_name))
+
         return "{ " + ", ".join(parts) + " }"
 
     # unknown: raw bytes

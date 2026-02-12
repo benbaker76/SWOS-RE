@@ -1,0 +1,647 @@
+struct Competition // 9
+{
+  char compNumber;
+  char type;
+  char teamNumber;
+  char beginMonth;
+  char endMonth;
+  char unk1;
+  char unk2;
+  char unk3;
+  char unk4;
+};
+
+struct CompetitionLeague // 13
+{
+  Competition comp;
+  char divisionsCount;
+  char rounds;
+  char pointsForWin;
+  char subsReserves;
+};
+
+struct Division // 6
+{
+  char teams;
+  char promoted;
+  char promotedPo;
+  char relegated;
+  char relegatedPo;
+  char unk1;
+};
+
+struct CompetitionLeague_1 // 20
+{
+  CompetitionLeague comp;
+  Division divisions[1];
+  char unk1;
+};
+
+struct CompetitionLeague_2 // 26
+{
+  CompetitionLeague comp;
+  Division divisions[2];
+  char unk1;
+};
+
+struct CompetitionLeague_2_2_24 // 58
+{
+  CompetitionLeague comp;
+  Division divisions[2];
+  char unk1;
+  char *text[2];
+  char unk2[24];
+};
+
+struct CompetitionLeague_2_2_8 // 42
+{
+  CompetitionLeague comp;
+  Division divisions[2];
+  char unk1;
+  char *unk2[2];
+  char unk3[8];
+};
+
+struct CompetitionLeague_2_4 // 42
+{
+  CompetitionLeague comp;
+  Division divisions[2];
+  char unk1;
+  char *text[4];
+};
+
+struct CompetitionLeague_2_4_2_24 // 72
+{
+  CompetitionLeague comp;
+  Division divisions[2];
+  char unk1;
+  char *text[4];
+  char *unk2[2];
+  char unk3[24];
+};
+
+struct CompetitionLeague_3 // 32
+{
+  CompetitionLeague comp;
+  Division divisions[3];
+  char unk1;
+};
+
+struct CompetitionLeague_3_6 // 56
+{
+  CompetitionLeague comp;
+  Division divisions[3];
+  char unk1;
+  char *text[6];
+};
+
+struct CompetitionLeague_4 // 38
+{
+  CompetitionLeague comp;
+  Division divisions[4];
+  char unk1;
+};
+
+struct CompetitionLeague_4_10_24 // 102
+{
+  CompetitionLeague comp;
+  Division divisions[4];
+  char unk1;
+  char *text[10];
+  char unk2[24];
+};
+
+struct CompetitionLeague_4_2_8 // 54
+{
+  CompetitionLeague comp;
+  Division divisions[4];
+  char unk1;
+  char *text[2];
+  char unk2[8];
+};
+
+struct CompetitionLeague_4_8 // 70
+{
+  CompetitionLeague comp;
+  Division divisions[4];
+  char unk1;
+  char *text[8];
+};
+
+struct CompetitionLeague_4_8_2_24 // 102
+{
+  CompetitionLeague comp;
+  Division divisions[4];
+  char unk1;
+  char *text[8];
+  char *unk2[2];
+  char unk3[24];
+};
+
+struct CompetitionCup // 14
+{
+  Competition comp;
+  char unk1;
+  char teams;
+  char awayGoalsMode;
+  char subsReserves;
+  char firstRoundNo;
+};
+
+struct CompetitionCup2
+{
+  Competition comp;
+  char unk1;
+  char unk2;
+  char unk3;
+  char awayGoalsMode;
+  char subsReserves;
+  char firstRoundNo;
+  Round rounds[6];
+  char unk4;
+};
+
+struct CompetitionCup2_4 // 38
+{
+  CompetitionCup2 compCup;
+  char roundSettings[4];
+};
+
+struct Round
+{
+  char teamCount;
+  char groupCount;
+  char teamGroupCount;
+};
+
+struct CompetitionCup2_4 // 38
+{
+  CompetitionCup2 compCup;
+  char roundSettings[4];
+};
+
+struct CompetitionCup2_4_2 // 46
+{
+  CompetitionCup2_4 compCup;
+  char *text[2];
+};
+
+struct CompetitionCup2_4_2_32 // 78
+{
+  CompetitionCup2_4 compCup;
+  char *text[2];
+  char unk1[32];
+};
+
+struct CompetitionCup2_4_2_24 // 70
+{
+  CompetitionCup2_4 compCup;
+  char *text[2];
+  char unk1[24];
+};
+
+struct CompetitionCup2_6 // 40
+{
+  CompetitionCup2 compCup;
+  char roundSettings[6];
+};
+
+struct CompetitionCup2_6_2 // 48
+{
+  CompetitionCup2 compCup;
+  char roundSettings[6];
+  char *text[2];
+};
+
+struct CompetitionCup2_6_2_16 // 64
+{
+  CompetitionCup2_6 compCup;
+  char *text[2];
+  char unk1[16];
+};
+
+struct CompetitionCup2_6_2_24 // 72
+{
+  CompetitionCup2_6 compCup;
+  char *text[2];
+  char unk1[24];
+};
+
+struct CompetitionCup2_6_2_48 // 96
+{
+  CompetitionCup2_6 compCup;
+  char *text[2];
+  char unk1[48];
+};
+
+struct CompetitionCup2_6_2_64 // 112
+{
+  CompetitionCup2_6 compCup;
+  char *text[2];
+  char unk1[64];
+};
+
+struct CompetitionCup2_6_2_60 // 108
+{
+  CompetitionCup2_6 compCup;
+  char *text[2];
+  char unk1[60];
+};
+
+
+struct CompetitionCup_10 // 24
+{
+  CompetitionCup comp;
+  char rounds[10];
+};
+
+
+struct CompetitionCup_4 // 18
+{
+  CompetitionCup comp;
+  char rounds[4];
+};
+
+struct CompetitionCup_4_2 // 26
+{
+  CompetitionCup comp;
+  char rounds[4];
+  char *text[2];
+};
+
+struct CompetitionCup_6 // 20
+{
+  CompetitionCup comp;
+  char rounds[6];
+};
+
+struct CompetitionCup_6_2 // 28
+{
+  CompetitionCup comp;
+  char rounds[6];
+  char *text[2];
+};
+
+struct CompetitionCup_6_2_8 // 36
+{
+  CompetitionCup comp;
+  char rounds[6];
+  char *text[2];
+  char unk1[8];
+};
+
+struct CompetitionCup_6_2_12 // 40
+{
+  CompetitionCup comp;
+  char rounds[6];
+  char *text[2];
+  char unk1[12];
+};
+
+struct CompetitionCup_6_2_64 // 92
+{
+  CompetitionCup comp;
+  char rounds[6];
+  char *text[2];
+  char unk1[64];
+};
+
+struct CompetitionLeague // 13
+{
+  Competition comp;
+  char divisionsCount;
+  char rounds;
+  char pointsForWin;
+  char subsReserves;
+};
+
+struct CompetitionLeague_1 // 11
+{
+  CompetitionLeague comp;
+  Division divisions[1];
+  char unk1;
+};
+
+struct CompetitionLeague_2 // 26
+{
+  CompetitionLeague comp;
+  Division divisions[2];
+  char unk1;
+};
+
+struct CompetitionLeague_2_2_8 // 58
+{
+  CompetitionLeague comp;
+  Division divisions[2];
+  char unk1;
+  char *unk2[2];
+  char unk3[8];
+};
+
+struct CompetitionLeague_2_2_24 // 58
+{
+  CompetitionLeague comp;
+  Division divisions[2];
+  char unk1;
+  char *text[2];
+  char unk2[24];
+};
+
+struct CompetitionLeague_2_4 // 42
+{
+  CompetitionLeague comp;
+  Division divisions[2];
+  char unk1;
+  char *text[4];
+};
+
+struct CompetitionLeague_2_4_2_24 // 74
+{
+  CompetitionLeague comp;
+  Division divisions[2];
+  char unk1;
+  char *text[4];
+  char *unk2[2];
+  char unk3[24];
+};
+
+
+struct CompetitionLeague_3 // 32
+{
+  CompetitionLeague comp;
+  Division divisions[3];
+  char unk1;
+};
+
+
+struct CompetitionLeague_3_6 // 56
+{
+  CompetitionLeague comp;
+  Division divisions[3];
+  char unk1;
+  char *text[6];
+};
+
+struct CompetitionLeague_4 // 38
+{
+  CompetitionLeague comp;
+  Division divisions[4];
+  char unk1;
+};
+
+struct CompetitionLeague_4_8 // 70
+{
+  CompetitionLeague comp;
+  Division divisions[4];
+  char unk1;
+  char *text[8];
+};
+
+
+struct CompetitionLeague_4_2_8 // 54
+{
+  CompetitionLeague comp;
+  Division divisions[4];
+  char unk1;
+  char *text[2];
+  char unk2[8];
+};
+
+struct CompetitionLeague_4_8_2_24 // 102
+{
+  CompetitionLeague comp;
+  Division divisions[4];
+  char unk1;
+  char *text[8];
+  char *unk2[2];
+  char unk3[24];
+};
+
+
+struct Playoffs_4 // 28
+{
+  char unk1[16];
+  char *text[2];
+  char unk2[4];
+};
+
+struct Playoffs_8 // 32
+{
+  char unk1[16];
+  char *text[2];
+  char unk2[8];
+};
+
+struct Leagues_2 // 24
+{
+  CompetitionLeague *compLeague1;
+  char unk1[8];
+  CompetitionLeague *compLeague2;
+  char unk2[8];
+};
+
+struct Leagues_4 // 48
+{
+  CompetitionLeague *compLeague1;
+  char unk1[8];
+  CompetitionLeague *compLeague2;
+  char unk2[8];
+  CompetitionLeague *compLeague3;
+  char unk3[8];
+  CompetitionLeague *compLeague4;
+  char unk4[8];
+};
+
+struct Leagues_4_2_24 // 80
+{
+  Leagues_4 leagues;
+  Playoffs_8 *playoffs;
+  Leagues_4 *leagues2;
+  char unk2[24];
+};
+
+customsLeague			CompetitionLeague_3_6
+albanianLeague			CompetitionLeague_1
+austrianLeague			CompetitionLeague_1
+belarussiaLleague		CompetitionLeague_1
+belgianLeague			CompetitionLeague_1
+bulgarianLeague			CompetitionLeague_1
+croatianLeague			CompetitionLeague_1
+cypriotLeague			CompetitionLeague_1
+czechLeague				CompetitionLeague_1
+danishLeague			CompetitionLeague_1
+englishLeagues			CompetitionLeague_4_8_2_24
+englishLeagues1			Leagues_4_2_24
+englishLeagues2			Leagues_4_2_24
+englishLeagues3			Leagues_4
+estonianLeague		 	CompetitionLeague_1 
+faroeIslesLeague		CompetitionLeague_1 
+finnishLeague			CompetitionLeague_1 
+frenchLeague			CompetitionLeague_2_4 
+germanLeague			CompetitionLeague_2_4 
+greekLeague				CompetitionLeague_1 
+dutchLeague				CompetitionLeague_2_2_24 
+dutchLeagues1			Leagues_4
+dutchPlayoffs			Playoffs_8
+hungarianLeague			CompetitionLeague_1 
+icelandicLeague			CompetitionLeague_1 
+israeliLeague			CompetitionLeague_1 
+italianLeague			CompetitionLeague_2_4 
+latvianLeague			CompetitionLeague_1 
+lithuanianLeague		CompetitionLeague_1 
+luxembourgLeague		CompetitionLeague_1 
+malteseLeague			CompetitionLeague_1 
+northernIrishLeague		CompetitionLeague_1 
+norwegianLeague			CompetitionLeague_1 
+polishLeague			CompetitionLeague_1 
+portugeseLeague			CompetitionLeague_1 
+irishLeague				CompetitionLeague_1 
+romanianLeague			CompetitionLeague_1 
+russianLeague			CompetitionLeague_1 
+sanMarinoLeague			CompetitionLeague_1 
+scottishLeague			CompetitionLeague_4_2_8 
+scottishLeague1			Leagues_2
+scottishPlayoffs		Playoffs_4
+slovakianLeague			CompetitionLeague_1 
+slovenianLeague			CompetitionLeague_1 
+spanishLeague			CompetitionLeague_2_4_2_24 
+spanishLeague1			Leagues_4
+spanishPlayoffs			Playoffs_8
+swedishLeague			CompetitionLeague_1 
+swissLeague				CompetitionLeague_1 
+turkishLeague			CompetitionLeague_1 
+ukrainianLeague			CompetitionLeague_1 
+welshLeague				CompetitionLeague_1 
+yugoslavianLeague		CompetitionLeague_1 
+algerianLeague			CompetitionLeague_1 
+argentinianLeague		CompetitionLeague_2 
+australianLeague		CompetitionLeague_4_8 
+bolivianLeague			CompetitionLeague_1 
+brasilianLeague			CompetitionLeague_1 
+chileanLeague			CompetitionLeague_1 
+colombianLeague			CompetitionLeague_1 
+ecuadorLeague		  	CompetitionLeague_1 
+elSalvadorLeague		CompetitionLeague_4 
+indianLeague			CompetitionLeague_1 
+japaneseLeague		 	CompetitionLeague_2_4 
+mexicanLeague			CompetitionLeague_2 
+newZealandLeague		CompetitionLeague_3_6 
+paraguayanLeague		CompetitionLeague_1 
+peruvianLeague		 	CompetitionLeague_1 
+southAfricanLeague		CompetitionLeague_1 
+surinamLeague			CompetitionLeague_1 
+taiwaneseLeague			CompetitionLeague_1 
+uruguayanLeague			CompetitionLeague_2_2_8 
+uruguayanLeague1		Leagues_2
+uruguayanPlayoffs		Playoffs_4
+americanLeague			CompetitionLeague_1 
+venezuelanLeague		CompetitionLeague_1 
+ghanaLeague				CompetitionLeague_1 
+
+euroCup								CompetitionCup2_4_2_32
+cupWinnersCup						CompetitionCup_6_2_64
+uefaCup								CompetitionCup_6_2_64
+worldCup2							CompetitionCup2_6_2_64
+worldCup							CompetitionCup2_6_2_48
+worldCupQualifyingGroup1			CompetitionCup_6_2_12
+worldCupQualifyingGroup2			CompetitionCup_6_2_12
+worldCupQualifyingGroup3			CompetitionCup_6_2_12
+worldCupQualifyingGroup4			CompetitionCup_6_2_12
+worldCupQualifyingGroup5			CompetitionCup_6_2_12
+worldCupQualifyingGroup6			CompetitionCup_6_2_12
+worldCupQualifyingGroup7			CompetitionCup_6_2_12
+worldCupQualifyingGroup8			CompetitionCup_6_2_12
+northAmericaWorldCupQualification	CompetitionCup2_6_2_24
+southAmericaWorldCupQualification	CompetitionCup2_6_2_16
+africaWorldCupQualification			CompetitionCup2_6_2_64
+asiaWorldCupQualification			CompetitionCup2_6_2_60
+oceaniaWorldCupQualification		CompetitionCup_6_2_8
+invitationTournament				CompetitionCup_6_2_8
+tour								CompetitionCup_6_2_8
+friendly							CompetitionCup_6_2_12
+europeanChampionships2				CompetitionCup2_4_2_32
+europeanChampionships				CompetitionCup2_4_2_32
+ecQualifyingGroup1					CompetitionCup_6_2_12
+ecQualifyingGroup2					CompetitionCup_6_2_12
+ecQualifyingGroup3					CompetitionCup_6_2_12
+ecQualifyingGroup4					CompetitionCup_6_2_12
+ecQualifyingGroup5					CompetitionCup_6_2_12
+ecQualifyingGroup6					CompetitionCup_6_2_12
+ecQualifyingGroup7					CompetitionCup_6_2_12
+ecQualifyingGroup8					CompetitionCup_6_2_8
+copaAmerica							CompetitionCup2_4_2_24
+africanNationsCup					CompetitionCup2_6_2
+northAmericanCup					CompetitionCup2_4_2
+asianCup							CompetitionCup2_6_2
+customsLeague						CompetitionLeague_3_6
+englishLeagues						CompetitionLeague_4_8_2_24
+englishLeagues1						Leagues_4_2_24
+englishLeagues2						Leagues_4_2_24
+englishLeagues3						Leagues_4
+div1Playoffs						Playoffs_8
+div2Playoffs						Playoffs_8
+div3Playoffs						Playoffs_8
+frenchLeague						CompetitionLeague_2_4
+germanLeague						CompetitionLeague_2_4
+dutchLeague							CompetitionLeague_2_2_24
+dutchLeagues1						Leagues_4
+dutchPlayOffs						Playoffs_8
+italianLeague						CompetitionLeague_2_4
+scottishLeague						CompetitionLeague_4_2_8
+scottishLeague1						Leagues_2
+scottishPlayoffs					Playoffs_4
+spanishLeague						CompetitionLeague_2_4_2_24
+spanishLeague1						Leagues_4
+spanishPlayoffs						Playoffs_8
+australianLeague					CompetitionLeague_4_8
+japaneseLeague						CompetitionLeague_2_4
+newZealandLeague					CompetitionLeague_3_6
+uruguayanLeague						CompetitionLeague_2_2_8
+uruguayanLeague1					Leagues_2
+uruguayanPlayoffs					Playoffs_4
+
+euroCupCopy							CompetitionCup2_4_2_32
+cupWinnersCupCopy					CompetitionCup_6_2_64
+uefaCupCopy							CompetitionCup_6_2_64
+invitationTournamentCopy			CompetitionCup_6_2_8
+tourCopy							CompetitionCup_6_2_8
+friendlyCopy						CompetitionCup_6_2_12
+europeanChampionships2Copy			CompetitionCup2_4_2_32
+ecQualifyingGroup1Copy				CompetitionCup_6_2_12
+ecQualifyingGroup2Copy				CompetitionCup_6_2_12
+ecQualifyingGroup3Copy				CompetitionCup_6_2_12
+ecQualifyingGroup4Copy				CompetitionCup_6_2_12
+ecQualifyingGroup5Copy				CompetitionCup_6_2_12
+ecQualifyingGroup6Copy				CompetitionCup_6_2_12
+ecQualifyingGroup7Copy				CompetitionCup_6_2_12
+ecQualifyingGroup8Copy				CompetitionCup_6_2_8
+copaAmericaCopy						CompetitionCup2_4_2_24
+africanNationsCupCopy				CompetitionCup2_6_2
+northAmericanCupCopy				CompetitionCup2_4_2
+asianCupCopy						CompetitionCup2_6_2
+oceaniaCupCopy						CompetitionCup_6_2
+worldCup2Copy						CompetitionCup2_6_2_64
+worldCupQualifyingGroup1Copy		CompetitionCup_6_2_12
+worldCupQualifyingGroup2Copy		CompetitionCup_6_2_12
+worldCupQualifyingGroup3Copy		CompetitionCup_6_2_12
+worldCupQualifyingGroup4Copy		CompetitionCup_6_2_12
+worldCupQualifyingGroup5Copy		CompetitionCup_6_2_12
+worldCupQualifyingGroup6Copy		CompetitionCup_6_2_12
+worldCupQualifyingGroup7Copy		CompetitionCup_6_2_12
+worldCupQualifyingGroup8Copy		CompetitionCup_6_2_12
+northAmericaWorldCupQualificationCopy	CompetitionCup2_6_2_24
+southAmericaWorldCupQualificationCopy	CompetitionCup2_6_2_16
+africaWorldCupQualificationCopy			CompetitionCup2_6_2_64
+asiaWorldCupQualificationCopy		CompetitionCup2_6_2_60
+oceaniaWorldCupQualificationCopy	CompetitionCup_6_2_8
+
+worldCupQualifyingGroups		QualifyingGroup_9_2
+ecQualifyingGroups				QualifyingGroup_9_2
+customsTable					QualifyingGroup_3
+worldTable						QualifyingGroup_2_8
+europeTable						QualifyingGroup_6_44
+africaTable						QualifyingGroup_3_4
+southAmericaTable				QualifyingGroup_3_12
+northAmericaTable				QualifyingGroup_3_4
+asiaTable						QualifyingGroup_3_4
+oceaniaTable					QualifyingGroup_3_4
