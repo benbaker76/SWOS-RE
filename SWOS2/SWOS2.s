@@ -19885,7 +19885,7 @@ loc_109860:
 loc_109878:
                 neg.l   SPRITE_DELTAZ(a0)
                 move.l  d7,SPRITE_Z(a0)
-                addi.l  #(goalBase+$2292),d6
+                addi.l  #$10000,d6
 loc_109886:
                 movem.l a0,-(sp)
                 bsr.w   PlaySample3IfNotTraining
@@ -32047,7 +32047,7 @@ PlayerAttemptingJumpHeader:
                 lsr     $2C(a1)
 loc_113712:
                 neg.l   $36(a1)
-                addi.l  #(goalBase+$2292),$36(a1)
+                addi.l  #$10000,$36(a1)
                 jsr     PlayKickSample
                 bsr.w   ResetBothTeamSpinTimers
                 rts
@@ -130302,7 +130302,7 @@ loc_151790:
                 bne.s   loc_151790
                 rts
 loc_15179A:
-                ori.l   #(goalBase+$2292),d0
+                ori.l   #$10000,d0
                 rts
 ; unsigned __int8[32]
 careerRegionPickWeightsTable:
@@ -130393,7 +130393,7 @@ loc_1518B6:
                 bne.s   loc_1518B6
                 rts
 loc_1518C0:
-                ori.l   #(goalBase+$2292),d0
+                ori.l   #$10000,d0
                 rts
 ; unsigned __int8[32]
 careerRegionPickWeightsTable2:

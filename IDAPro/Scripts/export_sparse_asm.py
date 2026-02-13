@@ -30,7 +30,7 @@ ASM_OUT_EXT              = ".s"
 INCLUDE_UNNAMED_SEGS     = True
 EMIT_CODE_LABELS         = True
 EMIT_DATA_LABELS         = True
-EMIT_ORG                 = True
+EMIT_ORG                 = False
 ORG_DIRECTIVE            = "        ORG"
 ENTRY_POINT_LABEL        = "j_start"
 CODE_SECTION_NAME        = "text,CODE"
@@ -39,7 +39,7 @@ COMMENT_COL              = 40
 EQU_NAME_COL             = 40
 INCLUDE_NAME_IN_PROTO    = True
 KEEP_IDA_EOL_COMMENTS    = True
-FIX_RELOC_ERRORS         = False
+FIX_RELOC_ERRORS         = True
 
 # org emission control
 MIN_ORG_HOLE_BYTES       = 16
