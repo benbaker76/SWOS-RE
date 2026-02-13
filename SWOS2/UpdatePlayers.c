@@ -1,7 +1,7 @@
 /*
  * Auto-generated call graph export
  * Start: UpdatePlayers
- * Date : 2026-02-12 13:03:05
+ * Date : 2026-02-12 21:04:00
  */
 
 /* ===================== INCLUDES ===================== */
@@ -24,7 +24,7 @@ ushort __usercall GetTextWidth(char * text, CharTable * charsTable);
 short __usercall DrawMenuText(ushort x, ushort y, ushort color, char * text, CharTable * chars);
 short __usercall DrawMenuTextCentered(ushort x_center, ushort y, ushort color, char * text, CharTable * chars);
 void __usercall BlitStringToFrontBuffer(ushort spriteIndex, ushort x, ushort y, ushort planeMask);
-void __usercall PlayPenaltySample(uint presetId);
+void __usercall PlayPenaltySample(void);
 void __usercall PlayGoodPassSample(void);
 void __usercall PlayKickSample(void);
 void __usercall GateKickSampleAndCrowd(short channel, short sfxId);
@@ -72,7 +72,7 @@ short __usercall UpdateBallVariables(Sprite * playerSprite, Sprite * ballSprite,
 short __usercall CalculateBallNextGroundXYPositions(Sprite * ball);
 void __usercall PlayerTacklingTestFoul(Sprite * playerSprite, Sprite * ballSprite, TeamGeneralInfo * teamInfo);
 void __usercall GoalkeeperCaughtTheBall(Sprite * keeper, TeamGeneralInfo * team);
-int __usercall GoalkeeperDeflectedBall(Sprite * ball, TeamGeneralInfo * team);
+void __usercall GoalkeeperDeflectedBall(Sprite * ball, TeamGeneralInfo * team);
 void __usercall GoalkeeperJumping(short direction, short farJumpVariant, short dir2, Sprite * player, Sprite * ball, TeamGeneralInfo * team);
 void __usercall PlayerBeginTackling(short pressedDir, Sprite * player, TeamGeneralInfo * team);
 void __usercall PlayerTackledTheBallStrong(Sprite * player, TeamGeneralInfo * team);
@@ -92,7 +92,7 @@ void __usercall StopPlayers(TeamGeneralInfo * team);
 char __usercall UpdatePlayers(TeamGeneralInfo * teamInfo);
 void __usercall AI_SetControlsDirection(TeamGeneralInfo * team);
 short __usercall AI_SetDirectionTowardOpponentsGoal(TeamGeneralInfo * team);
-int __usercall AI_DecideWhetherToTriggerFire(Sprite * player, TeamGeneralInfo * team, ushort dir);
+short __usercall AI_DecideWhetherToTriggerFire(Sprite * player, TeamGeneralInfo * team, ushort dir);
 TeamGeneralInfo * __usercall AI_ResumeGameDelay(TeamGeneralInfo * team);
 char __usercall AI_Kick(Sprite * player, TeamGeneralInfo * team);
 Sprite * __usercall FindClosestPlayerToBallFacing(ushort fullDir, TeamGeneralInfo * team);
@@ -768,7 +768,7 @@ void __usercall BlitStringToFrontBuffer(ushort spriteIndex,ushort x,ushort y,ush
 
 // --- PlayPenaltySample @ 0010723c ---
 
-void __usercall PlayPenaltySample(uint presetId)
+void __usercall PlayPenaltySample(void)
 
 {
   if (trainingGame != 0) {
@@ -854,12 +854,10 @@ void __usercall PlayMissGoalSample(void)
 void __usercall PlayPenalty(void)
 
 {
-  uint unaff_D0;
-  
   if (trainingGame != 0) {
     return;
   }
-  PlayPenaltySample(unaff_D0);
+  PlayPenaltySample();
   sfxQueueWriteIdx = 0x8c;
   return;
 }
@@ -870,13 +868,11 @@ void __usercall PlayPenalty(void)
 void __usercall PlayGameStateWhistleSample(void)
 
 {
-  uint unaff_D0;
-  
   if (trainingGame != 0) {
     return;
   }
   if ((gameState != ST_PENALTY) || (sfxQueueWriteIdx == 0)) {
-    PlayPenaltySample(unaff_D0);
+    PlayPenaltySample();
   }
   sfxQueueWriteIdx = 0x96;
   return;
@@ -3029,34 +3025,32 @@ void __usercall GoalkeeperCaughtTheBall(Sprite *keeper,TeamGeneralInfo *team)
         A2 -> ball sprite
         A6 -> player team (general) */
 
-int __usercall GoalkeeperDeflectedBall(Sprite *ball,TeamGeneralInfo *team)
+void __usercall GoalkeeperDeflectedBall(Sprite *ball,TeamGeneralInfo *team)
 
 {
-  dword dVar1;
-  ushort uVar2;
-  short sVar3;
-  word wVar4;
+  ushort uVar1;
+  short sVar2;
+  word wVar3;
   
-  sVar3 = 0;
+  sVar2 = 0;
   if (team != &bottomTeamData) {
-    sVar3 = 4;
+    sVar2 = 4;
   }
-  ball->destX = *(short *)((int)kDefaultDestinations + (int)(short)(sVar3 << 2)) + (ball->x).s.i;
-  ball->destY = *(short *)((int)kDefaultDestinations + (short)(sVar3 << 2) + 2) + (ball->y).s.i;
+  ball->destX = *(short *)((int)kDefaultDestinations + (int)(short)(sVar2 << 2)) + (ball->x).s.i;
+  ball->destY = *(short *)((int)kDefaultDestinations + (short)(sVar2 << 2) + 2) + (ball->y).s.i;
   ball->destX = (currentGameTick & 0x1f) * 0x20 + -0x200 + ball->destX;
-  uVar2 = ((currentGameTick & 0x3c) >> 2) - team->shotChanceTable->field_34;
-  wVar4 = kGoalkeeperStrongDeflectBallSpeed;
-  if ((-1 < (int)((uint)uVar2 << 0x10)) &&
-     (wVar4 = kGoalkeeperMediumDeflectBallSpeed,
-     -1 < (int)((uint)(ushort)(uVar2 - team->shotChanceTable->field_36) << 0x10))) {
-    wVar4 = kGoalkeeperWeakDeflectBallSpeed;
+  uVar1 = ((currentGameTick & 0x3c) >> 2) - team->shotChanceTable->field_34;
+  wVar3 = kGoalkeeperStrongDeflectBallSpeed;
+  if ((-1 < (int)((uint)uVar1 << 0x10)) &&
+     (wVar3 = kGoalkeeperMediumDeflectBallSpeed,
+     -1 < (int)((uint)(ushort)(uVar1 - team->shotChanceTable->field_36) << 0x10))) {
+    wVar3 = kGoalkeeperWeakDeflectBallSpeed;
   }
-  ball->speed = wVar4 + ((currentGameTick & 0x1ff) - 0x100);
-  dVar1 = kGoalkeeperDeflectDeltaZ + (currentGameTick & 0x7f) * 0x100 + -0x4000;
-  (ball->deltaZ).raw = dVar1;
+  ball->speed = wVar3 + ((currentGameTick & 0x1ff) - 0x100);
+  (ball->deltaZ).raw = kGoalkeeperDeflectDeltaZ + (currentGameTick & 0x7f) * 0x100 + -0x4000;
   ResetBothTeamSpinTimers();
   PlayKickSample();
-  return dVar1;
+  return;
 }
 
 
@@ -6204,41 +6198,53 @@ short __usercall AI_SetDirectionTowardOpponentsGoal(TeamGeneralInfo *team)
    out:
         D0, zero flag - 0/set: firing, !0/clear: not gonna fire */
 
-int __usercall AI_DecideWhetherToTriggerFire(Sprite *player,TeamGeneralInfo *team,ushort dir)
+short __usercall AI_DecideWhetherToTriggerFire(Sprite *player,TeamGeneralInfo *team,ushort dir)
 
 {
   ushort uVar1;
-  undefined4 unaff_D0;
-  ushort uVar2;
   
-  uVar1 = (ushort)((uint)unaff_D0 >> 0x10);
   if (player->playerOrdinal != 1) {
     if (team == &topTeamData) {
-      if (((dir != 3) && (dir != 4)) && (dir != 5)) goto no_fire_return_one;
+      if (((dir != 3) && (dir != 4)) && (dir != 5)) {
+        return 1;
+      }
     }
-    else if (((dir != 7) && (dir != 0)) && (dir != 1)) goto no_fire_return_one;
+    else if (((dir != 7) && (dir != 0)) && (dir != 1)) {
+      return 1;
+    }
     if (player->ballDistance < 0x289) {
       if ((int)ballSprite.deltaZ.raw < 0) {
-        if ((ballSprite.z.s.i < 0xc) || (0x14 < ballSprite.z.s.i)) goto no_fire_return_one;
+        if (ballSprite.z.s.i < 0xc) {
+          return 1;
+        }
+        if (0x14 < ballSprite.z.s.i) {
+          return 1;
+        }
       }
-      else if ((ballSprite.z.s.i < 8) || (0xe < ballSprite.z.s.i)) goto no_fire_return_one;
+      else {
+        if (ballSprite.z.s.i < 8) {
+          return 1;
+        }
+        if (0xe < ballSprite.z.s.i) {
+          return 1;
+        }
+      }
       team->fireThisFrame = 1;
       team->currentAllowedDirection = (ushort)((byte)((char)player->fullDirection + 0x80U) >> 5);
-      uVar2 = ((byte)((char)player->fullDirection + 0x80) + 0x10 & 0xff) >> 5;
-      if (uVar2 == dir) {
-        team->currentAllowedDirection = uVar2;
+      uVar1 = ((byte)((char)player->fullDirection + 0x80) + 0x10 & 0xff) >> 5;
+      if (uVar1 == dir) {
+        team->currentAllowedDirection = uVar1;
         aiCounter = 0xf;
-        aiCounterWriteOnly = uVar2;
+        aiCounterWriteOnly = uVar1;
         aiAttackHalf = 2;
         if (team != &topTeamData) {
           aiAttackHalf = 1;
         }
-        return (uint)uVar1 << 0x10;
+        return 0;
       }
     }
   }
-no_fire_return_one:
-  return CONCAT22(uVar1,1);
+  return 1;
 }
 
 

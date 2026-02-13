@@ -1,7 +1,7 @@
 /*
  * Auto-generated call graph export
  * Start: StartMatchSequence
- * Date : 2026-02-12 13:02:10
+ * Date : 2026-02-12 21:02:53
  */
 
 /* ===================== INCLUDES ===================== */
@@ -58,7 +58,7 @@ void __usercall RncDecompressV2(void * src, void * dst);
 int __usercall RncDecompressV1(void * src, void * dst, uint expectedSize);
 int __usercall RncDecodeBlock(void * src, void * dst);
 int __usercall RncDecodeSymbol(void * tab);
-int __usercall RncGetBits(uint mask, uint nbits);
+short __usercall RncGetBits(ushort mask, uchar nbits);
 void __usercall RncRefillBits(void);
 uint __usercall RncReadU32(uchar * * pp);
 void __usercall RncBuildTable(void * outTab);
@@ -66,7 +66,7 @@ void __usercall nullsub_5(void);
 void __usercall CrowdResetMatchState(void);
 void __usercall LoadSfxResources(void);
 void __usercall EnsureSfxLoadedAndStart(void);
-void __usercall PlayPenaltySample(uint presetId);
+void __usercall PlayPenaltySample(void);
 void __usercall PlaySample1IfNotTraining(void);
 undefined unknown PlaySample(void);
 void __usercall StartMenuMusic(void * bankBase, void * songPtr);
@@ -84,7 +84,7 @@ void __usercall nullsub_21(void);
 void __usercall CopyAdvertisementsData(void);
 void __usercall InitAdvertisements(void);
 void __usercall SetAdvertisementsInvisible(void);
-void __usercall MakeSpritesFromPlayerNames(void * leftTeam, void * rightTeam);
+void __usercall MakeSpritesFromPlayerNames(TeamGame * leftTeam, TeamGame * rightTeam);
 ushort __usercall MakePlayerNameSprite(ushort playerNumber, uchar * shortName, ushort spriteIndex, uchar * nameLenTable);
 void __usercall CopyPlayerNameLengths(void);
 void __usercall InitGameSaveTeams(void * leftTeamInGame, void * rightTeamInGame);
@@ -148,7 +148,7 @@ char __usercall GetPlayerRandomNum(PlayerFile * playerFile);
 ushort __usercall GetAveragePlayerPrice(void * team);
 void __usercall ApplyTeamTactics(void * playerInfos);
 char __usercall AdjustPlayerSkills(ushort playerIndex, TeamFile * teamFile, TeamFile * oppTeamFile, TeamGame * teamGame, PlayerFile * playerFile, PlayerInfoHeader * playerInfoHeader);
-short __usercall GetPlayerPricePercentageChange(short factor, void * team);
+short __usercall GetPlayerPricePercentageChange(short factor, TeamFile * team);
 ushort __usercall ScaleSkill(ushort skill, ushort factor, void * whichSide);
 char * __usercall ExtractSurname(char * name, ushort maxLenAndFlags);
 ushort __usercall FindTeamInCache(ushort teamNumber);
@@ -3211,14 +3211,14 @@ int __usercall RncDecompressV1(void *src,void *dst,uint expectedSize)
   byte bVar3;
   uint uVar4;
   undefined4 uVar5;
+  short sVar7;
+  ushort uVar8;
   int iVar6;
-  ushort uVar7;
-  short sVar8;
-  undefined4 uVar9;
+  short sVar9;
   undefined4 uVar10;
   undefined4 uVar11;
   undefined4 uVar12;
-  short sVar13;
+  undefined4 uVar13;
   undefined4 uVar14;
   undefined4 uVar15;
   byte *pbVar16;
@@ -3278,19 +3278,19 @@ int __usercall RncDecompressV1(void *src,void *dst,uint expectedSize)
       do {
         pbVar2 = pbVar18 + -0x20;
         uVar5 = *(undefined4 *)pbVar2;
-        uVar9 = *(undefined4 *)(pbVar18 + -0x1c);
-        uVar10 = *(undefined4 *)(pbVar18 + -0x18);
-        uVar11 = *(undefined4 *)(pbVar18 + -0x14);
-        uVar12 = *(undefined4 *)(pbVar18 + -0x10);
+        uVar10 = *(undefined4 *)(pbVar18 + -0x1c);
+        uVar11 = *(undefined4 *)(pbVar18 + -0x18);
+        uVar12 = *(undefined4 *)(pbVar18 + -0x14);
+        uVar13 = *(undefined4 *)(pbVar18 + -0x10);
         uVar14 = *(undefined4 *)(pbVar18 + -0xc);
         uVar15 = *(undefined4 *)(pbVar18 + -8);
         *(undefined4 *)(pbVar16 + -4) = *(undefined4 *)(pbVar18 + -4);
         *(undefined4 *)(pbVar16 + -8) = uVar15;
         *(undefined4 *)(pbVar16 + -0xc) = uVar14;
-        *(undefined4 *)(pbVar16 + -0x10) = uVar12;
-        *(undefined4 *)(pbVar16 + -0x14) = uVar11;
-        *(undefined4 *)(pbVar16 + -0x18) = uVar10;
-        *(undefined4 *)(pbVar16 + -0x1c) = uVar9;
+        *(undefined4 *)(pbVar16 + -0x10) = uVar13;
+        *(undefined4 *)(pbVar16 + -0x14) = uVar12;
+        *(undefined4 *)(pbVar16 + -0x18) = uVar11;
+        *(undefined4 *)(pbVar16 + -0x1c) = uVar10;
         pbVar16 = pbVar16 + -0x20;
         *(undefined4 *)pbVar16 = uVar5;
         pbVar18 = pbVar2;
@@ -3299,7 +3299,7 @@ int __usercall RncDecompressV1(void *src,void *dst,uint expectedSize)
     }
     puVar21[-0xffffffff00000002] = 0x10;
     puVar21[-0xffffffff00000001] = 0x6a3c;
-    RncGetBits(2,2);
+    RncGetBits(2,'\x02');
     do {
       puVar21[-0xffffffff00000002] = 0x10;
       puVar21[-0xffffffff00000001] = 0x6a42;
@@ -3312,27 +3312,27 @@ int __usercall RncDecompressV1(void *src,void *dst,uint expectedSize)
       RncBuildTable(auStack_bc);
       puVar21[-0xffffffff00000002] = 0x10;
       puVar21[-0xffffffff00000001] = 0x6a5a;
-      iVar6 = RncGetBits(0xffffffff,0x10);
-      sVar13 = (short)iVar6 + -1;
+      sVar7 = RncGetBits(0xffff,'\x10');
+      sVar7 = sVar7 + -1;
       while( true ) {
         puVar21[-0xffffffff00000002] = 0x10;
         puVar21[-0xffffffff00000001] = 0x6a80;
         iVar6 = RncDecodeSymbol(outTab);
-        sVar8 = (short)iVar6 + -1;
+        sVar9 = (short)iVar6 + -1;
         pbVar18 = pbVar17;
         pbVar16 = dst;
-        if (-1 < sVar8) {
+        if (-1 < sVar9) {
           do {
             pbVar17 = pbVar18 + 1;
             dst = pbVar16 + 1;
             *pbVar16 = *pbVar18;
-            sVar8 = sVar8 + -1;
+            sVar9 = sVar9 + -1;
             pbVar18 = pbVar17;
             pbVar16 = dst;
-          } while (sVar8 != -1);
+          } while (sVar9 != -1);
         }
-        sVar13 = sVar13 + -1;
-        if (sVar13 == -1) break;
+        sVar7 = sVar7 + -1;
+        if (sVar7 == -1) break;
         puVar21[-0xffffffff00000002] = 0x10;
         puVar21[-0xffffffff00000001] = 0x6a68;
         iVar6 = RncDecodeSymbol(auStack_13c);
@@ -3346,21 +3346,21 @@ int __usercall RncDecompressV1(void *src,void *dst,uint expectedSize)
           pbVar18 = pbVar18 + 1;
           dst = pbVar16 + 1;
           *pbVar16 = *pbVar18;
-          uVar7 = (short)uVar4 - 1;
-          uVar4 = (uint)uVar7;
+          uVar8 = (short)uVar4 - 1;
+          uVar4 = (uint)uVar8;
           pbVar16 = dst;
-        } while (uVar7 != 0xffff);
+        } while (uVar8 != 0xffff);
       }
     } while (dst < pbVar1);
     outTab = puVar21 + 1;
-    uVar7 = *puVar21;
+    uVar8 = *puVar21;
     puVar21 = puVar21 + 1;
-    if (uVar7 != 0) {
+    if (uVar8 != 0) {
       do {
         outTab = puVar21 + 1;
         *(byte *)dst = (byte)*puVar21;
-        bVar3 = (char)uVar7 - 1;
-        uVar7 = (ushort)bVar3;
+        bVar3 = (char)uVar8 - 1;
+        uVar8 = (ushort)bVar3;
         dst = (byte *)((int)dst + 1);
         puVar21 = puVar21 + 1;
       } while (bVar3 != 0);
@@ -3383,14 +3383,14 @@ int __usercall RncDecodeBlock(void *src,void *dst)
   byte bVar3;
   uint uVar4;
   undefined4 uVar5;
+  short sVar7;
+  ushort uVar8;
   int iVar6;
-  ushort uVar7;
-  short sVar8;
-  undefined4 uVar9;
+  short sVar9;
   undefined4 uVar10;
   undefined4 uVar11;
   undefined4 uVar12;
-  short sVar13;
+  undefined4 uVar13;
   undefined4 uVar14;
   undefined4 uVar15;
   byte *pbVar16;
@@ -3443,19 +3443,19 @@ int __usercall RncDecodeBlock(void *src,void *dst)
       do {
         pbVar2 = pbVar18 + -0x20;
         uVar5 = *(undefined4 *)pbVar2;
-        uVar9 = *(undefined4 *)(pbVar18 + -0x1c);
-        uVar10 = *(undefined4 *)(pbVar18 + -0x18);
-        uVar11 = *(undefined4 *)(pbVar18 + -0x14);
-        uVar12 = *(undefined4 *)(pbVar18 + -0x10);
+        uVar10 = *(undefined4 *)(pbVar18 + -0x1c);
+        uVar11 = *(undefined4 *)(pbVar18 + -0x18);
+        uVar12 = *(undefined4 *)(pbVar18 + -0x14);
+        uVar13 = *(undefined4 *)(pbVar18 + -0x10);
         uVar14 = *(undefined4 *)(pbVar18 + -0xc);
         uVar15 = *(undefined4 *)(pbVar18 + -8);
         *(undefined4 *)(pbVar16 + -4) = *(undefined4 *)(pbVar18 + -4);
         *(undefined4 *)(pbVar16 + -8) = uVar15;
         *(undefined4 *)(pbVar16 + -0xc) = uVar14;
-        *(undefined4 *)(pbVar16 + -0x10) = uVar12;
-        *(undefined4 *)(pbVar16 + -0x14) = uVar11;
-        *(undefined4 *)(pbVar16 + -0x18) = uVar10;
-        *(undefined4 *)(pbVar16 + -0x1c) = uVar9;
+        *(undefined4 *)(pbVar16 + -0x10) = uVar13;
+        *(undefined4 *)(pbVar16 + -0x14) = uVar12;
+        *(undefined4 *)(pbVar16 + -0x18) = uVar11;
+        *(undefined4 *)(pbVar16 + -0x1c) = uVar10;
         pbVar16 = pbVar16 + -0x20;
         *(undefined4 *)pbVar16 = uVar5;
         pbVar18 = pbVar2;
@@ -3464,7 +3464,7 @@ int __usercall RncDecodeBlock(void *src,void *dst)
     }
     puVar21[-0xffffffff00000002] = 0x10;
     puVar21[-0xffffffff00000001] = 0x6a3c;
-    RncGetBits(2,2);
+    RncGetBits(2,'\x02');
     do {
       puVar21[-0xffffffff00000002] = 0x10;
       puVar21[-0xffffffff00000001] = 0x6a42;
@@ -3477,27 +3477,27 @@ int __usercall RncDecodeBlock(void *src,void *dst)
       RncBuildTable(auStack_bc);
       puVar21[-0xffffffff00000002] = 0x10;
       puVar21[-0xffffffff00000001] = 0x6a5a;
-      iVar6 = RncGetBits(0xffffffff,0x10);
-      sVar13 = (short)iVar6 + -1;
+      sVar7 = RncGetBits(0xffff,'\x10');
+      sVar7 = sVar7 + -1;
       while( true ) {
         puVar21[-0xffffffff00000002] = 0x10;
         puVar21[-0xffffffff00000001] = 0x6a80;
         iVar6 = RncDecodeSymbol(outTab);
-        sVar8 = (short)iVar6 + -1;
+        sVar9 = (short)iVar6 + -1;
         pbVar18 = pbVar17;
         pbVar16 = dst;
-        if (-1 < sVar8) {
+        if (-1 < sVar9) {
           do {
             pbVar17 = pbVar18 + 1;
             dst = pbVar16 + 1;
             *pbVar16 = *pbVar18;
-            sVar8 = sVar8 + -1;
+            sVar9 = sVar9 + -1;
             pbVar18 = pbVar17;
             pbVar16 = dst;
-          } while (sVar8 != -1);
+          } while (sVar9 != -1);
         }
-        sVar13 = sVar13 + -1;
-        if (sVar13 == -1) break;
+        sVar7 = sVar7 + -1;
+        if (sVar7 == -1) break;
         puVar21[-0xffffffff00000002] = 0x10;
         puVar21[-0xffffffff00000001] = 0x6a68;
         iVar6 = RncDecodeSymbol(auStack_13c);
@@ -3511,21 +3511,21 @@ int __usercall RncDecodeBlock(void *src,void *dst)
           pbVar18 = pbVar18 + 1;
           dst = pbVar16 + 1;
           *pbVar16 = *pbVar18;
-          uVar7 = (short)uVar4 - 1;
-          uVar4 = (uint)uVar7;
+          uVar8 = (short)uVar4 - 1;
+          uVar4 = (uint)uVar8;
           pbVar16 = dst;
-        } while (uVar7 != 0xffff);
+        } while (uVar8 != 0xffff);
       }
     } while (dst < pbVar1);
     outTab = puVar21 + 1;
-    uVar7 = *puVar21;
+    uVar8 = *puVar21;
     puVar21 = puVar21 + 1;
-    if (uVar7 != 0) {
+    if (uVar8 != 0) {
       do {
         outTab = puVar21 + 1;
         *(byte *)dst = (byte)*puVar21;
-        bVar3 = (char)uVar7 - 1;
-        uVar7 = (ushort)bVar3;
+        bVar3 = (char)uVar8 - 1;
+        uVar8 = (ushort)bVar3;
         dst = (byte *)((int)dst + 1);
         puVar21 = puVar21 + 1;
       } while (bVar3 != 0);
@@ -3581,7 +3581,7 @@ int __usercall RncDecodeSymbol(void *tab)
 
 // --- RncGetBits @ 00106af8 ---
 
-int __usercall RncGetBits(uint mask,uint nbits)
+short __usercall RncGetBits(ushort mask,uchar nbits)
 
 {
   ushort unaff_D6w;
@@ -3590,7 +3590,7 @@ int __usercall RncGetBits(uint mask,uint nbits)
   if (unaff_D7b < (char)nbits) {
     RncRefillBits();
   }
-  return CONCAT22((short)(mask >> 0x10),unaff_D6w & (ushort)mask);
+  return unaff_D6w & mask;
 }
 
 
@@ -3627,73 +3627,72 @@ void __usercall RncBuildTable(void *outTab)
 
 {
   char cVar1;
-  short sVar2;
+  uint uVar2;
+  short sVar4;
+  short sVar5;
   uint uVar3;
-  int iVar4;
-  uint uVar5;
   uint uVar6;
   char cVar7;
   short sVar9;
   uint uVar8;
   uint uVar10;
   ushort unaff_D6w;
-  short sVar11;
-  short *psVar12;
-  char *pcVar13;
-  bool bVar14;
+  short *psVar11;
+  char *pcVar12;
+  bool bVar13;
   char acStack_10 [12];
   undefined4 uStack_4;
   
   uStack_4 = 0x106b2e;
-  iVar4 = RncGetBits(0x1f,5);
-  sVar2 = (short)iVar4 + -1;
-  if (-1 < sVar2) {
-    pcVar13 = acStack_10;
-    sVar9 = sVar2;
+  sVar4 = RncGetBits(0x1f,'\x05');
+  sVar4 = sVar4 + -1;
+  if (-1 < sVar4) {
+    pcVar12 = acStack_10;
+    sVar9 = sVar4;
     do {
-      iVar4 = RncGetBits(0xf,4);
-      *pcVar13 = (char)iVar4;
+      sVar5 = RncGetBits(0xf,'\x04');
+      *pcVar12 = (char)sVar5;
       sVar9 = sVar9 + -1;
-      pcVar13 = pcVar13 + 1;
+      pcVar12 = pcVar12 + 1;
     } while (sVar9 != -1);
-    uVar5 = 0x80000000;
+    uVar3 = 0x80000000;
     uVar6 = 1;
     uVar8 = 0;
-    sVar9 = sVar2;
-    pcVar13 = acStack_10;
+    sVar9 = sVar4;
+    pcVar12 = acStack_10;
     do {
       do {
         cVar7 = (char)uVar6;
-        psVar12 = outTab;
-        if (cVar7 == *pcVar13) {
+        psVar11 = outTab;
+        if (cVar7 == *pcVar12) {
           *(short *)outTab = (1 << (uVar6 & 0x3f)) + -1;
           uVar10 = uVar8 >> 0x10;
-          bVar14 = (short)uVar6 == 0;
-          sVar11 = (short)uVar6 + -1;
+          bVar13 = (short)uVar6 == 0;
+          sVar5 = (short)uVar6 + -1;
           do {
-            uVar3 = uVar10 & 0x8000;
-            uVar10 = (uint)(ushort)((short)uVar10 << 1 | (ushort)bVar14);
-            bVar14 = (unaff_D6w & 1) != 0;
-            unaff_D6w = (ushort)(uVar3 != 0) << 0xf | unaff_D6w >> 1;
-            sVar11 = sVar11 + -1;
-          } while (sVar11 != -1);
-          psVar12 = (short *)((int)outTab + 4);
+            uVar2 = uVar10 & 0x8000;
+            uVar10 = (uint)(ushort)((short)uVar10 << 1 | (ushort)bVar13);
+            bVar13 = (unaff_D6w & 1) != 0;
+            unaff_D6w = (ushort)(uVar2 != 0) << 0xf | unaff_D6w >> 1;
+            sVar5 = sVar5 + -1;
+          } while (sVar5 != -1);
+          psVar11 = (short *)((int)outTab + 4);
           *(ushort *)((int)outTab + 2) = unaff_D6w >> (0x10U - cVar7 & 0x3f);
           *(char *)((int)outTab + 0x40) = cVar7;
-          cVar1 = (char)sVar2 - (char)sVar9;
+          cVar1 = (char)sVar4 - (char)sVar9;
           *(char *)((int)outTab + 0x41) = cVar1;
           unaff_D6w = (1 << (cVar1 - 1U & 0x3f)) - 1;
           *(ushort *)((int)outTab + 0x42) = unaff_D6w;
-          uVar8 = uVar5 + uVar8;
+          uVar8 = uVar3 + uVar8;
         }
         sVar9 = sVar9 + -1;
-        outTab = psVar12;
-        pcVar13 = pcVar13 + 1;
+        outTab = psVar11;
+        pcVar12 = pcVar12 + 1;
       } while (sVar9 != -1);
-      uVar5 = uVar5 >> 1;
+      uVar3 = uVar3 >> 1;
       uVar6 = (uint)(byte)(cVar7 + 1U);
-      sVar9 = sVar2;
-      pcVar13 = acStack_10;
+      sVar9 = sVar4;
+      pcVar12 = acStack_10;
     } while ((byte)(cVar7 + 1U) != 0x11);
   }
   return;
@@ -3772,7 +3771,7 @@ void __usercall EnsureSfxLoadedAndStart(void)
 
 // --- PlayPenaltySample @ 0010723c ---
 
-void __usercall PlayPenaltySample(uint presetId)
+void __usercall PlayPenaltySample(void)
 
 {
   if (trainingGame != 0) {
@@ -4407,7 +4406,7 @@ void __usercall SetAdvertisementsInvisible(void)
    Make sprites from player names from both teams.
     */
 
-void __usercall MakeSpritesFromPlayerNames(void *leftTeam,void *rightTeam)
+void __usercall MakeSpritesFromPlayerNames(TeamGame *leftTeam,TeamGame *rightTeam)
 
 {
   ushort unaff_D0w;
@@ -4417,20 +4416,20 @@ void __usercall MakeSpritesFromPlayerNames(void *leftTeam,void *rightTeam)
   spriteIndex = SPR_TEAM1_PLAYER_NAMES_START;
   sVar1 = 0xf;
   do {
-    unaff_D0w = CONCAT11((char)(unaff_D0w >> 8),*(undefined1 *)((int)leftTeam + 0x2d));
+    unaff_D0w = CONCAT11((char)(unaff_D0w >> 8),leftTeam->players[0].shirtNumber);
     spriteIndex = MakePlayerNameSprite
-                            (unaff_D0w,(uchar *)((int)leftTeam + 0x36),spriteIndex,
-                             plNamesLengthTable);
-    leftTeam = (void *)((int)leftTeam + 0x3d);
+                            (unaff_D0w,leftTeam->players[0].shortName,spriteIndex,plNamesLengthTable
+                            );
+    leftTeam = (TeamGame *)(leftTeam->players[0].shortName + 7);
     sVar1 = sVar1 + -1;
   } while (sVar1 != -1);
   sVar1 = 0xf;
   do {
-    unaff_D0w = CONCAT11((char)(unaff_D0w >> 8),*(undefined1 *)((int)rightTeam + 0x2d));
+    unaff_D0w = CONCAT11((char)(unaff_D0w >> 8),rightTeam->players[0].shirtNumber);
     spriteIndex = MakePlayerNameSprite
-                            (unaff_D0w,(uchar *)((int)rightTeam + 0x36),spriteIndex,
+                            (unaff_D0w,rightTeam->players[0].shortName,spriteIndex,
                              plNamesLengthTable);
-    rightTeam = (void *)((int)rightTeam + 0x3d);
+    rightTeam = (TeamGame *)(rightTeam->players[0].shortName + 7);
     sVar1 = sVar1 + -1;
   } while (sVar1 != -1);
   return;
@@ -4561,7 +4560,6 @@ void __usercall InitGameRestoreTeams(void *leftTeamInGame,void *rightTeamInGame)
 {
   int iVar1;
   ushort *puVar2;
-  undefined4 unaff_D0;
   ushort uVar3;
   short sVar4;
   TeamGame *pTVar5;
@@ -4600,8 +4598,7 @@ void __usercall InitGameRestoreTeams(void *leftTeamInGame,void *rightTeamInGame)
   teamPlayingUp = (uVar3 & 1) + 1;
   uVar3 = Rand();
   teamStarting = (uVar3 & 1) + 1;
-  sVar4 = gameLengthInGame << 1;
-  timeDelta = *(word *)((int)gameLenSecondsTable + (int)sVar4);
+  timeDelta = *(word *)((int)gameLenSecondsTable + (int)(short)(gameLengthInGame << 1));
   uVar3 = (pitchNumberAndType & 0xff) << 2;
   puVar2 = *(ushort **)((int)pitchPalettePtrs + (int)(short)uVar3);
   _DAT_0010f1ba = gamePalette;
@@ -4664,7 +4661,7 @@ void __usercall InitGameRestoreTeams(void *leftTeamInGame,void *rightTeamInGame)
   StartingMatch();
   PlaySample1IfNotTraining();
   if (playGame != 0) {
-    PlayPenaltySample(CONCAT22((short)((uint)unaff_D0 >> 0x10),sVar4));
+    PlayPenaltySample();
     sfxQueueWriteIdx = 500;
     if (trainingGame == 0) {
       showFansCounter = 100;
@@ -7494,14 +7491,14 @@ set_goalie_skill:
    out:
        D4 - player price percentage of increase/decrease */
 
-short __usercall GetPlayerPricePercentageChange(short factor,void *team)
+short __usercall GetPlayerPricePercentageChange(short factor,TeamFile *team)
 
 {
   short unaff_D0w;
   short sVar1;
   ushort uVar2;
   
-  if ((isGameFriendly == 0) && (*(char *)((int)team + 4) != TEAM_PLAYER_COACH)) {
+  if ((isGameFriendly == 0) && (team->teamControls != TEAM_PLAYER_COACH)) {
     CalcTeamViewOffset(team);
     sVar1 = CalcTeamPriceRankPercentOffset(&diyCompetitionStart,team);
     factor = sVar1 + unaff_D0w + factor;

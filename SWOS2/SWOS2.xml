@@ -2,7 +2,7 @@
 <?program_dtd version="1"?>
 
 <PROGRAM NAME="SWOS2" EXE_PATH=".\SWOS2" EXE_FORMAT="Binary file" INPUT_MD5="u&#xa7;&#xdd;E&#xcf;&#xe6;&#xeb;&#xe1;?|&#xa8;(&#xe0;&#xa3;">
-    <INFO_SOURCE TOOL="IDA-Pro 9.0 XML plugin v5.0.2 (Python) SDK 900" USER="headk" FILE="C:\Projects\Amiga\SWOS-IDA\SWOS2.i64" TIMESTAMP="2026-02-12 12:55" />
+    <INFO_SOURCE TOOL="IDA-Pro 9.0 XML plugin v5.0.2 (Python) SDK 900" USER="headk" FILE="C:\Projects\Amiga\SWOS-IDA\SWOS2.i64" TIMESTAMP="2026-02-12 20:57" />
     <PROCESSOR NAME="68000" ENDIAN="big" ADDRESS_MODEL="32-bit" />
     <COMPILER NAME="Unknown" />
     <DATATYPES>
@@ -51393,7 +51393,7 @@ other values = career </COMMENT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x100438" NAME="AssetSys_SelectAndOpen" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x100438" END="0x1004AB" />
-            <RETURN_TYPE DATATYPE="int" DATATYPE_NAMESPACE="/" REGISTER="D0" />
+            <RETURN_TYPE DATATYPE="short" DATATYPE_NAMESPACE="/" REGISTER="D0W" />
             <REGISTER_VAR NAME="asset_index" REGISTER="D0W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AssetSys_SelectAndOpen</TYPEINFO_CMT>
         </FUNCTION>
@@ -51581,13 +51581,13 @@ other values = career </COMMENT>
             <ADDRESS_RANGE START="0x100C64" END="0x100D05" />
             <RETURN_TYPE DATATYPE="uint" DATATYPE_NAMESPACE="/" REGISTER="D0" />
             <REGISTER_VAR NAME="path" REGISTER="A4" DATATYPE="const char *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="mode" REGISTER="D6" DATATYPE="uint" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="mode" REGISTER="D6B" DATATYPE="uchar" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>Floppy_FindRecordByPath</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x100D06" NAME="Floppy_ParseDrivePrefix" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x100D06" END="0x100D3D" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="mode" REGISTER="D6" DATATYPE="uint" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="mode" REGISTER="D6B" DATATYPE="uchar" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="p" REGISTER="A4" DATATYPE="const uchar *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>Floppy_ParseDrivePrefix</TYPEINFO_CMT>
         </FUNCTION>
@@ -51844,7 +51844,7 @@ other values = career </COMMENT>
             <ADDRESS_RANGE START="0x1014D4" END="0x101511" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="dmaBuf" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="byteCount" REGISTER="D0" DATATYPE="uint" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="byteCount" REGISTER="D0W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>FloppyDMA_StartBlitterTransfer</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x101512" NAME="FloppyDMA_WaitBlitterDone" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -51886,8 +51886,8 @@ other values = career </COMMENT>
         <FUNCTION ENTRY_POINT="0x101612" NAME="FloppyStep_DoSteps" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x101612" END="0x101635" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="steps" REGISTER="D0" DATATYPE="uint" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="dir" REGISTER="D1" DATATYPE="int" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="steps" REGISTER="D0W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="dir" REGISTER="D1B" DATATYPE="char" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>FloppyStep_DoSteps</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x101636" NAME="FloppyCIA_UpdateLinesFromTable" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -51897,19 +51897,19 @@ other values = career </COMMENT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x101640" NAME="FloppyCIA_BuildStepPattern" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x101640" END="0x10166F" />
-            <RETURN_TYPE DATATYPE="uint" DATATYPE_NAMESPACE="/" REGISTER="D0" />
+            <RETURN_TYPE DATATYPE="uchar" DATATYPE_NAMESPACE="/" REGISTER="D0B" />
             <TYPEINFO_CMT>FloppyCIA_BuildStepPattern</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x101670" NAME="FloppyTimer_DelayTicks" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x101670" END="0x101681" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="ticks" REGISTER="D0" DATATYPE="uint" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="ticks" REGISTER="D0W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>FloppyTimer_DelayTicks</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x101682" NAME="FloppyTimer_WaitIfRunning" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x101682" END="0x10168F" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="limit" REGISTER="D0" DATATYPE="uint" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="limit" REGISTER="D0W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>FloppyTimer_WaitIfRunning</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x101690" NAME="FloppyTimer_StartCiaB" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -52694,9 +52694,9 @@ or some error happens, writes the name of the file to screen, and terminates the
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x106AF8" NAME="RncGetBits" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x106AF8" END="0x106B03" />
-            <RETURN_TYPE DATATYPE="int" DATATYPE_NAMESPACE="/" REGISTER="D0" />
-            <REGISTER_VAR NAME="mask" REGISTER="D0" DATATYPE="uint" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="nbits" REGISTER="D1" DATATYPE="uint" DATATYPE_NAMESPACE="/" />
+            <RETURN_TYPE DATATYPE="short" DATATYPE_NAMESPACE="/" REGISTER="D0W" />
+            <REGISTER_VAR NAME="mask" REGISTER="D0W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="nbits" REGISTER="D1B" DATATYPE="uchar" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>RncGetBits</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x106B04" NAME="RncRefillBits" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -52817,7 +52817,6 @@ or some error happens, writes the name of the file to screen, and terminates the
             <ADDRESS_RANGE START="0x10723C" END="0x10724D" />
             <ADDRESS_RANGE START="0x107434" END="0x107443" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="presetId" REGISTER="D0" DATATYPE="uint" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>PlayPenaltySample</TYPEINFO_CMT>
             <STACK_FRAME LOCAL_VAR_SIZE="0x0" REGISTER_SAVE_SIZE="0x0" RETURN_ADDR_SIZE="0x4" BYTES_PURGED="0x0" />
         </FUNCTION>
@@ -53122,7 +53121,7 @@ or some error happens, writes the name of the file to screen, and terminates the
             <ADDRESS_RANGE START="0x107AB2" END="0x107B11" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="amigaPeriod" REGISTER="D1" DATATYPE="uint" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="amigaPeriod" REGISTER="D1W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQNoteOnInitChannel</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x107B12" NAME="AudioIRQSelectVariant" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -53207,7 +53206,7 @@ or some error happens, writes the name of the file to screen, and terminates the
             <ADDRESS_RANGE START="0x107DEE" END="0x107E4D" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="amigaPeriod" REGISTER="D1" DATATYPE="uint" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="amigaPeriod" REGISTER="D1W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQInitPitchEnv</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x107E4E" NAME="AudioIRQSelectInstrument" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -53442,8 +53441,8 @@ depends on which vertical half camera is in.</REGULAR_CMT>
         <FUNCTION ENTRY_POINT="0x10A31C" NAME="MakeSpritesFromPlayerNames" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x10A31C" END="0x10A357" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="leftTeam" REGISTER="A5" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="rightTeam" REGISTER="A6" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="leftTeam" REGISTER="A5" DATATYPE="TeamGame *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="rightTeam" REGISTER="A6" DATATYPE="TeamGame *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
      A5 -&gt; left team (game)
      A6 -&gt; right team (game)
@@ -53936,7 +53935,7 @@ Draws all bench sprites.</REGULAR_CMT>
             <REGISTER_VAR NAME="baseColor" REGISTER="D4W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="selectedIndex" REGISTER="D7W" DATATYPE="short" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="charsTable" REGISTER="A1" DATATYPE="const void *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="teamGame" REGISTER="A2" DATATYPE="const void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="teamGame" REGISTER="A2" DATATYPE="const TeamGame *" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="playerOffsets" REGISTER="A4" DATATYPE="const ushort *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
      D2 - y (of the shadow, frame is at -2)
@@ -54642,7 +54641,7 @@ the ball (and save the day). (I think)</REGULAR_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x113362" NAME="GoalkeeperDeflectedBall" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x113362" END="0x11345D" />
-            <RETURN_TYPE DATATYPE="int" DATATYPE_NAMESPACE="/" REGISTER="D0" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="ball" REGISTER="A2" DATATYPE="Sprite *" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="team" REGISTER="A6" DATATYPE="TeamGeneralInfo *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
@@ -54968,7 +54967,7 @@ Limits for ball x are less than 300, 300...371 and greater than 371.</REGULAR_CM
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x11817C" NAME="AI_DecideWhetherToTriggerFire" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x11817C" END="0x11825B" />
-            <RETURN_TYPE DATATYPE="int" DATATYPE_NAMESPACE="/" REGISTER="D0" />
+            <RETURN_TYPE DATATYPE="short" DATATYPE_NAMESPACE="/" REGISTER="D0W" />
             <REGISTER_VAR NAME="player" REGISTER="A5" DATATYPE="Sprite *" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="team" REGISTER="A6" DATATYPE="TeamGeneralInfo *" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="dir" REGISTER="D7W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
@@ -55667,7 +55666,7 @@ dos: cseg_2C47D</REGULAR_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x122CD4" NAME="ComputeOldPlayerSkillForViewResult" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x122CD4" END="0x122D8B" />
-            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
+            <RETURN_TYPE DATATYPE="ushort" DATATYPE_NAMESPACE="/" REGISTER="D0W" />
             <REGISTER_VAR NAME="team" REGISTER="A0" DATATYPE="TeamFile *" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="count" REGISTER="D0W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>ComputeOldPlayerSkillForViewResult</TYPEINFO_CMT>
@@ -56093,7 +56092,7 @@ Return national for any team if playing career.</REGULAR_CMT>
             <ADDRESS_RANGE START="0x126CA4" END="0x126CED" />
             <RETURN_TYPE DATATYPE="short" DATATYPE_NAMESPACE="/" REGISTER="D4W" />
             <REGISTER_VAR NAME="factor" REGISTER="D4W" DATATYPE="short" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="team" REGISTER="A2" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team" REGISTER="A2" DATATYPE="TeamFile *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
     D0 -
     D4 - player price change factor
@@ -56970,7 +56969,7 @@ Crashes program if team could not be found in memory.</REGULAR_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x12ADC2" NAME="DIY_PlayOrSimulateLeagueFixture" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x12ADC2" END="0x12AFED" />
-            <RETURN_TYPE DATATYPE="int" DATATYPE_NAMESPACE="/" REGISTER="D0" />
+            <RETURN_TYPE DATATYPE="short" DATATYPE_NAMESPACE="/" REGISTER="D0W" />
             <REGISTER_VAR NAME="selector" REGISTER="D7W" DATATYPE="short" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>DIY_PlayOrSimulateLeagueFixture</TYPEINFO_CMT>
         </FUNCTION>
@@ -57560,14 +57559,14 @@ Crashes program if team could not be found in memory.</REGULAR_CMT>
         <FUNCTION ENTRY_POINT="0x12DDD6" NAME="TeamSelectionKeyCache_GetListElementPtr" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x12DDD6" END="0x12DDE7" />
             <RETURN_TYPE DATATYPE="void *" DATATYPE_NAMESPACE="/" REGISTER="A1" />
-            <REGISTER_VAR NAME="listIndex" REGISTER="D0" DATATYPE="uint" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="elementIndex" REGISTER="D1" DATATYPE="uint" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="listIndex" REGISTER="D0W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="elementIndex" REGISTER="D1W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>TeamSelectionKeyCache_GetListElementPtr</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x12DDE8" NAME="TeamSelectionKeyCache_GetListPtr" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x12DDE8" END="0x12DDFF" />
             <RETURN_TYPE DATATYPE="void *" DATATYPE_NAMESPACE="/" REGISTER="A0" />
-            <REGISTER_VAR NAME="listIndex" REGISTER="D0" DATATYPE="uint" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="listIndex" REGISTER="D0W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>TeamSelectionKeyCache_GetListPtr</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x12DE00" NAME="TeamSelectionKeyCache_GetCurrentSelectedElementPtr" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -57742,11 +57741,12 @@ out:
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x12F1E0" NAME="ShowChairmanOpinionAboutTheSeason" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x12F1E0" END="0x12F329" />
-            <RETURN_TYPE DATATYPE="int" DATATYPE_NAMESPACE="/" REGISTER="D0" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>ShowChairmanOpinionAboutTheSeason</TYPEINFO_CMT>
         </FUNCTION>
-        <FUNCTION ENTRY_POINT="0x12F32A" NAME="ShowSeasonOpinion">
+        <FUNCTION ENTRY_POINT="0x12F32A" NAME="ShowSeasonOpinion" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x12F32A" END="0x12F36F" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>ShowSeasonOpinion</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x12F370" NAME="SeasonFinished_ComputeSeasonReview" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -57767,32 +57767,32 @@ out:
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x12F512" NAME="ShowLeavingMessage" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x12F512" END="0x12F52D" />
-            <RETURN_TYPE DATATYPE="int" DATATYPE_NAMESPACE="/" REGISTER="D0" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>ShowLeavingMessage</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x12F52E" NAME="ShowGreetingMessage" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x12F52E" END="0x12F549" />
-            <RETURN_TYPE DATATYPE="int" DATATYPE_NAMESPACE="/" REGISTER="D0" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>ShowGreetingMessage</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x12F54A" NAME="ShowLastSeasonMessage" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x12F54A" END="0x12F565" />
-            <RETURN_TYPE DATATYPE="int" DATATYPE_NAMESPACE="/" REGISTER="D0" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>ShowLastSeasonMessage</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x12F566" NAME="ShowWishYouSuccessMessage" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x12F566" END="0x12F581" />
-            <RETURN_TYPE DATATYPE="int" DATATYPE_NAMESPACE="/" REGISTER="D0" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>ShowWishYouSuccessMessage</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x12F582" NAME="ShowEnjoyLastSeasonMessage" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x12F582" END="0x12F59D" />
-            <RETURN_TYPE DATATYPE="int" DATATYPE_NAMESPACE="/" REGISTER="D0" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>ShowEnjoyLastSeasonMessage</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x12F59E" NAME="ShowRetirementMessage" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x12F59E" END="0x12F5B9" />
-            <RETURN_TYPE DATATYPE="int" DATATYPE_NAMESPACE="/" REGISTER="D0" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>ShowRetirementMessage</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x12F5BA" NAME="Career_AppendTeamToTmdTeamPool" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -57941,7 +57941,7 @@ out:
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x1303C0" NAME="AddTrialPlayer" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x1303C0" END="0x1303DB" />
-            <RETURN_TYPE DATATYPE="int" DATATYPE_NAMESPACE="/" REGISTER="D0" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AddTrialPlayer</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x1303E8" NAME="TrainingMatch_AddTrialPlayerAtPosition" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -57970,7 +57970,7 @@ out:
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x130638" NAME="PlayerJoinedClubOnTrial" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x130638" END="0x130655" />
-            <RETURN_TYPE DATATYPE="int" DATATYPE_NAMESPACE="/" REGISTER="D0" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="name" REGISTER="A1" DATATYPE="const char *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
      A1 -&gt; player name</REGULAR_CMT>
@@ -57978,7 +57978,7 @@ out:
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x130656" NAME="TrialPlayerLeftClubMessage" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x130656" END="0x130673" />
-            <RETURN_TYPE DATATYPE="int" DATATYPE_NAMESPACE="/" REGISTER="D0" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="name" REGISTER="A1" DATATYPE="const char *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
      A1 -&gt; player name</REGULAR_CMT>
@@ -57986,7 +57986,7 @@ out:
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x130674" NAME="ReservePlayerLeftClubMessage" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x130674" END="0x130691" />
-            <RETURN_TYPE DATATYPE="int" DATATYPE_NAMESPACE="/" REGISTER="D0" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="name" REGISTER="A1" DATATYPE="const char *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
      A1 -&gt; player name</REGULAR_CMT>
@@ -58605,7 +58605,7 @@ depending on their number.</REGULAR_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x1348B8" NAME="DesignDIYCup_UpdateMatchListScrollAndRebuildStrings" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x1348B8" END="0x13494F" />
-            <RETURN_TYPE DATATYPE="int" DATATYPE_NAMESPACE="/" REGISTER="D0" />
+            <RETURN_TYPE DATATYPE="short" DATATYPE_NAMESPACE="/" REGISTER="D0W" />
             <TYPEINFO_CMT>DesignDIYCup_UpdateMatchListScrollAndRebuildStrings</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x134950" NAME="DesignDIYCup_HideCurrentMatchTeamEntries" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -60471,7 +60471,7 @@ Called when returning to main menu from various submenus.</REGULAR_CMT>
         <FUNCTION ENTRY_POINT="0x141D18" NAME="SetBenchPlayersNumbers" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x141D18" END="0x141D3B" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="team" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team" REGISTER="A0" DATATYPE="TeamFile *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
      A0 -&gt; team</REGULAR_CMT>
             <TYPEINFO_CMT>SetBenchPlayersNumbers</TYPEINFO_CMT>
@@ -61273,8 +61273,8 @@ and team number. Internal team player position translation table is used.</REGUL
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x1468A0" NAME="GetPlayerInfoBreakPosition" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x1468A0" END="0x1468DF" />
-            <RETURN_TYPE DATATYPE="void *" DATATYPE_NAMESPACE="/" REGISTER="A0" />
-            <REGISTER_VAR NAME="teamPtr" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <RETURN_TYPE DATATYPE="TeamFile *" DATATYPE_NAMESPACE="/" REGISTER="A0" />
+            <REGISTER_VAR NAME="teamPtr" REGISTER="A0" DATATYPE="TeamFile *" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="requestedSlot" REGISTER="D1W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>GetPlayerInfoBreakPosition</TYPEINFO_CMT>
         </FUNCTION>
@@ -61492,7 +61492,7 @@ out:
         <FUNCTION ENTRY_POINT="0x147F02" NAME="OnSwapPlayer" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x147F02" END="0x148053" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="menuEntry" REGISTER="A5" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="menuEntry" REGISTER="A5" DATATYPE="MenuEntry *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
     A5 -&gt; menu entry that was selected
 
@@ -61899,7 +61899,7 @@ Check do we already have this job offer in new job offers queue.</REGULAR_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x14A8AA" NAME="ShowChairmanMessage" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x14A8AA" END="0x14A8B5" />
-            <RETURN_TYPE DATATYPE="short" DATATYPE_NAMESPACE="/" REGISTER="D0W" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>ShowChairmanMessage</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x14AA7E" NAME="ChairmanMemosInit" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -62047,7 +62047,7 @@ begins with zero terminated string (tactics name).</REGULAR_CMT>
         <FUNCTION ENTRY_POINT="0x14BB66" NAME="EditTacticsCommon" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x14BB66" END="0x14BC57" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="cur" REGISTER="A5" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="cur" REGISTER="A5" DATATYPE="MenuEntry *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>EditTacticsCommon</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x14BC58" NAME="EditTactics_FindFreePairId" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -62071,7 +62071,7 @@ dos: cseg_4E1F1</REGULAR_CMT>
         <FUNCTION ENTRY_POINT="0x14BC9A" NAME="EditTacticsPlayerNamesCommon" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x14BC9A" END="0x14BD5F" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="cur" REGISTER="A5" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="cur" REGISTER="A5" DATATYPE="MenuEntry *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>Called when player name is selected in edit tactics menu.</REGULAR_CMT>
             <TYPEINFO_CMT>EditTacticsPlayerNamesCommon</TYPEINFO_CMT>
         </FUNCTION>
@@ -62151,7 +62151,7 @@ wheter flip is on or off.</REGULAR_CMT>
         <FUNCTION ENTRY_POINT="0x14C0EE" NAME="EditTacticsAfterDrawPlayerFace" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x14C0EE" END="0x14C105" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="cur" REGISTER="A5" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="cur" REGISTER="A5" DATATYPE="MenuEntry *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>EditTacticsAfterDrawPlayerFace</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x14C106" NAME="EditTactics28AfterDraw" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -62168,14 +62168,14 @@ wheter flip is on or off.</REGULAR_CMT>
         <FUNCTION ENTRY_POINT="0x14C13C" NAME="EditTacticsAfterDrawPlayerNames" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x14C13C" END="0x14C371" />
             <RETURN_TYPE DATATYPE="short" DATATYPE_NAMESPACE="/" REGISTER="D0W" />
-            <REGISTER_VAR NAME="cur" REGISTER="A5" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="cur" REGISTER="A5" DATATYPE="MenuEntry *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>EditTacticsAfterDrawPlayerNames</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x14C372" NAME="EditTactics_ApplyPlayerRowHighlighting" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x14C372" END="0x14C513" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="playerOrdinal" REGISTER="D7W" DATATYPE="short" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="cur" REGISTER="A5" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="cur" REGISTER="A5" DATATYPE="MenuEntry *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
      D7 - player ordinal
 dos: cseg_4F37E</REGULAR_CMT>
@@ -62396,8 +62396,9 @@ current_tactic array.</REGULAR_CMT>
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>RestoreTactics</TYPEINFO_CMT>
         </FUNCTION>
-        <FUNCTION ENTRY_POINT="0x14D50A" NAME="ImportTacticsInit">
+        <FUNCTION ENTRY_POINT="0x14D50A" NAME="ImportTacticsInit" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x14D50A" END="0x14D50B" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>ImportTacticsInit</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x14D50C" NAME="ImportTacticsSelectTactics" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">

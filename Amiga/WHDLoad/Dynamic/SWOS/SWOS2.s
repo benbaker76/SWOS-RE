@@ -8739,7 +8739,7 @@ asset_op5_then_6_exit:
                 rts
 
 ; ===== AssetSys_SelectAndOpen =====
-; prototype: __int32 __usercall AssetSys_SelectAndOpen@<d0>(unsigned __int16 asset_index@<d0>)
+; prototype: __int16 __usercall AssetSys_SelectAndOpen@<d0>(unsigned __int16 asset_index@<d0>)
 AssetSys_SelectAndOpen:
                 movem.l d1-d7/a0-a6,-(sp)
                 move.w  d0,d7
@@ -9630,7 +9630,7 @@ Floppy_CtxAliasA0:
                 movea.l a6,a0
 
 ; ===== Floppy_FindRecordByPath =====
-; prototype: unsigned int __usercall Floppy_FindRecordByPath@<d0>(const char *path@<a4>, unsigned int mode@<d6>)
+; prototype: unsigned int __usercall Floppy_FindRecordByPath@<d0>(const char *path@<a4>, unsigned __int8 mode@<d6>)
 Floppy_FindRecordByPath:
                 move.l  a4,-(sp)
                 bsr.w   Floppy_Check370Record
@@ -9699,7 +9699,7 @@ loc_100D00:
                 rts
 
 ; ===== Floppy_ParseDrivePrefix =====
-; prototype: void __usercall Floppy_ParseDrivePrefix(unsigned int mode@<d6>, const unsigned __int8 *p@<a4>)
+; prototype: void __usercall Floppy_ParseDrivePrefix(unsigned __int8 mode@<d6>, const unsigned __int8 *p@<a4>)
 Floppy_ParseDrivePrefix:
                 cmp.b   #6,d6
                 bge.s   locret_100D3C
@@ -10536,7 +10536,7 @@ mfm_store_encoded_long:
                 rts
 
 ; ===== FloppyDMA_StartBlitterTransfer =====
-; prototype: void __usercall FloppyDMA_StartBlitterTransfer(void *dmaBuf@<a0>, unsigned int byteCount@<d0>)
+; prototype: void __usercall FloppyDMA_StartBlitterTransfer(void *dmaBuf@<a0>, unsigned __int16 byteCount@<d0>)
 FloppyDMA_StartBlitterTransfer:
                 lea     (CUSTOM).l,a1
                 move.w  #$4000,$24(a1)
@@ -10672,7 +10672,7 @@ seek_calibration_return:
                 rts
 
 ; ===== FloppyStep_DoSteps =====
-; prototype: void __usercall FloppyStep_DoSteps(unsigned int steps@<d0>, int dir@<d1>)
+; prototype: void __usercall FloppyStep_DoSteps(unsigned __int16 steps@<d0>, __int8 dir@<d1>)
 FloppyStep_DoSteps:
                 move.l  d0,-(sp)
                 bsr.s   FloppyCIA_BuildStepPattern
@@ -10695,7 +10695,7 @@ FloppyCIA_UpdateLinesFromTable:
                 rts
 
 ; ===== FloppyCIA_BuildStepPattern =====
-; prototype: unsigned int __usercall FloppyCIA_BuildStepPattern@<d0>()
+; prototype: unsigned __int8 __usercall FloppyCIA_BuildStepPattern@<d0>()
 FloppyCIA_BuildStepPattern:
                 movem.w d1-d2,-(sp)
                 move.w  -$24(a6),d0
@@ -10715,7 +10715,7 @@ step_pattern_optional_clear_pulse:
                 rts
 
 ; ===== FloppyTimer_DelayTicks =====
-; prototype: void __usercall FloppyTimer_DelayTicks(unsigned int ticks@<d0>)
+; prototype: void __usercall FloppyTimer_DelayTicks(unsigned __int16 ticks@<d0>)
 FloppyTimer_DelayTicks:
                 bsr.s   FloppyTimer_StartCiaB
 timer_delay_wait_ciab_flag:
@@ -10726,7 +10726,7 @@ timer_delay_wait_ciab_flag:
                 rts
 
 ; ===== FloppyTimer_WaitIfRunning =====
-; prototype: void __usercall FloppyTimer_WaitIfRunning(unsigned int limit@<d0>)
+; prototype: void __usercall FloppyTimer_WaitIfRunning(unsigned __int16 limit@<d0>)
 FloppyTimer_WaitIfRunning:
                 btst    #0,(CIAB_CRA).l
                 bne.s   timer_return
@@ -16550,7 +16550,7 @@ locret_106AF6:
                 rts
 
 ; ===== RncGetBits =====
-; prototype: int __usercall RncGetBits@<d0>(unsigned int mask@<d0>, unsigned int nbits@<d1>)
+; prototype: __int16 __usercall RncGetBits@<d0>(unsigned __int16 mask@<d0>, unsigned __int8 nbits@<d1>)
 RncGetBits:
                 and.w   d6,d0
                 sub.b   d1,d7
@@ -17313,7 +17313,7 @@ crowd_tick_and_return:
                 rts
 
 ; ===== PlayPenaltySample =====
-; prototype: void __usercall PlayPenaltySample(unsigned int presetId@<d0>)
+; prototype: void __usercall PlayPenaltySample()
 PlayPenaltySample:
                 tst.w   (trainingGame).l
                 beq.s   loc_107246
@@ -18216,7 +18216,7 @@ beep_apply_and_store:
                 rts
 
 ; ===== AudioIRQNoteOnInitChannel =====
-; prototype: void __usercall AudioIRQNoteOnInitChannel(void *chan@<a0>, unsigned int amigaPeriod@<d1>)
+; prototype: void __usercall AudioIRQNoteOnInitChannel(void *chan@<a0>, unsigned __int16 amigaPeriod@<d1>)
 AudioIRQNoteOnInitChannel:
                 movea.l $4A(a0),a2
                 move.w  d1,$34(a0)
@@ -18558,7 +18558,7 @@ pitchslide_apply_and_store:
                 rts
 
 ; ===== AudioIRQInitPitchEnv =====
-; prototype: void __usercall AudioIRQInitPitchEnv(void *chan@<a0>, unsigned int amigaPeriod@<d1>)
+; prototype: void __usercall AudioIRQInitPitchEnv(void *chan@<a0>, unsigned __int16 amigaPeriod@<d1>)
 AudioIRQInitPitchEnv:
                 movea.l $A2(a0),a2
                 move.w  d1,$8C(a0)
@@ -20746,7 +20746,7 @@ bigSIndex:
                                         ; in the upper right corner during the game
 
 ; ===== MakeSpritesFromPlayerNames =====
-; prototype: void __usercall MakeSpritesFromPlayerNames(void *leftTeam@<a5>, void *rightTeam@<a6>)
+; prototype: void __usercall MakeSpritesFromPlayerNames(TeamGame *leftTeam@<a5>, TeamGame *rightTeam@<a6>)
 ; in:
 ;      A5 -> left team (game)
 ;      A6 -> right team (game)
@@ -24972,7 +24972,7 @@ locret_10DFA4:
                 rts
 
 ; ===== DrawSubstitutesMenuEntry =====
-; prototype: void __usercall DrawSubstitutesMenuEntry(__int16 y@<d2>, unsigned __int16 baseColor@<d4>, __int16 selectedIndex@<d7>, const void *charsTable@<a1>, const void *teamGame@<a2>, const unsigned __int16 *playerOffsets@<a4>)
+; prototype: void __usercall DrawSubstitutesMenuEntry(__int16 y@<d2>, unsigned __int16 baseColor@<d4>, __int16 selectedIndex@<d7>, const void *charsTable@<a1>, const struct TeamGame *teamGame@<a2>, const unsigned __int16 *playerOffsets@<a4>)
 ; in:
 ;      D2 - y (of the shadow, frame is at -2)
 ;      D4 - base color (background)
@@ -31771,7 +31771,7 @@ _113360_exit_rts:
                 rts
 
 ; ===== GoalkeeperDeflectedBall =====
-; prototype: int __usercall GoalkeeperDeflectedBall@<d0>(Sprite *ball@<a2>, TeamGeneralInfo *team@<a6>)
+; prototype: void __usercall GoalkeeperDeflectedBall(Sprite *ball@<a2>, TeamGeneralInfo *team@<a6>)
 ; in:
 ;      A2 -> ball sprite
 ;      A6 -> player team (general)
@@ -37506,7 +37506,7 @@ locret_118178:
                 rts
 
 ; ===== AI_DecideWhetherToTriggerFire =====
-; prototype: int __usercall AI_DecideWhetherToTriggerFire@<d0>(struct Sprite *player@<a5>, struct TeamGeneralInfo *team@<a6>, unsigned __int16 dir@<d7>)
+; prototype: __int16 __usercall AI_DecideWhetherToTriggerFire@<d0>(struct Sprite *player@<a5>, struct TeamGeneralInfo *team@<a6>, unsigned __int16 dir@<d7>)
 ; in:
 ;      D7 - controlled player direction
 ;      A5 -> controlled player sprite
@@ -51955,7 +51955,7 @@ loc_122CB8:
                 rts
 
 ; ===== ComputeOldPlayerSkillForViewResult =====
-; prototype: void __usercall ComputeOldPlayerSkillForViewResult(TeamFile *team@<a0>, unsigned __int16 count@<d0>)
+; prototype: unsigned __int16 __usercall ComputeOldPlayerSkillForViewResult@<d0>(TeamFile *team@<a0>, unsigned __int16 count@<d0>)
 ComputeOldPlayerSkillForViewResult:
                 move.w  #1,(oldPlayerSkillDivisor).l
                 clr.w   d5
@@ -56175,7 +56175,7 @@ cseg_316E4:
                 rts
 
 ; ===== GetPlayerPricePercentageChange =====
-; prototype: __int16 __usercall GetPlayerPricePercentageChange@<d4>(__int16 factor@<d4>, void *team@<a2>)
+; prototype: __int16 __usercall GetPlayerPricePercentageChange@<d4>(__int16 factor@<d4>, TeamFile *team@<a2>)
 ; in:
 ;     D0 -
 ;     D4 - player price change factor
@@ -61541,7 +61541,7 @@ locret_12ADC0:
                 rts
 
 ; ===== DIY_PlayOrSimulateLeagueFixture =====
-; prototype: int __usercall DIY_PlayOrSimulateLeagueFixture@<d0>(__int16 selector@<d7>)
+; prototype: __int16 __usercall DIY_PlayOrSimulateLeagueFixture@<d0>(__int16 selector@<d7>)
 DIY_PlayOrSimulateLeagueFixture:
                 move.w  #1,(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$A).l
                 bsr.w   DIY_SyncProgressToDiyFileBufferCopy_2
@@ -65611,7 +65611,7 @@ loc_12DDC8:
                 jsr     PanicHaltLoop
 
 ; ===== TeamSelectionKeyCache_GetListElementPtr =====
-; prototype: void *__usercall TeamSelectionKeyCache_GetListElementPtr@<a1>(unsigned int listIndex@<d0>, unsigned int elementIndex@<d1>)
+; prototype: void *__usercall TeamSelectionKeyCache_GetListElementPtr@<a1>(unsigned __int16 listIndex@<d0>, unsigned __int16 elementIndex@<d1>)
 TeamSelectionKeyCache_GetListElementPtr:
                 bsr.w   TeamSelectionKeyCache_GetListPtr
                 movea.l a0,a1
@@ -65621,7 +65621,7 @@ TeamSelectionKeyCache_GetListElementPtr:
                 rts
 
 ; ===== TeamSelectionKeyCache_GetListPtr =====
-; prototype: void *__usercall TeamSelectionKeyCache_GetListPtr@<a0>(unsigned int listIndex@<d0>)
+; prototype: void *__usercall TeamSelectionKeyCache_GetListPtr@<a0>(unsigned __int16 listIndex@<d0>)
 TeamSelectionKeyCache_GetListPtr:
                 lea     (teamSelectionKeyCache).l,a0
                 andi.w  #$FF,d0
@@ -67070,7 +67070,7 @@ loc_12F1BE:
                 rts
 
 ; ===== ShowChairmanOpinionAboutTheSeason =====
-; prototype: int __usercall ShowChairmanOpinionAboutTheSeason@<d0>()
+; prototype: void __usercall ShowChairmanOpinionAboutTheSeason()
 ShowChairmanOpinionAboutTheSeason:
                 tst.w   (isNationalSelector).l
                 bne.w   ShowSeasonOpinion
@@ -67178,7 +67178,7 @@ loc_12F31E:
                 jmp     ShowChairmanMessage
 
 ; ===== ShowSeasonOpinion =====
-; prototype: int ShowSeasonOpinion(*())(void)
+; prototype: void __usercall ShowSeasonOpinion()
 ShowSeasonOpinion:
                 move.w  (seasonReview).l,d6
                 cmpi.w  #4,d6
@@ -67358,7 +67358,7 @@ loc_12F50C:
                 rts
 
 ; ===== ShowLeavingMessage =====
-; prototype: int __usercall ShowLeavingMessage@<d0>()
+; prototype: void __usercall ShowLeavingMessage()
 ShowLeavingMessage:
                 move.w  #THANKS_FOR_ALL_YOUR_HELP,d0
                 tst.w   (isNationalSelector).l
@@ -67369,7 +67369,7 @@ loc_12F522:
                 jmp     ShowChairmanMessage
 
 ; ===== ShowGreetingMessage =====
-; prototype: int __usercall ShowGreetingMessage@<d0>()
+; prototype: void __usercall ShowGreetingMessage()
 ShowGreetingMessage:
                 move.w  #WELCOME_WE_LOOK_FORWARD,d0
                 tst.w   (isNationalSelector).l
@@ -67380,7 +67380,7 @@ loc_12F53E:
                 jmp     ShowChairmanMessage
 
 ; ===== ShowLastSeasonMessage =====
-; prototype: int __usercall ShowLastSeasonMessage@<d0>()
+; prototype: void __usercall ShowLastSeasonMessage()
 ShowLastSeasonMessage:
                 move.w  #WELCOME_ENJOY_YOUR_LAST_SEASON,d0
                 tst.w   (isNationalSelector).l
@@ -67391,7 +67391,7 @@ loc_12F55A:
                 jmp     ShowChairmanMessage
 
 ; ===== ShowWishYouSuccessMessage =====
-; prototype: int __usercall ShowWishYouSuccessMessage@<d0>()
+; prototype: void __usercall ShowWishYouSuccessMessage()
 ShowWishYouSuccessMessage:
                 move.w  #WISH_YOU_SUCESS,d0
                 tst.w   (isNationalSelector).l
@@ -67402,7 +67402,7 @@ loc_12F576:
                 jmp     ShowChairmanMessage
 
 ; ===== ShowEnjoyLastSeasonMessage =====
-; prototype: int __usercall ShowEnjoyLastSeasonMessage@<d0>()
+; prototype: void __usercall ShowEnjoyLastSeasonMessage()
 ShowEnjoyLastSeasonMessage:
                 move.w  #ENJOY_LAST_SEASON_BEFORE,d0
                 tst.w   (isNationalSelector).l
@@ -67413,7 +67413,7 @@ loc_12F592:
                 jmp     ShowChairmanMessage
 
 ; ===== ShowRetirementMessage =====
-; prototype: int __usercall ShowRetirementMessage@<d0>()
+; prototype: void __usercall ShowRetirementMessage()
 ShowRetirementMessage:
                 move.w  #WISH_YOU_BEST_AT_THE_END,d0
                 tst.w   (isNationalSelector).l
@@ -68546,7 +68546,7 @@ locret_1303BE:
                 rts
 
 ; ===== AddTrialPlayer =====
-; prototype: int __usercall AddTrialPlayer@<d0>()
+; prototype: void __usercall AddTrialPlayer()
 AddTrialPlayer:
                 jsr     Rand
                 mulu.w  #11,d0
@@ -68741,7 +68741,7 @@ locret_130636:
                 rts
 
 ; ===== PlayerJoinedClubOnTrial =====
-; prototype: int __usercall PlayerJoinedClubOnTrial@<d0>(const char *name@<a1>)
+; prototype: void __usercall PlayerJoinedClubOnTrial(const char *name@<a1>)
 ; in:
 ;      A1 -> player name
 PlayerJoinedClubOnTrial:
@@ -68753,7 +68753,7 @@ PlayerJoinedClubOnTrial:
                 rts
 
 ; ===== TrialPlayerLeftClubMessage =====
-; prototype: int __usercall TrialPlayerLeftClubMessage@<d0>(const char *name@<a1>)
+; prototype: void __usercall TrialPlayerLeftClubMessage(const char *name@<a1>)
 ; in:
 ;      A1 -> player name
 TrialPlayerLeftClubMessage:
@@ -68765,7 +68765,7 @@ TrialPlayerLeftClubMessage:
                 rts
 
 ; ===== ReservePlayerLeftClubMessage =====
-; prototype: int __usercall ReservePlayerLeftClubMessage@<d0>(const char *name@<a1>)
+; prototype: void __usercall ReservePlayerLeftClubMessage(const char *name@<a1>)
 ; in:
 ;      A1 -> player name
 ReservePlayerLeftClubMessage:
@@ -77810,7 +77810,7 @@ locret_1348B6:
                 rts
 
 ; ===== DesignDIYCup_UpdateMatchListScrollAndRebuildStrings =====
-; prototype: int __usercall DesignDIYCup_UpdateMatchListScrollAndRebuildStrings@<d0>()
+; prototype: __int16 __usercall DesignDIYCup_UpdateMatchListScrollAndRebuildStrings@<d0>()
 DesignDIYCup_UpdateMatchListScrollAndRebuildStrings:
                 tst.w   (diyCupMatchListDrawModeFlag).l
                 beq.s   loc_1348C8
@@ -101795,7 +101795,7 @@ transferReplacementPriority_role7:
                 dc.b $07,$06,$03,$04,$05,$01,$02,$00,$FF
 
 ; ===== SetBenchPlayersNumbers =====
-; prototype: void __usercall SetBenchPlayersNumbers(void *team@<a0>)
+; prototype: void __usercall SetBenchPlayersNumbers(TeamFile *team@<a0>)
 ; in:
 ;      A0 -> team
 SetBenchPlayersNumbers:
@@ -110000,7 +110000,7 @@ loc_146892:
                 jsr     PanicHaltLoop
 
 ; ===== GetPlayerInfoBreakPosition =====
-; prototype: void *__usercall GetPlayerInfoBreakPosition@<a0>(void *teamPtr@<a0>, unsigned __int16 requestedSlot@<d1>)
+; prototype: TeamFile *__usercall GetPlayerInfoBreakPosition@<a0>(TeamFile *teamPtr@<a0>, unsigned __int16 requestedSlot@<d1>)
 GetPlayerInfoBreakPosition:
                 cmpi.w  #11,d1
                 bcc.s   loc_1468D4
@@ -112796,7 +112796,7 @@ loc_147EFA:
                 rts
 
 ; ===== OnSwapPlayer =====
-; prototype: void __usercall OnSwapPlayer(void *menuEntry@<a5>)
+; prototype: void __usercall OnSwapPlayer(MenuEntry *menuEntry@<a5>)
 ; in:
 ;     A5 -> menu entry that was selected
 ; 
@@ -116137,7 +116137,7 @@ jobOfferFunds:
                                         ; -1 = international offer
 
 ; ===== ShowChairmanMessage =====
-; prototype: __int16 __usercall ShowChairmanMessage@<d0>()
+; prototype: void __usercall ShowChairmanMessage()
 ShowChairmanMessage:
                 lea     (chairmanMemosMenu).l,a6
                 jmp     ShowMenu
@@ -118367,7 +118367,7 @@ EditTacticsOnRestore:
                 rts
 
 ; ===== EditTacticsCommon =====
-; prototype: void __usercall EditTacticsCommon(void *cur@<a5>)
+; prototype: void __usercall EditTacticsCommon(MenuEntry *cur@<a5>)
 EditTacticsCommon:
                 tst.w   (editTacticsSelectedPlayerNameIndex).l
                 bpl.w   out3
@@ -118477,7 +118477,7 @@ out3:
                 rts
 
 ; ===== EditTacticsPlayerNamesCommon =====
-; prototype: void __usercall EditTacticsPlayerNamesCommon(void *cur@<a5>)
+; prototype: void __usercall EditTacticsPlayerNamesCommon(MenuEntry *cur@<a5>)
 ; Called when player name is selected in edit tactics menu.
 EditTacticsPlayerNamesCommon:
                 tst.w   (editTacticsSelectedPairSlotIndex).l
@@ -118827,7 +118827,7 @@ editTacticsRotateRedrawList:
                 dc.w 10,27,-1           ; List of menu entry indices to redraw after rotating players in edit tactics.
 
 ; ===== EditTacticsAfterDrawPlayerFace =====
-; prototype: void __usercall EditTacticsAfterDrawPlayerFace(void *cur@<a5>)
+; prototype: void __usercall EditTacticsAfterDrawPlayerFace(MenuEntry *cur@<a5>)
 EditTacticsAfterDrawPlayerFace:
                 move.w  MENUENTRY_ORDINAL(a5),d7
                 subi.w  #29,d7          ; player faces
@@ -118860,7 +118860,7 @@ locret_14C13A:
                 rts
 
 ; ===== EditTacticsAfterDrawPlayerNames =====
-; prototype: __int16 __usercall EditTacticsAfterDrawPlayerNames@<d0>(void *cur@<a5>)
+; prototype: __int16 __usercall EditTacticsAfterDrawPlayerNames@<d0>(MenuEntry *cur@<a5>)
 EditTacticsAfterDrawPlayerNames:
                 move.w  MENUENTRY_ORDINAL(a5),d7
                 subi.w  #$B,d7
@@ -119022,7 +119022,7 @@ loc_14C352:
                 jmp     DrawMultipleItems
 
 ; ===== EditTactics_ApplyPlayerRowHighlighting =====
-; prototype: void __usercall EditTactics_ApplyPlayerRowHighlighting(__int16 playerOrdinal@<d7>, void *cur@<a5>)
+; prototype: void __usercall EditTactics_ApplyPlayerRowHighlighting(__int16 playerOrdinal@<d7>, MenuEntry *cur@<a5>)
 ; in:
 ;      D7 - player ordinal
 ; dos: cseg_4F37E
@@ -120779,7 +120779,7 @@ importTacticsMenu:
                 dc.w MENU_MARK_END_MENU ; markEndMenu
 
 ; ===== ImportTacticsInit =====
-; prototype: void ImportTacticsInit(...)
+; prototype: void __usercall ImportTacticsInit()
 ImportTacticsInit:
                 rts
 
