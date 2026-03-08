@@ -1,7 +1,7 @@
 /*
  * Auto-generated call graph export
  * Start: StartMatchSequence
- * Date : 2026-02-12 21:02:53
+ * Date : 2026-03-08 14:53:12
  */
 
 /* ===================== INCLUDES ===================== */
@@ -75,7 +75,7 @@ void __usercall SetVolumeOrStopChants(uint channelOrAll, uint volume);
 void __usercall StopAudio(void);
 void __usercall AudioSetMode(uint modeFlags);
 void __usercall AudioChannelNoteOnOff(uint channel, uint noteId);
-void __usercall AudioDisableDMAForChannel(void * chan);
+void __usercall AudioDisableDMAForChannel(AudioChannel * chan);
 void __usercall SetPlayerAnimationTable(AnimTable * animTable, Sprite * player);
 void __usercall SetBallPosition(short ballX, short ballY);
 void __usercall RemoveReferee(void);
@@ -153,7 +153,7 @@ ushort __usercall ScaleSkill(ushort skill, ushort factor, void * whichSide);
 char * __usercall ExtractSurname(char * name, ushort maxLenAndFlags);
 ushort __usercall FindTeamInCache(ushort teamNumber);
 void * __usercall VerifyTeamLoaded(ushort teamNumber);
-void __usercall FindTeamInDIY(void);
+ushort __usercall FindTeamInDIY(ushort teamNo, DIY_Competition * comp);
 ushort __usercall GetMoreExpensiveTeamsCountWrapper(ushort teamNo, DIY_Competition * comp);
 ushort __usercall GetMoreExpensiveTeamsCount(ushort teamNo, DIY_Competition * comp);
 ushort __usercall SearchTeamInTmdFile(ushort teamNo);
@@ -3810,85 +3810,75 @@ undefined8 PlaySample(void)
 
 // --- StartMenuMusic @ 0010744c ---
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
 void __usercall StartMenuMusic(void *bankBase,void *songPtr)
 
 {
-  ushort uVar1;
-  undefined4 uVar2;
-  short sVar4;
-  int iVar3;
-  uint uVar5;
-  int *piVar6;
-  byte *pbVar7;
+  int iVar1;
+  ushort uVar2;
+  uchar *puVar3;
+  short sVar5;
+  uchar *puVar4;
+  uint uVar6;
+  int *piVar7;
+  uchar **ppuVar8;
   
-  audioState._0_4_ = (int)songPtr + 4;
-  piVar6 = (int *)((int)bankBase + 8);
-  pbVar7 = audioState;
-  sVar4 = 6;
+  audioState.songPtr = (uchar *)((int)songPtr + 4);
+  piVar7 = (int *)((int)bankBase + 8);
+  sVar5 = 6;
+  ppuVar8 = audioState.bankSectionPtrs;
   do {
-    pbVar7 = pbVar7 + 4;
-    iVar3 = *piVar6;
-    *(int **)pbVar7 = piVar6 + 1;
-    uVar2 = audioState._0_4_;
-    piVar6 = (int *)(iVar3 + (int)(piVar6 + 1));
-    sVar4 = sVar4 + -1;
-  } while (sVar4 != -1);
-  audioPresetChannelCmdTable[0x14] = 0;
-  audioPresetChannelCmdTable[0x15] = 0x40;
-  audioFlags[5] = 0x40;
-  audioFlags[6] = 0x40;
-  audioFlags[7] = 0x40;
-  audioFlags[8] = 0x40;
-  _audioCounter = 0xd;
-  audioFlags[1] = 0;
-  audioFlags[2] = 0;
-  audioFlags[3] = 0xff;
-  audioFlags[4] = 0xff;
-  uVar5 = *(uint *)(audioState._4_4_ + -4);
-  piVar6 = (int *)audioState._4_4_;
+    iVar1 = *piVar7;
+    *ppuVar8 = (uchar *)(piVar7 + 1);
+    puVar3 = audioState.songPtr;
+    piVar7 = (int *)(iVar1 + (int)(piVar7 + 1));
+    sVar5 = sVar5 + -1;
+    ppuVar8 = ppuVar8 + 1;
+  } while (sVar5 != -1);
+  audioState.masterVolume = 0x40;
+  audioState.channelVolume[0] = 0x40;
+  audioState.channelVolume[1] = 0x40;
+  audioState.channelVolume[2] = 0x40;
+  audioState.channelVolume[3] = 0x40;
+  audioState.modeFlags = 0xd;
+  audioState.irqSubtick = 0;
+  audioState.toggleFlag = 0;
+  audioState.primaryChanEnable = 0xff;
+  audioState.secondaryChanEnable = 0xff;
+  uVar6 = *(uint *)(audioState.bankSectionPtrs[0] + -4);
+  piVar7 = (int *)audioState.bankSectionPtrs[0];
   do {
-    *piVar6 = uVar2 + *piVar6;
-    iVar3 = piVar6[1];
-    if (iVar3 != 0) {
-      iVar3 = uVar2 + iVar3;
+    *piVar7 = (int)(puVar3 + *piVar7);
+    puVar4 = (uchar *)piVar7[1];
+    if (puVar4 != (uchar *)0x0) {
+      puVar4 = puVar3 + (int)puVar4;
     }
-    piVar6[1] = iVar3;
-    iVar3 = piVar6[2];
-    if (iVar3 != 0) {
-      iVar3 = uVar2 + iVar3;
+    piVar7[1] = (int)puVar4;
+    puVar4 = (uchar *)piVar7[2];
+    if (puVar4 != (uchar *)0x0) {
+      puVar4 = puVar3 + (int)puVar4;
     }
-    piVar6[2] = iVar3;
-    *(short *)(piVar6 + 4) = *(short *)(piVar6 + 4) * 2;
-    piVar6 = piVar6 + 8;
-    uVar1 = (short)uVar5 - 0x20;
-    uVar5 = (uint)uVar1;
-  } while (uVar1 != 0);
-  ClearAudioChannelStruct(audioChannel0);
-  audioChannel0._0_4_ = &REG_AUD0LCH;
-  audioChannel0[0x2e] = 0;
-  audioChannel0[0x2f] = 1;
-  audioChannel0[0x86] = 0;
-  audioChannel0[0x87] = 1;
-  ClearAudioChannelStruct(audioChannel1);
-  audioChannel1._0_4_ = &REG_AUD1LCH;
-  audioChannel1[0x2e] = 0;
-  audioChannel1[0x2f] = 2;
-  audioChannel1[0x86] = 0;
-  audioChannel1[0x87] = 2;
-  ClearAudioChannelStruct(audioChannel2);
-  audioChannel2._0_4_ = &REG_AUD2LCH;
-  audioChannel2[0x2e] = 0;
-  audioChannel2[0x2f] = 4;
-  audioChannel2[0x86] = 0;
-  audioChannel2[0x87] = 4;
-  ClearAudioChannelStruct(audioChannel3);
-  audioChannel3._0_4_ = &REG_AUD3LCH;
-  audioChannel3[0x2e] = 0;
-  audioChannel3[0x2f] = 8;
-  audioChannel3[0x86] = 0;
-  audioChannel3[0x87] = 8;
+    piVar7[2] = (int)puVar4;
+    *(short *)(piVar7 + 4) = *(short *)(piVar7 + 4) * 2;
+    piVar7 = piVar7 + 8;
+    uVar2 = (short)uVar6 - 0x20;
+    uVar6 = (uint)uVar2;
+  } while (uVar2 != 0);
+  ClearAudioChannelStruct(&audioChannel0);
+  audioChannel0.hwRegBase = (dword)&REG_AUD0LCH;
+  audioChannel0.pvDmaBit = 1;
+  audioChannel0.svDmaBit = 1;
+  ClearAudioChannelStruct(&audioChannel1);
+  audioChannel1.hwRegBase = (dword)&REG_AUD1LCH;
+  audioChannel1.pvDmaBit = 2;
+  audioChannel1.svDmaBit = 2;
+  ClearAudioChannelStruct(&audioChannel2);
+  audioChannel2.hwRegBase = (dword)&REG_AUD2LCH;
+  audioChannel2.pvDmaBit = 4;
+  audioChannel2.svDmaBit = 4;
+  ClearAudioChannelStruct(&audioChannel3);
+  audioChannel3.hwRegBase = (dword)&REG_AUD3LCH;
+  audioChannel3.pvDmaBit = 8;
+  audioChannel3.svDmaBit = 8;
   return;
 }
 
@@ -3900,7 +3890,7 @@ void __usercall j_AudioApplyPresetToChannels(uint presetId)
 {
   byte *pbVar1;
   
-  pbVar1 = (byte *)((int)(short)(((ushort)presetId & 0x3f) * 4) + audioPresetChannelCmdTable._0_4_);
+  pbVar1 = audioState.bankSectionPtrs[2] + (short)(((ushort)presetId & 0x3f) * 4);
   if (*pbVar1 != 0) {
     AudioChannelNoteOnOff(0,(uint)*pbVar1);
   }
@@ -3935,30 +3925,27 @@ void __usercall SetVolumeOrStopChants(uint channelOrAll,uint volume)
   bVar2 = bVar4;
   bVar3 = bVar4;
   if (-1 < (char)channelOrAll) {
-    audioFlags[(short)((ushort)channelOrAll & 3) + 5] = bVar4;
-    bVar4 = audioFlags[5];
-    bVar1 = audioFlags[6];
-    bVar2 = audioFlags[7];
-    bVar3 = audioFlags[8];
+    audioState.channelVolume[(short)((ushort)channelOrAll & 3)] = bVar4;
+    bVar4 = audioState.channelVolume[0];
+    bVar1 = audioState.channelVolume[1];
+    bVar2 = audioState.channelVolume[2];
+    bVar3 = audioState.channelVolume[3];
   }
-  audioFlags[8] = bVar3;
-  audioFlags[7] = bVar2;
-  audioFlags[6] = bVar1;
-  audioFlags[5] = bVar4;
+  audioState.channelVolume[3] = bVar3;
+  audioState.channelVolume[2] = bVar2;
+  audioState.channelVolume[1] = bVar1;
+  audioState.channelVolume[0] = bVar4;
   return;
 }
 
 
 // --- StopAudio @ 00107460 ---
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
 void __usercall StopAudio(void)
 
 {
-  audioPresetChannelCmdTable[0x14] = 0;
-  audioPresetChannelCmdTable[0x15] = 0;
-  _audioCounter = 0;
+  audioState.masterVolume = 0;
+  audioState.modeFlags = 0;
   REG_DMACON = 0xf;
   REG_AUD0VOL = 0;
   REG_AUD1VOL = 0;
@@ -3970,20 +3957,18 @@ void __usercall StopAudio(void)
 
 // --- AudioSetMode @ 0010760c ---
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
 void __usercall AudioSetMode(uint modeFlags)
 
 {
-  _audioCounter = (ushort)modeFlags & 0xf;
-  audioFlags[2] = 0;
-  audioFlags[3] = 0xff;
-  audioFlags[4] = 0xff;
+  audioState.modeFlags = (ushort)modeFlags & 0xf;
+  audioState.toggleFlag = 0;
+  audioState.primaryChanEnable = 0xff;
+  audioState.secondaryChanEnable = 0xff;
   if ((modeFlags & 8) == 0) {
-    audioFlags[3] = 0;
+    audioState.primaryChanEnable = 0;
   }
   if ((modeFlags & 4) == 0) {
-    audioFlags[4] = 0;
+    audioState.secondaryChanEnable = 0;
   }
   return;
 }
@@ -3997,39 +3982,37 @@ void __usercall AudioChannelNoteOnOff(uint channel,uint noteId)
   byte bVar1;
   int iVar2;
   short sVar3;
-  byte *pbVar4;
   
-  audioFlags[9] = audioFlags[9] | '\x01' << (channel & 7);
+  audioState.channelChangeFlags = audioState.channelChangeFlags | '\x01' << (channel & 7);
   iVar2 = (int)(short)((short)channel * 0xb0);
   sVar3 = (short)noteId << 2;
   if (sVar3 != 0) {
-    pbVar4 = (byte *)(audioPresetChannelCmdTable._12_4_ +
-                     *(int *)(audioPresetChannelCmdTable._4_4_ + (int)sVar3));
-    bVar1 = *pbVar4;
-    *(byte **)(audioChannel0 + iVar2 + 0x4e) = pbVar4 + 1;
-    *(int *)(audioChannel0 + iVar2 + 0x52) =
-         audioPresetChannelCmdTable._16_4_ +
-         *(int *)(audioPresetChannelCmdTable._8_4_ + (int)(short)((ushort)bVar1 << 2));
-    audioChannel0[iVar2 + 0x56] = 6;
-    audioChannel0[iVar2 + 0x57] = 1;
-    audioChannel0[iVar2 + 0x59] = 1;
-    audioChannel0[iVar2 + 0x5b] = 0xff;
+    bVar1 = audioState.bankSectionPtrs[5][*(int *)(audioState.bankSectionPtrs[3] + sVar3)];
+    *(uchar **)((int)&audioChannel0.pvNoteScript + iVar2) =
+         audioState.bankSectionPtrs[5] + *(int *)(audioState.bankSectionPtrs[3] + sVar3) + 1;
+    *(uchar **)((int)&audioChannel0.pvWaveData + iVar2) =
+         audioState.bankSectionPtrs[6] +
+         *(int *)(audioState.bankSectionPtrs[4] + (short)((ushort)bVar1 << 2));
+    (&audioChannel0.pvStepPeriod)[iVar2] = 6;
+    (&audioChannel0.pvScriptTimer)[iVar2] = 1;
+    (&audioChannel0.pvPeriodCounter)[iVar2] = 1;
+    (&audioChannel0.pvEnabled)[iVar2] = 0xff;
     return;
   }
-  audioChannel0[iVar2 + 0x5b] = 0;
-  AudioDisableDMAForChannel(audioChannel0 + iVar2);
+  (&audioChannel0.pvEnabled)[iVar2] = 0;
+  AudioDisableDMAForChannel((AudioChannel *)((int)&audioChannel0.hwRegBase + iVar2));
   return;
 }
 
 
 // --- AudioDisableDMAForChannel @ 00107834 ---
 
-void __usercall AudioDisableDMAForChannel(void *chan)
+void __usercall AudioDisableDMAForChannel(AudioChannel *chan)
 
 {
   int unaff_A6;
   
-  *(undefined2 *)(unaff_A6 + 0x96) = *(undefined2 *)((int)chan + 0x2e);
+  *(word *)(unaff_A6 + _DMACON) = chan->pvDmaBit;
   return;
 }
 
@@ -7071,9 +7054,9 @@ void __usercall DrawMenuPanelBackground(void)
 short __usercall CalcTeamPriceRankPercentOffset(void *ctx,TeamFile *team)
 
 {
-  short unaff_D1w;
   ushort uVar1;
-  short sVar2;
+  ushort uVar2;
+  short sVar3;
   
   if (*(short *)ctx == 0) {
     if (team->teamControls == 1) {
@@ -7084,20 +7067,20 @@ short __usercall CalcTeamPriceRankPercentOffset(void *ctx,TeamFile *team)
     else if (*(ushort *)((int)ctx + 0x2b8) < 10) {
       return 0;
     }
-    uVar1._0_1_ = team->countryNumber;
-    uVar1._1_1_ = team->teamOrdinal;
-    FindTeamInDIY();
-    uVar1 = GetMoreExpensiveTeamsCount(uVar1,ctx);
-    sVar2 = *(short *)((int)ctx + 0x32) + -1;
-    if (sVar2 != 0) {
-      sVar2 = (short)(((short)(uVar1 - unaff_D1w) * 100) / (int)sVar2);
-      if (0x32 < sVar2) {
-        sVar2 = 0x32;
+    uVar2._0_1_ = team->countryNumber;
+    uVar2._1_1_ = team->teamOrdinal;
+    uVar1 = FindTeamInDIY(uVar2,ctx);
+    uVar2 = GetMoreExpensiveTeamsCount(uVar2,ctx);
+    sVar3 = *(short *)((int)ctx + 0x32) + -1;
+    if (sVar3 != 0) {
+      sVar3 = (short)(((short)(uVar2 - uVar1) * 100) / (int)sVar3);
+      if (0x32 < sVar3) {
+        sVar3 = 0x32;
       }
-      if (sVar2 < -0x32) {
-        sVar2 = -0x32;
+      if (sVar3 < -0x32) {
+        sVar3 = -0x32;
       }
-      return sVar2 >> 1;
+      return sVar3 >> 1;
     }
   }
   return 0;
@@ -7712,121 +7695,110 @@ void * __usercall VerifyTeamLoaded(ushort teamNumber)
    out:
        D1 -  index of that team in DIY competition, or -1 if not found */
 
-void __usercall FindTeamInDIY(void)
+ushort __usercall FindTeamInDIY(ushort teamNo,DIY_Competition *comp)
 
 {
-  ushort unaff_D0w;
-  short sVar1;
+  ushort uVar1;
   ushort uVar2;
-  ushort uVar3;
-  word wVar4;
-  ushort uVar5;
+  word wVar3;
+  ushort uVar4;
+  short sVar5;
   DIY_Competition *pDVar6;
   void *pvVar7;
   byte *pbVar8;
-  DIY_Competition *unaff_A6;
   DIY_Competition *pDVar9;
   
   diyFoundTeamIndex = 0;
-  wVar4 = unaff_A6->numTeams;
-  if (unaff_A6->competitionType == DIY_CUP) {
-    diyCompHasGroupStage._0_1_ = -(*(short *)(unaff_A6->field_3A + 0x1c) != 0);
+  wVar3 = comp->numTeams;
+  if (comp->competitionType == DIY_CUP) {
+    diyCompHasGroupStage._0_1_ = -(*(short *)(comp->field_3A + 0x1c) != 0);
     diyCompHasGroupStage = (ushort)diyCompHasGroupStage._0_1_ << 8;
 LAB_0012ef92:
-    uVar3 = 0xffff;
-    while (wVar4 = wVar4 - 1, -1 < (short)wVar4) {
-      uVar3 = uVar3 + 1;
-      if (unaff_D0w ==
-          *(ushort *)
-           (unaff_A6[6].field_2 +
-           (short)((short)(char)unaff_A6[7].field_2[(short)uVar3 + 0x2c] << 1) + 0xc)) {
-        if ((*(short *)(unaff_A6->field_3A + 0x1c) != 0) && (uVar3 < 2)) {
-          if (unaff_D0w == *(ushort *)unaff_A6->field_3A) {
+    uVar1 = 0xffff;
+    while (wVar3 = wVar3 - 1, -1 < (short)wVar3) {
+      uVar1 = uVar1 + 1;
+      if (teamNo == *(ushort *)
+                     (comp[6].field_2 +
+                     (short)((short)(char)comp[7].field_2[(short)uVar1 + 0x2c] << 1) + 0xc)) {
+        if ((*(short *)(comp->field_3A + 0x1c) != 0) && (uVar1 < 2)) {
+          if (teamNo == *(ushort *)comp->field_3A) {
             diyFoundTeamIndex = 0;
-            return;
+            return 0;
           }
-          return;
+          return 1;
         }
-        if ((ushort)(*(short *)(unaff_A6->field_3A + 0x16) << 1) <= uVar3) {
+        if ((ushort)(*(ushort *)(comp->field_3A + 0x16) << 1) <= uVar1) {
           diyFoundTeamIndex = 1;
-          for (uVar2 = 0x20; uVar3 < uVar2; uVar2 = uVar2 >> 1) {
+          for (uVar2 = 0x20; uVar1 < uVar2; uVar2 = uVar2 >> 1) {
           }
-          return;
+          return ((uVar2 >> 1) + uVar2) - 1;
         }
-        return;
+        return (*(ushort *)(comp->field_3A + 0x16) & 0x7fff) - 1;
       }
     }
   }
   else {
-    if (unaff_A6->competitionType == DIY_TOURNAMENT) {
-      diyCompHasGroupStage._0_1_ = -(*(short *)(unaff_A6->field_3A + 0x1e) != 0);
+    if (comp->competitionType == DIY_TOURNAMENT) {
+      diyCompHasGroupStage._0_1_ = -(*(short *)(comp->field_3A + 0x1e) != 0);
       diyCompHasGroupStage = (ushort)diyCompHasGroupStage._0_1_ << 8;
-      uVar3 = 0xffff;
+      uVar1 = 0xffff;
       do {
-        wVar4 = wVar4 - 1;
-        if ((short)wVar4 < 0) goto LAB_0012f0bc;
-        uVar3 = uVar3 + 1;
-      } while (unaff_D0w !=
-               *(ushort *)
-                (unaff_A6[1].field_3A +
-                (short)((short)(char)unaff_A6->field_3A[(short)uVar3 + 0x20] << 1)));
-      sVar1 = *(short *)(unaff_A6->field_3A + 0x1a);
-      if ((*(short *)(unaff_A6->field_3A + 0x1e) == 0) ||
-         (*(ushort *)(unaff_A6[3].field_3A + (short)(sVar1 * 0x76) + 8) <= uVar3)) {
-        if (uVar3 < *(ushort *)(unaff_A6[3].field_3A + (short)(sVar1 * 0x76) + 8)) {
-          return;
+        wVar3 = wVar3 - 1;
+        if ((short)wVar3 < 0) goto LAB_0012f0bc;
+        uVar1 = uVar1 + 1;
+      } while (teamNo != *(ushort *)
+                          (comp[1].field_3A +
+                          (short)((short)(char)comp->field_3A[(short)uVar1 + 0x20] << 1)));
+      sVar5 = *(short *)(comp->field_3A + 0x1a);
+      if ((*(short *)(comp->field_3A + 0x1e) == 0) ||
+         (*(ushort *)(comp[3].field_3A + (short)(sVar5 * 0x76) + 8) <= uVar1)) {
+        if (uVar1 < *(ushort *)(comp[3].field_3A + (short)(sVar5 * 0x76) + 8)) {
+          return (*(ushort *)(comp[3].field_3A + (short)(sVar5 * 0x76) + 8) >> 1) - 1;
         }
         diyFoundTeamIndex = 1;
-        pDVar9 = unaff_A6;
-        if (*(short *)unaff_A6[3].field_3A != 0) {
-          if (uVar3 == 3) {
+        pDVar9 = comp;
+        if (*(short *)comp[3].field_3A != 0) {
+          if (uVar1 == 3) {
             diyFoundTeamIndex = 1;
-            return;
+            return 3;
           }
-          if (uVar3 == 4) {
+          if (uVar1 == 4) {
             diyFoundTeamIndex = 1;
-            return;
+            return 4;
           }
         }
         do {
           pDVar6 = pDVar9;
           uVar2 = *(ushort *)(pDVar6[4].field_3A + 0x1e);
           pDVar9 = (DIY_Competition *)(pDVar6[1].field_2 + 0x14);
-        } while (uVar3 < uVar2);
-        uVar3 = *(ushort *)(pDVar6[3].field_3A + 8);
-        if (findTeamInDIY_SuppressSideEffectsFlag == 0) {
-          diyFoundTeamIndex = 1;
-          return;
+        } while (uVar1 < uVar2);
+        uVar1 = *(ushort *)(pDVar6[3].field_3A + 8);
+        if (((findTeamInDIY_SuppressSideEffectsFlag != 0) &&
+            (uVar4 = GetMoreExpensiveTeamsCountWrapper(teamNo,comp), uVar2 <= uVar4)) &&
+           (uVar4 < uVar1)) {
+          return uVar4;
         }
-        uVar5 = GetMoreExpensiveTeamsCountWrapper(unaff_D0w,unaff_A6);
-        if (uVar5 < uVar2) {
-          return;
-        }
-        if (uVar3 <= uVar5) {
-          return;
-        }
-        return;
+        return (((ushort)(uVar1 - uVar2) >> 1) + uVar2) - 1;
       }
-      pDVar9 = unaff_A6 + 0xb;
-      wVar4 = unaff_A6[0xb].numTeams;
-      pDVar6 = unaff_A6 + 3;
-      unaff_A6 = pDVar9;
-      if (*(short *)(pDVar6->field_3A + (short)(sVar1 * 0x76) + 4) == 0) goto LAB_0012ef92;
+      pDVar9 = comp + 0xb;
+      wVar3 = comp[0xb].numTeams;
+      pDVar6 = comp + 3;
+      comp = pDVar9;
+      if (*(short *)(pDVar6->field_3A + (short)(sVar5 * 0x76) + 4) == 0) goto LAB_0012ef92;
     }
     else {
-      diyCompHasGroupStage._0_1_ = -(unaff_A6[1].competitionType == 0);
+      diyCompHasGroupStage._0_1_ = -(comp[1].competitionType == 0);
       diyCompHasGroupStage = (ushort)diyCompHasGroupStage._0_1_ << 8;
-      pDVar9 = unaff_A6;
+      pDVar9 = comp;
     }
-    sVar1 = -2;
-    while (wVar4 = wVar4 - 1, unaff_A6 = pDVar9, -1 < (short)wVar4) {
-      sVar1 = sVar1 + 2;
-      if (unaff_D0w ==
-          *(ushort *)
-           (pDVar9[3].field_2 +
-           (short)((short)((uint)(int)*(short *)(pDVar9[1].field_2 + sVar1 + 0xc) / 0x12) << 1) +
-           0xc)) {
-        return;
+    uVar1 = 0xfffe;
+    while (wVar3 = wVar3 - 1, comp = pDVar9, -1 < (short)wVar3) {
+      uVar1 = uVar1 + 2;
+      if (teamNo == *(ushort *)
+                     (pDVar9[3].field_2 +
+                     (short)((short)((uint)(int)*(short *)(pDVar9[1].field_2 + (short)uVar1 + 0xc) /
+                                    0x12) << 1) + 0xc)) {
+        return uVar1 >> 1;
       }
     }
   }
@@ -7834,26 +7806,26 @@ LAB_0012f0bc:
   if (isNationalSelector == 0) {
     panicReasonCode = 0x6006;
     PanicHaltLoop();
-    wVar4 = unaff_A6->numTeams;
-    pbVar8 = unaff_A6[3].field_2 + 0xc;
-    if ((unaff_A6->competitionType != 0) &&
-       (pbVar8 = unaff_A6[6].field_2 + 0xc, unaff_A6->competitionType != 1)) {
-      pbVar8 = unaff_A6[1].field_3A;
+    wVar3 = comp->numTeams;
+    pbVar8 = comp[3].field_2 + 0xc;
+    if ((comp->competitionType != 0) && (pbVar8 = comp[6].field_2 + 0xc, comp->competitionType != 1)
+       ) {
+      pbVar8 = comp[1].field_3A;
     }
-    pvVar7 = VerifyTeamLoaded(unaff_D0w);
+    pvVar7 = VerifyTeamLoaded(teamNo);
     GetAveragePlayerPrice(pvVar7);
-    sVar1 = wVar4 - 1;
+    sVar5 = wVar3 - 1;
     do {
-      if (*(ushort *)pbVar8 != unaff_D0w) {
+      if (*(ushort *)pbVar8 != teamNo) {
         pvVar7 = VerifyTeamLoaded(*(ushort *)pbVar8);
         GetAveragePlayerPrice(pvVar7);
       }
-      sVar1 = sVar1 + -1;
+      sVar5 = sVar5 + -1;
       pbVar8 = pbVar8 + 2;
-    } while (sVar1 != -1);
-    return;
+    } while (sVar5 != -1);
+    return uVar1;
   }
-  return;
+  return 0xffff;
 }
 
 

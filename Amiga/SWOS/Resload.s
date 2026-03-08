@@ -91,6 +91,7 @@ dos_Open            EQU     -30
 dos_Close           EQU     -36
 dos_Read            EQU     -42
 dos_Write           EQU     -48
+dos_Seek            EQU     -66
 dos_DeleteFile      EQU     -72
 dos_Lock            EQU     -84
 dos_UnLock          EQU     -90
@@ -274,6 +275,21 @@ DetachOSDisplay:
 
 
 ; -------------------------------------------------------------------------------------------------
+; AllocMemAny — C-callable wrapper for Exec AllocMem(size, MEMF_PUBLIC)
+;   uint8_t *_AllocMemAny(uint32_t size);
+;   Returns pointer in d0, or 0 on failure.
+; -------------------------------------------------------------------------------------------------
+        xdef    _AllocMemAny
+_AllocMemAny:
+        move.l  a6,-(sp)               ; save a6 (may be frame pointer)
+        move.l  8(sp),d0               ; d0 = size (arg shifted by push)
+        move.l  4.w,a6                 ; a6 = ExecBase
+        moveq   #1,d1                  ; d1 = MEMF_PUBLIC
+        jsr     -198(a6)               ; AllocMem → d0 = address or 0
+        move.l  (sp)+,a6               ; restore a6
+        rts
+
+; -------------------------------------------------------------------------------------------------
 ; Load dos.library if needed
 ;
 ; d0 = Pointer to library (or 0 if fail)
@@ -371,8 +387,7 @@ ExitToDos:
 ; In : A0 = filename or dirname
 ; Out: A0 = possibly modified pointer:
 ;        - If name has ':' anywhere     -> unchanged (absolute / device path)
-;        - If name already starts "data/" (case-sensitive) -> unchanged
-;        - Otherwise                    -> "data/" + name in _data_path
+;        - Otherwise                    -> "PROGDIR:" + original name
 ; Clobbers: d0-d2/a1-a2 (so call this before your own push/pop)
 ; ---------------------------------------------------------------------------
 
@@ -397,9 +412,9 @@ resload_MakeDataPath:
         bra.s   .chk_colon
 
 .need_prefix:
-        ; Build "data/" + original name into _data_path
+        ; Build "PROGDIR:" + original name into _data_path
         lea     _data_path(pc),a1          ; dest
-        lea     _data_prefix(pc),a2        ; "data/"
+        lea     _progdir_prefix(pc),a2     ; "PROGDIR:"
 
 .copy_prefix:
         move.b  (a2)+,d0
@@ -416,7 +431,7 @@ resload_MakeDataPath:
         bra.s   .cp_loop
 
 .set_out:
-        lea     _data_path(pc),a0          ; return pointer to "data/<name>"
+        lea     _data_path(pc),a0          ; return pointer to "PROGDIR:<name>"
 
 .ret:
         movem.l (sp)+,d0-d2/a1-a2
@@ -434,56 +449,44 @@ resload_MakeDataPath:
 
         xdef    resload_GetFileSize
 resload_GetFileSize:
-        jsr     resload_MakeDataPath       ; A0 -> "data/<name>" if bare
+        jsr     resload_MakeDataPath       ; A0 -> "PROGDIR:<name>" if bare
 
         movem.l d1-d3/d5/a1-a2,-(sp)
 
         move.l  S_DosBase(pc),a6           ; a6 = dosBase
 
-        ; Lock(name, ACCESS_READ)
+        ; Open(name, MODE_OLDFILE)
         move.l  a0,d1                      ; d1 = name
-        moveq   #ACCESS_READ,d2
-        jsr     dos_Lock(a6)              ; d0 = lock or 0
+        move.l  #MODE_OLDFILE,d2
+        jsr     dos_Open(a6)              ; d0 = file handle or 0
         tst.l   d0
         beq.s   .no_file
 
-        move.l  d0,d5                      ; d5 = FileLock
+        move.l  d0,d5                      ; d5 = file handle
 
-        ; fib = AllocDosObject(DOS_FIB, NULL)
-        moveq   #0,d0
-        moveq   #DOS_FIB,d1
-        moveq   #0,d2
-        jsr     dos_AllocDosObject(a6)    ; d0 = fib or 0
-        tst.l   d0
-        beq.s   .unlock_only
+        ; Seek(handle, 0, OFFSET_END) to get file size
+        move.l  d5,d1                      ; d1 = handle
+        moveq   #0,d2                      ; d2 = offset 0
+        moveq   #1,d3                      ; d3 = OFFSET_END (1)
+        jsr     dos_Seek(a6)              ; d0 = old position (should be 0)
 
-        move.l  d0,d2                      ; d2 = fib
+        ; Seek(handle, 0, OFFSET_BEGINNING) to get size (returns old pos = end)
+        move.l  d5,d1                      ; d1 = handle
+        moveq   #0,d2                      ; d2 = offset 0
+        moveq   #-1,d3                     ; d3 = OFFSET_BEGINNING (-1)
+        jsr     dos_Seek(a6)              ; d0 = old position = file size
 
-        ; Examine(lock, fib)
-        move.l  d5,d1                      ; d1 = lock
-        jsr     dos_Examine(a6)           ; d0 = success
-        tst.l   d0
-        beq.s   .free_fib
+        move.l  d0,d2                      ; d2 = file size
 
-        ; fib_Size is at offset 124 in FIB
-        move.l  d2,a1
-        move.l  124(a1),d0                 ; d0 = size
-
-.free_fib:
-        moveq   #DOS_FIB,d1
-        jsr     dos_FreeDosObject(a6)
-
-.unlock_only:
+        ; Close(handle)
         move.l  d5,d1
-        jsr     dos_UnLock(a6)
+        jsr     dos_Close(a6)
+
+        move.l  d2,d0                      ; d0 = file size
         bra.s   .done
 
 .no_file:
         moveq   #0,d0                      ; size = 0 on error
-        bra.s   .done
-
-.no_dos:
-        moveq   #0,d0                      ; size = 0, no DOS
 
 .done:
         movem.l (sp)+,d1-d3/d5/a1-a2
@@ -511,10 +514,11 @@ resload_LoadFile:
 
         movem.l d2-d5/a2,-(sp)         ; save our temps
 
-        move.l  S_DosBase(pc),a6       ; a6 = dos.library base
+        move.l  a0,a2                  ; save filename pointer
 
         ; Open(name, MODE_OLDFILE)
-        move.l  a0,d1                  ; d1 = name
+        move.l  S_DosBase(pc),a6       ; a6 = dos.library base
+        move.l  a2,d1                  ; d1 = name
         move.l  #MODE_OLDFILE,d2
         jsr     dos_Open(a6)           ; d0 = file handle or 0
         move.l  d0,d4                  ; d4 = handle
@@ -523,7 +527,7 @@ resload_LoadFile:
         ; Read(handle, dest, max_len)
         move.l  d4,d1                  ; d1 = handle
         move.l  a3,d2                  ; d2 = *original* dest (saved A1)
-        move.l #$7FFFFFFF,d3           ; d3 = max length (large positive)
+        move.l  #$7FFFFFFF,d3          ; d3 = max length (read whole file)
         jsr     dos_Read(a6)           ; d0 = bytes read (or error)
 
         move.l  d0,d5                  ; save bytes read
@@ -973,7 +977,7 @@ resload_FlushCache:
 ; In:  A0 = filename
 ; Out: D0 = size, D1 = error (from GetFileSize)
 _GetFileSize:
-        movem.l d0/a0-a1,-(sp)
+        movem.l a0-a1,-(sp)
 
         move.l  a0,a1                  ; save filename
 
@@ -986,7 +990,7 @@ _GetFileSize:
         move.l  S_VBR(pc),a0
         move.l  #Int2KeyboardHandler,LEVEL_2_INTERRUPT_AUTOVECTOR(a0)
 
-        movem.l (sp)+,d0/a0-a1
+        movem.l (sp)+,a0-a1
         rts
 
 ; --- _Deletefile ----------------------------------------------------------
@@ -1017,7 +1021,6 @@ _LoadFile:
 
         move.l  a0,a2                  ; save filename
 
-        ; Exec owns level 2 while we do DOS I/O
         move.l  S_VBR(pc),a0
         move.l  S_SavedInt2,LEVEL_2_INTERRUPT_AUTOVECTOR(a0)
 
@@ -1143,6 +1146,8 @@ BUFFER_SIZE     = 2048              ; used by rob_list_directory/listfiles
 
 _data_path:
           ds.b 256
+_progdir_prefix:
+          dc.b "PROGDIR:",0
 _data_prefix:
           dc.b "data/",0
 _save_filename: 
@@ -1263,12 +1268,14 @@ rob_format_disk:
         rts
 
 rob_get_file_size:
-        movem.l	d2-d7/a0-a6,-(a7)	
+        movem.l	d2-d7/a0-a6,-(a7)
         bsr     FixFilename
         jsr     _GetFileSize
+        ; d0 = file size (non-zero = success, 0 = not found)
         move.l	d0,d1
+        ; d1 = file size (for callers that read size from d1)
         movem.l	(a7)+,d2-d7/a0-a6
-        moveq	#0,d0
+        ; DO NOT clear d0 — AssetSys_Op5ThenMaybe6 needs d0!=0 for success
         rts
         
 rob_list_directory:

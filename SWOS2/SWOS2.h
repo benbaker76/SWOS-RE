@@ -8,6 +8,9 @@
 #define NUM_PLANES_MINUS1 0x3
 #define PLANE_STRIDE 0x2c
 #define SCREEN_HEIGHT 0x110
+#define _INTENA 0x9a
+#define _INTREQ 0x9c
+#define _DMACON 0x96
 #define BLTAFWM 0x44
 #define BLTALWM 0x46
 #define BLTCON1 0x42
@@ -64,6 +67,10 @@
 #define ASSET_OP_RESOLVE_ASSET_LIST 0x8
 #define ASSET_OP_SELECT_AND_OPEN 0xe
 #define ST_PENALTY 0xe
+#define AUD0VOL 0xa8
+#define AUD1VOL 0xb8
+#define AUD2VOL 0xc8
+#define AUD3VOL 0xd8
 #define PL_NORMAL 0x0
 #define ST_GAME_IN_PROGRESS 0x64
 #define ST_CORNER_LEFT 0x4
@@ -1199,6 +1206,41 @@ typedef enum ClubMessages {
     WE_DIDNT_RENEW_YOUR_CONTRACT=38
 } ClubMessages;
 
+typedef struct TeamFileEx TeamFileEx, *PTeamFileEx;
+
+typedef struct TeamFile TeamFile, *PTeamFile;
+
+struct TeamFile {
+    byte countryNumber;
+    byte teamOrdinal;
+    word globalTeamNumber;
+    byte teamControls;
+    byte teamName[17];
+    byte writesZeroHere;
+    byte andWith0xFE;
+    byte tactics;
+    byte league;
+    byte prShirtType;
+    byte prStripesColor;
+    byte prBasicColor;
+    byte prShortsColor;
+    byte prSocksColor;
+    byte secShirtTpe;
+    byte secStripesColor;
+    byte secBasicColor;
+    byte secShortsColor;
+    byte secSocksColor;
+    byte coachName[23];
+    byte someFlag;
+    byte playerNumbers[16];
+    struct PlayerFile players[16];
+};
+
+struct TeamFileEx {
+    struct TeamFile team;
+    struct PlayerFile players[16];
+};
+
 typedef struct Menu_ViewCompetitions Menu_ViewCompetitions, *PMenu_ViewCompetitions;
 
 struct Menu_ViewCompetitions {
@@ -2173,6 +2215,22 @@ struct DIYStage {
     word ptsForWin;
 };
 
+typedef struct AudioState AudioState, *PAudioState;
+
+struct AudioState {
+    uchar *songPtr;
+    uchar *bankSectionPtrs[7];
+    word masterVolume;
+    word modeFlags;
+    byte irqSubtick;
+    byte toggleFlag;
+    byte primaryChanEnable;
+    byte secondaryChanEnable;
+    byte channelVolume[4];
+    byte channelChangeFlags;
+    byte currentChannelIdx;
+};
+
 typedef enum GoalTypes {
     GT_REGULAR=0,
     GT_PENALTY=1,
@@ -3145,34 +3203,6 @@ typedef enum Positions {
     POS_ATTACKER=7
 } Positions;
 
-typedef struct TeamFile TeamFile, *PTeamFile;
-
-struct TeamFile {
-    byte countryNumber;
-    byte teamOrdinal;
-    word globalTeamNumber;
-    byte teamControls;
-    byte teamName[17];
-    byte writesZeroHere;
-    byte andWith0xFE;
-    byte tactics;
-    byte league;
-    byte prShirtType;
-    byte prStripesColor;
-    byte prBasicColor;
-    byte prShortsColor;
-    byte prSocksColor;
-    byte secShirtTpe;
-    byte secStripesColor;
-    byte secBasicColor;
-    byte secShortsColor;
-    byte secSocksColor;
-    byte coachName[23];
-    byte someFlag;
-    byte playerNumbers[16];
-    struct PlayerFile players[16];
-};
-
 typedef enum AssetSysOp {
     ASSET_OP_INIT_CONTEXT=0,
     ASSET_OP_INIT_SOURCE0=2,
@@ -3725,6 +3755,89 @@ struct Menu_EditTeams {
     word markEndMenu;
 };
 
+typedef struct AudioChannel AudioChannel, *PAudioChannel;
+
+struct AudioChannel {
+    dword hwRegBase;
+    dword pvSampleBase;
+    dword pvPitchLfoPtr;
+    dword pvVolLfoPtr;
+    dword pvEnvDataPtr;
+    word pvSampleSlot;
+    word pvSampleOffset;
+    word pvSampleLength;
+    word pvPitchLfoLoop;
+    dword pvPitchLfoLen;
+    dword pvPitchLfoIdx;
+    word pvVolLfoLoop;
+    dword pvVolLfoLen;
+    dword pvVolLfoIdx;
+    word pvDmaBit;
+    word pvVolScale;
+    word pvCurVol;
+    word pvBasePeriod;
+    word pvCurPeriod;
+    byte pvStartFlag;
+    byte pvReloadFlag;
+    byte pvEnvState;
+    byte pvEnvDelta;
+    byte pvEnvCounter;
+    byte pvEnvDivisor;
+    byte pvEnvTarget;
+    byte pvEnvCurrent;
+    byte pvPitchslideCount;
+    byte _pad41;
+    dword pvPitchslideRate;
+    dword pvPitchslideAccum;
+    dword pvVariantDesc;
+    dword pvNoteScript;
+    dword pvWaveData;
+    byte pvStepPeriod;
+    byte pvScriptTimer;
+    byte pvRepeatPeriod;
+    byte pvPeriodCounter;
+    byte pvVariantId;
+    byte pvEnabled;
+    dword svSampleBase;
+    dword svPitchLfoPtr;
+    dword svVolLfoPtr;
+    dword svEnvDataPtr;
+    word svSampleSlot;
+    word svSampleOffset;
+    word svSampleLength;
+    word svPitchLfoLoop;
+    dword svPitchLfoLen;
+    dword svPitchLfoIdx;
+    word svVolLfoLoop;
+    dword svVolLfoLen;
+    dword svVolLfoIdx;
+    word svDmaBit;
+    word svVolScale;
+    word svCurVol;
+    word svBasePeriod;
+    word svCurPeriod;
+    byte svStartFlag;
+    byte svReloadFlag;
+    byte svEnvState;
+    byte svEnvDelta;
+    byte svEnvCounter;
+    byte svEnvDivisor;
+    byte svEnvTarget;
+    byte svEnvCurrent;
+    byte svPitchslideCount;
+    byte _pad99;
+    dword svPitchslideRate;
+    dword svPitchslideAccum;
+    dword svVariantDesc;
+    dword svWaveData;
+    byte svStepPeriod;
+    byte svScriptTimer;
+    byte svRepeatPeriod;
+    byte svPeriodCounter;
+    byte svVariantId;
+    byte _padAF;
+};
+
 typedef enum TacklingState {
     TS_STARTED_TACKLING=0,
     TS_TACKLING_THE_BALL=1,
@@ -4119,6 +4232,16 @@ struct QualifyingGroup_9_2 {
     enum CountryNumbers countries[2];
 };
 
+typedef enum AmigaRegisters {
+    _DMACON=150,
+    _INTENA=154,
+    _INTREQ=156,
+    AUD0VOL=168,
+    AUD1VOL=184,
+    AUD2VOL=200,
+    AUD3VOL=216
+} AmigaRegisters;
+
 typedef enum MenuEntryColors {
     PINK_TO_BROWN_0=0,
     PINK_TO_BROWN_1=1,
@@ -4503,13 +4626,6 @@ typedef enum PlayerStates {
     PL_SAD=14,
     PL_HAPPY=15
 } PlayerStates;
-
-typedef struct TeamFileEx TeamFileEx, *PTeamFileEx;
-
-struct TeamFileEx {
-    struct TeamFile team;
-    struct PlayerFile players[16];
-};
 
 typedef struct CompetitionCup_6_2_12 CompetitionCup_6_2_12, *PCompetitionCup_6_2_12;
 
@@ -5590,7 +5706,7 @@ void __usercall j_AudioApplyPresetToChannels(uint presetId);
 void __usercall SetVolumeOrStopChants(uint channelOrAll,uint volume);
 void __usercall StopAudio(void);
 void __usercall InitAudioState(void *bankBase,void *songPtr);
-void __usercall ClearAudioChannelStruct(void *chan);
+void __usercall ClearAudioChannelStruct(AudioChannel *chan);
 void __usercall StopAllAudioChannels(void);
 void __usercall AudioSetChannelVolume(uint channelOrAll,uint volume);
 void __usercall AudioSetMode(uint modeFlags);
@@ -5598,39 +5714,39 @@ void __usercall AudioApplyPresetToChannels(uint presetId);
 void __usercall AudioChannelNoteOnOff(uint channel,uint noteId);
 void __usercall AudioChannelQueueNextWaveIfEnabled(uint channel,uint waveId);
 uchar __usercall AudioIRQUpdateChannels(void);
-void __usercall AudioIRQServiceOneChannel(void *chan);
-uchar __usercall AudioIRQLoadAUDxPtrLenIfReloadNeeded(void *chan);
-void __usercall AudioIRQEnableDMAIfStartFlag(void *chan);
-void __usercall AudioDisableDMAForChannel(void *chan);
-void __usercall AudioIRQRunChannelScriptStep(void *chan);
+void __usercall AudioIRQServiceOneChannel(AudioChannel *chan);
+uchar __usercall AudioIRQLoadAUDxPtrLenIfReloadNeeded(AudioChannel *chan);
+void __usercall AudioIRQEnableDMAIfStartFlag(AudioChannel *chan);
+void __usercall AudioDisableDMAForChannel(AudioChannel *chan);
+void __usercall AudioIRQRunChannelScriptStep(AudioChannel *chan);
 byte * audioirq_fetch_cmd_byte(void);
-void __usercall AudioIRQScriptCmdJumpTable(void *chan,uchar *script);
-void __usercall audioirq_cmd_play_note_from_track(void *chan,uchar *script);
-void __usercall AudioIRQUpdateBeepVoiceParams(void *chan);
-void __usercall AudioIRQApplyBeepVolumeAndWriteAUDxVOL(void *chan);
-void __usercall AudioIRQBeepVolumeLfoStep(void *chan);
-void __usercall AudioIRQBeepVolumeEnvStep(void *chan);
+void __usercall AudioIRQScriptCmdJumpTable(AudioChannel *chan,uchar *script);
+void __usercall audioirq_cmd_play_note_from_track(AudioChannel *chan,uchar *script);
+void __usercall AudioIRQUpdateBeepVoiceParams(AudioChannel *chan);
+void __usercall AudioIRQApplyBeepVolumeAndWriteAUDxVOL(AudioChannel *chan);
+void __usercall AudioIRQBeepVolumeLfoStep(AudioChannel *chan);
+void __usercall AudioIRQBeepVolumeEnvStep(AudioChannel *chan);
 void __usercall AudioIRQBeepVolumeEnvStop(void);
 void __usercall AudioIRQBeepVolumeEnvLoadSegment(void);
-void __usercall AudioIRQInitVolumeEnvForNote(void *chan);
-void __usercall AudioIRQBeepLFOAndPitchSlide(void *chan);
-void __usercall AudioIRQNoteOnInitChannel(void *chan,ushort amigaPeriod);
-void __usercall AudioIRQSelectVariant(uint variantId,void *chan);
-uchar __usercall AudioIRQLoadAUDxPtrLenIfReloadNeeded2(void *chan);
-void __usercall AudioIRQEnableDMAIfStartFlag2(void *chan);
-void __usercall AudioIRQRunModCommandStream(void *chan);
-void __usercall switchD_00107bec::AudioIRQDispatchModCommand(void *chan,uchar *stream);
-void __usercall switchD_00107bec::caseD_4e(void *chan,uchar *stream);
-void __usercall AudioIRQServiceVolume(void *chan);
-void __usercall AudioIRQApplyVolumeAndWriteAUDxVOL(void *chan,void *audxRegs);
-void __usercall AudioIRQVolumeLfoStep(void *chan);
-void __usercall AudioIRQVolumeEnvStep(void *chan);
+void __usercall AudioIRQInitVolumeEnvForNote(AudioChannel *chan);
+void __usercall AudioIRQBeepLFOAndPitchSlide(AudioChannel *chan);
+void __usercall AudioIRQNoteOnInitChannel(AudioChannel *chan,ushort amigaPeriod);
+void __usercall AudioIRQSelectVariant(uint variantId,AudioChannel *chan);
+uchar __usercall AudioIRQLoadAUDxPtrLenIfReloadNeeded2(AudioChannel *chan);
+void __usercall AudioIRQEnableDMAIfStartFlag2(AudioChannel *chan);
+void __usercall AudioIRQRunModCommandStream(AudioChannel *chan);
+void __usercall switchD_00107bec::AudioIRQDispatchModCommand(AudioChannel *chan,uchar *stream);
+void __usercall switchD_00107bec::caseD_4e(AudioChannel *chan,uchar *stream);
+void __usercall AudioIRQServiceVolume(AudioChannel *chan);
+void __usercall AudioIRQApplyVolumeAndWriteAUDxVOL(AudioChannel *chan,void *audxRegs);
+void __usercall AudioIRQVolumeLfoStep(AudioChannel *chan);
+void __usercall AudioIRQVolumeEnvStep(AudioChannel *chan);
 void __usercall AudioIRQVolumeEnvStop(void);
 void __usercall AudioIRQVolumeEnvLoadSegment(void);
-void __usercall AudioIRQInitVolumeEnv(void *chan);
-void __usercall AudioIRQLFOAndPitchSlide(void *chan);
-void __usercall AudioIRQInitPitchEnv(void *chan,ushort amigaPeriod);
-void __usercall AudioIRQSelectInstrument(void *chan,uint amigaPeriod);
+void __usercall AudioIRQInitVolumeEnv(AudioChannel *chan);
+void __usercall AudioIRQLFOAndPitchSlide(AudioChannel *chan);
+void __usercall AudioIRQInitPitchEnv(AudioChannel *chan,ushort amigaPeriod);
+void __usercall AudioIRQSelectInstrument(AudioChannel *chan,uint amigaPeriod);
 short __usercall CalculateDeltaXAndY(short speed,short destX,short destY,short curX,short curY);
 void __usercall MovePlayers(void);
 void __usercall SetNextPlayerFrame(Sprite *player);
@@ -5933,7 +6049,7 @@ ushort __usercall ComputeOldPlayerSkillForViewResult(TeamFile *team,ushort count
 ushort __usercall GetPlayerPrice(TeamFile *team,PlayerFile *player,ushort position);
 ushort __usercall CountNearnessFactor(ushort curBallQuadrant,ushort dstBallQuadrant,ushort price,uchar *curQuadDistFactor,uchar *playerPositions,uchar *coordToQuad);
 short __usercall GetAgeAdjustedPlayerFormFactor(void *player);
-void __usercall UpdateCareerPlayersFormAfterMatch(void *team,void *teamRef,short p1,short p2);
+void __usercall UpdateCareerPlayersFormAfterMatch(void *team,TeamFileEx *teamRef,short p1,short p2);
 ushort __usercall GetNumberOfSubstitutes(TeamFile *team,ushort numPlayers);
 ushort __usercall GetNumberOfSubstitutesInSelectionList(TeamFile *team,ushort numPlayers);
 void __usercall GetNumberOfAvailablePlayers(TeamFile *team,short excludeCardsFlag,ushort numPlayers);
@@ -5942,8 +6058,8 @@ void __usercall GetNumberOfAvailableStartingPlayers(TeamFile *team,short flag);
 ushort __usercall IsPlayerInjured(PlayerFile *player,short mode);
 void __usercall UpdateCareerAfterMatch(void);
 void __usercall UpdateCareerFinancesAfterMatch(void *ctx,TeamFile *team);
-ushort __usercall CalcLeagueMatchGateReceiptsFactor(void *team1,void *team2);
-ushort __usercall CalcCupMatchGateReceiptsFactor(void *team1,void *team2);
+ushort __usercall CalcLeagueMatchGateReceiptsFactor(TeamFileEx *team1,TeamFileEx *team2);
+ushort __usercall CalcCupMatchGateReceiptsFactor(TeamFileEx *team1,TeamFileEx *team2);
 void __usercall ClampNewBalanceAndUpdateClubStatus(void);
 void __usercall ClearOverdraftStateIfRecovered(void);
 void __usercall MaybeSackManagerAfterSeasonReview(void);
@@ -5978,9 +6094,9 @@ void __usercall FormatPlayerValueOrStatusText(void *src,char *dst);
 ushort __usercall GetDisplayedPlayerValue(void *ptr);
 ushort __usercall GetAveragePlayerPrice(void *team);
 ushort __usercall GetAveragePlayerPriceInSelectedTeams(void);
-void __usercall ProcessDIYLeagueMatchResultAndCareerUpdates(void *team1,void *team2);
-void __usercall ProcessDIYKnockoutMatchResultAndCareerUpdates(void *team1,void *team2);
-void __usercall GetCachedOrCalculateViewResult(void *team1,void *team2);
+void __usercall ProcessDIYLeagueMatchResultAndCareerUpdates(TeamFileEx *team1,TeamFileEx *team2);
+void __usercall ProcessDIYKnockoutMatchResultAndCareerUpdates(TeamFileEx *team1,TeamFileEx *team2);
+void __usercall GetCachedOrCalculateViewResult(TeamFileEx *team1,TeamFileEx *team2);
 void __usercall GetCachedOrCalculateExtraTimeResult(void);
 void __usercall GetCachedOrCalculatePenaltyShootoutResult(void);
 void __usercall ApplyTeamTactics(void *playerInfos);
@@ -6099,7 +6215,7 @@ void __usercall CopySelectedTeamNumbers(ushort count,void *dest);
 ushort __usercall FindTeamInCache(ushort teamNumber);
 void * __usercall VerifyTeamLoaded(ushort teamNumber);
 void __usercall DIY_GetCurrentFixtureTeamPtrs(void);
-void __usercall DIY_AdvanceLeagueProgressAfterMatch(void *team1,void *team2);
+void __usercall DIY_AdvanceLeagueProgressAfterMatch(TeamFileEx *team1,TeamFileEx *team2);
 ushort __usercall DIY_GetCurrentFixtureTeamClass(void);
 short __usercall DIY_PlayOrSimulateLeagueFixture(short selector);
 void __usercall DIY_SyncProgressToDiyFileBufferCopy_2(void);
@@ -6231,7 +6347,7 @@ void __usercall DIYTournament_BuildMatchesPerTeamProgressionTable(void);
 void __usercall Career_PostMatchUpdate(void);
 void __usercall Career_HandleRetirement(void);
 char __usercall ContinueCareerNextSeason(void);
-void __usercall FindTeamInDIY(void);
+ushort __usercall FindTeamInDIY(ushort teamNo,DIY_Competition *comp);
 ushort __usercall GetMoreExpensiveTeamsCountWrapper(ushort teamNo,DIY_Competition *comp);
 ushort __usercall GetMoreExpensiveTeamsCount(ushort teamNo,DIY_Competition *comp);
 void __usercall InitializeNewSeason_BuildTeamBudgetRankTable(void);
@@ -6869,8 +6985,8 @@ void __usercall NationalTeamAddPlayerInit(void);
 void __usercall NationalTeamAddPlayerHomeOnSelect(void);
 void __usercall NationalTeamAddPlayerAbroadOnSelect(void);
 void __usercall NationalTeamAddPlayerExit(void);
-short __usercall GetPlayerPosition(short playerIndex,void *team);
-short __usercall ShowPlayMatchMenu(short controlFlags,short maxSubstitutes,short excludeFlags,short isFirstPlayerChoosingTeam,short squadChangesAllowed,void *team1,void *team2);
+short __usercall GetPlayerPosition(short playerIndex,TeamFileEx *team);
+short __usercall ShowPlayMatchMenu(short controlFlags,short maxSubstitutes,short excludeFlags,short isFirstPlayerChoosingTeam,short squadChangesAllowed,TeamFile *team1,TeamFile *team2);
 void __usercall PlayMatchMenuInit(void);
 void __usercall PlayMatchMenuReinit(void);
 void __usercall SetCurrentSelectedPlayerIndexPointer(void);

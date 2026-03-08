@@ -1,7 +1,7 @@
 /*
  * Auto-generated call graph export
  * Start: UpdatePlayers
- * Date : 2026-02-12 21:04:00
+ * Date : 2026-03-08 14:54:05
  */
 
 /* ===================== INCLUDES ===================== */
@@ -38,7 +38,7 @@ undefined unknown PlaySample(void);
 void __usercall CrowdTickJump(uint channel, uint waveId);
 void __usercall j_AudioApplyPresetToChannels(uint presetId);
 void __usercall AudioChannelNoteOnOff(uint channel, uint noteId);
-void __usercall AudioDisableDMAForChannel(void * chan);
+void __usercall AudioDisableDMAForChannel(AudioChannel * chan);
 short __usercall CalculateDeltaXAndY(short speed, short destX, short destY, short curX, short curY);
 void __usercall SetPlayerAnimationTableAndPictureIndex(AnimTable * animTable, Sprite * player);
 void __usercall SetPlayerAnimationTable(AnimTable * animTable, Sprite * player);
@@ -924,15 +924,16 @@ void __usercall CrowdTickJump(uint channel,uint waveId)
 {
   int iVar1;
   
-  if ((audioFlags[0] & 4) != 0) {
-    audioFlags[9] = audioFlags[9] | '\x01' << ((ushort)((short)channel + 4) & 7);
+  if (((byte)audioState.modeFlags & 4) != 0) {
+    audioState.channelChangeFlags =
+         audioState.channelChangeFlags | '\x01' << ((ushort)((short)channel + 4) & 7);
     iVar1 = (int)(short)((short)channel * 0xb0);
-    *(int *)(audioChannel0 + iVar1 + 0xa6) =
-         audioPresetChannelCmdTable._16_4_ +
-         *(int *)(audioPresetChannelCmdTable._8_4_ + (int)(short)((short)waveId << 2));
-    audioChannel0[iVar1 + 0xaa] = 6;
-    audioChannel0[iVar1 + 0xab] = 1;
-    audioChannel0[iVar1 + 0xad] = 1;
+    *(uchar **)((int)&audioChannel0.svWaveData + iVar1) =
+         audioState.bankSectionPtrs[6] +
+         *(int *)(audioState.bankSectionPtrs[4] + (short)((short)waveId << 2));
+    (&audioChannel0.svStepPeriod)[iVar1] = 6;
+    (&audioChannel0.svScriptTimer)[iVar1] = 1;
+    (&audioChannel0.svPeriodCounter)[iVar1] = 1;
   }
   return;
 }
@@ -945,7 +946,7 @@ void __usercall j_AudioApplyPresetToChannels(uint presetId)
 {
   byte *pbVar1;
   
-  pbVar1 = (byte *)((int)(short)(((ushort)presetId & 0x3f) * 4) + audioPresetChannelCmdTable._0_4_);
+  pbVar1 = audioState.bankSectionPtrs[2] + (short)(((ushort)presetId & 0x3f) * 4);
   if (*pbVar1 != 0) {
     AudioChannelNoteOnOff(0,(uint)*pbVar1);
   }
@@ -970,39 +971,37 @@ void __usercall AudioChannelNoteOnOff(uint channel,uint noteId)
   byte bVar1;
   int iVar2;
   short sVar3;
-  byte *pbVar4;
   
-  audioFlags[9] = audioFlags[9] | '\x01' << (channel & 7);
+  audioState.channelChangeFlags = audioState.channelChangeFlags | '\x01' << (channel & 7);
   iVar2 = (int)(short)((short)channel * 0xb0);
   sVar3 = (short)noteId << 2;
   if (sVar3 != 0) {
-    pbVar4 = (byte *)(audioPresetChannelCmdTable._12_4_ +
-                     *(int *)(audioPresetChannelCmdTable._4_4_ + (int)sVar3));
-    bVar1 = *pbVar4;
-    *(byte **)(audioChannel0 + iVar2 + 0x4e) = pbVar4 + 1;
-    *(int *)(audioChannel0 + iVar2 + 0x52) =
-         audioPresetChannelCmdTable._16_4_ +
-         *(int *)(audioPresetChannelCmdTable._8_4_ + (int)(short)((ushort)bVar1 << 2));
-    audioChannel0[iVar2 + 0x56] = 6;
-    audioChannel0[iVar2 + 0x57] = 1;
-    audioChannel0[iVar2 + 0x59] = 1;
-    audioChannel0[iVar2 + 0x5b] = 0xff;
+    bVar1 = audioState.bankSectionPtrs[5][*(int *)(audioState.bankSectionPtrs[3] + sVar3)];
+    *(uchar **)((int)&audioChannel0.pvNoteScript + iVar2) =
+         audioState.bankSectionPtrs[5] + *(int *)(audioState.bankSectionPtrs[3] + sVar3) + 1;
+    *(uchar **)((int)&audioChannel0.pvWaveData + iVar2) =
+         audioState.bankSectionPtrs[6] +
+         *(int *)(audioState.bankSectionPtrs[4] + (short)((ushort)bVar1 << 2));
+    (&audioChannel0.pvStepPeriod)[iVar2] = 6;
+    (&audioChannel0.pvScriptTimer)[iVar2] = 1;
+    (&audioChannel0.pvPeriodCounter)[iVar2] = 1;
+    (&audioChannel0.pvEnabled)[iVar2] = 0xff;
     return;
   }
-  audioChannel0[iVar2 + 0x5b] = 0;
-  AudioDisableDMAForChannel(audioChannel0 + iVar2);
+  (&audioChannel0.pvEnabled)[iVar2] = 0;
+  AudioDisableDMAForChannel((AudioChannel *)((int)&audioChannel0.hwRegBase + iVar2));
   return;
 }
 
 
 // --- AudioDisableDMAForChannel @ 00107834 ---
 
-void __usercall AudioDisableDMAForChannel(void *chan)
+void __usercall AudioDisableDMAForChannel(AudioChannel *chan)
 
 {
   int unaff_A6;
   
-  *(undefined2 *)(unaff_A6 + 0x96) = *(undefined2 *)((int)chan + 0x2e);
+  *(word *)(unaff_A6 + _DMACON) = chan->pvDmaBit;
   return;
 }
 

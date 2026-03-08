@@ -18,6 +18,7 @@
 
                 "--hard_drive_0=${workspaceFolder}/uae/dh0",
                 "--automatic_input_grab=0",
+                "--save_states=0",
             ],
             "preLaunchTask": "amigaassembly: build"
         },
@@ -34,7 +35,7 @@
                 "-s", "cpu_type=68020",
                 "-s", "cpu_compatible=true",
                 "-s", "fpu_model=none",
-                "-s", "kickstart_rom_file=./Kickstarts/Kickstart v3.1 rev 40.68 (1993)(Commodore)(A1200).rom",
+                "-s", "kickstart_rom_file=C:\\Projects\\Amiga\\Kickstarts\\KICK31_A1200.rom",
 
                 "-s", "chipmem_size=2048",
                 "-s", "fastmem_size=8192",
@@ -63,6 +64,7 @@
 
                 "--hard_drive_0=${workspaceFolder}/uae/dh0",
                 "--automatic_input_grab=0",
+                "--save_states=0",
             ],
             "preLaunchTask": "amigaassembly: build"
         },

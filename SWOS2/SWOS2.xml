@@ -2,7 +2,7 @@
 <?program_dtd version="1"?>
 
 <PROGRAM NAME="SWOS2" EXE_PATH=".\SWOS2" EXE_FORMAT="Binary file" INPUT_MD5="u&#xa7;&#xdd;E&#xcf;&#xe6;&#xeb;&#xe1;?|&#xa8;(&#xe0;&#xa3;">
-    <INFO_SOURCE TOOL="IDA-Pro 9.0 XML plugin v5.0.2 (Python) SDK 900" USER="headk" FILE="C:\Projects\Amiga\SWOS-IDA\SWOS2.i64" TIMESTAMP="2026-02-12 20:57" />
+    <INFO_SOURCE TOOL="IDA-Pro 9.0 XML plugin v5.0.2 (Python) SDK 900" USER="headk" FILE="C:\Projects\Amiga\SWOS-IDA\SWOS2.i64" TIMESTAMP="2026-03-08 14:48" />
     <PROCESSOR NAME="68000" ENDIAN="big" ADDRESS_MODEL="32-bit" />
     <COMPILER NAME="Unknown" />
     <DATATYPES>
@@ -10028,6 +10028,277 @@
                 <REPEATABLE_CMT>8.</REPEATABLE_CMT>
             </MEMBER>
         </STRUCTURE>
+        <STRUCTURE NAME="AudioState" SIZE="0x2E">
+            <MEMBER OFFSET="0x0" NAME="songPtr" DATATYPE="uchar *" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x4" NAME="bankSectionPtrs" DATATYPE="uchar *[7]" SIZE="0x1C">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x20" NAME="masterVolume" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x22" NAME="modeFlags" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x24" NAME="irqSubtick" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x25" NAME="toggleFlag" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x26" NAME="primaryChanEnable" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x27" NAME="secondaryChanEnable" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x28" NAME="channelVolume" DATATYPE="byte[4]" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x2C" NAME="channelChangeFlags" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x2D" NAME="currentChannelIdx" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+        </STRUCTURE>
+        <STRUCTURE NAME="AudioChannel" SIZE="0xB0">
+            <MEMBER OFFSET="0x0" NAME="hwRegBase" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x4" NAME="pvSampleBase" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x8" NAME="pvPitchLfoPtr" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0xC" NAME="pvVolLfoPtr" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x10" NAME="pvEnvDataPtr" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x14" NAME="pvSampleSlot" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x16" NAME="pvSampleOffset" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x18" NAME="pvSampleLength" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x1A" NAME="pvPitchLfoLoop" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x1C" NAME="pvPitchLfoLen" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x20" NAME="pvPitchLfoIdx" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x24" NAME="pvVolLfoLoop" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x26" NAME="pvVolLfoLen" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x2A" NAME="pvVolLfoIdx" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x2E" NAME="pvDmaBit" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x30" NAME="pvVolScale" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x32" NAME="pvCurVol" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x34" NAME="pvBasePeriod" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x36" NAME="pvCurPeriod" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x38" NAME="pvStartFlag" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x39" NAME="pvReloadFlag" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x3A" NAME="pvEnvState" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x3B" NAME="pvEnvDelta" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x3C" NAME="pvEnvCounter" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x3D" NAME="pvEnvDivisor" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x3E" NAME="pvEnvTarget" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x3F" NAME="pvEnvCurrent" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x40" NAME="pvPitchslideCount" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x41" NAME="_pad41" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x42" NAME="pvPitchslideRate" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x46" NAME="pvPitchslideAccum" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x4A" NAME="pvVariantDesc" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x4E" NAME="pvNoteScript" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x52" NAME="pvWaveData" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x56" NAME="pvStepPeriod" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x57" NAME="pvScriptTimer" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x58" NAME="pvRepeatPeriod" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x59" NAME="pvPeriodCounter" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x5A" NAME="pvVariantId" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x5B" NAME="pvEnabled" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x5C" NAME="svSampleBase" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x60" NAME="svPitchLfoPtr" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x64" NAME="svVolLfoPtr" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x68" NAME="svEnvDataPtr" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x6C" NAME="svSampleSlot" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x6E" NAME="svSampleOffset" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x70" NAME="svSampleLength" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x72" NAME="svPitchLfoLoop" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x74" NAME="svPitchLfoLen" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x78" NAME="svPitchLfoIdx" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x7C" NAME="svVolLfoLoop" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x7E" NAME="svVolLfoLen" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x82" NAME="svVolLfoIdx" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x86" NAME="svDmaBit" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x88" NAME="svVolScale" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x8A" NAME="svCurVol" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x8C" NAME="svBasePeriod" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x8E" NAME="svCurPeriod" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x90" NAME="svStartFlag" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x91" NAME="svReloadFlag" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x92" NAME="svEnvState" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x93" NAME="svEnvDelta" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x94" NAME="svEnvCounter" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x95" NAME="svEnvDivisor" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x96" NAME="svEnvTarget" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x97" NAME="svEnvCurrent" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x98" NAME="svPitchslideCount" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x99" NAME="_pad99" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x9A" NAME="svPitchslideRate" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x9E" NAME="svPitchslideAccum" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0xA2" NAME="svVariantDesc" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0xA6" NAME="svWaveData" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0xAA" NAME="svStepPeriod" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0xAB" NAME="svScriptTimer" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0xAC" NAME="svRepeatPeriod" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0xAD" NAME="svPeriodCounter" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0xAE" NAME="svVariantId" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0xAF" NAME="_padAF" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+        </STRUCTURE>
         <ENUM NAME="PlayerStates" SIZE="4">
             <DISPLAY_SETTINGS FORMAT="decimal" SIGNED="yes" />
             <ENUM_ENTRY NAME="PL_NORMAL" VALUE="0">
@@ -11604,6 +11875,23 @@
             <ENUM_ENTRY NAME="MENU_FRAME_COLOR_YELLOW" VALUE="0xF">
             </ENUM_ENTRY>
         </ENUM>
+        <ENUM NAME="AmigaRegisters" SIZE="4">
+            <DISPLAY_SETTINGS SIGNED="yes" />
+            <ENUM_ENTRY NAME="_DMACON" VALUE="0x96">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="_INTENA" VALUE="0x9A">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="_INTREQ" VALUE="0x9C">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="AUD0VOL" VALUE="0xA8">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="AUD1VOL" VALUE="0xB8">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="AUD2VOL" VALUE="0xC8">
+            </ENUM_ENTRY>
+            <ENUM_ENTRY NAME="AUD3VOL" VALUE="0xD8">
+            </ENUM_ENTRY>
+        </ENUM>
     </DATATYPES>
     <MEMORY_MAP>
         <MEMORY_SECTION NAME="CHIP_RAM" START_ADDR="0x0" LENGTH="0x200000" PERMISSIONS="rwx">
@@ -12966,29 +13254,20 @@
         <DEFINED_DATA ADDRESS="0x107EC0" DATATYPE="word[36]" SIZE="0x48">
             <TYPEINFO_CMT>kAmigaNotePeriodTable</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x107F08" DATATYPE="byte[176]" SIZE="0xB0">
+        <DEFINED_DATA ADDRESS="0x107F08" DATATYPE="AudioChannel" SIZE="0xB0">
             <TYPEINFO_CMT>audioChannel0</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x107FB8" DATATYPE="byte[176]" SIZE="0xB0">
+        <DEFINED_DATA ADDRESS="0x107FB8" DATATYPE="AudioChannel" SIZE="0xB0">
             <TYPEINFO_CMT>audioChannel1</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x108068" DATATYPE="byte[176]" SIZE="0xB0">
+        <DEFINED_DATA ADDRESS="0x108068" DATATYPE="AudioChannel" SIZE="0xB0">
             <TYPEINFO_CMT>audioChannel2</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x108118" DATATYPE="byte[176]" SIZE="0xB0">
+        <DEFINED_DATA ADDRESS="0x108118" DATATYPE="AudioChannel" SIZE="0xB0">
             <TYPEINFO_CMT>audioChannel3</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x1081C8" DATATYPE="byte[12]" SIZE="0xC">
+        <DEFINED_DATA ADDRESS="0x1081C8" DATATYPE="AudioState" SIZE="0x2E">
             <TYPEINFO_CMT>audioState</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x1081D4" DATATYPE="byte[22]" SIZE="0x16">
-            <TYPEINFO_CMT>audioPresetChannelCmdTable</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x1081EA" DATATYPE="byte" SIZE="0x1">
-            <TYPEINFO_CMT>audioCounter</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x1081EB" DATATYPE="byte[11]" SIZE="0xB">
-            <TYPEINFO_CMT>audioFlags</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x1082A8" DATATYPE="short[256]" SIZE="0x200">
             <TYPEINFO_CMT>kSineCosineTable</TYPEINFO_CMT>
@@ -15876,7 +16155,7 @@
             <TYPEINFO_CMT>allSpritesArray</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x11FB8E" DATATYPE="word" SIZE="0x2">
-            <TYPEINFO_CMT>debug_mode</TYPEINFO_CMT>
+            <TYPEINFO_CMT>debugMode</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x11FB90" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>useAltBaseFlag</TYPEINFO_CMT>
@@ -24829,6 +25108,8 @@ it counts down then, and when reaches -1, game ends
 (game, or half, extra time... etc.) </COMMENT>
         <COMMENT ADDRESS="0x10B8CC" TYPE="end-of-line">ScorerInfo team1Scorers[8] </COMMENT>
         <COMMENT ADDRESS="0x10B8D2" TYPE="end-of-line">ScorerInfo team2Scorers[8] </COMMENT>
+        <COMMENT ADDRESS="0x10BF26" TYPE="end-of-line">ScorerInfo team1Scorers[8] </COMMENT>
+        <COMMENT ADDRESS="0x10BF8A" TYPE="end-of-line">ScorerInfo team2Scorers[8] </COMMENT>
         <COMMENT ADDRESS="0x10C028" TYPE="end-of-line">Scene ordinal number in hil file
 init to -1 </COMMENT>
         <COMMENT ADDRESS="0x10C02A" TYPE="end-of-line">Set if we have some highlights to play </COMMENT>
@@ -24847,6 +25128,8 @@ pitch 5 - 12,5% </COMMENT>
         <COMMENT ADDRESS="0x10C7D8" TYPE="end-of-line">regular goal (0) </COMMENT>
         <COMMENT ADDRESS="0x10C7DE" TYPE="end-of-line">own goal (2) </COMMENT>
         <COMMENT ADDRESS="0x10C7EA" TYPE="end-of-line">penalty goal (1) </COMMENT>
+        <COMMENT ADDRESS="0x10C7F4" TYPE="end-of-line">ScorerInfo team1Scorers[8] </COMMENT>
+        <COMMENT ADDRESS="0x10C81A" TYPE="end-of-line">ScorerInfo team2Scorers[8] </COMMENT>
         <COMMENT ADDRESS="0x10C83E" TYPE="end-of-line">A0 -&gt; player which scored
 D0 = shirt number of the player that scored </COMMENT>
         <COMMENT ADDRESS="0x10C86E" TYPE="end-of-line">this is to differentiate a player that scored own goal from a guy with the same
@@ -44879,9 +45162,6 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x108068" NAME="audioChannel2" />
         <SYMBOL ADDRESS="0x108118" NAME="audioChannel3" />
         <SYMBOL ADDRESS="0x1081C8" NAME="audioState" />
-        <SYMBOL ADDRESS="0x1081D4" NAME="audioPresetChannelCmdTable" />
-        <SYMBOL ADDRESS="0x1081EA" NAME="audioCounter" />
-        <SYMBOL ADDRESS="0x1081EB" NAME="audioFlags" />
         <SYMBOL ADDRESS="0x1081F6" NAME="CalculateDeltaXAndY" />
         <SYMBOL ADDRESS="0x10820A" NAME="delta_x_positive" TYPE="local" />
         <SYMBOL ADDRESS="0x108212" NAME="delta_y_positive" TYPE="local" />
@@ -47329,7 +47609,7 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x11F9FA" NAME="team1SpritesTable" />
         <SYMBOL ADDRESS="0x11FA26" NAME="team2SpritesTable" />
         <SYMBOL ADDRESS="0x11FA52" NAME="allSpritesArray" />
-        <SYMBOL ADDRESS="0x11FB8E" NAME="debug_mode" />
+        <SYMBOL ADDRESS="0x11FB8E" NAME="debugMode" />
         <SYMBOL ADDRESS="0x11FB90" NAME="useAltBaseFlag" />
         <SYMBOL ADDRESS="0x11FB92" NAME="usePlaneOffsetFlag" />
         <SYMBOL ADDRESS="0x11FBAE" NAME="nullsub_9" />
@@ -52989,7 +53269,7 @@ or some error happens, writes the name of the file to screen, and terminates the
         <FUNCTION ENTRY_POINT="0x107594" NAME="ClearAudioChannelStruct" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x107594" END="0x1075A1" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>ClearAudioChannelStruct</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x1075A2" NAME="StopAllAudioChannels" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -53038,63 +53318,63 @@ or some error happens, writes the name of the file to screen, and terminates the
         <FUNCTION ENTRY_POINT="0x1077B0" NAME="AudioIRQServiceOneChannel" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x1077B0" END="0x1077F1" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQServiceOneChannel</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x1077F2" NAME="AudioIRQLoadAUDxPtrLenIfReloadNeeded" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x1077F2" END="0x107819" />
             <RETURN_TYPE DATATYPE="uchar" DATATYPE_NAMESPACE="/" REGISTER="D7B" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQLoadAUDxPtrLenIfReloadNeeded</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x10781A" NAME="AudioIRQEnableDMAIfStartFlag" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x10781A" END="0x107833" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQEnableDMAIfStartFlag</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x107834" NAME="AudioDisableDMAForChannel" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x107834" END="0x10783F" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioDisableDMAForChannel</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x107840" NAME="AudioIRQRunChannelScriptStep" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x107840" END="0x10788F" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQRunChannelScriptStep</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x107890" NAME="AudioIRQScriptCmdJumpTable" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x107890" END="0x107939" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="script" REGISTER="A1" DATATYPE="uchar *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQScriptCmdJumpTable</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x10793A" NAME="AudioIRQUpdateBeepVoiceParams" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x10793A" END="0x107943" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQUpdateBeepVoiceParams</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x107944" NAME="AudioIRQApplyBeepVolumeAndWriteAUDxVOL" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x107944" END="0x10796B" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQApplyBeepVolumeAndWriteAUDxVOL</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x10796C" NAME="AudioIRQBeepVolumeLfoStep" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x10796C" END="0x10799D" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQBeepVolumeLfoStep</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x10799E" NAME="AudioIRQBeepVolumeEnvStep" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x10799E" END="0x1079F1" />
             <ADDRESS_RANGE START="0x1079F6" END="0x1079F9" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQBeepVolumeEnvStep</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x107A02" NAME="AudioIRQBeepVolumeEnvStop">
@@ -53108,19 +53388,19 @@ or some error happens, writes the name of the file to screen, and terminates the
         <FUNCTION ENTRY_POINT="0x107A30" NAME="AudioIRQInitVolumeEnvForNote" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x107A30" END="0x107A53" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQInitVolumeEnvForNote</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x107A54" NAME="AudioIRQBeepLFOAndPitchSlide" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x107A54" END="0x107AB1" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQBeepLFOAndPitchSlide</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x107AB2" NAME="AudioIRQNoteOnInitChannel" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x107AB2" END="0x107B11" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="amigaPeriod" REGISTER="D1W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQNoteOnInitChannel</TYPEINFO_CMT>
         </FUNCTION>
@@ -53128,58 +53408,58 @@ or some error happens, writes the name of the file to screen, and terminates the
             <ADDRESS_RANGE START="0x107B12" END="0x107B83" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="variantId" REGISTER="D0" DATATYPE="uint" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQSelectVariant</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x107B84" NAME="AudioIRQLoadAUDxPtrLenIfReloadNeeded2" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x107B84" END="0x107BAB" />
             <RETURN_TYPE DATATYPE="uchar" DATATYPE_NAMESPACE="/" REGISTER="D7B" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQLoadAUDxPtrLenIfReloadNeeded2</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x107BAC" NAME="AudioIRQEnableDMAIfStartFlag2" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x107BAC" END="0x107BC5" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQEnableDMAIfStartFlag2</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x107BC6" NAME="AudioIRQRunModCommandStream" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x107BC6" END="0x107C17" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQRunModCommandStream</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x107C18" NAME="AudioIRQDispatchModCommand" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x107C18" END="0x107C75" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="stream" REGISTER="A1" DATATYPE="uchar *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQDispatchModCommand</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x107C76" NAME="AudioIRQServiceVolume" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x107C76" END="0x107C7F" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQServiceVolume</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x107C80" NAME="AudioIRQApplyVolumeAndWriteAUDxVOL" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x107C80" END="0x107CA7" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="audxRegs" REGISTER="A2" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQApplyVolumeAndWriteAUDxVOL</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x107CA8" NAME="AudioIRQVolumeLfoStep" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x107CA8" END="0x107CD9" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQVolumeLfoStep</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x107CDA" NAME="AudioIRQVolumeEnvStep" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x107CDA" END="0x107D2D" />
             <ADDRESS_RANGE START="0x107D32" END="0x107D35" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQVolumeEnvStep</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x107D3E" NAME="AudioIRQVolumeEnvStop">
@@ -53193,26 +53473,26 @@ or some error happens, writes the name of the file to screen, and terminates the
         <FUNCTION ENTRY_POINT="0x107D6C" NAME="AudioIRQInitVolumeEnv" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x107D6C" END="0x107D8F" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQInitVolumeEnv</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x107D90" NAME="AudioIRQLFOAndPitchSlide" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x107D90" END="0x107DED" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQLFOAndPitchSlide</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x107DEE" NAME="AudioIRQInitPitchEnv" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x107DEE" END="0x107E4D" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="amigaPeriod" REGISTER="D1W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQInitPitchEnv</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x107E4E" NAME="AudioIRQSelectInstrument" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x107E4E" END="0x107EBF" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="chan" REGISTER="A0" DATATYPE="AudioChannel *" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="amigaPeriod" REGISTER="D1" DATATYPE="uint" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>AudioIRQSelectInstrument</TYPEINFO_CMT>
         </FUNCTION>
@@ -55719,7 +55999,7 @@ Multiply price value with ratio of near quadrants to near destination quadrants.
             <ADDRESS_RANGE START="0x124914" END="0x124B39" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="team" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="teamRef" REGISTER="A1" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="teamRef" REGISTER="A1" DATATYPE="TeamFileEx *" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="p1" REGISTER="D1W" DATATYPE="short" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="p2" REGISTER="D2W" DATATYPE="short" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>dos: cseg_908B4</REGULAR_CMT>
@@ -55809,8 +56089,8 @@ out:
             <ADDRESS_RANGE START="0x125344" END="0x1253AD" />
             <ADDRESS_RANGE START="0x125336" END="0x125343" />
             <RETURN_TYPE DATATYPE="ushort" DATATYPE_NAMESPACE="/" REGISTER="D7W" />
-            <REGISTER_VAR NAME="team1" REGISTER="A1" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="team2" REGISTER="A2" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team1" REGISTER="A1" DATATYPE="TeamFileEx *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team2" REGISTER="A2" DATATYPE="TeamFileEx *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>dos: cseg_3CBFE</REGULAR_CMT>
             <TYPEINFO_CMT>CalcLeagueMatchGateReceiptsFactor</TYPEINFO_CMT>
         </FUNCTION>
@@ -55818,8 +56098,8 @@ out:
             <ADDRESS_RANGE START="0x1253AE" END="0x125419" />
             <ADDRESS_RANGE START="0x125336" END="0x125343" />
             <RETURN_TYPE DATATYPE="ushort" DATATYPE_NAMESPACE="/" REGISTER="D7W" />
-            <REGISTER_VAR NAME="team1" REGISTER="A1" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="team2" REGISTER="A2" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team1" REGISTER="A1" DATATYPE="TeamFileEx *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team2" REGISTER="A2" DATATYPE="TeamFileEx *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>dos: cseg_3CBFE</REGULAR_CMT>
             <TYPEINFO_CMT>CalcCupMatchGateReceiptsFactor</TYPEINFO_CMT>
         </FUNCTION>
@@ -56034,22 +56314,22 @@ Return national for any team if playing career.</REGULAR_CMT>
         <FUNCTION ENTRY_POINT="0x126766" NAME="ProcessDIYLeagueMatchResultAndCareerUpdates" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x126766" END="0x12681D" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="team1" REGISTER="A1" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="team2" REGISTER="A2" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team1" REGISTER="A1" DATATYPE="TeamFileEx *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team2" REGISTER="A2" DATATYPE="TeamFileEx *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>ProcessDIYLeagueMatchResultAndCareerUpdates</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x12681E" NAME="ProcessDIYKnockoutMatchResultAndCareerUpdates" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x12681E" END="0x126A53" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="team1" REGISTER="A1" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="team2" REGISTER="A2" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team1" REGISTER="A1" DATATYPE="TeamFileEx *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team2" REGISTER="A2" DATATYPE="TeamFileEx *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>ProcessDIYKnockoutMatchResultAndCareerUpdates</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x126A54" NAME="GetCachedOrCalculateViewResult" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x126A54" END="0x126A83" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="team1" REGISTER="A1" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="team2" REGISTER="A2" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team1" REGISTER="A1" DATATYPE="TeamFileEx *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team2" REGISTER="A2" DATATYPE="TeamFileEx *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>GetCachedOrCalculateViewResult</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x126A94" NAME="GetCachedOrCalculateExtraTimeResult" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -56958,8 +57238,8 @@ Crashes program if team could not be found in memory.</REGULAR_CMT>
         <FUNCTION ENTRY_POINT="0x12AD0A" NAME="DIY_AdvanceLeagueProgressAfterMatch" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x12AD0A" END="0x12AD85" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="team1" REGISTER="A1" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="team2" REGISTER="A2" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team1" REGISTER="A1" DATATYPE="TeamFileEx *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team2" REGISTER="A2" DATATYPE="TeamFileEx *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>DIY_AdvanceLeagueProgressAfterMatch</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x12AD86" NAME="DIY_GetCurrentFixtureTeamClass" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -57709,9 +57989,12 @@ dos: cseg_5DB56</REGULAR_CMT>
             <RETURN_TYPE DATATYPE="char" DATATYPE_NAMESPACE="/" REGISTER="D0B" />
             <TYPEINFO_CMT>ContinueCareerNextSeason</TYPEINFO_CMT>
         </FUNCTION>
-        <FUNCTION ENTRY_POINT="0x12EF38" NAME="FindTeamInDIY">
+        <FUNCTION ENTRY_POINT="0x12EF38" NAME="FindTeamInDIY" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x12EF38" END="0x12F0C9" />
             <ADDRESS_RANGE START="0x12F0DC" END="0x12F0E9" />
+            <RETURN_TYPE DATATYPE="ushort" DATATYPE_NAMESPACE="/" REGISTER="D1W" />
+            <REGISTER_VAR NAME="teamNo" REGISTER="D0W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="comp" REGISTER="A6" DATATYPE="DIY_Competition *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
     D0 -  team file number
     A6 -&gt; DIY competition
@@ -61442,7 +61725,7 @@ out:
             <ADDRESS_RANGE START="0x1474AA" END="0x1474F3" />
             <RETURN_TYPE DATATYPE="short" DATATYPE_NAMESPACE="/" REGISTER="D1W" />
             <REGISTER_VAR NAME="playerIndex" REGISTER="D1W" DATATYPE="short" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="team" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team" REGISTER="A0" DATATYPE="TeamFileEx *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
      D1 -  player index
      A0 -&gt; team
@@ -61458,8 +61741,8 @@ out:
             <REGISTER_VAR NAME="excludeFlags" REGISTER="D2W" DATATYPE="short" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="isFirstPlayerChoosingTeam" REGISTER="D5W" DATATYPE="short" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="squadChangesAllowed" REGISTER="D6W" DATATYPE="short" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="team1" REGISTER="A1" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="team2" REGISTER="A2" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team1" REGISTER="A1" DATATYPE="TeamFile *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team2" REGISTER="A2" DATATYPE="TeamFile *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
      D0 - control flags (bit 0/1 clear: clear player 1/2 controls)
      D1 - max substitues (additional entries)
@@ -62792,6 +63075,9 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x10231E" OPERAND_INDEX="0" TO_ADDRESS="0x127A8" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x102328" OPERAND_INDEX="0" TO_ADDRESS="0x2CED4" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1023AC" OPERAND_INDEX="0" TO_ADDRESS="0xDFF000" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x1023CA" OPERAND_INDEX="1" VALUE="0x9A" NAME="_INTENA" />
+        <EQUATE_REFERENCE ADDRESS="0x1023D0" OPERAND_INDEX="1" VALUE="0x9C" NAME="_INTREQ" />
+        <EQUATE_REFERENCE ADDRESS="0x1023D6" OPERAND_INDEX="1" VALUE="0x96" NAME="_DMACON" />
         <EQUATE_REFERENCE ADDRESS="0x102976" OPERAND_INDEX="0" VALUE="0x8400" NAME="DMACON_BLT_ON" />
         <EQUATE_REFERENCE ADDRESS="0x10297E" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
         <EQUATE_REFERENCE ADDRESS="0x102986" OPERAND_INDEX="0" VALUE="0x6" NAME="DMACONR_BLTBUSY_BIT" />
@@ -63510,8 +63796,6 @@ out: D0 = 0 - success
         <EQUATE_REFERENCE ADDRESS="0x1066C2" OPERAND_INDEX="0" VALUE="0xE" NAME="ASSET_OP_SELECT_AND_OPEN" />
         <EQUATE_REFERENCE ADDRESS="0x1066D8" OPERAND_INDEX="0" VALUE="0xE" NAME="ASSET_OP_SELECT_AND_OPEN" />
         <EQUATE_REFERENCE ADDRESS="0x1066EE" OPERAND_INDEX="0" VALUE="0xE" NAME="ASSET_OP_SELECT_AND_OPEN" />
-        <MEMORY_REFERENCE ADDRESS="0x106738" OPERAND_INDEX="0" TO_ADDRESS="0x100000" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x10675E" OPERAND_INDEX="0" TO_ADDRESS="0x100000" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x1068FE" OPERAND_INDEX="0" VALUE="0xC" NAME="ASSET_OP_5_THEN_MAYBE_6" />
         <EQUATE_REFERENCE ADDRESS="0x10691C" OPERAND_INDEX="0" VALUE="0x2" NAME="ASSET_OP_INIT_SOURCE0" />
         <MANUAL_OPERAND ADDRESS="0x107290" OPERAND_INDEX="0">GateKickSampleAndCrowd</MANUAL_OPERAND>
@@ -63520,6 +63804,16 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x10754C" OPERAND_INDEX="0" TO_ADDRESS="0xDFF0B0" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x107564" OPERAND_INDEX="0" TO_ADDRESS="0xDFF0C0" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x10757C" OPERAND_INDEX="0" TO_ADDRESS="0xDFF0D0" PRIMARY="y" />
+        <EQUATE_REFERENCE ADDRESS="0x1075BA" OPERAND_INDEX="1" VALUE="0x96" NAME="_DMACON" />
+        <EQUATE_REFERENCE ADDRESS="0x1075C0" OPERAND_INDEX="1" VALUE="0xA8" NAME="AUD0VOL" />
+        <EQUATE_REFERENCE ADDRESS="0x1075C4" OPERAND_INDEX="1" VALUE="0xB8" NAME="AUD1VOL" />
+        <EQUATE_REFERENCE ADDRESS="0x1075C8" OPERAND_INDEX="1" VALUE="0xC8" NAME="AUD2VOL" />
+        <EQUATE_REFERENCE ADDRESS="0x1075CC" OPERAND_INDEX="1" VALUE="0xD8" NAME="AUD3VOL" />
+        <EQUATE_REFERENCE ADDRESS="0x10782E" OPERAND_INDEX="1" VALUE="0x96" NAME="_DMACON" />
+        <EQUATE_REFERENCE ADDRESS="0x10783A" OPERAND_INDEX="1" VALUE="0x96" NAME="_DMACON" />
+        <EQUATE_REFERENCE ADDRESS="0x107AEE" OPERAND_INDEX="1" VALUE="0x96" NAME="_DMACON" />
+        <EQUATE_REFERENCE ADDRESS="0x107BC0" OPERAND_INDEX="1" VALUE="0x96" NAME="_DMACON" />
+        <EQUATE_REFERENCE ADDRESS="0x107E2A" OPERAND_INDEX="1" VALUE="0x96" NAME="_DMACON" />
         <EQUATE_REFERENCE ADDRESS="0x108D3A" OPERAND_INDEX="0" VALUE="0x0" NAME="PL_NORMAL" />
         <EQUATE_REFERENCE ADDRESS="0x108E02" OPERAND_INDEX="0" VALUE="0x0" NAME="PL_NORMAL" />
         <EQUATE_REFERENCE ADDRESS="0x108E16" OPERAND_INDEX="0" VALUE="0x64" NAME="ST_GAME_IN_PROGRESS" />
@@ -63548,10 +63842,8 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x1093CC" OPERAND_INDEX="0" TO_ADDRESS="0x11CFFA" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1093D6" OPERAND_INDEX="0" TO_ADDRESS="0x11CFFA" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x1094B6" OPERAND_INDEX="0" VALUE="0x3" NAME="ST_KEEPER_HOLDS_BALL" />
-        <MEMORY_REFERENCE ADDRESS="0x109516" OPERAND_INDEX="0" TO_ADDRESS="0x20004" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x10958A" OPERAND_INDEX="0" VALUE="0x64" NAME="ST_GAME_IN_PROGRESS" />
         <EQUATE_REFERENCE ADDRESS="0x10977E" OPERAND_INDEX="0" VALUE="0x64" NAME="ST_GAME_IN_PROGRESS" />
-        <MEMORY_REFERENCE ADDRESS="0x109880" OPERAND_INDEX="0" TO_ADDRESS="0x10000" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x1098A4" OPERAND_INDEX="0" VALUE="0x64" NAME="ST_GAME_IN_PROGRESS" />
         <EQUATE_REFERENCE ADDRESS="0x10994C" OPERAND_INDEX="0" VALUE="0x64" NAME="ST_GAME_IN_PROGRESS" />
         <EQUATE_REFERENCE ADDRESS="0x109956" OPERAND_INDEX="0" VALUE="0x1D" NAME="ST_FIRST_HALF_ENDED" />
@@ -63889,7 +64181,6 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x1134EC" OPERAND_INDEX="0" TO_ADDRESS="0x1115A0" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x113552" OPERAND_INDEX="0" VALUE="0x1" NAME="PL_TACKLING" />
         <EQUATE_REFERENCE ADDRESS="0x1136AE" OPERAND_INDEX="0" VALUE="0x9" NAME="PL_JUMP_HEADING" />
-        <MEMORY_REFERENCE ADDRESS="0x113716" OPERAND_INDEX="0" TO_ADDRESS="0x10000" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x11372A" OPERAND_INDEX="0" VALUE="0xF" NAME="ST_THROW_IN_FORWARD_RIGHT" />
         <EQUATE_REFERENCE ADDRESS="0x113734" OPERAND_INDEX="0" VALUE="0x14" NAME="ST_THROW_IN_BACK_LEFT" />
         <EQUATE_REFERENCE ADDRESS="0x113754" OPERAND_INDEX="0" VALUE="0xE" NAME="ST_PENALTY" />
@@ -64389,6 +64680,7 @@ out: D0 = 0 - success
         <EQUATE_REFERENCE ADDRESS="0x126C7E" OPERAND_INDEX="0" VALUE="0x1" NAME="TEAM_COMPUTER" />
         <EQUATE_REFERENCE ADDRESS="0x126C86" OPERAND_INDEX="0" VALUE="0x2" NAME="TEAM_PLAYER_COACH" />
         <EQUATE_REFERENCE ADDRESS="0x126CAC" OPERAND_INDEX="0" VALUE="0x2" NAME="TEAM_PLAYER_COACH" />
+        <MEMORY_REFERENCE ADDRESS="0x126D0E" OPERAND_INDEX="0" TO_ADDRESS="0xBEB8" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x126D56" OPERAND_INDEX="0" VALUE="0x50" NAME="CN_EUROPE" />
         <EQUATE_REFERENCE ADDRESS="0x126D60" OPERAND_INDEX="0" VALUE="0x55" NAME="CN_OCEANIA" />
         <EQUATE_REFERENCE ADDRESS="0x126D80" OPERAND_INDEX="0" VALUE="0x0" NAME="SHIRT_ORDINARY" />
@@ -65115,6 +65407,7 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x139D3E" OPERAND_INDEX="0" TO_ADDRESS="0x164F86" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x139DB4" OPERAND_INDEX="0" VALUE="0xE" NAME="YELLOW_GREEN_BLACK_14" />
         <EQUATE_REFERENCE ADDRESS="0x139DDE" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <MEMORY_REFERENCE ADDRESS="0x13A43C" OPERAND_INDEX="0" TO_ADDRESS="0x9AC14" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x13A6BE" OPERAND_INDEX="0" VALUE="0xCF" NAME="SPR_NOT_CHECK_BIG" />
         <EQUATE_REFERENCE ADDRESS="0x13A6C6" OPERAND_INDEX="0" VALUE="0xCE" NAME="SPR_CHECK_BIG" />
         <MEMORY_REFERENCE ADDRESS="0x13A6FA" OPERAND_INDEX="0" TO_ADDRESS="0x1664B2" PRIMARY="y" />
@@ -65412,6 +65705,7 @@ out: D0 = 0 - success
         <EQUATE_REFERENCE ADDRESS="0x1457D6" OPERAND_INDEX="0" VALUE="0x1" NAME="CLUB_UNWILLING_TO_PURCHASE_PLAYERS" />
         <MEMORY_REFERENCE ADDRESS="0x145A0A" OPERAND_INDEX="0" TO_ADDRESS="0x156C08" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x145A24" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
+        <MEMORY_REFERENCE ADDRESS="0x145CB4" OPERAND_INDEX="0" TO_ADDRESS="0x9AC14" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x147140" OPERAND_INDEX="0" TO_ADDRESS="0x153DFA" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x14714E" OPERAND_INDEX="0" TO_ADDRESS="0x153E08" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x1474B0" OPERAND_INDEX="0" TO_ADDRESS="0x164F86" PRIMARY="y" />
@@ -65770,11 +66064,7 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x151406" OPERAND_INDEX="0" TO_ADDRESS="0x14F35A" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x151412" OPERAND_INDEX="0" TO_ADDRESS="0x14F3A8" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x15141E" OPERAND_INDEX="0" TO_ADDRESS="0x14F404" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x15179A" OPERAND_INDEX="0" TO_ADDRESS="0x10000" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x1518C0" OPERAND_INDEX="0" TO_ADDRESS="0x10000" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x151938" OPERAND_INDEX="0" VALUE="0x10" NAME="ASSET_OP_OPEN_ANY_SOURCE" />
-        <MEMORY_REFERENCE ADDRESS="0x151948" OPERAND_INDEX="0" TO_ADDRESS="0x100000" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x1519AE" OPERAND_INDEX="0" TO_ADDRESS="0x100000" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x151A4E" OPERAND_INDEX="0" TO_ADDRESS="0x16F4B4" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x151ACA" OPERAND_INDEX="0" TO_ADDRESS="0x16F4B4" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x151B42" OPERAND_INDEX="0" TO_ADDRESS="0x16F4B4" PRIMARY="y" />
