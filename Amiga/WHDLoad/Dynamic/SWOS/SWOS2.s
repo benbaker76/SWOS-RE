@@ -107539,7 +107539,7 @@ showPlayerMarketMenu:
                 dc.l positionFilterStringTable ; tablePtr
                 ; onSelect (struct)
                 dc.w MENU_CMD_ONSELECT_FIRE ; type
-                dc.l loc_144EFC         ; funcPtr
+                dc.l PlayerMarketFilterPositionOnSelect ; funcPtr
                 dc.w MENU_CMD_END       ; end
                 ; entry5 (struct)
                 ; rc (struct)
@@ -107583,7 +107583,7 @@ showPlayerMarketMenu:
                 dc.l skillFilterStringTable ; tablePtr
                 ; entry6_onSelect (struct)
                 dc.w MENU_CMD_ONSELECT_FIRE ; type
-                dc.l loc_144F90         ; funcPtr
+                dc.l PlayerMarketFilterAgeGroupOnSelect ; funcPtr
                 dc.w MENU_CMD_END       ; entry6_end
                 ; entry7 (struct)
                 ; rc (struct)
@@ -107608,7 +107608,7 @@ showPlayerMarketMenu:
                 dc.l aList              ; textPtr
                 ; onSelect (struct)
                 dc.w MENU_CMD_ONSELECT_FIRE ; type
-                dc.l loc_144FB0         ; funcPtr
+                dc.l PlayerMarketScrollOnSelect ; funcPtr
                 dc.w MENU_CMD_END       ; end
                 ; entry8 (struct)
                 ; rc (struct)
@@ -107633,7 +107633,7 @@ showPlayerMarketMenu:
                 dc.l aViewSquad         ; textPtr
                 ; onSelect (struct)
                 dc.w MENU_CMD_ONSELECT_FIRE ; type
-                dc.l loc_14500A         ; funcPtr
+                dc.l PlayerMarketViewSquadOnSelect ; funcPtr
                 dc.w MENU_CMD_END       ; end
                 ; entry9 (struct)
                 ; rc (struct)
@@ -107658,7 +107658,7 @@ showPlayerMarketMenu:
                 dc.l aExit              ; textPtr
                 ; onSelect (struct)
                 dc.w MENU_CMD_ONSELECT_FIRE ; type
-                dc.l loc_145042         ; funcPtr
+                dc.l ExitPlayerMarketMenu ; funcPtr
                 dc.w MENU_CMD_END       ; end
                 ; menu1Start (struct)
                 dc.w MENU_MARK_START_MENU ; mark
@@ -107676,10 +107676,10 @@ showPlayerMarketMenu:
                 dc.w $0000              ; reserved
                 ; template1_afterDraw (struct)
                 dc.w MENU_CMD_AFTER_DRAW ; type
-                dc.l loc_14510C         ; funcPtr
+                dc.l PlayerMarketItemBeforeDraw ; funcPtr
                 ; template1_onSelect (struct)
                 dc.w MENU_CMD_ONSELECT_FIRE ; type
-                dc.l loc_1450CA         ; funcPtr
+                dc.l PlayerMarketItemOnSelect ; funcPtr
                 dc.w MENU_CMD_END       ; template1_end
                 dc.w MENU_MARK_WIDE_COORDS ; markWideCoords
                 ; entries10_19[0]
@@ -108023,7 +108023,10 @@ loc_144EE0:
                 jsr     GetBankBalance
                 bsr.w   PlayerMarketUpdateFilterMenuEntryState
                 rts
-loc_144EFC:
+
+; ===== PlayerMarketFilterPositionOnSelect =====
+; prototype: void __usercall PlayerMarketFilterPositionOnSelect()
+PlayerMarketFilterPositionOnSelect:
                 addq.w  #1,(playerMarketFilterPosition).l
                 cmpi.w  #4,(playerMarketFilterPosition).l
                 bne.s   loc_144F14
@@ -108060,7 +108063,10 @@ loc_144F7E:
                 bsr.w   PlayerMarketResetListState
                 movem.l (sp)+,a5
                 jmp     CallDrawMenuItem
-loc_144F90:
+
+; ===== PlayerMarketFilterAgeGroupOnSelect =====
+; prototype: void __usercall PlayerMarketFilterAgeGroupOnSelect()
+PlayerMarketFilterAgeGroupOnSelect:
                 addq.w  #1,(playerMarketFilterAgeGroup).l
                 cmpi.w  #7,(playerMarketFilterAgeGroup).l
                 bne.s   loc_144FA8
@@ -108068,7 +108074,10 @@ loc_144F90:
 loc_144FA8:
                 bsr.w   PlayerMarketResetListState
                 bra.w   loc_14506E
-loc_144FB0:
+
+; ===== PlayerMarketScrollOnSelect =====
+; prototype: void __usercall PlayerMarketScrollOnSelect()
+PlayerMarketScrollOnSelect:
                 clr.w   d0
                 move.w  (playerMarketTotalMatchCount).l,d1
                 beq.s   loc_144FCA
@@ -108097,7 +108106,10 @@ PlayerMarketUpdateMoreListLabel:
 loc_145000:
                 move.l  #aList,$26(a0)  ; "LIST"
                 rts
-loc_14500A:
+
+; ===== PlayerMarketViewSquadOnSelect =====
+; prototype: void __usercall PlayerMarketViewSquadOnSelect()
+PlayerMarketViewSquadOnSelect:
                 lea     (careerTeam).l,a0
                 lea     (aViewSquad).l,a1 ; "VIEW SQUAD"
                 clr.l   d0
@@ -108115,7 +108127,10 @@ loc_145030:
                 move.w  #$FFFF,d3
                 move.w  #$FFFF,d4
                 jmp ShowSquad(pc)
-loc_145042:
+
+; ===== ExitPlayerMarketMenu =====
+; prototype: void __usercall ExitPlayerMarketMenu()
+ExitPlayerMarketMenu:
                 jmp     SetExitMenuFlag
 
 ; ===== PlayerMarketResetListState =====
@@ -108161,7 +108176,10 @@ loc_1450AA:
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
                 move.w  #1,MENUENTRY_ISDISABLED(a0)
                 rts
-loc_1450CA:
+
+; ===== PlayerMarketItemOnSelect =====
+; prototype: void __usercall PlayerMarketItemOnSelect()
+PlayerMarketItemOnSelect:
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a0
                 move.w  2(a5),d0
                 sub.w   2(a0),d0
@@ -108180,7 +108198,10 @@ loc_1450FC:
                 jsr     SetCurrentEntry
                 bsr.w   PlayerMarketResetListState
                 rts
-loc_14510C:
+
+; ===== PlayerMarketItemBeforeDraw =====
+; prototype: void __usercall PlayerMarketItemBeforeDraw()
+PlayerMarketItemBeforeDraw:
                 clr.w   6(a5)
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$230)).l,a0
                 move.w  2(a5),d6

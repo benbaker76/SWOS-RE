@@ -2,7 +2,7 @@
 <?program_dtd version="1"?>
 
 <PROGRAM NAME="SWOS2" EXE_PATH=".\SWOS2" EXE_FORMAT="Binary file" INPUT_MD5="u&#xa7;&#xdd;E&#xcf;&#xe6;&#xeb;&#xe1;?|&#xa8;(&#xe0;&#xa3;">
-    <INFO_SOURCE TOOL="IDA-Pro 9.0 XML plugin v5.0.2 (Python) SDK 900" USER="headk" FILE="C:\Projects\Amiga\SWOS-IDA\SWOS2.i64" TIMESTAMP="2026-03-08 14:48" />
+    <INFO_SOURCE TOOL="IDA-Pro 9.0 XML plugin v5.0.2 (Python) SDK 900" USER="headk" FILE="C:\Projects\Amiga\SWOS-IDA\SWOS2.i64" TIMESTAMP="2026-03-09 02:25" />
     <PROCESSOR NAME="68000" ENDIAN="big" ADDRESS_MODEL="32-bit" />
     <COMPILER NAME="Unknown" />
     <DATATYPES>
@@ -49469,10 +49469,17 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x144E94" NAME="positionGroupAttacker" />
         <SYMBOL ADDRESS="0x144E96" NAME="ShowPlayerMarketInit" />
         <SYMBOL ADDRESS="0x144ECC" NAME="ShowPlayerMarket" />
+        <SYMBOL ADDRESS="0x144EFC" NAME="PlayerMarketFilterPositionOnSelect" />
+        <SYMBOL ADDRESS="0x144F90" NAME="PlayerMarketFilterAgeGroupOnSelect" />
+        <SYMBOL ADDRESS="0x144FB0" NAME="PlayerMarketScrollOnSelect" />
         <SYMBOL ADDRESS="0x144FDE" NAME="PlayerMarketUpdateMoreListLabel" />
+        <SYMBOL ADDRESS="0x14500A" NAME="PlayerMarketViewSquadOnSelect" />
+        <SYMBOL ADDRESS="0x145042" NAME="ExitPlayerMarketMenu" />
         <SYMBOL ADDRESS="0x145048" NAME="PlayerMarketResetListState" />
         <SYMBOL ADDRESS="0x14507E" NAME="filterMenuRedrawList" />
         <SYMBOL ADDRESS="0x145084" NAME="PlayerMarketUpdateFilterMenuEntryState" />
+        <SYMBOL ADDRESS="0x1450CA" NAME="PlayerMarketItemOnSelect" />
+        <SYMBOL ADDRESS="0x14510C" NAME="PlayerMarketItemBeforeDraw" />
         <SYMBOL ADDRESS="0x1451A2" NAME="PlayerMarketBuildVisiblePlayerList" />
         <SYMBOL ADDRESS="0x1452DC" NAME="PlayerMarketPlayerMatchesFilters" />
         <SYMBOL ADDRESS="0x145352" NAME="playerMarketFilterPosition" />
@@ -61278,10 +61285,39 @@ out:
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>ShowPlayerMarket</TYPEINFO_CMT>
         </FUNCTION>
+        <FUNCTION ENTRY_POINT="0x144EFC" NAME="PlayerMarketFilterPositionOnSelect" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
+            <ADDRESS_RANGE START="0x144EFC" END="0x144F8F" />
+            <ADDRESS_RANGE START="0x14506E" END="0x14507D" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
+            <TYPEINFO_CMT>PlayerMarketFilterPositionOnSelect</TYPEINFO_CMT>
+            <STACK_FRAME LOCAL_VAR_SIZE="0x0" REGISTER_SAVE_SIZE="0x0" RETURN_ADDR_SIZE="0x4" BYTES_PURGED="0x0" />
+        </FUNCTION>
+        <FUNCTION ENTRY_POINT="0x144F90" NAME="PlayerMarketFilterAgeGroupOnSelect" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
+            <ADDRESS_RANGE START="0x144F90" END="0x144FAF" />
+            <ADDRESS_RANGE START="0x14506E" END="0x14507D" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
+            <TYPEINFO_CMT>PlayerMarketFilterAgeGroupOnSelect</TYPEINFO_CMT>
+        </FUNCTION>
+        <FUNCTION ENTRY_POINT="0x144FB0" NAME="PlayerMarketScrollOnSelect" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
+            <ADDRESS_RANGE START="0x144FB0" END="0x144FDD" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
+            <TYPEINFO_CMT>PlayerMarketScrollOnSelect</TYPEINFO_CMT>
+        </FUNCTION>
         <FUNCTION ENTRY_POINT="0x144FDE" NAME="PlayerMarketUpdateMoreListLabel" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x144FDE" END="0x145009" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>PlayerMarketUpdateMoreListLabel</TYPEINFO_CMT>
+        </FUNCTION>
+        <FUNCTION ENTRY_POINT="0x14500A" NAME="PlayerMarketViewSquadOnSelect" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
+            <ADDRESS_RANGE START="0x14500A" END="0x145041" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
+            <TYPEINFO_CMT>PlayerMarketViewSquadOnSelect</TYPEINFO_CMT>
+            <STACK_FRAME LOCAL_VAR_SIZE="0x0" REGISTER_SAVE_SIZE="0x0" RETURN_ADDR_SIZE="0x4" BYTES_PURGED="0x0" />
+        </FUNCTION>
+        <FUNCTION ENTRY_POINT="0x145042" NAME="ExitPlayerMarketMenu" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
+            <ADDRESS_RANGE START="0x145042" END="0x145047" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
+            <TYPEINFO_CMT>ExitPlayerMarketMenu</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x145048" NAME="PlayerMarketResetListState" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x145048" END="0x14506D" />
@@ -61289,10 +61325,20 @@ out:
             <TYPEINFO_CMT>PlayerMarketResetListState</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x145084" NAME="PlayerMarketUpdateFilterMenuEntryState" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
-            <ADDRESS_RANGE START="0x145084" END="0x1451A1" />
+            <ADDRESS_RANGE START="0x145084" END="0x1450C9" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>PlayerMarketUpdateFilterMenuEntryState</TYPEINFO_CMT>
             <STACK_FRAME LOCAL_VAR_SIZE="0x0" REGISTER_SAVE_SIZE="0x0" RETURN_ADDR_SIZE="0x4" BYTES_PURGED="0x0" />
+        </FUNCTION>
+        <FUNCTION ENTRY_POINT="0x1450CA" NAME="PlayerMarketItemOnSelect" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
+            <ADDRESS_RANGE START="0x1450CA" END="0x14510B" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
+            <TYPEINFO_CMT>PlayerMarketItemOnSelect</TYPEINFO_CMT>
+        </FUNCTION>
+        <FUNCTION ENTRY_POINT="0x14510C" NAME="PlayerMarketItemBeforeDraw" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
+            <ADDRESS_RANGE START="0x14510C" END="0x1451A1" />
+            <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
+            <TYPEINFO_CMT>PlayerMarketItemBeforeDraw</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x1451A2" NAME="PlayerMarketBuildVisiblePlayerList" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x1451A2" END="0x1452DB" />
