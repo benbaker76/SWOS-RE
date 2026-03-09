@@ -11,6 +11,7 @@
 001385D8-001388C6 competitionTopGoalScorersMenu (0x2EE)
 0013899E-00138B44 topGoalScorersMenu (0x1A6)
 00139224-00139610 squadMenu (0x3EC)
+0013AA8C-0013AB2A competitionStats (0x9E)
 0013AB84-0013AC68 careerOverMenu (0xE4)
 0013B00C-0013B158 careerMenu (0x14C)
 0013B360-0013B458 viewCompetitionsMenu (0xF8)

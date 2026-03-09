@@ -2,7 +2,7 @@
 <?program_dtd version="1"?>
 
 <PROGRAM NAME="SWOS2" EXE_PATH=".\SWOS2" EXE_FORMAT="Binary file" INPUT_MD5="u&#xa7;&#xdd;E&#xcf;&#xe6;&#xeb;&#xe1;?|&#xa8;(&#xe0;&#xa3;">
-    <INFO_SOURCE TOOL="IDA-Pro 9.0 XML plugin v5.0.2 (Python) SDK 900" USER="headk" FILE="C:\Projects\Amiga\SWOS-IDA\SWOS2.i64" TIMESTAMP="2026-03-09 02:25" />
+    <INFO_SOURCE TOOL="IDA-Pro 9.0 XML plugin v5.0.2 (Python) SDK 900" USER="headk" FILE="C:\Projects\Amiga\SWOS-IDA\SWOS2.i64" TIMESTAMP="2026-03-09 07:54" />
     <PROCESSOR NAME="68000" ENDIAN="big" ADDRESS_MODEL="32-bit" />
     <COMPILER NAME="Unknown" />
     <DATATYPES>
@@ -10299,6 +10299,32 @@
                 <REPEATABLE_CMT></REPEATABLE_CMT>
             </MEMBER>
         </STRUCTURE>
+        <STRUCTURE NAME="Menu_CompetitionStats" SIZE="0x9E">
+            <MEMBER OFFSET="0x0" NAME="hdr" DATATYPE="MenuHeader" SIZE="0x10">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x10" NAME="markByteCoords" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x12" NAME="entry0" DATATYPE="MenuEntry_Byte_Colors_TextPtr" SIZE="0x12">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x24" NAME="entry1" DATATYPE="MenuEntry_Byte_Nav_Colors_TextPtr_OnSelect" SIZE="0x1E">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x42" NAME="entry2" DATATYPE="MenuEntry_Byte_Nav_Colors_TextPtr_OnSelect" SIZE="0x1E">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x60" NAME="entry3" DATATYPE="MenuEntry_Byte_Nav_Colors_TextPtr_OnSelect" SIZE="0x1E">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x7E" NAME="entry4" DATATYPE="MenuEntry_Byte_Nav_Colors_TextPtr_OnSelect" SIZE="0x1E">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x9C" NAME="markEndMenu" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+        </STRUCTURE>
         <ENUM NAME="PlayerStates" SIZE="4">
             <DISPLAY_SETTINGS FORMAT="decimal" SIGNED="yes" />
             <ENUM_ENTRY NAME="PL_NORMAL" VALUE="0">
@@ -12123,7 +12149,8 @@
         <CODE_BLOCK START="0x146190" END="0x1462CB" />
         <CODE_BLOCK START="0x14633A" END="0x146741" />
         <CODE_BLOCK START="0x146746" END="0x146B8D" />
-        <CODE_BLOCK START="0x146B98" END="0x146CB5" />
+        <CODE_BLOCK START="0x146B98" END="0x146C95" />
+        <CODE_BLOCK START="0x146CA2" END="0x146CB5" />
         <CODE_BLOCK START="0x146F7E" END="0x1473B1" />
         <CODE_BLOCK START="0x14747E" END="0x1474A7" />
         <CODE_BLOCK START="0x1474AA" END="0x147557" />
@@ -18395,92 +18422,9 @@
         <DEFINED_DATA ADDRESS="0x13A6F8" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>isNationalSquad</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x13AA8C" DATATYPE="dword" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x13AA8C" DATATYPE="Menu_CompetitionStats" SIZE="0x9E">
             <TYPEINFO_CMT>competitionStatsMenu</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x13AA90" DATATYPE="dword" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x13AA94" DATATYPE="dword" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x13AA98" DATATYPE="dword" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x13AA9C" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AA9E" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AA9F" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAA0" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAA1" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAA2" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AAA4" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AAA6" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AAA8" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AAAA" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x13AAAE" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AAB0" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAB1" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAB2" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAB3" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAB4" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AAB6" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAB7" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAB8" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAB9" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AABA" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AABC" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AABE" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AAC0" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AAC2" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x13AAC6" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AAC8" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x13AACC" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AACE" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AACF" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAD0" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAD1" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAD2" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AAD4" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAD5" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAD6" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAD7" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAD8" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AADA" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AADC" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AADE" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AAE0" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x13AAE4" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AAE6" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x13AAEA" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AAEC" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAED" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAEE" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAEF" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAF0" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AAF2" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAF3" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAF4" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAF5" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AAF6" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AAF8" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AAFA" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AAFC" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AAFE" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x13AB02" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AB04" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x13AB08" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AB0A" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AB0B" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AB0C" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AB0D" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AB0E" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AB10" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AB11" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AB12" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AB13" DATATYPE="byte" SIZE="0x1" />
-        <DEFINED_DATA ADDRESS="0x13AB14" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AB16" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AB18" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AB1A" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AB1C" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x13AB20" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AB22" DATATYPE="pointer" SIZE="0x4" />
-        <DEFINED_DATA ADDRESS="0x13AB26" DATATYPE="word" SIZE="0x2" />
-        <DEFINED_DATA ADDRESS="0x13AB28" DATATYPE="word" SIZE="0x2" />
         <DEFINED_DATA ADDRESS="0x13AB76" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>diyCompetitionType</TYPEINFO_CMT>
         </DEFINED_DATA>
@@ -19280,6 +19224,9 @@
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x146B94" DATATYPE="char *" SIZE="0x4">
             <TYPEINFO_CMT>careerAddIntlPlayerSelectedSrcPlayerNamePtr</TYPEINFO_CMT>
+        </DEFINED_DATA>
+        <DEFINED_DATA ADDRESS="0x146C96" DATATYPE="byte[12]" SIZE="0xC">
+            <TYPEINFO_CMT>careerDefaultInternationalSquadSlotsTable</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x146CB6" DATATYPE="Menu_SelectNationalTeam" SIZE="0x2C8">
             <TYPEINFO_CMT>selectNationalTeamMenu</TYPEINFO_CMT>
@@ -33800,80 +33747,80 @@ edited and original teams differ </COMMENT>
         <COMMENT ADDRESS="0x13A6E8" TYPE="end-of-line">Number of player slots to display in squad screen. </COMMENT>
         <COMMENT ADDRESS="0x13A6F8" TYPE="end-of-line">SquadInit sets this </COMMENT>
         <COMMENT ADDRESS="0x13AA8C" TYPE="end-of-line">On init function </COMMENT>
-        <COMMENT ADDRESS="0x13AA90" TYPE="end-of-line">on return function </COMMENT>
-        <COMMENT ADDRESS="0x13AA94" TYPE="end-of-line">on draw function </COMMENT>
-        <COMMENT ADDRESS="0x13AA98" TYPE="end-of-line">-= default entry =- </COMMENT>
-        <COMMENT ADDRESS="0x13AA9C" TYPE="end-of-line">byte coords </COMMENT>
-        <COMMENT ADDRESS="0x13AA9E" TYPE="end-of-line">x (0) </COMMENT>
-        <COMMENT ADDRESS="0x13AA9F" TYPE="end-of-line">y </COMMENT>
-        <COMMENT ADDRESS="0x13AAA0" TYPE="end-of-line">width </COMMENT>
-        <COMMENT ADDRESS="0x13AAA1" TYPE="end-of-line">height </COMMENT>
-        <COMMENT ADDRESS="0x13AAA2" TYPE="end-of-line">type 4 - entry and frame color </COMMENT>
-        <COMMENT ADDRESS="0x13AAA4" TYPE="end-of-line">background color: pink to brown, outer frame color: gray, inner frame color: gray </COMMENT>
-        <COMMENT ADDRESS="0x13AAA6" TYPE="end-of-line">type 8 - entry text pointer </COMMENT>
-        <COMMENT ADDRESS="0x13AAA8" TYPE="end-of-line">string flags: color = white, font = small, alignment = center </COMMENT>
-        <COMMENT ADDRESS="0x13AAAE" TYPE="end-of-line">-= end entry 0 =- </COMMENT>
-        <COMMENT ADDRESS="0x13AAB0" TYPE="end-of-line">x (1) </COMMENT>
-        <COMMENT ADDRESS="0x13AAB1" TYPE="end-of-line">y </COMMENT>
-        <COMMENT ADDRESS="0x13AAB2" TYPE="end-of-line">width </COMMENT>
-        <COMMENT ADDRESS="0x13AAB3" TYPE="end-of-line">height </COMMENT>
-        <COMMENT ADDRESS="0x13AAB4" TYPE="end-of-line">type 2 - positions </COMMENT>
-        <COMMENT ADDRESS="0x13AAB6" TYPE="end-of-line">left entry </COMMENT>
-        <COMMENT ADDRESS="0x13AAB7" TYPE="end-of-line">right entry </COMMENT>
-        <COMMENT ADDRESS="0x13AAB8" TYPE="end-of-line">up entry </COMMENT>
-        <COMMENT ADDRESS="0x13AAB9" TYPE="end-of-line">down entry </COMMENT>
-        <COMMENT ADDRESS="0x13AABA" TYPE="end-of-line">type 4 - entry and frame color </COMMENT>
-        <COMMENT ADDRESS="0x13AABC" TYPE="end-of-line">background color: yellow-to-green-to-black, outer frame color: gray, no inner frame </COMMENT>
-        <COMMENT ADDRESS="0x13AABE" TYPE="end-of-line">type 8 - entry text pointer </COMMENT>
-        <COMMENT ADDRESS="0x13AAC0" TYPE="end-of-line">string flags: color = white, font = small, alignment = center </COMMENT>
-        <COMMENT ADDRESS="0x13AAC6" TYPE="end-of-line">type 13 - on select function - fire only </COMMENT>
-        <COMMENT ADDRESS="0x13AACC" TYPE="end-of-line">-= end entry 1 =- </COMMENT>
-        <COMMENT ADDRESS="0x13AACE" TYPE="end-of-line">x (2) </COMMENT>
-        <COMMENT ADDRESS="0x13AACF" TYPE="end-of-line">y </COMMENT>
-        <COMMENT ADDRESS="0x13AAD0" TYPE="end-of-line">width </COMMENT>
-        <COMMENT ADDRESS="0x13AAD1" TYPE="end-of-line">height </COMMENT>
-        <COMMENT ADDRESS="0x13AAD2" TYPE="end-of-line">type 2 - positions </COMMENT>
-        <COMMENT ADDRESS="0x13AAD4" TYPE="end-of-line">left entry </COMMENT>
-        <COMMENT ADDRESS="0x13AAD5" TYPE="end-of-line">right entry </COMMENT>
-        <COMMENT ADDRESS="0x13AAD6" TYPE="end-of-line">up entry </COMMENT>
-        <COMMENT ADDRESS="0x13AAD7" TYPE="end-of-line">down entry </COMMENT>
-        <COMMENT ADDRESS="0x13AAD8" TYPE="end-of-line">type 4 - entry and frame color </COMMENT>
-        <COMMENT ADDRESS="0x13AADA" TYPE="end-of-line">background color: yellow-to-green-to-black, outer frame color: gray, no inner frame </COMMENT>
-        <COMMENT ADDRESS="0x13AADC" TYPE="end-of-line">type 8 - entry text pointer </COMMENT>
-        <COMMENT ADDRESS="0x13AADE" TYPE="end-of-line">string flags: color = white, font = small, alignment = center </COMMENT>
-        <COMMENT ADDRESS="0x13AAE4" TYPE="end-of-line">type 13 - on select function - fire only </COMMENT>
-        <COMMENT ADDRESS="0x13AAEA" TYPE="end-of-line">-= end entry 2 =- </COMMENT>
-        <COMMENT ADDRESS="0x13AAEC" TYPE="end-of-line">x (3) </COMMENT>
-        <COMMENT ADDRESS="0x13AAED" TYPE="end-of-line">y </COMMENT>
-        <COMMENT ADDRESS="0x13AAEE" TYPE="end-of-line">width </COMMENT>
-        <COMMENT ADDRESS="0x13AAEF" TYPE="end-of-line">height </COMMENT>
-        <COMMENT ADDRESS="0x13AAF0" TYPE="end-of-line">type 2 - positions </COMMENT>
-        <COMMENT ADDRESS="0x13AAF2" TYPE="end-of-line">left entry </COMMENT>
-        <COMMENT ADDRESS="0x13AAF3" TYPE="end-of-line">right entry </COMMENT>
-        <COMMENT ADDRESS="0x13AAF4" TYPE="end-of-line">up entry </COMMENT>
-        <COMMENT ADDRESS="0x13AAF5" TYPE="end-of-line">down entry </COMMENT>
-        <COMMENT ADDRESS="0x13AAF6" TYPE="end-of-line">type 4 - entry and frame color </COMMENT>
-        <COMMENT ADDRESS="0x13AAF8" TYPE="end-of-line">background color: yellow-to-green-to-black, outer frame color: gray, no inner frame </COMMENT>
-        <COMMENT ADDRESS="0x13AAFA" TYPE="end-of-line">type 8 - entry text pointer </COMMENT>
-        <COMMENT ADDRESS="0x13AAFC" TYPE="end-of-line">string flags: color = white, font = small, alignment = center </COMMENT>
-        <COMMENT ADDRESS="0x13AB02" TYPE="end-of-line">type 13 - on select function - fire only </COMMENT>
-        <COMMENT ADDRESS="0x13AB08" TYPE="end-of-line">-= end entry 3 =- </COMMENT>
-        <COMMENT ADDRESS="0x13AB0A" TYPE="end-of-line">x (4) </COMMENT>
-        <COMMENT ADDRESS="0x13AB0B" TYPE="end-of-line">y </COMMENT>
-        <COMMENT ADDRESS="0x13AB0C" TYPE="end-of-line">width </COMMENT>
-        <COMMENT ADDRESS="0x13AB0D" TYPE="end-of-line">height </COMMENT>
-        <COMMENT ADDRESS="0x13AB0E" TYPE="end-of-line">type 2 - positions </COMMENT>
-        <COMMENT ADDRESS="0x13AB10" TYPE="end-of-line">left entry </COMMENT>
-        <COMMENT ADDRESS="0x13AB11" TYPE="end-of-line">right entry </COMMENT>
-        <COMMENT ADDRESS="0x13AB12" TYPE="end-of-line">up entry </COMMENT>
-        <COMMENT ADDRESS="0x13AB13" TYPE="end-of-line">down entry </COMMENT>
-        <COMMENT ADDRESS="0x13AB14" TYPE="end-of-line">type 4 - entry and frame color </COMMENT>
-        <COMMENT ADDRESS="0x13AB16" TYPE="end-of-line">background color: orange to brown, outer frame color: red, no inner frame </COMMENT>
-        <COMMENT ADDRESS="0x13AB18" TYPE="end-of-line">type 8 - entry text pointer </COMMENT>
-        <COMMENT ADDRESS="0x13AB1A" TYPE="end-of-line">string flags: color = white, font = small, alignment = center </COMMENT>
-        <COMMENT ADDRESS="0x13AB20" TYPE="end-of-line">type 13 - on select function - fire only </COMMENT>
-        <COMMENT ADDRESS="0x13AB26" TYPE="end-of-line">-= end entry 4 =- </COMMENT>
-        <COMMENT ADDRESS="0x13AB28" TYPE="end-of-line">-= end menu =- </COMMENT>
+        <COMMENT ADDRESS="0x13AA90" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AA94" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AA98" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AA9C" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AA9E" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AA9F" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAA0" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAA1" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAA2" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAA4" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAA6" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAA8" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAAE" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAB0" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAB1" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAB2" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAB3" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAB4" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAB6" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAB7" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAB8" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAB9" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AABA" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AABC" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AABE" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAC0" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAC6" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AACC" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AACE" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AACF" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAD0" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAD1" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAD2" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAD4" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAD5" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAD6" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAD7" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAD8" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AADA" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AADC" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AADE" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAE4" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAEA" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAEC" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAED" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAEE" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAEF" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAF0" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAF2" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAF3" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAF4" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAF5" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAF6" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAF8" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAFA" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AAFC" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AB02" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AB08" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AB0A" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AB0B" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AB0C" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AB0D" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AB0E" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AB10" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AB11" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AB12" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AB13" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AB14" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AB16" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AB18" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AB1A" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AB20" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AB26" TYPE="end-of-line">On init function </COMMENT>
+        <COMMENT ADDRESS="0x13AB28" TYPE="end-of-line">On init function </COMMENT>
         <COMMENT ADDRESS="0x13AB84" TYPE="end-of-line">On init function </COMMENT>
         <COMMENT ADDRESS="0x13AB88" TYPE="end-of-line">On init function </COMMENT>
         <COMMENT ADDRESS="0x13AB8C" TYPE="end-of-line">On init function </COMMENT>
@@ -61673,10 +61620,6 @@ out:
             <REGISTER_VAR NAME="teamPtr" REGISTER="A0" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>Career_InitInternationalSquadAndLookupTablesForNewSeason</TYPEINFO_CMT>
         </FUNCTION>
-        <FUNCTION ENTRY_POINT="0x146C96" NAME="careerDefaultInternationalSquadSlotsTable">
-            <ADDRESS_RANGE START="0x146C96" END="0x146CA1" />
-            <TYPEINFO_CMT>careerDefaultInternationalSquadSlotsTable</TYPEINFO_CMT>
-        </FUNCTION>
         <FUNCTION ENTRY_POINT="0x146CA2" NAME="ShowSelectRepresentationMenu" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x146CA2" END="0x146CB5" />
             <RETURN_TYPE DATATYPE="ushort" DATATYPE_NAMESPACE="/" REGISTER="D0W" />
@@ -65478,15 +65421,6 @@ out: D0 = 0 - success
         <MEMORY_REFERENCE ADDRESS="0x13A9C4" OPERAND_INDEX="0" TO_ADDRESS="0x168C2A" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13A9D2" OPERAND_INDEX="0" TO_ADDRESS="0x168C4E" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x13A9F0" OPERAND_INDEX="0" VALUE="0x1" NAME="DIY_CUP" />
-        <MEMORY_REFERENCE ADDRESS="0x13AAAA" OPERAND_INDEX="0" TO_ADDRESS="0x15667B" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x13AAC2" OPERAND_INDEX="0" TO_ADDRESS="0x156686" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x13AAC8" OPERAND_INDEX="0" TO_ADDRESS="0x13AB2A" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x13AAE0" OPERAND_INDEX="0" TO_ADDRESS="0x15669A" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x13AAE6" OPERAND_INDEX="0" TO_ADDRESS="0x13AB3A" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x13AAFE" OPERAND_INDEX="0" TO_ADDRESS="0x1566AB" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x13AB04" OPERAND_INDEX="0" TO_ADDRESS="0x13AB5A" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x13AB1C" OPERAND_INDEX="0" TO_ADDRESS="0x156191" PRIMARY="y" />
-        <MEMORY_REFERENCE ADDRESS="0x13AB22" OPERAND_INDEX="0" TO_ADDRESS="0x13AB70" PRIMARY="y" />
         <MEMORY_REFERENCE ADDRESS="0x13AD66" OPERAND_INDEX="0" TO_ADDRESS="0x1547D9" PRIMARY="y" />
         <EQUATE_REFERENCE ADDRESS="0x13ADB0" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />
         <EQUATE_REFERENCE ADDRESS="0x13ADCE" OPERAND_INDEX="0" VALUE="0x9" NAME="PINK_TO_BROWN_9" />

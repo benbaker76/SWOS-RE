@@ -89757,91 +89757,132 @@ loc_13AA78:
 loc_13AA80:
                 lea     (competitionStatsMenu).l,a6
                 jmp     ShowMenu
+; Menu_CompetitionStats
 competitionStatsMenu:
-                dc.l $00000000          ; On init function
-                dc.l $00000000          ; on return function
-                dc.l $00000000          ; on draw function
-                dc.l $00000001          ; -= default entry =-
-                dc.w -1                 ; byte coords
-                dc.b $5C                ; x (0)
+                ; Menu_CompetitionStats
+                ; hdr (struct)
+                dc.l 0                  ; onInitPtr
+                dc.l 0                  ; onReturnPtr
+                dc.l 0                  ; onDrawPtr
+                dc.l $00000001          ; On init function
+                dc.w MENU_MARK_BYTE_COORDS ; markByteCoords
+                ; entry0 (struct)
+                ; rc (struct)
+                dc.b $5C                ; x
                 dc.b $00                ; y
-                dc.b $78                ; width
-                dc.b $0F                ; height
-                dc.w $0004              ; type 4 - entry and frame color
-                dc.w $0017              ; background color: pink to brown, outer frame color: gray, inner frame color: gray
-                dc.w $0008              ; type 8 - entry text pointer
-                dc.w $0000              ; string flags: color = white, font = small, alignment = center
-                dc.l aStatistics        ; "STATISTICS"
-                dc.w $0000              ; -= end entry 0 =-
-                dc.b $5C                ; x (1)
+                dc.b $78                ; w
+                dc.b $0F                ; h
+                ; colors (struct)
+                dc.w MENU_CMD_COLORS    ; type
+                ; flags (struct)
+                dc.w $0017              ; reserved
+                ; text (struct)
+                dc.w MENU_CMD_TEXT_PTR  ; type
+                ; strFlags (struct)
+                dc.w $0000              ; textColor
+                dc.l aStatistics        ; textPtr
+                dc.w MENU_CMD_END       ; end
+                ; entry1 (struct)
+                ; rc (struct)
+                dc.b $5C                ; x
                 dc.b $28                ; y
-                dc.b $78                ; width
-                dc.b $0F                ; height
-                dc.w $0002              ; type 2 - positions
-                dc.b -1                 ; left entry
-                dc.b -1                 ; right entry
-                dc.b -1                 ; up entry
-                dc.b $02                ; down entry
-                dc.w $0004              ; type 4 - entry and frame color
-                dc.w $000E              ; background color: yellow-to-green-to-black, outer frame color: gray, no inner frame
-                dc.w $0008              ; type 8 - entry text pointer
-                dc.w $0000              ; string flags: color = white, font = small, alignment = center
-                dc.l aHighestScorerL    ; "HIGHEST SCORER LIST"
-                dc.w $000D              ; type 13 - on select function - fire only
-                dc.l StatsHighestScorerList ; " y"
-                dc.w $0000              ; -= end entry 1 =-
-                dc.b $5C                ; x (2)
+                dc.b $78                ; w
+                dc.b $0F                ; h
+                ; nav (struct)
+                dc.w MENU_CMD_NAV       ; type
+                dc.b -1                 ; left
+                dc.b -1                 ; right
+                dc.b -1                 ; up
+                dc.b $02                ; down
+                ; colors (struct)
+                dc.w MENU_CMD_COLORS    ; type
+                ; flags (struct)
+                dc.w $000E              ; reserved
+                ; text (struct)
+                dc.w MENU_CMD_TEXT_PTR  ; type
+                ; strFlags (struct)
+                dc.w $0000              ; textColor
+                dc.l aHighestScorerL    ; textPtr
+                ; onSelect (struct)
+                dc.w MENU_CMD_ONSELECT_FIRE ; type
+                dc.l StatsHighestScorerList ; funcPtr
+                dc.w MENU_CMD_END       ; end
+                ; entry2 (struct)
+                ; rc (struct)
+                dc.b $5C                ; x
                 dc.b $41                ; y
-                dc.b $78                ; width
-                dc.b $0F                ; height
-                dc.w $0002              ; type 2 - positions
-                dc.b -1                 ; left entry
-                dc.b -1                 ; right entry
-                dc.b $01                ; up entry
-                dc.b $03                ; down entry
-                dc.w $0004              ; type 4 - entry and frame color
-                dc.w $000E              ; background color: yellow-to-green-to-black, outer frame color: gray, no inner frame
-                dc.w $0008              ; type 8 - entry text pointer
-                dc.w $0000              ; string flags: color = white, font = small, alignment = center
-                dc.l aCompetitionInf    ; "COMPETITION INFO"
-                dc.w $000D              ; type 13 - on select function - fire only
-                dc.l CompetitionInfo
-                dc.w $0000              ; -= end entry 2 =-
-                dc.b $5C                ; x (3)
+                dc.b $78                ; w
+                dc.b $0F                ; h
+                ; nav (struct)
+                dc.w MENU_CMD_NAV       ; type
+                dc.b -1                 ; left
+                dc.b -1                 ; right
+                dc.b $01                ; up
+                dc.b $03                ; down
+                ; colors (struct)
+                dc.w MENU_CMD_COLORS    ; type
+                ; flags (struct)
+                dc.w $000E              ; reserved
+                ; text (struct)
+                dc.w MENU_CMD_TEXT_PTR  ; type
+                ; strFlags (struct)
+                dc.w $0000              ; textColor
+                dc.l aCompetitionInf    ; textPtr
+                ; onSelect (struct)
+                dc.w MENU_CMD_ONSELECT_FIRE ; type
+                dc.l CompetitionInfo    ; funcPtr
+                dc.w MENU_CMD_END       ; end
+                ; entry3 (struct)
+                ; rc (struct)
+                dc.b $5C                ; x
                 dc.b $5A                ; y
-                dc.b $78                ; width
-                dc.b $0F                ; height
-                dc.w $0002              ; type 2 - positions
-                dc.b -1                 ; left entry
-                dc.b -1                 ; right entry
-                dc.b $02                ; up entry
-                dc.b $04                ; down entry
-                dc.w $0004              ; type 4 - entry and frame color
-                dc.w $000E              ; background color: yellow-to-green-to-black, outer frame color: gray, no inner frame
-                dc.w $0008              ; type 8 - entry text pointer
-                dc.w $0000              ; string flags: color = white, font = small, alignment = center
-                dc.l aViewSquads        ; "VIEW SQUADS"
-                dc.w $000D              ; type 13 - on select function - fire only
-                dc.l StatsViewSquads    ; """y"
-                dc.w $0000              ; -= end entry 3 =-
-                dc.b $66                ; x (4)
+                dc.b $78                ; w
+                dc.b $0F                ; h
+                ; nav (struct)
+                dc.w MENU_CMD_NAV       ; type
+                dc.b -1                 ; left
+                dc.b -1                 ; right
+                dc.b $02                ; up
+                dc.b $04                ; down
+                ; colors (struct)
+                dc.w MENU_CMD_COLORS    ; type
+                ; flags (struct)
+                dc.w $000E              ; reserved
+                ; text (struct)
+                dc.w MENU_CMD_TEXT_PTR  ; type
+                ; strFlags (struct)
+                dc.w $0000              ; textColor
+                dc.l aViewSquads        ; textPtr
+                ; onSelect (struct)
+                dc.w MENU_CMD_ONSELECT_FIRE ; type
+                dc.l StatsViewSquads    ; funcPtr
+                dc.w MENU_CMD_END       ; end
+                ; entry4 (struct)
+                ; rc (struct)
+                dc.b $66                ; x
                 dc.b -71                ; y
-                dc.b $64                ; width
-                dc.b $0F                ; height
-                dc.w $0002              ; type 2 - positions
-                dc.b -1                 ; left entry
-                dc.b -1                 ; right entry
-                dc.b $03                ; up entry
-                dc.b -1                 ; down entry
-                dc.w $0004              ; type 4 - entry and frame color
-                dc.w $000C              ; background color: orange to brown, outer frame color: red, no inner frame
-                dc.w $0008              ; type 8 - entry text pointer
-                dc.w $0000              ; string flags: color = white, font = small, alignment = center
-                dc.l aExit              ; "EXIT"
-                dc.w $000D              ; type 13 - on select function - fire only
-                dc.l StatsExit
-                dc.w $0000              ; -= end entry 4 =-
-                dc.w -999               ; -= end menu =-
+                dc.b $64                ; w
+                dc.b $0F                ; h
+                ; nav (struct)
+                dc.w MENU_CMD_NAV       ; type
+                dc.b -1                 ; left
+                dc.b -1                 ; right
+                dc.b $03                ; up
+                dc.b -1                 ; down
+                ; colors (struct)
+                dc.w MENU_CMD_COLORS    ; type
+                ; flags (struct)
+                dc.w $000C              ; reserved
+                ; text (struct)
+                dc.w MENU_CMD_TEXT_PTR  ; type
+                ; strFlags (struct)
+                dc.w $0000              ; textColor
+                dc.l aExit              ; textPtr
+                ; onSelect (struct)
+                dc.w MENU_CMD_ONSELECT_FIRE ; type
+                dc.l StatsExit          ; funcPtr
+                dc.w MENU_CMD_END       ; end
+                dc.w MENU_MARK_END_MENU ; markEndMenu
 
 ; ===== StatsHighestScorerList =====
 ; prototype: void __usercall StatsHighestScorerList(__int16 mode@<d0>, const char *diyName@<a0>)
@@ -110859,14 +110900,8 @@ loc_146C82:
                 bne.s   loc_146C42
                 clr.w   (careerNumPlayers).l
                 rts
-
-; ===== careerDefaultInternationalSquadSlotsTable =====
-; prototype: void careerDefaultInternationalSquadSlotsTable(void)
 careerDefaultInternationalSquadSlotsTable:
-                btst    d0,d2
-                btst    d2,d6
-                movep.w $407(a1),d1
-                movep.w $800(a2),d5
+                dc.b $01,$02,$05,$06,$03,$09,$04,$07,$0B,$0A,$08,$00
 
 ; ===== ShowSelectRepresentationMenu =====
 ; prototype: unsigned __int16 __usercall ShowSelectRepresentationMenu@<d0>()
