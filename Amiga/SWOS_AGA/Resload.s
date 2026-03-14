@@ -1150,10 +1150,10 @@ _progdir_prefix:
           dc.b "PROGDIR:",0
 _data_prefix:
           dc.b "data/",0
-_save_filename: 
-          ds.b 14
 _save_filepath:
-          dc.b "save/",0
+          dc.b "save/"        ; 5 bytes, NO null terminator
+_save_filename:
+          ds.b 14             ; filename copied here by FixFilename
 _savedir:
           dc.b "save",0
 listdir_buffer:

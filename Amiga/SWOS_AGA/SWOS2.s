@@ -3442,6 +3442,8 @@ asset_select_and_open_exit:
 ; ===== AssetSys_OpenAnySource =====
 ; prototype: __int16 __usercall AssetSys_OpenAnySource@<d0>()
 AssetSys_OpenAnySource:
+                clr.w   d0
+                rts
                 movem.l d1-d7/a0-a6,-(sp)
                 move.w  (assetCurrentSourceSlot).l,(assetSavedSourceSlot).l
                 move.w  (assetCurrentIndex).l,(assetSavedIndex).l
@@ -84019,12 +84021,12 @@ SquadAfterDrawCommon:
                 cmpi.w  #$10,d7
                 bne.s   loc_13A0BE
                 move.w  #1,d5
-                lea     ($323E).w,a0
+                lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A10)).l,a0
                 move.w  $1E(a0),d0
                 andi.w  #$FFF0,d0
                 addq.w  #8,d0
                 move.w  d0,$1E(a0)
-                lea     ($32AE).w,a0
+                lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A80)).l,a0
                 move.w  $1E(a0),d0
                 andi.w  #$FFF0,d0
                 addq.w  #8,d0
@@ -84038,36 +84040,36 @@ loc_13A0BE:
                 beq.s   loc_13A100
                 tst.w   d7
                 beq.s   loc_13A12C
-                lea     ($323E).w,a0
+                lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A10)).l,a0
                 move.w  $1E(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #$D,d0
                 move.w  d0,$1E(a0)
-                lea     ($32AE).w,a0
+                lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A80)).l,a0
                 move.w  $1E(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #$D,d0
                 move.w  d0,$1E(a0)
                 bra.w   loc_13A1DC
 loc_13A100:
-                lea     ($323E).w,a0
+                lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A10)).l,a0
                 move.w  $1E(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #$A,d0
                 move.w  d0,$1E(a0)
-                lea     ($32AE).w,a0
+                lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A80)).l,a0
                 move.w  $1E(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #$A,d0
                 move.w  d0,$1E(a0)
                 bra.w   loc_13A1DC
 loc_13A12C:
-                lea     ($323E).w,a0
+                lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A10)).l,a0
                 move.w  $1E(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #$E,d0
                 move.w  d0,$1E(a0)
-                lea     ($32AE).w,a0
+                lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A80)).l,a0
                 move.w  $1E(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #$E,d0
@@ -84076,35 +84078,35 @@ loc_13A12C:
 loc_13A158:
                 cmpi.b  #1,4(a6)
                 beq.s   loc_13A1B4
-                lea     ($323E).w,a0
+                lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A10)).l,a0
                 move.w  $1E(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #$B,d0
                 move.w  d0,$1E(a0)
-                lea     ($32AE).w,a0
+                lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A80)).l,a0
                 move.w  $1E(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #$B,d0
                 move.w  d0,$1E(a0)
                 bra.s   loc_13A1DC
-                lea     ($323E).w,a0
+                lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A10)).l,a0
                 move.w  $1E(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #$E,d0
                 move.w  d0,$1E(a0)
-                lea     ($32AE).w,a0
+                lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A80)).l,a0
                 move.w  $1E(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #$E,d0
                 move.w  d0,$1E(a0)
                 bra.s   loc_13A1DC
 loc_13A1B4:
-                lea     ($323E).w,a0
+                lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A10)).l,a0
                 move.w  $1E(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #$C,d0
                 move.w  d0,$1E(a0)
-                lea     ($32AE).w,a0
+                lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A80)).l,a0
                 move.w  $1E(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #$C,d0
@@ -84121,12 +84123,12 @@ loc_13A1DC:
                 jsr     IsPlayerInjured
                 movem.l (sp)+,d1
                 beq.s   loc_13A22E
-                lea     ($323E).w,a0
+                lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A10)).l,a0
                 move.w  $1E(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #$A,d0
                 move.w  d0,$1E(a0)
-                lea     ($32AE).w,a0
+                lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A80)).l,a0
                 move.w  $1E(a0),d0
                 andi.w  #$FFF0,d0
                 addi.w  #$A,d0
@@ -84134,12 +84136,12 @@ loc_13A1DC:
 loc_13A22E:
                 cmp.w   (squadPrevSelectedPlayerIndex).l,d1
                 bne.s   loc_13A25A
-                lea     ($323E).w,a0
+                lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A10)).l,a0
                 move.w  $1E(a0),d0
                 andi.w  #$FFF0,d0
                 addq.w  #6,d0
                 move.w  d0,$1E(a0)
-                lea     ($32AE).w,a0
+                lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A80)).l,a0
                 move.w  $1E(a0),d0
                 andi.w  #$FFF0,d0
                 addq.w  #6,d0
