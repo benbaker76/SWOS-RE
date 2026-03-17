@@ -1,7 +1,7 @@
 /*
  * Auto-generated call graph export
  * Start: GameLoop
- * Date : 2026-03-08 14:52:50
+ * Date : 2026-03-16 20:50:46
  */
 
 /* ===================== INCLUDES ===================== */
@@ -317,7 +317,7 @@ char __usercall AssignFakeGoalsToScorers(ushort winningTeam, ushort numGoals);
 Position __usercall CalcTeamViewOffset(TeamFile * teamFile);
 ushort __usercall GetPlayerPrice(TeamFile * team, PlayerFile * player, ushort position);
 ushort __usercall CountNearnessFactor(ushort curBallQuadrant, ushort dstBallQuadrant, ushort price, uchar * curQuadDistFactor, uchar * playerPositions, uchar * coordToQuad);
-char __usercall GetPlayerRandomNum(PlayerFile * playerFile);
+char __usercall GetPlayerRandomNum(PlayerFile * player);
 ushort __usercall GetAveragePlayerPrice(void * team);
 void __usercall ApplyTeamTactics(void * playerInfos);
 char __usercall AdjustPlayerSkills(ushort playerIndex, TeamFile * teamFile, TeamFile * oppTeamFile, TeamGame * teamGame, PlayerFile * playerFile, PlayerInfoHeader * playerInfoHeader);
@@ -325,9 +325,9 @@ short __usercall GetPlayerPricePercentageChange(short factor, TeamFile * team);
 ushort __usercall ScaleSkill(ushort skill, ushort factor, void * whichSide);
 ushort __usercall FindTeamInCache(ushort teamNumber);
 void * __usercall VerifyTeamLoaded(ushort teamNumber);
-ushort __usercall FindTeamInDIY(ushort teamNo, DIY_Competition * comp);
-ushort __usercall GetMoreExpensiveTeamsCountWrapper(ushort teamNo, DIY_Competition * comp);
-ushort __usercall GetMoreExpensiveTeamsCount(ushort teamNo, DIY_Competition * comp);
+ushort __usercall FindTeamInDIY(ushort teamNo, DIYCompetition * comp);
+ushort __usercall GetMoreExpensiveTeamsCountWrapper(ushort teamNo, DIYCompetition * comp);
+ushort __usercall GetMoreExpensiveTeamsCount(ushort teamNo, DIYCompetition * comp);
 ushort __usercall SearchTeamInTmdFile(ushort teamNo);
 void __usercall DrawAnimatedPatterns(void);
 void __usercall SwapTwoRandomIndicesFromAnimPatternsTable(void);
@@ -19242,15 +19242,15 @@ CountNearnessFactor(ushort curBallQuadrant,ushort dstBallQuadrant,ushort price,
    
    Get random number bound to player. */
 
-char __usercall GetPlayerRandomNum(PlayerFile *playerFile)
+char __usercall GetPlayerRandomNum(PlayerFile *player)
 
 {
   return kRandomTable
          [(short)(ushort)(byte)(newRandomSeedCopy ^
                                (byte)currentSeasonShowing ^
-                               playerFile[2].playerName[10] ^
-                               playerFile[2].playerName[0] ^
-                               playerFile[2].positionAndFace & 0xfb ^ playerFile[2].price)];
+                               player[2].playerName[10] ^
+                               player[2].playerName[0] ^
+                               player[2].positionAndFace & 0xfb ^ player[2].price)];
 }
 
 
@@ -19283,7 +19283,7 @@ void __usercall ApplyTeamTactics(void *playerInfos)
   ushort uVar3;
   char cVar4;
   ushort playerIndex;
-  PlayerFile *playerFile;
+  PlayerFile *player;
   TeamFile *teamFile;
   TeamFile *oppTeamFile;
   PlayerInfoHeader *playerInfoHeader;
@@ -19303,12 +19303,12 @@ void __usercall ApplyTeamTactics(void *playerInfos)
   do {
     uVar3._0_1_ = teamFile->countryNumber;
     uVar3._1_1_ = teamFile->teamOrdinal;
-    playerFile = GetPlayer(uVar3,(short)(char)playerInfoHeader->playerIndex);
+    player = GetPlayer(uVar3,(short)(char)playerInfoHeader->playerIndex);
     SaveRand2State();
-    cVar4 = GetPlayerRandomNum(playerFile);
+    cVar4 = GetPlayerRandomNum(player);
     uVar3 = CONCAT11(uVar3._0_1_,cVar4);
     Randomize2(gameRandValue ^ uVar3);
-    AdjustPlayerSkills(playerIndex,teamFile,oppTeamFile,playerInfos,playerFile,playerInfoHeader);
+    AdjustPlayerSkills(playerIndex,teamFile,oppTeamFile,playerInfos,player,playerInfoHeader);
     RestoreRand2State();
     playerInfoHeader = (PlayerInfoHeader *)(playerInfoHeader->shortName + 7);
     playerIndex = playerIndex + 1;
@@ -19526,110 +19526,114 @@ void * __usercall VerifyTeamLoaded(ushort teamNumber)
    out:
        D1 -  index of that team in DIY competition, or -1 if not found */
 
-ushort __usercall FindTeamInDIY(ushort teamNo,DIY_Competition *comp)
+ushort __usercall FindTeamInDIY(ushort teamNo,DIYCompetition *comp)
 
 {
-  ushort uVar1;
+  word wVar1;
   ushort uVar2;
-  word wVar3;
-  ushort uVar4;
-  short sVar5;
-  DIY_Competition *pDVar6;
-  void *pvVar7;
-  byte *pbVar8;
-  DIY_Competition *pDVar9;
+  ushort uVar3;
+  word wVar4;
+  ushort uVar5;
+  short sVar6;
+  DIYCompetition *pDVar7;
+  void *pvVar8;
+  word *pwVar9;
+  DIYCompetition *pDVar10;
   
   diyFoundTeamIndex = 0;
-  wVar3 = comp->numTeams;
+  wVar4 = comp->numTeams;
   if (comp->competitionType == DIY_CUP) {
-    diyCompHasGroupStage._0_1_ = -(*(short *)(comp->field_3A + 0x1c) != 0);
+    diyCompHasGroupStage._0_1_ = -(comp->competitionFinished != 0);
     diyCompHasGroupStage = (ushort)diyCompHasGroupStage._0_1_ << 8;
 LAB_0012ef92:
-    uVar1 = 0xffff;
-    while (wVar3 = wVar3 - 1, -1 < (short)wVar3) {
-      uVar1 = uVar1 + 1;
+    uVar2 = 0xffff;
+    while (wVar4 = wVar4 - 1, -1 < (short)wVar4) {
+      uVar2 = uVar2 + 1;
       if (teamNo == *(ushort *)
-                     (comp[6].field_2 +
-                     (short)((short)(char)comp[7].field_2[(short)uVar1 + 0x2c] << 1) + 0xc)) {
-        if ((*(short *)(comp->field_3A + 0x1c) != 0) && (uVar1 < 2)) {
-          if (teamNo == *(ushort *)comp->field_3A) {
+                     (comp[6].competitionName +
+                     (short)((short)(char)comp[7].competitionName[(short)uVar2 + 0x2a] << 1) + 10))
+      {
+        if ((comp->competitionFinished != 0) && (uVar2 < 2)) {
+          if (teamNo == comp->resultCode) {
             diyFoundTeamIndex = 0;
             return 0;
           }
           return 1;
         }
-        if ((ushort)(*(ushort *)(comp->field_3A + 0x16) << 1) <= uVar1) {
+        if ((ushort)(comp->matchPairsPerRound << 1) <= uVar2) {
           diyFoundTeamIndex = 1;
-          for (uVar2 = 0x20; uVar1 < uVar2; uVar2 = uVar2 >> 1) {
+          for (uVar3 = 0x20; uVar2 < uVar3; uVar3 = uVar3 >> 1) {
           }
-          return ((uVar2 >> 1) + uVar2) - 1;
+          return ((uVar3 >> 1) + uVar3) - 1;
         }
-        return (*(ushort *)(comp->field_3A + 0x16) & 0x7fff) - 1;
+        return (comp->matchPairsPerRound & 0x7fff) - 1;
       }
     }
   }
   else {
     if (comp->competitionType == DIY_TOURNAMENT) {
-      diyCompHasGroupStage._0_1_ = -(*(short *)(comp->field_3A + 0x1e) != 0);
+      diyCompHasGroupStage._0_1_ = -(comp->currentRoundIndex != 0);
       diyCompHasGroupStage = (ushort)diyCompHasGroupStage._0_1_ << 8;
-      uVar1 = 0xffff;
+      uVar2 = 0xffff;
       do {
-        wVar3 = wVar3 - 1;
-        if ((short)wVar3 < 0) goto LAB_0012f0bc;
-        uVar1 = uVar1 + 1;
+        wVar4 = wVar4 - 1;
+        if ((short)wVar4 < 0) goto LAB_0012f0bc;
+        uVar2 = uVar2 + 1;
       } while (teamNo != *(ushort *)
-                          (comp[1].field_3A +
-                          (short)((short)(char)comp->field_3A[(short)uVar1 + 0x20] << 1)));
-      sVar5 = *(short *)(comp->field_3A + 0x1a);
-      if ((*(short *)(comp->field_3A + 0x1e) == 0) ||
-         (*(ushort *)(comp[3].field_3A + (short)(sVar5 * 0x76) + 8) <= uVar1)) {
-        if (uVar1 < *(ushort *)(comp[3].field_3A + (short)(sVar5 * 0x76) + 8)) {
-          return (*(ushort *)(comp[3].field_3A + (short)(sVar5 * 0x76) + 8) >> 1) - 1;
+                          (comp[1].competitionName +
+                          (short)((short)(char)comp->competitionName[(short)uVar2 + 0x56] << 1) +
+                          0x36));
+      wVar1 = comp->roundComplete;
+      if ((comp->currentRoundIndex == 0) ||
+         (*(ushort *)(comp[3].competitionName + (short)(wVar1 * 0x76) + 0x3e) <= uVar2)) {
+        if (uVar2 < *(ushort *)(comp[3].competitionName + (short)(wVar1 * 0x76) + 0x3e)) {
+          return (*(ushort *)(comp[3].competitionName + (short)(wVar1 * 0x76) + 0x3e) >> 1) - 1;
         }
         diyFoundTeamIndex = 1;
-        pDVar9 = comp;
-        if (*(short *)comp[3].field_3A != 0) {
-          if (uVar1 == 3) {
+        pDVar10 = comp;
+        if (comp[3].resultCode != 0) {
+          if (uVar2 == 3) {
             diyFoundTeamIndex = 1;
             return 3;
           }
-          if (uVar1 == 4) {
+          if (uVar2 == 4) {
             diyFoundTeamIndex = 1;
             return 4;
           }
         }
         do {
-          pDVar6 = pDVar9;
-          uVar2 = *(ushort *)(pDVar6[4].field_3A + 0x1e);
-          pDVar9 = (DIY_Competition *)(pDVar6[1].field_2 + 0x14);
-        } while (uVar1 < uVar2);
-        uVar1 = *(ushort *)(pDVar6[3].field_3A + 8);
+          pDVar7 = pDVar10;
+          uVar3 = pDVar7[4].currentRoundIndex;
+          pDVar10 = (DIYCompetition *)(pDVar7[1].competitionName + 0x12);
+        } while (uVar2 < uVar3);
+        uVar2 = pDVar7[3].slotStateC;
         if (((findTeamInDIY_SuppressSideEffectsFlag != 0) &&
-            (uVar4 = GetMoreExpensiveTeamsCountWrapper(teamNo,comp), uVar2 <= uVar4)) &&
-           (uVar4 < uVar1)) {
-          return uVar4;
+            (uVar5 = GetMoreExpensiveTeamsCountWrapper(teamNo,comp), uVar3 <= uVar5)) &&
+           (uVar5 < uVar2)) {
+          return uVar5;
         }
-        return (((ushort)(uVar1 - uVar2) >> 1) + uVar2) - 1;
+        return (((ushort)(uVar2 - uVar3) >> 1) + uVar3) - 1;
       }
-      pDVar9 = comp + 0xb;
-      wVar3 = comp[0xb].numTeams;
-      pDVar6 = comp + 3;
-      comp = pDVar9;
-      if (*(short *)(pDVar6->field_3A + (short)(sVar5 * 0x76) + 4) == 0) goto LAB_0012ef92;
+      pDVar10 = comp + 0xb;
+      wVar4 = comp[0xb].numTeams;
+      pDVar7 = comp + 3;
+      comp = pDVar10;
+      if (*(short *)(pDVar7->competitionName + (short)(wVar1 * 0x76) + 0x3a) == 0)
+      goto LAB_0012ef92;
     }
     else {
       diyCompHasGroupStage._0_1_ = -(comp[1].competitionType == 0);
       diyCompHasGroupStage = (ushort)diyCompHasGroupStage._0_1_ << 8;
-      pDVar9 = comp;
+      pDVar10 = comp;
     }
-    uVar1 = 0xfffe;
-    while (wVar3 = wVar3 - 1, comp = pDVar9, -1 < (short)wVar3) {
-      uVar1 = uVar1 + 2;
+    uVar2 = 0xfffe;
+    while (wVar4 = wVar4 - 1, comp = pDVar10, -1 < (short)wVar4) {
+      uVar2 = uVar2 + 2;
       if (teamNo == *(ushort *)
-                     (pDVar9[3].field_2 +
-                     (short)((short)((uint)(int)*(short *)(pDVar9[1].field_2 + (short)uVar1 + 0xc) /
-                                    0x12) << 1) + 0xc)) {
-        return uVar1 >> 1;
+                     (pDVar10[3].competitionName +
+                     (short)((short)((uint)(int)*(short *)(pDVar10[1].competitionName +
+                                                          (short)uVar2 + 10) / 0x12) << 1) + 10)) {
+        return uVar2 >> 1;
       }
     }
   }
@@ -19637,24 +19641,24 @@ LAB_0012f0bc:
   if (isNationalSelector == 0) {
     panicReasonCode = 0x6006;
     PanicHaltLoop();
-    wVar3 = comp->numTeams;
-    pbVar8 = comp[3].field_2 + 0xc;
-    if ((comp->competitionType != 0) && (pbVar8 = comp[6].field_2 + 0xc, comp->competitionType != 1)
-       ) {
-      pbVar8 = comp[1].field_3A;
+    wVar4 = comp->numTeams;
+    pwVar9 = (word *)(comp[3].competitionName + 10);
+    if ((comp->competitionType != 0) &&
+       (pwVar9 = (word *)(comp[6].competitionName + 10), comp->competitionType != 1)) {
+      pwVar9 = &comp[1].resultCode;
     }
-    pvVar7 = VerifyTeamLoaded(teamNo);
-    GetAveragePlayerPrice(pvVar7);
-    sVar5 = wVar3 - 1;
+    pvVar8 = VerifyTeamLoaded(teamNo);
+    GetAveragePlayerPrice(pvVar8);
+    sVar6 = wVar4 - 1;
     do {
-      if (*(ushort *)pbVar8 != teamNo) {
-        pvVar7 = VerifyTeamLoaded(*(ushort *)pbVar8);
-        GetAveragePlayerPrice(pvVar7);
+      if (*pwVar9 != teamNo) {
+        pvVar8 = VerifyTeamLoaded(*pwVar9);
+        GetAveragePlayerPrice(pvVar8);
       }
-      sVar5 = sVar5 + -1;
-      pbVar8 = pbVar8 + 2;
-    } while (sVar5 != -1);
-    return uVar1;
+      sVar6 = sVar6 + -1;
+      pwVar9 = pwVar9 + 1;
+    } while (sVar6 != -1);
+    return uVar2;
   }
   return 0xffff;
 }
@@ -19662,7 +19666,7 @@ LAB_0012f0bc:
 
 // --- GetMoreExpensiveTeamsCountWrapper @ 0012f0ca ---
 
-ushort __usercall GetMoreExpensiveTeamsCountWrapper(ushort teamNo,DIY_Competition *comp)
+ushort __usercall GetMoreExpensiveTeamsCountWrapper(ushort teamNo,DIYCompetition *comp)
 
 {
   ushort uVar1;
@@ -19674,7 +19678,7 @@ ushort __usercall GetMoreExpensiveTeamsCountWrapper(ushort teamNo,DIY_Competitio
 
 // --- GetMoreExpensiveTeamsCount @ 0012f0f0 ---
 
-ushort __usercall GetMoreExpensiveTeamsCount(ushort teamNo,DIY_Competition *comp)
+ushort __usercall GetMoreExpensiveTeamsCount(ushort teamNo,DIYCompetition *comp)
 
 {
   word wVar1;
@@ -19683,28 +19687,28 @@ ushort __usercall GetMoreExpensiveTeamsCount(ushort teamNo,DIY_Competition *comp
   ushort uVar4;
   short sVar5;
   void *pvVar6;
-  byte *pbVar7;
+  word *pwVar7;
   
   wVar1 = comp->numTeams;
-  pbVar7 = comp[3].field_2 + 0xc;
+  pwVar7 = (word *)(comp[3].competitionName + 10);
   if ((comp->competitionType != DIY_LEAGUE) &&
-     (pbVar7 = comp[6].field_2 + 0xc, comp->competitionType != DIY_CUP)) {
-    pbVar7 = comp[1].field_3A;
+     (pwVar7 = (word *)(comp[6].competitionName + 10), comp->competitionType != DIY_CUP)) {
+    pwVar7 = &comp[1].resultCode;
   }
   pvVar6 = VerifyTeamLoaded(teamNo);
   uVar2 = GetAveragePlayerPrice(pvVar6);
   uVar4 = 0;
   sVar5 = wVar1 - 1;
   do {
-    if (*(ushort *)pbVar7 != teamNo) {
-      pvVar6 = VerifyTeamLoaded(*(ushort *)pbVar7);
+    if (*pwVar7 != teamNo) {
+      pvVar6 = VerifyTeamLoaded(*pwVar7);
       uVar3 = GetAveragePlayerPrice(pvVar6);
       if (uVar2 < uVar3) {
         uVar4 = uVar4 + 1;
       }
     }
     sVar5 = sVar5 + -1;
-    pbVar7 = pbVar7 + 2;
+    pwVar7 = pwVar7 + 1;
   } while (sVar5 != -1);
   return uVar4;
 }

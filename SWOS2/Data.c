@@ -133,10 +133,10 @@ uint16_t offerSearchRetryCount;
 uint16_t goalkeeperDiveAttemptCount;
 // Pointer to nearest teammate sprite found during foul/card processing distance loop.
 void * nearestTeammatePtr;
-DIY_Competition diyFileBufferCopy;
+DIYCompetition diyFileBufferCopy;
 // Array of 16-bit team IDs for DIY tournament competitions.
 uint16_t diyTournamentTeamIds[451];
-DIY_Competition diyCompetitionStart;
+DIYCompetition diyCompetitionStart;
 uint16_t diyMinSubstitutes;
 uint16_t diyPointsForAWin;
 uint16_t diyLeagueMinSubstitutes;
@@ -2408,7 +2408,7 @@ uint32_t diyStartMonthStrTab = 1273108;
 // Menu string table for DIY tournament end month.
 uint32_t diyEndMonthStrTab = 1273110;
 // Menu string table for DIY away goals rule.
-uint32_t diyAwayGoalsStrTab = 0x2DB1A;
+uint32_t diyAwayGoalsStrTab = 187162;
 // Menu string table for stage 1 legs option.
 uint32_t diyStage1LegsStrTab = 1269082;
 // Menu string table for stage 2 legs option.
@@ -3066,9 +3066,9 @@ uint16_t showingCpuTeams = 0;
 // if false, game is simulated ("play match" button turns to "view result")
 uint16_t squadChangesAllowed = 0;
 // In play match menu
-TeamFile * playMatchTeam1Ptr = 0;
+TeamFileEx * playMatchTeam1Ptr = 0;
 // In play match menu
-TeamFile * playMatchTeam2Ptr = 0;
+TeamFileEx * playMatchTeam2Ptr = 0;
 // Might be max number of substitutes?
 uint16_t maxSubstitutesEntries = 0;
 // Total number of players per team in play match menu

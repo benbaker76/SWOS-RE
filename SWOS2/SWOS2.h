@@ -587,6 +587,19 @@ struct CompetitionCup {
     byte firstRoundNo;
 };
 
+typedef struct DIYTeamStats DIYTeamStats, *PDIYTeamStats;
+
+struct DIYTeamStats {
+    dword teamSelPtr;
+    word gamesPlayed;
+    word wins;
+    word draws;
+    word losses;
+    word goalsFor;
+    word goalsAgainst;
+    word points;
+};
+
 typedef struct MenuEntry_Wide_TextPtrOnly MenuEntry_Wide_TextPtrOnly, *PMenuEntry_Wide_TextPtrOnly;
 
 typedef struct MenuCoords16 MenuCoords16, *PMenuCoords16;
@@ -2118,20 +2131,6 @@ struct QualifyingGroup_3_4 {
     enum CountryNumbers countries[4];
 };
 
-typedef struct DIY_Competition DIY_Competition, *PDIY_Competition;
-
-struct DIY_Competition {
-    word competitionType;
-    byte field_2[48];
-    word numTeams;
-    word pitchTypeOrSeason;
-    word pitchType;
-    byte startMonth;
-    byte endMonth;
-    byte field_3A[36];
-    word playEachTeam;
-};
-
 typedef struct CompetitionCup2_4 CompetitionCup2_4, *PCompetitionCup2_4;
 
 struct CompetitionCup2_4 {
@@ -2518,6 +2517,99 @@ struct MenuEntry_Byte_Nav {
     struct MenuCoords8 rc;
     struct MenuCmd_Nav nav;
     word end;
+};
+
+typedef struct DIYCompetitionEx DIYCompetitionEx, *PDIYCompetitionEx;
+
+typedef struct DIYCompetition DIYCompetition, *PDIYCompetition;
+
+typedef union DIYCompetitionEx_Overlap DIYCompetitionEx_Overlap, *PDIYCompetitionEx_Overlap;
+
+typedef struct DIYCompetitionEx_Overlap_1 DIYCompetitionEx_Overlap_1, *PDIYCompetitionEx_Overlap_1;
+
+struct DIYCompetitionEx_Overlap_1 {
+    byte _teamStats0_7[144];
+    uint teamPtrCache[24];
+};
+
+struct DIYCompetition {
+    word competitionType;
+    word isActive;
+    byte competitionName[36];
+    dword namePtr;
+    byte compId;
+    byte slotId;
+    byte field_2E;
+    byte viewRandomPhase;
+    byte avgSkill;
+    byte strengthTier;
+    word numTeams;
+    word pitchTypeOrSeason;
+    word pitchType;
+    byte startMonth;
+    byte endMonth;
+    word resultCode;
+    word substitutesCount;
+    word slotStateA;
+    word slotStateB;
+    word slotStateC;
+    word matchStarted;
+    word careerTeamInvolved;
+    word hasGroups;
+    word menuState;
+    word roundIterator;
+    word numTeamsInStage;
+    word matchPairsPerRound;
+    word totalMatchesInRound;
+    word roundComplete;
+    word competitionFinished;
+    word currentRoundIndex;
+    word numRounds;
+    word subRoundCounter;
+    word playEachTeam;
+};
+
+union DIYCompetitionEx_Overlap {
+    struct DIYTeamStats teamStats[24];
+    struct DIYCompetitionEx_Overlap_1 cacheView;
+    byte overlapRaw[432];
+};
+
+struct DIYCompetitionEx {
+    struct DIYCompetition base;
+    word minSubstitutes;
+    word pointsForAWin;
+    word currentMatchIndex;
+    ushort roundLegs[6];
+    ushort roundExtraTime[6];
+    ushort roundPenalties[6];
+    byte matchResultFlags[64];
+    ushort matchGoals[66];
+    ushort leagueTeamIds[14];
+    word twoLegSubRound;
+    word roundFormatType;
+    ushort aggregateGoals[64];
+    ushort penaltyGoals[64];
+    word leagueMatchesPlayed;
+    word phaseChangeFlag;
+    word phaseIndex;
+    word matchesPerSeason;
+    word halfGroupCount;
+    word matchesPerPhase;
+    word matchInPhase;
+    word leagueRoundCounter;
+    byte monthProgressTable[98];
+    ushort cupTeamIds[64];
+    union DIYCompetitionEx_Overlap overlap;
+    byte teamGrid[64];
+    byte teamOrder[32];
+    word unselectedTeamCount;
+    word replayFlag;
+    word matchesPlayedInRound;
+    word totalMonthEntries;
+    word currentMonthIndex;
+    byte cupMonthTable[12];
+    byte gap_586[94];
 };
 
 typedef struct Position Position, *PPosition;
@@ -4241,6 +4333,19 @@ typedef enum AmigaRegisters {
     AUD2VOL=200,
     AUD3VOL=216
 } AmigaRegisters;
+
+typedef struct Menu_CompetitionStats Menu_CompetitionStats, *PMenu_CompetitionStats;
+
+struct Menu_CompetitionStats {
+    struct MenuHeader hdr;
+    word markByteCoords;
+    struct MenuEntry_Byte_Colors_TextPtr entry0;
+    struct MenuEntry_Byte_Nav_Colors_TextPtr_OnSelect entry1;
+    struct MenuEntry_Byte_Nav_Colors_TextPtr_OnSelect entry2;
+    struct MenuEntry_Byte_Nav_Colors_TextPtr_OnSelect entry3;
+    struct MenuEntry_Byte_Nav_Colors_TextPtr_OnSelect entry4;
+    word markEndMenu;
+};
 
 typedef enum MenuEntryColors {
     PINK_TO_BROWN_0=0,
@@ -6086,7 +6191,7 @@ void __usercall InitializeStartingBalanceForNewSeason(void);
 ushort __usercall GetExpectedLeagueRankIndex(void);
 void __usercall BeginContractNegotiationSequence(void);
 void __usercall GetLowestAndHighestPlayerPrice(void);
-char __usercall GetPlayerRandomNum(PlayerFile *playerFile);
+char __usercall GetPlayerRandomNum(PlayerFile *player);
 ushort __usercall GetTeamValueBase(ushort avgPrice);
 ushort __usercall IsTeamNational(void *teamGeneral);
 void __usercall InitPlayerValueDisplayStruct(void *dst);
@@ -6134,11 +6239,11 @@ short __usercall CheckContinueAbortPrompt(char *header);
 void __usercall InitCareerVariables(ushort gameType);
 void __usercall InitTeams(void);
 void __usercall TeamInit(TeamFile *team,ushort numPlayersMinus1);
-char * __usercall BuildMatchResultString(ushort control,ushort leg2,ushort leg1,ushort pens,TeamFile *teamA,TeamFile *teamB,ushort flags);
+char * __usercall BuildMatchResultString(ushort control,ushort leg2,ushort leg1,ushort pens,char *teamNameA,char *teamNameB,ushort flags);
 void __usercall InitAndPlayGame(TeamFile *team1,TeamFile *team2);
 void __usercall PlayDIYCupFixtureAndCacheResult(TeamFile *team1,TeamFile *team2);
 void __usercall PlayDIYLeagueMatchAndCacheResult(TeamFile *team1,TeamFile *team2);
-void __usercall SetupPlayers(TeamFile *team1,TeamFile *team2);
+void __usercall SetupPlayers(TeamFileEx *team1,TeamFileEx *team2);
 void __usercall ShowHighlights(void);
 void __usercall ShowMatchSequence(void);
 void __usercall ViewHighlightsSaveCurrentMenu(void);
@@ -6215,7 +6320,7 @@ void __usercall CopySelectedTeamNumbers(ushort count,void *dest);
 ushort __usercall FindTeamInCache(ushort teamNumber);
 void * __usercall VerifyTeamLoaded(ushort teamNumber);
 void __usercall DIY_GetCurrentFixtureTeamPtrs(void);
-void __usercall DIY_AdvanceLeagueProgressAfterMatch(TeamFileEx *team1,TeamFileEx *team2);
+void __usercall DIY_AdvanceLeagueProgressAfterMatch(void *team1CompSlot,void *team2CompSlot);
 ushort __usercall DIY_GetCurrentFixtureTeamClass(void);
 short __usercall DIY_PlayOrSimulateLeagueFixture(short selector);
 void __usercall DIY_SyncProgressToDiyFileBufferCopy_2(void);
@@ -6347,9 +6452,9 @@ void __usercall DIYTournament_BuildMatchesPerTeamProgressionTable(void);
 void __usercall Career_PostMatchUpdate(void);
 void __usercall Career_HandleRetirement(void);
 char __usercall ContinueCareerNextSeason(void);
-ushort __usercall FindTeamInDIY(ushort teamNo,DIY_Competition *comp);
-ushort __usercall GetMoreExpensiveTeamsCountWrapper(ushort teamNo,DIY_Competition *comp);
-ushort __usercall GetMoreExpensiveTeamsCount(ushort teamNo,DIY_Competition *comp);
+ushort __usercall FindTeamInDIY(ushort teamNo,DIYCompetition *comp);
+ushort __usercall GetMoreExpensiveTeamsCountWrapper(ushort teamNo,DIYCompetition *comp);
+ushort __usercall GetMoreExpensiveTeamsCount(ushort teamNo,DIYCompetition *comp);
 void __usercall InitializeNewSeason_BuildTeamBudgetRankTable(void);
 void __usercall ShowChairmanOpinionAboutTheSeason(void);
 void __usercall ShowSeasonOpinion(void);
@@ -6810,7 +6915,7 @@ void __usercall HighlightsMenu(void);
 void __usercall OptionsMenuSelected(void);
 void __usercall SaveDiskFilingMenu(void);
 void __usercall Career_BuildForeignMarketPoolFromSelectedTeam(void);
-short __usercall AddCareerPoolPlayer(ushort teamNumber,uchar playerOrdinal,TeamFile *teamFile);
+short __usercall AddCareerPoolPlayer(ushort teamNumber,uchar playerOrdinal,PlayerFile *player);
 void __usercall DIY_AdvanceFixtureIndex(ushort lo,ushort hi);
 void __usercall Career_ApplyForeignMarketPlayersToSelectedTeams(void);
 void __usercall Career_ApplyPendingForeignMarketPlayersToSelectedTeams(void);
@@ -6973,7 +7078,6 @@ ushort __usercall Career_AddInternationalPlayerCommon(void *selectedTeam,char *t
 void __usercall Career_RemoveInternationalPlayersByMask(uint removeMask);
 ushort __usercall GetPlayerPositionFromCurrent(ushort playerIndex);
 void __usercall Career_InitInternationalSquadAndLookupTablesForNewSeason(void *teamPtr);
-void __usercall careerDefaultInternationalSquadSlotsTable(void);
 ushort __usercall ShowSelectRepresentationMenu(void);
 void __usercall SelectNationalTeamInit(void);
 void __usercall SelectNationalTeamFinish(void);
@@ -6993,7 +7097,7 @@ void __usercall NationalTeamAddPlayerHomeOnSelect(void);
 void __usercall NationalTeamAddPlayerAbroadOnSelect(void);
 void __usercall NationalTeamAddPlayerExit(void);
 short __usercall GetPlayerPosition(short playerIndex,TeamFileEx *team);
-short __usercall ShowPlayMatchMenu(short controlFlags,short maxSubstitutes,short excludeFlags,short isFirstPlayerChoosingTeam,short squadChangesAllowed,TeamFile *team1,TeamFile *team2);
+short __usercall ShowPlayMatchMenu(short controlFlags,short maxSubstitutes,short excludeFlags,short isFirstPlayerChoosingTeam,short squadChangesAllowed,TeamFileEx *team1,TeamFileEx *team2);
 void __usercall PlayMatchMenuInit(void);
 void __usercall PlayMatchMenuReinit(void);
 void __usercall SetCurrentSelectedPlayerIndexPointer(void);

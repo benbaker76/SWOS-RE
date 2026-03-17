@@ -2,7 +2,7 @@
 <?program_dtd version="1"?>
 
 <PROGRAM NAME="SWOS2" EXE_PATH=".\SWOS2" EXE_FORMAT="Binary file" INPUT_MD5="u&#xa7;&#xdd;E&#xcf;&#xe6;&#xeb;&#xe1;?|&#xa8;(&#xe0;&#xa3;">
-    <INFO_SOURCE TOOL="IDA-Pro 9.0 XML plugin v5.0.2 (Python) SDK 900" USER="headk" FILE="C:\Projects\Amiga\SWOS-IDA\SWOS2.i64" TIMESTAMP="2026-03-09 07:54" />
+    <INFO_SOURCE TOOL="IDA-Pro 9.0 XML plugin v5.0.2 (Python) SDK 900" USER="headk" FILE="C:\Projects\Amiga\SWOS-IDA\SWOS2.i64" TIMESTAMP="2026-03-16 20:36" />
     <PROCESSOR NAME="68000" ENDIAN="big" ADDRESS_MODEL="32-bit" />
     <COMPILER NAME="Unknown" />
     <DATATYPES>
@@ -1122,33 +1122,108 @@
                 <REPEATABLE_CMT></REPEATABLE_CMT>
             </MEMBER>
         </STRUCTURE>
-        <STRUCTURE NAME="DIY_Competition" SIZE="0x60">
+        <STRUCTURE NAME="DIYCompetition" SIZE="0x60">
             <MEMBER OFFSET="0x0" NAME="competitionType" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>4.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x2" NAME="isActive" DATATYPE="word" SIZE="0x2">
                 <REPEATABLE_CMT>5.</REPEATABLE_CMT>
             </MEMBER>
-            <MEMBER OFFSET="0x2" NAME="field_2" DATATYPE="byte[48]" SIZE="0x30">
+            <MEMBER OFFSET="0x4" NAME="competitionName" DATATYPE="byte[36]" SIZE="0x24">
                 <REPEATABLE_CMT>6.</REPEATABLE_CMT>
             </MEMBER>
-            <MEMBER OFFSET="0x32" NAME="numTeams" DATATYPE="word" SIZE="0x2">
+            <MEMBER OFFSET="0x28" NAME="namePtr" DATATYPE="dword" SIZE="0x4">
                 <REPEATABLE_CMT>7.</REPEATABLE_CMT>
             </MEMBER>
-            <MEMBER OFFSET="0x34" NAME="pitchTypeOrSeason" DATATYPE="word" SIZE="0x2">
+            <MEMBER OFFSET="0x2C" NAME="compId" DATATYPE="byte" SIZE="0x1">
                 <REPEATABLE_CMT>8.</REPEATABLE_CMT>
             </MEMBER>
-            <MEMBER OFFSET="0x36" NAME="pitchType" DATATYPE="word" SIZE="0x2">
+            <MEMBER OFFSET="0x2D" NAME="slotId" DATATYPE="byte" SIZE="0x1">
                 <REPEATABLE_CMT>9.</REPEATABLE_CMT>
             </MEMBER>
-            <MEMBER OFFSET="0x38" NAME="startMonth" DATATYPE="byte" SIZE="0x1">
+            <MEMBER OFFSET="0x2E" NAME="field_2E" DATATYPE="byte" SIZE="0x1">
                 <REPEATABLE_CMT>10.</REPEATABLE_CMT>
             </MEMBER>
-            <MEMBER OFFSET="0x39" NAME="endMonth" DATATYPE="byte" SIZE="0x1">
+            <MEMBER OFFSET="0x2F" NAME="viewRandomPhase" DATATYPE="byte" SIZE="0x1">
                 <REPEATABLE_CMT>11.</REPEATABLE_CMT>
             </MEMBER>
-            <MEMBER OFFSET="0x3A" NAME="field_3A" DATATYPE="byte[36]" SIZE="0x24">
+            <MEMBER OFFSET="0x30" NAME="avgSkill" DATATYPE="byte" SIZE="0x1">
                 <REPEATABLE_CMT>12.</REPEATABLE_CMT>
             </MEMBER>
-            <MEMBER OFFSET="0x5E" NAME="playEachTeam" DATATYPE="word" SIZE="0x2">
+            <MEMBER OFFSET="0x31" NAME="strengthTier" DATATYPE="byte" SIZE="0x1">
                 <REPEATABLE_CMT>13.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x32" NAME="numTeams" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>14.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x34" NAME="pitchTypeOrSeason" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>15.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x36" NAME="pitchType" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>16.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x38" NAME="startMonth" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT>17.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x39" NAME="endMonth" DATATYPE="byte" SIZE="0x1">
+                <REPEATABLE_CMT>18.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x3A" NAME="resultCode" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>19.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x3C" NAME="substitutesCount" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>20.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x3E" NAME="slotStateA" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>21.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x40" NAME="slotStateB" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>23.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x42" NAME="slotStateC" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>24.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x44" NAME="matchStarted" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>26.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x46" NAME="careerTeamInvolved" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>27.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x48" NAME="hasGroups" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>28.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x4A" NAME="menuState" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>29.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x4C" NAME="roundIterator" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>30.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x4E" NAME="numTeamsInStage" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>31.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x50" NAME="matchPairsPerRound" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>32.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x52" NAME="totalMatchesInRound" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>33.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x54" NAME="roundComplete" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>34.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x56" NAME="competitionFinished" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>35.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x58" NAME="currentRoundIndex" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>36.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x5A" NAME="numRounds" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>37.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x5C" NAME="subRoundCounter" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>38.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x5E" NAME="playEachTeam" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>39.</REPEATABLE_CMT>
             </MEMBER>
         </STRUCTURE>
         <STRUCTURE NAME="FPParts" SIZE="0x4">
@@ -10325,6 +10400,155 @@
                 <REPEATABLE_CMT></REPEATABLE_CMT>
             </MEMBER>
         </STRUCTURE>
+        <STRUCTURE NAME="DIYTeamStats" SIZE="0x12">
+            <MEMBER OFFSET="0x0" NAME="teamSelPtr" DATATYPE="dword" SIZE="0x4">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x4" NAME="gamesPlayed" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x6" NAME="wins" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x8" NAME="draws" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0xA" NAME="losses" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0xC" NAME="goalsFor" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0xE" NAME="goalsAgainst" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x10" NAME="points" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+        </STRUCTURE>
+        <STRUCTURE NAME="DIYCompetitionEx" SIZE="0x5E4">
+            <MEMBER OFFSET="0x0" NAME="base" DATATYPE="DIYCompetition" SIZE="0x60">
+                <REPEATABLE_CMT>4.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x60" NAME="minSubstitutes" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>5.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x62" NAME="pointsForAWin" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>6.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x64" NAME="currentMatchIndex" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>7.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x66" NAME="roundLegs" DATATYPE="ushort[6]" SIZE="0xC">
+                <REPEATABLE_CMT>8.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x72" NAME="roundExtraTime" DATATYPE="ushort[6]" SIZE="0xC">
+                <REPEATABLE_CMT>9.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x7E" NAME="roundPenalties" DATATYPE="ushort[6]" SIZE="0xC">
+                <REPEATABLE_CMT>10.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x8A" NAME="matchResultFlags" DATATYPE="byte[64]" SIZE="0x40">
+                <REPEATABLE_CMT>11.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0xCA" NAME="matchGoals" DATATYPE="ushort[66]" SIZE="0x84">
+                <REPEATABLE_CMT>12.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x14E" NAME="leagueTeamIds" DATATYPE="ushort[14]" SIZE="0x1C">
+                <REPEATABLE_CMT>13.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x16A" NAME="twoLegSubRound" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>14.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x16C" NAME="roundFormatType" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>15.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x16E" NAME="aggregateGoals" DATATYPE="ushort[64]" SIZE="0x80">
+                <REPEATABLE_CMT>16.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x1EE" NAME="penaltyGoals" DATATYPE="ushort[64]" SIZE="0x80">
+                <REPEATABLE_CMT>17.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x26E" NAME="leagueMatchesPlayed" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>18.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x270" NAME="phaseChangeFlag" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>19.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x272" NAME="phaseIndex" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>20.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x274" NAME="matchesPerSeason" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>21.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x276" NAME="halfGroupCount" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>22.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x278" NAME="matchesPerPhase" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>23.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x27A" NAME="matchInPhase" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>24.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x27C" NAME="leagueRoundCounter" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>25.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x27E" NAME="monthProgressTable" DATATYPE="byte[98]" SIZE="0x62">
+                <REPEATABLE_CMT>26.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x2E0" NAME="cupTeamIds" DATATYPE="ushort[64]" SIZE="0x80">
+                <REPEATABLE_CMT>27.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x360" NAME="overlap" DATATYPE="DIYCompetitionEx_Overlap" SIZE="0x1B0">
+                <REPEATABLE_CMT>28.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x510" NAME="teamGrid" DATATYPE="byte[64]" SIZE="0x40">
+                <REPEATABLE_CMT>29.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x550" NAME="teamOrder" DATATYPE="byte[32]" SIZE="0x20">
+                <REPEATABLE_CMT>30.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x570" NAME="unselectedTeamCount" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>31.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x572" NAME="replayFlag" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>32.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x574" NAME="matchesPlayedInRound" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>33.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x576" NAME="totalMonthEntries" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>34.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x578" NAME="currentMonthIndex" DATATYPE="word" SIZE="0x2">
+                <REPEATABLE_CMT>35.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x57A" NAME="cupMonthTable" DATATYPE="byte[12]" SIZE="0xC">
+                <REPEATABLE_CMT>36.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x586" NAME="gap_586" DATATYPE="byte[94]" SIZE="0x5E">
+                <REPEATABLE_CMT>37.</REPEATABLE_CMT>
+            </MEMBER>
+        </STRUCTURE>
+        <STRUCTURE NAME="DIYCompetitionEx_Overlap_1" SIZE="0xF0">
+            <MEMBER OFFSET="0x0" NAME="_teamStats0_7" DATATYPE="byte[144]" SIZE="0x90">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x90" NAME="teamPtrCache" DATATYPE="uint[24]" SIZE="0x60">
+                <REPEATABLE_CMT></REPEATABLE_CMT>
+            </MEMBER>
+        </STRUCTURE>
+        <UNION NAME="DIYCompetitionEx_Overlap" SIZE="0x1B0">
+            <MEMBER OFFSET="0x0" NAME="teamStats" DATATYPE="DIYTeamStats[24]" SIZE="0x1B0">
+                <REPEATABLE_CMT>4.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x0" NAME="cacheView" DATATYPE="DIYCompetitionEx_Overlap_1" SIZE="0xF0">
+                <REPEATABLE_CMT>5.</REPEATABLE_CMT>
+            </MEMBER>
+            <MEMBER OFFSET="0x0" NAME="overlapRaw" DATATYPE="byte[432]" SIZE="0x1B0">
+                <REPEATABLE_CMT>6.</REPEATABLE_CMT>
+            </MEMBER>
+        </UNION>
         <ENUM NAME="PlayerStates" SIZE="4">
             <DISPLAY_SETTINGS FORMAT="decimal" SIGNED="yes" />
             <ENUM_ENTRY NAME="PL_NORMAL" VALUE="0">
@@ -12519,13 +12743,13 @@
         <DEFINED_DATA ADDRESS="0x2DAB0" DATATYPE="void *" SIZE="0x4">
             <TYPEINFO_CMT>nearestTeammatePtr</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x2DAD0" DATATYPE="DIY_Competition" SIZE="0x60">
+        <DEFINED_DATA ADDRESS="0x2DAD0" DATATYPE="DIYCompetition" SIZE="0x60">
             <TYPEINFO_CMT>diyFileBufferCopy</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x2DB6A" DATATYPE="ushort[451]" SIZE="0x386">
             <TYPEINFO_CMT>diyTournamentTeamIds</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x2DEF0" DATATYPE="DIY_Competition" SIZE="0x60">
+        <DEFINED_DATA ADDRESS="0x2DEF0" DATATYPE="DIYCompetition" SIZE="0x60">
             <TYPEINFO_CMT>diyCompetitionStart</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x2DF50" DATATYPE="word" SIZE="0x2">
@@ -19342,10 +19566,10 @@
         <DEFINED_DATA ADDRESS="0x149202" DATATYPE="word" SIZE="0x2">
             <TYPEINFO_CMT>squadChangesAllowed</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x149204" DATATYPE="TeamFile *" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x149204" DATATYPE="TeamFileEx *" SIZE="0x4">
             <TYPEINFO_CMT>playMatchTeam1Ptr</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x149208" DATATYPE="TeamFile *" SIZE="0x4">
+        <DEFINED_DATA ADDRESS="0x149208" DATATYPE="TeamFileEx *" SIZE="0x4">
             <TYPEINFO_CMT>playMatchTeam2Ptr</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x14920C" DATATYPE="word" SIZE="0x2">
@@ -56203,7 +56427,7 @@ Find lowest and highest player price in the selected career team.</REGULAR_CMT>
         <FUNCTION ENTRY_POINT="0x12646E" NAME="GetPlayerRandomNum" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x12646E" END="0x1264A7" />
             <RETURN_TYPE DATATYPE="char" DATATYPE_NAMESPACE="/" REGISTER="D0B" />
-            <REGISTER_VAR NAME="playerFile" REGISTER="A0" DATATYPE="PlayerFile *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="player" REGISTER="A0" DATATYPE="PlayerFile *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
      A0 -&gt; team (file struct)
 out:
@@ -56613,8 +56837,8 @@ Depending on the value of gameType shows continue/abort prompt.</REGULAR_CMT>
             <REGISTER_VAR NAME="leg2" REGISTER="D4W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="leg1" REGISTER="D5W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="pens" REGISTER="D6W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="teamA" REGISTER="A1" DATATYPE="TeamFile *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="teamB" REGISTER="A2" DATATYPE="TeamFile *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="teamNameA" REGISTER="A1" DATATYPE="char *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="teamNameB" REGISTER="A2" DATATYPE="char *" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="flags" REGISTER="D7W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>BuildMatchResultString</TYPEINFO_CMT>
         </FUNCTION>
@@ -56645,8 +56869,8 @@ Depending on the value of gameType shows continue/abort prompt.</REGULAR_CMT>
         <FUNCTION ENTRY_POINT="0x1282C8" NAME="SetupPlayers" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x1282C8" END="0x12847B" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="team1" REGISTER="A1" DATATYPE="TeamFile *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="team2" REGISTER="A2" DATATYPE="TeamFile *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team1" REGISTER="A1" DATATYPE="TeamFileEx *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team2" REGISTER="A2" DATATYPE="TeamFileEx *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
      D1 - max substitutes
      D6 - allow squad changes
@@ -57192,8 +57416,8 @@ Crashes program if team could not be found in memory.</REGULAR_CMT>
         <FUNCTION ENTRY_POINT="0x12AD0A" NAME="DIY_AdvanceLeagueProgressAfterMatch" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x12AD0A" END="0x12AD85" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="team1" REGISTER="A1" DATATYPE="TeamFileEx *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="team2" REGISTER="A2" DATATYPE="TeamFileEx *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team1CompSlot" REGISTER="A1" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team2CompSlot" REGISTER="A2" DATATYPE="void *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>DIY_AdvanceLeagueProgressAfterMatch</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x12AD86" NAME="DIY_GetCurrentFixtureTeamClass" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
@@ -57948,7 +58172,7 @@ dos: cseg_5DB56</REGULAR_CMT>
             <ADDRESS_RANGE START="0x12F0DC" END="0x12F0E9" />
             <RETURN_TYPE DATATYPE="ushort" DATATYPE_NAMESPACE="/" REGISTER="D1W" />
             <REGISTER_VAR NAME="teamNo" REGISTER="D0W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="comp" REGISTER="A6" DATATYPE="DIY_Competition *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="comp" REGISTER="A6" DATATYPE="DIYCompetition *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
     D0 -  team file number
     A6 -&gt; DIY competition
@@ -57960,14 +58184,14 @@ out:
             <ADDRESS_RANGE START="0x12F0CA" END="0x12F0DB" />
             <RETURN_TYPE DATATYPE="ushort" DATATYPE_NAMESPACE="/" REGISTER="D6W" />
             <REGISTER_VAR NAME="teamNo" REGISTER="D7W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="comp" REGISTER="A6" DATATYPE="DIY_Competition *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="comp" REGISTER="A6" DATATYPE="DIYCompetition *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>GetMoreExpensiveTeamsCountWrapper</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x12F0F0" NAME="GetMoreExpensiveTeamsCount" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x12F0F0" END="0x12F187" />
             <RETURN_TYPE DATATYPE="ushort" DATATYPE_NAMESPACE="/" REGISTER="D2W" />
             <REGISTER_VAR NAME="teamNo" REGISTER="D0W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="comp" REGISTER="A6" DATATYPE="DIY_Competition *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="comp" REGISTER="A6" DATATYPE="DIYCompetition *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>GetMoreExpensiveTeamsCount</TYPEINFO_CMT>
             <STACK_FRAME LOCAL_VAR_SIZE="0x0" REGISTER_SAVE_SIZE="0x0" RETURN_ADDR_SIZE="0x4" BYTES_PURGED="0x0" />
         </FUNCTION>
@@ -60613,7 +60837,7 @@ Called when returning to main menu from various submenus.</REGULAR_CMT>
             <RETURN_TYPE DATATYPE="short" DATATYPE_NAMESPACE="/" REGISTER="D0W" />
             <REGISTER_VAR NAME="teamNumber" REGISTER="D0W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="playerOrdinal" REGISTER="D1B" DATATYPE="uchar" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="teamFile" REGISTER="A0" DATATYPE="TeamFile *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="player" REGISTER="A0" DATATYPE="PlayerFile *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
     D0 - team number
     D1 - player ordinal in team
@@ -61730,8 +61954,8 @@ out:
             <REGISTER_VAR NAME="excludeFlags" REGISTER="D2W" DATATYPE="short" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="isFirstPlayerChoosingTeam" REGISTER="D5W" DATATYPE="short" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="squadChangesAllowed" REGISTER="D6W" DATATYPE="short" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="team1" REGISTER="A1" DATATYPE="TeamFile *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="team2" REGISTER="A2" DATATYPE="TeamFile *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team1" REGISTER="A1" DATATYPE="TeamFileEx *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="team2" REGISTER="A2" DATATYPE="TeamFileEx *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
      D0 - control flags (bit 0/1 clear: clear player 1/2 controls)
      D1 - max substitues (additional entries)

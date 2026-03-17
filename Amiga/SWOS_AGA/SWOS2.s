@@ -898,26 +898,76 @@ SPR_BENCH_STANDING_PLAYER_GINGER        EQU 1320
 SPR_BENCH_STANDING_PLAYER_BLACK         EQU 1321
 SPR_RESERVE_PLAYERS_SITTING1            EQU 1322
 
-; ==== STRUCT: DIY_COMPETITION ====
-DIY_COMPETITION_SIZE                    EQU 96
-DIY_COMPETITION_COMPETITIONTYPE         EQU 0
-DIY_COMPETITION_COMPETITIONTYPE_SIZE    EQU 2
-DIY_COMPETITION_FIELD_2                 EQU 2
-DIY_COMPETITION_FIELD_2_SIZE            EQU 48
-DIY_COMPETITION_NUMTEAMS                EQU 50
-DIY_COMPETITION_NUMTEAMS_SIZE           EQU 2
-DIY_COMPETITION_PITCHTYPEORSEASON       EQU 52
-DIY_COMPETITION_PITCHTYPEORSEASON_SIZE  EQU 2
-DIY_COMPETITION_PITCHTYPE               EQU 54
-DIY_COMPETITION_PITCHTYPE_SIZE          EQU 2
-DIY_COMPETITION_STARTMONTH              EQU 56
-DIY_COMPETITION_STARTMONTH_SIZE         EQU 1
-DIY_COMPETITION_ENDMONTH                EQU 57
-DIY_COMPETITION_ENDMONTH_SIZE           EQU 1
-DIY_COMPETITION_FIELD_3A                EQU 58
-DIY_COMPETITION_FIELD_3A_SIZE           EQU 36
-DIY_COMPETITION_PLAYEACHTEAM            EQU 94
-DIY_COMPETITION_PLAYEACHTEAM_SIZE       EQU 2
+; ==== STRUCT: DIYCOMPETITION ====
+DIYCOMPETITION_SIZE                     EQU 96
+DIYCOMPETITION_COMPETITIONTYPE          EQU 0
+DIYCOMPETITION_COMPETITIONTYPE_SIZE     EQU 2
+DIYCOMPETITION_ISACTIVE                 EQU 2
+DIYCOMPETITION_ISACTIVE_SIZE            EQU 2
+DIYCOMPETITION_COMPETITIONNAME          EQU 4
+DIYCOMPETITION_COMPETITIONNAME_SIZE     EQU 36
+DIYCOMPETITION_NAMEPTR                  EQU 40
+DIYCOMPETITION_NAMEPTR_SIZE             EQU 4
+DIYCOMPETITION_COMPID                   EQU 44
+DIYCOMPETITION_COMPID_SIZE              EQU 1
+DIYCOMPETITION_SLOTID                   EQU 45
+DIYCOMPETITION_SLOTID_SIZE              EQU 1
+DIYCOMPETITION_FIELD_2E                 EQU 46
+DIYCOMPETITION_FIELD_2E_SIZE            EQU 1
+DIYCOMPETITION_VIEWRANDOMPHASE          EQU 47
+DIYCOMPETITION_VIEWRANDOMPHASE_SIZE     EQU 1
+DIYCOMPETITION_AVGSKILL                 EQU 48
+DIYCOMPETITION_AVGSKILL_SIZE            EQU 1
+DIYCOMPETITION_STRENGTHTIER             EQU 49
+DIYCOMPETITION_STRENGTHTIER_SIZE        EQU 1
+DIYCOMPETITION_NUMTEAMS                 EQU 50
+DIYCOMPETITION_NUMTEAMS_SIZE            EQU 2
+DIYCOMPETITION_PITCHTYPEORSEASON        EQU 52
+DIYCOMPETITION_PITCHTYPEORSEASON_SIZE   EQU 2
+DIYCOMPETITION_PITCHTYPE                EQU 54
+DIYCOMPETITION_PITCHTYPE_SIZE           EQU 2
+DIYCOMPETITION_STARTMONTH               EQU 56
+DIYCOMPETITION_STARTMONTH_SIZE          EQU 1
+DIYCOMPETITION_ENDMONTH                 EQU 57
+DIYCOMPETITION_ENDMONTH_SIZE            EQU 1
+DIYCOMPETITION_RESULTCODE               EQU 58
+DIYCOMPETITION_RESULTCODE_SIZE          EQU 2
+DIYCOMPETITION_SUBSTITUTESCOUNT         EQU 60
+DIYCOMPETITION_SUBSTITUTESCOUNT_SIZE    EQU 2
+DIYCOMPETITION_SLOTSTATEA               EQU 62
+DIYCOMPETITION_SLOTSTATEA_SIZE          EQU 2
+DIYCOMPETITION_SLOTSTATEB               EQU 64
+DIYCOMPETITION_SLOTSTATEB_SIZE          EQU 2
+DIYCOMPETITION_SLOTSTATEC               EQU 66
+DIYCOMPETITION_SLOTSTATEC_SIZE          EQU 2
+DIYCOMPETITION_MATCHSTARTED             EQU 68
+DIYCOMPETITION_MATCHSTARTED_SIZE        EQU 2
+DIYCOMPETITION_CAREERTEAMINVOLVED       EQU 70
+DIYCOMPETITION_CAREERTEAMINVOLVED_SIZE  EQU 2
+DIYCOMPETITION_HASGROUPS                EQU 72
+DIYCOMPETITION_HASGROUPS_SIZE           EQU 2
+DIYCOMPETITION_MENUSTATE                EQU 74
+DIYCOMPETITION_MENUSTATE_SIZE           EQU 2
+DIYCOMPETITION_ROUNDITERATOR            EQU 76
+DIYCOMPETITION_ROUNDITERATOR_SIZE       EQU 2
+DIYCOMPETITION_NUMTEAMSINSTAGE          EQU 78
+DIYCOMPETITION_NUMTEAMSINSTAGE_SIZE     EQU 2
+DIYCOMPETITION_MATCHPAIRSPERROUND       EQU 80
+DIYCOMPETITION_MATCHPAIRSPERROUND_SIZE  EQU 2
+DIYCOMPETITION_TOTALMATCHESINROUND      EQU 82
+DIYCOMPETITION_TOTALMATCHESINROUND_SIZE EQU 2
+DIYCOMPETITION_ROUNDCOMPLETE            EQU 84
+DIYCOMPETITION_ROUNDCOMPLETE_SIZE       EQU 2
+DIYCOMPETITION_COMPETITIONFINISHED      EQU 86
+DIYCOMPETITION_COMPETITIONFINISHED_SIZE EQU 2
+DIYCOMPETITION_CURRENTROUNDINDEX        EQU 88
+DIYCOMPETITION_CURRENTROUNDINDEX_SIZE   EQU 2
+DIYCOMPETITION_NUMROUNDS                EQU 90
+DIYCOMPETITION_NUMROUNDS_SIZE           EQU 2
+DIYCOMPETITION_SUBROUNDCOUNTER          EQU 92
+DIYCOMPETITION_SUBROUNDCOUNTER_SIZE     EQU 2
+DIYCOMPETITION_PLAYEACHTEAM             EQU 94
+DIYCOMPETITION_PLAYEACHTEAM_SIZE        EQU 2
 
 ; ==== STRUCT: FPPARTS ====
 FPPARTS_SIZE                            EQU 4
@@ -46810,12 +46860,12 @@ InitInGameTeams_WithMatchParam:
                 bsr.w   MaybeDecayPlayerStatusBucketForTeam
                 movem.l (sp)+,a1-a2
                 movea.l a1,a0
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+2).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_SUBSTITUTESCOUNT).l,d0
                 movem.l a1-a2,-(sp)
                 bsr.w   CyclePlayerStatusFlagsForTeam
                 movem.l (sp)+,a1-a2
                 movea.l a2,a0
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+2).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_SUBSTITUTESCOUNT).l,d0
                 movem.l a1-a2,-(sp)
                 bsr.w   CyclePlayerStatusFlagsForTeam
                 movem.l (sp)+,a1-a2
@@ -46835,12 +46885,12 @@ InitInGameTeams_WithMatchParam_Alt:
                 bsr.w   MaybeDecayPlayerStatusBucketForTeam
                 movem.l (sp)+,a1-a2
                 movea.l a1,a0
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+2).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_SUBSTITUTESCOUNT).l,d0
                 movem.l a1-a2,-(sp)
                 bsr.w   CyclePlayerStatusFlagsForTeam
                 movem.l (sp)+,a1-a2
                 movea.l a2,a0
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+2).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_SUBSTITUTESCOUNT).l,d0
                 movem.l a1-a2,-(sp)
                 bsr.w   CyclePlayerStatusFlagsForTeam
                 movem.l (sp)+,a1-a2
@@ -48946,10 +48996,10 @@ loc_124930:
                 move.w  $3C(a0),d6
                 cmpa.l  #diyCompetitionStart,a0
                 beq.s   loc_124942
-                move.w  DIY_COMPETITION_FIELD_2+$64(a0),d7
+                move.w  DIYCOMPETITION_COMPETITIONNAME+$62(a0),d7
                 bra.s   loc_124946
 loc_124942:
-                move.w  DIY_COMPETITION_FIELD_2+$60(a0),d7
+                move.w  DIYCOMPETITION_ISACTIVE+$60(a0),d7
 loc_124946:
                 addi.w  #$B,d7
                 move.l  a0,-(sp)
@@ -49710,7 +49760,7 @@ loc_125184:
                 move.w  d7,(gateReceiptsFactor).l
                 bra.w   loc_1252EE
 loc_1251F0:
-                move.w  (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$1A).l,d0
+                move.w  (diyFileBufferCopy+DIYCOMPETITION_ROUNDCOMPLETE).l,d0
                 mulu.w  #$76,d0         ; 'v'
                 lea     (a3,d0.w),a0
                 tst.w   $15E(a0)
@@ -49766,7 +49816,7 @@ loc_125282:
                 bra.s   loc_1252FE
 loc_1252AC:
                 lea     (diyFileBufferCopy).l,a0
-                move.w  DIY_COMPETITION_FIELD_3A+$18(a0),d0
+                move.w  DIYCOMPETITION_TOTALMATCHESINROUND(a0),d0
                 subq.w  #1,d0
                 sub.w   $54(a0),d0
                 lsl.w   #1,d0
@@ -51009,7 +51059,7 @@ loc_126468:
                 rts
 
 ; ===== GetPlayerRandomNum =====
-; prototype: char __usercall GetPlayerRandomNum@<d0>(PlayerFile *playerFile@<a0>)
+; prototype: char __usercall GetPlayerRandomNum@<d0>(PlayerFile *player@<a0>)
 ; in:
 ;      A0 -> team (file struct)
 ; out:
@@ -51019,7 +51069,7 @@ loc_126468:
 GetPlayerRandomNum:
                 move.b  PLAYERFILE_PRICE+$4C(a0),d0
                 move.b  PLAYERFILE_POSITIONANDFACE+$4C(a0),d1
-                andi.b  #PLAYERFILE_PLAYERNAME+$F8,d1
+                andi.b  #$FB,d1
                 eor.b   d1,d0
                 move.b  PLAYERFILE_PLAYERNAME+$4C(a0),d1
                 eor.b   d1,d0
@@ -51236,7 +51286,7 @@ loc_126744:
 ; prototype: void __usercall ProcessDIYLeagueMatchResultAndCareerUpdates(TeamFileEx *team1@<a1>, TeamFileEx *team2@<a2>)
 ProcessDIYLeagueMatchResultAndCareerUpdates:
                 clr.w   d0
-                cmpi.w  #1,(diyCompetitionStart+DIY_COMPETITION_PLAYEACHTEAM).l
+                cmpi.w  #1,(diyCompetitionStart+DIYCOMPETITION_PLAYEACHTEAM).l
                 seq     d0
                 lea     (diyCompetitionStart).l,a0
                 move.w  $64(a0),d1
@@ -52626,7 +52676,7 @@ loc_12756C:
                 jsr     DIY_InitCompetitionDefaults
                 movem.l (sp)+,d7/a5
                 lea     (diyCompetitionStart).l,a6
-                move.w  #1,diyCompetitionStart+DIY_COMPETITION_FIELD_3A+2-diyCompetitionStart(a6)
+                move.w  #1,diyCompetitionStart+DIYCOMPETITION_SUBSTITUTESCOUNT-diyCompetitionStart(a6)
                 lea     (europeanCupsandNationalTeamCompetitionsAndQualifications).l,a1
 loc_127594:
                 cmpi.l  #$FFFFFFFF,(a1)
@@ -52736,7 +52786,7 @@ loc_1276D4:
                 jsr     InitDIYCup
                 movem.l (sp)+,a5
                 lea     (diyCompetitionStart).l,a6
-                move.w  #1,DIY_COMPETITION_FIELD_3A+2(a6)
+                move.w  #1,DIYCOMPETITION_SUBSTITUTESCOUNT(a6)
                 lea     (europeanCupsandNationalTeamCompetitionsAndQualifications).l,a1
 loc_1276F6:
                 cmpi.l  #$FFFFFFFF,(a1)
@@ -52827,7 +52877,7 @@ loc_1277C8:
                 move.b  9(a5),d0
                 beq.s   loc_127814
                 ext.w   d0
-                move.w  d0,(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$20).l
+                move.w  d0,(diyCompetitionStart+DIYCOMPETITION_NUMROUNDS).l
 loc_127814:
                 tst.b   8(a5)
                 bne.s   locret_127820
@@ -52843,7 +52893,7 @@ InitDIYLeagueFromRecord:
                 jsr     InitDIYTournament
                 movem.l (sp)+,a5
                 lea     (diyFileBufferCopy).l,a6
-                move.w  #1,DIY_COMPETITION_FIELD_3A+2(a6)
+                move.w  #1,DIYCOMPETITION_SUBSTITUTESCOUNT(a6)
                 lea     (europeanCupsandNationalTeamCompetitionsAndQualifications).l,a1
 loc_127844:
                 cmpi.l  #$FFFFFFFF,(a1)
@@ -52997,7 +53047,7 @@ loc_1279DE:
                 move.w  d0,$172(a0)
                 adda.l  #$76,a0         ; 'v'
                 dbf     d2,loc_127984
-                cmpi.w  #6,(diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$18).l
+                cmpi.w  #6,(diyFileBufferCopy+DIYCOMPETITION_TOTALMATCHESINROUND).l
                 beq.s   loc_127A24
                 move.w  $EE(a0),$162(a0)
 loc_127A24:
@@ -53116,7 +53166,7 @@ RetnProc:
                 rts
 
 ; ===== BuildMatchResultString =====
-; prototype: char *__usercall BuildMatchResultString@<a0>(unsigned __int16 control@<d0>, unsigned __int16 leg2@<d4>, unsigned __int16 leg1@<d5>, unsigned __int16 pens@<d6>, struct TeamFile *teamA@<a1>, struct TeamFile *teamB@<a2>, unsigned __int16 flags@<d7>)
+; prototype: char *__usercall BuildMatchResultString@<a0>(unsigned __int16 control@<d0>, unsigned __int16 leg2@<d4>, unsigned __int16 leg1@<d5>, unsigned __int16 pens@<d6>, char *teamNameA@<a1>, char *teamNameB@<a2>, unsigned __int16 flags@<d7>)
 BuildMatchResultString:
                 move.w  d0,(buildMatchResultStringControl).l
                 movem.l d0-d3/a1-a4,-(sp)
@@ -53318,7 +53368,7 @@ loc_127DFE:
 PlayDIYCupFixtureAndCacheResult:
                 movem.l d0-d7/a0-a6,-(sp)
                 move.w  (diyPointsForAWin).l,d1
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+2).l,d2
+                move.w  (diyCompetitionStart+DIYCOMPETITION_SUBSTITUTESCOUNT).l,d2
                 movem.l d0-d7/a0-a6,-(sp)
                 bsr.w   SetupPlayers
                 movem.l (sp)+,d0-d7/a0-a6
@@ -53421,7 +53471,7 @@ loc_127F26:
                 clr.w   d0
                 move.w  (diyMinSubstitutes).l,d1
                 move.w  (diyPointsForAWin).l,d2
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+2).l,d3
+                move.w  (diyCompetitionStart+DIYCOMPETITION_SUBSTITUTESCOUNT).l,d3
                 bsr.w   InitializeInGameTeamsAndStartGame
                 bne.w   loc_128186
                 move.w  (statsTeam1GoalsCopy).l,(cachedViewResultTeam1Goals).l
@@ -53461,7 +53511,7 @@ loc_12800E:
                 clr.w   d0
                 move.w  (diyMinSubstitutes).l,d1
                 move.w  (diyPointsForAWin).l,d2
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+2).l,d3
+                move.w  (diyCompetitionStart+DIYCOMPETITION_SUBSTITUTESCOUNT).l,d3
                 bsr.w   InitializeInGameTeamsAndStartGame
                 bne.w   loc_128186
                 move.w  (statsTeam1GoalsCopy).l,(cachedViewResultTeam1Goals).l
@@ -53508,7 +53558,7 @@ loc_1280F4:
                 seq     d0
                 move.w  (diyMinSubstitutes).l,d1
                 move.w  (diyPointsForAWin).l,d2
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+2).l,d3
+                move.w  (diyCompetitionStart+DIYCOMPETITION_SUBSTITUTESCOUNT).l,d3
                 bsr.w   InitializeInGameTeamsAndStartGame
                 bne.w   loc_128186
                 move.w  (statsTeam1GoalsCopy).l,(cachedViewResultTeam1Goals).l
@@ -53538,7 +53588,7 @@ loc_128186:
 PlayDIYLeagueMatchAndCacheResult:
                 movem.l d0-d7/a0-a6,-(sp)
                 move.w  (diyLeagueMaxSubstitutes).l,d1
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+2).l,d2
+                move.w  (diyCompetitionStart+DIYCOMPETITION_SUBSTITUTESCOUNT).l,d2
                 movem.l d0-d7/a0-a6,-(sp)
                 bsr.w   SetupPlayers
                 movem.l (sp)+,d0-d7/a0-a6
@@ -53596,7 +53646,7 @@ loc_128234:
                 seq     d0
                 move.w  (diyLeagueMinSubstitutes).l,d1
                 move.w  (diyLeagueMaxSubstitutes).l,d2
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+2).l,d3
+                move.w  (diyCompetitionStart+DIYCOMPETITION_SUBSTITUTESCOUNT).l,d3
                 bsr.w   InitializeInGameTeamsAndStartGame
                 bne.w   loc_1282C2
                 move.w  (statsTeam1GoalsCopy).l,(cachedViewResultTeam1Goals).l
@@ -53608,7 +53658,7 @@ loc_1282C2:
                 rts
 
 ; ===== SetupPlayers =====
-; prototype: void __usercall SetupPlayers(struct TeamFile *team1@<a1>, struct TeamFile *team2@<a2>)
+; prototype: void __usercall SetupPlayers(struct TeamFileEx *team1@<a1>, struct TeamFileEx *team2@<a2>)
 ; in:
 ;      D1 - max substitutes
 ;      D6 - allow squad changes
@@ -54646,40 +54696,40 @@ PlayFriendly:
 DIY_LoadCurrentCompetitionSlot:
                 lea     (diyFileBufferCopy).l,a2
                 movea.l a2,a3
-                move.w  DIY_COMPETITION_FIELD_3A+$1A(a2),d0
+                move.w  DIYCOMPETITION_ROUNDCOMPLETE(a2),d0
                 mulu.w  #118,d0
                 adda.l  d0,a3
                 lea     (diyCompetitionStart).l,a4
                 lea     (diyCompetitionStart).l,a5
-                clr.w   DIY_COMPETITION_FIELD_3A+$1C(a2)
+                clr.w   DIYCOMPETITION_COMPETITIONFINISHED(a2)
                 tst.w   $15E(a3)
                 beq.w   loc_129032
                 movem.l d7/a2-a5,-(sp)
                 bsr.w   DIY_InitCompetitionDefaults
                 movem.l (sp)+,d7/a2-a5
-                move.w  #1,DIY_COMPETITION_FIELD_3A+$E(a5)
-                move.w  DIY_COMPETITION_FIELD_3A+$A(a2),DIY_COMPETITION_FIELD_3A+$A(a5)
-                move.w  DIY_COMPETITION_FIELD_3A+$C(a2),DIY_COMPETITION_FIELD_3A+$C(a5)
-                lea     DIY_COMPETITION_FIELD_2+2(a2),a0
-                lea     DIY_COMPETITION_FIELD_2+2(a5),a1
+                move.w  #1,DIYCOMPETITION_HASGROUPS(a5)
+                move.w  DIYCOMPETITION_MATCHSTARTED(a2),DIYCOMPETITION_MATCHSTARTED(a5)
+                move.w  DIYCOMPETITION_CAREERTEAMINVOLVED(a2),DIYCOMPETITION_CAREERTEAMINVOLVED(a5)
+                lea     DIYCOMPETITION_COMPETITIONNAME(a2),a0
+                lea     DIYCOMPETITION_COMPETITIONNAME(a5),a1
                 jsr     StringCopy
-                move.w  DIY_COMPETITION_FIELD_3A+$1A(a2),DIY_COMPETITION_FIELD_3A+$10(a5)
-                move.w  DIY_COMPETITION_FIELD_3A+$18(a2),DIY_COMPETITION_FIELD_3A+$12(a5)
-                move.w  DIY_COMPETITION_FIELD_2+$2A(a2),DIY_COMPETITION_FIELD_2+$2A(a5)
-                move.w  $162(a3),DIY_COMPETITION_NUMTEAMS(a5)
-                move.w  362(a3),DIY_COMPETITION_FIELD_3A+$16(a5)
+                move.w  DIYCOMPETITION_ROUNDCOMPLETE(a2),DIYCOMPETITION_MENUSTATE(a5)
+                move.w  DIYCOMPETITION_TOTALMATCHESINROUND(a2),DIYCOMPETITION_ROUNDITERATOR(a5)
+                move.w  DIYCOMPETITION_COMPID(a2),DIYCOMPETITION_COMPID(a5)
+                move.w  $162(a3),DIYCOMPETITION_NUMTEAMS(a5)
+                move.w  362(a3),DIYCOMPETITION_MATCHPAIRSPERROUND(a5)
                 move.w  $164(a3),d0
                 ext.l   d0
                 divu.w  $16A(a3),d0
-                move.w  d0,DIY_COMPETITION_FIELD_3A+$1A(a5)
+                move.w  d0,DIYCOMPETITION_ROUNDCOMPLETE(a5)
                 swap    d0
                 tst.w   d0
                 beq.s   loc_128F9C
-                move.w  #1,DIY_COMPETITION_FIELD_3A+$1C(a5)
+                move.w  #1,DIYCOMPETITION_COMPETITIONFINISHED(a5)
 loc_128F9C:
                 lea     $9A(a2),a0
-                lea     DIY_COMPETITION_FIELD_2+$12C(a5),a1
-                move.w  DIY_COMPETITION_NUMTEAMS(a2),d0
+                lea     DIYCOMPETITION_COMPETITIONNAME+$12A(a5),a1
+                move.w  DIYCOMPETITION_NUMTEAMS(a2),d0
                 subq.w  #1,d0
 loc_128FAA:
                 move.w  (a0)+,(a1)+
@@ -54687,50 +54737,50 @@ loc_128FAA:
                 movem.l d7/a2-a5,-(sp)
                 bsr.w   DIY_BuildTeamGridAndIndexMaps
                 movem.l (sp)+,d7/a2-a5
-                move.w  358(a3),DIY_COMPETITION_PLAYEACHTEAM(a5)
-                move.b  374(a3),DIY_COMPETITION_STARTMONTH(a5)
+                move.w  358(a3),DIYCOMPETITION_PLAYEACHTEAM(a5)
+                move.b  374(a3),DIYCOMPETITION_STARTMONTH(a5)
                 movem.l d7/a2-a5,-(sp)
                 bsr.w   DIY_RecomputeCompetitionDerivedFields
                 movem.l (sp)+,d7/a2-a5
-                move.b  DIY_COMPETITION_FIELD_2+$2E(a2),DIY_COMPETITION_FIELD_2+$2E(a5)
-                move.b  DIY_COMPETITION_FIELD_2+$2F(a2),DIY_COMPETITION_FIELD_2+$2F(a5)
-                move.w  DIY_COMPETITION_PITCHTYPEORSEASON(a2),DIY_COMPETITION_PITCHTYPEORSEASON(a5)
-                move.w  DIY_COMPETITION_PITCHTYPE(a2),DIY_COMPETITION_PITCHTYPE(a5)
-                move.b  DIY_COMPETITION_STARTMONTH(a2),DIY_COMPETITION_STARTMONTH(a5)
-                move.b  DIY_COMPETITION_ENDMONTH(a2),DIY_COMPETITION_ENDMONTH(a5)
-                move.w  DIY_COMPETITION_FIELD_3A+2(a2),DIY_COMPETITION_FIELD_3A+2(a5)
-                move.w  $168(a3),DIY_COMPETITION_FIELD_2+$60(a5)
-                move.w  DIY_COMPETITION_FIELD_3A+$12(a2),DIY_COMPETITION_FIELD_2+$62(a5)
-                move.w  DIY_COMPETITION_FIELD_3A+$14(a2),DIY_COMPETITION_FIELD_2+$64(a5)
+                move.b  DIYCOMPETITION_AVGSKILL(a2),DIYCOMPETITION_AVGSKILL(a5)
+                move.b  DIYCOMPETITION_STRENGTHTIER(a2),DIYCOMPETITION_STRENGTHTIER(a5)
+                move.w  DIYCOMPETITION_PITCHTYPEORSEASON(a2),DIYCOMPETITION_PITCHTYPEORSEASON(a5)
+                move.w  DIYCOMPETITION_PITCHTYPE(a2),DIYCOMPETITION_PITCHTYPE(a5)
+                move.b  DIYCOMPETITION_STARTMONTH(a2),DIYCOMPETITION_STARTMONTH(a5)
+                move.b  DIYCOMPETITION_ENDMONTH(a2),DIYCOMPETITION_ENDMONTH(a5)
+                move.w  DIYCOMPETITION_SUBSTITUTESCOUNT(a2),DIYCOMPETITION_SUBSTITUTESCOUNT(a5)
+                move.w  $168(a3),DIYCOMPETITION_ISACTIVE+$60(a5)
+                move.w  DIYCOMPETITION_ROUNDITERATOR(a2),DIYCOMPETITION_COMPETITIONNAME+$60(a5)
+                move.w  DIYCOMPETITION_NUMTEAMSINSTAGE(a2),DIYCOMPETITION_COMPETITIONNAME+$62(a5)
                 lea     374(a3),a0
-                lea     DIY_COMPETITION_FIELD_3A+$194(a5),a1
+                lea     DIYCOMPETITION_NUMTEAMSINSTAGE+$180(a5),a1
                 move.w  372(a3),d0
                 subq.w  #1,d0
 loc_12901E:
                 move.b  (a0)+,(a1)+
                 dbf     d0,loc_12901E
-                move.b  DIY_COMPETITION_FIELD_2+$2C(a2),DIY_COMPETITION_FIELD_2+$2C(a5)
-                move.w  DIY_COMPETITION_NUMTEAMS(a2),DIY_COMPETITION_FIELD_3A+$14(a5)
+                move.b  DIYCOMPETITION_FIELD_2E(a2),DIYCOMPETITION_FIELD_2E(a5)
+                move.w  DIYCOMPETITION_NUMTEAMS(a2),DIYCOMPETITION_NUMTEAMSINSTAGE(a5)
                 rts
 loc_129032:
                 movem.l d7/a2-a5,-(sp)
                 bsr.w   InitDIYCup
                 movem.l (sp)+,d7/a2-a5
                 move.w  #1,$48(a4)
-                move.w  DIY_COMPETITION_FIELD_3A+$A(a2),DIY_COMPETITION_FIELD_3A+$A(a4)
-                move.w  DIY_COMPETITION_FIELD_3A+$C(a2),DIY_COMPETITION_FIELD_3A+$C(a4)
+                move.w  DIYCOMPETITION_MATCHSTARTED(a2),DIYCOMPETITION_MATCHSTARTED(a4)
+                move.w  DIYCOMPETITION_CAREERTEAMINVOLVED(a2),DIYCOMPETITION_CAREERTEAMINVOLVED(a4)
                 lea     4(a2),a0
                 lea     4(a4),a1
                 jsr     StringCopy
                 move.w  #1,$5A(a4)
-                move.w  DIY_COMPETITION_FIELD_2+$2A(a2),DIY_COMPETITION_FIELD_2+$2A(a4)
-                move.w  $162(a3),DIY_COMPETITION_NUMTEAMS(a4)
-                move.w  $16E(a3),DIY_COMPETITION_FIELD_2+$64(a4)
-                move.w  $170(a3),DIY_COMPETITION_FIELD_2+$70(a4)
-                move.w  $172(a3),DIY_COMPETITION_FIELD_2+$7C(a4)
-                lea     DIY_COMPETITION_FIELD_3A+$60(a2),a0
-                lea     DIY_COMPETITION_FIELD_2+$24C(a4),a1
-                move.w  DIY_COMPETITION_NUMTEAMS(a2),d0
+                move.w  DIYCOMPETITION_COMPID(a2),DIYCOMPETITION_COMPID(a4)
+                move.w  $162(a3),DIYCOMPETITION_NUMTEAMS(a4)
+                move.w  $16E(a3),DIYCOMPETITION_COMPETITIONNAME+$62(a4)
+                move.w  $170(a3),DIYCOMPETITION_COMPETITIONNAME+$6E(a4)
+                move.w  $172(a3),DIYCOMPETITION_COMPETITIONNAME+$7A(a4)
+                lea     DIYCOMPETITION_RESULTCODE+$60(a2),a0
+                lea     DIYCOMPETITION_COMPETITIONNAME+$24A(a4),a1
+                move.w  DIYCOMPETITION_NUMTEAMS(a2),d0
                 subq.w  #1,d0
 loc_129090:
                 move.w  (a0)+,(a1)+
@@ -54738,45 +54788,45 @@ loc_129090:
                 movem.l d7/a2-a5,-(sp)
                 bsr.w   DIY_ShuffleTeamsAndBuildCompTeamList
                 movem.l (sp)+,d7/a2-a5
-                move.b  $176(a3),DIY_COMPETITION_STARTMONTH(a4)
+                move.b  $176(a3),DIYCOMPETITION_STARTMONTH(a4)
                 movem.l d7/a2-a5,-(sp)
                 bsr.w   DIY_InitCupBracketState
                 movem.l (sp)+,d7/a2-a5
-                move.w  DIY_COMPETITION_FIELD_3A+$E(a2),DIY_COMPETITION_FIELD_3A+$12(a4)
-                move.b  DIY_COMPETITION_FIELD_2+$2E(a2),DIY_COMPETITION_FIELD_2+$2E(a4)
-                move.b  DIY_COMPETITION_FIELD_2+$2F(a2),DIY_COMPETITION_FIELD_2+$2F(a4)
-                move.w  DIY_COMPETITION_PITCHTYPEORSEASON(a2),DIY_COMPETITION_PITCHTYPEORSEASON(a4)
-                move.w  DIY_COMPETITION_PITCHTYPE(a2),DIY_COMPETITION_PITCHTYPE(a4)
-                move.b  DIY_COMPETITION_STARTMONTH(a2),DIY_COMPETITION_STARTMONTH(a4)
-                move.b  DIY_COMPETITION_ENDMONTH(a2),DIY_COMPETITION_ENDMONTH(a4)
-                move.w  DIY_COMPETITION_FIELD_3A+2(a2),DIY_COMPETITION_FIELD_3A+2(a4)
-                move.w  DIY_COMPETITION_FIELD_3A+$10(a2),DIY_COMPETITION_PLAYEACHTEAM(a4)
-                move.w  DIY_COMPETITION_FIELD_3A+$12(a2),DIY_COMPETITION_SIZE(a4)
-                move.w  DIY_COMPETITION_FIELD_3A+$14(a2),DIY_COMPETITION_FIELD_2+$60(a4)
+                move.w  DIYCOMPETITION_HASGROUPS(a2),DIYCOMPETITION_ROUNDITERATOR(a4)
+                move.b  DIYCOMPETITION_AVGSKILL(a2),DIYCOMPETITION_AVGSKILL(a4)
+                move.b  DIYCOMPETITION_STRENGTHTIER(a2),DIYCOMPETITION_STRENGTHTIER(a4)
+                move.w  DIYCOMPETITION_PITCHTYPEORSEASON(a2),DIYCOMPETITION_PITCHTYPEORSEASON(a4)
+                move.w  DIYCOMPETITION_PITCHTYPE(a2),DIYCOMPETITION_PITCHTYPE(a4)
+                move.b  DIYCOMPETITION_STARTMONTH(a2),DIYCOMPETITION_STARTMONTH(a4)
+                move.b  DIYCOMPETITION_ENDMONTH(a2),DIYCOMPETITION_ENDMONTH(a4)
+                move.w  DIYCOMPETITION_SUBSTITUTESCOUNT(a2),DIYCOMPETITION_SUBSTITUTESCOUNT(a4)
+                move.w  DIYCOMPETITION_MENUSTATE(a2),DIYCOMPETITION_PLAYEACHTEAM(a4)
+                move.w  DIYCOMPETITION_ROUNDITERATOR(a2),DIYCOMPETITION_SIZE(a4)
+                move.w  DIYCOMPETITION_NUMTEAMSINSTAGE(a2),DIYCOMPETITION_ISACTIVE+$60(a4)
                 lea     $176(a3),a0
-                lea     DIY_COMPETITION_STARTMONTH+$300(a4),a1
+                lea     DIYCOMPETITION_STARTMONTH+$300(a4),a1
                 move.w  $174(a3),d0
-                move.w  d0,DIY_COMPETITION_PITCHTYPEORSEASON+$300(a4)
+                move.w  d0,DIYCOMPETITION_PITCHTYPEORSEASON+$300(a4)
                 subq.w  #1,d0
 loc_129108:
                 move.b  (a0)+,(a1)+
                 dbf     d0,loc_129108
-                move.b  DIY_COMPETITION_FIELD_2+$2C(a2),DIY_COMPETITION_FIELD_2+$2C(a4)
-                move.w  DIY_COMPETITION_NUMTEAMS(a2),DIY_COMPETITION_FIELD_3A+$14(a4)
+                move.b  DIYCOMPETITION_FIELD_2E(a2),DIYCOMPETITION_FIELD_2E(a4)
+                move.w  DIYCOMPETITION_NUMTEAMS(a2),DIYCOMPETITION_NUMTEAMSINSTAGE(a4)
                 rts
 
 ; ===== DIY_AdvanceToNextCompetitionSlot =====
 ; prototype: void __usercall DIY_AdvanceToNextCompetitionSlot()
 DIY_AdvanceToNextCompetitionSlot:
                 lea     (diyFileBufferCopy).l,a2
-                tst.w   DIY_COMPETITION_FIELD_3A+$1E(a2)
+                tst.w   DIYCOMPETITION_CURRENTROUNDINDEX(a2)
                 bne.w   locret_1291AA
-                move.w  DIY_COMPETITION_FIELD_3A+$1A(a2),d0
+                move.w  DIYCOMPETITION_ROUNDCOMPLETE(a2),d0
                 addq.w  #1,d0
-                cmp.w   DIY_COMPETITION_FIELD_3A+$18(a2),d0
+                cmp.w   DIYCOMPETITION_TOTALMATCHESINROUND(a2),d0
                 beq.w   loc_12919E
                 movea.l a2,a3
-                move.w  DIY_COMPETITION_FIELD_3A+$1A(a2),d0
+                move.w  DIYCOMPETITION_ROUNDCOMPLETE(a2),d0
                 mulu.w  #$76,d0         ; 'v'
                 adda.l  d0,a3
                 lea     (diyCompetitionStart).l,a4
@@ -54792,7 +54842,7 @@ loc_129168:
                 bsr.w   DIY_CopyTeamGridFromCompToDIY
                 movem.l (sp)+,d7/a2-a5
 loc_129174:
-                addq.w  #1,DIY_COMPETITION_FIELD_3A+$1A(a2)
+                addq.w  #1,DIYCOMPETITION_ROUNDCOMPLETE(a2)
                 bsr.w   DIY_LoadCurrentCompetitionSlot
                 tst.w   (careerLoadedFlag).l
                 bne.s   locret_1291AA
@@ -54802,8 +54852,8 @@ loc_129174:
                 beq.w   loc_12D4B0
                 rts
 loc_12919E:
-                move.w  #2,DIY_COMPETITION_FIELD_2(a2)
-                move.w  #1,DIY_COMPETITION_FIELD_3A+$1E(a2)
+                move.w  #2,DIYCOMPETITION_ISACTIVE(a2)
+                move.w  #1,DIYCOMPETITION_CURRENTROUNDINDEX(a2)
 locret_1291AA:
                 rts
 
@@ -54816,37 +54866,37 @@ DIY_EditCompetitionSlot:
 loc_1291BE:
                 lea     (diyFileBufferCopy).l,a2
                 movea.l a2,a3
-                move.w  DIY_COMPETITION_FIELD_3A+$1A(a2),d0
+                move.w  DIYCOMPETITION_ROUNDCOMPLETE(a2),d0
                 mulu.w  #$76,d0         ; 'v'
                 adda.l  d0,a3
                 lea     (diyCompetitionStart).l,a4
                 lea     (diyCompetitionStart).l,a5
                 tst.w   $15E(a3)
                 beq.w   loc_12928E
-                move.w  #1,DIY_COMPETITION_FIELD_3A+$E(a5)
-                move.w  DIY_COMPETITION_FIELD_3A+$1A(a2),d0
+                move.w  #1,DIYCOMPETITION_HASGROUPS(a5)
+                move.w  DIYCOMPETITION_ROUNDCOMPLETE(a2),d0
                 addq.w  #1,d0
                 cmp.w   $52(a2),d0
                 bne.s   loc_1291FC
-                move.w  #2,DIY_COMPETITION_FIELD_3A+$E(a5)
+                move.w  #2,DIYCOMPETITION_HASGROUPS(a5)
 loc_1291FC:
                 move.w  (diyEditParamA).l,d0
                 move.w  (diyEditParamB).l,d1
                 move.w  (diyEditParamC).l,d2
-                move.w  DIY_COMPETITION_FIELD_3A+6(a2),DIY_COMPETITION_FIELD_3A+6(a5)
-                move.w  DIY_COMPETITION_FIELD_3A+4(a2),DIY_COMPETITION_FIELD_3A+4(a5)
-                move.w  DIY_COMPETITION_FIELD_3A+8(a2),DIY_COMPETITION_FIELD_3A+8(a5)
+                move.w  DIYCOMPETITION_SLOTSTATEB(a2),DIYCOMPETITION_SLOTSTATEB(a5)
+                move.w  DIYCOMPETITION_SLOTSTATEA(a2),DIYCOMPETITION_SLOTSTATEA(a5)
+                move.w  DIYCOMPETITION_SLOTSTATEC(a2),DIYCOMPETITION_SLOTSTATEC(a5)
                 movem.l d7/a2-a5,-(sp)
                 jsr     ShowDiyLeaguesTournamentMenu
                 movem.l (sp)+,d7/a2-a5
-                move.w  DIY_COMPETITION_FIELD_3A(a5),DIY_COMPETITION_FIELD_3A(a2)
-                move.w  DIY_COMPETITION_FIELD_3A+$A(a5),DIY_COMPETITION_FIELD_3A+$A(a2)
-                move.w  DIY_COMPETITION_FIELD_3A+$C(a5),DIY_COMPETITION_FIELD_3A+$C(a2)
-                move.w  DIY_COMPETITION_FIELD_3A+6(a5),DIY_COMPETITION_FIELD_3A+6(a2)
-                move.w  DIY_COMPETITION_FIELD_3A+4(a5),DIY_COMPETITION_FIELD_3A+4(a2)
-                move.w  DIY_COMPETITION_FIELD_3A+8(a5),DIY_COMPETITION_FIELD_3A+8(a2)
-                tst.w   DIY_COMPETITION_SIZE(a5)
-                seq     DIY_COMPETITION_FIELD_3A+$1C(a2)
+                move.w  DIYCOMPETITION_RESULTCODE(a5),DIYCOMPETITION_RESULTCODE(a2)
+                move.w  DIYCOMPETITION_MATCHSTARTED(a5),DIYCOMPETITION_MATCHSTARTED(a2)
+                move.w  DIYCOMPETITION_CAREERTEAMINVOLVED(a5),DIYCOMPETITION_CAREERTEAMINVOLVED(a2)
+                move.w  DIYCOMPETITION_SLOTSTATEB(a5),DIYCOMPETITION_SLOTSTATEB(a2)
+                move.w  DIYCOMPETITION_SLOTSTATEA(a5),DIYCOMPETITION_SLOTSTATEA(a2)
+                move.w  DIYCOMPETITION_SLOTSTATEC(a5),DIYCOMPETITION_SLOTSTATEC(a2)
+                tst.w   DIYCOMPETITION_SIZE(a5)
+                seq     DIYCOMPETITION_COMPETITIONFINISHED(a2)
                 cmpi.w  #4,(gameType).l
                 beq.s   locret_12926E
                 cmpi.w  #3,(gameType).l
@@ -54854,47 +54904,47 @@ loc_1291FC:
 locret_12926E:
                 rts
 loc_129270:
-                tst.w   DIY_COMPETITION_FIELD_3A+$E(a5)
+                tst.w   DIYCOMPETITION_HASGROUPS(a5)
                 bmi.w   locret_129354
                 movem.l d7/a2-a5,-(sp)
                 bsr.w   DIY_AdvanceToNextCompetitionSlot
                 movem.l (sp)+,d7/a2-a5
-                tst.w   DIY_COMPETITION_FIELD_3A+$1E(a2)
+                tst.w   DIYCOMPETITION_CURRENTROUNDINDEX(a2)
                 beq.w   loc_1291BE
                 rts
 loc_12928E:
-                move.w  #1,DIY_COMPETITION_FIELD_3A+$E(a4)
-                move.w  DIY_COMPETITION_FIELD_3A+$1A(a2),d0
+                move.w  #1,DIYCOMPETITION_HASGROUPS(a4)
+                move.w  DIYCOMPETITION_ROUNDCOMPLETE(a2),d0
                 addq.w  #1,d0
-                cmp.w   DIY_COMPETITION_FIELD_3A+$18(a2),d0
+                cmp.w   DIYCOMPETITION_TOTALMATCHESINROUND(a2),d0
                 bne.s   loc_1292A6
-                move.w  #2,DIY_COMPETITION_FIELD_3A+$E(a4)
+                move.w  #2,DIYCOMPETITION_HASGROUPS(a4)
 loc_1292A6:
                 move.w  (diyEditParamA).l,d0
                 move.w  (diyEditParamB).l,d1
                 move.w  (diyEditParamC).l,d2
-                move.w  DIY_COMPETITION_FIELD_3A+$E(a2),DIY_COMPETITION_FIELD_3A+$12(a4)
-                move.w  DIY_COMPETITION_FIELD_3A+6(a2),DIY_COMPETITION_FIELD_3A+6(a4)
-                move.w  DIY_COMPETITION_FIELD_3A+4(a2),DIY_COMPETITION_FIELD_3A+4(a4)
-                move.w  DIY_COMPETITION_FIELD_3A+8(a2),DIY_COMPETITION_FIELD_3A+8(a4)
+                move.w  DIYCOMPETITION_HASGROUPS(a2),DIYCOMPETITION_ROUNDITERATOR(a4)
+                move.w  DIYCOMPETITION_SLOTSTATEB(a2),DIYCOMPETITION_SLOTSTATEB(a4)
+                move.w  DIYCOMPETITION_SLOTSTATEA(a2),DIYCOMPETITION_SLOTSTATEA(a4)
+                move.w  DIYCOMPETITION_SLOTSTATEC(a2),DIYCOMPETITION_SLOTSTATEC(a4)
                 movem.l d0-d7/a0-a6,-(sp)
                 jsr     ShowDIYCupMenuWithParams
                 movem.l (sp)+,d0-d7/a0-a6
-                move.w  DIY_COMPETITION_FIELD_3A+$12(a4),DIY_COMPETITION_FIELD_3A+$E(a2)
-                move.w  DIY_COMPETITION_FIELD_3A(a4),DIY_COMPETITION_FIELD_3A(a2)
-                move.w  DIY_COMPETITION_FIELD_3A+$A(a4),DIY_COMPETITION_FIELD_3A+$A(a2)
-                move.w  DIY_COMPETITION_FIELD_3A+$C(a4),DIY_COMPETITION_FIELD_3A+$C(a2)
-                move.w  DIY_COMPETITION_FIELD_3A+6(a4),DIY_COMPETITION_FIELD_3A+6(a2)
-                move.w  DIY_COMPETITION_FIELD_3A+4(a4),DIY_COMPETITION_FIELD_3A+4(a2)
-                move.w  DIY_COMPETITION_FIELD_3A+8(a4),DIY_COMPETITION_FIELD_3A+8(a2)
-                tst.w   DIY_COMPETITION_FIELD_3A+$1C(a4)
-                sne     DIY_COMPETITION_FIELD_3A+$1C(a2)
+                move.w  DIYCOMPETITION_ROUNDITERATOR(a4),DIYCOMPETITION_HASGROUPS(a2)
+                move.w  DIYCOMPETITION_RESULTCODE(a4),DIYCOMPETITION_RESULTCODE(a2)
+                move.w  DIYCOMPETITION_MATCHSTARTED(a4),DIYCOMPETITION_MATCHSTARTED(a2)
+                move.w  DIYCOMPETITION_CAREERTEAMINVOLVED(a4),DIYCOMPETITION_CAREERTEAMINVOLVED(a2)
+                move.w  DIYCOMPETITION_SLOTSTATEB(a4),DIYCOMPETITION_SLOTSTATEB(a2)
+                move.w  DIYCOMPETITION_SLOTSTATEA(a4),DIYCOMPETITION_SLOTSTATEA(a2)
+                move.w  DIYCOMPETITION_SLOTSTATEC(a4),DIYCOMPETITION_SLOTSTATEC(a2)
+                tst.w   DIYCOMPETITION_COMPETITIONFINISHED(a4)
+                sne     DIYCOMPETITION_COMPETITIONFINISHED(a2)
                 cmpi.w  #4,(gameType).l
                 beq.s   loc_129324
                 cmpi.w  #3,(gameType).l
                 bne.s   loc_129338
 loc_129324:
-                tst.w   DIY_COMPETITION_FIELD_3A+$1A(a4)
+                tst.w   DIYCOMPETITION_ROUNDCOMPLETE(a4)
                 beq.s   locret_129336
                 movem.l d0-d7/a0-a6,-(sp)
                 bsr.w   DIY_UpdateCompetitionProgress
@@ -54902,12 +54952,12 @@ loc_129324:
 locret_129336:
                 rts
 loc_129338:
-                tst.w   DIY_COMPETITION_FIELD_3A+$E(a4)
+                tst.w   DIYCOMPETITION_HASGROUPS(a4)
                 bmi.s   locret_129354
                 movem.l d7/a2-a5,-(sp)
                 bsr.w   DIY_AdvanceToNextCompetitionSlot
                 movem.l (sp)+,d7/a2-a5
-                tst.w   DIY_COMPETITION_FIELD_3A+$1E(a2)
+                tst.w   DIYCOMPETITION_CURRENTROUNDINDEX(a2)
                 beq.w   loc_1291BE
                 rts
 locret_129354:
@@ -55675,7 +55725,7 @@ loc_129BE8:
                 move.w  #1,$166(a0)
                 adda.l  #$76,a0         ; 'v'
                 dbf     d0,loc_129BE8
-                lea     ((diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$20)).l,a0
+                lea     (diyFileBufferCopy+DIYCOMPETITION_NUMROUNDS).l,a0
                 clr.b   d1
                 move.w  #$3F,d0         ; '?'
 loc_129C38:
@@ -55693,11 +55743,11 @@ diyTournamentInitTable:
 ; ===== DIYTournament_RecalculateMatchesPerTeam =====
 ; prototype: void __usercall DIYTournament_RecalculateMatchesPerTeam()
 DIYTournament_RecalculateMatchesPerTeam:
-                move.w  #1,(diyFileBufferCopy+DIY_COMPETITION_FIELD_2).l
+                move.w  #1,(diyFileBufferCopy+DIYCOMPETITION_ISACTIVE).l
                 bsr.w   nullsub_12
-                clr.w   (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$1E).l
-                clr.w   (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$1A).l
-                clr.w   (diyCompetitionStart+DIY_COMPETITION_FIELD_2).l
+                clr.w   (diyFileBufferCopy+DIYCOMPETITION_CURRENTROUNDINDEX).l
+                clr.w   (diyFileBufferCopy+DIYCOMPETITION_ROUNDCOMPLETE).l
+                clr.w   (diyCompetitionStart+DIYCOMPETITION_ISACTIVE).l
                 lea     (diyFileBufferCopy).l,a0
                 move.w  $52(a0),d1
                 subq.w  #1,d1
@@ -55726,11 +55776,11 @@ loc_129CD6:
                 adda.l  #$76,a0         ; 'v'
                 dbf     d1,loc_129C94
                 bsr.w   DIYTournament_BuildMatchesPerTeamProgressionTable
-                move.w  (diyFileBufferCopy+DIY_COMPETITION_NUMTEAMS).l,d0
+                move.w  (diyFileBufferCopy+DIYCOMPETITION_NUMTEAMS).l,d0
                 lea     (diyTournamentTeamIds).l,a0
                 bsr.w   DIY_ComputeAverageTeamStrengthTier
-                move.b  d0,(diyFileBufferCopy+DIY_COMPETITION_FIELD_2+$2E).l
-                move.b  d1,(diyFileBufferCopy+DIY_COMPETITION_FIELD_2+$2F).l
+                move.b  d0,(diyFileBufferCopy+DIYCOMPETITION_AVGSKILL).l
+                move.b  d1,(diyFileBufferCopy+DIYCOMPETITION_STRENGTHTIER).l
                 rts
 
 ; ===== DIY_ResetAndLoadCurrentCompetitionSlot =====
@@ -55738,15 +55788,15 @@ loc_129CD6:
 DIY_ResetAndLoadCurrentCompetitionSlot:
                 move.w  (currentTick).l,(randomSeed).l
                 move.b  (currentTick+1).l,(newRandomSeedCopy).l
-                clr.w   (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$1E).l
-                clr.w   (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$1A).l
-                clr.w   (diyCompetitionStart+DIY_COMPETITION_FIELD_2).l
-                clr.w   (diyCompetitionStart+DIY_COMPETITION_FIELD_2).l
-                clr.w   (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$A).l
-                clr.w   (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$C).l
-                move.w  #$FFFF,(diyFileBufferCopy+DIY_COMPETITION_FIELD_3A).l
-                move.w  #1,(diyFileBufferCopy+DIY_COMPETITION_FIELD_2).l
-                lea     ((diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$20)).l,a0
+                clr.w   (diyFileBufferCopy+DIYCOMPETITION_CURRENTROUNDINDEX).l
+                clr.w   (diyFileBufferCopy+DIYCOMPETITION_ROUNDCOMPLETE).l
+                clr.w   (diyCompetitionStart+DIYCOMPETITION_ISACTIVE).l
+                clr.w   (diyCompetitionStart+DIYCOMPETITION_ISACTIVE).l
+                clr.w   (diyFileBufferCopy+DIYCOMPETITION_MATCHSTARTED).l
+                clr.w   (diyFileBufferCopy+DIYCOMPETITION_CAREERTEAMINVOLVED).l
+                move.w  #$FFFF,(diyFileBufferCopy+DIYCOMPETITION_RESULTCODE).l
+                move.w  #1,(diyFileBufferCopy+DIYCOMPETITION_ISACTIVE).l
+                lea     (diyFileBufferCopy+DIYCOMPETITION_NUMROUNDS).l,a0
                 clr.b   d1
                 move.w  #$3F,d0         ; '?'
 loc_129D56:
@@ -55826,13 +55876,13 @@ InitDIYCup:
                 lea     (aDiyCup).l,a0  ; "DIY CUP"
                 lea     4(a2),a1
                 jsr     StringCopy
-                move.b  #$38,DIY_COMPETITION_STARTMONTH(a2) ; '8'
-                move.b  #$20,DIY_COMPETITION_ENDMONTH(a2) ; ' '
-                move.w  #1,DIY_COMPETITION_PITCHTYPEORSEASON(a2)
-                move.w  #$FFFF,DIY_COMPETITION_PITCHTYPE(a2)
-                move.w  #$10,DIY_COMPETITION_NUMTEAMS(a2)
+                move.b  #$38,DIYCOMPETITION_STARTMONTH(a2) ; '8'
+                move.b  #$20,DIYCOMPETITION_ENDMONTH(a2) ; ' '
+                move.w  #1,DIYCOMPETITION_PITCHTYPEORSEASON(a2)
+                move.w  #$FFFF,DIYCOMPETITION_PITCHTYPE(a2)
+                move.w  #$10,DIYCOMPETITION_NUMTEAMS(a2)
                 move.w  #4,$5A(a2)
-                clr.w   DIY_COMPETITION_PLAYEACHTEAM(a2)
+                clr.w   DIYCOMPETITION_PLAYEACHTEAM(a2)
                 move.w  #3,$60(a2)
                 move.w  #5,$62(a2)
                 clr.w   $64(a2)
@@ -55897,11 +55947,11 @@ loc_129F0C:
                 move.b  $38(a2),$2F(a2)
                 move.b  $2F(a2),(viewRandomPhase).l
                 bsr.w   DIY_InitCupBracketProgressionTable
-                move.w  (diyCompetitionStart+DIY_COMPETITION_NUMTEAMS).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_NUMTEAMS).l,d0
                 lea     (diyCupTeamIds).l,a0
                 bsr.w   DIY_ComputeAverageTeamStrengthTier
-                move.b  d0,(diyCompetitionStart+DIY_COMPETITION_FIELD_2+$2E).l
-                move.b  d1,(diyCompetitionStart+DIY_COMPETITION_FIELD_2+$2F).l
+                move.b  d0,(diyCompetitionStart+DIYCOMPETITION_AVGSKILL).l
+                move.b  d1,(diyCompetitionStart+DIYCOMPETITION_STRENGTHTIER).l
                 rts
 
 ; ===== DIY_InitCupFromTeamGridAndValidateTeams =====
@@ -55976,7 +56026,7 @@ loc_12A02E:
 ; prototype: void __usercall DIY_BuildTeamSelectionPointerCache()
 DIY_BuildTeamSelectionPointerCache:
                 lea     (diyCompetitionStart).l,a2
-                lea     DIY_COMPETITION_FIELD_2+$2CC(a2),a3
+                lea     DIYCOMPETITION_FIELD_2E+$2A0(a2),a3
                 lea     $24E(a2),a6
                 move.w  $32(a2),d7
                 subq.w  #1,d7
@@ -55994,7 +56044,7 @@ loc_12A04C:
                 move.l  a0,$344(a1)
                 dbf     d7,loc_12A04C
                 lea     (diyCompetitionStart).l,a2
-                clr.w   DIY_COMPETITION_FIELD_3A+$12(a2)
+                clr.w   DIYCOMPETITION_ROUNDITERATOR(a2)
                 lea     $2CE(a2),a1
                 lea     $24E(a2),a3
                 move.w  $32(a2),d2
@@ -56016,7 +56066,7 @@ loc_12A0A6:
 ; prototype: void __usercall DIY_ShuffleTeamOrderList()
 DIY_ShuffleTeamOrderList:
                 lea     (diyCompetitionStart).l,a1
-                lea     DIY_COMPETITION_FIELD_2+$30C(a1),a0
+                lea     DIYCOMPETITION_COMPETITIONNAME+$30A(a1),a0
                 clr.w   d0
                 move.w  $50(a1),d1
                 subq.w  #1,d1
@@ -56041,10 +56091,10 @@ loc_12A0D2:
 ; ===== DIY_UpdateCompetitionProgress =====
 ; prototype: void __usercall DIY_UpdateCompetitionProgress()
 DIY_UpdateCompetitionProgress:
-                tst.w   (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$1C).l
+                tst.w   (diyCompetitionStart+DIYCOMPETITION_COMPETITIONFINISHED).l
                 bne.w   locret_12A26E
                 lea     (diyCompetitionStart).l,a0
-                cmpi.w  #1,DIY_COMPETITION_FIELD_2+$148(a0)
+                cmpi.w  #1,DIYCOMPETITION_NAMEPTR+$122(a0)
                 beq.s   loc_12A112
                 cmpi.w  #2,$14C(a0)
                 beq.w   loc_12A1AA
@@ -56053,7 +56103,7 @@ loc_12A112:
                 bne.w   loc_12A1E8
                 bsr.w   DIY_ReorderTeamGridByOrderList
                 lea     (diyCompetitionStart).l,a0
-                cmpi.w  #2,DIY_COMPETITION_FIELD_2+$14A(a0)
+                cmpi.w  #2,DIYCOMPETITION_COMPID+$120(a0)
                 beq.s   loc_12A148
                 tst.w   $330(a0)
                 bne.s   loc_12A148
@@ -56384,7 +56434,7 @@ locret_12A53E:
 ; prototype: void __usercall DIY_ShuffleTeamGridPairs()
 DIY_ShuffleTeamGridPairs:
                 lea     (diyCompetitionStart).l,a2
-                lea     DIY_COMPETITION_FIELD_2+$2CC(a2),a0
+                lea     DIYCOMPETITION_FIELD_2E+$2A0(a2),a0
                 move.w  $50(a2),d7
                 lsl.w   #1,d7
                 move.w  d7,d6
@@ -56443,7 +56493,7 @@ locret_12A5D6:
 ; ===== DIY_PlayCupMatchAndAdvance =====
 ; prototype: void __usercall DIY_PlayCupMatchAndAdvance(unsigned __int16 mode@<d7>)
 DIY_PlayCupMatchAndAdvance:
-                move.w  #1,(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$A).l
+                move.w  #1,(diyCompetitionStart+DIYCOMPETITION_MATCHSTARTED).l
                 bsr.w   DIY_SyncProgressToDiyFileBufferCopy
                 bsr.s   DIY_GetCurrentMatchTeamSlots
                 movea.l $344(a1),a1
@@ -56481,7 +56531,7 @@ loc_12A630:
                 bne.s   loc_12A66C
 loc_12A650:
                 move.w  (diyPointsForAWin).l,d1
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+2).l,d2
+                move.w  (diyCompetitionStart+DIYCOMPETITION_SUBSTITUTESCOUNT).l,d2
                 clr.w   d6
                 bsr.w   SetupPlayers
                 tst.w   (exitGameFlag).l
@@ -56491,7 +56541,7 @@ loc_12A66C:
                 bra.w   *+4
 loc_12A676:
                 lea     (diyCompetitionStart).l,a0
-                tst.w   DIY_COMPETITION_FIELD_2+$148(a0)
+                tst.w   DIYCOMPETITION_NAMEPTR+$122(a0)
                 beq.s   loc_12A698
                 move.w  $64(a0),d0
                 lsl.w   #1,d0
@@ -56504,13 +56554,13 @@ loc_12A698:
                 movem.l a1-a2,-(sp)
                 bsr.w   ProcessDIYKnockoutMatchResultAndCareerUpdates
                 movem.l (sp)+,a1-a2
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_2+$2A).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_COMPID).l,d0
                 move.w  d4,d1
                 lsr.w   #8,d1
                 move.w  d4,d2
                 andi.w  #$FF,d2
                 lea     (diyCompetitionStart).l,a3
-                lea     DIY_COMPETITION_FIELD_2+$88(a3),a0
+                lea     DIYCOMPETITION_NAMEPTR+$62(a3),a0
                 move.w  $64(a3),d0
                 lea     (a0,d0.w),a0
                 move.b  d7,(a0)
@@ -56605,9 +56655,9 @@ loc_12A7E0:
                 move.w  #1,$56(a3)
                 tst.w   $48(a3)
                 beq.s   loc_12A816
-                move.w  (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$1A).l,d0
+                move.w  (diyFileBufferCopy+DIYCOMPETITION_ROUNDCOMPLETE).l,d0
                 addq.w  #1,d0
-                cmp.w   (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$18).l,d0
+                cmp.w   (diyFileBufferCopy+DIYCOMPETITION_TOTALMATCHESINROUND).l,d0
                 bne.s   loc_12A834
 loc_12A816:
                 move.b  $2CE(a3),d0
@@ -56632,10 +56682,10 @@ locret_12A848:
 ; ===== DIY_SyncProgressToDiyFileBufferCopy =====
 ; prototype: void __usercall DIY_SyncProgressToDiyFileBufferCopy()
 DIY_SyncProgressToDiyFileBufferCopy:
-                tst.w   (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$E).l
+                tst.w   (diyCompetitionStart+DIYCOMPETITION_HASGROUPS).l
                 beq.s   locret_12A866
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$A).l,(diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$A).l
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$C).l,(diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$C).l
+                move.w  (diyCompetitionStart+DIYCOMPETITION_MATCHSTARTED).l,(diyFileBufferCopy+DIYCOMPETITION_MATCHSTARTED).l
+                move.w  (diyCompetitionStart+DIYCOMPETITION_CAREERTEAMINVOLVED).l,(diyFileBufferCopy+DIYCOMPETITION_CAREERTEAMINVOLVED).l
 locret_12A866:
                 rts
 
@@ -56802,11 +56852,11 @@ DIY_RecomputeCompetitionDerivedFields:
                 move.b  $38(a2),$2F(a2)
                 move.b  $2F(a2),(viewRandomPhase).l
                 bsr.w   DIY_RecomputeCompetitionDerivedProgressionTable
-                move.w  (diyCompetitionStart+DIY_COMPETITION_NUMTEAMS).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_NUMTEAMS).l,d0
                 lea     (diyLeagueTeamIds).l,a0
                 bsr.w   DIY_ComputeAverageTeamStrengthTier
-                move.b  d0,(diyCompetitionStart+DIY_COMPETITION_FIELD_2+$2E).l
-                move.b  d1,(diyCompetitionStart+DIY_COMPETITION_FIELD_2+$2F).l
+                move.b  d0,(diyCompetitionStart+DIYCOMPETITION_AVGSKILL).l
+                move.b  d1,(diyCompetitionStart+DIYCOMPETITION_STRENGTHTIER).l
                 rts
 
 ; ===== DIY_ResetCompetitionProgressAndShuffle =====
@@ -57013,7 +57063,7 @@ locret_12AD08:
                 rts
 
 ; ===== DIY_AdvanceLeagueProgressAfterMatch =====
-; prototype: void __usercall DIY_AdvanceLeagueProgressAfterMatch(TeamFileEx *team1@<a1>, TeamFileEx *team2@<a2>)
+; prototype: void __usercall DIY_AdvanceLeagueProgressAfterMatch(void *team1CompSlot@<a1>, void *team2CompSlot@<a2>)
 DIY_AdvanceLeagueProgressAfterMatch:
                 lea     (diyCompetitionStart).l,a0
                 addq.w  #1,$2B8(a1)
@@ -57076,7 +57126,7 @@ locret_12ADC0:
 ; ===== DIY_PlayOrSimulateLeagueFixture =====
 ; prototype: __int16 __usercall DIY_PlayOrSimulateLeagueFixture@<d0>(__int16 selector@<d7>)
 DIY_PlayOrSimulateLeagueFixture:
-                move.w  #1,(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$A).l
+                move.w  #1,(diyCompetitionStart+DIYCOMPETITION_MATCHSTARTED).l
                 bsr.w   DIY_SyncProgressToDiyFileBufferCopy_2
                 bsr.w   DIY_GetCurrentFixtureTeamPtrs
                 movea.l a1,a3
@@ -57117,7 +57167,7 @@ loc_12AE24:
                 bne.s   loc_12AE60
 loc_12AE44:
                 move.w  (diyLeagueMaxSubstitutes).l,d1
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+2).l,d2
+                move.w  (diyCompetitionStart+DIYCOMPETITION_SUBSTITUTESCOUNT).l,d2
                 clr.w   d6
                 bsr.w   SetupPlayers
                 tst.w   (exitGameFlag).l
@@ -57139,11 +57189,11 @@ loc_12AE6A:
                 cmpa.l  #careerTeam,a2
                 bne.s   loc_12AEA6
 loc_12AE96:
-                move.w  #1,(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$C).l
+                move.w  #1,(diyCompetitionStart+DIYCOMPETITION_CAREERTEAMINVOLVED).l
                 move.w  #1,(careerMatchSimulatedFlag).l
 loc_12AEA6:
                 bsr.w   DIY_SyncProgressToDiyFileBufferCopy_2
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_2+$2A).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_COMPID).l,d0
                 tst.w   (careerLoadedFlag).l
                 bne.s   loc_12AEE2
                 cmpi.w  #4,(gameType).l
@@ -57160,7 +57210,7 @@ loc_12AECC:
                 movem.l (sp)+,d1-d2/a1-a4
 loc_12AEE2:
                 lea     (diyCompetitionStart).l,a0
-                addq.w  #1,DIY_COMPETITION_FIELD_3A+$184(a0)
+                addq.w  #1,DIYCOMPETITION_SLOTSTATEA+$180(a0)
                 cmp.w   d2,d1
                 beq.s   loc_12AF16
                 bcs.s   loc_12AF04
@@ -57194,9 +57244,9 @@ loc_12AF26:
                 lea     $1AE(a5),a3
                 tst.w   $48(a5)
                 beq.s   loc_12AF6C
-                move.w  (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$1A).l,d0
+                move.w  (diyFileBufferCopy+DIYCOMPETITION_ROUNDCOMPLETE).l,d0
                 addq.w  #1,d0
-                cmp.w   (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$18).l,d0
+                cmp.w   (diyFileBufferCopy+DIYCOMPETITION_TOTALMATCHESINROUND).l,d0
                 bne.s   loc_12AF7E
 loc_12AF6C:
                 move.w  $6E(a5),d0
@@ -57251,10 +57301,10 @@ locret_12AFEC:
 ; ===== DIY_SyncProgressToDiyFileBufferCopy_2 =====
 ; prototype: void __usercall DIY_SyncProgressToDiyFileBufferCopy_2()
 DIY_SyncProgressToDiyFileBufferCopy_2:
-                tst.w   (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$E).l
+                tst.w   (diyCompetitionStart+DIYCOMPETITION_HASGROUPS).l
                 beq.s   locret_12B00A
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$A).l,(diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$A).l
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$C).l,(diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$C).l
+                move.w  (diyCompetitionStart+DIYCOMPETITION_MATCHSTARTED).l,(diyFileBufferCopy+DIYCOMPETITION_MATCHSTARTED).l
+                move.w  (diyCompetitionStart+DIYCOMPETITION_CAREERTEAMINVOLVED).l,(diyFileBufferCopy+DIYCOMPETITION_CAREERTEAMINVOLVED).l
 locret_12B00A:
                 rts
 
@@ -58601,7 +58651,7 @@ loc_12BF7E:
 loc_12BFB6:
                 move.w  #1,(playPromotedAnimation).l
 loc_12BFBE:
-                move.w  (diyCompetitionStart+DIY_COMPETITION_NUMTEAMS).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_NUMTEAMS).l,d0
                 lea     (a2,d0.w),a2
                 dbf     d2,loc_12BF7E
                 rts
@@ -59970,8 +60020,8 @@ loc_12CFC8:
                 bsr.w   InitCompetitionFromRecord
                 movem.l (sp)+,d0-d2/a0-a1
                 exg     d0,d1
-                move.w  d0,(diyFileBufferCopy+DIY_COMPETITION_FIELD_2+$2A).l
-                move.w  d0,(diyCompetitionStart+DIY_COMPETITION_FIELD_2+$2A).l
+                move.w  d0,(diyFileBufferCopy+DIYCOMPETITION_COMPID).l
+                move.w  d0,(diyCompetitionStart+DIYCOMPETITION_COMPID).l
                 move.b  1(a0),d3
                 ext.w   d3
                 move.w  d3,(a1)
@@ -60198,7 +60248,7 @@ DIY_RecordLeagueFixtureResultAndAdvanceProgress:
                 lea     (teamSelectionKeyCache).l,a4
                 move.w  (teamSelectionKeyCacheCount).l,d7
                 subq.w  #1,d7
-                move.w  (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$1A).l,d1
+                move.w  (diyFileBufferCopy+DIYCOMPETITION_ROUNDCOMPLETE).l,d1
                 move.w  $2C(a6),d0
 loc_12D29A:
                 cmp.b   (a4),d0
@@ -60229,17 +60279,17 @@ loc_12D2C2:
                 bne.s   loc_12D31C
                 cmpi.b  #1,4(a2)
                 beq.s   loc_12D358
-                cmpi.l  #aFriendly,(diyCompetitionStart+DIY_COMPETITION_FIELD_2+$26).l ; "FRIENDLY" ...
+                cmpi.l  #aFriendly,(diyCompetitionStart+DIYCOMPETITION_NAMEPTR).l ; "FRIENDLY" ...
                 beq.s   loc_12D314
-                cmpi.w  #1,(diyCompetitionStart+DIY_COMPETITION_PLAYEACHTEAM).l
+                cmpi.w  #1,(diyCompetitionStart+DIYCOMPETITION_PLAYEACHTEAM).l
                 beq.s   loc_12D33A
 loc_12D314:
                 move.b  #2,$A(a3)
                 bra.s   loc_12D33E
 loc_12D31C:
-                cmpi.l  #aFriendly,(diyCompetitionStart+DIY_COMPETITION_FIELD_2+$26).l ; "FRIENDLY" ...
+                cmpi.l  #aFriendly,(diyCompetitionStart+DIYCOMPETITION_NAMEPTR).l ; "FRIENDLY" ...
                 beq.s   loc_12D332
-                cmpi.w  #1,(diyCompetitionStart+DIY_COMPETITION_PLAYEACHTEAM).l
+                cmpi.w  #1,(diyCompetitionStart+DIYCOMPETITION_PLAYEACHTEAM).l
                 beq.s   loc_12D33A
 loc_12D332:
                 move.b  #1,$A(a3)
@@ -60271,7 +60321,7 @@ loc_12D36C:
                 move.w  $58(a2),d1
                 tst.w   $48(a2)
                 beq.s   loc_12D394
-                move.w  (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$1A).l,d1
+                move.w  (diyFileBufferCopy+DIYCOMPETITION_ROUNDCOMPLETE).l,d1
 loc_12D394:
                 move.w  $2C(a2),d0
                 lea     (teamSelectionKeyCache).l,a6
@@ -60419,9 +60469,9 @@ loc_12D54C:
                 addq.w  #1,(numWins).l
                 tst.w   d0
                 bne.w   loc_12D65A
-                cmpi.l  #aEuropeanTour,(diyCompetitionStart+DIY_COMPETITION_FIELD_2+$26).l ; "EUROPEAN TOUR" ...
+                cmpi.l  #aEuropeanTour,(diyCompetitionStart+DIYCOMPETITION_NAMEPTR).l ; "EUROPEAN TOUR" ...
                 bcs.s   loc_12D576
-                cmpi.l  #aOceaniaTour,(diyCompetitionStart+DIY_COMPETITION_FIELD_2+$26).l ; "OCEANIA TOUR" ...
+                cmpi.l  #aOceaniaTour,(diyCompetitionStart+DIYCOMPETITION_NAMEPTR).l ; "OCEANIA TOUR" ...
                 bls.s   loc_12D58A
 loc_12D576:
                 tst.w   (diyHasGroups).l
@@ -60458,9 +60508,9 @@ loc_12D5DC:
                 addq.w  #1,(numLost).l
                 tst.w   d0
                 bne.s   loc_12D65A
-                cmpi.l  #aEuropeanTour,(diyCompetitionStart+DIY_COMPETITION_FIELD_2+$26).l ; "EUROPEAN TOUR" ...
+                cmpi.l  #aEuropeanTour,(diyCompetitionStart+DIYCOMPETITION_NAMEPTR).l ; "EUROPEAN TOUR" ...
                 bcs.s   loc_12D604
-                cmpi.l  #aOceaniaTour,(diyCompetitionStart+DIY_COMPETITION_FIELD_2+$26).l ; "OCEANIA TOUR" ...
+                cmpi.l  #aOceaniaTour,(diyCompetitionStart+DIYCOMPETITION_NAMEPTR).l ; "OCEANIA TOUR" ...
                 bls.s   loc_12D614
 loc_12D604:
                 tst.w   (diyHasGroups).l
@@ -60475,9 +60525,9 @@ loc_12D61C:
                 addq.w  #1,(numDrawn).l
                 tst.w   d0
                 bne.s   loc_12D65A
-                cmpi.l  #aEuropeanTour,(diyCompetitionStart+DIY_COMPETITION_FIELD_2+$26).l ; "EUROPEAN TOUR" ...
+                cmpi.l  #aEuropeanTour,(diyCompetitionStart+DIYCOMPETITION_NAMEPTR).l ; "EUROPEAN TOUR" ...
                 bcs.s   loc_12D644
-                cmpi.l  #aOceaniaTour,(diyCompetitionStart+DIY_COMPETITION_FIELD_2+$26).l ; "OCEANIA TOUR" ...
+                cmpi.l  #aOceaniaTour,(diyCompetitionStart+DIYCOMPETITION_NAMEPTR).l ; "OCEANIA TOUR" ...
                 bls.s   loc_12D654
 loc_12D644:
                 tst.w   (diyHasGroups).l
@@ -60506,7 +60556,7 @@ loc_12D68A:
                 move.w  (diyLeagueCurrentSlot).l,(careerSlotProcessingInProgress).l
                 rts
 loc_12D69A:
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$1A).l,(careerSlotProcessingInProgress).l
+                move.w  (diyCompetitionStart+DIYCOMPETITION_ROUNDCOMPLETE).l,(careerSlotProcessingInProgress).l
                 rts
 
 ; ===== Career_AutoAdvanceLeagueFixtures =====
@@ -61020,7 +61070,7 @@ loc_12DC40:
                 movem.l a0,-(sp)
                 jsr     ShowDIYCupMenuWithParams
                 movem.l (sp)+,a0
-                tst.w   (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$1A).l
+                tst.w   (diyCompetitionStart+DIYCOMPETITION_ROUNDCOMPLETE).l
                 beq.s   loc_12DC90
                 movem.l a0,-(sp)
                 jsr DIY_UpdateCompetitionProgress(pc)
@@ -61032,7 +61082,7 @@ loc_12DC6A:
                 movem.l a0,-(sp)
                 jsr DIY_EditCompetitionSlot(pc)
                 movem.l (sp)+,a0
-                tst.w   (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$1C).l
+                tst.w   (diyFileBufferCopy+DIYCOMPETITION_COMPETITIONFINISHED).l
                 beq.s   loc_12DC90
                 movem.l a0,-(sp)
                 bsr.w   DIY_AdvanceToNextCompetitionSlot
@@ -61323,19 +61373,19 @@ Career_UpdateHybridCompetitionProgressAndMaybeAdvanceSlot:
                 tst.w   $15E(a0)
                 bne.s   loc_12DFF4
                 bsr.s   Career_AutoPlayCupMatchAndAdvanceLoop
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$A).l,(diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$A).l
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$C).l,(diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$C).l
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A).l,(diyFileBufferCopy+DIY_COMPETITION_FIELD_3A).l
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$12).l,(diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$E).l
-                tst.w   (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$1C).l
+                move.w  (diyCompetitionStart+DIYCOMPETITION_MATCHSTARTED).l,(diyFileBufferCopy+DIYCOMPETITION_MATCHSTARTED).l
+                move.w  (diyCompetitionStart+DIYCOMPETITION_CAREERTEAMINVOLVED).l,(diyFileBufferCopy+DIYCOMPETITION_CAREERTEAMINVOLVED).l
+                move.w  (diyCompetitionStart+DIYCOMPETITION_RESULTCODE).l,(diyFileBufferCopy+DIYCOMPETITION_RESULTCODE).l
+                move.w  (diyCompetitionStart+DIYCOMPETITION_ROUNDITERATOR).l,(diyFileBufferCopy+DIYCOMPETITION_HASGROUPS).l
+                tst.w   (diyCompetitionStart+DIYCOMPETITION_COMPETITIONFINISHED).l
                 beq.s   locret_12E022
                 bsr.w   DIY_AdvanceToNextCompetitionSlot
                 rts
 loc_12DFF4:
                 bsr.w   Career_AutoPlayOrSimulateLeagueFixtureLoop
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$A).l,(diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$A).l
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$C).l,(diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$C).l
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A).l,(diyFileBufferCopy+DIY_COMPETITION_FIELD_3A).l
+                move.w  (diyCompetitionStart+DIYCOMPETITION_MATCHSTARTED).l,(diyFileBufferCopy+DIYCOMPETITION_MATCHSTARTED).l
+                move.w  (diyCompetitionStart+DIYCOMPETITION_CAREERTEAMINVOLVED).l,(diyFileBufferCopy+DIYCOMPETITION_CAREERTEAMINVOLVED).l
+                move.w  (diyCompetitionStart+DIYCOMPETITION_RESULTCODE).l,(diyFileBufferCopy+DIYCOMPETITION_RESULTCODE).l
                 tst.w   (diyMinSubstitutes).l
                 bne.s   locret_12E022
                 bsr.w   DIY_AdvanceToNextCompetitionSlot
@@ -62342,7 +62392,7 @@ loc_12EF24:
                 jmp InitializeNewSeason(pc)
 
 ; ===== FindTeamInDIY =====
-; prototype: unsigned __int16 __usercall FindTeamInDIY@<d1>(unsigned __int16 teamNo@<d0>, DIY_Competition *comp@<a6>)
+; prototype: unsigned __int16 __usercall FindTeamInDIY@<d1>(unsigned __int16 teamNo@<d0>, DIYCompetition *comp@<a6>)
 ; in:
 ;     D0 -  team file number
 ;     A6 -> DIY competition
@@ -62352,7 +62402,7 @@ FindTeamInDIY:
                 clr.w   (diyFoundTeamIndex).l
                 clr.w   (diyCompHasGroupStage).l
                 move.w  d0,d7
-                move.w  DIY_COMPETITION_NUMTEAMS(a6),d6
+                move.w  DIYCOMPETITION_NUMTEAMS(a6),d6
                 cmpi.w  #DIY_CUP,(a6)
                 beq.s   loc_12EF88
                 cmpi.w  #DIY_TOURNAMENT,(a6)
@@ -62497,7 +62547,7 @@ loc_12F0BC:
                 rts
 
 ; ===== GetMoreExpensiveTeamsCountWrapper =====
-; prototype: unsigned __int16 __usercall GetMoreExpensiveTeamsCountWrapper@<d6>(unsigned __int16 teamNo@<d7>, DIY_Competition *comp@<a6>)
+; prototype: unsigned __int16 __usercall GetMoreExpensiveTeamsCountWrapper@<d6>(unsigned __int16 teamNo@<d7>, DIYCompetition *comp@<a6>)
 GetMoreExpensiveTeamsCountWrapper:
                 movem.l d0-d5/d7-a6,-(sp)
                 move.w  d7,d0
@@ -62516,10 +62566,10 @@ findTeamInDIY_SuppressSideEffectsFlag:
                 dc.w $0000
 
 ; ===== GetMoreExpensiveTeamsCount =====
-; prototype: unsigned __int16 __usercall GetMoreExpensiveTeamsCount@<d2>(unsigned __int16 teamNo@<d0>, DIY_Competition *comp@<a6>)
+; prototype: unsigned __int16 __usercall GetMoreExpensiveTeamsCount@<d2>(unsigned __int16 teamNo@<d0>, DIYCompetition *comp@<a6>)
 GetMoreExpensiveTeamsCount:
                 move.w  d0,d7
-                move.w  DIY_COMPETITION_NUMTEAMS(a6),d6
+                move.w  DIYCOMPETITION_NUMTEAMS(a6),d6
                 lea     302(a6),a5
                 cmpi.w  #DIY_LEAGUE,(a6)
                 beq.s   loc_12F10E
@@ -68217,8 +68267,8 @@ loc_132000:
 DesignDIYLeagueFinish:
                 cmpi.w  #SEASONAL,(pitchType).l
                 beq.s   loc_132052
-                clr.w   (diyCompetitionStart+DIY_COMPETITION_PITCHTYPEORSEASON).l
-                move.w  (pitchType).l,(diyCompetitionStart+DIY_COMPETITION_PITCHTYPE).l
+                clr.w   (diyCompetitionStart+DIYCOMPETITION_PITCHTYPEORSEASON).l
+                move.w  (pitchType).l,(diyCompetitionStart+DIYCOMPETITION_PITCHTYPE).l
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
@@ -68309,7 +68359,7 @@ locret_13214A:
 ; ===== DIYLeagueSetVariousFields =====
 ; prototype: void __usercall DIYLeagueSetVariousFields()
 DIYLeagueSetVariousFields:
-                move.b  (diyCompetitionStart+DIY_COMPETITION_STARTMONTH).l,d0
+                move.b  (diyCompetitionStart+DIYCOMPETITION_STARTMONTH).l,d0
                 cmpi.b  #96,d0
                 bcs.s   loc_13215C
                 subi.b  #96,d0
@@ -68317,7 +68367,7 @@ loc_13215C:
                 andi.l  #$FF,d0
                 divu.w  #8,d0
                 move.w  d0,(diyLeagueStartingMonth).l
-                move.b  (diyCompetitionStart+DIY_COMPETITION_ENDMONTH).l,d0
+                move.b  (diyCompetitionStart+DIYCOMPETITION_ENDMONTH).l,d0
                 cmpi.b  #96,d0
                 bcs.s   loc_13217C
                 subi.b  #96,d0
@@ -68326,7 +68376,7 @@ loc_13217C:
                 divu.w  #8,d0
                 move.w  d0,(diyLeagueEndingMonth).l
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a0
-                move.w  (diyCompetitionStart+DIY_COMPETITION_NUMTEAMS).l,MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a0)
+                move.w  (diyCompetitionStart+DIYCOMPETITION_NUMTEAMS).l,MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a0)
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$310)).l,a5
                 bsr.w   SetPlayEachTeamString
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$348)).l,a0
@@ -68377,8 +68427,8 @@ DesignDIYLeagueSetName:
 ; ===== DesignDIYLeagueChooseTeams =====
 ; prototype: void __usercall DesignDIYLeagueChooseTeams()
 DesignDIYLeagueChooseTeams:
-                move.w  (diyCompetitionStart+DIY_COMPETITION_NUMTEAMS).l,d0
-                lea     ((diyCompetitionStart+DIY_COMPETITION_FIELD_2+2)).l,a0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_NUMTEAMS).l,d0
+                lea     (diyCompetitionStart+DIYCOMPETITION_COMPETITIONNAME).l,a0
                 lea     (aPlayLeague).l,a1 ; "PLAY LEAGUE"
                 move.w  #1,d2
                 move.w  #1,d3
@@ -68389,7 +68439,7 @@ DesignDIYLeagueChooseTeams:
                 move.w  #1,d0
                 jsr     InitCareerVariables
                 lea     (diyLeagueTeamIds).l,a0
-                move.w  (diyCompetitionStart+DIY_COMPETITION_NUMTEAMS).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_NUMTEAMS).l,d0
                 jsr CopySelectedTeamNumbers(pc)
                 bsr.w   DIY_RecomputeCompetitionDerivedFields
                 bsr.w   DIY_ShuffleLeagueTeamOrder
@@ -68404,7 +68454,7 @@ DesignDIYLeagueChooseTeams:
 ; ===== DIYSetMonthsOrPitchTypeEntries =====
 ; prototype: void __usercall DIYSetMonthsOrPitchTypeEntries()
 DIYSetMonthsOrPitchTypeEntries:
-                move.w  (diyCompetitionStart+DIY_COMPETITION_PITCHTYPEORSEASON).l,(diyPitchTypeOrSeason_1).l
+                move.w  (diyCompetitionStart+DIYCOMPETITION_PITCHTYPEORSEASON).l,(diyPitchTypeOrSeason_1).l
                 cmpi.w  #GAME_TYPE_PRESET_COMPETITION,(gameType).l
                 beq.s   loc_1322B2
                 cmpi.w  #GAME_TYPE_SEASON,(gameType).l
@@ -68433,7 +68483,7 @@ loc_1322DE:
 ; ===== DIYLeagueChangePitchTypeOrSeason =====
 ; prototype: void __usercall DIYLeagueChangePitchTypeOrSeason()
 DIYLeagueChangePitchTypeOrSeason:
-                eori.w  #1,(diyCompetitionStart+DIY_COMPETITION_PITCHTYPEORSEASON).l
+                eori.w  #1,(diyCompetitionStart+DIYCOMPETITION_PITCHTYPEORSEASON).l
                 bsr.s   DIYSetMonthsOrPitchTypeEntries
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$1C0)).l,a5
                 move.w  #5,d0
@@ -68443,10 +68493,10 @@ DIYLeagueChangePitchTypeOrSeason:
 ; ===== DesignDIYLeagueChangePitchType =====
 ; prototype: void __usercall DesignDIYLeagueChangePitchType(struct MenuEntry *entry@<a5>)
 DesignDIYLeagueChangePitchType:
-                addq.w  #1,(diyCompetitionStart+DIY_COMPETITION_PITCHTYPE).l
-                cmpi.w  #7,(diyCompetitionStart+DIY_COMPETITION_PITCHTYPE).l
+                addq.w  #1,(diyCompetitionStart+DIYCOMPETITION_PITCHTYPE).l
+                cmpi.w  #7,(diyCompetitionStart+DIYCOMPETITION_PITCHTYPE).l
                 bne.s   loc_132328
-                move.w  #$FFFF,(diyCompetitionStart+DIY_COMPETITION_PITCHTYPE).l
+                move.w  #$FFFF,(diyCompetitionStart+DIYCOMPETITION_PITCHTYPE).l
 loc_132328:
                 jmp     CallDrawMenuItem
 
@@ -68485,22 +68535,22 @@ loc_132378:
 ; ===== DesignDIYLeagueChangeNumberOfTeams =====
 ; prototype: void __usercall DesignDIYLeagueChangeNumberOfTeams(struct MenuEntry *entry@<a5>)
 DesignDIYLeagueChangeNumberOfTeams:
-                move.w  (diyCompetitionStart+DIY_COMPETITION_NUMTEAMS).l,d0
-                addq.w  #1,(diyCompetitionStart+DIY_COMPETITION_NUMTEAMS).l
-                cmpi.w  #25,(diyCompetitionStart+DIY_COMPETITION_NUMTEAMS).l
+                move.w  (diyCompetitionStart+DIYCOMPETITION_NUMTEAMS).l,d0
+                addq.w  #1,(diyCompetitionStart+DIYCOMPETITION_NUMTEAMS).l
+                cmpi.w  #25,(diyCompetitionStart+DIYCOMPETITION_NUMTEAMS).l
                 bcs.s   loc_1323AC
-                move.w  #2,(diyCompetitionStart+DIY_COMPETITION_NUMTEAMS).l
+                move.w  #2,(diyCompetitionStart+DIYCOMPETITION_NUMTEAMS).l
 loc_1323AC:
-                move.w  (diyCompetitionStart+DIY_COMPETITION_NUMTEAMS).l,MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a5)
+                move.w  (diyCompetitionStart+DIYCOMPETITION_NUMTEAMS).l,MENUENTRY_FG+ENTRYTYPE2UNION_NUMBER(a5)
                 jmp     CallDrawMenuItem
 
 ; ===== DesignDIYLeagueChangePlayEachTeam =====
 ; prototype: void __usercall DesignDIYLeagueChangePlayEachTeam(struct MenuEntry *entry@<a5>)
 DesignDIYLeagueChangePlayEachTeam:
-                addq.w  #1,(diyCompetitionStart+DIY_COMPETITION_PLAYEACHTEAM).l
-                cmpi.w  #11,(diyCompetitionStart+DIY_COMPETITION_PLAYEACHTEAM).l
+                addq.w  #1,(diyCompetitionStart+DIYCOMPETITION_PLAYEACHTEAM).l
+                cmpi.w  #11,(diyCompetitionStart+DIYCOMPETITION_PLAYEACHTEAM).l
                 bne.s   loc_1323D2
-                move.w  #1,(diyCompetitionStart+DIY_COMPETITION_PLAYEACHTEAM).l
+                move.w  #1,(diyCompetitionStart+DIYCOMPETITION_PLAYEACHTEAM).l
 loc_1323D2:
                 bsr.w   SetPlayEachTeamString
                 jmp     CallDrawMenuItem
@@ -68508,7 +68558,7 @@ loc_1323D2:
 ; ===== SetPlayEachTeamString =====
 ; prototype: void __usercall SetPlayEachTeamString(struct MenuEntry *entry@<a5>)
 SetPlayEachTeamString:
-                move.w  (diyCompetitionStart+DIY_COMPETITION_PLAYEACHTEAM).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_PLAYEACHTEAM).l,d0
                 lea     (aX0).l,a0      ; "X %0"
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a1
                 jsr     PrintFormatted
@@ -68573,7 +68623,7 @@ loc_13248A:
 SetNumberOfTeamsToSelect:
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$508)).l,a5
                 movea.l MENUENTRY_FG(a5),a1
-                move.w  (diyCompetitionStart+DIY_COMPETITION_NUMTEAMS).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_NUMTEAMS).l,d0
                 lea     (aSelect0Teams).l,a0 ; "SELECT %0 TEAMS"
                 jsr     PrintFormatted
                 rts
@@ -69427,7 +69477,7 @@ DIYLeagueTournamentInit:
                 bsr.w   DIYLeagueTournament_UpdateViewOptionsAvailability
                 tst.w   (diyMinSubstitutes).l
                 bne.s   loc_1328CC
-                tst.w   (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$E).l
+                tst.w   (diyCompetitionStart+DIYCOMPETITION_HASGROUPS).l
                 bne.s   loc_1328CC
                 move.w  #1,(diyAllMatchesPlayed).l
                 clr.w   (diyFixtureViewMode).l
@@ -69438,7 +69488,7 @@ loc_1328CC:
                 move.w  #$A,d0
                 jsr     SetCurrentEntry
 loc_1328E4:
-                move.w  #1,(diyCompetitionStart+DIY_COMPETITION_FIELD_2).l
+                move.w  #1,(diyCompetitionStart+DIYCOMPETITION_ISACTIVE).l
                 tst.w   (seasonUpdateInProgress).l
                 beq.s   loc_132910
                 clr.w   (diyFixtureViewMode).l
@@ -69452,7 +69502,7 @@ loc_132910:
 ; ===== DIYLeagueTournamentOnRestore =====
 ; prototype: __int16 DIYLeagueTournamentOnRestore()
 DIYLeagueTournamentOnRestore:
-                cmpi.w  #1,(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$16).l
+                cmpi.w  #1,(diyCompetitionStart+DIYCOMPETITION_MATCHPAIRSPERROUND).l
                 bne.s   loc_132932
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$380)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
@@ -69656,7 +69706,7 @@ loc_132BDA:
 ; prototype: void __usercall DIYLeagueTournament_UpdateViewOptionsAvailability()
 DIYLeagueTournament_UpdateViewOptionsAvailability:
                 clr.w   (diyLeagueTournament_viewOptionsAvailable).l
-                tst.w   (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$E).l
+                tst.w   (diyCompetitionStart+DIYCOMPETITION_HASGROUPS).l
                 bne.w   loc_132C20
                 cmpi.w  #4,(gameType).l
                 bne.s   locret_132C28
@@ -69679,42 +69729,42 @@ locret_132C28:
 ; ===== DIYLeagueTournamentMatch =====
 ; prototype: void __usercall DIYLeagueTournamentMatch(struct MenuEntry *entry@<a5>)
 DIYLeagueTournamentMatch:
-                move.w  MENUENTRY_ORDINAL(a5),(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+4).l
+                move.w  MENUENTRY_ORDINAL(a5),(diyCompetitionStart+DIYCOMPETITION_SLOTSTATEA).l
                 move.w  #2,d7
                 bra.s   DIYLeagueTournamentMatchCommon
 
 ; ===== DIYLeagueTournamentOnSelect4 =====
 ; prototype: void __usercall DIYLeagueTournamentOnSelect4(struct MenuEntry *entry@<a5>)
 DIYLeagueTournamentOnSelect4:
-                move.w  MENUENTRY_ORDINAL(a5),(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+4).l
+                move.w  MENUENTRY_ORDINAL(a5),(diyCompetitionStart+DIYCOMPETITION_SLOTSTATEA).l
                 move.w  #3,d7
                 bra.s   DIYLeagueTournamentMatchCommon
 
 ; ===== DIYLeagueTournamentResult =====
 ; prototype: void __usercall DIYLeagueTournamentResult(struct MenuEntry *entry@<a5>)
 DIYLeagueTournamentResult:
-                move.w  MENUENTRY_ORDINAL(a5),(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+4).l
+                move.w  MENUENTRY_ORDINAL(a5),(diyCompetitionStart+DIYCOMPETITION_SLOTSTATEA).l
                 clr.w   d7
                 bra.s   DIYLeagueTournamentMatchCommon
 
 ; ===== DIYLeagueTournamentViewMatch =====
 ; prototype: void __usercall DIYLeagueTournamentViewMatch(struct MenuEntry *entry@<a5>)
 DIYLeagueTournamentViewMatch:
-                move.w  MENUENTRY_ORDINAL(a5),(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+8).l
+                move.w  MENUENTRY_ORDINAL(a5),(diyCompetitionStart+DIYCOMPETITION_SLOTSTATEC).l
                 move.w  #1,d7
                 bra.s   DIYLeagueTournamentMatchCommon
 
 ; ===== DIYLeagueTournamentViewHighlights =====
 ; prototype: void __usercall DIYLeagueTournamentViewHighlights(struct MenuEntry *entry@<a5>)
 DIYLeagueTournamentViewHighlights:
-                move.w  MENUENTRY_ORDINAL(a5),(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+8).l
+                move.w  MENUENTRY_ORDINAL(a5),(diyCompetitionStart+DIYCOMPETITION_SLOTSTATEC).l
                 move.w  #3,d7
                 bra.s   DIYLeagueTournamentMatchCommon
 
 ; ===== DIYLeagueTournamentViewResult =====
 ; prototype: void __usercall DIYLeagueTournamentViewResult(struct MenuEntry *entry@<a5>)
 DIYLeagueTournamentViewResult:
-                move.w  MENUENTRY_ORDINAL(a5),(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+8).l
+                move.w  MENUENTRY_ORDINAL(a5),(diyCompetitionStart+DIYCOMPETITION_SLOTSTATEC).l
                 clr.w   d7
 
 ; ===== DIYLeagueTournamentMatchCommon =====
@@ -69927,7 +69977,7 @@ loc_132F58:
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+4).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_SLOTSTATEA).l,d0
                 bra.w   loc_133000
 loc_132FAC:
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
@@ -69947,7 +69997,7 @@ loc_132FAC:
                 move.w  $14(a0),MENUENTRY_X(a1)
                 move.w  #$CA,$18(a1)
 loc_132FFA:
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+8).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_SLOTSTATEC).l,d0
 loc_133000:
                 jmp     SetCurrentEntry
 
@@ -69958,7 +70008,7 @@ DIYLeagueTournament16BeforeDraw:
                 subi.w  #16,d7
                 add.w   (currentDiyLine).l,d7
                 lea     (diyCompetitionStart).l,a6
-                cmpi.w  #1,DIY_COMPETITION_FIELD_3A+$16(a6)
+                cmpi.w  #1,DIYCOMPETITION_MATCHPAIRSPERROUND(a6)
                 beq.s   loc_133032
                 lea     (groupStringTable).l,a0
                 move.w  d7,d0
@@ -70138,7 +70188,7 @@ locret_133274:
 DIYLeagueTournamentScrollDown:
                 move.w  (currentDiyLine).l,d0
                 add.w   (numDiyResults).l,d0
-                cmp.w   (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$16).l,d0
+                cmp.w   (diyCompetitionStart+DIYCOMPETITION_MATCHPAIRSPERROUND).l,d0
                 bcc.s   locret_13329A
                 addq.w  #1,(currentDiyLine).l
                 bsr.w   nullsub_15
@@ -70166,12 +70216,12 @@ DIYLeagueTournament_EnsureCurrentFixtureVisible:
                 clr.w   d0
                 tst.w   (diyFixtureViewMode).l
                 beq.s   loc_1332D2
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$22).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_SUBROUNDCOUNTER).l,d0
                 cmpi.w  #1,(diyFixtureViewMode).l
                 beq.s   loc_1332D2
                 subq.w  #1,d0
                 bpl.s   loc_1332D2
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$16).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_MATCHPAIRSPERROUND).l,d0
                 subq.w  #1,d0
 loc_1332D2:
                 clr.w   d2
@@ -71590,8 +71640,8 @@ loc_133AFE:
 DesignDIYCupReinit:
                 cmpi.w  #SEASONAL,(pitchType).l
                 beq.s   loc_133B50
-                clr.w   (diyCompetitionStart+DIY_COMPETITION_PITCHTYPEORSEASON).l
-                move.w  (pitchType).l,(diyCompetitionStart+DIY_COMPETITION_PITCHTYPE).l
+                clr.w   (diyCompetitionStart+DIYCOMPETITION_PITCHTYPEORSEASON).l
+                move.w  (pitchType).l,(diyCompetitionStart+DIYCOMPETITION_PITCHTYPE).l
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
@@ -71625,7 +71675,7 @@ loc_133B8E:
                 move.w  #1,(menuEntries+MENUENTRY_ISINVISIBLE+$A80).l
                 move.w  #1,(menuEntries+MENUENTRY_ISINVISIBLE+$AB8).l
                 move.w  #1,(menuEntries+MENUENTRY_ISINVISIBLE+$B28).l
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$1E).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_CURRENTROUNDINDEX).l,d0
                 mulu.w  #5,d0
                 addi.w  #$12,d0
                 jsr     CalcMenuEntryAddress
@@ -71644,7 +71694,7 @@ loc_133BBC:
 ; prototype: void __usercall DesignDIYCup_UpdateStartEndMonthIndices()
 ; dos: cseg_44F40
 DesignDIYCup_UpdateStartEndMonthIndices:
-                move.b  (diyCompetitionStart+DIY_COMPETITION_STARTMONTH).l,d0
+                move.b  (diyCompetitionStart+DIYCOMPETITION_STARTMONTH).l,d0
                 cmpi.b  #96,d0
                 bcs.s   loc_133BEE
                 subi.b  #96,d0
@@ -71652,7 +71702,7 @@ loc_133BEE:
                 andi.l  #$FF,d0
                 divu.w  #8,d0
                 move.w  d0,(diyCupStartMonthIndex).l
-                move.b  (diyCompetitionStart+DIY_COMPETITION_ENDMONTH).l,d0
+                move.b  (diyCompetitionStart+DIYCOMPETITION_ENDMONTH).l,d0
                 cmpi.b  #$60,d0         ; '`'
                 bcs.s   loc_133C0E
                 subi.b  #$60,d0         ; '`'
@@ -71707,8 +71757,8 @@ DesignDIYCupOnSelect2:
 ; ===== DesignDIYCupOnSelect48 =====
 ; prototype: void __usercall DesignDIYCupOnSelect48()
 DesignDIYCupOnSelect48:
-                move.w  (diyCompetitionStart+DIY_COMPETITION_NUMTEAMS).l,d0
-                lea     ((diyCompetitionStart+DIY_COMPETITION_FIELD_2+2)).l,a0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_NUMTEAMS).l,d0
+                lea     (diyCompetitionStart+DIYCOMPETITION_COMPETITIONNAME).l,a0
                 lea     (aPlayCup).l,a1 ; "PLAY CUP"
                 move.w  #1,d2
                 move.w  #1,d3
@@ -71719,7 +71769,7 @@ DesignDIYCupOnSelect48:
                 move.w  #1,d0
                 jsr     InitCareerVariables
                 lea     (diyCupTeamIds).l,a0
-                move.w  (diyCompetitionStart+DIY_COMPETITION_NUMTEAMS).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_NUMTEAMS).l,d0
                 jsr     CopySelectedTeamNumbers
                 jsr     DIY_InitCupBracketState
                 jsr     DIY_ShuffleTeamGridPairs
@@ -71735,7 +71785,7 @@ DesignDIYCupOnSelect48:
 ; ===== DesignDIYCup_UpdatePitchTypeOrSeasonSelectionVisibility =====
 ; prototype: void __usercall DesignDIYCup_UpdatePitchTypeOrSeasonSelectionVisibility()
 DesignDIYCup_UpdatePitchTypeOrSeasonSelectionVisibility:
-                move.w  (diyCompetitionStart+DIY_COMPETITION_PITCHTYPEORSEASON).l,(diyCupPitchTypeOrSeasonSelection).l
+                move.w  (diyCompetitionStart+DIYCOMPETITION_PITCHTYPEORSEASON).l,(diyCupPitchTypeOrSeasonSelection).l
                 cmpi.w  #2,(gameType).l
                 beq.s   loc_133D2E
                 cmpi.w  #3,(gameType).l
@@ -71764,7 +71814,7 @@ loc_133D5A:
 ; ===== DesignDIYCupOnSelect3 =====
 ; prototype: void __usercall DesignDIYCupOnSelect3(struct MenuEntry *entry@<a5>)
 DesignDIYCupOnSelect3:
-                eori.w  #1,(diyCompetitionStart+DIY_COMPETITION_PITCHTYPEORSEASON).l
+                eori.w  #1,(diyCompetitionStart+DIYCOMPETITION_PITCHTYPEORSEASON).l
                 bsr.s   DesignDIYCup_UpdatePitchTypeOrSeasonSelectionVisibility
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a5
                 move.w  #5,d0
@@ -71774,10 +71824,10 @@ DesignDIYCupOnSelect3:
 ; ===== DesignDIYCupOnSelect4 =====
 ; prototype: void __usercall DesignDIYCupOnSelect4(struct MenuEntry *entry@<a5>)
 DesignDIYCupOnSelect4:
-                addq.w  #1,(diyCompetitionStart+DIY_COMPETITION_PITCHTYPE).l
-                cmpi.w  #7,(diyCompetitionStart+DIY_COMPETITION_PITCHTYPE).l
+                addq.w  #1,(diyCompetitionStart+DIYCOMPETITION_PITCHTYPE).l
+                cmpi.w  #7,(diyCompetitionStart+DIYCOMPETITION_PITCHTYPE).l
                 bne.s   loc_133DA4
-                move.w  #$FFFF,(diyCompetitionStart+DIY_COMPETITION_PITCHTYPE).l
+                move.w  #$FFFF,(diyCompetitionStart+DIYCOMPETITION_PITCHTYPE).l
 loc_133DA4:
                 jmp     CallDrawMenuItem
 
@@ -71785,7 +71835,7 @@ loc_133DA4:
 ; prototype: void __usercall DesignDIYCupOnSelect5(struct MenuEntry *entry@<a5>)
 DesignDIYCupOnSelect5:
                 lea     (diyCompetitionStart).l,a0
-                addq.b  #8,DIY_COMPETITION_STARTMONTH(a0)
+                addq.b  #8,DIYCOMPETITION_STARTMONTH(a0)
                 move.b  $38(a0),d0
                 cmpi.b  #$60,d0         ; '`'
                 bne.s   loc_133DC4
@@ -71801,7 +71851,7 @@ loc_133DC4:
 ; prototype: void __usercall DesignDIYCupOnSelect7(struct MenuEntry *entry@<a5>)
 DesignDIYCupOnSelect7:
                 lea     (diyCompetitionStart).l,a0
-                addq.b  #8,DIY_COMPETITION_ENDMONTH(a0)
+                addq.b  #8,DIYCOMPETITION_ENDMONTH(a0)
                 move.b  $39(a0),d0
                 cmpi.b  #$60,d0         ; '`'
                 bne.s   loc_133DF4
@@ -71817,7 +71867,7 @@ loc_133DF4:
 ; prototype: void __usercall DesignDIYCupOnSelect9(struct MenuEntry *entry@<a5>)
 DesignDIYCupOnSelect9:
                 lea     (diyCompetitionStart).l,a0
-                addq.w  #1,DIY_COMPETITION_PLAYEACHTEAM(a0)
+                addq.w  #1,DIYCOMPETITION_PLAYEACHTEAM(a0)
                 cmpi.w  #3,$5E(a0)
                 bcs.s   loc_133E20
                 clr.w   $5E(a0)
@@ -71829,7 +71879,7 @@ loc_133E20:
 ; prototype: void __usercall DesignDIYCupOnSelect11(struct MenuEntry *entry@<a5>)
 DesignDIYCupOnSelect11:
                 lea     (diyCompetitionStart).l,a0
-                addq.w  #1,DIY_COMPETITION_FIELD_3A+$20(a0)
+                addq.w  #1,DIYCOMPETITION_NUMROUNDS(a0)
                 cmpi.w  #7,$5A(a0)
                 bcs.s   loc_133E42
                 move.w  #1,$5A(a0)
@@ -71940,7 +71990,7 @@ DesignDIYCup_GetRoundIndexFromMenuEntry:
 DesignDIYCup_UpdateSelectTeamsPrompt:
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$B28)).l,a5
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a1
-                move.w  (diyCompetitionStart+DIY_COMPETITION_NUMTEAMS).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_NUMTEAMS).l,d0
                 lea     (aSelect0Teams).l,a0 ; "SELECT %0 TEAMS"
                 jsr     PrintFormatted
                 rts
@@ -71969,8 +72019,8 @@ loc_133FB6:
                 clr.w   4(a4)
                 move.w  d7,d0
                 lsr.w   #1,d0
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$20).l,d1
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$22).l,d2
+                move.w  (diyCompetitionStart+DIYCOMPETITION_NUMROUNDS).l,d1
+                move.w  (diyCompetitionStart+DIYCOMPETITION_SUBROUNDCOUNTER).l,d2
                 jsr     GetNextCupRoundString
                 move.l  a0,$26(a4)
                 lea     $38(a4),a4
@@ -73022,18 +73072,18 @@ DIYCupInit:
                 clr.w   (diyCupMatchListScrollIndex).l
                 tst.w   (diyCupMenuArg0).l
                 beq.s   loc_1344D6
-                move.w  #0,(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$10).l
-                tst.w   (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$1A).l
+                move.w  #0,(diyCompetitionStart+DIYCOMPETITION_MENUSTATE).l
+                tst.w   (diyCompetitionStart+DIYCOMPETITION_ROUNDCOMPLETE).l
                 beq.s   loc_1344D6
-                move.w  #6,(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$10).l
+                move.w  #6,(diyCompetitionStart+DIYCOMPETITION_MENUSTATE).l
                 clr.w   (diyCupMenuArg0Copy).l
 loc_1344D6:
-                tst.w   (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$1C).l
+                tst.w   (diyCompetitionStart+DIYCOMPETITION_COMPETITIONFINISHED).l
                 beq.s   loc_1344F4
-                tst.w   (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$E).l
+                tst.w   (diyCompetitionStart+DIYCOMPETITION_HASGROUPS).l
                 bne.s   loc_1344F4
                 clr.w   (diyCupMenuArg0Copy).l
-                move.w  #6,(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$10).l
+                move.w  #6,(diyCompetitionStart+DIYCOMPETITION_MENUSTATE).l
 loc_1344F4:
                 tst.w   (diyCupMenuArg1).l
                 beq.s   loc_13450C
@@ -73041,7 +73091,7 @@ loc_1344F4:
                 move.w  #$A,d0
                 jsr     SetCurrentEntry
 loc_13450C:
-                move.w  #1,(diyCompetitionStart+DIY_COMPETITION_FIELD_2).l
+                move.w  #1,(diyCompetitionStart+DIYCOMPETITION_ISACTIVE).l
                 clr.w   (diyCupMatchListDrawModeFlag).l
                 tst.w   (seasonUpdateInProgress).l
                 beq.s   loc_13453E
@@ -73056,7 +73106,7 @@ loc_13453E:
 ; ===== DIYCupFinish =====
 ; prototype: void __usercall DIYCupFinish()
 DIYCupFinish:
-                cmpi.w  #6,(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$10).l
+                cmpi.w  #6,(diyCompetitionStart+DIYCOMPETITION_MENUSTATE).l
                 beq.s   loc_13456A
                 tst.w   (diyCupMenuArg0Copy).l
                 beq.s   loc_13456A
@@ -73086,7 +73136,7 @@ jmp_SetExitMenuFlag_5:
 ; ===== DesignDIYCup_UpdateRoundOptionsVisibility =====
 ; prototype: void __usercall DesignDIYCup_UpdateRoundOptionsVisibility()
 DesignDIYCup_UpdateRoundOptionsVisibility:
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$18).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_TOTALMATCHESINROUND).l,d0
                 tst.w   (diyCupMatchListDrawModeFlag).l
                 beq.s   loc_13459A
                 lsr.w   #1,d0
@@ -73113,7 +73163,7 @@ DesignDIYCup_BuildMenuTitleString:
                 tst.w   $48(a2)
                 beq.s   loc_134602
                 lea     (diyFileBufferCopy).l,a0
-                move.w  DIY_COMPETITION_FIELD_3A+$1A(a0),d0
+                move.w  DIYCOMPETITION_ROUNDCOMPLETE(a0),d0
                 clr.w   d1
                 move.w  $52(a0),d2
                 move.w  $52(a2),d3
@@ -73181,7 +73231,7 @@ loc_1346BC:
 ; prototype: void __usercall DIYCupOnSelect10()
 DIYCupOnSelect10:
                 lea     (diyCompetitionStart).l,a0
-                tst.w   DIY_COMPETITION_FIELD_3A+$E(a0)
+                tst.w   DIYCOMPETITION_HASGROUPS(a0)
                 beq.s   loc_1346F6
                 cmpi.w  #2,$48(a0)
                 bne.s   loc_1346E4
@@ -73226,7 +73276,7 @@ locret_134730:
 DIYCupOnSelect17:
                 move.w  (diyCupMatchListScrollIndex).l,d0
                 addq.w  #6,d0
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$18).l,d1
+                move.w  (diyCompetitionStart+DIYCOMPETITION_TOTALMATCHESINROUND).l,d1
                 tst.w   (diyCupMatchListDrawModeFlag).l
                 beq.s   loc_13474A
                 lsr.w   #1,d1
@@ -73353,14 +73403,14 @@ loc_1348C8:
                 clr.w   d0
                 tst.w   (diyCupMenuArg0Copy).l
                 beq.s   loc_1348F8
-                cmpi.w  #6,(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$18).l
+                cmpi.w  #6,(diyCompetitionStart+DIYCOMPETITION_TOTALMATCHESINROUND).l
                 bls.s   loc_1348F8
                 move.w  (diyLeagueMinSubstitutes).l,d0
                 cmpi.w  #1,(diyCupMenuArg0Copy).l
                 beq.s   loc_1348F8
                 subq.w  #1,d0
                 bpl.s   loc_1348F8
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$18).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_TOTALMATCHESINROUND).l,d0
                 subq.w  #1,d0
 loc_1348F8:
                 clr.w   d2
@@ -73379,7 +73429,7 @@ loc_13491A:
                 addq.w  #3,d1
                 cmp.w   d1,d0
                 bls.s   loc_134942
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$18).l,d1
+                move.w  (diyCompetitionStart+DIYCOMPETITION_TOTALMATCHESINROUND).l,d1
                 subq.w  #6,d1
                 cmp.w   (diyCupMatchListScrollIndex).l,d1
                 beq.s   loc_134942
@@ -73648,7 +73698,7 @@ DesignDIYCup_UpdateMenuEntriesVisibilityAndSelection:
 loc_134CE6:
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$38)).l,a0
                 lea     (diyCompetitionStart).l,a1
-                cmpi.w  #6,DIY_COMPETITION_FIELD_3A+$10(a1)
+                cmpi.w  #6,DIYCOMPETITION_MENUSTATE(a1)
                 bne.s   loc_134D4C
                 tst.w   (diyCupMenuArg0).l
                 bne.s   loc_134D08
@@ -73734,7 +73784,7 @@ loc_134E24:
                 move.w  #1,MENUENTRY_ISINVISIBLE(a0)
                 move.w  #1,$3C(a0)
                 move.w  #1,$74(a0)
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+4).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_SLOTSTATEA).l,d0
                 bra.w   loc_134ED2
 loc_134E78:
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$150)).l,a0
@@ -73755,7 +73805,7 @@ loc_134E78:
                 move.w  $14(a0),MENUENTRY_X(a1)
                 move.w  #$CA,$18(a1)
 loc_134ECC:
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+8).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_SLOTSTATEC).l,d0
 loc_134ED2:
                 jmp     SetCurrentEntry
 loc_134ED8:
@@ -73771,42 +73821,42 @@ locret_134EF8:
 ; ===== DIYCupOnSelect3 =====
 ; prototype: void __usercall DIYCupOnSelect3(struct MenuEntry *entry@<a5>)
 DIYCupOnSelect3:
-                move.w  2(a5),(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+4).l
+                move.w  2(a5),(diyCompetitionStart+DIYCOMPETITION_SLOTSTATEA).l
                 move.w  #2,d7
                 bra.s   DIYCupOnSelectCommon
 
 ; ===== DIYCupOnSelect4 =====
 ; prototype: void __usercall DIYCupOnSelect4(struct MenuEntry *entry@<a5>)
 DIYCupOnSelect4:
-                move.w  2(a5),(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+4).l
+                move.w  2(a5),(diyCompetitionStart+DIYCOMPETITION_SLOTSTATEA).l
                 move.w  #3,d7
                 bra.s   DIYCupOnSelectCommon
 
 ; ===== DIYCupOnSelect5 =====
 ; prototype: void __usercall DIYCupOnSelect5(struct MenuEntry *entry@<a5>)
 DIYCupOnSelect5:
-                move.w  2(a5),(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+4).l
+                move.w  2(a5),(diyCompetitionStart+DIYCOMPETITION_SLOTSTATEA).l
                 clr.w   d7
                 bra.s   DIYCupOnSelectCommon
 
 ; ===== DIYCupOnSelect6 =====
 ; prototype: void __usercall DIYCupOnSelect6(struct MenuEntry *entry@<a5>)
 DIYCupOnSelect6:
-                move.w  2(a5),(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+8).l
+                move.w  2(a5),(diyCompetitionStart+DIYCOMPETITION_SLOTSTATEC).l
                 move.w  #1,d7
                 bra.s   DIYCupOnSelectCommon
 
 ; ===== DIYCupOnSelect7 =====
 ; prototype: void __usercall DIYCupOnSelect7(struct MenuEntry *entry@<a5>)
 DIYCupOnSelect7:
-                move.w  2(a5),(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+8).l
+                move.w  2(a5),(diyCompetitionStart+DIYCOMPETITION_SLOTSTATEC).l
                 move.w  #3,d7
                 bra.s   DIYCupOnSelectCommon
 
 ; ===== DIYCupOnSelect8 =====
 ; prototype: void __usercall DIYCupOnSelect8(struct MenuEntry *entry@<a5>)
 DIYCupOnSelect8:
-                move.w  MENUENTRY_ORDINAL(a5),(diyCompetitionStart+DIY_COMPETITION_FIELD_3A+8).l
+                move.w  MENUENTRY_ORDINAL(a5),(diyCompetitionStart+DIYCOMPETITION_SLOTSTATEC).l
                 clr.w   d7
 
 ; ===== DIYCupOnSelectCommon =====
@@ -73838,7 +73888,7 @@ loc_134F90:
 loc_134FAE:
                 tst.w   $32E(a0)
                 bne.s   loc_134FD0
-                tst.w   (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$E).l
+                tst.w   (diyCompetitionStart+DIYCOMPETITION_HASGROUPS).l
                 bne.s   loc_13501A
                 tst.w   $330(a0)
                 bne.s   loc_135002
@@ -73850,7 +73900,7 @@ loc_134FAE:
 loc_134FD0:
                 tst.w   $330(a0)
                 bne.s   loc_134FF2
-                tst.w   (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+$E).l
+                tst.w   (diyCompetitionStart+DIYCOMPETITION_HASGROUPS).l
                 bne.s   loc_134FF2
                 move.w  $58(a0),d0
                 addq.w  #1,d0
@@ -76709,8 +76759,8 @@ loc_136082:
 DesignDIYTournamentReinit:
                 cmpi.w  #SEASONAL,(pitchType).l
                 beq.s   loc_1360D4
-                clr.w   (diyFileBufferCopy+DIY_COMPETITION_PITCHTYPEORSEASON).l
-                move.w  (pitchType).l,(diyFileBufferCopy+DIY_COMPETITION_PITCHTYPE).l
+                clr.w   (diyFileBufferCopy+DIYCOMPETITION_PITCHTYPEORSEASON).l
+                move.w  (pitchType).l,(diyFileBufferCopy+DIYCOMPETITION_PITCHTYPE).l
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a0
                 move.w  MENUENTRY_BG+ENTRYTYPE1UNION_BACKANDFRAMECOLOR(a0),d0
                 andi.w  #$FFF0,d0
@@ -76746,7 +76796,7 @@ loc_13611C:
                 move.w  #1,(menuEntries+MENUENTRY_ISINVISIBLE+$1378).l
                 move.w  #1,(menuEntries+MENUENTRY_ISINVISIBLE+$13B0).l
                 move.w  #1,(menuEntries+MENUENTRY_ISINVISIBLE+$1420).l
-                move.w  (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$1A).l,d0
+                move.w  (diyFileBufferCopy+DIYCOMPETITION_ROUNDCOMPLETE).l,d0
                 mulu.w  #$C,d0
                 addi.w  #$11,d0
                 jsr     CalcMenuEntryAddress
@@ -76770,7 +76820,7 @@ loc_13616C:
 ; ===== DesignDIYTournament_UpdateMonthPageIndices =====
 ; prototype: void __usercall DesignDIYTournament_UpdateMonthPageIndices()
 DesignDIYTournament_UpdateMonthPageIndices:
-                move.b  (diyFileBufferCopy+DIY_COMPETITION_STARTMONTH).l,d0
+                move.b  (diyFileBufferCopy+DIYCOMPETITION_STARTMONTH).l,d0
                 cmpi.b  #$60,d0         ; '`'
                 bcs.s   loc_13618E
                 subi.b  #$60,d0         ; '`'
@@ -76778,7 +76828,7 @@ loc_13618E:
                 andi.l  #$FF,d0
                 divu.w  #8,d0
                 move.w  d0,(diyTournamentStartMonthPage).l
-                move.b  (diyFileBufferCopy+DIY_COMPETITION_ENDMONTH).l,d0
+                move.b  (diyFileBufferCopy+DIYCOMPETITION_ENDMONTH).l,d0
                 cmpi.b  #$60,d0         ; '`'
                 bcs.s   loc_1361AE
                 subi.b  #$60,d0         ; '`'
@@ -76832,8 +76882,8 @@ DesignDIYTournamentOnSelect2:
 ; ===== DesignDIYTournamentOnSelect89 =====
 ; prototype: void __usercall DesignDIYTournamentOnSelect89()
 DesignDIYTournamentOnSelect89:
-                move.w  (diyFileBufferCopy+DIY_COMPETITION_NUMTEAMS).l,d0
-                lea     ((diyFileBufferCopy+DIY_COMPETITION_FIELD_2+2)).l,a0
+                move.w  (diyFileBufferCopy+DIYCOMPETITION_NUMTEAMS).l,d0
+                lea     (diyFileBufferCopy+DIYCOMPETITION_COMPETITIONNAME).l,a0
                 lea     (aPlayTournament).l,a1 ; "PLAY TOURNAMENT"
                 move.w  #1,d2
                 move.w  #1,d3
@@ -76846,7 +76896,7 @@ loc_136264:
                 move.w  #1,d0
                 jsr     InitCareerVariables
                 lea     (diyTournamentTeamIds).l,a0
-                move.w  (diyFileBufferCopy+DIY_COMPETITION_NUMTEAMS).l,d0
+                move.w  (diyFileBufferCopy+DIYCOMPETITION_NUMTEAMS).l,d0
                 jsr     CopySelectedTeamNumbers
                 jsr     nullsub_12
                 jsr     DIYTournament_RecalculateMatchesPerTeam
@@ -76863,7 +76913,7 @@ loc_136264:
 ; ===== DesignDIYTournament_UpdatePitchTypeSeasonalUI =====
 ; prototype: void __usercall DesignDIYTournament_UpdatePitchTypeSeasonalUI()
 DesignDIYTournament_UpdatePitchTypeSeasonalUI:
-                move.w  (diyFileBufferCopy+DIY_COMPETITION_PITCHTYPEORSEASON).l,(diyTournamentUseSeasonalPitchEffective).l
+                move.w  (diyFileBufferCopy+DIYCOMPETITION_PITCHTYPEORSEASON).l,(diyTournamentUseSeasonalPitchEffective).l
                 cmpi.w  #2,(gameType).l
                 beq.s   loc_1362DA
                 cmpi.w  #3,(gameType).l
@@ -76892,7 +76942,7 @@ loc_136306:
 ; ===== DesignDIYTournamentOnSelect3 =====
 ; prototype: void __usercall DesignDIYTournamentOnSelect3(MenuEntry *menu@<a5>)
 DesignDIYTournamentOnSelect3:
-                eori.w  #1,(diyFileBufferCopy+DIY_COMPETITION_PITCHTYPEORSEASON).l
+                eori.w  #1,(diyFileBufferCopy+DIYCOMPETITION_PITCHTYPEORSEASON).l
                 bsr.s   DesignDIYTournament_UpdatePitchTypeSeasonalUI
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$A8)).l,a5
                 move.w  #5,d0
@@ -76902,10 +76952,10 @@ DesignDIYTournamentOnSelect3:
 ; ===== DesignDIYTournamentOnSelect4 =====
 ; prototype: void __usercall DesignDIYTournamentOnSelect4(MenuEntry *menu@<a5>)
 DesignDIYTournamentOnSelect4:
-                addq.w  #1,(diyFileBufferCopy+DIY_COMPETITION_PITCHTYPE).l
-                cmpi.w  #7,(diyFileBufferCopy+DIY_COMPETITION_PITCHTYPE).l
+                addq.w  #1,(diyFileBufferCopy+DIYCOMPETITION_PITCHTYPE).l
+                cmpi.w  #7,(diyFileBufferCopy+DIYCOMPETITION_PITCHTYPE).l
                 bne.s   loc_136350
-                move.w  #$FFFF,(diyFileBufferCopy+DIY_COMPETITION_PITCHTYPE).l
+                move.w  #$FFFF,(diyFileBufferCopy+DIYCOMPETITION_PITCHTYPE).l
 loc_136350:
                 jmp     CallDrawMenuItem
 
@@ -76913,7 +76963,7 @@ loc_136350:
 ; prototype: void __usercall DesignDIYTournamentOnSelect5(MenuEntry *menu@<a5>)
 DesignDIYTournamentOnSelect5:
                 lea     (diyFileBufferCopy).l,a0
-                addq.b  #8,diyFileBufferCopy+DIY_COMPETITION_STARTMONTH-diyFileBufferCopy(a0)
+                addq.b  #8,DIYCOMPETITION_STARTMONTH(a0)
                 move.b  $38(a0),d0
                 cmpi.b  #$60,d0         ; '`'
                 bne.s   loc_136370
@@ -76929,7 +76979,7 @@ loc_136370:
 ; prototype: void __usercall DesignDIYTournamentOnSelect7(MenuEntry *menu@<a5>)
 DesignDIYTournamentOnSelect7:
                 lea     (diyFileBufferCopy).l,a0
-                addq.b  #8,diyFileBufferCopy+DIY_COMPETITION_ENDMONTH-diyFileBufferCopy(a0)
+                addq.b  #8,DIYCOMPETITION_ENDMONTH(a0)
                 move.b  $39(a0),d0
                 cmpi.b  #$60,d0         ; '`'
                 bne.s   loc_1363A0
@@ -76958,23 +77008,23 @@ loc_1363CA:
 DesignDIYTournament_UpdateTwoNumericFieldsText:
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$268)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
-                move.w  (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$12).l,d0
+                move.w  (diyFileBufferCopy+DIYCOMPETITION_ROUNDITERATOR).l,d0
                 jsr     Int2Ascii
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$2D8)).l,a0
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a0),a1
-                move.w  (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$14).l,d0
+                move.w  (diyFileBufferCopy+DIYCOMPETITION_NUMTEAMSINSTAGE).l,d0
                 jsr     Int2Ascii
                 rts
 
 ; ===== DesignDIYTournamentOnSelect11 =====
 ; prototype: void __usercall DesignDIYTournamentOnSelect11(MenuEntry *menu@<a5>)
 DesignDIYTournamentOnSelect11:
-                move.w  (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$14).l,d0
+                move.w  (diyFileBufferCopy+DIYCOMPETITION_NUMTEAMSINSTAGE).l,d0
                 beq.s   locret_136424
-                addq.w  #1,(diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$12).l
-                cmp.w   (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$12).l,d0
+                addq.w  #1,(diyFileBufferCopy+DIYCOMPETITION_ROUNDITERATOR).l
+                cmp.w   (diyFileBufferCopy+DIYCOMPETITION_ROUNDITERATOR).l,d0
                 bcc.s   loc_13641C
-                move.w  #1,(diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$12).l
+                move.w  #1,(diyFileBufferCopy+DIYCOMPETITION_ROUNDITERATOR).l
 loc_13641C:
                 bsr.s   DesignDIYTournament_UpdateTwoNumericFieldsText
                 jmp     CallDrawMenuItem
@@ -76984,15 +77034,15 @@ locret_136424:
 ; ===== DesignDIYTournamentOnSelect13 =====
 ; prototype: void __usercall DesignDIYTournamentOnSelect13(MenuEntry *menu@<a5>)
 DesignDIYTournamentOnSelect13:
-                addq.w  #1,(diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$14).l
-                cmpi.w  #5,(diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$14).l
+                addq.w  #1,(diyFileBufferCopy+DIYCOMPETITION_NUMTEAMSINSTAGE).l
+                cmpi.w  #5,(diyFileBufferCopy+DIYCOMPETITION_NUMTEAMSINSTAGE).l
                 bls.s   loc_136442
-                clr.w   (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$14).l
-                clr.w   (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$12).l
+                clr.w   (diyFileBufferCopy+DIYCOMPETITION_NUMTEAMSINSTAGE).l
+                clr.w   (diyFileBufferCopy+DIYCOMPETITION_ROUNDITERATOR).l
 loc_136442:
-                cmpi.w  #1,(diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$14).l
+                cmpi.w  #1,(diyFileBufferCopy+DIYCOMPETITION_NUMTEAMSINSTAGE).l
                 bne.s   loc_136454
-                move.w  #1,(diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$12).l
+                move.w  #1,(diyFileBufferCopy+DIYCOMPETITION_ROUNDITERATOR).l
 loc_136454:
                 bsr.w   DesignDIYTournament_UpdateTwoNumericFieldsText
                 jsr     CallDrawMenuItem
@@ -77075,7 +77125,7 @@ DesignDIYTournament_GetStageBlockFromMenuEntry:
                 ext.l   d0
                 divu.w  #$C,d0
                 lea     (diyFileBufferCopy).l,a4
-                move.w  d0,diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$1A-diyFileBufferCopy(a4)
+                move.w  d0,DIYCOMPETITION_ROUNDCOMPLETE(a4)
                 movea.l a4,a3
                 move.w  $54(a4),d0
                 mulu.w  #$76,d0         ; 'v'
@@ -77087,7 +77137,7 @@ DesignDIYTournament_GetStageBlockFromMenuEntry:
 DesignDIYTournament_UpdateSelectTeamsPrompt:
                 lea     ((menuEntries+MENUENTRY_ALREADYDRAWN+$1420)).l,a5
                 movea.l MENUENTRY_FG+ENTRYTYPE2UNION_STRING(a5),a1
-                move.w  (diyFileBufferCopy+DIY_COMPETITION_NUMTEAMS).l,d0
+                move.w  (diyFileBufferCopy+DIYCOMPETITION_NUMTEAMS).l,d0
                 lea     (aSelect0Teams).l,a0 ; "SELECT %0 TEAMS"
                 jsr     PrintFormatted
                 rts
@@ -77096,7 +77146,7 @@ DesignDIYTournament_UpdateSelectTeamsPrompt:
 ; prototype: void __usercall DesignDIYTournamentOnDraw()
 DesignDIYTournamentOnDraw:
                 lea     (diyFileBufferCopy).l,a2
-                move.w  diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$18-diyFileBufferCopy(a2),d0
+                move.w  DIYCOMPETITION_TOTALMATCHESINROUND(a2),d0
                 subq.w  #1,d0
 loc_13656A:
                 tst.w   $15E(a2)
@@ -77122,7 +77172,7 @@ loc_1365AE:
                 lea     (diyFileBufferCopy).l,a2
                 clr.w   d7
 loc_1365BA:
-                cmp.w   (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$18).l,d7
+                cmp.w   (diyFileBufferCopy+DIYCOMPETITION_TOTALMATCHESINROUND).l,d7
                 bne.s   loc_1365CC
                 cmpi.w  #2,$EC(a2)
                 beq.w   loc_1368F6
@@ -77143,7 +77193,7 @@ loc_1365F2:
                 clr.w   4(a4)
                 move.w  $162(a2),$26(a4)
                 lea     $38(a4),a4
-                cmp.w   (diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$18).l,d7
+                cmp.w   (diyFileBufferCopy+DIYCOMPETITION_TOTALMATCHESINROUND).l,d7
                 beq.w   loc_136874
                 clr.w   4(a4)
                 movea.l $26(a4),a1
@@ -77534,7 +77584,7 @@ loc_136B8E:
                 cmpi.w  #6,d0
                 bne.s   loc_136B8E
 loc_136BA4:
-                move.w  d0,(diyFileBufferCopy+DIY_COMPETITION_FIELD_3A+$18).l
+                move.w  d0,(diyFileBufferCopy+DIYCOMPETITION_TOTALMATCHESINROUND).l
                 rts
 
 ; ===== DesignDIYTournamentOnSelect20 =====
@@ -82397,7 +82447,7 @@ loc_1391C4:
                 move.l  a0,(squadTeamFilePtr).l
                 move.w  d1,(squadRowMode).l
                 move.w  d1,(inEditTactics).l
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_2+$2A).l,d0
+                move.w  (diyCompetitionStart+DIYCOMPETITION_COMPID).l,d0
                 cmpi.w  #4,d0
                 bne.s   loc_1391E6
                 move.w  #0,d0
@@ -84533,12 +84583,12 @@ loc_13A73C:
 SetSquadMenuEntryStatusSprite:
                 tst.w   d0
                 bne.w   loc_13A800
-                move.b  $66(a6),d1
+                move.b  PLAYERFILE_POSITIONANDFACE+$4C(a6),d1
                 andi.w  #$18,d1
                 lsr.w   #3,d1
-                move.b  $67(a6),d2
+                move.b  PLAYERFILE_CARDSINJURIES+$4C(a6),d2
                 andi.w  #$1C,d2
-                move.b  $67(a6),d3
+                move.b  PLAYERFILE_CARDSINJURIES+$4C(a6),d3
                 andi.w  #$E0,d3
                 cmpi.w  #0,d2
                 bne.s   loc_13A77C
@@ -84601,12 +84651,12 @@ loc_13A7FA:
                 move.w  d0,$26(a0)
                 rts
 loc_13A800:
-                move.b  $66(a6),d1
+                move.b  PLAYERFILE_POSITIONANDFACE+$4C(a6),d1
                 andi.w  #$18,d1
                 lsr.w   #3,d1
-                move.b  $67(a6),d2
+                move.b  PLAYERFILE_CARDSINJURIES+$4C(a6),d2
                 andi.w  #3,d2
-                move.b  $67(a6),d3
+                move.b  PLAYERFILE_CARDSINJURIES+$4C(a6),d3
                 andi.w  #$E0,d3
                 cmpi.w  #0,d2
                 bne.s   loc_13A82E
@@ -84673,10 +84723,10 @@ SetSquadMenuEntryStatusSprite_AfterSim:
                 clr.w   d0
                 bra.w   SetSquadMenuEntryStatusSprite
 loc_13A8B6:
-                move.b  $66(a6),d1
+                move.b  PLAYERFILE_POSITIONANDFACE+$4C(a6),d1
                 andi.w  #$18,d1
                 lsr.w   #3,d1
-                move.b  $67(a6),d3
+                move.b  PLAYERFILE_CARDSINJURIES+$4C(a6),d3
                 andi.w  #$E0,d3
                 cmpi.w  #0,d3
                 bne.s   loc_13A8D6
@@ -84704,7 +84754,7 @@ loc_13A8F0:
 ;      A0 -> menu entry to set sprite
 ;      A6 -> team header + player offset
 SetMenuEntryPlayerFace:
-                move.b  TEAMFILE_PLAYERS+PLAYERFILE_POSITIONANDFACE(a6),d0
+                move.b  PLAYERFILE_POSITIONANDFACE+$4C(a6),d0
                 andi.w  #$18,d0
                 lsr.w   #3,d0
                 addi.w  #SPR_PL_FACE_WHITE_GUY,d0
@@ -84956,7 +85006,7 @@ loc_13AB56:
 StatsViewSquads:
                 movea.l (diyTeamsBufferPtr).l,a1
                 move.w  (diyNumberOfTeams).l,d0
-                move.w  (diyCompetitionStart+DIY_COMPETITION_FIELD_3A+2).l,d1
+                move.w  (diyCompetitionStart+DIYCOMPETITION_SUBSTITUTESCOUNT).l,d1
                 jmp SelectAndShowSquadToView(pc)
 
 ; ===== StatsExit =====
@@ -96800,7 +96850,7 @@ locret_141628:
                 rts
 
 ; ===== AddCareerPoolPlayer =====
-; prototype: __int16 __usercall AddCareerPoolPlayer@<d0>(unsigned __int16 teamNumber@<d0>, unsigned __int8 playerOrdinal@<d1>, struct TeamFile *teamFile@<a0>)
+; prototype: __int16 __usercall AddCareerPoolPlayer@<d0>(unsigned __int16 teamNumber@<d0>, unsigned __int8 playerOrdinal@<d1>, PlayerFile *player@<a0>)
 ; in:
 ;     D0 - team number
 ;     D1 - player ordinal in team
@@ -96814,7 +96864,7 @@ AddCareerPoolPlayer:
                 move.w  d0,(a6)
                 move.b  d1,2(a6)
                 lea     4(a6),a1
-                lea     TEAMFILE_PLAYERS(a0),a0
+                lea     PLAYERFILE_NATIONALITY+$4C(a0),a0
                 move.w  #$12,d0
 loc_141658:
                 move.w  (a0)+,(a1)+
@@ -107052,7 +107102,7 @@ loc_1474F0:
                 rts
 
 ; ===== ShowPlayMatchMenu =====
-; prototype: __int16 __usercall ShowPlayMatchMenu@<d0>(__int16 controlFlags@<d0>, __int16 maxSubstitutes@<d1>, __int16 excludeFlags@<d2>, __int16 isFirstPlayerChoosingTeam@<d5>, __int16 squadChangesAllowed@<d6>, TeamFile *team1@<a1>, TeamFile *team2@<a2>)
+; prototype: __int16 __usercall ShowPlayMatchMenu@<d0>(__int16 controlFlags@<d0>, __int16 maxSubstitutes@<d1>, __int16 excludeFlags@<d2>, __int16 isFirstPlayerChoosingTeam@<d5>, __int16 squadChangesAllowed@<d6>, TeamFileEx *team1@<a1>, TeamFileEx *team2@<a2>)
 ; in:
 ;      D0 - control flags (bit 0/1 clear: clear player 1/2 controls)
 ;      D1 - max substitues (additional entries)
@@ -109782,10 +109832,10 @@ showingCpuTeams:
 squadChangesAllowed:
                 dc.w $0000              ; If true, player can edit the team
                                         ; if false, game is simulated ("play match" button turns to "view result")
-; TeamFile *
+; TeamFileEx *
 playMatchTeam1Ptr:
                 dc.l $00000000          ; In play match menu
-; TeamFile *
+; TeamFileEx *
 playMatchTeam2Ptr:
                 dc.l $00000000          ; In play match menu
 maxSubstitutesEntries:
