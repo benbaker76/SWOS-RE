@@ -1,7 +1,7 @@
 /*
  * Auto-generated call graph export
  * Start: StartMatchSequence
- * Date : 2026-03-16 20:51:07
+ * Date : 2026-03-16 21:27:45
  */
 
 /* ===================== INCLUDES ===================== */
@@ -142,9 +142,9 @@ short __usercall ActivateMenu(Menu * menu);
 void __usercall DrawMenuPanelBackground(void);
 short __usercall CalcTeamPriceRankPercentOffset(void * ctx, TeamFile * team);
 Position __usercall CalcTeamViewOffset(TeamFile * teamFile);
-ushort __usercall GetPlayerPrice(TeamFile * team, PlayerFile * player, ushort position);
+ushort __usercall GetPlayerPrice(TeamFile * team, PlayerFile * playerFile, ushort position);
 ushort __usercall CountNearnessFactor(ushort curBallQuadrant, ushort dstBallQuadrant, ushort price, uchar * curQuadDistFactor, uchar * playerPositions, uchar * coordToQuad);
-char __usercall GetPlayerRandomNum(PlayerFile * player);
+char __usercall GetPlayerRandomNum(PlayerFile * playerFile);
 ushort __usercall GetAveragePlayerPrice(void * team);
 void __usercall ApplyTeamTactics(void * playerInfos);
 char __usercall AdjustPlayerSkills(ushort playerIndex, TeamFile * teamFile, TeamFile * oppTeamFile, TeamGame * teamGame, PlayerFile * playerFile, PlayerInfoHeader * playerInfoHeader);
@@ -7157,7 +7157,7 @@ Position __usercall CalcTeamViewOffset(TeamFile *teamFile)
         
    Calculate and return player's price. Deduce tactics from player's team. */
 
-ushort __usercall GetPlayerPrice(TeamFile *team,PlayerFile *player,ushort position)
+ushort __usercall GetPlayerPrice(TeamFile *team,PlayerFile *playerFile,ushort position)
 
 {
   uchar *playerPositions;
@@ -7173,11 +7173,11 @@ ushort __usercall GetPlayerPrice(TeamFile *team,PlayerFile *player,ushort positi
   uchar *curQuadDistFactor;
   void *pvVar9;
   
-  bVar1 = player[2].positionAndFace;
-  uVar7._0_1_ = player[2].passing;
-  uVar7._1_1_ = player[2].shootingHeading;
-  uVar7._2_1_ = player[2].tacklingBallControl;
-  uVar7._3_1_ = player[2].speedFinishing;
+  bVar1 = playerFile[2].positionAndFace;
+  uVar7._0_1_ = playerFile[2].passing;
+  uVar7._1_1_ = playerFile[2].shootingHeading;
+  uVar7._2_1_ = playerFile[2].tacklingBallControl;
+  uVar7._3_1_ = playerFile[2].speedFinishing;
   plPositions = (void *)(*(int *)((int)teamTacticsTable +
                                  (int)(short)((short)(char)team->tactics << 2)) + 9);
   playerPositions = (uchar *)((int)plPositions + (int)(short)((position - 1) * 0x23));
@@ -7241,10 +7241,10 @@ ushort __usercall GetPlayerPrice(TeamFile *team,PlayerFile *player,ushort positi
     uVar7 = 0x31;
   }
   uVar6 = (ushort)uVar7;
-  bVar1 = (char)uVar7 - player[2].price;
+  bVar1 = (char)uVar7 - playerFile[2].price;
   uVar2 = (undefined3)(uVar7 >> 8);
   if (-1 < (short)((ushort)bVar1 << 8)) {
-    uVar6 = (ushort)CONCAT31(uVar2,player[2].price +
+    uVar6 = (ushort)CONCAT31(uVar2,playerFile[2].price +
                                    plPricesIncreaseTable[(short)CONCAT31(uVar2,bVar1)]);
   }
   return uVar6;
@@ -7300,15 +7300,15 @@ CountNearnessFactor(ushort curBallQuadrant,ushort dstBallQuadrant,ushort price,
    
    Get random number bound to player. */
 
-char __usercall GetPlayerRandomNum(PlayerFile *player)
+char __usercall GetPlayerRandomNum(PlayerFile *playerFile)
 
 {
   return kRandomTable
          [(short)(ushort)(byte)(newRandomSeedCopy ^
                                (byte)currentSeasonShowing ^
-                               player[2].playerName[10] ^
-                               player[2].playerName[0] ^
-                               player[2].positionAndFace & 0xfb ^ player[2].price)];
+                               playerFile[2].playerName[10] ^
+                               playerFile[2].playerName[0] ^
+                               playerFile[2].positionAndFace & 0xfb ^ playerFile[2].price)];
 }
 
 
@@ -7341,7 +7341,7 @@ void __usercall ApplyTeamTactics(void *playerInfos)
   ushort uVar3;
   char cVar4;
   ushort playerIndex;
-  PlayerFile *player;
+  PlayerFile *playerFile;
   TeamFile *teamFile;
   TeamFile *oppTeamFile;
   PlayerInfoHeader *playerInfoHeader;
@@ -7361,12 +7361,12 @@ void __usercall ApplyTeamTactics(void *playerInfos)
   do {
     uVar3._0_1_ = teamFile->countryNumber;
     uVar3._1_1_ = teamFile->teamOrdinal;
-    player = GetPlayer(uVar3,(short)(char)playerInfoHeader->playerIndex);
+    playerFile = GetPlayer(uVar3,(short)(char)playerInfoHeader->playerIndex);
     SaveRand2State();
-    cVar4 = GetPlayerRandomNum(player);
+    cVar4 = GetPlayerRandomNum(playerFile);
     uVar3 = CONCAT11(uVar3._0_1_,cVar4);
     Randomize2(gameRandValue ^ uVar3);
-    AdjustPlayerSkills(playerIndex,teamFile,oppTeamFile,playerInfos,player,playerInfoHeader);
+    AdjustPlayerSkills(playerIndex,teamFile,oppTeamFile,playerInfos,playerFile,playerInfoHeader);
     RestoreRand2State();
     playerInfoHeader = (PlayerInfoHeader *)(playerInfoHeader->shortName + 7);
     playerIndex = playerIndex + 1;

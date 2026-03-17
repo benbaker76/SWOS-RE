@@ -53796,7 +53796,7 @@ teamTacticsTable:
                 dc.l editTacticsCurrentTactics ; element[18]
 
 ; ===== GetPlayerPrice =====
-; prototype: unsigned __int16 __usercall GetPlayerPrice@<d7>(TeamFile *team@<a0>, PlayerFile *player@<a1>, unsigned __int16 position@<d7>)
+; prototype: unsigned __int16 __usercall GetPlayerPrice@<d7>(TeamFile *team@<a0>, PlayerFile *playerFile@<a1>, unsigned __int16 position@<d7>)
 ; in:
 ;      A0 -> team (file)
 ;      A1 -> player (file)
@@ -54654,7 +54654,7 @@ loc_125038:
                 rts
 
 ; ===== IsPlayerInjured =====
-; prototype: unsigned __int16 __usercall IsPlayerInjured@<d0>(PlayerFile *player@<a0>, __int16 mode@<d0>)
+; prototype: unsigned __int16 __usercall IsPlayerInjured@<d0>(PlayerFile *playerFile@<a0>, __int16 mode@<d0>)
 ; in:
 ;      D0 -
 ;      A0 -> player struct + sizeof(header)
@@ -56097,7 +56097,7 @@ loc_126468:
                 rts
 
 ; ===== GetPlayerRandomNum =====
-; prototype: char __usercall GetPlayerRandomNum@<d0>(PlayerFile *player@<a0>)
+; prototype: char __usercall GetPlayerRandomNum@<d0>(PlayerFile *playerFile@<a0>)
 ; in:
 ;      A0 -> team (file struct)
 ; out:
@@ -87218,7 +87218,7 @@ diyStatsName:
                 dc.l $00000000          ; raw
 
 ; ===== FormTopSkillsString =====
-; prototype: void __usercall FormTopSkillsString(char *dest@<a1>, PlayerFile *player@<a6>)
+; prototype: void __usercall FormTopSkillsString(char *dest@<a1>, PlayerFile *playerFile@<a6>)
 ; in:
 ;     A1 -> destination buffer
 ;     A6 -> player (file) + header
@@ -89617,7 +89617,7 @@ loc_13A73C:
                 rts
 
 ; ===== SetSquadMenuEntryStatusSprite =====
-; prototype: void __usercall SetSquadMenuEntryStatusSprite(__int16 rowMode@<d0>, MenuEntry *entry@<a0>, PlayerFile *player@<a6>)
+; prototype: void __usercall SetSquadMenuEntryStatusSprite(__int16 rowMode@<d0>, MenuEntry *entry@<a0>, PlayerFile *playerFile@<a6>)
 SetSquadMenuEntryStatusSprite:
                 tst.w   d0
                 bne.w   loc_13A800
@@ -89754,7 +89754,7 @@ loc_13A8A2:
                 rts
 
 ; ===== SetSquadMenuEntryStatusSprite_AfterSim =====
-; prototype: void __usercall SetSquadMenuEntryStatusSprite_AfterSim(MenuEntry *entry@<a0>, PlayerFile *player@<a6>)
+; prototype: void __usercall SetSquadMenuEntryStatusSprite_AfterSim(MenuEntry *entry@<a0>, PlayerFile *playerFile@<a6>)
 SetSquadMenuEntryStatusSprite_AfterSim:
                 jsr     ShouldApplyRandomPlayerStatusAfterSim
                 bne.s   loc_13A8B6
@@ -89787,7 +89787,7 @@ loc_13A8F0:
                 rts
 
 ; ===== SetMenuEntryPlayerFace =====
-; prototype: void __usercall SetMenuEntryPlayerFace(MenuEntry *entry@<a0>, PlayerFile *player@<a6>)
+; prototype: void __usercall SetMenuEntryPlayerFace(MenuEntry *entry@<a0>, PlayerFile *playerFile@<a6>)
 ; in:
 ;      A0 -> menu entry to set sprite
 ;      A6 -> team header + player offset
@@ -101888,7 +101888,7 @@ locret_141628:
                 rts
 
 ; ===== AddCareerPoolPlayer =====
-; prototype: __int16 __usercall AddCareerPoolPlayer@<d0>(unsigned __int16 teamNumber@<d0>, unsigned __int8 playerOrdinal@<d1>, PlayerFile *player@<a0>)
+; prototype: __int16 __usercall AddCareerPoolPlayer@<d0>(unsigned __int16 teamNumber@<d0>, unsigned __int8 playerOrdinal@<d1>, PlayerFile *playerFile@<a0>)
 ; in:
 ;     D0 - team number
 ;     D1 - player ordinal in team

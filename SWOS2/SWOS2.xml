@@ -2,7 +2,7 @@
 <?program_dtd version="1"?>
 
 <PROGRAM NAME="SWOS2" EXE_PATH=".\SWOS2" EXE_FORMAT="Binary file" INPUT_MD5="u&#xa7;&#xdd;E&#xcf;&#xe6;&#xeb;&#xe1;?|&#xa8;(&#xe0;&#xa3;">
-    <INFO_SOURCE TOOL="IDA-Pro 9.0 XML plugin v5.0.2 (Python) SDK 900" USER="headk" FILE="C:\Projects\Amiga\SWOS-IDA\SWOS2.i64" TIMESTAMP="2026-03-16 20:36" />
+    <INFO_SOURCE TOOL="IDA-Pro 9.0 XML plugin v5.0.2 (Python) SDK 900" USER="headk" FILE="C:\Projects\Amiga\SWOS-IDA\SWOS2.i64" TIMESTAMP="2026-03-16 21:23" />
     <PROCESSOR NAME="68000" ENDIAN="big" ADDRESS_MODEL="32-bit" />
     <COMPILER NAME="Unknown" />
     <DATATYPES>
@@ -56133,7 +56133,7 @@ dos: cseg_2C47D</REGULAR_CMT>
             <ADDRESS_RANGE START="0x124694" END="0x1247FF" />
             <RETURN_TYPE DATATYPE="ushort" DATATYPE_NAMESPACE="/" REGISTER="D7W" />
             <REGISTER_VAR NAME="team" REGISTER="A0" DATATYPE="TeamFile *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="player" REGISTER="A1" DATATYPE="PlayerFile *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="playerFile" REGISTER="A1" DATATYPE="PlayerFile *" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="position" REGISTER="D7W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
      A0 -&gt; team (file)
@@ -56241,7 +56241,7 @@ out:
         <FUNCTION ENTRY_POINT="0x12503E" NAME="IsPlayerInjured" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x12503E" END="0x125093" />
             <RETURN_TYPE DATATYPE="ushort" DATATYPE_NAMESPACE="/" REGISTER="D0W" />
-            <REGISTER_VAR NAME="player" REGISTER="A0" DATATYPE="PlayerFile *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="playerFile" REGISTER="A0" DATATYPE="PlayerFile *" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="mode" REGISTER="D0W" DATATYPE="short" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
      D0 -
@@ -56427,7 +56427,7 @@ Find lowest and highest player price in the selected career team.</REGULAR_CMT>
         <FUNCTION ENTRY_POINT="0x12646E" NAME="GetPlayerRandomNum" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x12646E" END="0x1264A7" />
             <RETURN_TYPE DATATYPE="char" DATATYPE_NAMESPACE="/" REGISTER="D0B" />
-            <REGISTER_VAR NAME="player" REGISTER="A0" DATATYPE="PlayerFile *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="playerFile" REGISTER="A0" DATATYPE="PlayerFile *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
      A0 -&gt; team (file struct)
 out:
@@ -59740,7 +59740,7 @@ out:
             <ADDRESS_RANGE START="0x138D5C" END="0x138E17" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="dest" REGISTER="A1" DATATYPE="char *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="player" REGISTER="A6" DATATYPE="PlayerFile *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="playerFile" REGISTER="A6" DATATYPE="PlayerFile *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
     A1 -&gt; destination buffer
     A6 -&gt; player (file) + header
@@ -59850,21 +59850,21 @@ Called from edit tactics and play match menu.</REGULAR_CMT>
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="rowMode" REGISTER="D0W" DATATYPE="short" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="entry" REGISTER="A0" DATATYPE="MenuEntry *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="player" REGISTER="A6" DATATYPE="PlayerFile *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="playerFile" REGISTER="A6" DATATYPE="PlayerFile *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>SetSquadMenuEntryStatusSprite</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x13A8A8" NAME="SetSquadMenuEntryStatusSprite_AfterSim" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x13A8A8" END="0x13A8F5" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="entry" REGISTER="A0" DATATYPE="MenuEntry *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="player" REGISTER="A6" DATATYPE="PlayerFile *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="playerFile" REGISTER="A6" DATATYPE="PlayerFile *" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>SetSquadMenuEntryStatusSprite_AfterSim</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x13A8F6" NAME="SetMenuEntryPlayerFace" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x13A8F6" END="0x13A909" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="entry" REGISTER="A0" DATATYPE="MenuEntry *" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="player" REGISTER="A6" DATATYPE="PlayerFile *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="playerFile" REGISTER="A6" DATATYPE="PlayerFile *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
      A0 -&gt; menu entry to set sprite
      A6 -&gt; team header + player offset</REGULAR_CMT>
@@ -60837,7 +60837,7 @@ Called when returning to main menu from various submenus.</REGULAR_CMT>
             <RETURN_TYPE DATATYPE="short" DATATYPE_NAMESPACE="/" REGISTER="D0W" />
             <REGISTER_VAR NAME="teamNumber" REGISTER="D0W" DATATYPE="ushort" DATATYPE_NAMESPACE="/" />
             <REGISTER_VAR NAME="playerOrdinal" REGISTER="D1B" DATATYPE="uchar" DATATYPE_NAMESPACE="/" />
-            <REGISTER_VAR NAME="player" REGISTER="A0" DATATYPE="PlayerFile *" DATATYPE_NAMESPACE="/" />
+            <REGISTER_VAR NAME="playerFile" REGISTER="A0" DATATYPE="PlayerFile *" DATATYPE_NAMESPACE="/" />
             <REGULAR_CMT>in:
     D0 - team number
     D1 - player ordinal in team
