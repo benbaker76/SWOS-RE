@@ -10228,7 +10228,7 @@
 10227: off=0x0003BC97 ptr_ea=0x0013BC96 val=0x0016E0C0 -> target=0x0016E0C0 [D] primaryCompSquadViewParam                 move.w  (primaryCompSquadViewParam).l,d1
 10228: off=0x0003BCA1 ptr_ea=0x0013BCA0 val=0x00166B30 -> target=0x00166B30 [D] seasonSquadTeamNumbers                    lea     (seasonSquadTeamNumbers).l,a1
 10229: off=0x0003BCA7 ptr_ea=0x0013BCA6 val=0x0016E0C0 -> target=0x0016E0C0 [D] primaryCompSquadViewParam                 move.w  (primaryCompSquadViewParam).l,d1
-10230: off=0x0003BCB3 ptr_ea=0x0013BCB2 val=0x0014AB48 -> target=0x0014AB48 [C] ShowClubBussinesMenu                      jmp     ShowClubBussinesMenu
+10230: off=0x0003BCB3 ptr_ea=0x0013BCB2 val=0x0014AB48 -> target=0x0014AB48 [C] ShowClubBusinessMenu                      jmp     ShowClubBusinessMenu
 10231: off=0x0003BCBB ptr_ea=0x0013BCBA val=0x00164B1E -> target=0x00164B1E [D] teamNoOfferAccepted                       cmpi.w  #$FFFF,(teamNoOfferAccepted).l
 10232: off=0x0003BCC3 ptr_ea=0x0013BCC2 val=0x00164C8A -> target=0x00164C8A [D] numNewJobOffers                           tst.w   (numNewJobOffers).l
 10233: off=0x0003BCCB ptr_ea=0x0013BCCA val=0x00164D0E -> target=0x00164D0E [D] numJobOffers                              tst.w   (numJobOffers).l

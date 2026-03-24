@@ -8415,7 +8415,7 @@ nearestTeammatePtr:
                                         ; Pointer to nearest teammate sprite found during foul/card processing distance loop.
 BSS_00_2DAD0:
                 ds.b $1C
-; DIY_Competition
+; DIYCompetition
 diyFileBufferCopy:
                 ds.b $60
                                         ; competitionType
@@ -8425,7 +8425,7 @@ BSS_00_2DB6A:
 diyTournamentTeamIds:
                 ds.b $386
                                         ; Array of 16-bit team IDs for DIY tournament competitions.
-; DIY_Competition
+; DIYCompetition
 diyCompetitionStart:
                 ds.b $60
 diyMinSubstitutes:
@@ -22790,8 +22790,8 @@ ResetResultSprites:
                 clr.w   (team2TotalGoalsDigit1Sprite+SPRITE_VISIBLE).l
                 clr.w   (team1NameSprite+SPRITE_VISIBLE).l
                 clr.w   (dashSprite+SPRITE_VISIBLE).l
-                lea     (team1Scorer1Sprite).l,a1
-                lea     (team2Scorer1Sprite).l,a2
+                lea     (team1ScorerSprite).l,a1
+                lea     (team2ScorerSprite).l,a2
                 lea     (ShowLoaderIntroSequence).l,a3 ; ScorerInfo team1Scorers[8]
                 lea     ((loc_10FE24+2)).l,a4 ; ScorerInfo team2Scorers[8]
                 lea     (team1ScorerSpritesWidths).l,a5
@@ -22879,7 +22879,7 @@ loc_10BA2C:
 loc_10BA44:
                 move.w  #1,(team1NameSprite+SPRITE_VISIBLE).l
                 move.w  #1,(dashSprite+SPRITE_VISIBLE).l
-                lea     (team1Scorer1Sprite).l,a1
+                lea     (team1ScorerSprite).l,a1
                 lea     (team1ScorerSpritesWidths).l,a2
                 move.w  #7,d0
 loc_10BA64:
@@ -22891,7 +22891,7 @@ loc_10BA64:
                 adda.l  #SPRITE_SIZE+SPRITE_TEAMNUMBER,a1
                 dbf     d0,loc_10BA64
 loc_10BA80:
-                lea     (team2Scorer1Sprite).l,a1
+                lea     (team2ScorerSprite).l,a1
                 lea     (team2ScorerSpritesWidths).l,a2
                 move.w  #7,d0
 loc_10BA90:
@@ -22940,8 +22940,8 @@ loc_10BADE:
                 clr.w   (team2TotalGoalsDigit1Sprite+SPRITE_VISIBLE).l
                 clr.w   (team1NameSprite+SPRITE_VISIBLE).l
                 clr.w   (dashSprite+SPRITE_VISIBLE).l
-                lea     (team1Scorer1Sprite).l,a1
-                lea     (team2Scorer1Sprite).l,a2
+                lea     (team1ScorerSprite).l,a1
+                lea     (team2ScorerSprite).l,a2
                 move.w  #7,d0
 loc_10BB76:
                 clr.w   SPRITE_VISIBLE(a1)
@@ -23143,7 +23143,7 @@ loc_10BEEE:
                 add.w   d7,SPRITE_Y(a0)
                 addi.w  #10000,SPRITE_Y(a0)
                 move.w  #10000,SPRITE_Z(a0)
-                lea     (team1Scorer1Sprite).l,a0
+                lea     (team1ScorerSprite).l,a0
                 lea     (ShowLoaderIntroSequence).l,a2 ; ScorerInfo team1Scorers[8]
                 lea     (team1ScorerSpritesWidths).l,a3
                 move.w  #263,d1
@@ -23166,7 +23166,7 @@ loc_10BF3C:
                 adda.l  #SCORERINFO_SIZE+SCORERINFO_SHIRTNUM,a2
                 dbf     d0,loc_10BF3C
 loc_10BF84:
-                lea     (team2Scorer1Sprite).l,a0
+                lea     (team2ScorerSprite).l,a0
                 lea     ((loc_10FE24+2)).l,a2 ; ScorerInfo team2Scorers[8]
                 lea     (team2ScorerSpritesWidths).l,a3
                 move.w  #263,d1
@@ -23840,7 +23840,7 @@ select_scorer_tables_by_team:
                 cmpi.w  #1,d0
                 bne.s   team2_branch_select_tables
                 lea     (ShowLoaderIntroSequence).l,a3 ; ScorerInfo team1Scorers[8]
-                lea     (team1Scorer1Sprite).l,a4
+                lea     (team1ScorerSprite).l,a4
                 lea     (team1ScorerSpritesWidths).l,a6
                 cmpi.w  #GT_OWN_GOAL,d1
                 beq.s   set_team_ptrs_own_goal_order
@@ -23850,7 +23850,7 @@ set_team_ptrs_normal_order:
                 bra.s   finalize_team_ptr_selection
 team2_branch_select_tables:
                 lea     ((loc_10FE24+2)).l,a3 ; ScorerInfo team2Scorers[8]
-                lea     (team2Scorer1Sprite).l,a4
+                lea     (team2ScorerSprite).l,a4
                 lea     (team2ScorerSpritesWidths).l,a6
                 cmpi.w  #GT_OWN_GOAL,d1
                 beq.s   set_team_ptrs_normal_order
@@ -35550,7 +35550,7 @@ update_control_flags_from_ball_state:
                 clr.w   TEAMGENERALINFO_PLAYERHASBALL(a6)
                 tst.w   TEAMGENERALINFO_SHOOTING(a6)
                 beq.s   handle_break_state_direction_and_camera
-                tst.w   SPRITE_DELTAY(a6)
+                tst.w   TEAMGENERALINFO_FIREPRESSED(a6)
                 bne.s   handle_break_state_direction_and_camera
                 clr.w   TEAMGENERALINFO_SHOOTING(a6)
 handle_break_state_direction_and_camera:
@@ -43483,9 +43483,11 @@ dashSprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team1Scorer1Sprite:
-                ; Sprite
+; Sprite[8]
+team1ScorerSprite:
+                ; Sprite[8]
+                ; element[0]
+                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -43542,9 +43544,7 @@ team1Scorer1Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team1Scorer2Sprite:
-                ; Sprite
+                ; element[1]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -43601,9 +43601,7 @@ team1Scorer2Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team1Scorer3Sprite:
-                ; Sprite
+                ; element[2]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -43660,9 +43658,7 @@ team1Scorer3Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team1Scorer4Sprite:
-                ; Sprite
+                ; element[3]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -43719,9 +43715,7 @@ team1Scorer4Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team1Scorer5Sprite:
-                ; Sprite
+                ; element[4]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -43778,9 +43772,7 @@ team1Scorer5Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team1Scorer6Sprite:
-                ; Sprite
+                ; element[5]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -43837,9 +43829,7 @@ team1Scorer6Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team1Scorer7Sprite:
-                ; Sprite
+                ; element[6]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -43896,9 +43886,7 @@ team1Scorer7Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team1Scorer8Sprite:
-                ; Sprite
+                ; element[7]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -43955,9 +43943,11 @@ team1Scorer8Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team2Scorer1Sprite:
-                ; Sprite
+; Sprite[8]
+team2ScorerSprite:
+                ; Sprite[8]
+                ; element[0]
+                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -44014,9 +44004,7 @@ team2Scorer1Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team2Scorer2Sprite:
-                ; Sprite
+                ; element[1]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -44073,9 +44061,7 @@ team2Scorer2Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team2Scorer3Sprite:
-                ; Sprite
+                ; element[2]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -44132,9 +44118,7 @@ team2Scorer3Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team2Scorer4Sprite:
-                ; Sprite
+                ; element[3]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -44191,9 +44175,7 @@ team2Scorer4Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team2Scorer5Sprite:
-                ; Sprite
+                ; element[4]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -44250,9 +44232,7 @@ team2Scorer5Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team2Scorer6Sprite:
-                ; Sprite
+                ; element[5]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -44309,9 +44289,7 @@ team2Scorer6Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team2Scorer7Sprite:
-                ; Sprite
+                ; element[6]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -44368,9 +44346,7 @@ team2Scorer7Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team2Scorer8Sprite:
-                ; Sprite
+                ; element[7]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -48385,22 +48361,22 @@ allSpritesArray:
                 dc.l team2TotalGoalsDigit1Sprite ; element[47]
                 dc.l team1TotalGoalsDigit2Sprite ; element[48]
                 dc.l team2TotalGoalsDigit2Sprite ; element[49]
-                dc.l team1Scorer1Sprite ; element[50]
-                dc.l team2Scorer1Sprite ; element[51]
-                dc.l team1Scorer2Sprite ; element[52]
-                dc.l team2Scorer2Sprite ; element[53]
-                dc.l team1Scorer3Sprite ; element[54]
-                dc.l team2Scorer3Sprite ; element[55]
-                dc.l team1Scorer4Sprite ; element[56]
-                dc.l team2Scorer4Sprite ; element[57]
-                dc.l team1Scorer5Sprite ; element[58]
-                dc.l team2Scorer5Sprite ; element[59]
-                dc.l team1Scorer6Sprite ; element[60]
-                dc.l team2Scorer6Sprite ; element[61]
-                dc.l team1Scorer7Sprite ; element[62]
-                dc.l team2Scorer7Sprite ; element[63]
-                dc.l team1Scorer8Sprite ; element[64]
-                dc.l team2Scorer8Sprite ; element[65]
+                dc.l team1ScorerSprite  ; element[50]
+                dc.l team2ScorerSprite  ; element[51]
+                dc.l team1ScorerSprite+$6E ; element[52]
+                dc.l team2ScorerSprite+$6E ; element[53]
+                dc.l team1ScorerSprite+$DC ; element[54]
+                dc.l team2ScorerSprite+$DC ; element[55]
+                dc.l team1ScorerSprite+$14A ; element[56]
+                dc.l team2ScorerSprite+$14A ; element[57]
+                dc.l team1ScorerSprite+$1B8 ; element[58]
+                dc.l team2ScorerSprite+$1B8 ; element[59]
+                dc.l team1ScorerSprite+$226 ; element[60]
+                dc.l team2ScorerSprite+$226 ; element[61]
+                dc.l team1ScorerSprite+$294 ; element[62]
+                dc.l team2ScorerSprite+$294 ; element[63]
+                dc.l team1ScorerSprite+$302 ; element[64]
+                dc.l team2ScorerSprite+$302 ; element[65]
                 dc.l refereeSprite      ; element[66]
                 dc.l cornerFlagSprite   ; element[67]
                 dc.l big_S_Sprite       ; element[68]
@@ -54808,7 +54784,7 @@ loc_125392:
                 rts
 
 ; ===== CalcCupMatchGateReceiptsFactor =====
-; prototype: unsigned __int16 __usercall CalcCupMatchGateReceiptsFactor@<d7>(void *team1@<a1>, void *team2@<a2>)
+; prototype: unsigned __int16 __usercall CalcCupMatchGateReceiptsFactor@<d7>(TeamFileEx *team1@<a1>, TeamFileEx *team2@<a2>)
 ; dos: cseg_3CBFE
 CalcCupMatchGateReceiptsFactor:
                 move.l  (totalTeamValue).l,d0
@@ -55978,7 +55954,7 @@ loc_126468:
                 rts
 
 ; ===== GetPlayerRandomNum =====
-; prototype: char __usercall GetPlayerRandomNum@<d0>(void *playerEntry@<a0>)
+; prototype: char __usercall GetPlayerRandomNum@<d0>(PlayerFile *playerFile@<a0>)
 ; in:
 ;      A0 -> team (file struct)
 ; out:
@@ -55986,13 +55962,13 @@ loc_126468:
 ; 
 ; Get random number bound to player.
 GetPlayerRandomNum:
-                move.b  $6C(a0),d0
-                move.b  $66(a0),d1
+                move.b  PLAYERFILE_PRICE+$4C(a0),d0
+                move.b  PLAYERFILE_POSITIONANDFACE+$4C(a0),d1
                 andi.b  #$FB,d1
                 eor.b   d1,d0
-                move.b  $4F(a0),d1
+                move.b  PLAYERFILE_PLAYERNAME+$4C(a0),d1
                 eor.b   d1,d0
-                move.b  $59(a0),d1
+                move.b  PLAYERFILE_PLAYERNAME+$56(a0),d1
                 eor.b   d1,d0
                 move.w  (currentSeasonShowing).l,d1
                 eor.b   d1,d0
@@ -56202,7 +56178,7 @@ loc_126744:
                 rts
 
 ; ===== ProcessDIYLeagueMatchResultAndCareerUpdates =====
-; prototype: void __usercall ProcessDIYLeagueMatchResultAndCareerUpdates(void *team1@<a1>, void *team2@<a2>)
+; prototype: void __usercall ProcessDIYLeagueMatchResultAndCareerUpdates(TeamFileEx *team1@<a1>, TeamFileEx *team2@<a2>)
 ProcessDIYLeagueMatchResultAndCareerUpdates:
                 clr.w   d0
                 cmpi.w  #1,(diyCompetitionStart+DIYCOMPETITION_PLAYEACHTEAM).l
@@ -56263,7 +56239,7 @@ locret_12681C:
                 rts
 
 ; ===== ProcessDIYKnockoutMatchResultAndCareerUpdates =====
-; prototype: void __usercall ProcessDIYKnockoutMatchResultAndCareerUpdates(void *team1@<a1>, void *team2@<a2>)
+; prototype: void __usercall ProcessDIYKnockoutMatchResultAndCareerUpdates(TeamFileEx *team1@<a1>, TeamFileEx *team2@<a2>)
 ProcessDIYKnockoutMatchResultAndCareerUpdates:
                 lea     (diyCompetitionStart).l,a6
                 move.w  $58(a6),d0
@@ -56459,7 +56435,7 @@ loc_126A42:
                 rts
 
 ; ===== GetCachedOrCalculateViewResult =====
-; prototype: void __usercall GetCachedOrCalculateViewResult(void *team1@<a1>, void *team2@<a2>)
+; prototype: void __usercall GetCachedOrCalculateViewResult(TeamFileEx *team1@<a1>, TeamFileEx *team2@<a2>)
 GetCachedOrCalculateViewResult:
                 bclr    #0,$17(a1)
                 bclr    #0,$17(a2)
@@ -92148,7 +92124,7 @@ loc_13BC9E:
 ; ===== ClubBusinessMenu =====
 ; prototype: void __usercall ClubBusinessMenu()
 ClubBusinessMenu:
-                jmp     ShowClubBussinesMenu
+                jmp     ShowClubBusinessMenu
 
 ; ===== JobOffersMenu =====
 ; prototype: void __usercall JobOffersMenu()
@@ -116944,9 +116920,9 @@ ChairmanMemosContinue:
                 move.w  #0,(currentMessage).l
                 jmp     SetExitMenuFlag
 
-; ===== ShowClubBussinesMenu =====
-; prototype: void __usercall ShowClubBussinesMenu()
-ShowClubBussinesMenu:
+; ===== ShowClubBusinessMenu =====
+; prototype: void __usercall ShowClubBusinessMenu()
+ShowClubBusinessMenu:
                 clr.w   (clubBusinessActive).l
                 lea     (clubBusinessMenu).l,a6
                 jmp     ShowMenu
@@ -126568,7 +126544,7 @@ greekLeague:
                 dc.b $37                ; compNumber
                 dc.b $00                ; type
                 dc.b $0F                ; teamNumber
-                dc.b $40                ; beginMonth
+                dc.b $38                ; beginMonth
                 dc.b $28                ; endMonth
                 dc.b $00                ; unk1
                 dc.b $00                ; unk2
@@ -128758,8 +128734,8 @@ greekCup:
                 dc.b $7F                ; compNumber
                 dc.b $01                ; type
                 dc.b $0F                ; teamNumber
-                dc.b $00                ; beginMonth
-                dc.b $20                ; endMonth
+                dc.b $40                ; beginMonth
+                dc.b $28                ; endMonth
                 dc.b $00                ; unk1
                 dc.b $00                ; unk2
                 dc.b $00                ; unk3

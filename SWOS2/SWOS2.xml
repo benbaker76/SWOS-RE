@@ -2,7 +2,7 @@
 <?program_dtd version="1"?>
 
 <PROGRAM NAME="SWOS2" EXE_PATH=".\SWOS2" EXE_FORMAT="Binary file" INPUT_MD5="u&#xa7;&#xdd;E&#xcf;&#xe6;&#xeb;&#xe1;?|&#xa8;(&#xe0;&#xa3;">
-    <INFO_SOURCE TOOL="IDA-Pro 9.0 XML plugin v5.0.2 (Python) SDK 900" USER="headk" FILE="C:\Projects\Amiga\SWOS-IDA\SWOS2.i64" TIMESTAMP="2026-03-16 21:23" />
+    <INFO_SOURCE TOOL="IDA-Pro 9.0 XML plugin v5.0.2 (Python) SDK 900" USER="headk" FILE="C:\Projects\Amiga\SWOS-IDA\SWOS2.i64" TIMESTAMP="2026-03-17 23:20" />
     <PROCESSOR NAME="68000" ENDIAN="big" ADDRESS_MODEL="32-bit" />
     <COMPILER NAME="Unknown" />
     <DATATYPES>
@@ -16123,53 +16123,11 @@
         <DEFINED_DATA ADDRESS="0x11DD1E" DATATYPE="Sprite" SIZE="0x6E">
             <TYPEINFO_CMT>dashSprite</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x11DD8C" DATATYPE="Sprite" SIZE="0x6E">
-            <TYPEINFO_CMT>team1Scorer1Sprite</TYPEINFO_CMT>
+        <DEFINED_DATA ADDRESS="0x11DD8C" DATATYPE="Sprite[8]" SIZE="0x370">
+            <TYPEINFO_CMT>team1ScorerSprite</TYPEINFO_CMT>
         </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x11DDFA" DATATYPE="Sprite" SIZE="0x6E">
-            <TYPEINFO_CMT>team1Scorer2Sprite</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x11DE68" DATATYPE="Sprite" SIZE="0x6E">
-            <TYPEINFO_CMT>team1Scorer3Sprite</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x11DED6" DATATYPE="Sprite" SIZE="0x6E">
-            <TYPEINFO_CMT>team1Scorer4Sprite</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x11DF44" DATATYPE="Sprite" SIZE="0x6E">
-            <TYPEINFO_CMT>team1Scorer5Sprite</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x11DFB2" DATATYPE="Sprite" SIZE="0x6E">
-            <TYPEINFO_CMT>team1Scorer6Sprite</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x11E020" DATATYPE="Sprite" SIZE="0x6E">
-            <TYPEINFO_CMT>team1Scorer7Sprite</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x11E08E" DATATYPE="Sprite" SIZE="0x6E">
-            <TYPEINFO_CMT>team1Scorer8Sprite</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x11E0FC" DATATYPE="Sprite" SIZE="0x6E">
+        <DEFINED_DATA ADDRESS="0x11E0FC" DATATYPE="Sprite[8]" SIZE="0x370">
             <TYPEINFO_CMT>team2Scorer1Sprite</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x11E16A" DATATYPE="Sprite" SIZE="0x6E">
-            <TYPEINFO_CMT>team2Scorer2Sprite</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x11E1D8" DATATYPE="Sprite" SIZE="0x6E">
-            <TYPEINFO_CMT>team2Scorer3Sprite</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x11E246" DATATYPE="Sprite" SIZE="0x6E">
-            <TYPEINFO_CMT>team2Scorer4Sprite</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x11E2B4" DATATYPE="Sprite" SIZE="0x6E">
-            <TYPEINFO_CMT>team2Scorer5Sprite</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x11E322" DATATYPE="Sprite" SIZE="0x6E">
-            <TYPEINFO_CMT>team2Scorer6Sprite</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x11E390" DATATYPE="Sprite" SIZE="0x6E">
-            <TYPEINFO_CMT>team2Scorer7Sprite</TYPEINFO_CMT>
-        </DEFINED_DATA>
-        <DEFINED_DATA ADDRESS="0x11E3FE" DATATYPE="Sprite" SIZE="0x6E">
-            <TYPEINFO_CMT>team2Scorer8Sprite</TYPEINFO_CMT>
         </DEFINED_DATA>
         <DEFINED_DATA ADDRESS="0x11E46C" DATATYPE="Sprite" SIZE="0x6E">
             <TYPEINFO_CMT>goal1TopSprite</TYPEINFO_CMT>
@@ -47686,22 +47644,8 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x11DC42" NAME="team2TotalGoalsDigit2Sprite" />
         <SYMBOL ADDRESS="0x11DCB0" NAME="team2TotalGoalsDigit1Sprite" />
         <SYMBOL ADDRESS="0x11DD1E" NAME="dashSprite" />
-        <SYMBOL ADDRESS="0x11DD8C" NAME="team1Scorer1Sprite" />
-        <SYMBOL ADDRESS="0x11DDFA" NAME="team1Scorer2Sprite" />
-        <SYMBOL ADDRESS="0x11DE68" NAME="team1Scorer3Sprite" />
-        <SYMBOL ADDRESS="0x11DED6" NAME="team1Scorer4Sprite" />
-        <SYMBOL ADDRESS="0x11DF44" NAME="team1Scorer5Sprite" />
-        <SYMBOL ADDRESS="0x11DFB2" NAME="team1Scorer6Sprite" />
-        <SYMBOL ADDRESS="0x11E020" NAME="team1Scorer7Sprite" />
-        <SYMBOL ADDRESS="0x11E08E" NAME="team1Scorer8Sprite" />
+        <SYMBOL ADDRESS="0x11DD8C" NAME="team1ScorerSprite" />
         <SYMBOL ADDRESS="0x11E0FC" NAME="team2Scorer1Sprite" />
-        <SYMBOL ADDRESS="0x11E16A" NAME="team2Scorer2Sprite" />
-        <SYMBOL ADDRESS="0x11E1D8" NAME="team2Scorer3Sprite" />
-        <SYMBOL ADDRESS="0x11E246" NAME="team2Scorer4Sprite" />
-        <SYMBOL ADDRESS="0x11E2B4" NAME="team2Scorer5Sprite" />
-        <SYMBOL ADDRESS="0x11E322" NAME="team2Scorer6Sprite" />
-        <SYMBOL ADDRESS="0x11E390" NAME="team2Scorer7Sprite" />
-        <SYMBOL ADDRESS="0x11E3FE" NAME="team2Scorer8Sprite" />
         <SYMBOL ADDRESS="0x11E46C" NAME="goal1TopSprite" />
         <SYMBOL ADDRESS="0x11E4DA" NAME="goal2BottomSprite" />
         <SYMBOL ADDRESS="0x11E548" NAME="ballSprite" />
@@ -49886,7 +49830,7 @@ other values = career </COMMENT>
         <SYMBOL ADDRESS="0x14AA7E" NAME="ChairmanMemosInit" />
         <SYMBOL ADDRESS="0x14AAA6" NAME="ChairmanMemosOnReturn" />
         <SYMBOL ADDRESS="0x14AB3A" NAME="ChairmanMemosContinue" />
-        <SYMBOL ADDRESS="0x14AB48" NAME="ShowClubBussinesMenu" />
+        <SYMBOL ADDRESS="0x14AB48" NAME="ShowClubBusinessMenu" />
         <SYMBOL ADDRESS="0x14AB5A" NAME="clubBusinessMenu" />
         <SYMBOL ADDRESS="0x14ACB0" NAME="ClubBusinessInit" />
         <SYMBOL ADDRESS="0x14B0EC" NAME="j_SetExitMenuFlag13" />
@@ -62413,10 +62357,10 @@ Check do we already have this job offer in new job offers queue.</REGULAR_CMT>
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
             <TYPEINFO_CMT>ChairmanMemosContinue</TYPEINFO_CMT>
         </FUNCTION>
-        <FUNCTION ENTRY_POINT="0x14AB48" NAME="ShowClubBussinesMenu" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
+        <FUNCTION ENTRY_POINT="0x14AB48" NAME="ShowClubBusinessMenu" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x14AB48" END="0x14AB59" />
             <RETURN_TYPE DATATYPE="void" DATATYPE_NAMESPACE="/" />
-            <TYPEINFO_CMT>ShowClubBussinesMenu</TYPEINFO_CMT>
+            <TYPEINFO_CMT>ShowClubBusinessMenu</TYPEINFO_CMT>
         </FUNCTION>
         <FUNCTION ENTRY_POINT="0x14ACB0" NAME="ClubBusinessInit" CALLING_CONVENTION="__usercall" CUSTOM_STORAGE="y">
             <ADDRESS_RANGE START="0x14ACB0" END="0x14B0EB" />

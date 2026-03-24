@@ -1119,6 +1119,7 @@ PrintErrorToConsole:
 
 S_DosVer     dc.w    39
 S_DosHandle: dc.l    0
+        xdef    S_DosBase
 S_DosBase:   dc.l    0
 S_GfxBase:   dc.l    0
 S_GfxName:   dc.b    "graphics.library",0
@@ -1379,3 +1380,9 @@ _keyexit	dc.b	$46		;ws_keyexit = Del
         xdef    g_quitToDos
 g_quitToDos:
         dc.w    0
+
+; ===== Frame State Dump BSS (deterministic mode) =====
+; Buffer in Resload.s to avoid the 0x5555 BSS fill in _start.
+        xdef    frameLogBuf
+frameLogBuf:
+        ds.b    1500*72         ; 1500 frames * 72 bytes per frame

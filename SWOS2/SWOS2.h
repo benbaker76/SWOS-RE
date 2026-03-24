@@ -7166,7 +7166,7 @@ void __usercall ShowChairmanMessage(void);
 void __usercall ChairmanMemosInit(void);
 void __usercall ChairmanMemosOnReturn(void);
 void __usercall ChairmanMemosContinue(void);
-void __usercall ShowClubBussinesMenu(void);
+void __usercall ShowClubBusinessMenu(void);
 void __usercall ClubBusinessInit(void);
 void __usercall j_SetExitMenuFlag13(void);
 uint __usercall CalculateStartingBalance(ushort teamNumber);

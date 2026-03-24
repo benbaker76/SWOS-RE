@@ -1577,7 +1577,7 @@
 0014AA7E-0014AAA6 void __usercall ChairmanMemosInit()
 0014AAA6-0014AB3A void __usercall ChairmanMemosOnReturn()
 0014AB3A-0014AB48 void __usercall ChairmanMemosContinue()
-0014AB48-0014AB5A void __usercall ShowClubBussinesMenu()
+0014AB48-0014AB5A void __usercall ShowClubBusinessMenu()
 0014ACB0-0014B0EC void __usercall ClubBusinessInit()
 0014B0EC-0014B0F2 void __usercall j_SetExitMenuFlag13()
 0014B0F2-0014B126 unsigned int __usercall CalculateStartingBalance@<d1>(unsigned __int16 teamNumber@<d0>)

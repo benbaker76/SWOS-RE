@@ -8,6 +8,35 @@
 CHIPMEMSIZE = $200000
 FASTMEMSIZE = $200000
 
+; Deterministic mode: set to 1 to enable fixed RNG seeding.
+DETERMINISTIC_MODE = 1
+DETERMINISTIC_SEED = $1234
+DETERMINISTIC_DUMP_FRAME = 1500
+RNG_LOG_MAX = 32767
+
+        IF DETERMINISTIC_DUMP_FRAME
+        xref    frameLogBuf
+        xref    S_DosBase
+        xref    S_VBR
+        xref    S_SavedInt2
+        ENDIF
+
+INIT_DETERMINISTIC_RNG MACRO
+                lea     (kRandomTable).l,a0
+                move.b  #(DETERMINISTIC_SEED&$FF),(seed).l
+                move.b  #((DETERMINISTIC_SEED>>8)&$FF),(randXorIndex).l
+                moveq   #0,d0
+                move.b  (randXorIndex).l,d0
+                move.b  (a0,d0.w),(randXorKey).l
+                move.b  #((DETERMINISTIC_SEED>>4)&$FF),(seed2).l
+                move.b  #((DETERMINISTIC_SEED>>12)&$FF),(randXorIndex2).l
+                move.b  (randXorIndex2).l,d0
+                move.b  (a0,d0.w),(randXorKey2).l
+                move.w  #DETERMINISTIC_SEED,(randomSeed).l
+                move.b  #(DETERMINISTIC_SEED&$FF),(newRandomSeedCopy).l
+                move.l  #savedRandState,(savedRandStatePtr).l
+                ENDM
+
 CHIPBITS = (1<<(CHIPMEMSIZE/$80000))-1
 FASTBITS = ((1<<(FASTMEMSIZE/$80000))-1)<<24
 
@@ -2797,7 +2826,7 @@ nearestTeammatePtr:
                                         ; Pointer to nearest teammate sprite found during foul/card processing distance loop.
 BSS_00_2DAD0:
                 ds.b $1C
-; DIY_Competition
+; DIYCompetition
 diyFileBufferCopy:
                 ds.b $60
                                         ; competitionType
@@ -2807,7 +2836,7 @@ BSS_00_2DB6A:
 diyTournamentTeamIds:
                 ds.b $386
                                         ; Array of 16-bit team IDs for DIY tournament competitions.
-; DIY_Competition
+; DIYCompetition
 diyCompetitionStart:
                 ds.b $60
 diyMinSubstitutes:
@@ -15863,6 +15892,20 @@ copy_team_data_bytes_loop:
                 move.b  (a3)+,(a2)+
                 dbf     d0,copy_team_data_bytes_loop
                 bsr.w   InitializePlayerSpriteFrameIndices
+        IF DETERMINISTIC_MODE
+                clr.w   (currentGameTick).l
+                clr.w   (currentTick).l
+                INIT_DETERMINISTIC_RNG
+        ENDIF
+        IF DETERMINISTIC_DUMP_FRAME
+                clr.w   (frameLogCount).l
+                clr.w   (rngDumpFrameCounter).l
+                move.w  #1,(rngDumpActive).l
+        ENDIF
+        IF DETERMINISTIC_MODE
+                clr.w   (debugFrameNum).l
+                move.w  #1,(debugSpin).l
+        ENDIF
                 jsr     Rand
                 move.w  d0,(gameRandValue).l
                 lea     (topTeamInGame).l,a4
@@ -17205,8 +17248,8 @@ ResetResultSprites:
                 clr.w   (team2TotalGoalsDigit1Sprite+SPRITE_VISIBLE).l
                 clr.w   (team1NameSprite+SPRITE_VISIBLE).l
                 clr.w   (dashSprite+SPRITE_VISIBLE).l
-                lea     (team1Scorer1Sprite).l,a1
-                lea     (team2Scorer1Sprite).l,a2
+                lea     (team1ScorerSprite).l,a1
+                lea     (team2ScorerSprite).l,a2
                 lea     (ShowLoaderIntroSequence).l,a3 ; ScorerInfo team1Scorers[8]
                 lea     ((loc_10FE24+2)).l,a4 ; ScorerInfo team2Scorers[8]
                 lea     (team1ScorerSpritesWidths).l,a5
@@ -17294,7 +17337,7 @@ loc_10BA2C:
 loc_10BA44:
                 move.w  #1,(team1NameSprite+SPRITE_VISIBLE).l
                 move.w  #1,(dashSprite+SPRITE_VISIBLE).l
-                lea     (team1Scorer1Sprite).l,a1
+                lea     (team1ScorerSprite).l,a1
                 lea     (team1ScorerSpritesWidths).l,a2
                 move.w  #7,d0
 loc_10BA64:
@@ -17306,7 +17349,7 @@ loc_10BA64:
                 adda.l  #SPRITE_SIZE+SPRITE_TEAMNUMBER,a1
                 dbf     d0,loc_10BA64
 loc_10BA80:
-                lea     (team2Scorer1Sprite).l,a1
+                lea     (team2ScorerSprite).l,a1
                 lea     (team2ScorerSpritesWidths).l,a2
                 move.w  #7,d0
 loc_10BA90:
@@ -17355,8 +17398,8 @@ loc_10BADE:
                 clr.w   (team2TotalGoalsDigit1Sprite+SPRITE_VISIBLE).l
                 clr.w   (team1NameSprite+SPRITE_VISIBLE).l
                 clr.w   (dashSprite+SPRITE_VISIBLE).l
-                lea     (team1Scorer1Sprite).l,a1
-                lea     (team2Scorer1Sprite).l,a2
+                lea     (team1ScorerSprite).l,a1
+                lea     (team2ScorerSprite).l,a2
                 move.w  #7,d0
 loc_10BB76:
                 clr.w   SPRITE_VISIBLE(a1)
@@ -17558,7 +17601,7 @@ loc_10BEEE:
                 add.w   d7,SPRITE_Y(a0)
                 addi.w  #10000,SPRITE_Y(a0)
                 move.w  #10000,SPRITE_Z(a0)
-                lea     (team1Scorer1Sprite).l,a0
+                lea     (team1ScorerSprite).l,a0
                 lea     (ShowLoaderIntroSequence).l,a2 ; ScorerInfo team1Scorers[8]
                 lea     (team1ScorerSpritesWidths).l,a3
                 move.w  #263,d1
@@ -17581,7 +17624,7 @@ loc_10BF3C:
                 adda.l  #SCORERINFO_SIZE+SCORERINFO_SHIRTNUM,a2
                 dbf     d0,loc_10BF3C
 loc_10BF84:
-                lea     (team2Scorer1Sprite).l,a0
+                lea     (team2ScorerSprite).l,a0
                 lea     ((loc_10FE24+2)).l,a2 ; ScorerInfo team2Scorers[8]
                 lea     (team2ScorerSpritesWidths).l,a3
                 move.w  #263,d1
@@ -17688,6 +17731,10 @@ pitch_number_and_type_done:
 combine_pitchnum_and_type:
                 add.w   d0,d1
                 move.w  d1,(pitchNumberAndType).l
+        IF DETERMINISTIC_MODE
+                ; Force fixed pitch to ensure ASM and C versions match
+                move.w  #$0004,(pitchNumberAndType).l
+        ENDIF
                 rts
 pitchNumberProbabilities:
                 dc.b $00,$00,$00,$00,$00,$01,$01,$01,$01,$01,$04,$04,$02,$02,$03,$03 ; Probabilities:
@@ -18255,7 +18302,7 @@ select_scorer_tables_by_team:
                 cmpi.w  #1,d0
                 bne.s   team2_branch_select_tables
                 lea     (ShowLoaderIntroSequence).l,a3 ; ScorerInfo team1Scorers[8]
-                lea     (team1Scorer1Sprite).l,a4
+                lea     (team1ScorerSprite).l,a4
                 lea     (team1ScorerSpritesWidths).l,a6
                 cmpi.w  #GT_OWN_GOAL,d1
                 beq.s   set_team_ptrs_own_goal_order
@@ -18265,7 +18312,7 @@ set_team_ptrs_normal_order:
                 bra.s   finalize_team_ptr_selection
 team2_branch_select_tables:
                 lea     ((loc_10FE24+2)).l,a3 ; ScorerInfo team2Scorers[8]
-                lea     (team2Scorer1Sprite).l,a4
+                lea     (team2ScorerSprite).l,a4
                 lea     (team2ScorerSpritesWidths).l,a6
                 cmpi.w  #GT_OWN_GOAL,d1
                 beq.s   set_team_ptrs_normal_order
@@ -20713,6 +20760,9 @@ wait_for_vblank_flag_clear:
 wait_for_interrupt_clear:
                 tst.w   (waitingInterrupt).l
                 bne.s   wait_for_interrupt_clear
+        IF DETERMINISTIC_DUMP_FRAME
+                bsr.w   RngDumpCheck
+        ENDIF
                 bra.w   vblank_return_dispatch
 end_of_match_flow:
                 jsr     FadeOutToBlack
@@ -21648,6 +21698,112 @@ randXorKey:
                 dc.b $00
 pad_10F441:
                 dc.b $00
+
+        IF DETERMINISTIC_DUMP_FRAME
+; RngDumpCheck — called each frame, logs game state, dumps after N frames
+RngDumpCheck:
+                tst.w   (rngDumpActive).l
+                beq.w   .notyet
+                ; Log per-frame state: 36 fields, 72 bytes per entry
+                move.w  (frameLogCount).l,d0
+                cmp.w   #DETERMINISTIC_DUMP_FRAME,d0
+                bge.w   .skiplog
+                movem.l d1-d2/a0-a2,-(sp)
+                lea     (frameLogBuf).l,a0
+                move.w  d0,d1
+                mulu.w  #72,d1
+                adda.l  d1,a0
+                ; Ball state (slots 0-7)
+                move.w  (currentGameTick).l,(a0)
+                move.w  (ballSprite+SPRITE_X).l,2(a0)
+                move.w  (ballSprite+SPRITE_Y).l,4(a0)
+                move.w  (ballSprite+SPRITE_SPEED).l,6(a0)
+                move.w  (ballSprite+SPRITE_DESTX).l,8(a0)
+                move.w  (ballSprite+SPRITE_DESTY).l,10(a0)
+                move.w  (ballSprite+SPRITE_DELTAX).l,12(a0)
+                move.w  (ballSprite+SPRITE_DELTAY).l,14(a0)
+                ; All 22 player Y positions (slots 8-29)
+                lea     (team1SpritesTable).l,a1
+                lea     16(a0),a2
+                move.w  #10,d2
+.logt1y:        movea.l (a1)+,a0
+                move.w  SPRITE_Y(a0),(a2)+
+                dbf     d2,.logt1y
+                lea     (team2SpritesTable).l,a1
+                move.w  #10,d2
+.logt2y:        movea.l (a1)+,a0
+                move.w  SPRITE_Y(a0),(a2)+
+                dbf     d2,.logt2y
+                ; AI state + ball Z + t2p6 dest (slots 30-35)
+                move.w  (topTeamData+TEAMGENERALINFO_AI_TIMER).l,(a2)+
+                move.w  (bottomTeamData+TEAMGENERALINFO_AI_TIMER).l,(a2)+
+                move.w  (ballSprite+SPRITE_Z).l,(a2)+
+                move.b  (topTeamData+TEAMGENERALINFO_FIRETHISFRAME).l,d1
+                lsl.w   #8,d1
+                move.b  (bottomTeamData+TEAMGENERALINFO_FIRETHISFRAME).l,d1
+                move.w  d1,(a2)+
+                lea     (team2SpritesTable).l,a1
+                movea.l 6*4(a1),a0
+                move.w  SPRITE_DESTX(a0),(a2)+
+                move.w  SPRITE_DESTY(a0),(a2)+
+                addq.w  #1,(frameLogCount).l
+                movem.l (sp)+,d1-d2/a0-a2
+.skiplog:
+                addq.w  #1,(rngDumpFrameCounter).l
+                move.w  (rngDumpFrameCounter).l,d0
+                cmpi.w  #DETERMINISTIC_DUMP_FRAME,d0
+                blt.s   .notyet
+                movem.l d0-d7/a0-a6,-(sp)
+                bsr.w   StateDumpWrite
+                movem.l (sp)+,d0-d7/a0-a6
+                move.w  (frameLogCount).l,d0
+                andi.w  #$FFF,d0
+                ori.w   #$E000,d0
+                move.w  d0,(panicReasonCode).l
+                jsr     PanicHaltLoop
+.notyet:        rts
+
+StateDumpWrite:
+                move.l  (S_VBR).l,a0
+                move.l  (S_SavedInt2).l,LEVEL_2_INTERRUPT_AUTOVECTOR(a0)
+                movea.l (S_DosBase).l,a6
+                lea     stateDumpFilename(pc),a0
+                move.l  a0,d1
+                move.l  #1006,d2
+                jsr     -30(a6)
+                tst.l   d0
+                beq.s   .restore
+                move.l  d0,d7
+                move.l  d7,d1
+                move.l  #frameLogBuf,d2
+                move.w  (frameLogCount).l,d3
+                mulu.w  #72,d3
+                jsr     -48(a6)
+                move.l  d7,d1
+                jsr     -36(a6)
+.restore:
+                move.l  (S_VBR).l,a0
+                move.l  #Int2KeyboardHandler,LEVEL_2_INTERRUPT_AUTOVECTOR(a0)
+                rts
+
+stateDumpFilename:
+                dc.b    'DH0:data/state_dump.bin',0
+                even
+rngDumpFrameCounter:
+                dc.w    0
+rngDumpActive:
+                dc.w    0
+frameLogCount:
+                dc.w    0
+        ENDIF
+        IF DETERMINISTIC_MODE
+debugFrameNum:
+                dc.w    0
+debugSpin:
+                dc.w    1
+detSavedTick:
+                dc.w    0
+        ENDIF
 
 ; ===== MainKeysCheck =====
 ; prototype: void __usercall MainKeysCheck(unsigned __int16 key@<d0>)
@@ -29973,7 +30129,7 @@ update_control_flags_from_ball_state:
                 clr.w   TEAMGENERALINFO_PLAYERHASBALL(a6)
                 tst.w   TEAMGENERALINFO_SHOOTING(a6)
                 beq.s   handle_break_state_direction_and_camera
-                tst.w   SPRITE_DELTAY(a6)
+                tst.w   TEAMGENERALINFO_FIREPRESSED(a6)
                 bne.s   handle_break_state_direction_and_camera
                 clr.w   TEAMGENERALINFO_SHOOTING(a6)
 handle_break_state_direction_and_camera:
@@ -37906,9 +38062,11 @@ dashSprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team1Scorer1Sprite:
-                ; Sprite
+; Sprite[8]
+team1ScorerSprite:
+                ; Sprite[8]
+                ; element[0]
+                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -37965,9 +38123,7 @@ team1Scorer1Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team1Scorer2Sprite:
-                ; Sprite
+                ; element[1]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38024,9 +38180,7 @@ team1Scorer2Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team1Scorer3Sprite:
-                ; Sprite
+                ; element[2]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38083,9 +38237,7 @@ team1Scorer3Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team1Scorer4Sprite:
-                ; Sprite
+                ; element[3]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38142,9 +38294,7 @@ team1Scorer4Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team1Scorer5Sprite:
-                ; Sprite
+                ; element[4]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38201,9 +38351,7 @@ team1Scorer5Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team1Scorer6Sprite:
-                ; Sprite
+                ; element[5]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38260,9 +38408,7 @@ team1Scorer6Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team1Scorer7Sprite:
-                ; Sprite
+                ; element[6]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38319,9 +38465,7 @@ team1Scorer7Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team1Scorer8Sprite:
-                ; Sprite
+                ; element[7]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38378,9 +38522,11 @@ team1Scorer8Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team2Scorer1Sprite:
-                ; Sprite
+; Sprite[8]
+team2ScorerSprite:
+                ; Sprite[8]
+                ; element[0]
+                ; SPRITE
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38437,9 +38583,7 @@ team2Scorer1Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team2Scorer2Sprite:
-                ; Sprite
+                ; element[1]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38496,9 +38640,7 @@ team2Scorer2Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team2Scorer3Sprite:
-                ; Sprite
+                ; element[2]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38555,9 +38697,7 @@ team2Scorer3Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team2Scorer4Sprite:
-                ; Sprite
+                ; element[3]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38614,9 +38754,7 @@ team2Scorer4Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team2Scorer5Sprite:
-                ; Sprite
+                ; element[4]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38673,9 +38811,7 @@ team2Scorer5Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team2Scorer6Sprite:
-                ; Sprite
+                ; element[5]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38732,9 +38868,7 @@ team2Scorer6Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team2Scorer7Sprite:
-                ; Sprite
+                ; element[6]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -38791,9 +38925,7 @@ team2Scorer7Sprite:
                 dc.w $0000              ; injuryLevel
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
-; Sprite
-team2Scorer8Sprite:
-                ; Sprite
+                ; element[7]
                 dc.w $0000              ; teamNumber
                 dc.w $0000              ; playerOrdinal
                 dc.w $0000              ; frameOffset
@@ -42808,22 +42940,22 @@ allSpritesArray:
                 dc.l team2TotalGoalsDigit1Sprite ; element[47]
                 dc.l team1TotalGoalsDigit2Sprite ; element[48]
                 dc.l team2TotalGoalsDigit2Sprite ; element[49]
-                dc.l team1Scorer1Sprite ; element[50]
-                dc.l team2Scorer1Sprite ; element[51]
-                dc.l team1Scorer2Sprite ; element[52]
-                dc.l team2Scorer2Sprite ; element[53]
-                dc.l team1Scorer3Sprite ; element[54]
-                dc.l team2Scorer3Sprite ; element[55]
-                dc.l team1Scorer4Sprite ; element[56]
-                dc.l team2Scorer4Sprite ; element[57]
-                dc.l team1Scorer5Sprite ; element[58]
-                dc.l team2Scorer5Sprite ; element[59]
-                dc.l team1Scorer6Sprite ; element[60]
-                dc.l team2Scorer6Sprite ; element[61]
-                dc.l team1Scorer7Sprite ; element[62]
-                dc.l team2Scorer7Sprite ; element[63]
-                dc.l team1Scorer8Sprite ; element[64]
-                dc.l team2Scorer8Sprite ; element[65]
+                dc.l team1ScorerSprite  ; element[50]
+                dc.l team2ScorerSprite  ; element[51]
+                dc.l team1ScorerSprite+$6E ; element[52]
+                dc.l team2ScorerSprite+$6E ; element[53]
+                dc.l team1ScorerSprite+$DC ; element[54]
+                dc.l team2ScorerSprite+$DC ; element[55]
+                dc.l team1ScorerSprite+$14A ; element[56]
+                dc.l team2ScorerSprite+$14A ; element[57]
+                dc.l team1ScorerSprite+$1B8 ; element[58]
+                dc.l team2ScorerSprite+$1B8 ; element[59]
+                dc.l team1ScorerSprite+$226 ; element[60]
+                dc.l team2ScorerSprite+$226 ; element[61]
+                dc.l team1ScorerSprite+$294 ; element[62]
+                dc.l team2ScorerSprite+$294 ; element[63]
+                dc.l team1ScorerSprite+$302 ; element[64]
+                dc.l team2ScorerSprite+$302 ; element[65]
                 dc.l refereeSprite      ; element[66]
                 dc.l cornerFlagSprite   ; element[67]
                 dc.l big_S_Sprite       ; element[68]
@@ -52444,8 +52576,14 @@ locret_127AA0:
 ; in:
 ;      D0 - game type
 InitCareerVariables:
+        IF DETERMINISTIC_MODE
+                movem.l d0/a0,-(sp)
+                INIT_DETERMINISTIC_RNG
+                movem.l (sp)+,d0/a0
+        ELSE
                 move.w  (currentTick).l,(randomSeed).l
                 move.b  (currentTick+1).l,(newRandomSeedCopy).l
+        ENDIF
                 move.w  d0,(gameType).l
                 clr.w   (contestStarted).l
                 clr.w   (teamsLoaded).l
@@ -55132,8 +55270,14 @@ loc_129CD6:
 ; ===== DIY_ResetAndLoadCurrentCompetitionSlot =====
 ; prototype: void __usercall DIY_ResetAndLoadCurrentCompetitionSlot()
 DIY_ResetAndLoadCurrentCompetitionSlot:
+        IF DETERMINISTIC_MODE
+                movem.l d0/a0,-(sp)
+                INIT_DETERMINISTIC_RNG
+                movem.l (sp)+,d0/a0
+        ELSE
                 move.w  (currentTick).l,(randomSeed).l
                 move.b  (currentTick+1).l,(newRandomSeedCopy).l
+        ENDIF
                 clr.w   (diyFileBufferCopy+DIYCOMPETITION_CURRENTROUNDINDEX).l
                 clr.w   (diyFileBufferCopy+DIYCOMPETITION_ROUNDCOMPLETE).l
                 clr.w   (diyCompetitionStart+DIYCOMPETITION_ISACTIVE).l
@@ -55303,8 +55447,14 @@ loc_129F0C:
 ; ===== DIY_InitCupFromTeamGridAndValidateTeams =====
 ; prototype: void __usercall DIY_InitCupFromTeamGridAndValidateTeams()
 DIY_InitCupFromTeamGridAndValidateTeams:
+        IF DETERMINISTIC_MODE
+                movem.l d0/a0,-(sp)
+                INIT_DETERMINISTIC_RNG
+                movem.l (sp)+,d0/a0
+        ELSE
                 move.w  (currentTick).l,(randomSeed).l
                 move.b  (currentTick+1).l,(newRandomSeedCopy).l
+        ENDIF
                 lea     (diyCompetitionStart).l,a2
                 clr.w   $44(a2)
                 clr.w   $46(a2)
@@ -56208,8 +56358,14 @@ DIY_RecomputeCompetitionDerivedFields:
 ; ===== DIY_ResetCompetitionProgressAndShuffle =====
 ; prototype: void __usercall DIY_ResetCompetitionProgressAndShuffle()
 DIY_ResetCompetitionProgressAndShuffle:
+        IF DETERMINISTIC_MODE
+                movem.l d0/a0,-(sp)
+                INIT_DETERMINISTIC_RNG
+                movem.l (sp)+,d0/a0
+        ELSE
                 move.w  (currentTick).l,(randomSeed).l
                 move.b  (currentTick+1).l,(newRandomSeedCopy).l
+        ENDIF
                 lea     (diyCompetitionStart).l,a2
                 clr.w   $44(a2)
                 clr.w   $46(a2)
@@ -86575,7 +86731,7 @@ loc_13BC9E:
 ; ===== ClubBusinessMenu =====
 ; prototype: void __usercall ClubBusinessMenu()
 ClubBusinessMenu:
-                jmp     ShowClubBussinesMenu
+                jmp     ShowClubBusinessMenu
 
 ; ===== JobOffersMenu =====
 ; prototype: void __usercall JobOffersMenu()
@@ -111371,9 +111527,9 @@ ChairmanMemosContinue:
                 move.w  #0,(currentMessage).l
                 jmp     SetExitMenuFlag
 
-; ===== ShowClubBussinesMenu =====
-; prototype: void __usercall ShowClubBussinesMenu()
-ShowClubBussinesMenu:
+; ===== ShowClubBusinessMenu =====
+; prototype: void __usercall ShowClubBusinessMenu()
+ShowClubBusinessMenu:
                 clr.w   (clubBusinessActive).l
                 lea     (clubBusinessMenu).l,a6
                 jmp     ShowMenu
@@ -120995,7 +121151,7 @@ greekLeague:
                 dc.b $37                ; compNumber
                 dc.b $00                ; type
                 dc.b $0F                ; teamNumber
-                dc.b $40                ; beginMonth
+                dc.b $38                ; beginMonth
                 dc.b $28                ; endMonth
                 dc.b $00                ; unk1
                 dc.b $00                ; unk2
@@ -123185,8 +123341,8 @@ greekCup:
                 dc.b $7F                ; compNumber
                 dc.b $01                ; type
                 dc.b $0F                ; teamNumber
-                dc.b $00                ; beginMonth
-                dc.b $20                ; endMonth
+                dc.b $40                ; beginMonth
+                dc.b $28                ; endMonth
                 dc.b $00                ; unk1
                 dc.b $00                ; unk2
                 dc.b $00                ; unk3

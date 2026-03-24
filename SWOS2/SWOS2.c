@@ -67788,7 +67788,7 @@ void __usercall ChairmanMemosContinue(void)
 
 
 
-void __usercall ShowClubBussinesMenu(void)
+void __usercall ShowClubBusinessMenu(void)
 
 {
   clubBusinessActive = 0;

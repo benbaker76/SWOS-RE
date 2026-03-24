@@ -80615,7 +80615,7 @@ loc_13BC9E:
 ; ===== ClubBusinessMenu =====
 ; prototype: void __usercall ClubBusinessMenu()
 ClubBusinessMenu:
-                jmp     ShowClubBussinesMenu
+                jmp     ShowClubBusinessMenu
 
 ; ===== JobOffersMenu =====
 ; prototype: void __usercall JobOffersMenu()
@@ -102458,9 +102458,9 @@ ChairmanMemosContinue:
                 move.w  #0,(currentMessage).l
                 jmp     SetExitMenuFlag
 
-; ===== ShowClubBussinesMenu =====
-; prototype: void __usercall ShowClubBussinesMenu()
-ShowClubBussinesMenu:
+; ===== ShowClubBusinessMenu =====
+; prototype: void __usercall ShowClubBusinessMenu()
+ShowClubBusinessMenu:
                 clr.w   (clubBusinessActive).l
                 lea     (clubBusinessMenu).l,a6
                 jmp     ShowMenu

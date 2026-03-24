@@ -8414,7 +8414,7 @@ nearestTeammatePtr:
                                         ; Pointer to nearest teammate sprite found during foul/card processing distance loop.
 BSS_00_2DAD0:
                 ds.b $1C
-; DIY_Competition
+; DIYCompetition
 diyFileBufferCopy:
                 ds.b $60
                                         ; competitionType
@@ -8424,7 +8424,7 @@ BSS_00_2DB6A:
 diyTournamentTeamIds:
                 ds.b $386
                                         ; Array of 16-bit team IDs for DIY tournament competitions.
-; DIY_Competition
+; DIYCompetition
 diyCompetitionStart:
                 ds.b $60
 diyMinSubstitutes:
@@ -35584,7 +35584,7 @@ update_control_flags_from_ball_state:
                 clr.w   TEAMGENERALINFO_PLAYERHASBALL(a6)
                 tst.w   TEAMGENERALINFO_SHOOTING(a6)
                 beq.s   handle_break_state_direction_and_camera
-                tst.w   SPRITE_DELTAY(a6)
+                tst.w   TEAMGENERALINFO_FIREPRESSED(a6)
                 bne.s   handle_break_state_direction_and_camera
                 clr.w   TEAMGENERALINFO_SHOOTING(a6)
 handle_break_state_direction_and_camera:
@@ -92182,7 +92182,7 @@ loc_13BC9E:
 ; ===== ClubBusinessMenu =====
 ; prototype: void __usercall ClubBusinessMenu()
 ClubBusinessMenu:
-                jmp     ShowClubBussinesMenu
+                jmp     ShowClubBusinessMenu
 
 ; ===== JobOffersMenu =====
 ; prototype: void __usercall JobOffersMenu()
@@ -116978,9 +116978,9 @@ ChairmanMemosContinue:
                 move.w  #0,(currentMessage).l
                 jmp     SetExitMenuFlag
 
-; ===== ShowClubBussinesMenu =====
-; prototype: void __usercall ShowClubBussinesMenu()
-ShowClubBussinesMenu:
+; ===== ShowClubBusinessMenu =====
+; prototype: void __usercall ShowClubBusinessMenu()
+ShowClubBusinessMenu:
                 clr.w   (clubBusinessActive).l
                 lea     (clubBusinessMenu).l,a6
                 jmp     ShowMenu
@@ -126602,7 +126602,7 @@ greekLeague:
                 dc.b $37                ; compNumber
                 dc.b $00                ; type
                 dc.b $0F                ; teamNumber
-                dc.b $40                ; beginMonth
+                dc.b $38                ; beginMonth
                 dc.b $28                ; endMonth
                 dc.b $00                ; unk1
                 dc.b $00                ; unk2
@@ -128792,8 +128792,8 @@ greekCup:
                 dc.b $7F                ; compNumber
                 dc.b $01                ; type
                 dc.b $0F                ; teamNumber
-                dc.b $00                ; beginMonth
-                dc.b $20                ; endMonth
+                dc.b $40                ; beginMonth
+                dc.b $28                ; endMonth
                 dc.b $00                ; unk1
                 dc.b $00                ; unk2
                 dc.b $00                ; unk3
