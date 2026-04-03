@@ -973,12 +973,37 @@ resload_FlushCache:
 
         even
 
+VERTB_BIT                               EQU 5
+
+; --- DisableVBlankAndWait -------------------------------------------------
+; Disable VBlank interrupt, then wait for any in-progress ISR to finish.
+; After this call, no ISR can fire and any previous ISR has completed.
+; Preserves all registers.
+DisableVBlankAndWait:
+        move.w  #(1<<VERTB_BIT),(INTENA).l     ; disable VBlank (clear bit 5)
+        btst    #14-8,(DMACONR).l              ; dummy read (blitter sync)
+.wait1: btst    #14-8,(DMACONR).l              ; wait for blitter idle
+        bne.s   .wait1
+        tst.w   ($DFF006).l                    ; brief delay — let ISR finish
+        tst.w   ($DFF006).l
+        btst    #14-8,(DMACONR).l              ; dummy read
+.wait2: btst    #14-8,(DMACONR).l              ; final blitter wait
+        bne.s   .wait2
+        rts
+
+; --- EnableVBlank ---------------------------------------------------------
+; Re-enable VBlank interrupt.
+EnableVBlank:
+        move.w  #$8000|(1<<VERTB_BIT),(INTENA).l  ; set bit 5 = enable VBlank
+        rts
+
 ; --- _GetFileSize ---------------------------------------------------------
 ; In:  A0 = filename
 ; Out: D0 = size, D1 = error (from GetFileSize)
 _GetFileSize:
         movem.l a0-a1,-(sp)
 
+        bsr.w   DisableVBlankAndWait
         move.l  a0,a1                  ; save filename
 
         move.l  S_VBR(pc),a0
@@ -989,6 +1014,7 @@ _GetFileSize:
 
         move.l  S_VBR(pc),a0
         move.l  #Int2KeyboardHandler,LEVEL_2_INTERRUPT_AUTOVECTOR(a0)
+        bsr.w   EnableVBlank
 
         movem.l (sp)+,a0-a1
         rts
@@ -999,6 +1025,7 @@ _GetFileSize:
 _Deletefile:
         movem.l a0-a1,-(sp)
 
+        bsr.w   DisableVBlankAndWait
         move.l  a0,a1                  ; save filename
 
         move.l  S_VBR(pc),a0
@@ -1009,6 +1036,7 @@ _Deletefile:
 
         move.l  S_VBR(pc),a0
         move.l  #Int2KeyboardHandler,LEVEL_2_INTERRUPT_AUTOVECTOR(a0)
+        bsr.w   EnableVBlank
 
         movem.l (sp)+,a0-a1
         rts
@@ -1019,6 +1047,7 @@ _Deletefile:
 _LoadFile:
         movem.l d0-d1/a0-a2,-(sp)
 
+        bsr.w   DisableVBlankAndWait
         move.l  a0,a2                  ; save filename
 
         move.l  S_VBR(pc),a0
@@ -1029,6 +1058,7 @@ _LoadFile:
 
         move.l  S_VBR(pc),a0
         move.l  #Int2KeyboardHandler,LEVEL_2_INTERRUPT_AUTOVECTOR(a0)
+        bsr.w   EnableVBlank
 
         ; store returned length for rob_*
         lea     size(pc),a0
@@ -1043,6 +1073,7 @@ _LoadFile:
 _SaveFile:
         movem.l d0-d1/a0-a2,-(sp)
 
+        bsr.w   DisableVBlankAndWait
         move.l  a0,a2                  ; save filename
         ; D0 and A1 are already preserved on the stack
 
@@ -1054,6 +1085,7 @@ _SaveFile:
 
         move.l  S_VBR(pc),a0
         move.l  #Int2KeyboardHandler,LEVEL_2_INTERRUPT_AUTOVECTOR(a0)
+        bsr.w   EnableVBlank
 
         lea     size(pc),a0
         move.l  d0,(a0)
@@ -1067,6 +1099,7 @@ _SaveFile:
 _ListFiles:
         movem.l d0/a0-a2,-(sp)
 
+        bsr.w   DisableVBlankAndWait
         move.l  a0,a2                  ; save dirname
         ; D0 and A1 are on the stack
 
@@ -1078,6 +1111,7 @@ _ListFiles:
 
         move.l  S_VBR(pc),a0
         move.l  #Int2KeyboardHandler,LEVEL_2_INTERRUPT_AUTOVECTOR(a0)
+        bsr.w   EnableVBlank
 
         movem.l (sp)+,d0/a0-a2
         rts

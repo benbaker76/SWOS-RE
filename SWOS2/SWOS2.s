@@ -8043,18 +8043,8 @@ DIYCOMPETITIONEX_MINSUBSTITUTES         EQU 96
 DIYCOMPETITIONEX_MINSUBSTITUTES_SIZE    EQU 2
 DIYCOMPETITIONEX_POINTSFORAWIN          EQU 98
 DIYCOMPETITIONEX_POINTSFORAWIN_SIZE     EQU 2
-DIYCOMPETITIONEX_CURRENTMATCHINDEX      EQU 100
-DIYCOMPETITIONEX_CURRENTMATCHINDEX_SIZE EQU 2
-DIYCOMPETITIONEX_ROUNDLEGS              EQU 102
-DIYCOMPETITIONEX_ROUNDLEGS_SIZE         EQU 12
-DIYCOMPETITIONEX_ROUNDEXTRATIME         EQU 114
-DIYCOMPETITIONEX_ROUNDEXTRATIME_SIZE    EQU 12
-DIYCOMPETITIONEX_ROUNDPENALTIES         EQU 126
-DIYCOMPETITIONEX_ROUNDPENALTIES_SIZE    EQU 12
-DIYCOMPETITIONEX_MATCHRESULTFLAGS       EQU 138
-DIYCOMPETITIONEX_MATCHRESULTFLAGS_SIZE  EQU 64
-DIYCOMPETITIONEX_MATCHGOALS             EQU 202
-DIYCOMPETITIONEX_MATCHGOALS_SIZE        EQU 132
+DIYCOMPETITIONEX_MATCHDATA              EQU 100
+DIYCOMPETITIONEX_MATCHDATA_SIZE         EQU 234
 DIYCOMPETITIONEX_LEAGUETEAMIDS          EQU 334
 DIYCOMPETITIONEX_LEAGUETEAMIDS_SIZE     EQU 28
 DIYCOMPETITIONEX_TWOLEGSUBROUND         EQU 362
@@ -8204,6 +8194,53 @@ DIYTEAMSTATS_GOALSAGAINST               EQU 14
 DIYTEAMSTATS_GOALSAGAINST_SIZE          EQU 2
 DIYTEAMSTATS_POINTS                     EQU 16
 DIYTEAMSTATS_POINTS_SIZE                EQU 2
+
+; ==== STRUCT: DIYCOMPETITIONEX_CUPVIEW ====
+DIYCOMPETITIONEX_CUPVIEW_SIZE           EQU 234
+DIYCOMPETITIONEX_CUPVIEW_CURRENTMATCHINDEX EQU 0
+DIYCOMPETITIONEX_CUPVIEW_CURRENTMATCHINDEX_SIZE EQU 2
+DIYCOMPETITIONEX_CUPVIEW_ROUNDLEGS      EQU 2
+DIYCOMPETITIONEX_CUPVIEW_ROUNDLEGS_SIZE EQU 12
+DIYCOMPETITIONEX_CUPVIEW_ROUNDEXTRATIME EQU 14
+DIYCOMPETITIONEX_CUPVIEW_ROUNDEXTRATIME_SIZE EQU 12
+DIYCOMPETITIONEX_CUPVIEW_ROUNDPENALTIES EQU 26
+DIYCOMPETITIONEX_CUPVIEW_ROUNDPENALTIES_SIZE EQU 12
+DIYCOMPETITIONEX_CUPVIEW_MATCHRESULTFLAGS EQU 38
+DIYCOMPETITIONEX_CUPVIEW_MATCHRESULTFLAGS_SIZE EQU 64
+DIYCOMPETITIONEX_CUPVIEW_MATCHGOALS     EQU 102
+DIYCOMPETITIONEX_CUPVIEW_MATCHGOALS_SIZE EQU 132
+
+; ==== STRUCT: DIYCOMPETITIONEX_LEAGUEVIEW ====
+DIYCOMPETITIONEX_LEAGUEVIEW_SIZE        EQU 234
+DIYCOMPETITIONEX_LEAGUEVIEW_LEAGUEMINSUBSTITUTES EQU 0
+DIYCOMPETITIONEX_LEAGUEVIEW_LEAGUEMINSUBSTITUTES_SIZE EQU 2
+DIYCOMPETITIONEX_LEAGUEVIEW_LEAGUEMAXSUBSTITUTES EQU 2
+DIYCOMPETITIONEX_LEAGUEVIEW_LEAGUEMAXSUBSTITUTES_SIZE EQU 2
+DIYCOMPETITIONEX_LEAGUEVIEW_HASGROUPSDIY EQU 4
+DIYCOMPETITIONEX_LEAGUEVIEW_HASGROUPSDIY_SIZE EQU 2
+DIYCOMPETITIONEX_LEAGUEVIEW__GAP_06     EQU 6
+DIYCOMPETITIONEX_LEAGUEVIEW__GAP_06_SIZE EQU 4
+DIYCOMPETITIONEX_LEAGUEVIEW_TEAMENTRYOFFSETS EQU 10
+DIYCOMPETITIONEX_LEAGUEVIEW_TEAMENTRYOFFSETS_SIZE EQU 28
+DIYCOMPETITIONEX_LEAGUEVIEW_CUPROUNDRESULTS EQU 38
+DIYCOMPETITIONEX_LEAGUEVIEW_CUPROUNDRESULTS_SIZE EQU 100
+DIYCOMPETITIONEX_LEAGUEVIEW_SHUFFLEANDPAD EQU 138
+DIYCOMPETITIONEX_LEAGUEVIEW_SHUFFLEANDPAD_SIZE EQU 64
+DIYCOMPETITIONEX_LEAGUEVIEW_LEAGUETEAMIDS EQU 202
+DIYCOMPETITIONEX_LEAGUEVIEW_LEAGUETEAMIDS_SIZE EQU 28
+DIYCOMPETITIONEX_LEAGUEVIEW_COMPETITIONFORMAT EQU 230
+DIYCOMPETITIONEX_LEAGUEVIEW_COMPETITIONFORMAT_SIZE EQU 2
+DIYCOMPETITIONEX_LEAGUEVIEW_ROUNDFORMAT EQU 232
+DIYCOMPETITIONEX_LEAGUEVIEW_ROUNDFORMAT_SIZE EQU 2
+
+; ==== UNION: DIYCOMPETITIONEX_MATCHDATA ====
+DIYCOMPETITIONEX_MATCHDATA_SIZE         EQU 234
+DIYCOMPETITIONEX_MATCHDATA_CUP          EQU 0
+DIYCOMPETITIONEX_MATCHDATA_CUP_SIZE     EQU 234
+DIYCOMPETITIONEX_MATCHDATA_LEAGUE       EQU 0
+DIYCOMPETITIONEX_MATCHDATA_LEAGUE_SIZE  EQU 234
+DIYCOMPETITIONEX_MATCHDATA_RAW          EQU 0
+DIYCOMPETITIONEX_MATCHDATA_RAW_SIZE     EQU 234
 
 ; ===== END TYPES / ENUMS =====
 
@@ -22910,7 +22947,7 @@ ResetResultSprites:
                 clr.w   (team1NameSprite+SPRITE_VISIBLE).l
                 clr.w   (dashSprite+SPRITE_VISIBLE).l
                 lea     (team1ScorerSprite).l,a1
-                lea     (team2Scorer1Sprite).l,a2
+                lea     (team2ScorerSprite).l,a2
                 lea     (ShowLoaderIntroSequence).l,a3 ; ScorerInfo team1Scorers[8]
                 lea     ((loc_10FE24+2)).l,a4 ; ScorerInfo team2Scorers[8]
                 lea     (team1ScorerSpritesWidths).l,a5
@@ -23010,7 +23047,7 @@ loc_10BA64:
                 adda.l  #SPRITE_SIZE+SPRITE_TEAMNUMBER,a1
                 dbf     d0,loc_10BA64
 loc_10BA80:
-                lea     (team2Scorer1Sprite).l,a1
+                lea     (team2ScorerSprite).l,a1
                 lea     (team2ScorerSpritesWidths).l,a2
                 move.w  #7,d0
 loc_10BA90:
@@ -23060,7 +23097,7 @@ loc_10BADE:
                 clr.w   (team1NameSprite+SPRITE_VISIBLE).l
                 clr.w   (dashSprite+SPRITE_VISIBLE).l
                 lea     (team1ScorerSprite).l,a1
-                lea     (team2Scorer1Sprite).l,a2
+                lea     (team2ScorerSprite).l,a2
                 move.w  #7,d0
 loc_10BB76:
                 clr.w   SPRITE_VISIBLE(a1)
@@ -23285,7 +23322,7 @@ loc_10BF3C:
                 adda.l  #SCORERINFO_SIZE+SCORERINFO_SHIRTNUM,a2
                 dbf     d0,loc_10BF3C
 loc_10BF84:
-                lea     (team2Scorer1Sprite).l,a0
+                lea     (team2ScorerSprite).l,a0
                 lea     ((loc_10FE24+2)).l,a2 ; ScorerInfo team2Scorers[8]
                 lea     (team2ScorerSpritesWidths).l,a3
                 move.w  #263,d1
@@ -23969,7 +24006,7 @@ set_team_ptrs_normal_order:
                 bra.s   finalize_team_ptr_selection
 team2_branch_select_tables:
                 lea     ((loc_10FE24+2)).l,a3 ; ScorerInfo team2Scorers[8]
-                lea     (team2Scorer1Sprite).l,a4
+                lea     (team2ScorerSprite).l,a4
                 lea     (team2ScorerSpritesWidths).l,a6
                 cmpi.w  #GT_OWN_GOAL,d1
                 beq.s   set_team_ptrs_normal_order
@@ -44064,7 +44101,7 @@ team1ScorerSprite:
                 dc.w $0000              ; tacklingTimer
                 dc.w $0000              ; sentAway
 ; Sprite[8]
-team2Scorer1Sprite:
+team2ScorerSprite:
                 ; Sprite[8]
                 ; element[0]
                 ; SPRITE
@@ -48482,21 +48519,21 @@ allSpritesArray:
                 dc.l team1TotalGoalsDigit2Sprite ; element[48]
                 dc.l team2TotalGoalsDigit2Sprite ; element[49]
                 dc.l team1ScorerSprite  ; element[50]
-                dc.l team2Scorer1Sprite ; element[51]
+                dc.l team2ScorerSprite  ; element[51]
                 dc.l team1ScorerSprite+$6E ; element[52]
-                dc.l team2Scorer1Sprite+$6E ; element[53]
+                dc.l team2ScorerSprite+$6E ; element[53]
                 dc.l team1ScorerSprite+$DC ; element[54]
-                dc.l team2Scorer1Sprite+$DC ; element[55]
+                dc.l team2ScorerSprite+$DC ; element[55]
                 dc.l team1ScorerSprite+$14A ; element[56]
-                dc.l team2Scorer1Sprite+$14A ; element[57]
+                dc.l team2ScorerSprite+$14A ; element[57]
                 dc.l team1ScorerSprite+$1B8 ; element[58]
-                dc.l team2Scorer1Sprite+$1B8 ; element[59]
+                dc.l team2ScorerSprite+$1B8 ; element[59]
                 dc.l team1ScorerSprite+$226 ; element[60]
-                dc.l team2Scorer1Sprite+$226 ; element[61]
+                dc.l team2ScorerSprite+$226 ; element[61]
                 dc.l team1ScorerSprite+$294 ; element[62]
-                dc.l team2Scorer1Sprite+$294 ; element[63]
+                dc.l team2ScorerSprite+$294 ; element[63]
                 dc.l team1ScorerSprite+$302 ; element[64]
-                dc.l team2Scorer1Sprite+$302 ; element[65]
+                dc.l team2ScorerSprite+$302 ; element[65]
                 dc.l refereeSprite      ; element[66]
                 dc.l cornerFlagSprite   ; element[67]
                 dc.l big_S_Sprite       ; element[68]
@@ -53997,7 +54034,7 @@ playerAgeToFormDivisorTable:
                 dc.b $0F,$0F
 
 ; ===== UpdateCareerPlayersFormAfterMatch =====
-; prototype: void __usercall UpdateCareerPlayersFormAfterMatch(void *team@<a0>, TeamFileEx *teamRef@<a1>, __int16 p1@<d1>, __int16 p2@<d2>)
+; prototype: void __usercall UpdateCareerPlayersFormAfterMatch(DIYCompetitionEx *comp@<a0>, TeamFileEx *team1@<a1>, TeamFileEx *team2@<a2>, unsigned __int16 goals1@<d1>, unsigned __int16 goals2@<d2>)
 ; dos: cseg_908B4
 UpdateCareerPlayersFormAfterMatch:
                 tst.w   (isNationalSelector).l
@@ -54008,13 +54045,13 @@ UpdateCareerPlayersFormAfterMatch:
                 exg     d1,d2
                 lea     team2GoalCounterByPlayer(pc),a6
 loc_124930:
-                move.w  $3C(a0),d6
+                move.w  DIYCOMPETITIONEX_BASE+DIYCOMPETITION_SUBSTITUTESCOUNT(a0),d6
                 cmpa.l  #diyCompetitionStart,a0
                 beq.s   loc_124942
-                move.w  DIYCOMPETITION_COMPETITIONNAME+$62(a0),d7
+                move.w  DIYCOMPETITIONEX_MATCHDATA+DIYCOMPETITIONEX_MATCHDATA_CUP+DIYCOMPETITIONEX_CUPVIEW_ROUNDLEGS(a0),d7
                 bra.s   loc_124946
 loc_124942:
-                move.w  DIYCOMPETITION_ISACTIVE+$60(a0),d7
+                move.w  DIYCOMPETITIONEX_POINTSFORAWIN(a0),d7
 loc_124946:
                 addi.w  #$B,d7
                 move.l  a0,-(sp)
@@ -54689,28 +54726,28 @@ loc_1250C2:
                 rts
 
 ; ===== UpdateCareerFinancesAfterMatch =====
-; prototype: void __usercall UpdateCareerFinancesAfterMatch(void *ctx@<a0>, TeamFile *team@<a1>)
+; prototype: void __usercall UpdateCareerFinancesAfterMatch(DIYCompetitionEx *comp@<a0>, TeamFile *team@<a1>)
 UpdateCareerFinancesAfterMatch:
                 tst.w   (isNationalSelector).l
                 bne.w   locret_125334
                 movea.l a0,a3
-                cmpi.w  #0,$2C(a3)
+                cmpi.w  #0,DIYCOMPETITIONEX_BASE+DIYCOMPETITION_COMPID(a3)
                 beq.s   loc_125114
-                cmpi.w  #4,$2C(a3)
+                cmpi.w  #4,DIYCOMPETITIONEX_BASE+DIYCOMPETITION_COMPID(a3)
                 beq.w   loc_12525A
-                cmpi.w  #1,$2C(a3)
+                cmpi.w  #1,DIYCOMPETITIONEX_BASE+DIYCOMPETITION_COMPID(a3)
                 beq.w   loc_125214
-                cmpi.w  #2,$2C(a3)
+                cmpi.w  #2,DIYCOMPETITIONEX_BASE+DIYCOMPETITION_COMPID(a3)
                 beq.w   loc_125214
-                cmpi.w  #3,$2C(a3)
+                cmpi.w  #3,DIYCOMPETITIONEX_BASE+DIYCOMPETITION_COMPID(a3)
                 beq.w   loc_12525C
                 move.w  #$9231,(panicReasonCode).l
                 jsr     PanicHaltLoop
 loc_125114:
                 bsr.w   CalcLeagueMatchGateReceiptsFactor
-                tst.w   $48(a3)
+                tst.w   DIYCOMPETITIONEX_BASE+DIYCOMPETITION_HASGROUPS(a3)
                 bne.w   loc_1251F0
-                cmpi.w  #0,(a3)
+                cmpi.w  #DIYCOMPETITIONEX_BASE+DIYCOMPETITION_COMPETITIONTYPE,(a3)
                 beq.s   loc_125134
                 move.w  #$9235,(panicReasonCode).l
                 jsr     PanicHaltLoop
@@ -54748,7 +54785,7 @@ loc_125184:
                 cmp.w   (a0,d0.w),d2
                 bne.s   loc_125184
                 lsr.w   #1,d1
-                move.w  $32(a3),d0
+                move.w  DIYCOMPETITIONEX_BASE+DIYCOMPETITION_NUMTEAMS(a3),d0
                 sub.w   d1,d0
                 subq.w  #1,d0
                 move.w  d0,d1
@@ -56029,7 +56066,7 @@ locret_1263EE:
                 rts
 
 ; ===== BeginContractNegotiationSequence =====
-; prototype: void __usercall BeginContractNegotiationSequence()
+; prototype: void __usercall BeginContractNegotiationSequence(DIYCompetitionEx *comp@<a0>, TeamFileEx *team@<a1>)
 BeginContractNegotiationSequence:
                 movem.l d0-d7/a0-a6,-(sp)
                 move.w  #1,(contractNegotiationActive).l
@@ -65246,11 +65283,11 @@ TeamSelectionKeyCache_AddCupEntry:
                 rts
 
 ; ===== DIY_UpdateCompetitionProgressOrAdvanceSlot =====
-; prototype: void __usercall DIY_UpdateCompetitionProgressOrAdvanceSlot(void *blk@<a0>)
+; prototype: void __usercall DIY_UpdateCompetitionProgressOrAdvanceSlot(DIYCompetitionEx *comp@<a0>)
 DIY_UpdateCompetitionProgressOrAdvanceSlot:
-                cmpi.w  #0,(a0)
+                cmpi.w  #DIYCOMPETITIONEX_BASE+DIYCOMPETITION_COMPETITIONTYPE,(a0)
                 beq.w   DIY_RecordLeagueFixtureResultAndAdvanceProgress
-                cmpi.w  #1,(a0)
+                cmpi.w  #DIYCOMPETITIONEX_BASE+DIYCOMPETITION_COMPETITIONTYPE+1,(a0)
                 beq.w   loc_12D36A
                 bra.w   loc_12D4B0
 
@@ -65258,17 +65295,17 @@ DIY_UpdateCompetitionProgressOrAdvanceSlot:
 ; prototype: void __usercall DIY_RecordLeagueFixtureResultAndAdvanceProgress()
 DIY_RecordLeagueFixtureResultAndAdvanceProgress:
                 lea     (diyCompetitionStart).l,a6
-                tst.w   $60(a6)
+                tst.w   DIYCOMPETITIONEX_MINSUBSTITUTES(a6)
                 beq.w   locret_12D368
                 lea     (teamSelectionKeyCache).l,a4
                 move.w  (teamSelectionKeyCacheCount).l,d7
                 subq.w  #1,d7
                 move.w  (diyFileBufferCopy+DIYCOMPETITION_ROUNDCOMPLETE).l,d1
-                move.w  $2C(a6),d0
+                move.w  DIYCOMPETITIONEX_BASE+DIYCOMPETITION_COMPID(a6),d0
 loc_12D29A:
                 cmp.b   (a4),d0
                 bne.s   loc_12D2AA
-                tst.w   $48(a6)
+                tst.w   DIYCOMPETITIONEX_BASE+DIYCOMPETITION_HASGROUPS(a6)
                 beq.s   loc_12D2C0
                 cmp.b   7(a4),d1
                 beq.s   loc_12D2C0
@@ -65290,9 +65327,9 @@ loc_12D2C2:
                 adda.l  #selTeamsPtr,a1
                 movea.l $2B4(a2),a2
                 adda.l  #selTeamsPtr,a2
-                cmpi.b  #1,4(a1)
+                cmpi.b  #1,TEAMFILE_TEAMCONTROLS(a1)
                 bne.s   loc_12D31C
-                cmpi.b  #1,4(a2)
+                cmpi.b  #1,TEAMFILE_TEAMCONTROLS(a2)
                 beq.s   loc_12D358
                 cmpi.l  #aFriendly,(diyCompetitionStart+DIYCOMPETITION_NAMEPTR).l ; "FRIENDLY" ...
                 beq.s   loc_12D314
