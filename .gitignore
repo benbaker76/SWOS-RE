@@ -1,1 +1,14 @@
 .venv
+
+# The original game, never committed (removed from all history 2026-10-20): each test
+# setup's uae/dh0/data (the data, SWOS2, the disk images WHDLoad reads, memory dumps)
+# and WHDLoad's own tools and dumps. Put your own copy there to run them.
+Amiga/**/uae/dh0/data/
+Amiga/**/uae/dh0/data.uaem
+Amiga/**/uae/dh0/c/DIC*
+Amiga/**/uae/dh0/c/Patcher*
+Amiga/**/uae/dh0/c/RawDIC*
+Amiga/**/uae/dh0/c/WHDLoad
+Amiga/**/uae/dh0/c/WHDLoad.uaem
+Amiga/**/uae/dh0/c/WHDLoadCD32*
+Amiga/**/uae/dh0/c/.whdl_*
