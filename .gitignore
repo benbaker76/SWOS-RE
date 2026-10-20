@@ -12,3 +12,14 @@ Amiga/**/uae/dh0/c/WHDLoad
 Amiga/**/uae/dh0/c/WHDLoad.uaem
 Amiga/**/uae/dh0/c/WHDLoadCD32*
 Amiga/**/uae/dh0/c/.whdl_*
+
+# The game program and other people's tools, never committed (removed from all history
+# 2026-10-20): the raw SWOS2 images IDA reads, the builds assembled from the disassembly,
+# and the tool archives. Put your own copies there.
+SWOS2/SWOS2
+SWOS2/SWOS2.bytes
+bin/*/SWOS2
+build/*.o
+Amiga/Tools/RNC ProPackED.rar
+Amiga/Tools/SwoEditorSv1.3.7z
+Amiga/Tools/uaeunp-0.8.zip
